@@ -1,7 +1,4 @@
-#summary Where to find help??
-
 = Introduction =
 
 For fourther informations check [http://allon.ch].
-
 
