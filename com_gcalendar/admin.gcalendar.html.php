@@ -102,7 +102,7 @@ class HTML_gcalendar {
                 </tr>
                 <tr>
                         <td align="right">XML URL:</td>
-                        <td><input class="inputbox" type="text" name="xmlUrl" size="170" maxlength="300" value="<?php echo $row->xmllUrl; ?>" />
+                        <td><input class="inputbox" type="text" name="xmlUrl" size="170" maxlength="300" value="<?php echo $row->xmlUrl; ?>" />
         </td>
                 </tr>
         </table>
