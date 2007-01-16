@@ -8,7 +8,7 @@
 	</copyright>
 	<authorEmail>allon@gmail.com</authorEmail>
 	<authorUrl>www.allon.ch</authorUrl>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<description>Google Calendar for joomla.</description>
 	<files>
 		<filename>gcalendar.php</filename>
