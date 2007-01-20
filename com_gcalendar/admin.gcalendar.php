@@ -1,9 +1,10 @@
 <?php
 
+
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.0.1 $
+* @version $Revision: 1.0.2 $
 **/
 
 // ensure this file is being included by a parent file
@@ -11,6 +12,12 @@ defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 
 require_once ($mainframe->getPath('admin_html'));
 require_once ($mainframe->getPath('class'));
+
+$task = mosGetParam( $_REQUEST, 'task' );
+$cid  = mosGetParam( $_REQUEST, 'cid', array( 0 ) );
+if (!is_array( $cid )) {
+ $cid = array ( 0 );
+}
 
 switch ($task) {
 
@@ -54,39 +61,17 @@ function showContacts($option) {
 * @param string The current GET/POST option
 */
 function editContact($id, $option) {
-	global $database, $my;
-	global $mosConfig_absolute_path;
+	global $database;
 
 	$row = new mosGcalendar($database);
 
-	$row->load($id);
-
-	$ipos[] = mosHTML :: makeOption('no');
-	$ipos[] = mosHTML :: makeOption('yes');
-	$ipos[] = mosHTML :: makeOption('auto');
-
-	$iposlist = mosHTML :: selectList($ipos, 'scroll', 'class="inputbox" size="1"', 'value', 'text', $row->scroll);
-
-	$imageFiles = mosReadDirectory("$mosConfig_absolute_path/images/stories");
-	$images = array (
-		mosHTML :: makeOption('',
-		'Select Image'
-	));
-	foreach ($imageFiles as $file) {
-		if (eregi("bmp|gif|jpg|png", $file)) {
-			$images[] = mosHTML :: makeOption($file);
-		}
-	}
-
 	if ($id) {
-		// build the html select list for ordering
-		$order = mosGetOrderingList("SELECT id AS value, name AS text" . "\nFROM #__gcalendar" . "\nWHERE id >= 0 ORDER BY id");
-
-	} else {
-		$olist = "<input type=\"hidden\" name=\"name\" value=\"$row->name\" />" . " New items default to the last place";
+		$database->setQuery("SELECT * FROM #__gcalendar WHERE id = $id");
+		$rows = $database->loadObjectList();
+		$row = $rows[0];
 	}
 
-	HTML_gcalendar :: editCalendar($row, $imagelist, $iposlist, $option, $olist);
+	HTML_gcalendar :: editCalendar($row, $option);
 }
 
 /**
@@ -134,31 +119,6 @@ function removeContacts(& $cid, $option) {
 			echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		}
 	}
-
-	mosRedirect("index2.php?option=$option");
-}
-
-/**
-* Changes the state of one or more content pages
-* @param array An array of unique category id numbers
-* @param integer 0 if unpublishing, 1 if publishing
-* @param string The current option
-*/
-function changeContact($cid = null, $htmlUrl = 0, $option) {
-	global $database, $my;
-
-	mosRedirect("index2.php?option=$option");
-}
-
-/** JJC
-* Moves the order of a record
-* @param integer The increment to reorder by
-*/
-function orderContacts($uid, $inc, $option) {
-	global $database;
-	$row = new mosGcalendar($database);
-	$row->load($uid);
-	$row->move($inc, "name != 0");
 
 	mosRedirect("index2.php?option=$option");
 }

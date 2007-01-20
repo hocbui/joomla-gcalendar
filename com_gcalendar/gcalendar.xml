@@ -8,7 +8,7 @@
 	</copyright>
 	<authorEmail>allon@gmail.com</authorEmail>
 	<authorUrl>www.allon.ch</authorUrl>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<description>Google Calendar for joomla.</description>
 	<files>
 		<filename>gcalendar.php</filename>
@@ -20,7 +20,7 @@
 				CREATE TABLE IF NOT EXISTS `#__gcalendar` ( `id` int(11)
 				NOT NULL auto_increment, `name` varchar(100) NOT NULL
 				default '', `htmlUrl` text, `xmlUrl` text, PRIMARY KEY (`id`) )
-				TYPE=MyISAM AUTO_INCREMENT=9 ;
+				TYPE=MyISAM
 			</query>
 		</queries>
 	</install>
