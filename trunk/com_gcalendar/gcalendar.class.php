@@ -4,7 +4,7 @@
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.0.1 $
+* @version $Revision: 1.0.2 $
 **/
 
 // ensure this file is being included by a parent file
@@ -29,11 +29,6 @@ class mosGcalendar extends mosDBTable {
 	*/
 	function mosGcalendar(& $db) {
 		$this->mosDBTable('#__gcalendar', 'id', $db);
-	}
-
-	function check() {
-		//changed my mind
-		return true;
 	}
 
 }

@@ -4,7 +4,7 @@
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.0.1 $
+* @version $Revision: 1.0.2 $
 **/
 
 // ensure this file is being included by a parent file
@@ -12,7 +12,7 @@ defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 
 class HTML_gcalendar {
 
-	function showCalendars(& $rows, $option) {
+	function showCalendars($rows, $option) {
 ?>
         <form action="index2.php" method="post" name="adminForm">
         <table cellpadding="4" cellspacing="0" border="0" width="100%">
@@ -33,8 +33,6 @@ class HTML_gcalendar {
 		$k = 0;
 		for ($i = 0, $n = count($rows); $i < $n; $i++) {
 			$row = $rows[$i];
-			$img = $row->showname ? 'tick.png' : 'publish_x.png';
-			$task = $row->showname ? 'unpublish' : 'publish';
 			$pageNav = 0;
 ?>
                 <tr class="<?php echo "row$k"; ?>"> 
@@ -63,9 +61,7 @@ class HTML_gcalendar {
 
 	}
 
-	function editCalendar(& $row, & $imagelist, & $iposlist, $option, & $olist) {
-		$but1 = $but2 = $but1a = $but1b = $but2a = $but2b = '';
-		$but1c = $but2c = '';
+	function editCalendar($row, $option) {
 ?>
         <script language="javascript" type="text/javascript">
                 function submitbutton(pressbutton) {
