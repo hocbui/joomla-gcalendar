@@ -9,7 +9,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>www.allon.ch</authorUrl>
-	<version>1.0.3</version>
+	<version>1.1.0</version>
 	<description>
 		This module shows the last changed events from a google calendar.
 	</description>

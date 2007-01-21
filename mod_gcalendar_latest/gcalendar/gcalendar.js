@@ -1,3 +1,9 @@
+/**
+* Google calendar latest events module
+* @author allon
+* @version $Revision: 1.1.0 $
+**/
+
 var RSSRequestObject = false; // XMLHttpRequest Object
 var Backend = rootUrl+'/modules/gcalendar/eventrss.php?calendarUrl='+calendarUrl; // calendar url
 window.setInterval("update_timer()", 1200000); // update the data every 20 mins
