@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="1.1.0">
+	<name>GCalendar upcoming events</name>
+	<author>allon</author>
+	<creationDate>January 2007</creationDate>
+	<copyright>
+		This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>allon.moritz@gmail.com</authorEmail>
+	<authorUrl>www.allon.ch</authorUrl>
+	<version>1.1.0</version>
+	<description>
+		This module shows the upcoming events from a google calendar.
+	</description>
+	<files>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>
+		<filename module="mod_gcalendar_upcoming">gcalendar_upcoming/eventrss.php</filename>
+		<filename module="mod_gcalendar_upcoming">gcalendar_upcoming/gcalajax.js</filename>
+	</files>
+	<params>
+		<param name="name" type="text" size="80" default="" label="Calendar name"
+			description="The name of the google calendar. Specified in the GCalendar component." />
+		<param name="max" type="text" size="2" default="5" label="Max events"
+			description="The maximal count of events should be displayed." />
+	</params>
+</mosinstall>
