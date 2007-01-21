@@ -75,7 +75,7 @@ function ReqChange() {
                     
                     //content += '<br><br>';
                     //itemTimePrev.setTime(itemTime); //Save the last timestamp for next iteration comparison
-                    content+='<div align="right">';
+                    content+='<div>';
                     content += +itemTime.getUTCDate()+'.'+(itemTime.getUTCMonth()+1)+'.'+itemTime.getUTCFullYear()+' ';}
                     if (!isAllDay) { content+= getTimeFormatted(itemTime); }
                     content+='</div';
@@ -88,8 +88,7 @@ function ReqChange() {
 			document.getElementById("gcalajax").innerHTML = content;
 
 			// Tell the reader the everything is done
-			document.getElementById("status").innerHTML = "Done.";
-			
+			//document.getElementById("status").innerHTML = "Done.";
 		}
 		else {
 			// Tell the reader that there was error requesting data
@@ -145,7 +144,7 @@ function RSSRequest(gcal_path) {
 	}
     Backend = Backend + "?gcal_feed=" + escape(gcal_path) + "&timeLimit=" + timeLimit + "&maxResults=" + maxResults;
 	// change the status to requesting data
-	document.getElementById("status").innerHTML = "Requesting data ...";
+	document.getElementById("status").innerHTML = ".......";
 	
 	// Prepare the request
 	RSSRequestObject.open("GET", Backend , true);
