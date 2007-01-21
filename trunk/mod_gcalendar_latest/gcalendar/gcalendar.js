@@ -33,7 +33,9 @@ function ReqChange() {
 			if (items.length > 0) {
 				for (var n=items.length-1; n >= 0; n--)
 				{
-					var itemTitle = items[n].getElementsByTagName('title').item(0).firstChild.data;
+					var itemTitle="Busy";
+					if(items[n].getElementsByTagName('title').length>0)
+						itemTitle = items[n].getElementsByTagName('title').item(0).firstChild.data;
 					var Summary = items[n].getElementsByTagName('summary').item(0).firstChild.data;
 					var itemLink = items[n].getElementsByTagName('id').item(0).firstChild.data;
 					var x=items[n].getElementsByTagName('link');
@@ -50,6 +52,8 @@ function ReqChange() {
 					try 
 					{ 
 						var itemPubDate = items[n].getElementsByTagName('published').item(0).firstChild.data;
+						if(items[n].getElementsByTagName('updated').length>0)
+							itemPubDate = items[n].getElementsByTagName('updated').item(0).firstChild.data;
 					} 
 					catch (e) 
 					{ 
@@ -57,7 +61,8 @@ function ReqChange() {
 					}
 					
 					content += '<a href="'+rootUrl+'/index.php?option=com_gcalendar&page='+itemLink+'">'+itemTitle+'</a>';
-					content += '<br>'+Summary.substring(Summary.indexOf(': ')+2,Summary.indexOf('<br>'))+'<br>';
+					//content += '<br>'+Summary.substring(Summary.indexOf(': ')+2,Summary.indexOf('<br>'))+'<br>';
+					content += '<br>'+itemPubDate+'<br>';
 				}
 				
 			}

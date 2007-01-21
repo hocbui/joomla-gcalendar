@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.0.2">
-	<name>GCalendar upcoming events</name>
+<mosinstall type="module" version="1.0.3">
+	<name>GCalendar latest events</name>
 	<author>allon</author>
 	<creationDate>January 2007</creationDate>
 	<copyright>
@@ -9,9 +9,9 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>www.allon.ch</authorUrl>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<description>
-		This module shows the upcoming events from a google calendar.
+		This module shows the last changed events from a google calendar.
 	</description>
 	<files>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest.php</filename>
