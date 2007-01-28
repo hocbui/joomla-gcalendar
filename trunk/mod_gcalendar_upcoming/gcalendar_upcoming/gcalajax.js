@@ -13,7 +13,7 @@ var timeLimit = 3; //How many months timeframe limit
 if (window.XMLHttpRequest) // try to create XMLHttpRequest
 	RSSRequestObject = new XMLHttpRequest();
 
-if (window.ActiveXObject)	// if ActiveXObject use the Microsoft.XMLHTTP
+else if (window.ActiveXObject)	// if ActiveXObject use the Microsoft.XMLHTTP
 	RSSRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
 
 RSSRequest(calendarUrl);
@@ -43,7 +43,7 @@ function ReqChange() {
 			if (items.length == 0) {
 				content += '<div align="center">No events</div>';
 			} else {
-				for (var n=items.length-1; n >= 0; n--)
+				for (var n=0; n < items.length; n++)
 				{
 					var itemTitle="Busy";
 					if(items[n].getElementsByTagName('title').length>0)
