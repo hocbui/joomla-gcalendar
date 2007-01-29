@@ -4,7 +4,7 @@
 /**
 * Google calendar upcoming events module
 * @author allon
-* @version $Revision: 1.1.0 $
+* @version $Revision: 1.2.0 $
 **/
 
 // no direct access
