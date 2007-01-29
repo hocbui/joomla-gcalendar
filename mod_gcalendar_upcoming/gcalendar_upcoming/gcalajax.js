@@ -71,14 +71,10 @@ function ReqChange() {
                     if ((itemTime.getUTCDate()==itemTimePrev.getUTCDate())&&(itemTime.getUTCMonth()==itemTimePrev.getUTCMonth())){ //Don't dupe the dates
                     content += '';}
                     else {
-                    //content += ' <a href="'+rootUrl+'/index.php?option=com_gcalendar&page=' +itemLink + '">'  + itemTitle + '</a>' + itemContent + '<br>';
-                    
-                    //content += '<br><br>';
-                    //itemTimePrev.setTime(itemTime); //Save the last timestamp for next iteration comparison
                     content+='<div>';
                     content += +itemTime.getUTCDate()+'.'+(itemTime.getUTCMonth()+1)+'.'+itemTime.getUTCFullYear()+' ';}
                     if (!isAllDay) { content+= getTimeFormatted(itemTime); }
-                    content+='</div';
+                    content+='</div>';
                     content += '<a href="'+rootUrl+'/index.php?option=com_gcalendar&page='+itemLink+'">'+itemTitle+'</a>';
                     content+='<br><hr width="100%">';
                     itemTimePrev.setTime(itemTime); //Save the last timestamp for next iteration comparison
