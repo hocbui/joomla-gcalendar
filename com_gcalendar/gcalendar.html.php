@@ -40,7 +40,6 @@ class HTML_gcalendar {
 		}
 ?>
 		<iframe
-		<?php echo $row->load; ?>
 		id="blockrandom"
 		name="iframe"
 		src="<?php echo $params->get( 'htmlUrl' ); ?>"
