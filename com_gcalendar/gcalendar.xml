@@ -26,8 +26,8 @@
 	</install>
 	<uninstall>
 		<queries>
-			<query>DELETE FROM `#__gcalendar`</query>
-			<query>DROP TABLE `#__gcalendar`</query>
+			<!-- query>DELETE FROM `#__gcalendar`</query -->
+			<!-- query>DROP TABLE `#__gcalendar`</query -->
 		</queries>
 	</uninstall>
 	<installfile>install.gcalendar.php</installfile>
