@@ -65,8 +65,9 @@ function ReqChange() {
 					{ 
 						var itemPubDate = '';
 					}
-					
-					content += '<a href="'+rootUrl+'/index.php?option=com_gcalendar&page='+itemLink+'">'+itemTitle+'</a>';
+					var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'"';
+                    content += '<a '+link+'>'+itemTitle+'</a>';
+					//content += '<a href="'+rootUrl+'/index.php?option=com_gcalendar&page='+itemLink+'">'+itemTitle+'</a>';
 					//content += '<br>'+Summary.substring(Summary.indexOf(': ')+2,Summary.indexOf('<br>'))+'<br>';
 					content += '<br>'+itemPubDate+'<br>';
 				}
