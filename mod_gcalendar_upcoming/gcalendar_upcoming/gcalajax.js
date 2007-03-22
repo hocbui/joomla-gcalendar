@@ -68,14 +68,16 @@ function ReqChange() {
                         } 
 					catch (e) { var itemContent = '';}
                     
-                    if ((itemTime.getUTCDate()==itemTimePrev.getUTCDate())&&(itemTime.getUTCMonth()==itemTimePrev.getUTCMonth())){ //Don't dupe the dates
-                    content += '';}
-                    else {
                     content+='<div>';
-                    content += +itemTime.getUTCDate()+'.'+(itemTime.getUTCMonth()+1)+'.'+itemTime.getUTCFullYear()+' ';}
+                    content += +itemTime.getUTCDate()+'.'+(itemTime.getUTCMonth()+1)+'.'+itemTime.getUTCFullYear()+' ';
+                    
                     if (!isAllDay) { content+= getTimeFormatted(itemTime); }
                     content+='</div>';
-                    content += '<a href="'+rootUrl+'/index.php?option=com_gcalendar&page='+itemLink+'">'+itemTitle+'</a>';
+                    
+                    var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'"';
+                    if(openInNewWindow==1)
+                      link='href="'+itemLink+'" target="_blank"';
+                    content += '<a '+link+'>'+itemTitle+'</a>';
                     content+='<br><hr width="100%">';
                     itemTimePrev.setTime(itemTime); //Save the last timestamp for next iteration comparison
 				}
