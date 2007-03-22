@@ -1,6 +1,5 @@
 <?php
 
-
 /**
 * Google calendar component
 * @author allon
@@ -30,12 +29,19 @@ function showCalendar($option) {
 	$params->def('width', '100%');
 	$params->def('add', '1');
 	$params->def('htmlUrl', mosGetParam($_REQUEST, 'page', ''));
+
 	$name = $params->def('name', '');
-	if ($params->get('htmlUrl', '')=='') {
+	if ($params->get('htmlUrl', '') == '') {
 		$database->setQuery("select id,htmlUrl from #__gcalendar where name='$name'");
 		$results = $database->loadObjectList();
 		foreach ($results as $result) {
 			$params->set('htmlUrl', $result->htmlUrl);
+		}
+
+		$eventID = mosGetParam($_REQUEST, 'eventID', '');
+		if ($eventID != '') {
+			$p= parse_url($params->get('htmlUrl',''));
+			$params->set('htmlUrl', $p['scheme'] . '://' . $p['host'] . '/calendar/event?eid=' . $eventID);
 		}
 	}
 
