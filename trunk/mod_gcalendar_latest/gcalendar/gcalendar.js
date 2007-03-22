@@ -1,7 +1,7 @@
 /**
 * Google calendar latest events module
 * @author allon
-* @version $Revision: 1.2.0 $
+* @version $Revision: 1.3.0 $
 **/
 
 var RSSRequestObject = false; // XMLHttpRequest Object
