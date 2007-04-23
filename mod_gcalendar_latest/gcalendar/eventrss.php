@@ -4,7 +4,7 @@
 /**
 * Google calendar latest events module
 * @author allon
-* @version $Revision: 1.3.0 $
+* @version $Revision: 1.4.0 $
 **/
 
 // Change this with your Google calendar feed
