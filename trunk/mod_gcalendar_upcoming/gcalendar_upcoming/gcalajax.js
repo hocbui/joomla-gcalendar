@@ -74,7 +74,7 @@ function ReqChange() {
                     if (!isAllDay) { content+= getTimeFormatted(itemTime); }
                     content+='</div>';
                     
-                    var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'"';
+                    var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&name='+calendarName+'"';
                     if(openInNewWindow==1)
                       link='href="'+itemLink+'" target="_blank"';
                     content += '<a '+link+'>'+itemTitle+'</a>';

@@ -26,6 +26,7 @@ foreach ($results as $result) {
 }
 ?>
   var calendarUrl = '<?php echo $url;?>';
+  var calendarName = '<?php echo $name;?>';
   var rootUrl = '<?php echo $mosConfig_live_site;?>';
   var maxResults = '<?php echo $params->get('max', 5);?>';
   var openInNewWindow = '<?php echo $params->get('openWindow', 5);?>';
