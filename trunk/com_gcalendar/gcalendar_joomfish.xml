@@ -2,7 +2,7 @@
 <joomfish type="contentelement">
   <name>GCalendar</name>
   <author>allon</author>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
   <description>Definition for Google calendar Component</description>
   <reference>
   	<table name="gcalendar">
