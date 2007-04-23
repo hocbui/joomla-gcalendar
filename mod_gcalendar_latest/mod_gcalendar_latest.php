@@ -26,6 +26,7 @@ foreach ($results as $result) {
 }
 ?>
   var calendarUrl = '<?php echo $url;?>';
+  var calendarName = '<?php echo $name;?>';
   var rootUrl = '<?php echo $mosConfig_live_site;?>';
 </script>
 <script src="<?php echo $mosConfig_live_site;?>/modules/gcalendar/gcalendar.js" language="javascript" type="text/javascript">

@@ -31,6 +31,8 @@ function showCalendar($option) {
 	$params->def('htmlUrl', mosGetParam($_REQUEST, 'page', ''));
 
 	$name = $params->def('name', '');
+	if(mosGetParam($_REQUEST, 'name', '')!='')
+		$name=mosGetParam($_REQUEST, 'name', '');
 	if ($params->get('htmlUrl', '') == '') {
 		$database->setQuery("select id,htmlUrl from #__gcalendar where name='$name'");
 		$results = $database->loadObjectList();
@@ -38,8 +40,11 @@ function showCalendar($option) {
 			$params->set('htmlUrl', $result->htmlUrl);
 		}
 
+		//if we are called from a link in a gcalendar module
 		$eventID = mosGetParam($_REQUEST, 'eventID', '');
 		if ($eventID != '') {
+			if($params->get('htmlUrl','')=='')
+				$params->set('htmlUrl', 'http://www.google.com');
 			$p= parse_url($params->get('htmlUrl',''));
 			$params->set('htmlUrl', $p['scheme'] . '://' . $p['host'] . '/calendar/event?eid=' . $eventID);
 		}
