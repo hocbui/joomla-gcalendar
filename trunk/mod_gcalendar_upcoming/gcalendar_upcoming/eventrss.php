@@ -6,15 +6,32 @@
 * @version $Revision: 1.4.0 $
 **/
 
+define('_VALID_MOS', 1);
+require_once( '../../globals.php' );
+require_once( '../../configuration.php' );
+require_once( '../../includes/joomla.php' );
+
+require_once('../../includes/database.php');
 
 define ('HOSTNAME', 'http://www.google.com/'); //only allow google stuff to be grabbed
 $timeLimit = 0; //default to no time limit
 $maxResults = 5;
 
 if (isset($_GET['timeLimit'])){$timeLimit = $_GET['timeLimit'];}
-if (isset($_GET['gcal_feed'])){$path = $_GET['gcal_feed'];}
+if (isset($_GET['gcal_feed'])){$cal_name = $_GET['gcal_feed'];}
 if (isset($_GET['maxResults'])){$maxResults = $_GET['maxResults'];}
 
+global $database,$url;
+$database->setQuery("select id,xmlUrl from #__gcalendar where name='$cal_name'");
+$results = $database->loadObjectList();
+$url = '';
+foreach ($results as $result) {
+	$path = $result->xmlUrl;
+}
+
+if(strpos($path,'public/full')===false){
+	$path=substr($path,0,strpos($path,'public')).'public/full';
+}
 
 $path = substr($path, 22, strlen($path)-22); //strip off the Http google.com part
 $calendarURL = HOSTNAME.$path;
