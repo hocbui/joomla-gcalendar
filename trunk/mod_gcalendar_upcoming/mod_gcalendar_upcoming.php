@@ -11,7 +11,7 @@
 defined('_VALID_MOS') or die('Restricted access');
 ?>
 
-<div id="status"></div>
+<div id="st"></div>
 <div id="gcalajax"></div>
 <script language="JavaScript" type="text/javascript">
   var calendarName = '<?php echo $params->get('name', '')?>';

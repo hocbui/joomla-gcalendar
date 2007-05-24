@@ -168,10 +168,10 @@ function ReqChange() {
 		}
 		else {
 			// Tell the reader that there was error requesting data
-			document.getElementById("status").innerHTML = "<div class=error>Error requesting data.<div>";
+			document.getElementById("st").innerHTML = "<div class=error>Error requesting data.<div>";
 		}
 		
-		Hide('status');
+		Hide('st');
 	}
 	
 }
@@ -215,7 +215,7 @@ function getTimeFormatted(dateObject) {
 * Main AJAX RSS reader request
 */
 function RSSRequest(gcal_path) {
-	document.getElementById("status").innerHTML = ".......";
+	document.getElementById("st").innerHTML = ".......";
 	
     Backend = Backend + "?gcal_feed=" + escape(gcal_path) + "&timeLimit=" + timeLimit + "&maxResults=" + maxResults;
 	// change the status to requesting data
