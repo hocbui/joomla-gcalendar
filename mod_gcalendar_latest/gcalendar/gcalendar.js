@@ -4,31 +4,31 @@
 * @version $Revision: 1.4.0 $
 **/
 
-var RSSRequestObject = false; // XMLHttpRequest Object
-var Backend = 'modules/gcalendar/eventrss.php?cal_name='+calendarName; // calendar url
+var RSSRequestObject1 = false; // XMLHttpRequest Object
+var Backend1 = 'modules/gcalendar/eventrss.php?cal_name='+calendarName; // calendar url
 window.setInterval("update_timer()", 1200000); // update the data every 20 mins
 
 
 if (window.XMLHttpRequest) // try to create XMLHttpRequest
-	RSSRequestObject = new XMLHttpRequest();
+	RSSRequestObject1 = new XMLHttpRequest();
 
 if (window.ActiveXObject)	// if ActiveXObject use the Microsoft.XMLHTTP
-	RSSRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+	RSSRequestObject1 = new ActiveXObject("Microsoft.XMLHTTP");
 
-RSSRequest();
+RSSRequest1();
 
 /*
 * onreadystatechange function
 */
 function ReqChange() {
 	// If data received correctly
-	if (RSSRequestObject.readyState==4) {
+	if (RSSRequestObject1.readyState==4) {
 	
 		// if data is valid
-		if (RSSRequestObject.responseText.indexOf('invalid') == -1) 
+		if (RSSRequestObject1.responseText.indexOf('invalid') == -1) 
 		{ 	
 			// Parsing Feeds
-			var node = RSSRequestObject.responseXML.documentElement;
+			var node = RSSRequestObject1.responseXML.documentElement;
 			
 			 var timezone='';
             try { 
@@ -108,25 +108,25 @@ function ReqChange() {
 /*
 * Main AJAX RSS reader request
 */
-function RSSRequest() {
+function RSSRequest1() {
 
 	// change the status to requesting data
 	HideShow('status');
 	document.getElementById("status").innerHTML = "...........";
 	
 	// Prepare the request
-	RSSRequestObject.open("GET", Backend , true);
+	RSSRequestObject1.open("GET", Backend1 , true);
 	// Set the onreadystatechange function
-	RSSRequestObject.onreadystatechange = ReqChange;
+	RSSRequestObject1.onreadystatechange = ReqChange;
 	// Send
-	RSSRequestObject.send(null); 
+	RSSRequestObject1.send(null); 
 }
 
 /*
 * Timer
 */
 function update_timer() {
-	RSSRequest();
+	RSSRequest1();
 }
 
 
