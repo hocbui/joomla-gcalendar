@@ -28,7 +28,22 @@ function ReqChange() {
 		if (RSSRequestObject.responseText.indexOf('invalid') == -1) 
 		{ 	
 			// Parsing Feeds
-			var node = RSSRequestObject.responseXML.documentElement; 
+			var node = RSSRequestObject.responseXML.documentElement;
+			
+			 var timezone='';
+            try { 
+                      timezone = node.getElementsByTagName('timezone').item(0).getAttribute("value");  
+                  } 
+			catch (e) {	
+				try 
+				{
+					timezone = node.getElementsByTagNameNS('*', 'timezone').item(0).getAttribute("value"); 
+				}
+				catch (e)
+				{
+					var timezone = '';
+				}
+			}
 			
 			// Get the calendar title
 			var title = node.getElementsByTagName('title').item(0).firstChild.data;
@@ -65,7 +80,7 @@ function ReqChange() {
 					{ 
 						var itemPubDate = '';
 					}
-					var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&name='+calendarName+'"';
+					var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&name='+calendarName+'&ctz='+timezone+'"';
                     content += '<a '+link+'>'+itemTitle+'</a>';
 					//content += '<a href="'+rootUrl+'/index.php?option=com_gcalendar&page='+itemLink+'">'+itemTitle+'</a>';
 					//content += '<br>'+Summary.substring(Summary.indexOf(': ')+2,Summary.indexOf('<br>'))+'<br>';

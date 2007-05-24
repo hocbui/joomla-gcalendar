@@ -46,7 +46,10 @@ function showCalendar($option) {
 			if($params->get('htmlUrl','')=='')
 				$params->set('htmlUrl', 'http://www.google.com');
 			$p= parse_url($params->get('htmlUrl',''));
-			$params->set('htmlUrl', $p['scheme'] . '://' . $p['host'] . '/calendar/event?eid=' . $eventID);
+			
+			$timezone = mosGetParam($_REQUEST, 'ctz', '');
+			if($timezone != '')$timezone='&ctz='.$timezone;
+			$params->set('htmlUrl', $p['scheme'] . '://' . $p['host'] . '/calendar/event?eid=' . $eventID . $timezone);
 		}
 	}
 

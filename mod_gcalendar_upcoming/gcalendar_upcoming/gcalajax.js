@@ -38,6 +38,21 @@ function ReqChange() {
 			//var title = node.getElementsByTagName('title').item(0).firstChild.data;
 			//var content = '<div class="channeltitle">' + title + '</div>';
             
+            var timezone='';
+            try { 
+                      timezone = node.getElementsByTagName('timezone').item(0).getAttribute("value");  
+                  } 
+			catch (e) {	
+				try 
+				{
+					timezone = node.getElementsByTagNameNS('*', 'timezone').item(0).getAttribute("value"); 
+				}
+				catch (e)
+				{
+					var timezone = '';
+				}
+			}
+            
 			// Browse events
 			var items = node.getElementsByTagName('entry');
             var itemTimePrev = new Date();
@@ -127,8 +142,6 @@ function ReqChange() {
 						}
 					}
                     
-                    
-                    
                     content+='<div>';
                     
                     if (dateFound)
@@ -138,8 +151,7 @@ function ReqChange() {
                     
                     if (!isAllDay) { content+= getTimeFormatted(itemTime); }
                     content+='</div>';
-                    
-                    var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&name='+calendarName+'"';
+                    var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&name='+calendarName+'&ctz='+timezone+'"';
                     if(openInNewWindow==1)
                       link='href="'+itemLink+'" target="_blank"';
                     content += '<a '+link+'>'+itemTitle+'</a>';
