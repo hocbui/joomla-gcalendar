@@ -3,7 +3,7 @@
 /**
 * Google calendar upcoming events module
 * @author allon
-* @version $Revision: 1.4.0 $
+* @version $Revision: 1.4.1 $
 **/
 
 define('_VALID_MOS', 1);
@@ -22,13 +22,24 @@ if (isset($_GET['gcal_feed'])){$cal_name = $_GET['gcal_feed'];}
 if (isset($_GET['maxResults'])){$maxResults = $_GET['maxResults'];}
 
 global $database,$url;
+
+if (file_exists( '../../components/com_joomfish/joomfish.php' )) {
+	require_once('../../administrator/components/com_joomfish/mldatabase.class.php' );
+	require_once('../../administrator/components/com_joomfish/joomfish.class.php' );
+	require_once('../../components/com_joomfish/includes/joomfish.class.php' );
+	global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix,$mosConfig_debug;
+	
+	$GLOBALS[ '_JOOMFISH_MANAGER'] = new JoomFishManager();
+	
+	$database = new mlDatabase( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
+}
+
 $database->setQuery("select id,xmlUrl from #__gcalendar where name='$cal_name'");
-$results = $database->loadObjectList();
+$results = $database->loadObjectList('',true,$_GET['lang']);
 $url = '';
 foreach ($results as $result) {
 	$path = $result->xmlUrl;
 }
-
 if(strpos($path,'public/full')===false){
 	$path=substr($path,0,strpos($path,'public')).'public/full';
 }

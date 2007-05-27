@@ -1,11 +1,11 @@
 /**
 * Google calendar latest events module
 * @author allon
-* @version $Revision: 1.4.0 $
+* @version $Revision: 1.4.1 $
 **/
 
 var RSSRequestObject1 = false; // XMLHttpRequest Object
-var Backend1 = 'modules/gcalendar/eventrss.php?cal_name='+calendarName; // calendar url
+var Backend1 = 'modules/gcalendar/eventrss.php?cal_name='+calendarName1+"&lang="+lang; // calendar url
 window.setInterval("update_timer()", 1200000); // update the data every 20 mins
 
 
@@ -80,7 +80,7 @@ function ReqChange() {
 					{ 
 						var itemPubDate = '';
 					}
-					var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&name='+calendarName+'&ctz='+timezone+'"';
+					var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&name='+calendarName1+'&ctz='+timezone+'"';
                     content += '<a '+link+'>'+itemTitle+'</a>';
 					//content += '<a href="'+rootUrl+'/index.php?option=com_gcalendar&page='+itemLink+'">'+itemTitle+'</a>';
 					//content += '<br>'+Summary.substring(Summary.indexOf(': ')+2,Summary.indexOf('<br>'))+'<br>';

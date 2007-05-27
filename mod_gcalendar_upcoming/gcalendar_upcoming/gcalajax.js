@@ -1,7 +1,7 @@
 /**
 * Google calendar upcoming events module
 * @author allon
-* @version $Revision: 1.4.0 $
+* @version $Revision: 1.4.1 $
 **/
 
 
@@ -217,7 +217,7 @@ function getTimeFormatted(dateObject) {
 function RSSRequest(gcal_path) {
 	document.getElementById("st").innerHTML = ".......";
 	
-    Backend = Backend + "?gcal_feed=" + escape(gcal_path) + "&timeLimit=" + timeLimit + "&maxResults=" + maxResults;
+    Backend = Backend + "?gcal_feed=" + escape(gcal_path) + "&timeLimit=" + timeLimit + "&maxResults=" + maxResults+"&lang="+lang;
 	// change the status to requesting data
 
 	// Prepare the request

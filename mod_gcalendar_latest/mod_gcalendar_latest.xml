@@ -2,14 +2,14 @@
 <mosinstall type="module" version="1.2.0">
 	<name>GCalendar latest events</name>
 	<author>allon</author>
-	<creationDate>April 2007</creationDate>
+	<creationDate>May 2007</creationDate>
 	<copyright>
 		This module is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>www.allon.ch</authorUrl>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<description>
 		This module shows the last changed events from a google calendar.
 	</description>
@@ -20,7 +20,7 @@
 		<filename module="mod_gcalendar_latest">gcalendar/gcalendar.js</filename>
 	</files>
 	<params>
-		<param name="name" type="text" size="80" default="" label="Calendar name"
+		<param name="name_latest" type="text" size="80" default="" label="Calendar name"
 			description="The name of the google calendar. Specified in the GCalendar component." />
 	</params>
 </mosinstall>
