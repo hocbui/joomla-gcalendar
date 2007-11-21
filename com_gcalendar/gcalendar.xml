@@ -1,104 +1,83 @@
-<?xml version="1.0" ?>
-<mosinstall type="component">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install type="component" version="1.5.0">
 	<name>GCalendar</name>
-	<creationDate>May 2007</creationDate>
+	<!-- The following elements are optional and free of formatting conttraints -->
+	<creationDate>December 2007</creationDate>
 	<author>allon</author>
-	<copyright>
-		This component is released under the GNU/GPL License
-	</copyright>
-	<authorEmail>allon.moritz@gmail.com</authorEmail>
-	<authorUrl>www.allon.ch</authorUrl>
-	<version>1.4.1</version>
-	<description>Google Calendar for joomla.</description>
-	<files>
+	<authorEmail>allon@allon.ch</authorEmail>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<copyright></copyright>
+	<license></license>
+	<!--  The version string is recorded in the components table -->
+	<version>1.5.0</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>Google calendar integrated in joomla.</description>
+
+	<!-- Site Main File Copy Section -->
+	<files folder="site">
+		<filename>index.html</filename>
 		<filename>gcalendar.php</filename>
-		<filename>gcalendar.html.php</filename>
+		<filename>controller.php</filename>
+		<filename>views/index.html</filename>
+		<filename>views/gcalendar/index.html</filename>
+		<filename>views/gcalendar/view.html.php</filename>
+		<filename>views/gcalendar/tmpl/index.html</filename>
+		<filename>views/gcalendar/tmpl/default.php</filename>
+		<filename>views/gcalendar/tmpl/default.xml</filename>
+		<filename>models/gcalendar.php</filename>
+		<filename>models/index.html</filename>
 	</files>
+	<languages>
+  		<language tag="en-GB">site/languages/en-GB.com_gcalendar.ini</language> 
+  	</languages>
+	
 	<install>
-		<queries>
-			<query>
-				CREATE TABLE IF NOT EXISTS `#__gcalendar` ( `id` int(11)
-				NOT NULL auto_increment, `name` varchar(100) NOT NULL
-				default '', `htmlUrl` text, `xmlUrl` text, PRIMARY KEY (`id`) )
-				TYPE=MyISAM
-			</query>
-		</queries>
+		<sql>
+			<file charset="utf8" driver="mysql">install.sql</file>
+		</sql>
 	</install>
 	<uninstall>
-		<queries>
-			<!-- query>DELETE FROM `#__gcalendar`</query -->
-			<!-- query>DROP TABLE `#__gcalendar`</query -->
-		</queries>
-	</uninstall>
-	<installfile>install.gcalendar.php</installfile>
-	<uninstallfile>uninstall.gcalendar.php</uninstallfile>
+		<sql>
+			<file charset="utf8" driver="mysql">uninstall.sql</file>
+		</sql>
+	</uninstall>	
 	<administration>
+		<!-- Administration Menu Section -->
 		<menu>GCalendar</menu>
-		<submenu>
-			<menu task="">Show Calendars</menu>
-		</submenu>
-		<files>
+		
+		<!-- Administration Main File Copy Section -->
+		<!-- Note the folder attribute: This attribute describes the folder
+			to copy FROM in the package to install therefore files copied
+			in this section are copied from /admin/ in the package -->
+		<files folder="admin">
+	<!-- Site Main File Copy Section -->
+			<filename>index.html</filename>
 			<filename>admin.gcalendar.php</filename>
-			<filename>admin.gcalendar.html.php</filename>
-			<filename>toolbar.gcalendar.php</filename>
-			<filename>toolbar.gcalendar.html.php</filename>
-			<filename>gcalendar.class.php</filename>
-			<filename>gcalendar.xml</filename>
-		</files>
-		<images>
-			<filename>images/gcalendar_but.gif</filename>
-			<filename>images/gcalendar.gif</filename>
-		</images>
+			<filename>controller.php</filename>
+			<filename>controllers/gcalendar.php</filename>
+			<filename>controllers/index.html</filename>
+			<filename>models/gcalendars.php</filename>
+			<filename>models/gcalendar.php</filename>
+			<filename>models/index.html</filename>
+			<filename>views/gcalendars/view.html.php</filename>
+			<filename>views/images/gcalendar.gif</filename>
+			<filename>views/images/gcalendar_but.gif</filename>
+			<filename>views/gcalendars/index.html</filename>
+			<filename>views/gcalendars/tmpl/default.php</filename>
+			<filename>views/gcalendars/tmpl/index.html</filename>
+			<filename>views/gcalendar/view.html.php</filename>
+			<filename>views/gcalendar/index.html</filename>
+			<filename>views/gcalendar/tmpl/form.php</filename>
+			<filename>views/gcalendar/tmpl/index.html</filename>
+			<filename>tables/gcalendar.php</filename>
+			<filename>tables/index.html</filename>
+			<filename>install.sql</filename>
+			<filename>uninstall.sql</filename>
+		</files>		
+		
+		<languages>
+  			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language> 
+  		</languages>
 	</administration>
-	<params>
-		<param name="name" type="text" default="" label="Calendar"
-			description="The google calendar, created in the google calendar component" />
-		<param name="menu_image" type="imagelist"
-			directory="/images/stories" hide_default="1" default=""
-			label="Menu Image"
-			description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
-		<param name="pageclass_sfx" type="text" size="20" default=""
-			label="Page Class Suffix"
-			description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
-		<param name="back_button" type="list" default=""
-			label="Back Button"
-			description="Show/Hide a Back Button, that returns you to the previously view page">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="page_title" type="radio" default="1"
-			label="Page Title" description="Show/Hide the Page title">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="header" type="text" size="30" default=""
-			label="Page Title"
-			description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
-		<param name="@spacer" type="spacer" default="" label=""
-			description="" />
-		<param name="scrolling" type="radio" default="auto"
-			label="Scroll Bars"
-			description="Show/Hide Horizontal  Vertical scroll bars.">
-			<option value="no">No</option>
-			<option value="yes">Yes</option>
-			<option value="auto">Auto</option>
-		</param>
-		<param name="width" type="text" size="5" default="100%"
-			label="Width"
-			description="Width of the IFrame Window, you can enter an absolute figure in pixels, or a relative figure by adding a %" />
-		<param name="height" type="text" size="5" default="500"
-			label="Height" description="Height of the IFrame Window" />
-		<param name="height_auto" type="radio" default="0"
-			label="Auto Height"
-			description="The height will automatically be set to the size of the external page. This will only work for pages on your own domain. If you see a javascript error, make sure this param is disabled. This will break XHTML compatability for this page.">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="add" type="radio" default="1" label="Auto Add"
-			description="By default http:// will be added unless it detects http:// or https:// in the url link you provide, this allow you to switch this ability off">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-	</params>
-</mosinstall>
+</install>
