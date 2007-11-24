@@ -47,7 +47,7 @@ class TableGCalendar extends JTable
 	 *
 	 * @param object Database connector object
 	 */
-	function Tablegcalendar(& $db) {
+	function TableGCalendar(& $db) {
 		parent::__construct('#__gcalendar', 'id', $db);
 	}
 }

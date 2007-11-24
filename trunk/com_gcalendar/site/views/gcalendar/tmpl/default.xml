@@ -2,14 +2,14 @@
 <metadata>
 	<layout title="GCalendar">
 		<message>
-			<![CDATA[GCALENDAR DESC]]>
+			<![CDATA[GCALENDAR LINK DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>GCalendar</name>
 		<description>GCALENDAR DESC</description>
 		<params>
-			<param name="name" type="text" size="30" default="" label="Calendar url" description="URL to open in an IFRAME" />
+			<param name="name" type="text" size="30" default="" label="Calendar name" description="The calendar name, specified in the GCalendar component." />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="PARAMHORIVERT">
 				<option value="no">No</option>
@@ -20,10 +20,6 @@
 			<param name="height" type="text" size="5" default="500" label="Height" description="PARAMHEIGHT" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="height_auto" type="radio" default="0" label="Auto Height" description="PARAMHEIGHTAUTO">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-			<param name="add_scheme" type="radio" default="1" label="Auto Add" description="PARAMADD">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
