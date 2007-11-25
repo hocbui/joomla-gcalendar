@@ -1,22 +1,27 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.2.0">
-	<name>GCalendar upcoming events</name>
-	<author>allon</author>
-	<creationDate>May 2007</creationDate>
-	<copyright>
-		This module is released under the GNU/GPL License.
-	</copyright>
-	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>allon.moritz@gmail.com</authorEmail>
-	<authorUrl>www.allon.ch</authorUrl>
-	<version>1.4.1</version>
-	<description>
-		This module shows the upcoming events from a google calendar.
-	</description>
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>
 		<filename module="mod_gcalendar_upcoming">gcalendar_upcoming/eventrss.php</filename>
 		<filename module="mod_gcalendar_upcoming">gcalendar_upcoming/gcalajax.js</filename>
+	</files>
+
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>GCalendar Upcoming Events</name>
+	<author>allon</author>
+	<creationDate>December 2007</creationDate>
+	<copyright>This module is released under the GNU/GPL License.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>allon.moritz@gmail.com</authorEmail>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<version>1.5.0</version>
+	<description>This module shows the upcoming events from a google calendar.</description>
+	<files>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>
+		<filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/eventrss.php</filename>
+        <filename>tmpl/gcalendar.js</filename>
+        <filename>tmpl/index.html</filename>
 	</files>
 	<params>
 		<param name="name" type="text" size="80" default="" label="Calendar name"
@@ -30,4 +35,4 @@
 			<option value="0">No</option>
 		</param>
 	</params>
-</mosinstall>
+</install>
