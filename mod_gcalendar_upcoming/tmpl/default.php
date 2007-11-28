@@ -7,19 +7,17 @@
 **/
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
-
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
 <div id="st"></div>
 <div id="gcalajax"></div>
 <script language="JavaScript" type="text/javascript">
-  var calendarName = '<?php echo $params->get('name', '')?>';
-  var rootUrl = '<?php echo $mainframe->getCfg( 'live_site' );?>';
+  var rootUrl = '<?php echo JURI::base();?>';
   var maxResults = '<?php echo $params->get('max', 5);?>';
-  var openInNewWindow = '<?php echo $params->get('openWindow', 5);?>';
-  var lang = '<?php echo $mosConfig_lang;?>';
+  var openInNewWindow = '<?php echo $params->get('openWindow', 1);?>';
+  var Backend = '<?php echo JURI::base()."index.php?option=com_gcalendar&task=content&format=raw&calendarType=xmlUrl&calendarName=".$params->get('name', '')?>';
 </script>
 
-<script src="<?php echo dirname(__FILE__).DS."tmpl/gcalajax.js" language="javascript" type="text/javascript">
+<script src="<?php echo JURI::base()."modules/mod_gcalendar_upcoming/tmpl/gcalendar.js"?>" language="javascript" type="text/javascript">
 </script>

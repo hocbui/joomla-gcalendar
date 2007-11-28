@@ -6,9 +6,7 @@
 
 
 var RSSRequestObject = false; // XMLHttpRequest Object
-var Backend = 'modules/gcalendar_upcoming/eventrss.php'; // Backend url
 var is24Hour = true; //24 or 12 hour time
-var timeLimit = 0; //How many months timeframe limit
 
 if (window.XMLHttpRequest) // try to create XMLHttpRequest
 	RSSRequestObject = new XMLHttpRequest();
@@ -28,7 +26,7 @@ function ReqChange() {
 	
 		
 		// if data is valid
-		if (RSSRequestObject.responseText.indexOf('invalid') == -1) 
+		if (RSSRequestObject.responseText.indexOf('invalid') == -1&&false) 
 		{ 	
 			// Parsing Feeds
 			var node = RSSRequestObject.responseXML.documentElement; 
@@ -169,9 +167,10 @@ function ReqChange() {
 		else {
 			// Tell the reader that there was error requesting data
 			document.getElementById("st").innerHTML = "<div class=error>Error requesting data.<div>";
+			document.getElementById("st").innerHTML = RSSRequestObject.responseText;
 		}
 		
-		Hide('st');
+		//Hide('st');
 	}
 	
 }
@@ -214,10 +213,11 @@ function getTimeFormatted(dateObject) {
 /*
 * Main AJAX RSS reader request
 */
-function RSSRequest(gcal_path) {
+function RSSRequest() {
 	document.getElementById("st").innerHTML = ".......";
 	
-    Backend = Backend + "?gcal_feed=" + escape(gcal_path) + "&timeLimit=" + timeLimit + "&maxResults=" + maxResults+"&lang="+lang;
+    Backend = Backend + "&maxResults=" + maxResults;
+	document.getElementById("st").innerHTML = Backend;
 	// change the status to requesting data
 
 	// Prepare the request
