@@ -23,15 +23,20 @@ class GCalendarModelGCalendar extends JModel
 	 */
 	function getGCalendar()
 	{
-		$db =& JFactory::getDBO();
 		$params = &$this->getState('parameters.menu');
-		$calendarName=$params->get('name');
-
-		$query = 'SELECT htmlUrl FROM #__gcalendar where name=\''.$calendarName.'\'';
-		$db->setQuery( $query );
-		$gcalendar = $db->loadResult();
+		if($params){
+			$calendarName=$params->get('name');
+			$calendarType='htmlUrl';
+		}else{
+			$calendarName = &$this->getState('calendarName');
+			$calendarType = &$this->getState('calendarType');
+		}
 		
-		return $gcalendar;
+		$db =& JFactory::getDBO();
+
+		$query = 'SELECT '.$calendarType.' FROM #__gcalendar where name=\''.$calendarName.'\'';
+		$db->setQuery( $query );
+		return $db->loadResult();
 	}
 	
 }
