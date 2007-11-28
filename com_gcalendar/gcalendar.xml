@@ -25,6 +25,10 @@
 		<filename>views/gcalendar/tmpl/index.html</filename>
 		<filename>views/gcalendar/tmpl/default.php</filename>
 		<filename>views/gcalendar/tmpl/default.xml</filename>
+		<filename>views/content/index.html</filename>
+		<filename>views/content/view.raw.php</filename>
+		<filename>views/content/tmpl/index.html</filename>
+		<filename>views/content/tmpl/default.php</filename>
 		<filename>models/gcalendar.php</filename>
 		<filename>models/index.html</filename>
 	</files>
