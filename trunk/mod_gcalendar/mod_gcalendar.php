@@ -1,6 +1,5 @@
 <?php
 
-
 /**
 * Google calendar overview module
 * @author allon
