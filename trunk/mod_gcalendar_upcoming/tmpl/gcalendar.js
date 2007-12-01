@@ -1,7 +1,7 @@
 /**
 * Google calendar upcoming events module
 * @author allon
-* @version $Revision: 1.4.1 $
+* @version $Revision: 1.5.0 $
 **/
 
 
@@ -14,7 +14,26 @@ if (window.XMLHttpRequest) // try to create XMLHttpRequest
 else if (window.ActiveXObject)	// if ActiveXObject use the Microsoft.XMLHTTP
 	RSSRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
 
-RSSRequest(calendarName);
+RSSRequest();
+
+/*
+* Main AJAX RSS reader request
+*/
+function RSSRequest() {
+	document.getElementById("upcoming_events_content").innerHTML = checkingtext;
+	
+    Backend = Backend + "&maxResults=" + maxResults;
+
+	// Prepare the request
+	RSSRequestObject.open("GET", Backend );
+	
+	// Set the onreadystatechange function
+	RSSRequestObject.onreadystatechange = ReqChange;
+	RSSRequestObject.overrideMimeType('text/xml');
+	
+	// Send
+	RSSRequestObject.send(null); 
+}
 
 /*
 * onreadystatechange function
@@ -22,12 +41,9 @@ RSSRequest(calendarName);
 function ReqChange() {
 
 	// If data received correctly
-	if (RSSRequestObject.readyState==4) {
-	
-		
+	if (RSSRequestObject.readyState == 4) {
 		// if data is valid
-		if (RSSRequestObject.responseText.indexOf('invalid') == -1&&false) 
-		{ 	
+		if (RSSRequestObject.responseText.indexOf('invalid') == -1) { 	
 			// Parsing Feeds
 			var node = RSSRequestObject.responseXML.documentElement; 
             var content = '';
@@ -35,18 +51,13 @@ function ReqChange() {
 			// Get the calendar title - uncomment next two lines if you want it to show up
 			//var title = node.getElementsByTagName('title').item(0).firstChild.data;
 			//var content = '<div class="channeltitle">' + title + '</div>';
-            
             var timezone='';
             try { 
-                      timezone = node.getElementsByTagName('timezone').item(0).getAttribute("value");  
-                  } 
-			catch (e) {	
-				try 
-				{
+            	timezone = node.getElementsByTagName('timezone').item(0).getAttribute("value");  
+            } catch (e) {	
+				try {
 					timezone = node.getElementsByTagNameNS('*', 'timezone').item(0).getAttribute("value"); 
-				}
-				catch (e)
-				{
+				} catch (e) {
 					var timezone = '';
 				}
 			}
@@ -56,19 +67,15 @@ function ReqChange() {
             var itemTimePrev = new Date();
             itemTimePrev.setTime(0000);
             if (items.length == 0) {
-				content += '<div align="center">No events</div>';
+				content += '<div align="center">'+noEventsText+'</div>';
 			} else {
-				for (var n=0; n < items.length; n++)
-				{
-					var itemTitle="Busy";
+				for (var n=0; n < items.length; n++) {
+					var itemTitle=busyText;
 					
-					if(items[n].getElementsByTagName('title').length>0)
-					{
+					if(items[n].getElementsByTagName('title').length>0) {
 						itemTitle = items[n].getElementsByTagName('title').item(0).firstChild.data;
-                    } else
-                    {
-						if(items[n].getElementsByTagNameNS('*', 'title').length>0)
-						{
+                    } else {
+						if(items[n].getElementsByTagNameNS('*', 'title').length>0) {
 							itemTitle = items[n].getElementsByTagNameNS('*', 'title').item(0).firstChild.data;
 						} 
                     }
@@ -76,21 +83,13 @@ function ReqChange() {
                     //Here's a little love for our friend IE - he hates standards, like XML namespace. Thanks for making a shitty product Microsoft!
                     try { 
 						var itemTimeXML = items[n].getElementsByTagName('when')[0].getAttribute("startTime");  
-                        } 
-					catch (e) { 
-						try 
-						{
+                    } catch (e) { 
+						try {
 							var itemTimeXML = items[n].getElementsByTagName('gd:when')[0].getAttribute("startTime");
-						} 
-						catch (e)
-						{
-							
-							try 
-							{
+						} catch (e) {
+							try {
 								var itemTimeXML = items[n].getElementsByTagNameNS('*', 'when')[0].getAttribute("startTime");
-							} 
-							catch (e)
-							{
+							} catch (e) {
 								var itemTimeXML = '';
 							}
 						}
@@ -99,28 +98,19 @@ function ReqChange() {
                     var isAllDay = false; //init isAllDay variable
                     var dateFound = true;
                     
-                    if (itemTimeXML.length <= 10){isAllDay = true;} //just the date is only 10 digits = all day event
+                    if (itemTimeXML.length <= 10) isAllDay = true; //just the date is only 10 digits = all day event
                     
                     var itemTime = new Date();
                     
-                    if (itemTimeXML.length != 0)
-                    {
+                    if (itemTimeXML.length != 0) {
 						itemTime.setTime
 							(Date.UTC(itemTimeXML.substr(0,4),(itemTimeXML.substr(5,2)-1),itemTimeXML.substr(8,2)
 							,itemTimeXML.substr(11,2),itemTimeXML.substr(14,2)));
-					}
-					else
-					{
-						dateFound = false; 
-					}
+					} else dateFound = false; 
 					
-					
-					try
-					{
+					try {
 						var itemLink =  items[n].getElementsByTagName('link')[0].getAttribute("href");
-					}
-					catch (e) 
-					{
+					} catch (e) {
 						var itemLink = "";
 						
 					}
@@ -128,26 +118,18 @@ function ReqChange() {
                     var itemContent = ' - ';
 					try { 
                         itemContent += items[n].getElementsByTagName('content').item(0).firstChild.data;  
-                    } 
-					catch (e) {	
-						try 
-						{
+                    } catch (e) {	
+						try {
 							itemContent += items[n].getElementsByTagNameNS('*', 'content').item(0).firstChild.data; 
-						}
-						catch (e)
-						{
+						} catch (e) {
 							var itemContent = '';
 						}
 					}
                     
                     content+='<div>';
+                    if(!isAllDay) content+= dateFormat(itemTime, df);
+                    else content+= dateFormat(itemTime, dff);
                     
-                    if (dateFound)
-                    {
-                    	content += +itemTime.getUTCDate()+'.'+(itemTime.getUTCMonth()+1)+'.'+itemTime.getUTCFullYear()+' ';
-                    }
-                    
-                    if (!isAllDay) { content+= getTimeFormatted(itemTime); }
                     content+='</div>';
                     var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&name='+calendarName+'&ctz='+timezone+'"';
                     if(openInNewWindow==1)
@@ -159,89 +141,119 @@ function ReqChange() {
 			}
 			
 			// Display the result
-			document.getElementById("gcalajax").innerHTML = content;
-
-			// Tell the reader the everything is done
-			//document.getElementById("status").innerHTML = "Done.";
-		}
-		else {
+			document.getElementById("upcoming_events_content").innerHTML = content;
+		} else {
 			// Tell the reader that there was error requesting data
-			document.getElementById("st").innerHTML = "<div class=error>Error requesting data.<div>";
-			document.getElementById("st").innerHTML = RSSRequestObject.responseText;
+			document.getElementById("upcoming_events_content").innerHTML = "<div class=error>"+errorText+"<div>";
 		}
-		
-		//Hide('st');
 	}
 	
 }
 
-/*
-* Time Format - Month
-*/
-function getMonthName(dateObject) {
-    var m_names = new Array("January", "February", "March", 
-    "April", "May", "June", "July", "August", "September", 
-    "October", "November", "December");
-    return(m_names[dateObject.getUTCMonth()]);
-}
+var dateFormat = function () {
+	var	token        = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloZ]|"[^"]*"|'[^']*'/g,
+		timezone     = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+		timezoneClip = /[^-+\dA-Z]/g,
+		pad = function (value, length) {
+			value = String(value);
+			length = parseInt(length) || 2;
+			while (value.length < length)
+				value = "0" + value;
+			return value;
+		};
 
-/*
-* Time Format - Hour
-*/
-function getTimeFormatted(dateObject) {
-    var hours = dateObject.getUTCHours();
-    var minutes = dateObject.getUTCMinutes();
-    var formattedTime = null;
-    if (is24Hour) {
-        if (minutes < 10){minutes = "0" + minutes;}
-        formattedTime = hours + ':' + minutes;
-        return (formattedTime);
-    }
-    else {
-        var ampm = "AM";
-        if (hours > 12){
-            hours = hours - 12;
-            ampm = "PM";}
-        if (hours == 12){ampm = 'PM';}
-        if (hours == 0) {hours = 12;}
-        if (minutes < 10){minutes = "0" + minutes;}
-        formattedTime = hours + ':' + minutes + ' ' + ampm;
-        return (formattedTime);
-    }
-}
+	// Regexes and supporting functions are cached through closure
+	return function (date, mask) {
+		// Treat the first argument as a mask if it doesn't contain any numbers
+		if (
+			arguments.length == 1 &&
+			(typeof date == "string" || date instanceof String) &&
+			!/\d/.test(date)
+		) {
+			mask = date;
+			date = undefined;
+		}
 
-/*
-* Main AJAX RSS reader request
-*/
-function RSSRequest() {
-	document.getElementById("st").innerHTML = ".......";
-	
-    Backend = Backend + "&maxResults=" + maxResults;
-	document.getElementById("st").innerHTML = Backend;
-	// change the status to requesting data
+		date = date ? new Date(date) : new Date();
+		if (isNaN(date))
+			throw "invalid date";
 
-	// Prepare the request
-	RSSRequestObject.open("GET", Backend );
-	
-	// Set the onreadystatechange function
-	RSSRequestObject.onreadystatechange = ReqChange;
-	
-	// Send
-	RSSRequestObject.send(null); 
-	
-}
+		var dF = dateFormat;
+		mask   = String(dF.masks[mask] || mask || dF.masks["default"]);
 
+		var	d = date.getDate(),
+			D = date.getDay(),
+			m = date.getMonth(),
+			y = date.getFullYear(),
+			H = date.getHours(),
+			M = date.getMinutes(),
+			s = date.getSeconds(),
+			L = date.getMilliseconds(),
+			o = date.getTimezoneOffset(),
+			flags = {
+				d:    d,
+				dd:   pad(d),
+				ddd:  dF.i18n.dayNames[D],
+				dddd: dF.i18n.dayNames[D + 7],
+				m:    m + 1,
+				mm:   pad(m + 1),
+				mmm:  dF.i18n.monthNames[m],
+				mmmm: dF.i18n.monthNames[m + 12],
+				yy:   String(y).slice(2),
+				yyyy: y,
+				h:    H % 12 || 12,
+				hh:   pad(H % 12 || 12),
+				H:    H,
+				HH:   pad(H),
+				M:    M,
+				MM:   pad(M),
+				s:    s,
+				ss:   pad(s),
+				l:    pad(L, 3),
+				L:    pad(L > 99 ? Math.round(L / 10) : L),
+				t:    H < 12 ? "a"  : "p",
+				tt:   H < 12 ? "am" : "pm",
+				T:    H < 12 ? "A"  : "P",
+				TT:   H < 12 ? "AM" : "PM",
+				Z:    (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+				o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4)
+			};
 
+		return mask.replace(token, function ($0) {
+			return ($0 in flags) ? flags[$0] : $0.slice(1, $0.length - 1);
+		});
+	};
+}();
 
-function Hide(id){
-	var el = GetObject(id);
-	//if(el.style.display=="none")
-	//el.style.display='';
-	//else
-	el.style.display='none';
-}
+// Some common format strings
+dateFormat.masks = {
+	"default":       "ddd mmm d yyyy HH:MM:ss",
+	shortDate:       "m/d/yy",
+	mediumDate:      "mmm d, yyyy",
+	longDate:        "mmmm d, yyyy",
+	fullDate:        "dddd, mmmm d, yyyy",
+	shortTime:       "h:MM TT",
+	mediumTime:      "h:MM:ss TT",
+	longTime:        "h:MM:ss TT Z",
+	isoDate:         "yyyy-mm-dd",
+	isoTime:         "HH:MM:ss",
+	isoDateTime:     "yyyy-mm-dd'T'HH:MM:ss",
+	isoFullDateTime: "yyyy-mm-dd'T'HH:MM:ss.lo"
+};
 
-function GetObject(id){
-	var el = document.getElementById(id);
-	return(el);
+// Internationalization strings
+dateFormat.i18n = {
+	dayNames:   [
+		"Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat",
+		"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+	],
+	monthNames: [
+		"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+		"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+	]
+};
+
+// For convenience...
+Date.prototype.format = function (mask) {
+	return dateFormat(this, mask);
 }
