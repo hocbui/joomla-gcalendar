@@ -16,9 +16,16 @@
         <filename>tmpl/gcalendar.js</filename>
         <filename>tmpl/index.html</filename>
 	</files>
+	<languages>
+  		<language tag="en-GB">languages/en-GB.mod_gcalendar_upcoming.ini</language> 
+  	</languages>
 	<params>
 		<param name="name" type="text" size="80" default="" label="Calendar name"
 			description="The name of the google calendar. Specified in the GCalendar component." />
+		<param name="dateFormat" type="text" size="80" default="dd.mm.yyyy HH:MM" label="Date format"
+			description="The format of the date for an event." />
+		<param name="dateFormatFull" type="text" size="80" default="dd.mm.yyyy" label="Date format (full day)"
+			description="The format of the date for a full day event. No hour or minute parameters are allowed!!!!" />
 		<param name="max" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
 			<param name="openWindow" type="radio" default="0"
