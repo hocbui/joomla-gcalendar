@@ -19,7 +19,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   var Backend = '<?php echo JURI::base()."index.php?option=com_gcalendar&task=content&format=raw&tmpl=component&calendarType=xmlUrl&calendarName=".$params->get('name', '')?>';
   var checkingtext = '<?php echo JText::_( 'CHECK_EVENTS' );?>';
   var noEventsText = '<?php echo JText::_( 'NO_EVENTS' );?>';
-  var errorText = '<?php echo JText::_( 'ERROR_RECEIVING_EVENTS' );?>';
   var busyText = '<?php echo JText::_( 'BUSY_EVENT' );?>';
   var df = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dff = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
