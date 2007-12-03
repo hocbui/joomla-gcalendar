@@ -24,33 +24,14 @@ if($this->calendarType==='xmlUrl'){
 	$path .= "&max-results=".$maxResults."&orderby=starttime&sortorder=ascending";
 	$path .= "&singleevents=true";
 }
-if(function_exists('curl_init')){
-  $ch = curl_init();
-  if(!$ch){
-    $feed = file_get_contents($path);
-  }else{
-    $timeout = 5;
-    curl_setopt($ch, CURLOPT_URL, $path);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-    $feed = curl_exec($ch);
-    
-    if(empty($feed))$feed = file_get_contents($path);
-    else{
-      $info = curl_getinfo($ch);
-      if(empty($info['http_code'])){
-        $feed = file_get_contents($path);
-      }else if(strstr($info['http_code'],4)||strstr($info['http_code'],5)){
-        //we have an error
-	$feed = file_get_contents($path);
-      }
-    }
-    
-    curl_close($ch);
-  }
-}
-else{
-  $feed = file_get_contents($path);
+
+$allow_url_fopen = (bool) ini_get('allow_url_fopen');
+if($allow_url_fopen){
+  	$feed = file_get_contents($path);
+} else {
+	$feed = '<?xml version="1.0" encoding="utf-8"?><content><error>';
+	$feed .= JText::_( 'READ_EVENTS_ERROR' );
+	$feed .= '</error></content>';
 }
 if($this->calendarType==='xmlUrl') header('Content-type: text/xml');
 else if($this->calendarType==='icalUrl') header('Content-type: text/calendar');
