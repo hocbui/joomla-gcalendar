@@ -1,7 +1,7 @@
 <?php
 
 /**
-* Google calendar overview module
+* Google calendar upcoming events module
 * @author allon
 * @version $Revision: 1.5.0 $
 **/
