@@ -42,10 +42,11 @@ function ReqChange() {
 
 	// If data received correctly
 	if (RSSRequestObject.readyState == 4) {
+		var node = RSSRequestObject.responseXML.documentElement; 
+		
 		// if data is valid
-		if (RSSRequestObject.responseText.indexOf('invalid') == -1) { 	
+		if (node.getElementsByTagName('error').length==0) { 	
 			// Parsing Feeds
-			var node = RSSRequestObject.responseXML.documentElement; 
             var content = '';
             
 			// Get the calendar title - uncomment next two lines if you want it to show up
@@ -144,7 +145,10 @@ function ReqChange() {
 			document.getElementById("upcoming_events_content").innerHTML = content;
 		} else {
 			// Tell the reader that there was error requesting data
-			document.getElementById("upcoming_events_content").innerHTML = "<div class=error>"+errorText+"<div>";
+			var x=node.getElementsByTagName('error');
+			for (i=0;i<x.length;i++) {
+			  document.getElementById("upcoming_events_content").innerHTML = "<div class=error>"+x[i].childNodes[0].nodeValue+"<div>";
+			}
 		}
 	}
 	
