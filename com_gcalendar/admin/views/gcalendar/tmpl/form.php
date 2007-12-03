@@ -30,7 +30,7 @@
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="htmlUrl" id="htmlUrl" size="100%" maxlength="250" value="<?php echo $this->gcalendar->htmlUrl;?>" />
+				<input class="text_area" type="text" name="htmlUrl" id="htmlUrl" size="100%" value="<?php echo $this->gcalendar->htmlUrl;?>" />
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +40,7 @@
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="xmlUrl" id="xmlUrl" size="100%" maxlength="250" value="<?php echo $this->gcalendar->xmlUrl;?>" />
+				<input class="text_area" type="text" name="xmlUrl" id="xmlUrl" size="100%" value="<?php echo $this->gcalendar->xmlUrl;?>" />
 			</td>
 		</tr>
 		<tr>
@@ -50,7 +50,7 @@
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="icalUrl" id="icalUrl" size="100%" maxlength="250" value="<?php echo $this->gcalendar->icalUrl;?>" />
+				<input class="text_area" type="text" name="icalUrl" id="icalUrl" size="100%" value="<?php echo $this->gcalendar->icalUrl;?>" />
 			</td>
 		</tr>
 	</table>
