@@ -10,8 +10,9 @@ defined('_JEXEC') or die('Restricted access');
 $path= $this->path;
 $timeLimit = JRequest::getVar('timeLimit',0); //default to no time limit
 $maxResults = JRequest::getVar('maxResults',5);
+$xmlType = JRequest::getVar('xmlType','full');
 
-if($this->calendarType==='xmlUrl'){
+if($this->calendarType === 'xmlUrl' && $xmlType==='full'){
 	if(strpos($path,'public/full')===false){
 		$path=substr($path,0,strpos($path,'public')).'public/full';
 	}
