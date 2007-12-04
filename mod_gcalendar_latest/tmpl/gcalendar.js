@@ -137,7 +137,7 @@ function ReqChangel() {
                     else contentl = contentl+ publishedl+" "+dateFormatl(itemTimel, dffl);
                     
                     contentl+='</div>';
-                    var linkl = 'href="'+rootUrll+'/index.php?option=com_gcalendar&eventID='+itemLinkl.substring(itemLinkl.indexOf('eid=')+4,itemLinkl.length)+'&name='+calendarNamel+'&ctz='+timezonel+'"';
+                    var linkl = 'href="'+rootUrll+'/index.php?option=com_gcalendar&task=event&eventID='+itemLinkl.substring(itemLinkl.indexOf('eid=')+4,itemLinkl.length)+'&calendarName='+calendarNamel+'&ctz='+timezonel+'"';
                     if(openInNewWindowl==1)
                       linkl='href="'+itemLinkl+'" target="_blank"';
                     contentl += '<a '+linkl+'>'+itemTitlel+'</a>';
