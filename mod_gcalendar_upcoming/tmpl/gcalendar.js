@@ -132,7 +132,7 @@ function ReqChange() {
                     else content+= dateFormat(itemTime, dff);
                     
                     content+='</div>';
-                    var link = 'href="'+rootUrl+'/index.php?option=com_gcalendar&task=event&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&calendarName='+calendarName+'&ctz='+timezone+'"';
+                    var link = 'href="'+rootUrl+'index.php?option=com_gcalendar&task=event&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&calendarName='+calendarName+'&ctz='+timezone+'"';
                     if(openInNewWindow==1)
                       link='href="'+itemLink+'" target="_blank"';
                     content += '<a '+link+'>'+itemTitle+'</a>';
