@@ -29,6 +29,10 @@
 		<filename>views/content/view.raw.php</filename>
 		<filename>views/content/tmpl/index.html</filename>
 		<filename>views/content/tmpl/default.php</filename>
+		<filename>views/event/index.html</filename>
+		<filename>views/event/view.html.php</filename>
+		<filename>views/event/tmpl/index.html</filename>
+		<filename>views/event/tmpl/default.php</filename>
 		<filename>models/gcalendar.php</filename>
 		<filename>models/index.html</filename>
 	</files>

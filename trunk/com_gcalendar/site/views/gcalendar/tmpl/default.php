@@ -14,7 +14,7 @@ if(!$this->gcalendar){
 ?>
 
 <script language="javascript" type="text/javascript">
-function iFrameHeight() {
+function iFrameHeightGC() {
 	var h = 0;
 	if ( !document.all ) {
 		h = document.getElementById('gcalendar').contentDocument.height;
@@ -35,8 +35,14 @@ if ($this->params->get('page_title')) {
 	</div>
 <?php
 }
+// auto height control
+if ( $this->params->def( 'height_auto' ) ) {
+	$load = 'onload="iFrameHeightGC()"';
+} else {
+	$load = '';
+}
 ?>
-<iframe
+<iframe <?php echo $load; ?>
 id="gcalendar"
 name="iframe"
 src="<?php echo $this->gcalendar; ?>"
