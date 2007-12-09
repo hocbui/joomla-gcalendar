@@ -21,6 +21,22 @@ class GCalendarViewEvent extends JView
 		$this->assignRef( 'eventID', JRequest::getVar('eventID', null));
 		$this->assignRef( 'timezone', JRequest::getVar('ctz', null));
 		
+		$menu = &JSite::getMenu();
+		$items  = $menu->getItems('link', 'index.php?option=com_gcalendar&view=gcalendar');
+		
+		$model = & $this->getModel();
+		foreach($items as $item)
+		{
+			$params	=& $menu->getParams($item->id);
+			if($params->get('name')===$model->getState('calendarName')){
+				global $mainframe;
+		
+				$pathway	= &$mainframe->getPathway();
+				$pathway->addItem($item->title, 'index.php?option=com_gcalendar&view=gcalendar&Itemid='.$item->id);
+				$pathway->addItem($this->eventID,'');
+			}
+		}
+		
 		parent::display($tpl);
 	}
 }

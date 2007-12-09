@@ -51,7 +51,7 @@ height="<?php echo $this->params->get( 'height' ); ?>"
 scrolling="<?php echo $this->params->get( 'scrolling' ); ?>"
 align="top"
 frameborder="0"
-class="wrapper<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+class="gcalendar<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php echo JText::_( 'NO_IFRAMES' ); ?>
 </iframe>
 
