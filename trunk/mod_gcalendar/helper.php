@@ -21,7 +21,7 @@ class modGCalendarHelper
         } else {
 	        jimport( 'joomla.application.component.model' );
 	        
-	        JModel::addIncludePath(JPATH_COMPONENT.DS.'models');
+	        JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'models');
 	        $model =JModel::getInstance('GCalendar','GCalendarModel');
 	        $model->setState('parameters.menu', $params);
 	        
