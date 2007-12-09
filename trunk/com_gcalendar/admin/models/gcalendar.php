@@ -79,19 +79,19 @@ class GCalendarsModelGCalendar extends JModel
 
 		// Bind the form fields to the calendar table
 		if (!$row->bind($data)) {
-			$this->setError($this->_db->getErrorMsg());
+			JError::raiseWarning( 500, $row->getError() );
 			return false;
 		}
 
 		// Make sure the calendar record is valid
 		if (!$row->check()) {
-			$this->setError($this->_db->getErrorMsg());
+			JError::raiseWarning( 500, $row->getError() );
 			return false;
 		}
 		
 		// Store the calendar table to the database
 		if (!$row->store()) {
-			$this->setError( $row->getErrorMsg() );
+			JError::raiseWarning( 500, $row->getError() );
 			return false;
 		}
 
@@ -113,7 +113,7 @@ class GCalendarsModelGCalendar extends JModel
 		if (count( $cids ))		{
 			foreach($cids as $cid) {
 				if (!$row->delete( $cid )) {
-					$this->setError( $row->getErrorMsg() );
+					JError::raiseWarning( 500, $row->getError() );
 					return false;
 				}
 			}						
