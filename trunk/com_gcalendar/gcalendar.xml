@@ -52,7 +52,12 @@
 	</uninstall>	
 	<administration>
 		<!-- Administration Menu Section -->
-		<menu>GCalendar</menu>
+		<menu >GCalendar</menu>
+		<submenu>			
+			<menu task="calendars">GCalendars</menu>
+			<menu task="googleCalendar">Google Calendar</menu>
+		</submenu>
+		
 		
 		<!-- Administration Main File Copy Section -->
 		<!-- Note the folder attribute: This attribute describes the folder
@@ -69,10 +74,12 @@
 			<filename>models/gcalendar.php</filename>
 			<filename>models/index.html</filename>
 			<filename>views/gcalendars/view.html.php</filename>
-			<filename>views/images/gcalendar.gif</filename>
-			<filename>views/images/gcalendar_but.gif</filename>
+			<filename>images/48-calendar.png</filename>
+			<filename>images/gcalendar.gif</filename>
+			<filename>images/gcalendar_but.gif</filename>
 			<filename>views/gcalendars/index.html</filename>
 			<filename>views/gcalendars/tmpl/default.php</filename>
+			<filename>views/gcalendars/tmpl/calendar.php</filename>
 			<filename>views/gcalendars/tmpl/index.html</filename>
 			<filename>views/gcalendar/view.html.php</filename>
 			<filename>views/gcalendar/index.html</filename>
@@ -82,6 +89,8 @@
 			<filename>tables/index.html</filename>
 			<filename>install.sql</filename>
 			<filename>uninstall.sql</filename>
+			<filename>css/gcalendar.css</filename>
+			<filename>css/index.html</filename>
 		</files>		
 		
 		<languages>

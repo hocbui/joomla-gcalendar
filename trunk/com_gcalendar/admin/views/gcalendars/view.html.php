@@ -22,10 +22,12 @@ class GCalendarsViewGCalendars extends JView
 	 **/
 	function display($tpl = null)
 	{
-		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ), 'generic.png' );
-		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
+		if(JRequest::getVar( 'layout')!='calendar'){
+			JToolBarHelper::deleteList();
+			JToolBarHelper::editListX();
+			JToolBarHelper::addNewX();
+		}
 
 		// Get data from the model
 		$items		= & $this->get( 'Data');

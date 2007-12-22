@@ -27,7 +27,7 @@ class GCalendarsViewGCalendar extends JView
 		$isNew		= ($gcalendar->id < 1);
 
 		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
-		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ).': <small><small>[ ' . $text.' ]</small></small>' );
+		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ).': <small><small>[ ' . $text.' ]</small></small>' ,'calendar');
 		JToolBarHelper::save();
 		if ($isNew)  {
 			JToolBarHelper::cancel();
