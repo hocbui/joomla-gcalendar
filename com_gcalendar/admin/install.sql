@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `#__gcalendar`;
 
 CREATE TABLE IF NOT EXISTS `#__gcalendar` (
   `id` int(11) NOT NULL auto_increment,
@@ -6,5 +7,4 @@ CREATE TABLE IF NOT EXISTS `#__gcalendar` (
   `htmlUrl` varchar(255) NOT NULL,
   `icalUrl` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0;
-
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

@@ -75,13 +75,8 @@
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="controller" value="gcalendar" />
 </form>
-<br><hr><br>
-<iframe 
-src="http://www.google.com/calendar"
-width="100%"
-height="700"
-scrolling="auto"
-align="top"
-frameborder="0">
-<?php echo JText::_( 'NO_IFRAMES' ); ?>
-</iframe>
+
+<div align="center">
+<br><img src="components/com_gcalendar/views/images/gcalendar.gif" width="143" height="57"><br>
+  &copy;&nbsp;&nbsp;2007 <a href="http://gcalendar.allon.ch" target="_blank">allon moritz</a>
+</div>

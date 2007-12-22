@@ -1,1 +1,1 @@
--- DROP TABLE IF EXISTS `#__gcalendar`;
+DROP TABLE IF EXISTS `#__gcalendar`;

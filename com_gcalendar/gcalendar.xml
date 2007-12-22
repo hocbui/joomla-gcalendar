@@ -42,12 +42,12 @@
 	
 	<install>
 		<sql>
-			<file driver="mysql">install.sql</file>
+			<file charset="utf8" driver="mysql">install.sql</file>
 		</sql>
 	</install>
 	<uninstall>
 		<sql>
-			<file driver="mysql">uninstall.sql</file>
+			<file charset="utf8" driver="mysql">uninstall.sql</file>
 		</sql>
 	</uninstall>	
 	<administration>
