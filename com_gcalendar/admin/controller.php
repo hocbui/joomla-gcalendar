@@ -22,6 +22,18 @@ class GCalendarsController extends JController
 	{
 		parent::display();
 	}
+	
+	/**
+	 * display the google calendar
+	 * @return void
+	 */
+	function googleCalendar()
+	{
+		JRequest::setVar( 'layout', 'calendar'  );
+		JRequest::setVar('hidemainmenu', 0);
+
+		parent::display();
+	}
 
 }
 ?>

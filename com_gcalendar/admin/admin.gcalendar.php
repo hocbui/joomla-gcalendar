@@ -16,6 +16,9 @@ if($controller = JRequest::getVar('controller')) {
 	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
 }
 
+$document =& JFactory::getDocument();
+$document->addStyleSheet($mainframe->getSiteURL() . 'administrator/components/com_gcalendar/css/gcalendar.css'); 		
+
 // Create the controller
 $classname	= 'GCalendarsController'.$controller;
 $controller = new $classname( );
