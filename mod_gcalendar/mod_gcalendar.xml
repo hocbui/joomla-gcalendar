@@ -28,10 +28,6 @@
 			<option value="auto">Auto</option>
 		</param>
 		<param name="width" type="text" size="5" default="100%" label="Width" description="PARAMWIDTH" />
-		<param name="height" type="text" size="5" default="200" label="Height" description="HEIGHT OF THE IFRAME WINDOW" />
-		<param name="height_auto" type="radio" default="1" label="Auto Height" description="PARAMAUTOHEIGHT">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
+		<param name="height" type="text" size="5" default="300" label="Height" description="HEIGHT OF THE IFRAME WINDOW" />
 	</params>
 </install>
