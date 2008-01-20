@@ -1,10 +1,9 @@
 <?php
 
-
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.4.1 $
+* @version $Revision: 1.4.2 $
 **/
 
 // ensure this file is being included by a parent file

@@ -1,18 +1,20 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
 	<name>GCalendar</name>
-	<creationDate>May 2007</creationDate>
+	<creationDate>Jan 2008</creationDate>
 	<author>allon</author>
 	<copyright>
 		This component is released under the GNU/GPL License
 	</copyright>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
-	<authorUrl>www.allon.ch</authorUrl>
-	<version>1.4.1</version>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<version>1.4.2</version>
 	<description>Google Calendar for joomla.</description>
 	<files>
 		<filename>gcalendar.php</filename>
 		<filename>gcalendar.html.php</filename>
+		<filename>gcalendar.xml.php</filename>
+		<filename>languages/english.php</filename>
 	</files>
 	<install>
 		<queries>

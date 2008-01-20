@@ -3,7 +3,7 @@
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.4.1 $
+* @version $Revision: 1.4.2 $
 **/
 
 // no direct access
@@ -11,8 +11,31 @@ defined('_VALID_MOS') or die('Restricted access');
 
 /** load the html drawing class */
 require_once ($mainframe->getPath('front_html'));
+require_once ( $mosConfig_absolute_path."/components/com_gcalendar/gcalendar.xml.php");
 
-showCalendar($option);
+// Get the right language if it exists
+if (file_exists($mosConfig_absolute_path."/components/com_gcalendar/languages/".$mosConfig_lang.".php")){
+	include_once($mosConfig_absolute_path."/components/com_gcalendar/languages/".$mosConfig_lang.".php");
+}else{
+	include_once($mosConfig_absolute_path."/components/com_gcalendar/languages/english.php");
+}
+
+switch ( $task ) {
+	case 'view':
+		showCalendar($option);
+		break;
+	case 'content':
+		showContent($option);
+		break;
+	default:
+		showCalendar($option);
+		break;
+}
+
+function showContent($option){
+	XML_gcalendar :: displayCalendar();
+}
+
 
 function showCalendar($option) {
 	global $database, $Itemid, $mainframe, $mosConfig_lang;
