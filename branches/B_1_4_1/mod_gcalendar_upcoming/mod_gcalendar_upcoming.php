@@ -1,6 +1,5 @@
 <?php
 
-
 /**
 * Google calendar upcoming events module
 * @author allon
