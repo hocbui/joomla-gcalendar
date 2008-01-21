@@ -17,6 +17,8 @@
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/gcalendar.js</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/english.php</filename>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/german.php</filename>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/germani.php</filename>
 	</files>
 	<params>
 		<param name="name" type="text" size="80" default="" label="Calendar name"

@@ -17,6 +17,8 @@
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest.php</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/gcalendar.js</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/english.php</filename>
+		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/german.php</filename>
+		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/germani.php</filename>
 		
 	</files>
 	<params>
