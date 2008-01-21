@@ -8,12 +8,21 @@
 var RSSRequestObject = false; // XMLHttpRequest Object
 var is24Hour = true; //24 or 12 hour time
 
-if (window.XMLHttpRequest) // try to create XMLHttpRequest
+if (window.XMLHttpRequest) { // FF, Safari, Opera
 	RSSRequestObject = new XMLHttpRequest();
-
-else if (window.ActiveXObject)	// if ActiveXObject use the Microsoft.XMLHTTP
-	RSSRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
-
+	if (RSSRequestObject.overrideMimeType) {
+    	RSSRequestObject.overrideMimeType('text/xml');
+    } 
+}
+else if (window.ActiveXObject){ // IE
+    try {
+        RSSRequestObject = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+        try {
+            RSSRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (e) {}
+    }
+}
 RSSRequest();
 
 /*
@@ -29,7 +38,6 @@ function RSSRequest() {
 	
 	// Set the onreadystatechange function
 	RSSRequestObject.onreadystatechange = ReqChange;
-	RSSRequestObject.overrideMimeType('text/xml');
 	
 	// Send
 	RSSRequestObject.send(null); 
@@ -42,7 +50,28 @@ function ReqChange() {
 
 	// If data received correctly
 	if (RSSRequestObject.readyState == 4) {
-		var node = RSSRequestObject.responseXML.documentElement; 
+		var xmlDoc;
+			//Just to check if it is a different navigator from internet explorer
+		if (document.implementation && document.implementation.createDocument){
+			xmlDoc = RSSRequestObject.responseXML;
+		//In case to be the internet explorer
+		} else if (window.ActiveXObject){
+			//Create a xml tag in run time
+			var testandoAppend = document.createElement('xml');
+			//Put the requester.responseText in the innerHTML of the xml tag
+			testandoAppend.setAttribute('innerHTML',RSSRequestObject.responseText);
+			//Set the xml tag's id to _formjAjaxRetornoXML
+			testandoAppend.setAttribute('id','_formjAjaxRetornoXML');
+			//Add the created tag to the page context
+			document.body.appendChild(testandoAppend);
+			//Just for check put the xmlhttp.responseXML in the innerHTML of the tag
+			document.getElementById('_formjAjaxRetornoXML').innerHTML = RSSRequestObject.responseText;
+			//Now we can get the xml tag and put it on a var
+			xmlDoc = document.getElementById('_formjAjaxRetornoXML');
+			//So we have a valid xml we can remove the xml tag 
+			document.body.removeChild(document.getElementById('_formjAjaxRetornoXML'));
+		}
+		var node = xmlDoc.documentElement; 
 		
 		// if data is valid
 		if (node.getElementsByTagName('error').length==0) { 	
