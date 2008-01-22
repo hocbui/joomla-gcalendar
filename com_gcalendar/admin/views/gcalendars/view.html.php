@@ -23,7 +23,7 @@ class GCalendarsViewGCalendars extends JView
 	function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
-		if(JRequest::getVar( 'layout')!='calendar'){
+		if(JRequest::getVar( 'layout')!='calendar' && JRequest::getVar( 'layout')!='support'){
 			JToolBarHelper::deleteList();
 			JToolBarHelper::editListX();
 			JToolBarHelper::addNewX();

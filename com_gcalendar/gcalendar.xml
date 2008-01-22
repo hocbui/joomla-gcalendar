@@ -3,7 +3,7 @@
 <install type="component" version="1.5.0">
 	<name>GCalendar</name>
 	<!-- The following elements are optional and free of formatting conttraints -->
-	<creationDate>December 2007</creationDate>
+	<creationDate>January 2008</creationDate>
 	<author>allon</author>
 	<authorEmail>allon@allon.ch</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
@@ -56,6 +56,7 @@
 		<submenu>			
 			<menu task="calendars">GCalendars</menu>
 			<menu task="googleCalendar">Google Calendar</menu>
+			<menu task="support">Support Site</menu>
 		</submenu>
 		
 		
@@ -80,6 +81,7 @@
 			<filename>views/gcalendars/index.html</filename>
 			<filename>views/gcalendars/tmpl/default.php</filename>
 			<filename>views/gcalendars/tmpl/calendar.php</filename>
+			<filename>views/gcalendars/tmpl/support.php</filename>
 			<filename>views/gcalendars/tmpl/index.html</filename>
 			<filename>views/gcalendar/view.html.php</filename>
 			<filename>views/gcalendar/index.html</filename>
