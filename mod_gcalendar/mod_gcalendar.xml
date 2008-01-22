@@ -16,6 +16,9 @@
         <filename>tmpl/default.php</filename>
         <filename>tmpl/index.html</filename>
 	</files>
+	<languages>
+  		<language tag="en-GB">languages/en-GB.mod_gcalendar.ini</language> 
+  	</languages>
 	<params>
 		<param name="name" type="text" size="80" default="" label="Calendar name"
 			description="The name of the google calendar. Specified in the GCalendar component." />
