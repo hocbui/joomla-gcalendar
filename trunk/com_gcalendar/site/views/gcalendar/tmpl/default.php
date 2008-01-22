@@ -8,7 +8,7 @@
  // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 
-if(!$this->gcalendar){
+if(empty($this->gcalendar)){
   echo JText::_( 'NO_CALENDAR' );
 }else{
 ?>
