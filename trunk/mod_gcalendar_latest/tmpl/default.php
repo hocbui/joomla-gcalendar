@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   var rootUrll = '<?php echo JURI::base();?>';
   var maxResultsl = '<?php echo $params->get('max', 5);?>';
   var openInNewWindowl = '<?php echo $params->get('openWindow', 1);?>';
-  var Backendl = '<?php echo JURI::base()."index.php?option=com_gcalendar&task=content&format=raw&tmpl=component&calendarType=xmlUrl&xmlType=basic&calendarName=".$params->get('name_latest', '')?>';
+  var Backendl = '<?php echo JRoute::_("index.php?option=com_gcalendar&task=content&format=raw&tmpl=component&calendarType=xmlUrl&xmlType=basic&calendarName=".$params->get('name_latest', ''),false);?>';
   var checkingtextl = '<?php echo JText::_( 'CHECK_EVENTS' );?>';
   var noEventsTextl = '<?php echo JText::_( 'NO_EVENTS' );?>';
   var busyTextl = '<?php echo JText::_( 'BUSY_EVENT' );?>';
