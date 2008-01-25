@@ -27,10 +27,13 @@ class GCalendarModelGCalendar extends JModel
 		if($params){
 			$calendarName=$params->get('name');
 			$calendarType='htmlUrl';
-		}else{
-			$calendarName = &$this->getState('calendarName');
-			$calendarType = &$this->getState('calendarType');
 		}
+		$tmp=&$this->getState('calendarName');
+		if(!empty($tmp))
+			$calendarName = $tmp;
+		$tmp=&$this->getState('calendarType');
+		if(!empty($tmp))
+			$calendarType = $tmp;
 		
 		$db =& JFactory::getDBO();
 
