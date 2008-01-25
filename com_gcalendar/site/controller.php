@@ -46,7 +46,7 @@ class GCalendarController extends JController
 		$view->setLayout($viewLayout);
 
 		// Display the view
-		if ($cachable) {
+		if (!empty($cachable)) {
 			global $option;
 			$cache =& JFactory::getCache($option, 'view');
 			$cache->get($view, 'display');
@@ -78,7 +78,7 @@ class GCalendarController extends JController
 		$view->setLayout($viewLayout);
 
 		// Display the view
-		if ($cachable) {
+		if (!empty($cachable)) {
 			global $option;
 			$cache =& JFactory::getCache($option, 'view');
 			$cache->get($view, 'display');
