@@ -31,8 +31,6 @@ RSSRequest();
 function RSSRequest() {
 	document.getElementById("upcoming_events_content").innerHTML = checkingtext;
 	
-    Backend = Backend + "&maxResults=" + maxResults;
-
 	// Prepare the request
 	RSSRequestObject.open("GET", Backend );
 	
@@ -161,7 +159,7 @@ function ReqChange() {
                     else content+= dateFormat(itemTime, dff);
                     
                     content+='</div>';
-                    var link = 'href="'+rootUrl+'index.php?option=com_gcalendar&task=event&eventID='+itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)+'&calendarName='+calendarName+'&ctz='+timezone+'"';
+                    var link = 'href="'+backLink.replace('{eventPlace}',itemLink.substring(itemLink.indexOf('eid=')+4,itemLink.length)).replace('{ctzPlace}',timezone)+'"';
                     if(openInNewWindow==1)
                       link='href="'+itemLink+'" target="_blank"';
                     content += '<a '+link+'>'+itemTitle+'</a>';

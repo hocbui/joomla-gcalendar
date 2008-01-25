@@ -99,7 +99,7 @@ function ReqChangel() {
             if (itemsl.length == 0) {
 				contentl += '<div align="center">'+noEventsTextl+'</div>';
 			} else {
-				for (var n=0; n < maxResultsl && n<itemsl.length; n++) {
+				for (var n=0; n < itemsl.length; n++) {
 					var itemTitlel=busyTextl;
 					
 					if(itemsl[n].getElementsByTagName('title').length>0) {
@@ -167,7 +167,7 @@ function ReqChangel() {
                     else contentl = contentl+ publishedl+" "+dateFormatl(itemTimel, dffl);
                     
                     contentl+='</div>';
-                    var linkl = 'href="'+rootUrll+'index.php?option=com_gcalendar&task=event&eventID='+itemLinkl.substring(itemLinkl.indexOf('eid=')+4,itemLinkl.length)+'&calendarName='+calendarNamel+'&ctz='+timezonel+'"';
+                    var linkl = 'href="'+backLinkl.replace('{eventPlace}',itemLinkl.substring(itemLinkl.indexOf('eid=')+4,itemLinkl.length)).replace('{ctzPlace}',timezonel)+'"';
                     if(openInNewWindowl==1)
                       linkl='href="'+itemLinkl+'" target="_blank"';
                     contentl += '<a '+linkl+'>'+itemTitlel+'</a>';
