@@ -19,6 +19,7 @@
 		<filename>index.html</filename>
 		<filename>gcalendar.php</filename>
 		<filename>controller.php</filename>
+		<filename>router.php</filename>
 		<filename>views/index.html</filename>
 		<filename>views/gcalendar/index.html</filename>
 		<filename>views/gcalendar/view.html.php</filename>
