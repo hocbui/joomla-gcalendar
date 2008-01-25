@@ -45,14 +45,7 @@ class GCalendarController extends JController
 		// Set the layout
 		$view->setLayout($viewLayout);
 
-		// Display the view
-		if (!empty($cachable)) {
-			global $option;
-			$cache =& JFactory::getCache($option, 'view');
-			$cache->get($view, 'display');
-		} else {
-			$view->display();
-		}
+		$view->display();
 	}
 	
 	function event()
@@ -77,14 +70,7 @@ class GCalendarController extends JController
 		// Set the layout
 		$view->setLayout($viewLayout);
 
-		// Display the view
-		if (!empty($cachable)) {
-			global $option;
-			$cache =& JFactory::getCache($option, 'view');
-			$cache->get($view, 'display');
-		} else {
-			$view->display();
-		}
+		$view->display();
 	}
 
 }
