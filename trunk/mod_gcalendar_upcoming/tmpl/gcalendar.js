@@ -133,7 +133,7 @@ function ReqChange() {
                     if (itemTimeXML.length != 0) {
                     	if(!isAllDay){
 	                    	itemTime=new Date(itemTimeXML.substr(0,4),
-	                    		(itemTimeXML.substr(5,2)-1),
+	                    		itemTimeXML.substr(5,2),
 	                    		itemTimeXML.substr(8,2),
 	                    		itemTimeXML.substr(11,2),
 	                    		itemTimeXML.substr(14,2));

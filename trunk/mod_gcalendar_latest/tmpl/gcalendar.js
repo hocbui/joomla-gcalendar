@@ -110,7 +110,7 @@ function ReqChangel() {
 						} 
                     }
 					
-                    //Here's a little love for our friend IE - he hates standards, like XML namespace. Thanks for making a shitty product Microsoft!
+                    //Here's a little love for our friend IE - he hates standards, like XML namespace.
                     try { 
 						var itemTimeXMLl = itemsl[n].getElementsByTagName('published').item(0).firstChild.data;
 						if(itemsl[n].getElementsByTagName('updated').length>0)
@@ -141,7 +141,7 @@ function ReqChangel() {
                     if (itemTimeXMLl.length != 0) {
 						if(!isAllDayl){
 	                    	itemTimel=new Date(itemTimeXMLl.substr(0,4),
-	                    		(itemTimeXMLl.substr(5,2)-1),
+	                    		itemTimeXMLl.substr(5,2),
 	                    		itemTimeXMLl.substr(8,2),
 	                    		itemTimeXMLl.substr(11,2),
 	                    		itemTimeXMLl.substr(14,2));
