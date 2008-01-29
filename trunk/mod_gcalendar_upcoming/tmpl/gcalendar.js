@@ -108,7 +108,7 @@ function ReqChange() {
 						} 
                     }
 					
-                    //Here's a little love for our friend IE - he hates standards, like XML namespace. Thanks for making a shitty product Microsoft!
+                    //Here's a little love for our friend IE - he hates standards, like XML namespace.
                     try { 
 						var itemTimeXML = items[n].getElementsByTagName('when')[0].getAttribute("startTime");  
                     } catch (e) { 
