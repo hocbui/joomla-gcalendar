@@ -31,7 +31,9 @@ class GCalendarController extends JController
 		$viewName	= JRequest::getCmd( 'view', 'Content' );
 		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
 
+		$this->addViewPath($this->_basePath.DS.'hiddenviews');
 		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
+		$view->addTemplatePath($this->_basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
 
 		// Get/Create the model
 		if ($model = & $this->getModel('gcalendar')) {
@@ -55,9 +57,11 @@ class GCalendarController extends JController
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getCmd( 'view', 'Event' );
 		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
-
+		
+		$this->addViewPath($this->_basePath.DS.'hiddenviews');
 		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
-
+		$view->addTemplatePath($this->_basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
+		
 		// Get/Create the model
 		if ($model = & $this->getModel('gcalendar')) {
 			$model->setState('calendarName',JRequest::getVar('calendarName', null));
