@@ -22,5 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   var dff = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
 </script>
 
+<script src="<?php echo JURI::base()."modules/mod_gcalendar_upcoming/tmpl/date.format.js"?>" language="javascript" type="text/javascript">
+</script>
 <script src="<?php echo JURI::base()."modules/mod_gcalendar_upcoming/tmpl/gcalendar.js"?>" language="javascript" type="text/javascript">
 </script>
