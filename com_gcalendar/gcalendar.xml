@@ -26,14 +26,14 @@
 		<filename>views/gcalendar/tmpl/index.html</filename>
 		<filename>views/gcalendar/tmpl/default.php</filename>
 		<filename>views/gcalendar/tmpl/default.xml</filename>
-		<filename>views/content/index.html</filename>
-		<filename>views/content/view.raw.php</filename>
-		<filename>views/content/tmpl/index.html</filename>
-		<filename>views/content/tmpl/default.php</filename>
-		<filename>views/event/index.html</filename>
-		<filename>views/event/view.html.php</filename>
-		<filename>views/event/tmpl/index.html</filename>
-		<filename>views/event/tmpl/default.php</filename>
+		<filename>hiddenviews/content/index.html</filename>
+		<filename>hiddenviews/content/view.raw.php</filename>
+		<filename>hiddenviews/content/tmpl/index.html</filename>
+		<filename>hiddenviews/content/tmpl/default.php</filename>
+		<filename>hiddenviews/event/index.html</filename>
+		<filename>hiddenviews/event/view.html.php</filename>
+		<filename>hiddenviews/event/tmpl/index.html</filename>
+		<filename>hiddenviews/event/tmpl/default.php</filename>
 		<filename>models/gcalendar.php</filename>
 		<filename>models/index.html</filename>
 	</files>
