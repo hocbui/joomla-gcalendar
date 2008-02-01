@@ -14,6 +14,7 @@
 		<filename>index.html</filename>
         <filename>tmpl/default.php</filename>
         <filename>tmpl/gcalendar.js</filename>
+        <filename>tmpl/date.format.js</filename>
         <filename>tmpl/index.html</filename>
 	</files>
 	<languages>
