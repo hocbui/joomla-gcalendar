@@ -20,17 +20,16 @@ if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_upcoming/langua
 
 <div id="upcoming_events_content"></div>
 <script language="JavaScript" type="text/javascript">
-  var calendarName='<?php echo $params->get('name', '')?>';
-  var rootUrl = '<?php echo $mosConfig_live_site.'/';?>';
-  var maxResults = '<?php echo $params->get('max', 5);?>';
   var openInNewWindow = '<?php echo $params->get('openWindow', 0);?>';
-  var Backend = '<?php echo $mosConfig_live_site."/index2.php?option=com_gcalendar&task=content&no_html=1&calendarType=xmlUrl&calendarName=".$params->get('name', '')?>';
+  var Backend = '<?php echo $mosConfig_live_site."/index2.php?option=com_gcalendar&task=content&no_html=1&calendarType=xmlUrl&calendarName=".$params->get('name', '')."&maxResults=".$params->get('max', 5);?>';
+  var backLink = '<?php echo $mosConfig_live_site.urldecode("/index.php?option=com_gcalendar&eventID={eventPlace}&name=".$params->get('name', '')."&ctz={ctzPlace}");?>';
   var checkingtext = '<?php echo _GCALENDAR_UPCOMING_CHECK_EVENTS;?>';
   var noEventsText = '<?php echo _GCALENDAR_UPCOMING_NO_EVENTS;?>';
   var busyText = '<?php echo _GCALENDAR_UPCOMING_BUSY_EVENT;?>';
   var df = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dff = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
 </script>
-
+<script src="<?php echo $mosConfig_live_site."/modules/mod_gcalendar_upcoming/date.format.js"?>" language="javascript" type="text/javascript">
+</script>
 <script src="<?php echo $mosConfig_live_site;?>/modules/mod_gcalendar_upcoming/gcalendar.js" language="javascript" type="text/javascript">
 </script>
