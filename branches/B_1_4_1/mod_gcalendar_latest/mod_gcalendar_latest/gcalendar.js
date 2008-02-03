@@ -155,13 +155,13 @@ function ReqChangel() {
                     if (itemTimeXMLl.length != 0) {
 						if(!isAllDayl){
 	                    	itemTimel=new Date(itemTimeXMLl.substr(0,4),
-	                    		itemTimeXMLl.substr(5,2),
+	                    		(itemTimeXMLl.substr(5,2)-1),
 	                    		itemTimeXMLl.substr(8,2),
 	                    		itemTimeXMLl.substr(11,2),
 	                    		itemTimeXMLl.substr(14,2));
 	                    } else {
 	                    	itemTimel=new Date(itemTimeXMLl.substr(0,4),
-	                    		itemTimeXMLl.substr(5,2),
+	                    		(itemTimeXMLl.substr(5,2)-1),
 	                    		itemTimeXMLl.substr(8,2));
 	                    }
 					} else dateFoundl = false; 

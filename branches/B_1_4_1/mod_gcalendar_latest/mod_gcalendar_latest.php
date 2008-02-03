@@ -21,12 +21,12 @@ if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_latest/language
 <div id="latest_events_content"></div>
 <script language="JavaScript" type="text/javascript">
   var openInNewWindowl = '<?php echo $params->get('openWindow', 0);?>';
-  var Backendl = '<?php echo $mosConfig_live_site."/index2.php?option=com_gcalendar&task=content&no_html=1&calendarType=xmlUrl&xmlType=basic&calendarName=".$params->get('name_latest', '')."&maxResults=".$params->get('max', 5);?>';
+  var Backendl = '<?php echo $mosConfig_live_site."/index2.php?option=com_gcalendar&task=content&no_html=1&calendarType=xmlUrl&xmlType=basic&calendarName=".urlencode($params->get('name_latest', ''))."&maxResults=".$params->get('max', 5);?>';
   var backLinkl = '<?php echo $mosConfig_live_site.urldecode("/index.php?option=com_gcalendar&eventID={eventPlace}&name=".$params->get('name_latest', '')."&ctz={ctzPlace}");?>';
   var checkingtextl = '<?php echo _GCALENDAR_LATEST_CHECK_EVENTS;?>';
   var noEventsTextl = '<?php echo _GCALENDAR_LATEST_NO_EVENTS;?>';
   var busyTextl = '<?php echo _GCALENDAR_LATEST_BUSY_EVENT;?>';
-  var publishedl = '<?php _GCALENDAR_LATEST_PUBLISHED;?>';
+  var publishedl = '<?php echo _GCALENDAR_LATEST_PUBLISHED;?>';
   var dfl = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dffl = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
 </script>
