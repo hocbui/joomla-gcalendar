@@ -4,7 +4,7 @@
 /**
 * Google calendar overview module
 * @author allon
-* @version $Revision: 1.4.2 $
+* @version $Revision: 1.4.3 $
 **/
 
 // no direct access

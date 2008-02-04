@@ -3,7 +3,7 @@
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.4.2 $
+* @version $Revision: 1.4.3 $
 **/
 
 // ensure this file is being included by a parent file
@@ -54,7 +54,7 @@ class HTML_gcalendar {
 </form>  
 <div align="center">
 <br><img src="components/com_gcalendar/images/gcalendar.gif" width="143" height="57"><br>
-  &copy;&nbsp;&nbsp;2007 <a href="http://www.allon.ch" target="_blank">allon moritz</a>
+  &copy;&nbsp;&nbsp;2008 <a href="http://www.allon.ch" target="_blank">allon moritz</a>
   </div>
 <?php
 
@@ -107,7 +107,7 @@ class HTML_gcalendar {
         </form>
         <div align="center">
 <br><img src="components/com_gcalendar/images/gcalendar.gif" width="143" height="57"><br>
-  &copy;&nbsp;&nbsp;2007 <a href="http://www.allon.ch" target="_blank">allon moritz</a>
+  &copy;&nbsp;&nbsp;2008 <a href="http://www.allon.ch" target="_blank">allon moritz</a>
   </div>
 <?php
 

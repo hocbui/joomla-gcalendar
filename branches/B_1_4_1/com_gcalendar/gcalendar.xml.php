@@ -3,7 +3,7 @@
 /**
 * Google calendar upcoming events module
 * @author allon
-* @version $Revision: 1.4.2 $
+* @version $Revision: 1.4.3 $
 **/
 
 define('_VALID_MOS', 1);
