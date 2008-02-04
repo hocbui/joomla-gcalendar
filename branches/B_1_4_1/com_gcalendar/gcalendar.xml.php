@@ -30,8 +30,7 @@ class XML_gcalendar {
 			$path = $result->xmlUrl;
 		}
 		
-		
-		if($calendarType === 'xmlUrl' && $xmlType==='full'){
+		if(!empty($path) && $calendarType === 'xmlUrl' && $xmlType==='full'){
 			if(strpos($path,'public/full')===false){
 				$path=substr($path,0,strpos($path,'public')).'public/full';
 			}
@@ -41,18 +40,25 @@ class XML_gcalendar {
 			$endDate = date('Y-m-d', $endDate) ;
 			$path = $path."?start-min=".$today;
 			if ($timeLimit > 0) { $path .= "&start-max=".$endDate; }
-			$path .= "&max-results=".$maxResults."&orderby=starttime&sortorder=ascending";
+			$path .= "&orderby=starttime&sortorder=ascending";
 			$path .= "&singleevents=true";
-		}
+			$path .= "&max-results=".$maxResults;
+		}else if($calendarType === 'xmlUrl' && $xmlType==='basic')
+			$path .= "?max-results=".$maxResults;
 		
 		$allow_url_fopen = (bool) ini_get('allow_url_fopen');
-		if($allow_url_fopen){
-		  	$feed = file_get_contents($path);
-		} else {
+		if(!$allow_url_fopen){
 			$feed = '<?xml version="1.0" encoding="utf-8"?><content><error>';
 			$feed .= _GCALENDAR_READ_EVENTS_ERROR;
 			$feed .= '</error></content>';
+		} else if(empty($path)){
+			$feed = '<?xml version="1.0" encoding="utf-8"?><content><error>';
+			$feed .= _GCALENDAR_NO_CALENDAR_SPECIFIED;
+			$feed .= '</error></content>';
+		} else {
+		  	$feed = file_get_contents($path);
 		}
+		
 		if($calendarType==='xmlUrl') header('Content-type: text/xml');
 		else if($calendarType==='icalUrl') header('Content-type: text/calendar');
 		else header('Content-type: text/html');
