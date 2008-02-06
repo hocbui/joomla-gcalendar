@@ -21,7 +21,7 @@ if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_upcoming/langua
 <div id="upcoming_events_content"></div>
 <script language="JavaScript" type="text/javascript">
   var openInNewWindow = '<?php echo $params->get('openWindow', 0);?>';
-  var Backend = '<?php echo $mosConfig_live_site."/index2.php?option=com_gcalendar&task=content&no_html=1&calendarType=xmlUrl&calendarName=".urlencode($params->get('name', ''))."&maxResults=".$params->get('max', 5);?>';
+  var Backend = '<?php echo $mosConfig_live_site."/index2.php?option=com_gcalendar&task=content&no_html=1&calendarType=xmlUrl&xmlType=full&calendarName=".urlencode($params->get('name', ''))."&maxResults=".$params->get('max', 5);?>';
   var backLink = '<?php echo $mosConfig_live_site.urldecode("/index.php?option=com_gcalendar&eventID={eventPlace}&name=".$params->get('name', '')."&ctz={ctzPlace}");?>';
   var checkingtext = '<?php echo _GCALENDAR_UPCOMING_CHECK_EVENTS;?>';
   var noEventsText = '<?php echo _GCALENDAR_UPCOMING_NO_EVENTS;?>';
