@@ -30,9 +30,9 @@ class GCalendarViewEvent extends JView
 			global $mainframe;
 			$pathway	= &$mainframe->getPathway();
 			foreach($items as $item) {
-				$params	=& $menu->getParams($item->id);
-				if($params->get('name')===$model->getState('calendarName')){
-					$pathway->addItem($item->title, JRoute::_('index.php?option=com_gcalendar&Itemid='.$item->id));
+				$paramsItem	=& $menu->getParams($item->id);
+				if($paramsItem->get('name')===$model->getState('calendarName')){
+					$pathway->addItem($paramsItem->get('name'),'');
 					$pathway->addItem($this->eventID,'');
 				}
 			}
