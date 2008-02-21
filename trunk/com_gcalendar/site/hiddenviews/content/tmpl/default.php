@@ -29,7 +29,23 @@ if(!empty($path) && $this->calendarType === 'xmlUrl' && $xmlType==='full'){
 	$path .= "?max-results=".$maxResults;
 
 $allow_url_fopen = (bool) ini_get('allow_url_fopen');
-if(!$allow_url_fopen){
+$curl_content = '';
+
+if(function_exists('curl_init')){
+  $ch = curl_init();
+  if($ch){
+    $timeout = 10;
+    curl_setopt($ch, CURLOPT_URL, $path);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $curl_content = curl_exec($ch);
+    
+    curl_close($ch);
+  }
+}
+if(!empty($curl_content)){
+	$feed = $curl_content;
+} else if(!$allow_url_fopen){
 	$feed = '<?xml version="1.0" encoding="utf-8"?><content><error>';
 	$feed .= JText::_( 'READ_EVENTS_ERROR' );
 	$feed .= '</error></content>';
