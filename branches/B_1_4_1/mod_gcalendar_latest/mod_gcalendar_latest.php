@@ -20,6 +20,7 @@ if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_latest/language
 
 <div id="latest_events_content"></div>
 <script language="JavaScript" type="text/javascript">
+  // <![CDATA[
   var openInNewWindowl = '<?php echo $params->get('openWindow', 0);?>';
   var Backendl = '<?php echo "index2.php?option=com_gcalendar&task=content&no_html=1&calendarType=xmlUrl&xmlType=basic&calendarName=".urlencode($params->get('name_latest', ''))."&maxResults=".$params->get('max', 5);?>';
   var backLinkl = '<?php echo urldecode("index.php?option=com_gcalendar&eventID={eventPlace}&name=".$params->get('name_latest', '')."&ctz={ctzPlace}");?>';
@@ -29,6 +30,7 @@ if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_latest/language
   var publishedl = '<?php echo _GCALENDAR_LATEST_PUBLISHED;?>';
   var dfl = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dffl = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
+  // ]]>
 </script>
 <script src="<?php echo $mosConfig_live_site."/modules/mod_gcalendar_latest/date.format.js"?>" language="javascript" type="text/javascript">
 </script>
