@@ -12,6 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 <div id="latest_events_content"></div>
 <script language="JavaScript" type="text/javascript">
+  // <![CDATA[
   var openInNewWindowl = '<?php echo $params->get('openWindow', 1);?>';
   var Backendl = '<?php echo JRoute::_("index.php?option=com_gcalendar&task=content&format=raw&calendarType=xmlUrl&xmlType=basic&calendarName=".urlencode($params->get('name_latest', ''))."&maxResults=".$params->get('max', 5),false);?>';
   var backLinkl = '<?php echo urldecode(JRoute::_("index.php?option=com_gcalendar&task=event&eventID={eventPlace}&calendarName=".$params->get('name_latest', '')."&ctz={ctzPlace}"));?>';
@@ -21,6 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   var publishedl = '<?php echo JText::_( 'PUBLISHED' );?>';
   var dfl = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dffl = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
+  // ]]>
 </script>
 
 <script src="<?php echo JURI::base()."modules/mod_gcalendar_latest/tmpl/date.format.js"?>" language="javascript" type="text/javascript">
