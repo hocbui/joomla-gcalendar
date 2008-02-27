@@ -131,12 +131,29 @@ function ReqChangel() {
 						}
                     }
                     
+                     try { 
+						var itemEndTimeXMLl = itemsl[n].getElementsByTagName('when')[0].getAttribute("endTime");  
+                    } catch (e) { 
+						try {
+							var itemEndTimeXMLl = itemsl[n].getElementsByTagName('gd:when')[0].getAttribute("endTime");
+						} catch (e) {
+							try {
+								var itemEndTimeXMLl = itemsl[n].getElementsByTagNameNS('*', 'when')[0].getAttribute("endTime");
+							} catch (e) {
+								var itemEndTimeXMLl = '';
+							}
+						}
+                    }
+                    
                     var isAllDayl = false; //init isAllDay variable
+                    var isAllDayEndl = false; //init isAllDay variable
                     var dateFoundl = true;
                     
                     if (itemTimeXMLl.length <= 10) isAllDayl = true; //just the date is only 10 digits = all day event
+                    if (itemEndTimeXMLl.length <= 10) isAllDayEndl = true; //just the date is only 10 digits = all day event
                     
                     var itemTimel = new Date();
+                    var itemEndTimel = new Date();
                     
                     if (itemTimeXMLl.length != 0) {
 						if(!isAllDayl){
@@ -151,6 +168,20 @@ function ReqChangel() {
 	                    		itemTimeXMLl.substr(8,2));
 	                    }
 					} else dateFoundl = false; 
+					
+					if (itemEndTimeXMLl.length != 0) {
+                    	if(!isAllDayEndl){
+	                    	itemEndTimel=new Date(itemEndTimeXMLl.substr(0,4),
+	                    		(itemEndTimeXMLl.substr(5,2)-1),
+	                    		itemEndTimeXMLl.substr(8,2),
+	                    		itemEndTimeXMLl.substr(11,2),
+	                    		itemEndTimeXMLl.substr(14,2));
+	                    } else {
+	                    	itemEndTimel=new Date(itemEndTimeXMLl.substr(0,4),
+	                    		(itemEndTimeXMLl.substr(5,2)-1),
+	                    		itemEndTimeXMLl.substr(8,2));
+	                    }
+					}
 					
 					try {
 						var itemLinkl =  itemsl[n].getElementsByTagName('link')[0].getAttribute("href");
@@ -176,6 +207,14 @@ function ReqChangel() {
 	                    else contentl+= publishedl+" "+dateFormat(itemTimel, dffl);
                     } catch (e) {
 						contentl+=itemTimeXMLl;
+					}
+					if (showEndDatel==1){
+						try {
+		                    if(!isAllDayEndl) contentl+= ' - ' + dateFormat(itemEndTimel, dfl);
+		                    else contentl+= ' - ' + dateFormat(itemEndTimel, dffl);
+	                    } catch (e) {
+							contentl+=itemEndTimeXMLl;
+						}
 					}
                     
                     contentl+='</div>';

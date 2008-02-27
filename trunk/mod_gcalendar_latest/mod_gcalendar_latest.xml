@@ -35,6 +35,12 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<!-- param name="showEndDate" type="radio" default="0"
+			label="Show end date"
+			description="If the events end date should be displayed.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param-->
 		<param name="moduleclass_sfx" type="text" size="80" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 </install>

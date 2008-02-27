@@ -21,6 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   var busyText = '<?php echo JText::_( 'BUSY_EVENT' );?>';
   var df = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dff = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
+  var showEndDate = '<?php echo $params->get('showEndDate', 0);?>';
   // ]]>
 </script>
 
