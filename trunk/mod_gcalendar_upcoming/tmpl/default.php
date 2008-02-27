@@ -10,7 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
-<div id="upcoming_events_content"></div>
+<div id="upcoming_events_content" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>"></div>
 <script language="JavaScript" type="text/javascript">
   // <![CDATA[
   var openInNewWindow = '<?php echo $params->get('openWindow', 1);?>';
