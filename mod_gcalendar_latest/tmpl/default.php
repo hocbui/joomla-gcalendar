@@ -22,6 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   var publishedl = '<?php echo JText::_( 'PUBLISHED' );?>';
   var dfl = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dffl = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
+  var showEndDatel = '<?php echo $params->get('showEndDate', 0);?>';
   // ]]>
 </script>
 
