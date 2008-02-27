@@ -29,6 +29,7 @@ if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_upcoming/langua
   var busyText = '<?php echo _GCALENDAR_UPCOMING_BUSY_EVENT;?>';
   var df = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dff = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
+  var showEndDate = '<?php echo $params->get('showEndDate', 0);?>';
   // ]]>
 </script>
 <script src="<?php echo $mosConfig_live_site."/modules/mod_gcalendar_upcoming/date.format.js"?>" language="javascript" type="text/javascript">

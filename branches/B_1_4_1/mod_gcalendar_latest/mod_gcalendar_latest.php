@@ -30,6 +30,7 @@ if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_latest/language
   var publishedl = '<?php echo _GCALENDAR_LATEST_PUBLISHED;?>';
   var dfl = '<?php echo $params->get('dateFormat', 'dd.mm.yyyy HH:MM');?>';
   var dffl = '<?php echo $params->get('dateFormatFull', 'dd.mm.yyyy');?>';
+  var showEndDatel = '<?php echo $params->get('showEndDate', 0);?>';
   // ]]>
 </script>
 <script src="<?php echo $mosConfig_live_site."/modules/mod_gcalendar_latest/date.format.js"?>" language="javascript" type="text/javascript">

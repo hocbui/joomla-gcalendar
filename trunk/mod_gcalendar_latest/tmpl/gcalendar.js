@@ -179,7 +179,7 @@ function ReqChangel() {
 	                    } else {
 	                    	itemEndTimel=new Date(itemEndTimeXMLl.substr(0,4),
 	                    		(itemEndTimeXMLl.substr(5,2)-1),
-	                    		itemEndTimeXMLl.substr(8,2));
+	                    		(itemEndTimeXMLl.substr(8,2)-1));//subtract one day on a full day event
 	                    }
 					}
 					
