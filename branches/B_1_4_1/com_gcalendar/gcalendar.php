@@ -3,7 +3,7 @@
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.4.3 $
+* @version $Revision: 1.4.4 $
 **/
 
 // no direct access
