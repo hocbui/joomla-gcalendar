@@ -2,12 +2,12 @@
 <install type="module" version="1.5.0">
 	<name>GCalendar Upcoming Events</name>
 	<author>allon</author>
-	<creationDate>January 2008</creationDate>
+	<creationDate>Mar 2008</creationDate>
 	<copyright>This module is released under the GNU/GPL License.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
-	<version>1.5.0</version>
+	<version>1.5.1</version>
 	<description>This module shows the upcoming events from a google calendar.</description>
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>

@@ -2,7 +2,7 @@
 /**
  * Google calendar component
  * @author allon
- * @version $Revision: 1.5.0 $
+ * @version $Revision: 1.5.1 $
  */
 
  defined('_JEXEC') or die('Restricted access'); ?>
