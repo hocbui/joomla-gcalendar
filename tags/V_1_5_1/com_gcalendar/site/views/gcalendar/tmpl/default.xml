@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="GCalendar">
+		<message>
+			<![CDATA[GCALENDAR LINK DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>GCalendar</name>
+		<description>GCALENDAR DESC</description>
+		<params>
+			<param name="name" type="text" size="30" default="" label="Calendar name" description="The calendar name, specified in the GCalendar component." />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="PARAMHORIVERT">
+				<option value="no">No</option>
+				<option value="yes">Yes</option>
+				<option value="auto">Auto</option>
+			</param>
+			<param name="width" type="text" size="5" default="100%" label="Width" description="PARAMWIDTH" />
+			<param name="height" type="text" size="5" default="500" label="Height" description="PARAMHEIGHT" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="height_auto" type="radio" default="0" label="Auto Height" description="PARAMHEIGHTAUTO">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+		</params>
+	</state>
+</metadata>
