@@ -110,6 +110,7 @@ function ReqChange() {
                     }
 					
                     //Here's a little love for our friend IE - he hates standards, like XML namespace.
+                    var itemTimeXML='';
                     try { 
 						var itemTimeXML = items[n].getElementsByTagName('when')[0].getAttribute("startTime");  
                     } catch (e) { 
@@ -124,6 +125,7 @@ function ReqChange() {
 						}
                     }
                     
+                    var itemEndTimeXML='';
                     try { 
 						var itemEndTimeXML = items[n].getElementsByTagName('when')[0].getAttribute("endTime");  
                     } catch (e) { 
@@ -142,13 +144,13 @@ function ReqChange() {
                     var isAllDayEnd = false; //init isAllDay variable
                     var dateFound = true;
                     
-                    if (itemTimeXML.length <= 10) isAllDay = true; //just the date is only 10 digits = all day event
-                    if (itemEndTimeXML.length <= 10) isAllDayEnd = true; //just the date is only 10 digits = all day event
+                    if (itemTimeXML && itemTimeXML.length <= 10) isAllDay = true; //just the date is only 10 digits = all day event
+                    if (itemEndTimeXML && itemEndTimeXML.length <= 10) isAllDayEnd = true; //just the date is only 10 digits = all day event
                     
                     var itemTime = new Date();
                     var itemEndTime = new Date();
                     
-                    if (itemTimeXML.length != 0) {
+                    if (itemTimeXML && itemTimeXML.length != 0) {
                     	if(!isAllDay){
 	                    	itemTime=new Date(itemTimeXML.substr(0,4),
 	                    		(itemTimeXML.substr(5,2)-1),
@@ -162,7 +164,7 @@ function ReqChange() {
 	                    }
 					} else dateFound = false; 
 					
-					if (itemEndTimeXML.length != 0) {
+					if (itemEndTimeXML && itemEndTimeXML.length != 0) {
                     	if(!isAllDayEnd){
 	                    	itemEndTime=new Date(itemEndTimeXML.substr(0,4),
 	                    		(itemEndTimeXML.substr(5,2)-1),

@@ -1,7 +1,7 @@
 /**
 * Google calendar upcoming events module
 * @author allon
-* @version $Revision: 1.5.1 $
+* @version $Revision: 1.4.3 $
 **/
 
 
@@ -111,6 +111,7 @@ function ReqChangel() {
                     }
 					
                     //Here's a little love for our friend IE - he hates standards, like XML namespace.
+                    var itemTimeXMLl='';
                     try { 
 						var itemTimeXMLl = itemsl[n].getElementsByTagName('published').item(0).firstChild.data;
 						if(itemsl[n].getElementsByTagName('updated').length>0)
@@ -131,7 +132,8 @@ function ReqChangel() {
 						}
                     }
                     
-                     try { 
+                    var itemEndTimeXMLl='';
+                    try { 
 						var itemEndTimeXMLl = itemsl[n].getElementsByTagName('when')[0].getAttribute("endTime");  
                     } catch (e) { 
 						try {
@@ -149,13 +151,13 @@ function ReqChangel() {
                     var isAllDayEndl = false; //init isAllDay variable
                     var dateFoundl = true;
                     
-                    if (itemTimeXMLl.length <= 10) isAllDayl = true; //just the date is only 10 digits = all day event
-                    if (itemEndTimeXMLl.length <= 10) isAllDayEndl = true; //just the date is only 10 digits = all day event
+                    if (itemTimeXMLl && itemTimeXMLl.length <= 10) isAllDayl = true; //just the date is only 10 digits = all day event
+                    if (itemEndTimeXMLl && itemEndTimeXMLl.length <= 10) isAllDayEndl = true; //just the date is only 10 digits = all day event
                     
                     var itemTimel = new Date();
                     var itemEndTimel = new Date();
                     
-                    if (itemTimeXMLl.length != 0) {
+                    if (itemTimeXMLl && itemTimeXMLl.length != 0) {
 						if(!isAllDayl){
 	                    	itemTimel=new Date(itemTimeXMLl.substr(0,4),
 	                    		(itemTimeXMLl.substr(5,2)-1),
@@ -169,7 +171,7 @@ function ReqChangel() {
 	                    }
 					} else dateFoundl = false; 
 					
-					if (itemEndTimeXMLl.length != 0) {
+					if (itemEndTimeXMLl && itemEndTimeXMLl.length != 0) {
                     	if(!isAllDayEndl){
 	                    	itemEndTimel=new Date(itemEndTimeXMLl.substr(0,4),
 	                    		(itemEndTimeXMLl.substr(5,2)-1),
