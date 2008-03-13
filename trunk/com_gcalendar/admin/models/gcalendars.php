@@ -2,7 +2,7 @@
 /**
  * Google calendar component
  * @author allon
- * @version $Revision: 1.5.1 $
+ * @version $Revision: 1.5.2 $
  */
 
 // Check to ensure this file is included in Joomla!
