@@ -9,7 +9,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
-	<version>1.4.4</version>
+	<version>1.4.5</version>
 	<description>
 		This module shows the google calendar as a module.
 	</description>

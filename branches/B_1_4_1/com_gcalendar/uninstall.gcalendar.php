@@ -4,7 +4,7 @@
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.4.4 $
+* @version $Revision: 1.4.5 $
 **/
 
 function com_uninstall() {
