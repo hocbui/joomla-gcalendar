@@ -6,7 +6,7 @@
 * @version $Revision: 1.4.5 $
 **/
 
-define('_VALID_MOS', 1);
+defined('_VALID_MOS') or die('Restricted access');
 
 class XML_gcalendar {
 	function displayCalendar() {
