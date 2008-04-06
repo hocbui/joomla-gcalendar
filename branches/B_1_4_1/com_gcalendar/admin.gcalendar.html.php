@@ -35,7 +35,7 @@ class HTML_gcalendar {
 			$pageNav = 0;
 ?>
                 <tr class="<?php echo "row$k"; ?>"> 
-                        <td width="20"><?php echo $i+1+$pageNav->limitstart; ?></td>
+                        <td width="20"><?php echo $i+1; ?></td>
                         <td width="20"><input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" /></td>
                         <td width="20%"><a href="#edit" onclick="return listItemTask('cb<?php echo $i;?>','edit')"><?php echo $row->name; ?></a></td>
                         <td width="20%"><?php echo $row->htmlUrl; ?></td>
