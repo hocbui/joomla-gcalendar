@@ -1,0 +1,103 @@
+<project name="gcalendar build" default="dist" basedir=".">
+	<description>
+        simple example build file
+    </description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<antcall target="clean" />
+	</target>
+
+	<target name="dist" depends="init">
+		<!-- antcall target="create_install_packages" / -->
+		<antcall target="create_upgrade_packages" />
+	</target>
+
+	<target name="create_upgrade_packages" description="create update packages">
+		<mkdir dir="${build}/update_1_5" />
+		<copy todir="${build}/update_1_5/administrator/components/com_gcalendar">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/admin">
+				<exclude name="**/${basedir}/../com_gcalendar_1_5/admin/languages" />
+			</fileset>
+			<file file="${basedir}/../com_gcalendar_1_5/gcalendar.xml" />
+		</copy>
+		<copy todir="${build}/update_1_5/administrator/language/en-GB">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/admin/languages/" />
+		</copy>
+
+		<copy todir="${build}/update_1_5/components/com_gcalendar">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/site">
+				<exclude name="**/${basedir}/../com_gcalendar_1_5/site/languages" />
+			</fileset>
+		</copy>
+		<copy todir="${build}/update_1_5/language/en-GB">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/site/languages/" />
+		</copy>
+
+		<mkdir dir="${dist}" />
+		<zip destfile="${dist}/gcalendar_upgrade_1_5_x_to_1_5_3_J1_5x.zip">
+			<zipfileset dir="${build}/update_1_5" />
+		</zip>
+
+		
+	</target>
+
+	<target name="create_install_packages" description="create install package">
+		<mkdir dir="${dist}" />
+
+		<!-- create gcalendar for joomla 1.5 -->
+		<antcall target="create_zips">
+			<param name="gcalendar" value="1_5" />
+			<param name="version" value="1_5_3" />
+		</antcall>
+		<zip destfile="${dist}/gcalendar_1_5_3_J1_5x.zip">
+			<zipfileset dir="${build}/" />
+		</zip>
+
+		<!-- create gcalendar for joomla 1.0 -->
+		<antcall target="create_zips">
+			<param name="gcalendar" value="1_4" />
+			<param name="version" value="1_4_6" />
+		</antcall>
+		<zip destfile="${dist}/gcalendar_1_4_6_J1_0x.zip">
+			<zipfileset dir="${build}/" />
+		</zip>
+	</target>
+
+	<target name="create_zips" description="generate the zips">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${build}" />
+
+		<!-- create gcalendar component -->
+		<zip destfile="${build}/com_gcalendar_${version}.zip">
+			<zipfileset dir="${basedir}/../com_gcalendar_${gcalendar}" prefix="com_gcalendar" />
+		</zip>
+
+		<!-- create gcalendar module -->
+		<zip destfile="${build}/mod_gcalendar_${version}.zip">
+			<zipfileset dir="${basedir}/../mod_gcalendar_${gcalendar}" prefix="mod_gcalendar" />
+		</zip>
+
+		<!-- create gcalendar upcoming module -->
+		<zip destfile="${build}/mod_gcalendar_upcoming_${version}.zip">
+			<zipfileset dir="${basedir}/../mod_gcalendar_upcoming_${gcalendar}" prefix="mod_gcalendar_upcoming" />
+		</zip>
+
+		<!-- create gcalendar latest module -->
+		<zip destfile="${build}/mod_gcalendar_latest_${version}.zip">
+			<zipfileset dir="${basedir}/../mod_gcalendar_latest_${gcalendar}" prefix="mod_gcalendar_latest" />
+		</zip>
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+</project>
