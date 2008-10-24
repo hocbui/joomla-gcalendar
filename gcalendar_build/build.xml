@@ -61,6 +61,7 @@
 		<mkdir dir="${dist}" />
 		<zip destfile="${dist}/gcalendar_upgrade_1_4_x_to_1_4_3_J1_0x.zip">
 			<zipfileset dir="${build}/upgrade_1_4" />
+			<zipfileset dir="${basedir}" includes="ReadFirstJ10x.txt" />
 		</zip>
 	</target>
 
@@ -108,6 +109,7 @@
 		<mkdir dir="${dist}" />
 		<zip destfile="${dist}/gcalendar_upgrade_1_5_x_to_1_5_3_J1_5x.zip">
 			<zipfileset dir="${build}/upgrade_1_5" />
+			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
 		</zip>
 	</target>
 
