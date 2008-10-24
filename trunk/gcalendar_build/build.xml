@@ -15,37 +15,112 @@
 	</target>
 
 	<target name="dist" depends="init">
-		<!-- antcall target="create_install_packages" / -->
-		<antcall target="create_upgrade_packages" />
+		<antcall target="create_install_packages" />
+		<antcall target="create_upgrade_packages_1_5" />
+		<antcall target="create_upgrade_packages_1_4" />
 	</target>
 
-	<target name="create_upgrade_packages" description="create update packages">
-		<mkdir dir="${build}/update_1_5" />
-		<copy todir="${build}/update_1_5/administrator/components/com_gcalendar">
-			<fileset dir="${basedir}/../com_gcalendar_1_5/admin">
-				<exclude name="**/${basedir}/../com_gcalendar_1_5/admin/languages" />
-			</fileset>
-			<file file="${basedir}/../com_gcalendar_1_5/gcalendar.xml" />
+	<target name="create_upgrade_packages_1_4" description="create upgrade package for joomla 1.0">
+		<!-- create com_gcalendar upgrade package -->
+		<mkdir dir="${build}/upgrade_1_4/com_gcalendar" />
+		<property name="gcalendar_root" value="${build}/upgrade_1_4/com_gcalendar/administrator/components/com_gcalendar" />
+
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.xml" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/admin.gcalendar.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/admin.gcalendar.html.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/toolbar.gcalendar.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/toolbar.gcalendar.html.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.class.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/install.gcalendar.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/uninstall.gcalendar.php" todir="${gcalendar_root}" />
+
+		<copy todir="${gcalendar_root}">
+			<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/images/*" />
 		</copy>
-		<copy todir="${build}/update_1_5/administrator/language/en-GB">
+
+		<property name="gcalendar_root_site" value="${build}/upgrade_1_4/com_gcalendar/components/com_gcalendar" />
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.php" todir="${gcalendar_root_site}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.html.php" todir="${gcalendar_root_site}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.xml.php" todir="${gcalendar_root_site}" />
+		<copy todir="${gcalendar_root_site}">
+			<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/languages/*" />
+		</copy>
+
+		<!-- create the modules upgrade package -->
+		<antcall target="create_module_upgrade_folder_1_4">
+			<param name="module_name" value="mod_gcalendar" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_4">
+			<param name="module_name" value="mod_gcalendar_upcoming" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_4">
+			<param name="module_name" value="mod_gcalendar_latest" />
+		</antcall>
+
+		<!-- create the zip -->
+		<mkdir dir="${dist}" />
+		<zip destfile="${dist}/gcalendar_upgrade_1_4_x_to_1_4_3_J1_0x.zip">
+			<zipfileset dir="${build}/upgrade_1_4" />
+		</zip>
+	</target>
+
+	<target name="create_module_upgrade_folder_1_4">
+		<mkdir dir="${build}/upgrade_1_4/${module_name}" />
+		<copy todir="${build}/upgrade_1_4/${module_name}/modules">
+			<fileset dir="${basedir}/../${module_name}_1_4/" />
+		</copy>
+	</target>
+
+	<target name="create_upgrade_packages_1_5" description="create upgradepackagefor joomla 1.5 packages">
+		<!-- create com_gcalendar upgrade package -->
+		<mkdir dir="${build}/upgrade_1_5/com_gcalendar" />
+		<copy todir="${build}/upgrade_1_5/com_gcalendar/administrator/components/com_gcalendar">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/admin">
+				<exclude name="**/languages/" />
+			</fileset>
+		</copy>
+		<copy file="${basedir}/../com_gcalendar_1_5/gcalendar.xml" todir="${build}/upgrade_1_5/com_gcalendar/administrator/components/com_gcalendar" />
+		<copy todir="${build}/upgrade_1_5/com_gcalendar/administrator/language/en-GB">
 			<fileset dir="${basedir}/../com_gcalendar_1_5/admin/languages/" />
 		</copy>
 
-		<copy todir="${build}/update_1_5/components/com_gcalendar">
+		<copy todir="${build}/upgrade_1_5/com_gcalendar/components/com_gcalendar">
 			<fileset dir="${basedir}/../com_gcalendar_1_5/site">
-				<exclude name="**/${basedir}/../com_gcalendar_1_5/site/languages" />
+				<exclude name="**/languages/" />
 			</fileset>
 		</copy>
-		<copy todir="${build}/update_1_5/language/en-GB">
+		<copy todir="${build}/upgrade_1_5/com_gcalendar/language/en-GB">
 			<fileset dir="${basedir}/../com_gcalendar_1_5/site/languages/" />
 		</copy>
 
+		<!-- create the modules upgrade package -->
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar_upcoming" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar_latest" />
+		</antcall>
+
+		<!-- create the zip -->
 		<mkdir dir="${dist}" />
 		<zip destfile="${dist}/gcalendar_upgrade_1_5_x_to_1_5_3_J1_5x.zip">
-			<zipfileset dir="${build}/update_1_5" />
+			<zipfileset dir="${build}/upgrade_1_5" />
 		</zip>
+	</target>
 
-		
+	<target name="create_module_upgrade_folder_1_5">
+		<mkdir dir="${build}/upgrade_1_5/${module_name}" />
+		<copy todir="${build}/upgrade_1_5/${module_name}/modules">
+			<fileset dir="${basedir}/../${module_name}_1_5/">
+				<exclude name="**/languages/" />
+			</fileset>
+		</copy>
+		<copy todir="${build}/upgrade_1_5/${module_name}/language/en-GB">
+			<fileset dir="${basedir}/../${module_name}_1_5/languages/" />
+		</copy>
 	</target>
 
 	<target name="create_install_packages" description="create install package">
@@ -57,7 +132,7 @@
 			<param name="version" value="1_5_3" />
 		</antcall>
 		<zip destfile="${dist}/gcalendar_1_5_3_J1_5x.zip">
-			<zipfileset dir="${build}/" />
+			<zipfileset dir="${build}/" includes="**/*1_5_3*" />
 		</zip>
 
 		<!-- create gcalendar for joomla 1.0 -->
@@ -66,7 +141,7 @@
 			<param name="version" value="1_4_6" />
 		</antcall>
 		<zip destfile="${dist}/gcalendar_1_4_6_J1_0x.zip">
-			<zipfileset dir="${build}/" />
+			<zipfileset dir="${build}/" includes="**/*1_4_6*" />
 		</zip>
 	</target>
 
