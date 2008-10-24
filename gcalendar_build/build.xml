@@ -133,6 +133,7 @@
 		</antcall>
 		<zip destfile="${dist}/gcalendar_1_5_3_J1_5x.zip">
 			<zipfileset dir="${build}/" includes="**/*1_5_3*" />
+			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
 		</zip>
 
 		<!-- create gcalendar for joomla 1.0 -->
@@ -142,6 +143,7 @@
 		</antcall>
 		<zip destfile="${dist}/gcalendar_1_4_6_J1_0x.zip">
 			<zipfileset dir="${build}/" includes="**/*1_4_6*" />
+			<zipfileset dir="${basedir}" includes="ReadFirstJ10x.txt" />
 		</zip>
 	</target>
 
