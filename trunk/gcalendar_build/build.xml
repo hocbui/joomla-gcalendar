@@ -1,6 +1,6 @@
 <project name="gcalendar build" default="dist" basedir=".">
 	<description>
-        simple example build file
+        default build file for gcalendar
     </description>
 	<!-- set global properties for this build -->
 	<property name="src" location="src" />
