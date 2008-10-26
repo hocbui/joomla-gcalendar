@@ -1,0 +1,131 @@
+<project name="upload to ftp" default="upload" basedir=".">
+	<description>
+		automated upload to gcalendar demo servers
+    </description>
+	<!-- set global properties for this build -->
+	<property name="server_url14" value="allon.ch" />
+	<property name="server_url15" value="allon.ch" />
+	<property name="username14" value="gcal_demo10@allon.ch" />
+	<property name="password14" value="gcal_demo10_345" />
+	<property name="username15" value="gcal_demo15@allon.ch" />
+	<property name="password15" value="gcal_demo15_345" />
+	<property name="remote_root_dir14" value="/" />
+	<property name="remote_root_dir15" value="/" />
+
+	<property name="build" location="build" />
+
+	<target name="upload">
+		<antcall target="clean" />
+		<!-- antcall target="upload14" / -->
+		<antcall target="upload15" />
+	</target>
+
+	<target name="upload14" description="uploads gcalendar 1.4 to the ftp server">
+		<antcall target="prepare_1_4_for_upload">
+			<param name="dir" value="${build}/upgrade_1_4" />
+		</antcall>
+		<ftp server="${server_url14}" userid="${username14}" password="${password14}" remotedir="${remote_root_dir14}" passive="yes" binary="no">
+			<fileset dir="${build}/upgrade_1_4" />
+		</ftp>
+	</target>
+
+	<target name="upload15" description="uploads gcalendar 1.5 to the ftp server">
+		<antcall target="prepare_1_5_for_upload">
+			<param name="dir" value="${build}/upgrade_1_5" />
+		</antcall>
+		<ftp server="${server_url15}" userid="${username15}" password="${password15}" remotedir="${remote_root_dir15}" passive="yes" binary="no">
+			<fileset dir="${build}/upgrade_1_5" />
+		</ftp>
+	</target>
+
+	<target name="prepare_1_5_for_upload" description="prepare the dir structure to be ready to upload in a joomla 1.5 environment">
+		<!-- create com_gcalendar dir tree structure package -->
+		<copy todir="${dir}/administrator/components/com_gcalendar">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/admin">
+				<exclude name="**/languages/" />
+			</fileset>
+		</copy>
+		<copy file="${basedir}/../com_gcalendar_1_5/gcalendar.xml" todir="${dir}/administrator/components/com_gcalendar" />
+		<copy todir="${dir}/administrator/language/en-GB">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/admin/languages/" />
+		</copy>
+
+		<copy todir="${dir}/components/com_gcalendar">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/site">
+				<exclude name="**/languages/" />
+			</fileset>
+		</copy>
+		<copy todir="${dir}/language/en-GB">
+			<fileset dir="${basedir}/../com_gcalendar_1_5/site/languages/" />
+		</copy>
+
+		<!-- create the modules dir tree structure package -->
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar_upcoming" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar_latest" />
+		</antcall>
+	</target>
+
+	<target name="create_module_upgrade_folder_1_5">
+		<copy todir="${dir}/modules/${module_name}">
+			<fileset dir="${basedir}/../${module_name}_1_5/">
+				<exclude name="**/languages/" />
+			</fileset>
+		</copy>
+		<copy todir="${dir}/language/en-GB">
+			<fileset dir="${basedir}/../${module_name}_1_5/languages/" />
+		</copy>
+	</target>
+
+	<target name="prepare_1_4_for_upload" description="prepare the dir structure to be ready to upload in a joomla 1.0 environment">
+		<!-- create com_gcalendar dir tree structure package -->
+		<property name="gcalendar_root" value="${dir}/administrator/components/com_gcalendar" />
+
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.xml" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/admin.gcalendar.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/admin.gcalendar.html.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/toolbar.gcalendar.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/toolbar.gcalendar.html.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.class.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/install.gcalendar.php" todir="${gcalendar_root}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/uninstall.gcalendar.php" todir="${gcalendar_root}" />
+
+		<copy todir="${gcalendar_root}">
+			<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/images/*" />
+		</copy>
+
+		<property name="gcalendar_root_site" value="${dir}/components/com_gcalendar" />
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.php" todir="${gcalendar_root_site}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.html.php" todir="${gcalendar_root_site}" />
+		<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.xml.php" todir="${gcalendar_root_site}" />
+		<copy todir="${gcalendar_root_site}">
+			<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/languages/*" />
+		</copy>
+
+		<!-- create the modules dir tree structure package -->
+		<antcall target="create_module_upgrade_folder_1_4">
+			<param name="module_name" value="mod_gcalendar" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_4">
+			<param name="module_name" value="mod_gcalendar_upcoming" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_4">
+			<param name="module_name" value="mod_gcalendar_latest" />
+		</antcall>
+	</target>
+
+	<target name="create_module_upgrade_folder_1_4">
+		<copy todir="${dir}/modules">
+			<fileset dir="${basedir}/../${module_name}_1_4/" />
+		</copy>
+	</target>
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} directory trees -->
+		<delete dir="${build}" />
+	</target>
+</project>
