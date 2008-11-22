@@ -31,7 +31,7 @@
 				<antcall target="prepare_1_4_for_upload">
 					<param name="dir" value="${build}/upgrade_1_4" />
 				</antcall>
-				<ftp server="${server_url14}" userid="${username14}" password="${password14}" remotedir="${remote_root_dir14}" passive="yes" binary="no">
+				<ftp server="${server_url14}" userid="${username14}" password="${password14}" remotedir="${remote_root_dir14}" passive="yes" binary="no" verbose="yes">
 					<fileset dir="${build}/upgrade_1_4" />
 				</ftp>
 			</then>
@@ -48,7 +48,7 @@
 				<antcall target="prepare_1_5_for_upload">
 					<param name="dir" value="${build}/upgrade_1_5" />
 				</antcall>
-				<ftp server="${server_url15}" userid="${username15}" password="${password15}" remotedir="${remote_root_dir15}" passive="yes" binary="no">
+				<ftp server="${server_url15}" userid="${username15}" password="${password15}" remotedir="${remote_root_dir15}" passive="yes" binary="no" verbose="yes">
 					<fileset dir="${build}/upgrade_1_5" />
 				</ftp>
 			</then>
@@ -63,24 +63,50 @@
 			<istrue value="${upload15.com_gcalendar}" />
 			<then>
 				<!-- create com_gcalendar dir tree structure package -->
-				<copy todir="${dir}/administrator/components/com_gcalendar">
+				<!-- copy todir="${dir}/administrator/components/com_gcalendar">
 					<fileset dir="${basedir}/../com_gcalendar_1_5/admin">
 						<exclude name="**/languages/" />
+						<exclude name="**/images/" />
+						<exclude name="**/css/" />
 					</fileset>
 				</copy>
-				<copy file="${basedir}/../com_gcalendar_1_5/gcalendar.xml" todir="${dir}/administrator/components/com_gcalendar" />
-				<copy todir="${dir}/administrator/language/en-GB">
-					<fileset dir="${basedir}/../com_gcalendar_1_5/admin/languages/" />
-				</copy>
+				<copy file="${basedir}/../com_gcalendar_1_5/gcalendar.xml" 
+				todir="${dir}/administrator/components/com_gcalendar" / -->
+
+				<if>
+					<istrue value="${completeupload}" />
+					<then>
+						<copy todir="${dir}/administrator/language/en-GB">
+							<fileset dir="${basedir}/../com_gcalendar_1_5/admin/languages/" />
+						</copy>
+						<copy todir="${dir}/administrator/components/com_gcalendar">
+							<fileset dir="${basedir}/../com_gcalendar_1_5/admin">
+								<include name="**/images/" />
+								<include name="**/css/" />
+							</fileset>
+						</copy>
+					</then>
+				</if>
 
 				<copy todir="${dir}/components/com_gcalendar">
 					<fileset dir="${basedir}/../com_gcalendar_1_5/site">
 						<exclude name="**/languages/" />
+						<exclude name="**/googlecal/" />
 					</fileset>
 				</copy>
-				<copy todir="${dir}/language/en-GB">
-					<fileset dir="${basedir}/../com_gcalendar_1_5/site/languages/" />
-				</copy>
+				<if>
+					<istrue value="${completeupload}" />
+					<then>
+						<copy todir="${dir}/language/en-GB">
+							<fileset dir="${basedir}/../com_gcalendar_1_5/site/languages/" />
+						</copy>
+						<copy todir="${dir}/components/com_gcalendar">
+							<fileset dir="${basedir}/../com_gcalendar_1_5/site">
+								<include name="**/googlecal/" />
+							</fileset>
+						</copy>
+					</then>
+				</if>
 			</then>
 			<else>
 				<echo message="Not creating gcalendar dir for 1.5" />
@@ -110,9 +136,14 @@
 						<exclude name="**/languages/" />
 					</fileset>
 				</copy>
-				<copy todir="${dir}/language/en-GB">
-					<fileset dir="${basedir}/../${module_name}_1_5/languages/" />
-				</copy>
+				<if>
+					<istrue value="${completeupload}" />
+					<then>
+						<copy todir="${dir}/language/en-GB">
+							<fileset dir="${basedir}/../${module_name}_1_5/languages/" />
+						</copy>
+					</then>
+				</if>
 			</then>
 			<else>
 				<echo message="Not creating ${module_name} dir for 1.5" />
@@ -136,18 +167,28 @@
 				<copy file="${basedir}/../com_gcalendar_1_4/install.gcalendar.php" todir="${gcalendar_root}" />
 				<copy file="${basedir}/../com_gcalendar_1_4/uninstall.gcalendar.php" todir="${gcalendar_root}" />
 
-				<copy todir="${gcalendar_root}">
-					<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/images/*" />
-				</copy>
+				<if>
+					<istrue value="${completeupload}" />
+					<then>
+						<copy todir="${gcalendar_root}">
+							<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/images/*" />
+						</copy>
+					</then>
+				</if>
 
 				<property name="gcalendar_root_site" value="${dir}/components/com_gcalendar" />
 				<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.php" todir="${gcalendar_root_site}" />
 				<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.html.php" todir="${gcalendar_root_site}" />
 				<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.xml.php" todir="${gcalendar_root_site}" />
-				<copy todir="${gcalendar_root_site}">
-					<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/languages/*" />
-				</copy>
 
+				<if>
+					<istrue value="${completeupload}" />
+					<then>
+						<copy todir="${gcalendar_root_site}">
+							<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/languages/*" />
+						</copy>
+					</then>
+				</if>
 			</then>
 			<else>
 				<echo message="Not creating gcalendar dir for 1.4" />
