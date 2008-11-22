@@ -57,20 +57,31 @@ if ( $this->params->def( 'height_auto' ) ) {
 	$load = '';
 }
 ?>
-<iframe <?php echo $load; ?>
-id="gcalendar"
-name="iframe"
-src="<?php echo $this->gcalendar; ?>"
-width="<?php echo $this->params->get( 'width' ); ?>"
-height="<?php echo $this->params->get( 'height' ); ?>"
-scrolling="<?php echo $this->params->get( 'scrolling' ); ?>"
-align="top"
-frameborder="0"
-class="gcalendar<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php echo JText::_( 'NO_IFRAMES' ); ?>
-</iframe>
 
-</div>
+<?php
+	$calendar_url="";
+	if ($this->params->get('use_custom_css')) {
+	//if (true) {
+		$calendar_url= JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/googlecal/MyGoogleCal3.php?'.str_replace("http://www.google.com/calendar/embed?","",$this->gcalendar);
+	} else {
+		$calendar_url=$this->gcalendar;
+	}
+?>
+		<iframe <?php echo $load; ?>
+		id="gcalendar"
+		name="iframe"
+		src="<?php echo $calendar_url; ?>"
+		width="<?php echo $this->params->get( 'width' ); ?>"
+		height="<?php echo $this->params->get( 'height' ); ?>"
+		scrolling="<?php echo $this->params->get( 'scrolling' ); ?>"
+		align="top"
+		frameborder="0"
+		class="gcalendar<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<?php echo JText::_( 'NO_IFRAMES' ); ?>
+		</iframe>
+		
+		</div>
+	
 <?php
 }
 ?>
