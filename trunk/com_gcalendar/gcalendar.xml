@@ -26,6 +26,34 @@
 		<filename>views/gcalendar/tmpl/index.html</filename>
 		<filename>views/gcalendar/tmpl/default.php</filename>
 		<filename>views/gcalendar/tmpl/default.xml</filename>
+		<filename>views/gcalendar/tmpl/googlecal/.htaccess</filename>
+		<filename>views/gcalendar/tmpl/googlecal/mygooglecal3.css</filename>
+		<filename>views/gcalendar/tmpl/googlecal/mygooglecal3ie.css</filename>
+		<filename>views/gcalendar/tmpl/googlecal/MyGoogleCal3.js</filename>
+		<filename>views/gcalendar/tmpl/googlecal/MyGoogleCal3.php</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/add-to-google-plus.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/btn_menu6_flip.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/btn_menu6.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/btn_next_sm.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/btn_prev_sm.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/calendar_plus_en.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/close.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/icon_moreleft.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/icon_moreright.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/icon_print.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_e.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_ne.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_n.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_nw.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_se.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_s.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_sw.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_tap.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/iw_w.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/menu_arrow_hover.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/menu_arrow_open.gif</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/poweredby.png</filename>
+		<filename>views/gcalendar/tmpl/googlecal/images/transparent_sm.gif</filename>
 		<filename>hiddenviews/content/index.html</filename>
 		<filename>hiddenviews/content/view.raw.php</filename>
 		<filename>hiddenviews/content/tmpl/index.html</filename>
