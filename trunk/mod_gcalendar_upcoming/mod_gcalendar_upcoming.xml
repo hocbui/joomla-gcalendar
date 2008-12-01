@@ -12,9 +12,8 @@
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>
 		<filename>index.html</filename>
+		<filename>helper.php</filename>
         <filename>tmpl/default.php</filename>
-        <filename>tmpl/gcalendar.js</filename>
-        <filename>tmpl/date.format.js</filename>
         <filename>tmpl/index.html</filename>
 	</files>
 	<languages>
@@ -23,10 +22,10 @@
 	<params>
 		<param name="name" type="text" size="80" default="" label="Calendar name"
 			description="The name of the google calendar. Specified in the GCalendar component." />
-		<param name="dateFormat" type="text" size="80" default="dd.mm.yyyy HH:MM" label="Date format"
-			description="The format of the date for an event." />
-		<param name="dateFormatFull" type="text" size="80" default="dd.mm.yyyy" label="Date format (full day)"
-			description="The format of the date for a full day event. No hour or minute parameters are allowed!!!!" />
+		<param name="dateFormat" type="text" size="80" default="d.m.Y" label="Date format"
+			description="The format of the date for an event (see http://www.php.net/date for details)." />
+		<param name="timeFormat" type="text" size="80" default="H:i" label="Time format"
+			description="The format of the time for an event (see http://www.php.net/date for details)." />
 		<param name="max" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
 		<param name="openWindow" type="radio" default="0"
@@ -35,12 +34,9 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="showEndDate" type="radio" default="0"
-			label="Show end date"
-			description="If the events end date should be displayed.">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</param>
 		<param name="moduleclass_sfx" type="text" size="80" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	<params group="advanced">
+		<param name="upcomingcache" type="text" size="6" default="3600" label="Cache time" description="Set the cache time (seconds)." />
 	</params>
 </install>
