@@ -9,5 +9,10 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+// Include the helper functions only once
+require_once (dirname(__FILE__).DS.'helper.php');
+// Get data from helper class
+$gcalendar_data = modGcalendarUpcomingHelper::getCalendarItems($params);
+
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar_upcoming' ) );
 ?>
