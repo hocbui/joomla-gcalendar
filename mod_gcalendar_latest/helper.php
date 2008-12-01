@@ -12,27 +12,24 @@ defined('_JEXEC') or die('Restricted access');
 
 class modGcalendarLatestHelper
 {
-	function getFeed(&$params)
+	function getCalendarItems(&$params)
 	{
-		// Date format you want your details to appear
-		$dateformat="j F Y"; // 10 March 2009 - see http://www.php.net/date for details
-
-		//global $mainframe;
 		$gcalendar_data = array(); //init feed array
 		if(!class_exists('SimplePie')){
 			//include Simple Pie processor class
 			require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
 		}
+		$calName = $params->get( 'name_latest', NULL );
 		
 		JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'models');
 		$model = JModel::getInstance('GCalendarModelGCalendar');
-		$model->setState('calendarName',$params->get( 'name_latest', NULL ));
+		$model->setState('calendarName',$calName);
 		$model->setState('calendarType',JRequest::getVar('calendarType', 'xmlUrl'));
 		
 		// check if cache directory exists and is writeable
 		$cacheDir =  JPATH_BASE.DS.'cache';	
 		if ( !is_writable( $cacheDir ) ) {	
-			$slick_rss['error'][] = 'Cache folder is unwriteable. Solution: chmod 777 '.$cacheDir;
+			$mod_error['error'][] = 'Cache folder is unwriteable. Solution: chmod 777 '.$cacheDir;
 			$cache_exists = false;
 		}else{
 			$cache_exists = true;
@@ -45,7 +42,7 @@ class modGcalendarLatestHelper
 		if($cache_exists) {
 			$feed->set_cache_location($cacheDir);
 			$feed->enable_cache();
-			$cache_time = (intval($rsscache));
+			$cache_time = (intval($params->get( 'latestcache', 3600 )));
 			$feed->set_cache_duration($cache_time);
 		}
 		else {
@@ -66,6 +63,8 @@ class modGcalendarLatestHelper
 		 
 		// We'll use this for re-sorting the items based on the new date.
 		$temp = array();
+		
+		$dateformat=$params->get('dateFormat', 'd.m.Y H:i');
 		 
 		foreach ($feed->get_items() as $item) {
 		    $location = $gd_where[0]['attribs']['']['valueString'];
@@ -79,12 +78,14 @@ class modGcalendarLatestHelper
 
 		    // If there's actually a title here (private events don't have titles) and it's not cancelled...
 			if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($pubdate)) > 0) {
-		        //http://docs.joomla.org/Why_do_you_get_a_%22Fatal_error:_Call_to_undefined_function:_stripos()%22_when_editing_Joomla!_1.5.7_Articles_from_the_frontend_when_using_PHP_4%3F
-		        $temp[] = array('id'=>substr($item->get_link(),strpos($item->get_link(),'eid=')+4),
+				$id = substr($item->get_link(),stripos($item->get_link(),'eid=')+4);
+		        $temp[] = array(
+		         'id'=>$id,
 		         'published'=>$pubdate,
 		         'where'=>$location,
 		         'title'=>$item->get_title(),
 		         'description'=>$item->get_description(),
+		         'backlink'=>urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz=America/Chicago'),
 		         'link'=>$item->get_link());
 		        if ($debug) { echo "Added ".$item->get_title();}
 		    } 
