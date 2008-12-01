@@ -9,15 +9,14 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-//Time offset - if times are appearing too early or too late on your website, change this.
-$offset="now"; // you can use "+1 hour" here for example
-
 // How you want each thing to display.
 // By default, this contains all the bits you can grab. You can put ###DATE### in here too if
 // you want to, and disable the 'group by date' below.
 // $event_display="<P><B>###TITLE###</b> - published ###PUBLISHED### (<a href='###LINK###'>add this</a>)<BR>###WHERE### (<a href='###MAPLINK###'>map</a>)<br>###DESCRIPTION###</p>";
-$event_display="<p>###PUBLISHED###<br><a href='###LINK###'>###TITLE###</a></p>";
-
+if($params->get( 'openWindow', 0 )==0)
+	$event_display="<p>###PUBLISHED###<br><a href='###BACKLINK###'>###TITLE###</a></p>";
+else
+	$event_display="<p>###PUBLISHED###<br><a href='###LINK###'>###TITLE###</a></p>";
 
 // The separate date header is here
 $event_dateheader="<P><B>###DATE###</b></P>";
@@ -26,7 +25,7 @@ $GroupByDate=true;
 // but remember to add ###DATE### in the event_display if you do.
 
 // ...and how many you want to display (leave at 999 for everything)
-$items_to_show=5;
+$items_to_show=$params->get( 'max', 5 );
 
 // Loop through the (now sorted) array, and display what we wanted.
 foreach ($gcalendar_data as $item) {
@@ -42,7 +41,8 @@ foreach ($gcalendar_data as $item) {
     $temp_dateheader=str_replace("###DATE###",$item['published'],$temp_dateheader);
     $temp_event=str_replace("###PUBLISHED###",$item['published'],$temp_event);
     $temp_event=str_replace("###WHERE###",$item['where'],$temp_event);
-    $temp_event=str_replace("###LINK###",urldecode(JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$item['id'].'&calendarName='.'joomla'.'&ctz=America/Chicago')),$temp_event);
+    $temp_event=str_replace("###BACKLINK###",$item['backlink'],$temp_event);
+    $temp_event=str_replace("###LINK###",$item['link'],$temp_event);
     $temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item['where']),$temp_event);
     // Accept and translate HTML
     $temp_event=str_replace("&lt;","<",$temp_event);
