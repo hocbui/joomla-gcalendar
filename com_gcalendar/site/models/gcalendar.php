@@ -23,15 +23,15 @@ class GCalendarModelGCalendar extends JModel
 	 */
 	function getGCalendar()
 	{
-		$params = &$this->getState('parameters.menu');
+		$params = $this->getState('parameters.menu');
 		if($params){
 			$calendarName=$params->get('name');
 			$calendarType='htmlUrl';
 		}
-		$tmp=&$this->getState('calendarName');
+		$tmp = $this->getState('calendarName');
 		if(!empty($tmp))
 			$calendarName = $tmp;
-		$tmp=&$this->getState('calendarType');
+		$tmp = $this->getState('calendarType');
 		if(!empty($tmp))
 			$calendarType = $tmp;
 		
