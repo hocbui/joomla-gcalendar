@@ -65,6 +65,8 @@ class modGcalendarLatestHelper
 		$temp = array();
 		
 		$dateformat=$params->get('dateFormat', 'd.m.Y H:i');
+		$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
+		$tz = $tzvalue[0]['attribs']['']['value'];
 		 
 		foreach ($feed->get_items() as $item) {
 		    $location = $gd_where[0]['attribs']['']['valueString'];
@@ -85,7 +87,7 @@ class modGcalendarLatestHelper
 		         'where'=>$location,
 		         'title'=>$item->get_title(),
 		         'description'=>$item->get_description(),
-		         'backlink'=>urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz=America/Chicago'),
+		         'backlink'=>urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),
 		         'link'=>$item->get_link());
 		        if ($debug) { echo "Added ".$item->get_title();}
 		    } 
