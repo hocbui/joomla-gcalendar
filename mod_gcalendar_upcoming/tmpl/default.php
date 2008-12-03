@@ -10,13 +10,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // How you want each thing to display.
-// By default, this contains all the bits you can grab. You can put ###DATE### in here too if
-// you want to, and disable the 'group by date' below.
-// $event_display="<P><B>###TITLE###</b> - published ###PUBLISHED### (<a href='###LINK###'>add this</a>)<BR>###WHERE### (<a href='###MAPLINK###'>map</a>)<br>###DESCRIPTION###</p>";
-if($params->get( 'openWindow', 0 )==0)
-	$event_display="<p>###DATE###<br><a href='###BACKLINK###'>###TITLE###</a></p>";
-else
-	$event_display="<p>###DATE###<br><a href='###LINK###'>###TITLE###</a></p>";
+// All bits listed below which are available:
+// ###TITLE###, ###DESCRIPTION###, ###DATE###, ###FROM###, ###UNTIL###,
+// ###WHERE###, ###BACKLINK###, ###LINK###, ###MAPLINK###
+// You can put ###DATE### in here too if you want to, and disable the 'group by date' below.
+$dsplLink = '###BACKLINK###';
+if($params->get( 'openWindow', 0 )==1)
+	$dsplLink = '###LINK###';
+$event_display="<p>###DATE###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
 
 // The separate date header is here
 $event_dateheader="<P><B>###DATE###</b></P>";
