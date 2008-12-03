@@ -70,8 +70,9 @@ class modGcalendarUpcomingHelper {
 		// We'll use this for re-sorting the items based on the new date.
 		$temp = array();
 		
-		$tz = $feed->get_feed_tags('', 'timezone');
-		 
+		$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
+		$tz = $tzvalue[0]['attribs']['']['value'];
+		
 		foreach ($feed->get_items() as $item) {
 		    // Now, let's grab the Google-namespaced <gd:where> tag.
 		    $gd_where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where');
