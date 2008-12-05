@@ -59,7 +59,7 @@ class modGcalendarUpcomingHelper {
 		$feed->set_feed_url($path);
 		 
 		// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
-		$feed->enable_order_by_date(false);
+		// $feed->enable_order_by_date(false);
 		 
 		// Initialize the feed so that we can use it.
 		$feed->init();
@@ -70,8 +70,11 @@ class modGcalendarUpcomingHelper {
 		// We'll use this for re-sorting the items based on the new date.
 		$temp = array();
 		
-		$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
-		$tz = $tzvalue[0]['attribs']['']['value'];
+		$tz = $params->get('timezone', '');
+		if($tz ===''){
+			$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
+			$tz = $tzvalue[0]['attribs']['']['value'];
+		}
 		
 		foreach ($feed->get_items() as $item) {
 		    // Now, let's grab the Google-namespaced <gd:where> tag.
@@ -84,11 +87,11 @@ class modGcalendarUpcomingHelper {
 		    $when = $item->get_item_tags('http://schemas.google.com/g/2005', 'when');
 		    $startdate = $when[0]['attribs']['']['startTime']; 
 		    $enddate = $when[0]['attribs']['']['endTime']; 
-		    $unixstartdate = SimplePie_Misc::parse_date($startdate);
-		    $unixenddate = SimplePie_Misc::parse_date($enddate);
+		    $unixstartdate = modGcalendarUpcomingHelper::tstamptotime($startdate);
+		    $unixenddate = modGcalendarUpcomingHelper::tstamptotime($enddate);
 		    $where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where'); 
-		    $location = $where[0]['attribs']['']['valueString']; 
-		
+		    $location = $where[0]['attribs']['']['valueString'];
+		    
 		    // If there's actually a title here (private events don't have titles) and it's not cancelled...
 		if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($startdate)) > 0) {
 		        $id = substr($item->get_link(),stripos($item->get_link(),'eid=')+4);
@@ -105,11 +108,15 @@ class modGcalendarUpcomingHelper {
 		    } 
 		}
 		
-		//Sort this 
-		sort($temp);
-
-			
 		//return the feed data structure for the template	
 		return $temp;
 	}
+	
+	public static function tstamptotime($tstamp) {
+        // converts ISODATE to unix date
+        // 1984-09-01T14:21:31Z
+		sscanf($tstamp,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
+		$newtstamp=mktime($hour,$min,$sec,$month,$day,$year);
+		return $newtstamp;
+    } 
 }
