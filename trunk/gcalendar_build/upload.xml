@@ -4,13 +4,13 @@
 		automated upload to gcalendar demo servers
     </description>
 	<!-- set global properties for this build -->
-	<property name="server_url14" value="allon.ch" />
+	<property name="server_url10" value="allon.ch" />
 	<property name="server_url15" value="allon.ch" />
-	<property name="username14" value="gcal_demo10@allon.ch" />
-	<property name="password14" value="gcal_demo10_345" />
+	<property name="username10" value="gcal_demo10@allon.ch" />
+	<property name="password10" value="gcal_demo10_345" />
 	<property name="username15" value="gcal_demo15@allon.ch" />
 	<property name="password15" value="gcal_demo15_345" />
-	<property name="remote_root_dir14" value="/" />
+	<property name="remote_root_dir10" value="/" />
 	<property name="remote_root_dir15" value="/" />
 
 	<property name="build" location="build" />
@@ -20,23 +20,23 @@
 
 	<target name="upload">
 		<antcall target="clean" />
-		<antcall target="upload14" />
+		<antcall target="upload10" />
 		<antcall target="upload15" />
 	</target>
 
-	<target name="upload14" description="uploads gcalendar 1.4 to the ftp server">
+	<target name="upload10" description="uploads gcalendar 1.0 to the ftp server">
 		<if>
-			<istrue value="${upload14}" />
+			<istrue value="${upload10}" />
 			<then>
-				<antcall target="prepare_1_4_for_upload">
-					<param name="dir" value="${build}/upgrade_1_4" />
+				<antcall target="prepare_1_0_for_upload">
+					<param name="dir" value="${build}/upgrade_1_0" />
 				</antcall>
-				<ftp server="${server_url14}" userid="${username14}" password="${password14}" remotedir="${remote_root_dir14}" passive="yes" binary="no" verbose="yes">
-					<fileset dir="${build}/upgrade_1_4" />
+				<ftp server="${server_url10}" userid="${username10}" password="${password10}" remotedir="${remote_root_dir10}" passive="yes" binary="no" verbose="yes">
+					<fileset dir="${build}/upgrade_1_0" />
 				</ftp>
 			</then>
 			<else>
-				<echo message="Not executing upload for 1.4" />
+				<echo message="Not executing upload for 1.0" />
 			</else>
 		</if>
 	</target>
@@ -63,24 +63,24 @@
 			<istrue value="${upload15.com_gcalendar}" />
 			<then>
 				<!-- create com_gcalendar dir tree structure package -->
-				<!-- copy todir="${dir}/administrator/components/com_gcalendar">
-					<fileset dir="${basedir}/../com_gcalendar_1_5/admin">
+				<copy todir="${dir}/administrator/components/com_gcalendar">
+					<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/admin">
 						<exclude name="**/languages/" />
 						<exclude name="**/images/" />
 						<exclude name="**/css/" />
 					</fileset>
 				</copy>
-				<copy file="${basedir}/../com_gcalendar_1_5/gcalendar.xml" 
-				todir="${dir}/administrator/components/com_gcalendar" / -->
+				<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/gcalendar.xml" 
+				todir="${dir}/administrator/components/com_gcalendar" />
 
 				<if>
 					<istrue value="${completeupload}" />
 					<then>
 						<copy todir="${dir}/administrator/language/en-GB">
-							<fileset dir="${basedir}/../com_gcalendar_1_5/admin/languages/" />
+							<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/admin/languages/" />
 						</copy>
 						<copy todir="${dir}/administrator/components/com_gcalendar">
-							<fileset dir="${basedir}/../com_gcalendar_1_5/admin">
+							<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/admin">
 								<include name="**/images/" />
 								<include name="**/css/" />
 							</fileset>
@@ -89,7 +89,7 @@
 				</if>
 
 				<copy todir="${dir}/components/com_gcalendar">
-					<fileset dir="${basedir}/../com_gcalendar_1_5/site">
+					<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/site">
 						<exclude name="**/languages/" />
 						<exclude name="**/googlecal/" />
 					</fileset>
@@ -98,10 +98,10 @@
 					<istrue value="${completeupload}" />
 					<then>
 						<copy todir="${dir}/language/en-GB">
-							<fileset dir="${basedir}/../com_gcalendar_1_5/site/languages/" />
+							<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/site/languages/" />
 						</copy>
 						<copy todir="${dir}/components/com_gcalendar">
-							<fileset dir="${basedir}/../com_gcalendar_1_5/site">
+							<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/site">
 								<include name="**/googlecal/" />
 							</fileset>
 						</copy>
@@ -132,7 +132,7 @@
 			<istrue value="${cond}" />
 			<then>
 				<copy todir="${dir}/modules/${module_name}">
-					<fileset dir="${basedir}/../${module_name}_1_5/">
+					<fileset dir="${basedir}/../Joomla_1_5_x/${module_name}/">
 						<exclude name="**/languages/" />
 					</fileset>
 				</copy>
@@ -140,7 +140,7 @@
 					<istrue value="${completeupload}" />
 					<then>
 						<copy todir="${dir}/language/en-GB">
-							<fileset dir="${basedir}/../${module_name}_1_5/languages/" />
+							<fileset dir="${basedir}/../Joomla_1_5_x/${module_name}/languages/" />
 						</copy>
 					</then>
 				</if>
@@ -151,74 +151,74 @@
 		</if>
 	</target>
 
-	<target name="prepare_1_4_for_upload" description="prepare the dir structure to be ready to upload in a joomla 1.0 environment">
+	<target name="prepare_1_0_for_upload" description="prepare the dir structure to be ready to upload in a joomla 1.0 environment">
 		<if>
-			<istrue value="${upload14}" />
+			<istrue value="${upload10}" />
 			<then>
 				<!-- create com_gcalendar dir tree structure package -->
 				<property name="gcalendar_root" value="${dir}/administrator/components/com_gcalendar" />
 
-				<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.xml" todir="${gcalendar_root}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/admin.gcalendar.php" todir="${gcalendar_root}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/admin.gcalendar.html.php" todir="${gcalendar_root}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/toolbar.gcalendar.php" todir="${gcalendar_root}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/toolbar.gcalendar.html.php" todir="${gcalendar_root}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.class.php" todir="${gcalendar_root}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/install.gcalendar.php" todir="${gcalendar_root}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/uninstall.gcalendar.php" todir="${gcalendar_root}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.xml" todir="${gcalendar_root}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/admin.gcalendar.php" todir="${gcalendar_root}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/admin.gcalendar.html.php" todir="${gcalendar_root}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/toolbar.gcalendar.php" todir="${gcalendar_root}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/toolbar.gcalendar.html.php" todir="${gcalendar_root}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.class.php" todir="${gcalendar_root}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/install.gcalendar.php" todir="${gcalendar_root}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/uninstall.gcalendar.php" todir="${gcalendar_root}" />
 
 				<if>
 					<istrue value="${completeupload}" />
 					<then>
 						<copy todir="${gcalendar_root}">
-							<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/images/*" />
+							<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/images/*" />
 						</copy>
 					</then>
 				</if>
 
 				<property name="gcalendar_root_site" value="${dir}/components/com_gcalendar" />
-				<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.php" todir="${gcalendar_root_site}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.html.php" todir="${gcalendar_root_site}" />
-				<copy file="${basedir}/../com_gcalendar_1_4/gcalendar.xml.php" todir="${gcalendar_root_site}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.php" todir="${gcalendar_root_site}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.html.php" todir="${gcalendar_root_site}" />
+				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.xml.php" todir="${gcalendar_root_site}" />
 
 				<if>
 					<istrue value="${completeupload}" />
 					<then>
 						<copy todir="${gcalendar_root_site}">
-							<fileset dir="${basedir}/../com_gcalendar_1_4" includes="**/languages/*" />
+							<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/languages/*" />
 						</copy>
 					</then>
 				</if>
 			</then>
 			<else>
-				<echo message="Not creating gcalendar dir for 1.4" />
+				<echo message="Not creating gcalendar dir for 1.0" />
 			</else>
 		</if>
 		<!-- create the modules dir tree structure package -->
-		<antcall target="create_module_upgrade_folder_1_4">
+		<antcall target="create_module_upgrade_folder_1_0">
 			<param name="module_name" value="mod_gcalendar" />
-			<param name="cond" value="${upload14.mod_gcalendar}" />
+			<param name="cond" value="${upload10.mod_gcalendar}" />
 		</antcall>
-		<antcall target="create_module_upgrade_folder_1_4">
+		<antcall target="create_module_upgrade_folder_1_0">
 			<param name="module_name" value="mod_gcalendar_upcoming" />
-			<param name="cond" value="${upload14.mod_gcalendar_upcoming}" />
+			<param name="cond" value="${upload10.mod_gcalendar_upcoming}" />
 		</antcall>
-		<antcall target="create_module_upgrade_folder_1_4">
+		<antcall target="create_module_upgrade_folder_1_0">
 			<param name="module_name" value="mod_gcalendar_latest" />
-			<param name="cond" value="${upload14.mod_gcalendar_latest}" />
+			<param name="cond" value="${upload10.mod_gcalendar_latest}" />
 		</antcall>
 	</target>
 
-	<target name="create_module_upgrade_folder_1_4">
+	<target name="create_module_upgrade_folder_1_0">
 		<if>
 			<istrue value="${cond}" />
 			<then>
 				<copy todir="${dir}/modules">
-					<fileset dir="${basedir}/../${module_name}_1_4/" />
+					<fileset dir="${basedir}/../Joomla_1_0_x/${module_name}/" />
 				</copy>
 			</then>
 			<else>
-				<echo message="Not creating ${module_name} dir for 1.4" />
+				<echo message="Not creating ${module_name} dir for 1.0" />
 			</else>
 		</if>
 	</target>
