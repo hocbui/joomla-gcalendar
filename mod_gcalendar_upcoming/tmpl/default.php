@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $dsplLink = '###BACKLINK###';
 if($params->get( 'openWindow', 0 )==1)
 	$dsplLink = '###LINK###';
-$event_display="<p>###DATE###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
+$event_display="<p>###DATE### ###FROM###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
 
 // The separate date header is here
 $event_dateheader="<P><B>###DATE###</b></P>";
@@ -38,9 +38,9 @@ $offset="now"; // you can use "+1 hour" here for example
 // Loop through the (now sorted) array, and display what we wanted.
 foreach ($gcalendar_data as $item) {
 	// These are the dates we'll display
-    $gCalDate = gmdate($dateformat, $item['startdate']-$offset);
-    $gCalStartTime = gmdate($timeformat, $item['startdate']-$offset);
-    $gCalEndTime = gmdate($timeformat, $item['enddate']-$offset);
+    $gCalDate = date($dateformat, $item['startdate']);
+    $gCalStartTime = date($timeformat, $item['startdate']);
+    $gCalEndTime = date($timeformat, $item['enddate']);
     
     //Make any URLs used in the description also clickable: thanks Adam
     $item['description'] = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item['description']);
