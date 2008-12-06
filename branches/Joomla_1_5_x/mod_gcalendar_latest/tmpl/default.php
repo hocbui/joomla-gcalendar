@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $dsplLink = '###BACKLINK###';
 if($params->get( 'openWindow', 0 )==1)
 	$dsplLink = '###LINK###';
-$event_display="<p>###PUBLISHED###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
+$event_display="<p>".JText::_("PUBLISHED")." ###PUBLISHED###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
 
 // ...and how many you want to display (leave at 999 for everything)
 $items_to_show=$params->get( 'max', 5 );
