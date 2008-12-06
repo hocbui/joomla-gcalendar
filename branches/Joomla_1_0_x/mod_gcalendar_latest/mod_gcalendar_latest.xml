@@ -15,19 +15,17 @@
 	</description>
 	<files>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest.php</filename>
-		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/gcalendar.js</filename>
+		<filename module="mod_gcalendar_latest">simplepie.inc</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/english.php</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/german.php</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/germani.php</filename>
-		
 	</files>
 	<params>
 		<param name="name_latest" type="text" size="80" default="" label="Calendar name"
 			description="The name of the google calendar. Specified in the GCalendar component." />
-		<param name="dateFormat" type="text" size="80" default="dd.mm.yyyy HH:MM" label="Date format"
-			description="The format of the date for an event." />
-		<param name="dateFormatFull" type="text" size="80" default="dd.mm.yyyy" label="Date format (full day)"
-			description="The format of the date for a full day event. No hour or minute parameters are allowed!!!!" />
+		<param name="dateFormat" type="text" size="80" default="d.m.Y H:i"
+			label="Date format"
+			description="The format of the date for an event (see http://www.php.net/date for details)." />
 		<param name="max" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
 		<param name="openWindow" type="radio" default="0"
@@ -36,12 +34,10 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<!-- param name="showEndDate" type="radio" default="0"
-			label="Show end date"
-			description="If the events end date should be displayed.">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</param-->
+		<param name="timezone" type="text" size="80" default="" label="Timezone"
+			description="The timezone the event details should be displayed." />
+		<param name="latestcache" type="text" size="6" default="3600"
+			label="Cache time" description="Set the cache time (seconds)." />
 		<param name="moduleclass_sfx" type="text" size="80" default="" label="Module Class Suffix" description="Module Suffix" />
 	</params>
 </mosinstall>
