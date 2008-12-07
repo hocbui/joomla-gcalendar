@@ -6,22 +6,30 @@
 	<copyright>
 		This module is released under the GNU/GPL License.
 	</copyright>
-	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
 	<version>1.4.5</version>
 	<description>
-		This module shows the last changed events from a google calendar.
+		This module shows the last changed events from a google
+		calendar.
 	</description>
 	<files>
-		<filename module="mod_gcalendar_latest">mod_gcalendar_latest.php</filename>
-		<filename module="mod_gcalendar_latest">simplepie.inc</filename>
-		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/english.php</filename>
-		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/german.php</filename>
-		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/germani.php</filename>
+		<filename module="mod_gcalendar_latest">mod_gcalendar_latest.php
+		</filename>
+		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/simplepie.inc
+		</filename>
+		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/english.php
+		</filename>
+		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/german.php
+		</filename>
+		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/germani.php
+		</filename>
 	</files>
 	<params>
-		<param name="name_latest" type="text" size="80" default="" label="Calendar name"
+		<param name="name_latest" type="text" size="80" default=""
+			label="Calendar name"
 			description="The name of the google calendar. Specified in the GCalendar component." />
 		<param name="dateFormat" type="text" size="80" default="d.m.Y H:i"
 			label="Date format"
@@ -34,10 +42,15 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="moduleclass_sfx" type="text" size="80" default=""
+			label="Module Class Suffix" description="Module Suffix" />
+		<param name="@spacer" type="spacer" default="" label="Advanced"
+			description="" />
 		<param name="timezone" type="text" size="80" default="" label="Timezone"
 			description="The timezone the event details should be displayed." />
 		<param name="latestcache" type="text" size="6" default="3600"
 			label="Cache time" description="Set the cache time (seconds)." />
-		<param name="moduleclass_sfx" type="text" size="80" default="" label="Module Class Suffix" description="Module Suffix" />
 	</params>
 </mosinstall>

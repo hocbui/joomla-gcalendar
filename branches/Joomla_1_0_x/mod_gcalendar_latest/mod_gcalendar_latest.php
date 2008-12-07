@@ -8,7 +8,8 @@
 
 // no direct access
 defined('_VALID_MOS') or die('Restricted access');
-global $mosConfig_absolute_path;
+
+global $mosConfig_absolute_path, $database, $mosConfig_cachepath;
 
 // Get the right language if it exists
 if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_latest/languages/".$mosConfig_lang.".php")){
@@ -17,10 +18,10 @@ if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_latest/language
 	include_once($mosConfig_absolute_path."/modules/mod_gcalendar_latest/languages/english.php");
 }
 
-global $database, $mosConfig_cachepath;
-
 // Include SimplePie RSS Parser, supports utf-8 and international character sets in newsfeeds
-include_once('mod_gcalendar_latest/simplepie.inc');
+if(!class_exists('SimplePie')){
+	include_once('mod_gcalendar_latest/simplepie.inc');
+}
 
 $calName = $params->get('name_latest', '');
 
