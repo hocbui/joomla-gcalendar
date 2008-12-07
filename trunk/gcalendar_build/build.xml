@@ -16,8 +16,8 @@
 
 	<target name="dist" depends="init">
 		<antcall target="create_install_packages" />
-		<antcall target="create_upgrade_packages_1_5" />
-		<antcall target="create_upgrade_packages_1_0" />
+		<!-- antcall target="create_upgrade_packages_1_5" />
+		<antcall target="create_upgrade_packages_1_0" / -->
 	</target>
 
 	<target name="create_upgrade_packages_1_0" description="create upgrade package for joomla 1.0">
@@ -131,10 +131,9 @@
 		<!-- create gcalendar for joomla 1.5 -->
 		<antcall target="create_zips">
 			<param name="gcalendar" value="Joomla_1_5_x" />
-			<param name="version" value="${gcalendar_version}" />
 		</antcall>
-		<zip destfile="${dist}/gcalendar_${gcalendar_version}_J1_5x.zip">
-			<zipfileset dir="${build}/1_5" includes="**/*" />
+		<zip destfile="${dist}/gcalendar_${gcalendar_version}_J15x.zip">
+			<zipfileset dir="${build}/Joomla_1_5_x" includes="**/*" />
 			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
 		</zip>
 
@@ -142,8 +141,8 @@
 		<antcall target="create_zips">
 			<param name="gcalendar" value="Joomla_1_0_x" />
 		</antcall>
-		<zip destfile="${dist}/gcalendar_${gcalendar_version}_J1_0x.zip">
-			<zipfileset dir="${build}/1_0" includes="**/*" />
+		<zip destfile="${dist}/gcalendar_${gcalendar_version}_J10x.zip">
+			<zipfileset dir="${build}/Joomla_1_0_x" includes="**/*" />
 			<zipfileset dir="${basedir}" includes="ReadFirstJ10x.txt" />
 		</zip>
 	</target>
@@ -151,26 +150,25 @@
 	<target name="create_zips" description="generate the zips">
 		<!-- Create the distribution directory -->
 		<mkdir dir="${build}" />
-		<mkdir dir="${build}/1_5" />
-		<mkdir dir="${build}/1_0" />
+		<mkdir dir="${build}/${gcalendar}" />
 
 		<!-- create gcalendar component -->
-		<zip destfile="${build}/com_gcalendar_${gcalendar_version}.zip">
+		<zip destfile="${build}/${gcalendar}/com_gcalendar_${gcalendar_version}.zip">
 			<zipfileset dir="${basedir}/../${gcalendar}/com_gcalendar" prefix="com_gcalendar" />
 		</zip>
 
 		<!-- create gcalendar module -->
-		<zip destfile="${build}/mod_gcalendar_${gcalendar_version}.zip">
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_${gcalendar_version}.zip">
 			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar" prefix="mod_gcalendar" />
 		</zip>
 
 		<!-- create gcalendar upcoming module -->
-		<zip destfile="${build}/mod_gcalendar_upcoming_${gcalendar_version}.zip">
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_upcoming_${gcalendar_version}.zip">
 			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar_upcoming" prefix="mod_gcalendar_upcoming" />
 		</zip>
 
 		<!-- create gcalendar latest module -->
-		<zip destfile="${build}/mod_gcalendar_latest_${gcalendar_version}.zip">
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_latest_${gcalendar_version}.zip">
 			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar_latest" prefix="mod_gcalendar_latest" />
 		</zip>
 	</target>
