@@ -23,7 +23,7 @@
 			<query>
 				CREATE TABLE IF NOT EXISTS `#__gcalendar` ( `id` int(11)
 				NOT NULL auto_increment, `name` varchar(100) NOT NULL
-				default '', `htmlUrl` text, `xmlUrl` text, PRIMARY KEY (`id`) )
+				default '', `htmlUrl` text, `xmlUrl` text, `icalUrl` text PRIMARY KEY (`id`) )
 				TYPE=MyISAM
 			</query>
 		</queries>
