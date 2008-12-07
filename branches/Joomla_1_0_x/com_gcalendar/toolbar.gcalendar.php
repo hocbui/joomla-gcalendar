@@ -4,7 +4,7 @@
 /**
 * Google calendar component
 * @author allon
-* @version $Revision: 1.4.5 $
+* @version $Revision: 2.0.0 $
 **/
 
 // ensure this file is being included by a parent file

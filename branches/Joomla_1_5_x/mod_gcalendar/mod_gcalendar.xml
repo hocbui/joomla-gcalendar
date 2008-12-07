@@ -2,14 +2,14 @@
 <install type="module" version="1.5.0">
 	<name>GCalendar Overview</name>
 	<author>allon</author>
-	<creationDate>Mar 2008</creationDate>
+	<creationDate>Dec 2008</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
-	<version>1.5.2</version>
+	<version>2.0.0RC1</version>
 	<description>This module shows the google calendar at a module
 		position.</description>
 	<files>
@@ -25,10 +25,6 @@
 		</language>
 	</languages>
 	<params>
-		<param name="moduleclass_sfx" type="text" size="80" default=""
-			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-		<param name="@spacer" type="spacer" default="" label=""
-			description="" />
 		<param name="name" type="text" size="80" default="" label="Calendar name"
 			description="The name of the google calendar. Specified in the GCalendar component." />
 		<param name="url" type="text" size="80" default="" label="Url"
@@ -43,5 +39,9 @@
 			description="PARAMWIDTH" />
 		<param name="height" type="text" size="5" default="300" label="Height"
 			description="HEIGHT OF THE IFRAME WINDOW" />
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="moduleclass_sfx" type="text" size="80" default=""
+			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 </install>

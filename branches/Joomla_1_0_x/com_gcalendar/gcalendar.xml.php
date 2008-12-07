@@ -3,7 +3,7 @@
 /**
 * Google calendar upcoming events module
 * @author allon
-* @version $Revision: 1.4.5 $
+* @version $Revision: 2.0.0 $
 **/
 
 defined('_VALID_MOS') or die('Restricted access');

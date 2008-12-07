@@ -31,13 +31,13 @@
 				<option value="1">Yes</option>
 			</param>
 		</params>
-		<params group="advanced">
+		<advanced>
 			<param name="use_custom_css" type="radio" default="0"
 				label="Use Custom CSS"
 				description="Use custom css in the googlecal folder. Check the documentation at gcalendar.allon.ch for more information">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
-		</params>
+		</advanced>
 	</state>
 </metadata>
