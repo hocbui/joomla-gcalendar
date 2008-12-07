@@ -70,8 +70,7 @@
 						<exclude name="**/css/" />
 					</fileset>
 				</copy>
-				<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/gcalendar.xml" 
-				todir="${dir}/administrator/components/com_gcalendar" />
+				<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/gcalendar.xml" todir="${dir}/administrator/components/com_gcalendar" />
 
 				<if>
 					<istrue value="${completeupload}" />
@@ -153,7 +152,7 @@
 
 	<target name="prepare_1_0_for_upload" description="prepare the dir structure to be ready to upload in a joomla 1.0 environment">
 		<if>
-			<istrue value="${upload10}" />
+			<istrue value="${upload10.com_gcalendar}" />
 			<then>
 				<!-- create com_gcalendar dir tree structure package -->
 				<property name="gcalendar_root" value="${dir}/administrator/components/com_gcalendar" />
@@ -214,8 +213,20 @@
 			<istrue value="${cond}" />
 			<then>
 				<copy todir="${dir}/modules">
-					<fileset dir="${basedir}/../Joomla_1_0_x/${module_name}/" />
+					<fileset dir="${basedir}/../Joomla_1_0_x/${module_name}/">
+						<exclude name="**/simplepie.inc" />
+						<exclude name="**/languages/" />
+					</fileset>
 				</copy>
+				<if>
+					<istrue value="${completeupload}" />
+					<then>
+						<copy file="${basedir}/../Joomla_1_0_x/${module_name}/${module_name}/simplepie.inc" todir="${dir}/modules/${module_name}/" failonerror="false" />
+						<copy todir="${dir}/modules">
+							<fileset dir="${basedir}/../Joomla_1_0_x/${module_name}/" includes="**/languages/*" />
+						</copy>
+					</then>
+				</if>
 			</then>
 			<else>
 				<echo message="Not creating ${module_name} dir for 1.0" />
