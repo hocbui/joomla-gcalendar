@@ -9,6 +9,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+if(!empty($error)){
+	echo $error;
+	return;
+}
+
 // How you want each thing to display.
 // All bits listed below which are available:
 // ###TITLE###, ###DESCRIPTION###, ###DATE###, ###PUBLISHED###

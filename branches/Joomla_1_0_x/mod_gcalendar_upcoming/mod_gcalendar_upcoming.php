@@ -24,6 +24,10 @@ if(!class_exists('SimplePie')){
 }
 
 $calName = $params->get('name', '');
+if(empty($calName)){
+	echo _GCALENDAR_UPCOMING_NO_CALENDAR_SPECIFIED;
+	return;
+}
 
 $database->setQuery("select id,xmlUrl from #__gcalendar where name='$calName'");
 $results = $database->loadObjectList();

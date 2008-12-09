@@ -10,4 +10,5 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
 DEFINE("_GCALENDAR_LATEST_PUBLISHED","Ver�ffentlicht:");
+DEFINE("_GCALENDAR_LATEST_NO_CALENDAR_SPECIFIED","Kein Kalender gefunden!! Bitte �berpr�fen Sie ob im Administrationsbereich ein Kalender angegeben wurde.");
 ?>

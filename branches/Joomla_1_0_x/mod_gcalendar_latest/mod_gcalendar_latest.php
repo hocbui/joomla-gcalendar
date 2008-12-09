@@ -24,6 +24,10 @@ if(!class_exists('SimplePie')){
 }
 
 $calName = $params->get('name_latest', '');
+if(empty($calName)){
+	echo _GCALENDAR_LATEST_NO_CALENDAR_SPECIFIED;
+	return;
+}
 
 $database->setQuery("select id,xmlUrl from #__gcalendar where name='$calName'");
 $results = $database->loadObjectList();

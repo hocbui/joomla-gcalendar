@@ -20,6 +20,7 @@ class modGcalendarLatestHelper
 			require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
 		}
 		$calName = $params->get( 'name_latest', NULL );
+		if($calName == NULL) return array(JText::_("GCALENDAR_ERROR"),NULL);
 		
 		JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'models');
 		$model = JModel::getInstance('GCalendarModelGCalendar');
@@ -96,7 +97,7 @@ class modGcalendarLatestHelper
 		    } 
 		}
 		//return the feed data structure for the template	
-		return $temp;
+		return array(NULL,$temp);
 	}
 	
 	public static function tstamptotime($tstamp) {

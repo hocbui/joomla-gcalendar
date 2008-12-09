@@ -19,6 +19,7 @@ class modGcalendarUpcomingHelper {
 		}
 		
 		$calName = $params->get( 'name', NULL );
+		if($calName == NULL) return array(JText::_("GCALENDAR_ERROR"),NULL);
 		
 		JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'models');
 		$model = JModel::getInstance('GCalendarModelGCalendar');
@@ -109,7 +110,7 @@ class modGcalendarUpcomingHelper {
 		}
 		
 		//return the feed data structure for the template	
-		return $temp;
+		return array(NULL,$temp);
 	}
 	
 	public static function tstamptotime($tstamp) {

@@ -9,4 +9,5 @@
 // ensure this file is being included by a parent file
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
+DEFINE("_GCALENDAR_UPCOMING_NO_CALENDAR_SPECIFIED","Kein Kalender gefunden!! Bitte �berpr�fen Sie ob im Administrationsbereich ein Kalender angegeben wurde.");
 ?>
