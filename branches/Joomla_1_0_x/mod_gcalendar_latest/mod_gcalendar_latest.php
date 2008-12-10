@@ -64,7 +64,7 @@ else {
 $feed->set_feed_url($url);
  
 // Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
-// $feed->enable_order_by_date(false);
+$feed->enable_order_by_date(false);
  
 // Initialize the feed so that we can use it.
 $feed->init();
@@ -77,8 +77,15 @@ if($tz ===''){
 	$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
 	$tz = $tzvalue[0]['attribs']['']['value'];
 }
- 
-foreach ($feed->get_items() as $item) {
+
+$values = $feed->get_items();
+
+if ($feed->error()){
+	echo $feed->error();
+	return;
+}
+
+foreach ($values as $item) {
     $location = $gd_where[0]['attribs']['']['valueString'];
     //and the status tag too, come to that
     $gd_status = $item->get_item_tags('http://schemas.google.com/g/2005', 'eventStatus');
@@ -96,16 +103,17 @@ foreach ($feed->get_items() as $item) {
 	if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($pubdate)) > 0) {
 		$id = substr($item->get_link(),stripos($item->get_link(),'eid=')+4);
         $gcalendar_data[] = array(
-         'id'=>$id,
          'published'=>$unixpubdate,
+         'id'=>$id,
          'where'=>$location,
          'title'=>$item->get_title(),
          'description'=>$item->get_description(),
          'backlink'=>urldecode('index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),
          'link'=>$item->get_link());
         if ($debug) { echo "Added ".$item->get_title();}
-    } 
+    }
 }
+sort($gcalendar_data);
 
 // How you want each thing to display.
 // All bits listed below which are available:
@@ -116,14 +124,13 @@ if($params->get( 'openWindow', 0 )==1)
 	$dsplLink = '###LINK###';
 $event_display="<p>"._GCALENDAR_LATEST_PUBLISHED." ###PUBLISHED###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
 
-// ...and how many you want to display (leave at 999 for everything)
-$items_to_show=$params->get( 'max', 5 );
-
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y H:i');
 
-// Loop through the (now sorted) array, and display what we wanted.
-foreach ($gcalendar_data as $item) {
+$counter = 0;
+// Loop through the array, and display what we wanted.
+for ($i = sizeof($gcalendar_data)-1; $i >=0 && $counter < $params->get( 'max', 5 ); $i--){
+	$item = $gcalendar_data[$i];
 	// These are the dates we'll display
     $gCalDate = date($dateformat, $item['published']);
     
@@ -144,10 +151,8 @@ foreach ($gcalendar_data as $item) {
     $temp_event=str_replace("&gt;",">",$temp_event);
     $temp_event=str_replace("&quot;","\"",$temp_event);
 
-    if (($items_to_show>0 AND $items_shown<$items_to_show)) {
-        echo $temp_event;
-        $items_shown++;
-    }
+	echo $temp_event;
+	$counter++;
 }
 
 ?>

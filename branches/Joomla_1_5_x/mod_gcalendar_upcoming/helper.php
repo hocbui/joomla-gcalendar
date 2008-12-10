@@ -60,7 +60,7 @@ class modGcalendarUpcomingHelper {
 		$feed->set_feed_url($path);
 		 
 		// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
-		// $feed->enable_order_by_date(false);
+		$feed->enable_order_by_date(false);
 		 
 		// Initialize the feed so that we can use it.
 		$feed->init();
@@ -77,7 +77,13 @@ class modGcalendarUpcomingHelper {
 			$tz = $tzvalue[0]['attribs']['']['value'];
 		}
 		
-		foreach ($feed->get_items() as $item) {
+		$values = $feed->get_items();
+
+		if ($feed->error()){
+			return array($feed->error(),NULL);
+		}
+		
+		foreach ($values as $item) {
 		    // Now, let's grab the Google-namespaced <gd:where> tag.
 		    $gd_where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where');
 		    $location = $gd_where[0]['attribs']['']['valueString'];
@@ -92,22 +98,23 @@ class modGcalendarUpcomingHelper {
 		    $unixenddate = modGcalendarUpcomingHelper::tstamptotime($enddate);
 		    $where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where'); 
 		    $location = $where[0]['attribs']['']['valueString'];
-		    
-		    // If there's actually a title here (private events don't have titles) and it's not cancelled...
-		if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($startdate)) > 0) {
+			    
+			    // If there's actually a title here (private events don't have titles) and it's not cancelled...
+			if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($startdate)) > 0) {
 		        $id = substr($item->get_link(),stripos($item->get_link(),'eid=')+4);
 		        $temp[] = array(
-		        'id'=>$id,
 		        'startdate'=>$unixstartdate,
 		        'enddate'=>$unixenddate,
+		        'id'=>$id,
 		        'where'=>$location,
 		        'title'=>$item->get_title(),
 		        'description'=>$item->get_description(),
 		        'backlink'=>urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),
 		        'link'=>$item->get_link());
 		        if ($debug) { echo "Added ".$item->get_title();}
-		    } 
+			}
 		}
+		sort($temp);
 		
 		//return the feed data structure for the template	
 		return array(NULL,$temp);

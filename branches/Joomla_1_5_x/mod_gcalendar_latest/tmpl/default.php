@@ -23,14 +23,13 @@ if($params->get( 'openWindow', 0 )==1)
 	$dsplLink = '###LINK###';
 $event_display="<p>".JText::_("PUBLISHED")." ###PUBLISHED###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
 
-// ...and how many you want to display (leave at 999 for everything)
-$items_to_show=$params->get( 'max', 5 );
-
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y H:i');
 
-// Loop through the (now sorted) array, and display what we wanted.
-foreach ($gcalendar_data as $item) {
+$counter = 0;
+// Loop through the array, and display what we wanted.
+for ($i = sizeof($gcalendar_data)-1; $i >=0 && $counter < $params->get( 'max', 5 ); $i--){
+	$item = $gcalendar_data[$i];
 	// These are the dates we'll display
     $gCalDate = date($dateformat, $item['published']);
     
@@ -51,9 +50,7 @@ foreach ($gcalendar_data as $item) {
     $temp_event=str_replace("&gt;",">",$temp_event);
     $temp_event=str_replace("&quot;","\"",$temp_event);
 
-    if (($items_to_show>0 AND $items_shown<$items_to_show)) {
-        echo $temp_event;
-        $items_shown++;
-    }
+	echo $temp_event;
+	$counter++;
 }
 ?>

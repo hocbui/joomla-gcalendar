@@ -30,18 +30,14 @@ $GroupByDate=false;
 // Change the above to 'false' if you don't want to group this by dates,
 // but remember to add ###DATE### in the event_display if you do.
 
-// ...and how many you want to display (leave at 999 for everything)
-$items_to_show=$params->get( 'max', 5 );
-
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y'); // 10 March 2009 - see http://www.php.net/date for details
 $timeformat=$params->get('timeFormat', 'H:i');; // 12.15am
 
-//Time offset - if times are appearing too early or too late on your website, change this.
-$offset="now"; // you can use "+1 hour" here for example
-
-// Loop through the (now sorted) array, and display what we wanted.
-foreach ($gcalendar_data as $item) {
+// Loop through the array, and display what we wanted.
+for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
+	$item = $gcalendar_data[$i];
+	
 	// These are the dates we'll display
     $gCalDate = date($dateformat, $item['startdate']);
     $gCalStartTime = date($timeformat, $item['startdate']);
@@ -68,10 +64,7 @@ foreach ($gcalendar_data as $item) {
     $temp_event=str_replace("&gt;",">",$temp_event);
     $temp_event=str_replace("&quot;","\"",$temp_event);
 
-    if (($items_to_show>0 AND $items_shown<$items_to_show)) {
-                if ($GroupByDate) {if ($gCalDate!=$old_date) { echo $temp_dateheader; $old_date=$gCalDate;}}
-        echo $temp_event;
-        $items_shown++;
-    }
+	if ($GroupByDate) {if ($gCalDate!=$old_date) { echo $temp_dateheader; $old_date=$gCalDate;}}
+	echo $temp_event;
 }
 ?>

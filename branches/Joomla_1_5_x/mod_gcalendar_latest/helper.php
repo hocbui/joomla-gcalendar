@@ -71,7 +71,13 @@ class modGcalendarLatestHelper
 			$tz = $tzvalue[0]['attribs']['']['value'];
 		}
 		 
-		foreach ($feed->get_items() as $item) {
+		$values = $feed->get_items();
+		
+		if ($feed->error()){
+			return array($feed->error(),NULL);
+		}
+		
+		foreach ($values as $item) {
 		    $location = $gd_where[0]['attribs']['']['valueString'];
 		    //and the status tag too, come to that
 		    $gd_status = $item->get_item_tags('http://schemas.google.com/g/2005', 'eventStatus');
@@ -86,8 +92,8 @@ class modGcalendarLatestHelper
 			if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($pubdate)) > 0) {
 				$id = substr($item->get_link(),stripos($item->get_link(),'eid=')+4);
 		        $temp[] = array(
-		         'id'=>$id,
 		         'published'=>$unixpubdate,
+		         'id'=>$id,
 		         'where'=>$location,
 		         'title'=>$item->get_title(),
 		         'description'=>$item->get_description(),
@@ -96,6 +102,7 @@ class modGcalendarLatestHelper
 		        if ($debug) { echo "Added ".$item->get_title();}
 		    } 
 		}
+		sort($temp);
 		//return the feed data structure for the template	
 		return array(NULL,$temp);
 	}
