@@ -1,4 +1,5 @@
 <project name="gcalendar build" default="dist" basedir=".">
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 	<description>
         default build file for gcalendar
     </description>
@@ -6,7 +7,8 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="gcalendar_version" value="2_0_0RC1" />
+	<property name="gcalendar_version" value="2_0_0RC2" />
+	<property name="includeUpgrade" value="true" />
 
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -16,8 +18,16 @@
 
 	<target name="dist" depends="init">
 		<antcall target="create_install_packages" />
-		<!-- antcall target="create_upgrade_packages_1_5" />
-		<antcall target="create_upgrade_packages_1_0" / -->
+		<if>
+			<istrue value="${includeUpgrade}" />
+			<then>
+				<antcall target="create_upgrade_packages_1_5" />
+				<antcall target="create_upgrade_packages_1_0" />
+			</then>
+			<else>
+				<echo message="Not executing creating the upgrade packages." />
+			</else>
+		</if>
 	</target>
 
 	<target name="create_upgrade_packages_1_0" description="create upgrade package for joomla 1.0">
