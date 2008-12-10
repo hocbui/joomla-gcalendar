@@ -1,0 +1,496 @@
+/* Copyright 2008 Google,  Inc.  All Rights Reserved */ 
+body, td, th {
+	font-family:Arial, sans-serif;
+}
+
+body {
+	padding:0;
+	margin:.5em .5em .5em;
+	font-size:10pt;
+}
+
+ul, li {
+	margin:0;
+	padding:0;
+}
+
+h1 {
+	margin:0;
+	padding:0;
+	font-size:120%;
+}
+
+a img {
+	border:none;
+}
+
+.t1 {
+	margin:0 2px;
+	height:1px;
+	overflow:hidden;
+	font-size:1px;
+	line-height:1px;
+}
+
+.t2 {
+	margin:0 1px;
+	height:1px;
+	overflow:hidden;
+	font-size:1px;
+	line-height:1px;
+}
+
+#logo-link img {
+	vertical-align:middle;
+	margin:0 .5em 0 0;
+}
+
+#nav {
+	width:100%;
+	margin:0;
+	padding:0 1em;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+#nav td {
+	padding-top:.5em;
+	padding-bottom:4px;
+	margin:0;
+	border:none;
+}
+
+#nav .nav-buttons {
+	width:12em;
+	white-space:nowrap;
+}
+
+#nav .nav-button {
+	padding:.1em 0;
+	vertical-align:middle;
+	border:none;
+}
+
+#nav #nav-today {
+	font-size:8pt;
+	margin:0 2px;
+	padding:0;
+}
+
+#nav .period-range {
+	text-align:center;
+	padding-left:1em;
+	font-weight:bold;
+}
+
+#nav .nav-tab {
+	width:6em;
+	margin:0;
+	padding:0 .2em;
+	text-align:center;
+	vertical-align:bottom;
+	white-space:nowrap;
+}
+
+#nav .tab-link {
+	display:block;
+	padding-top:.3em;
+	text-decoration:none;
+}
+
+#footer {
+	height:1px;
+}
+
+#footer #poweredby-link {
+	position:relative;
+	top:-60px;
+	left:-12px;
+	float:right;
+	clear:right;
+}
+
+#footer #poweredby-link img {
+	width:62px;
+	height:30px;
+}
+
+#footer #poweredby-link img {
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="images/poweredby.png", sizingMethod="scale");
+}
+
+#footer #poweredby-link>img {
+	filter:none;
+	background:url(images/poweredby.png) no-repeat center;
+}
+
+#footer #timezone, #footer #subscribe-link {
+	font-size:85%;
+	text-decoration:none;
+}
+
+#footer #subscribe-link {
+	float:right;
+}
+
+#footer #subscribe-link:hover {
+	text-decoration:underline;
+}
+
+.view-month #month-tab, .view-agenda #agenda-tab {
+	font-weight:bold;
+}
+
+a.event-link:hover {
+	text-decoration:underline;
+}
+
+.event-link {
+	font-family:Verdana, sans-serif;
+	text-decoration:none;
+}
+
+.event-time {
+	font-family:Arial, sans-serif;
+	font-weight:bold;
+}
+
+.view-container-border {
+	padding:8px;
+}
+
+.view-month .view-container-border {
+	padding-top:0;
+}
+
+.month-table {
+	table-layout:fixed;
+	width:100%;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+.month-table th, .month-table td {
+	font-size:85%;
+	padding:0;
+	border-style:solid;
+	border-width:0 1px;
+}
+
+.month-table th {
+	font-weight:normal;
+}
+
+.month-table .item-content {
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.month-table .event-time {
+	font-size:90%;
+	padding-right:.5em;
+}
+
+.month-table .event-multiday {
+	margin:1px;
+}
+
+.month-table .event-multiday .t0 {
+	padding-left:2px;
+}
+
+.month-table .event-singleday {
+}
+
+.month-table .item-continued .t0 {
+	padding-left:8px;
+	background-image:url(../images/icon_moreleft.gif);
+	background-position:left;
+	background-repeat:no-repeat;
+}
+
+.month-table .item-continues .t0 {
+	padding-right:8px;
+	background-image:url(../images/icon_moreright.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+}
+
+.month-table .cell-empty-below {
+}
+
+.month-table .cell-last-row {
+	border-bottom-width:1px;
+}
+
+.month-table .date-marker {
+	text-align:right;
+}
+
+.month-table .grid-row td {
+	height:1.2em;
+}
+
+.view-agenda .view-container {
+	overflow:auto;
+	height:445px;
+}
+
+.view-agenda .view-container-border .view-container {
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+
+.view-agenda .view-container-border {
+	margin-right:17px;
+}
+
+.view-agenda .view-container-border>.view-container {
+	overflow-y:auto;
+	overflow-x:auto;
+}
+
+.view-agenda>.view-container-border {
+	margin-right:auto;
+}
+
+html {
+	overflow-x:hidden;
+}
+
+.view-agenda .message {
+	text-align:center;
+	margin:1em auto;
+	border:solid 1px yellow;
+}
+
+.view-agenda .date-section {
+	margin:0;
+	padding:.2em .4em;
+	border-bottom:solid 1px;
+}
+
+.view-agenda .date-section-even {
+}
+
+.view-agenda .date-section-0 {
+	clear:both;
+	border-top:none;
+}
+
+.view-agenda .date {
+	font-weight:bold;
+}
+
+.view-agenda .events {
+	font-size:85%;
+	border-collapse:collapse;
+	border-spacing:0;
+	width:100%;
+}
+
+.view-agenda .events td {
+	border:none;
+	vertical-align:top;
+}
+
+.view-agenda .event-info {
+}
+
+.view-agenda .event-link {
+	font-weight:bold;
+}
+
+.view-agenda .event-time {
+	padding-left:2em;
+	width:6em;
+}
+
+.view-agenda .event-time .tbg {
+	width:38px;
+	height:1em;
+}
+
+.view-agenda .event-time .t0 {
+	width:40px;
+}
+
+.view-agenda .event-summary {
+}
+
+.view-agenda .event-description {
+	border-left:solid 2px;
+	padding-left:.5em;
+}
+
+.view-agenda #footer #poweredby-link {
+	left:-27px;
+}
+
+.chrome-all #poweredby-link, .chrome-navigation h1, .chrome-none h1, .chrome-none #nav {
+	display:none;
+}
+
+h1 {
+	color:#000;
+}
+
+#nav .nav-tab {
+	color:#000;
+}
+
+.view-cap, .view-container-border {
+	background-color:#c3d9ff;
+}
+
+.view-container {
+	background-color:#fff;
+}
+
+.nav-tab .tbg {
+	color:#112abb;
+	background-color:#e8eef7;
+}
+
+.view-month #month-tab .tbg, .view-agenda #agenda-tab .tbg {
+	color:#000;
+	background-color:#c3d9ff;
+}
+
+.event-link {
+	color:#2952a3;
+}
+
+#footer #subscribe-link {
+	color:#2952a3;
+}
+
+#footer #timezone {
+	color:#444;
+}
+
+.month-table th, .month-table td {
+	background-color:#fff;
+	border-color:#c3d9ff;
+}
+
+.month-table th {
+	color:#112abb;
+}
+
+.month-table .column-label {
+	background-color:#c3d9ff;
+}
+
+.month-table .event-multiday .tbg {
+	background-color:#668cd9;
+}
+
+.month-table .event-multiday .event-link {
+	color:#fff;
+}
+
+.month-table .grid-row .cell-today {
+	background-color:#ffc;
+}
+
+.month-table .date-month {
+	color:#444;
+	background-color:#e8eef7;
+}
+
+.month-table .date-not-month {
+	color:#777;
+	background-color:#eee;
+}
+
+.month-table .date-today {
+	background-color:#bcd;
+}
+
+.view-agenda .event-link {
+	color:#36c;
+}
+
+.view-agenda .date-section {
+	background-color:#fff;
+	border-bottom-color:#c3d9ff;
+}
+
+.view-agenda .date-section-even {
+	background-color:#e8eef7;
+}
+
+.view-agenda .date-section-today {
+	background-color:#ffc;
+}
+
+.view-agenda .event-time .tbg {
+	background-color:#36c;
+}
+
+.view-agenda .date {
+	color:#112abb;
+}
+
+.view-agenda .event-time {
+	color:#36c;
+}
+
+.view-agenda .event-description {
+	color:#333;
+}
+
+@media print {
+	.t1, .t2, .nav-buttons, .nav-tab, #footer {
+	display:none;
+}
+
+.view-container-border {
+	padding:0;
+}
+
+.view-agenda .view-container {
+	overflow:visible;
+	height:auto;
+}
+
+.view-month {
+	margin:0;
+}
+
+.month-table {
+	border-color:#000;
+}
+
+.month-table td, .month-table th {
+	border-color:#000;
+}
+
+.month-table .column-label {
+	font-weight:bold;
+	color:#000;
+	border:solid 1px #000;
+}
+
+.month-table .date-marker {
+	border:solid 1px #000;
+}
+
+.month-table .event-multiday .t0 {
+	border:solid 1px #000;
+}
+
+.month-table .event-multiday .event-link {
+	color:#000;
+}
+
+.view-agenda .event-time, .view-agenda .date, .view-agenda .event-link, .view-agenda .event-description, .view-month .event-link {
+	color:#000;
+}
+
+.view-agenda .event-time .t0 {
+	border:solid 1px #000;
+}
+
+}
