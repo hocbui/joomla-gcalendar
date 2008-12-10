@@ -25,11 +25,9 @@
 				description="PARAMHEIGHT" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
-			<param name="height_auto" type="radio" default="0" label="Auto Height"
-				description="PARAMHEIGHTAUTO">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
+			<param name="pageclass_sfx" type="text" size="20" default=""
+				label="Page Class Suffix"
+				description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
 		</params>
 		<advanced>
 			<param name="use_custom_css" type="radio" default="0"

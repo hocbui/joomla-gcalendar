@@ -16,17 +16,6 @@ class HTML_gcalendar {
 ?>
 		<div class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 
-		<?php
-
-		if ($params->get('page_title')) {
-?>
-			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $params->get( 'header' ); ?>
-			</div>
-			<?php
-
-		}
-?>
 		<iframe
 		id="gcalendar_content"
 		src="<?php echo $params->get( 'htmlUrl' ); ?>"
@@ -41,9 +30,6 @@ class HTML_gcalendar {
 
 		</div>
 		<?php
-
-		// displays back button
-		mosHTML :: BackButton($params);
 	}
 }
 ?>
