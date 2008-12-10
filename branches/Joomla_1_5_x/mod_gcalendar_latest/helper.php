@@ -22,11 +22,6 @@ class modGcalendarLatestHelper
 		$calName = $params->get( 'name_latest', NULL );
 		if($calName == NULL) return array(JText::_("GCALENDAR_ERROR"),NULL);
 		
-		JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'models');
-		$model = JModel::getInstance('GCalendarModelGCalendar');
-		$model->setState('calendarName',$calName);
-		$model->setState('calendarType',JRequest::getVar('calendarType', 'xmlUrl'));
-		
 		// check if cache directory exists and is writeable
 		$cacheDir =  JPATH_BASE.DS.'cache';	
 		if ( !is_writable( $cacheDir ) ) {	
@@ -50,11 +45,20 @@ class modGcalendarLatestHelper
 			$feed->enable_cache('false');
 		}
 		
+		$db = &JFactory::getDBO();
+
+		$query = 'SELECT id,xmlUrl FROM #__gcalendar where name=\''.$calName.'\'';
+		$db->setQuery( $query );
+		$results = $db->loadObjectList();
+		$url = '';
+		foreach ($results as $result) {
+			$url = $result->xmlUrl;
+		}
 		// This is the feed we'll use
-		$feed->set_feed_url($model->getGCalendar());
+		$feed->set_feed_url($url);
 		 
 		// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
-		// $feed->enable_order_by_date(false);
+		$feed->enable_order_by_date(false);
 		 
 		// Initialize the feed so that we can use it.
 		$feed->init();

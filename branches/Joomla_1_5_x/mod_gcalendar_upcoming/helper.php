@@ -21,11 +21,6 @@ class modGcalendarUpcomingHelper {
 		$calName = $params->get( 'name', NULL );
 		if($calName == NULL) return array(JText::_("GCALENDAR_ERROR"),NULL);
 		
-		JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'models');
-		$model = JModel::getInstance('GCalendarModelGCalendar');
-		$model->setState('calendarName',$calName);
-		$model->setState('calendarType',JRequest::getVar('calendarType', 'xmlUrl'));
-		
 		// check if cache directory exists and is writeable
 		$cacheDir =  JPATH_BASE.DS.'cache';	
 		if ( !is_writable( $cacheDir ) ) {	
@@ -49,8 +44,17 @@ class modGcalendarUpcomingHelper {
 			$feed->enable_cache('false');
 		}
 		
+		$db = &JFactory::getDBO();
+
+		$query = 'SELECT id,xmlUrl FROM #__gcalendar where name=\''.$calName.'\'';
+		$db->setQuery( $query );
+		$results = $db->loadObjectList();
+		$url = '';
+		foreach ($results as $result) {
+			$url = $result->xmlUrl;
+		}
 		// This is the feed we'll use
-		$path = $model->getGCalendar();
+		$path = $url;
 		$path = substr($path,0,strpos($path,'public')).'public/full';
 		$today = date('Y-m-d');
 		$path = $path."?start-min=".$today;

@@ -37,9 +37,19 @@ class GCalendarModelGCalendar extends JModel
 		
 		$db =& JFactory::getDBO();
 
-		$query = 'SELECT '.$calendarType.' FROM #__gcalendar where name=\''.$calendarName.'\'';
+		$query = 'SELECT id,'.$calendarType.' FROM #__gcalendar where name=\''.$calendarName.'\'';
 		$db->setQuery( $query );
-		return $db->loadResult();
+		$results = $db->loadObjectList();
+		$url = '';
+		foreach ($results as $result) {
+			if($calendarType === 'xmlUrl')
+				$url = $result->xmlUrl;
+			else if($calendarType === 'icalUrl')
+				$url = $result->icalUrl;
+			else
+				$url = $result->htmlUrl;
+		}
+		return $url;
 	}
 	
 }
