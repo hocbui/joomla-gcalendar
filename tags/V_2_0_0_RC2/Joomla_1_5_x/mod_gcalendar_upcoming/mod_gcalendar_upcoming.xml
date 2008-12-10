@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>GCalendar Upcoming Events</name>
+	<author>allon</author>
+	<creationDate>Dec 2008</creationDate>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorEmail>allon.moritz@gmail.com</authorEmail>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<version>2.0.0RC2</version>
+	<description>This module shows the upcoming events from a google
+		calendar.</description>
+	<files>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php
+		</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<filename>tmpl/default.php</filename>
+		<filename>tmpl/index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar_upcoming.ini
+		</language>
+	</languages>
+	<params>
+		<param name="name" type="text" size="80" default="" label="Calendar name"
+			description="The name of the google calendar. Specified in the GCalendar component." />
+		<param name="dateFormat" type="text" size="80" default="d.m.Y"
+			label="Date format"
+			description="The format of the date for an event (see http://www.php.net/date for details)." />
+		<param name="timeFormat" type="text" size="80" default="H:i"
+			label="Time format"
+			description="The format of the time for an event (see http://www.php.net/date for details)." />
+		<param name="max" type="text" size="2" default="5" label="Max events"
+			description="The maximal count of events should be displayed." />
+		<param name="openWindow" type="radio" default="0"
+			label="Open event in new window"
+			description="If the event should be opened in a new window or inside of joomla.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="moduleclass_sfx" type="text" size="80" default=""
+			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	<params group="advanced">
+		<param name="timezone" type="text" size="100" default="" label="Timezone"
+			description="The timezone the event details should be displayed." />
+		<param name="upcomingcache" type="text" size="6" default="3600"
+			label="Cache time" description="Set the cache time (seconds)." />
+	</params>
+</install>
