@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+	<name>GCalendar</name>
+	<creationDate>Dec 2008</creationDate>
+	<author>allon</author>
+	<copyright>
+		This component is released under the GNU/GPL License
+	</copyright>
+	<authorEmail>allon.moritz@gmail.com</authorEmail>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<version>2.0.0RC2</version>
+	<description>Google Calendar for joomla.</description>
+	<files>
+		<filename>gcalendar.php</filename>
+		<filename>gcalendar.html.php</filename>
+		<filename>gcalendar.xml.php</filename>
+		<filename>languages/english.php</filename>
+		<filename>languages/german.php</filename>
+		<filename>languages/germani.php</filename>
+	</files>
+	<install>
+		<queries>
+			<query>
+				CREATE TABLE IF NOT EXISTS `#__gcalendar` ( `id` int(11)
+				NOT NULL auto_increment, `name` varchar(100) NOT NULL
+				default '', `htmlUrl` text, `xmlUrl` text, `icalUrl` text PRIMARY KEY (`id`) )
+				TYPE=MyISAM
+			</query>
+		</queries>
+	</install>
+	<uninstall>
+		<queries>
+			<query>DELETE FROM `#__gcalendar`</query>
+			<query>DROP TABLE `#__gcalendar`</query>
+		</queries>
+	</uninstall>
+	<installfile>install.gcalendar.php</installfile>
+	<uninstallfile>uninstall.gcalendar.php</uninstallfile>
+	<administration>
+		<menu>GCalendar</menu>
+		<submenu>
+			<menu task="">Show Calendars</menu>
+		</submenu>
+		<files>
+			<filename>admin.gcalendar.php</filename>
+			<filename>admin.gcalendar.html.php</filename>
+			<filename>toolbar.gcalendar.php</filename>
+			<filename>toolbar.gcalendar.html.php</filename>
+			<filename>gcalendar.class.php</filename>
+			<filename>gcalendar.xml</filename>
+		</files>
+		<images>
+			<filename>images/gcalendar_but.gif</filename>
+			<filename>images/gcalendar.gif</filename>
+		</images>
+	</administration>
+	<params>
+		<param name="name" type="text" default="" label="Calendar"
+			description="The google calendar, created in the google calendar component" />
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="scrolling" type="radio" default="auto"
+			label="Scroll Bars"
+			description="Show/Hide Horizontal  Vertical scroll bars.">
+			<option value="no">No</option>
+			<option value="yes">Yes</option>
+			<option value="auto">Auto</option>
+		</param>
+		<param name="width" type="text" size="5" default="100%"
+			label="Width"
+			description="Width of the IFrame Window, you can enter an absolute figure in pixels, or a relative figure by adding a %" />
+		<param name="height" type="text" size="5" default="500"
+			label="Height" description="Height of the IFrame Window" />
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="pageclass_sfx" type="text" size="20" default=""
+			label="Page Class Suffix"
+			description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
+	</params>
+</mosinstall>
