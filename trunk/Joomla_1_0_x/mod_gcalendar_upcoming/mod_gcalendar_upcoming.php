@@ -25,12 +25,16 @@ if(!class_exists('SimplePie')){
 
 $calName = $params->get('name', '');
 if(empty($calName)){
-	echo _GCALENDAR_UPCOMING_NO_CALENDAR_SPECIFIED;
+	echo _GCALENDAR_UPCOMING_CALENDAR_NO_DEFINED;
 	return;
 }
 
 $database->setQuery("select id,xmlUrl from #__gcalendar where name='$calName'");
 $results = $database->loadObjectList();
+if(empty($results)){
+	echo _GCALENDAR_UPCOMING_CALENDAR_NOT_FOUND.$calName;
+	return;
+}
 $url = '';
 foreach ($results as $result) {
 	$url = $result->xmlUrl;
@@ -87,7 +91,7 @@ if($tz ===''){
 $values = $feed->get_items();
 
 if ($feed->error()){
-	echo $feed->error();
+	echo _GCALENDAR_UPCOMING_SP_ERROR.$feed->error();
 	return;
 }
 
@@ -125,7 +129,6 @@ foreach ($values as $item) {
         'description'=>$item->get_description(),
         'backlink'=>urldecode('index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),
         'link'=>$item->get_link());
-        if ($debug) { echo "Added ".$item->get_title();}
     }
 }
 sort($gcalendar_data);

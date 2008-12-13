@@ -1,11 +1,10 @@
 <?php
+
 /**
-* @version	$Id: mod_slick_rss.php 9764 2008-03-22 17:32:11Z davidwhthomas $
-* @package	Joomla 1.5
-* @copyright	Copyright (C) 2008 David W.H Thomas. All rights reserved.
-* @license	GNU/GPL, see LICENSE.php
-* Parse and display XML news feeds with mootools DHTML tooltip
-*/
+* Google calendar latest events module
+* @author allon
+* @version $Revision: 2.0.0 $
+**/
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
@@ -20,7 +19,7 @@ class modGcalendarLatestHelper
 			require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
 		}
 		$calName = $params->get( 'name_latest', NULL );
-		if($calName == NULL) return array(JText::_("GCALENDAR_ERROR"),NULL);
+		if(empty($calName)) return array(JText::_("CALENDAR_NO_DEFINED"),NULL);
 		
 		// check if cache directory exists and is writeable
 		$cacheDir =  JPATH_BASE.DS.'cache';	
@@ -50,6 +49,8 @@ class modGcalendarLatestHelper
 		$query = 'SELECT id,xmlUrl FROM #__gcalendar where name=\''.$calName.'\'';
 		$db->setQuery( $query );
 		$results = $db->loadObjectList();
+		if(empty($results))
+			return array(JText::_("CALENDAR_NOT_FOUND").$calName,NULL);
 		$url = '';
 		foreach ($results as $result) {
 			$url = $result->xmlUrl;
@@ -78,7 +79,7 @@ class modGcalendarLatestHelper
 		$values = $feed->get_items();
 		
 		if ($feed->error()){
-			return array($feed->error(),NULL);
+			return array(JText::_("SP_LATEST_ERROR").$feed->error(),NULL);
 		}
 		
 		foreach ($values as $item) {

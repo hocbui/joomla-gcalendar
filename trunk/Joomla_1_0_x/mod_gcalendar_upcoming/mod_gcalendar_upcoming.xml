@@ -18,6 +18,7 @@
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/simplepie.inc</filename>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_latest/sp_compatibility_test.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/english.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/german.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/germani.php</filename>
