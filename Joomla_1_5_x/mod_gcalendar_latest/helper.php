@@ -82,7 +82,10 @@ class modGcalendarLatestHelper
 		}
 		
 		foreach ($values as $item) {
+			// Now, let's grab the Google-namespaced <gd:where> tag.
+			$gd_where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where');
 		    $location = $gd_where[0]['attribs']['']['valueString'];
+		    
 		    //and the status tag too, come to that
 		    $gd_status = $item->get_item_tags('http://schemas.google.com/g/2005', 'eventStatus');
 		    $status = substr( $gd_status[0]['attribs']['']['value'], -8);
@@ -103,7 +106,6 @@ class modGcalendarLatestHelper
 		         'description'=>$item->get_description(),
 		         'backlink'=>urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),
 		         'link'=>$item->get_link());
-		        if ($debug) { echo "Added ".$item->get_title();}
 		    } 
 		}
 		sort($temp);

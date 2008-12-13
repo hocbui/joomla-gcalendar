@@ -115,7 +115,6 @@ class modGcalendarUpcomingHelper {
 		        'description'=>$item->get_description(),
 		        'backlink'=>urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),
 		        'link'=>$item->get_link());
-		        if ($debug) { echo "Added ".$item->get_title();}
 			}
 		}
 		sort($temp);
