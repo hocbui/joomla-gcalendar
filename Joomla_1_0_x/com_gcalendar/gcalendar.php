@@ -42,15 +42,10 @@ function showCalendar($option) {
 
 	$menu = $mainframe->get('menu');
 	$params = new mosParameters($menu->params);
-	$params->def('back_button', $mainframe->getCfg('back_button'));
 	$params->def('scrolling', 'auto');
-	$params->def('page_title', '1');
 	$params->def('pageclass_sfx', '');
-	$params->def('header', $menu->name);
 	$params->def('height', '500');
-	$params->def('height_auto', '0');
 	$params->def('width', '100%');
-	$params->def('add', '1');
 	$params->def('htmlUrl', mosGetParam($_REQUEST, 'page', ''));
 
 	$name = $params->def('name', '');
@@ -74,13 +69,6 @@ function showCalendar($option) {
 			if($timezone != '')$timezone='&ctz='.$timezone;
 			$params->set('htmlUrl', $p['scheme'] . '://' . $p['host'] . '/calendar/event?eid=' . $eventID . $timezone);
 		}
-	}
-
-	// auto height control
-	if ($params->def('height_auto')) {
-		$row->load = 'onload="iFrameHeight()"';
-	} else {
-		$row->load = '';
 	}
 
 	$mainframe->SetPageTitle($menu->name);
