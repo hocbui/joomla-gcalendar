@@ -9,26 +9,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 $p= parse_url($this->gcalendar);
-	
-if($this->timezone != '')$this->timezone='&ctz='.$this->timezone;
-$url = $p['scheme'] . '://' . $p['host'] . '/calendar/event?eid=' . $this->eventID . $this->timezone;
 
+$tz = '';
+if(!empty($this->timezone))$tz='&ctz='.$this->timezone;
+$params   = JComponentHelper::getParams('com_languages');
+$lg = $params->get('site', 'en-GB');
+$lg = '&hl='.$lg;
+$url = $p['scheme'] . '://' . $p['host'] . '/calendar/event?eid=' . $this->eventID . $tz.$lg;
 ?>
 
-<script language="javascript" type="text/javascript">
-function iFrameHeightGCEvent() {
-	var h = 0;
-	if ( !document.all ) {
-		h = document.getElementById('gcalendarEvent').contentDocument.height;
-		document.getElementById('gcalendarEvent').style.height = h + 60 + 'px';
-	} else if( document.all ) {
-		h = document.frames('gcalendarEvent').document.body.scrollHeight;
-		document.all.gcalendarEvent.style.height = h + 20 + 'px';
-	}
-}
-</script>
-
-<iframe onload="iFrameHeightGCEvent()"
+<iframe
 id="gcalendarEvent"
 name="iframe"
 src="<?php echo $url; ?>"

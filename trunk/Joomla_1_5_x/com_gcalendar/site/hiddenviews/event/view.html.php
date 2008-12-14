@@ -33,7 +33,7 @@ class GCalendarViewEvent extends JView
 				$paramsItem	=& $menu->getParams($item->id);
 				if($paramsItem->get('name')===$model->getState('calendarName')){
 					$pathway->addItem($paramsItem->get('name'),'');
-					$pathway->addItem($this->eventID,'');
+					//$pathway->addItem($this->eventID,'');
 				}
 			}
 		}

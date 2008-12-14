@@ -10,7 +10,7 @@
 	<copyright></copyright>
 	<license></license>
 	<!--  The version string is recorded in the components table -->
-	<version>2.0.0RC2</version>
+	<version>2.0.0RC3</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>Google calendar integrated in joomla.</description>
 
@@ -54,10 +54,6 @@
 		<filename>views/gcalendar/tmpl/googlecal/images/menu_arrow_open.gif</filename>
 		<filename>views/gcalendar/tmpl/googlecal/images/poweredby.png</filename>
 		<filename>views/gcalendar/tmpl/googlecal/images/transparent_sm.gif</filename>
-		<filename>hiddenviews/content/index.html</filename>
-		<filename>hiddenviews/content/view.raw.php</filename>
-		<filename>hiddenviews/content/tmpl/index.html</filename>
-		<filename>hiddenviews/content/tmpl/default.php</filename>
 		<filename>hiddenviews/event/index.html</filename>
 		<filename>hiddenviews/event/view.html.php</filename>
 		<filename>hiddenviews/event/tmpl/index.html</filename>
