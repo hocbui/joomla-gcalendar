@@ -114,7 +114,7 @@ class modGcalendarLatestHelper
 		return array(NULL,$temp);
 	}
 	
-	public static function tstamptotime($tstamp) {
+	function tstamptotime($tstamp) {
         // converts ISODATE to unix date
         // 1984-09-01T14:21:31Z
 		sscanf($tstamp,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
