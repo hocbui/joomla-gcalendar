@@ -8,12 +8,11 @@
 	</copyright>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
-	<version>2.0.0RC2</version>
+	<version>2.0.0RC3</version>
 	<description>Google Calendar for joomla.</description>
 	<files>
 		<filename>gcalendar.php</filename>
 		<filename>gcalendar.html.php</filename>
-		<filename>gcalendar.xml.php</filename>
 		<filename>languages/english.php</filename>
 		<filename>languages/german.php</filename>
 		<filename>languages/germani.php</filename>
@@ -23,7 +22,7 @@
 			<query>
 				CREATE TABLE IF NOT EXISTS `#__gcalendar` ( `id` int(11)
 				NOT NULL auto_increment, `name` varchar(100) NOT NULL
-				default '', `htmlUrl` text, `xmlUrl` text, `icalUrl` text PRIMARY KEY (`id`) )
+				default '', `htmlUrl` text, `xmlUrl` text, `icalUrl` text, PRIMARY KEY (`id`) )
 				TYPE=MyISAM
 			</query>
 		</queries>

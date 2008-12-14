@@ -10,6 +10,7 @@
   		<field type="titletext" name="name" translate="1">Name</field>
 		<field type="htmltext" name="htmlUrl" translate="1">HTML Url</field>
 		<field type="htmltext" name="xmlUrl" translate="1">XML Url</field>
+		<field type="htmltext" name="icalUrl" translate="1">ICAL Url</field>
   	</table>
   </reference>	  
 </joomfish>

@@ -10,7 +10,7 @@
 		GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
-	<version>2.0.0RC2</version>
+	<version>2.0.0RC3</version>
 	<description>
 		This module shows the upcoming events from a google
 		calendar.
@@ -18,7 +18,7 @@
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/simplepie.inc</filename>
-		<filename module="mod_gcalendar_upcoming">mod_gcalendar_latest/sp_compatibility_test.php</filename>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/sp_compatibility_test.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/english.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/german.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/germani.php</filename>
