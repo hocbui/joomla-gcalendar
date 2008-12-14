@@ -7,7 +7,7 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="gcalendar_version" value="2_0_0RC2" />
+	<property name="gcalendar_version" value="2_0_0RC3" />
 	<property name="includeUpgrade" value="true" />
 
 	<target name="init">
@@ -51,7 +51,6 @@
 		<property name="gcalendar_root_site" value="${build}/upgrade_1_0/com_gcalendar/components/com_gcalendar" />
 		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.php" todir="${gcalendar_root_site}" />
 		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.html.php" todir="${gcalendar_root_site}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.xml.php" todir="${gcalendar_root_site}" />
 		<copy todir="${gcalendar_root_site}">
 			<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/languages/*" />
 		</copy>
