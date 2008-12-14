@@ -7,9 +7,9 @@
 	<property name="server_url10" value="allon.ch" />
 	<property name="server_url15" value="allon.ch" />
 	<property name="username10" value="gcal_demo10@allon.ch" />
-	<property name="password10" value="gcal_demo10_345" />
+	<property name="password10" value="gcal_demo10_" />
 	<property name="username15" value="gcal_demo15@allon.ch" />
-	<property name="password15" value="gcal_demo15_345" />
+	<property name="password15" value="gcal_demo15_" />
 	<property name="remote_root_dir10" value="/" />
 	<property name="remote_root_dir15" value="/" />
 
@@ -178,7 +178,6 @@
 				<property name="gcalendar_root_site" value="${dir}/components/com_gcalendar" />
 				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.php" todir="${gcalendar_root_site}" />
 				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.html.php" todir="${gcalendar_root_site}" />
-				<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.xml.php" todir="${gcalendar_root_site}" />
 
 				<if>
 					<istrue value="${completeupload}" />
