@@ -46,7 +46,7 @@ class modGcalendarLatestHelper
 		
 		$db = &JFactory::getDBO();
 
-		$query = 'SELECT id,xmlUrl FROM #__gcalendar where name=\''.$calName.'\'';
+		$query = "SELECT id,xmlUrl FROM #__gcalendar where name='".$calName."'";
 		$db->setQuery( $query );
 		$results = $db->loadObjectList();
 		if(empty($results))
@@ -71,7 +71,7 @@ class modGcalendarLatestHelper
 		$temp = array();
 		
 		$tz = $params->get('timezone', '');
-		if($tz ===''){
+		if($tz == ''){
 			$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
 			$tz = $tzvalue[0]['attribs']['']['value'];
 		}
@@ -98,7 +98,7 @@ class modGcalendarLatestHelper
 
 		    // If there's actually a title here (private events don't have titles) and it's not cancelled...
 			if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($pubdate)) > 0) {
-				$id = substr($item->get_link(),stripos($item->get_link(),'eid=')+4);
+				$id = substr($item->get_link(),strpos(strtolower($item->get_link()),'eid=')+4);
 		        $temp[] = array(
 		         'published'=>$unixpubdate,
 		         'id'=>$id,
