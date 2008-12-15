@@ -45,7 +45,7 @@ class modGcalendarUpcomingHelper {
 		
 		$db = &JFactory::getDBO();
 
-		$query = 'SELECT id,xmlUrl FROM #__gcalendar where name=\''.$calName.'\'';
+		$query = "SELECT id,xmlUrl FROM #__gcalendar where name='".$calName."'";
 		$db->setQuery( $query );
 		$results = $db->loadObjectList();
 		if(empty($results))
@@ -55,14 +55,13 @@ class modGcalendarUpcomingHelper {
 			$url = $result->xmlUrl;
 		}
 		// This is the feed we'll use
-		$path = $url;
-		$path = substr($path,0,strpos($path,'public')).'public/full';
+		$url = str_replace("basic","full",$url);
 		$today = date('Y-m-d');
-		$path = $path."?start-min=".$today;
-		$path .= "&orderby=starttime&sortorder=ascending";
-		$path .= "&singleevents=true";
+		$url = $url."?start-min=".$today;
+		$url .= "&orderby=starttime&sortorder=ascending";
+		$url .= "&singleevents=true";
 	
-		$feed->set_feed_url($path);
+		$feed->set_feed_url($url);
 		 
 		// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
 		$feed->enable_order_by_date(false);
@@ -77,7 +76,7 @@ class modGcalendarUpcomingHelper {
 		$temp = array();
 		
 		$tz = $params->get('timezone', '');
-		if($tz ===''){
+		if($tz == ''){
 			$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
 			$tz = $tzvalue[0]['attribs']['']['value'];
 		}
@@ -106,7 +105,7 @@ class modGcalendarUpcomingHelper {
 			    
 			    // If there's actually a title here (private events don't have titles) and it's not cancelled...
 			if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($startdate)) > 0) {
-		        $id = substr($item->get_link(),stripos($item->get_link(),'eid=')+4);
+		        $id = substr($item->get_link(),strpos(strtolower($item->get_link()),'eid=')+4);
 		        $temp[] = array(
 		        'startdate'=>$unixstartdate,
 		        'enddate'=>$unixenddate,

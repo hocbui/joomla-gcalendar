@@ -109,7 +109,7 @@ foreach ($values as $item) {
 
     // If there's actually a title here (private events don't have titles) and it's not cancelled...
 	if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($pubdate)) > 0) {
-		$id = substr($item->get_link(),stripos($item->get_link(),'eid=')+4);
+		$id = substr($item->get_link(),strpos(strtolower($item->get_link()),'eid=')+4);
         $gcalendar_data[] = array(
          'published'=>$unixpubdate,
          'id'=>$id,
