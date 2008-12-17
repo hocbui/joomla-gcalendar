@@ -30,9 +30,7 @@ class GCalendarsModelGCalendars extends JModel
 	 */
 	function _buildQuery()
 	{
-		$query = ' SELECT * '
-			. ' FROM #__gcalendar '
-		;
+		$query = " SELECT * FROM #__gcalendar ";
 
 		return $query;
 	}

@@ -29,7 +29,7 @@ if(empty($calName)){
 	return;
 }
 
-$query = 'SELECT id,xmlUrl FROM #__gcalendar where name=\''.$calName.'\'';
+$query = "SELECT id,xmlUrl FROM #__gcalendar where name='".$calName."'";
 $database->setQuery( $query );
 $results = $database->loadObjectList();
 if(empty($results)){
