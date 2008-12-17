@@ -19,7 +19,7 @@ $params->def( 'height_auto', '1' );
 $params->def( 'width', '100%' );
 
 $name = $params->get('name', '');
-$database->setQuery('select id,htmlUrl from #__gcalendar where name=\''.$name.'\'');
+$database->setQuery("select id,htmlUrl from #__gcalendar where name='".$name."'");
 $results = $database->loadObjectList();
 $url = '';
 foreach ($results as $result) {

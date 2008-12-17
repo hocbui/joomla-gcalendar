@@ -81,7 +81,7 @@
 		<submenu>			
 			<menu task="calendars">GCalendars</menu>
 			<menu task="googleCalendar">Google Calendar</menu>
-			<menu task="support">Support Site</menu>
+			<menu task="support">Support</menu>
 		</submenu>
 		
 		
