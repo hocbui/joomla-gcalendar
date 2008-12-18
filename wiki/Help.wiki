@@ -1,4 +1,3 @@
 = Introduction =
 
-For fourther informations check [http://allon.ch/content/computer/6.html allon.ch].
-
+For fourther informations check [http://gcalendar.allon.ch gcalendar.allon.ch].
