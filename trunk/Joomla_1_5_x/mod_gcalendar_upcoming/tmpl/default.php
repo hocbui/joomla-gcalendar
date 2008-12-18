@@ -19,10 +19,10 @@ if(!empty($error)){
 // ###TITLE###, ###DESCRIPTION###, ###DATE###, ###FROM###, ###UNTIL###,
 // ###WHERE###, ###BACKLINK###, ###LINK###, ###MAPLINK###
 // You can put ###DATE### in here too if you want to, and disable the 'group by date' below.
-$dsplLink = '###BACKLINK###';
+$dsplLink = "<a href='###BACKLINK###'>###TITLE###</a>";
 if($params->get( 'openWindow', 0 )==1)
-	$dsplLink = '###LINK###';
-$event_display="<p>###DATE### ###FROM###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
+	$dsplLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
+$event_display="<p>###DATE### ###FROM###<br>".$dsplLink."</p>";
 
 // The separate date header is here
 $event_dateheader="<P><B>###DATE###</b></P>";
