@@ -1,13 +1,13 @@
 <?php
 /*******************************************************************************
- * FILE: MyGoogleCal3.php
+ * FILE: MyGoogleCal4.php
  *
  * DESCRIPTION:
  *  This script is an intermediary between an iframe and Google Calendar that
  *  allows you to override the default style.
  *
  * USAGE:
- *  <iframe src="MyGoogleCal3.php?src=user%40domain.tld"></iframe>
+ *  <iframe src="MyGoogleCal4.php?src=user%40domain.tld"></iframe>
  *
  *  where user@domain.tld is a valid Google Calendar account.
  *
@@ -35,11 +35,13 @@
  *    string.
  *
  * HISTORY:
- *   21 June     2008 - Reverted to an older custom JavaScript file
- *   18 May      2008 - Corrected a bunch of typos 
- *   24 April    2008 - Original release
- *                      Uses the technique from MyGoogleCal for IE browsers and
- *                      the technique from MyGoogleCal2 for the rest.
+ *   03 December 2008 - Original release
+ *                      Uses technique from MyGoogleCal2 for all browsers,
+ *                      rather than giving IE special treatment.
+ *   16 December 2008 - Modified MyGoogleCal4js.php so that the regex does a
+ *                      general match rather than specifically look for the
+ *                      variable 'Ac'.
+ *                      
  *   
  * ACKNOWLEDGMENTS:
  *   Michael McCall (http://www.castlemccall.com/) for pointing out "htmlembed"
@@ -58,7 +60,7 @@
  *    <link> tag), 
  * 4) Load the stylesheet in the browser by pasting the stylesheet URL into 
  *    the address bar so that it reads similar to:
- *    "http://www.google.com/calendar/embed/d003e2eff7c42eebf779ecbd527f1fe0embedcompiled.css"
+ *    "http://www.google.com/calendar/d003e2eff7c42eebf779ecbd527f1fe0embedcompiled.css"
  * 5) Save the stylesheet (e.g., File->Save Page As in Firefox)
  * Edit this new file to change the style of the calendar.
  *
@@ -66,11 +68,7 @@
  * in the URL field at http://mabblog.com/cssoptimizer/uncompress.html.
  * That site will automatically format the CSS so that it's easier to edit.
  */
-$stylesheet = 'mygooglecal3.css';
-
-/* For the IE stylesheet replace "embed" with "htmlembed" in step (1) 
- */
-$stylesheet_ie = 'mygooglecal3ie.css';
+$stylesheet = 'mygooglecal4.css';
 
 /*******************************************************************************
  * DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING
@@ -78,14 +76,8 @@ $stylesheet_ie = 'mygooglecal3ie.css';
 
 // URL for the calendar
 $url = "";
-$is_ie = FALSE;
 if(count($_GET) > 0) {
-  if(stristr($_SERVER['HTTP_USER_AGENT'], 'msie') === FALSE) {
-    $url = "http://www.google.com/calendar/embed?" . $_SERVER['QUERY_STRING'];
-  } else {
-    $url = "http://www.google.com/calendar/htmlembed?" . $_SERVER['QUERY_STRING'];
-    $is_ie = TRUE;
-  }
+  $url = "http://www.google.com/calendar/embed?" . $_SERVER['QUERY_STRING'];
 }
 
 // Request the calendar
@@ -96,37 +88,14 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $buffer = curl_exec($ch);
 curl_close($ch);
 
-if($is_ie) {
-  // Fix hrefs, image sources, and stylesheet
-  $pattern = '/(href="render)/';
-  $replacement = 'href="http://www.google.com/calendar/render';
-  $buffer = preg_replace($pattern, $replacement, $buffer);
+// Point stylesheet and javascript to custom versions
+$pattern = '/(<link.*>)/';
+$replacement = '<link rel="stylesheet" type="text/css" href="' . $stylesheet . '" />';
+$buffer = preg_replace($pattern, $replacement, $buffer);
 
-  $pattern = '/(href="event)/';
-  $replacement = 'href="http://www.google.com/calendar/event';
-  $buffer = preg_replace($pattern, $replacement, $buffer);
-
-  $pattern = '/(http:\/\/www.google.com\/calendar\/htmlembed)/';
-  $replacement = 'MyGoogleCal3.php';
-  $buffer = preg_replace($pattern, $replacement, $buffer);
-
-  $pattern = '/(src="images)/';
-  $replacement = 'src="http://www.google.com/calendar/images';
-  $buffer = preg_replace($pattern, $replacement, $buffer);
-
-  $pattern = '/(<link.*>)/';
-  $replacement = '<link rel="stylesheet" type="text/css" href="' . $stylesheet_ie . '" />';
-  $buffer = preg_replace($pattern, $replacement, $buffer);
-} else {
-  // Point stylesheet and javascript to custom versions
-  $pattern = '/(<link.*>)/';
-  $replacement = '<link rel="stylesheet" type="text/css" href="' . $stylesheet . '" />';
-  $buffer = preg_replace($pattern, $replacement, $buffer);
-
-  $pattern = '/src="(.*js)"/';
-  $replacement ='src="MyGoogleCal3.js"';
-  $buffer = preg_replace($pattern, $replacement, $buffer);
-}
+$pattern = '/src="(.*js)"/';
+$replacement = 'src="MyGoogleCal4js.php?$1"';  
+$buffer = preg_replace($pattern, $replacement, $buffer);
 
 // display the calendar
 print $buffer;
