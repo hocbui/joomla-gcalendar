@@ -33,7 +33,7 @@ if(empty($this->gcalendar)){
 <?php
 	$calendar_url="";
 	if ($this->params->get('use_custom_css')) {
-		$calendar_url= JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/googlecal/MyGoogleCal3.php?'.str_replace("http://www.google.com/calendar/embed?","",$this->gcalendar);
+		$calendar_url= JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/googlecal/MyGoogleCal4.php?'.str_replace("http://www.google.com/calendar/embed?","",$this->gcalendar);
 	} else {
 		$calendar_url=$this->gcalendar;
 	}
