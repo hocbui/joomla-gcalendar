@@ -27,9 +27,9 @@
 			<option value="auto">Auto</option>
 		</param>
 		<param name="width" type="text" size="5" default="100%" label="Width"
-			description="Width of the IFrame Window, you can enter an absolute figure in pixels, or a relative figure by adding a %" />
+			description="Width of the google calendar you can enter an absolute figure in pixels, or a relative figure by adding a %" />
 		<param name="height" type="text" size="5" default="300" label="Height"
-			description="Height of the IFrame Window" />
+			description="Height of the google calendar" />
 		<param name="height_auto" type="radio" default="1" label="Auto Height"
 			description="The height will automatically be set to the size of the external page. This will only work for pages on your own domain.">
 			<option value="0">No</option>
