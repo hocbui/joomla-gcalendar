@@ -126,10 +126,10 @@ sort($gcalendar_data);
 // All bits listed below which are available:
 // ###TITLE###, ###DESCRIPTION###, ###DATE###, ###PUBLISHED###
 // ###WHERE###, ###BACKLINK###, ###LINK###, ###MAPLINK###
-$dsplLink = '###BACKLINK###';
+$dsplLink = "<a href='###BACKLINK###'>###TITLE###</a>";
 if($params->get( 'openWindow', 0 )==1)
-	$dsplLink = '###LINK###';
-$event_display="<p>"._GCALENDAR_LATEST_PUBLISHED." ###PUBLISHED###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
+	$dsplLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
+$event_display="<p>"._GCALENDAR_LATEST_PUBLISHED." ###PUBLISHED###<br>".$dsplLink."</p>";
 
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y H:i');
