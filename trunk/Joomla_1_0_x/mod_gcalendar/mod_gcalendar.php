@@ -15,7 +15,6 @@ global $database;
 $params->def( 'url', '' );
 $params->def( 'scrolling', 'auto' );
 $params->def( 'height', '300' );
-$params->def( 'height_auto', '1' );
 $params->def( 'width', '100%' );
 
 $name = $params->get('name', '');
