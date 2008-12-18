@@ -1,34 +1,53 @@
 <?php
 
-define('BASIC','basic');
-
-define('FULL','full');
-
 /**
- * 
- */
+* Google calendar simplepie feed.
+* 
+* @author allon
+* @version $Revision: 0.1.0 $
+**/
 class SimplePie_GCalendar extends SimplePie {
 	
 	var $calendar_type = 'basic';
 	
+	/**
+	* Sets the feed type. Default is basic.
+	*/
 	function set_calendar_type($value = 'basic'){
 		$calendar_type = $value;
 	}
 	
+	/**
+	* Returns the feed type. Default is basic.
+	*/
 	function get_calendar_type(){
 		return $calendar_type;
 	}
-
+	
+	/**
+	* Overrides the default ini method and sets automatically 
+	* the as item class SimplePie_Item_GCalendar.
+	*/
 	function init(){
 		$this->set_item_class('SimplePie_Item_GCalendar');
 		parent::init();
 	}
 	
+	/**
+	* Returns the timezone of the feed.
+	*/
 	public function get_timezone(){
 		$tzvalue = $this->get_feed_tags('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED', 'timezone');
 		return $tzvalue[0]['attribs']['']['value'];
 	}
 	
+	/**
+	* Returns the same array as the method get_items() returns,
+	* but sorted as their publish date or if the calendar is of type
+	* full the start date.
+	* So it makes sense to call enable_order_by_date(false) before fetching
+	* the data to prevent from sorting twice.
+	*/
 	function get_calendar_items() {
 		$values = $this->get_items();
 		
@@ -36,6 +55,10 @@ class SimplePie_GCalendar extends SimplePie {
 		return $values;
 	}
 	
+	/**
+	* Static method to configure the feed to show just events in the future.
+	* So makes just sense if set_calendar_type('full') is called.
+	*/
 	function configure_feed_as_full($url){
 		$url = str_replace("basic","full",$url);
 		$today = date('Y-m-d');
@@ -46,28 +69,28 @@ class SimplePie_GCalendar extends SimplePie {
 	}
 
 	function sortItems($data) {
-	for ($i = count($data) - 1; $i >= 0; $i--) {
-		$swapped = false;
-		for ($j = 0; $j < $i; $j++) {
-			$time1 = $data[$j]->get_publish_date();
-			$time2 = $data[$j+ 1]->get_publish_date();
-			if($data[$j]->is_full() && $data[$j+1]->is_full()){
-				$time1 = $data[$j]->get_start_time();
-				$time2 = $data[$j+ 1]->get_start_time();
+		for ($i = count($data) - 1; $i >= 0; $i--) {
+			$swapped = false;
+			for ($j = 0; $j < $i; $j++) {
+				$time1 = $data[$j]->get_publish_date();
+				$time2 = $data[$j+ 1]->get_publish_date();
+				if($data[$j]->is_full() && $data[$j+1]->is_full()){
+					$time1 = $data[$j]->get_start_time();
+					$time2 = $data[$j+ 1]->get_start_time();
+				}
+			
+				if ( $time1 < $time2 ) {
+					$tmp = $data[$j];
+	                $data[$j] = $data[$j + 1];
+	                $data[$j + 1] = $tmp;
+	                $swapped = true;
+				}
 			}
-		
-			if ( $time1 < $time2 ) {
-				$tmp = $data[$j];
-                $data[$j] = $data[$j + 1];
-                $data[$j + 1] = $tmp;
-                $swapped = true;
+			if (!$swapped) {
+				return $data;
 			}
-		}
-		if (!$swapped) {
-			return $data;
 		}
 	}
-}
 
 }
 
