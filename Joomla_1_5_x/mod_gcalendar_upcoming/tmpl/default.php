@@ -33,32 +33,40 @@ $GroupByDate=false;
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y'); // 10 March 2009 - see http://www.php.net/date for details
 $timeformat=$params->get('timeFormat', 'H:i');; // 12.15am
+$calName = $params->get( 'name', NULL );
 
 // Loop through the array, and display what we wanted.
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
+	$id = substr($item->get_link(),strpos(strtolower($item->get_link()),'eid=')+4);
 	
 	// These are the dates we'll display
-    $gCalDate = date($dateformat, $item['startdate']);
-    $gCalStartTime = date($timeformat, $item['startdate']);
-    $gCalEndTime = date($timeformat, $item['enddate']);
+    $gCalDate = date($dateformat, $item->get_start_time());
+    $gCalStartTime = date($timeformat, $item->get_start_time());
+    $gCalEndTime = date($timeformat, $item->get_end_time());
+    
+    $tz = $params->get('timezone', '');
+	if($tz == ''){
+		$feed = $item->get_feed();
+		$tz = $feed->get_timezone();
+	}
     
     //Make any URLs used in the description also clickable: thanks Adam
-    $item['description'] = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item['description']);
+    $desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
 
     // Now, let's run it through some str_replaces, and store it with the date for easy sorting later
     $temp_event=$event_display;
     $temp_dateheader=$event_dateheader;
-    $temp_event=str_replace("###TITLE###",$item['title'],$temp_event);
-    $temp_event=str_replace("###DESCRIPTION###",$item['description'],$temp_event);
+    $temp_event=str_replace("###TITLE###",$item->get_title(),$temp_event);
+    $temp_event=str_replace("###DESCRIPTION###",$desc,$temp_event);
     $temp_event=str_replace("###DATE###",$gCalDate,$temp_event);
     $temp_dateheader=str_replace("###DATE###",$gCalDate,$temp_dateheader);
     $temp_event=str_replace("###FROM###",$gCalStartTime,$temp_event);
     $temp_event=str_replace("###UNTIL###",$gCalEndTime,$temp_event);
-    $temp_event=str_replace("###WHERE###",$item['where'],$temp_event);
-    $temp_event=str_replace("###BACKLINK###",$item['backlink'],$temp_event);
-    $temp_event=str_replace("###LINK###",$item['link'],$temp_event);
-    $temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item['where']),$temp_event);
+    $temp_event=str_replace("###WHERE###",$item->get_location(),$temp_event);
+    $temp_event=str_replace("###BACKLINK###",urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),$temp_event);
+    $temp_event=str_replace("###LINK###",$item->get_link(),$temp_event);
+    $temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
     // Accept and translate HTML
     $temp_event=str_replace("&lt;","<",$temp_event);
     $temp_event=str_replace("&gt;",">",$temp_event);
