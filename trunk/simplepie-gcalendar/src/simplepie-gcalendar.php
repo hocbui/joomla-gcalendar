@@ -6,6 +6,19 @@
 * @author allon
 * @version $Revision: 0.1.0 $
 **/
+
+if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM')) {
+	define('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM', 'http://schemas.google.com/g/2005');
+}
+
+if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED')) {
+	define('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED', 'http://schemas.google.com/gCal/2005');
+}
+
+/**
+* SimplePie_GCalendar is the SimplePie extension which provides some
+* helper methods as well as a correct sorting of the items.
+*/
 class SimplePie_GCalendar extends SimplePie {
 	
 	var $calendar_type = 'basic';
@@ -37,7 +50,7 @@ class SimplePie_GCalendar extends SimplePie {
 	* Returns the timezone of the feed.
 	*/
 	public function get_timezone(){
-		$tzvalue = $this->get_feed_tags('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED', 'timezone');
+		$tzvalue = $this->get_feed_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED, 'timezone');
 		return $tzvalue[0]['attribs']['']['value'];
 	}
 	
@@ -51,7 +64,7 @@ class SimplePie_GCalendar extends SimplePie {
 	function get_calendar_items() {
 		$values = $this->get_items();
 		
-		SimplePie_GCalendar::sortItems($values);
+		usort($values, array("SimplePie_GCalendar", "cmpItems"));
 		return $values;
 	}
 	
@@ -68,67 +81,57 @@ class SimplePie_GCalendar extends SimplePie {
 		return $url;
 	}
 
-	function sortItems($data) {
-		for ($i = count($data) - 1; $i >= 0; $i--) {
-			$swapped = false;
-			for ($j = 0; $j < $i; $j++) {
-				$time1 = $data[$j]->get_publish_date();
-				$time2 = $data[$j+ 1]->get_publish_date();
-				if($data[$j]->is_full() && $data[$j+1]->is_full()){
-					$time1 = $data[$j]->get_start_time();
-					$time2 = $data[$j+ 1]->get_start_time();
-				}
-			
-				if ( $time1 < $time2 ) {
-					$tmp = $data[$j];
-	                $data[$j] = $data[$j + 1];
-	                $data[$j + 1] = $tmp;
-	                $swapped = true;
-				}
-			}
-			if (!$swapped) {
-				return $data;
-			}
+	/**
+	* Private function to compare items based on their date,
+	* see usort() for more documentation.
+	*/
+	function cmpItems($a, $b) {
+		$time1 = $a->get_publish_date();
+		$time2 = $b->get_publish_date();
+		if($a->is_full() && $b->is_full()){
+			$time1 = $a->get_start_time();
+			$time2 = $b->get_start_time();
 		}
+		return $time1 - $time2;
 	}
 
 }
 
-if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM')) {
-	define('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM', 'http://schemas.google.com/g/2005');
-}
-
-if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED')) {
-	define('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED', 'http://schemas.google.com/gCal/2005');
-}
-
+/**
+* The GCalendar Item which provides more google calendar specific
+* functions like the location of the event, etc.
+*/
 class SimplePie_Item_GCalendar extends SimplePie_Item {
 
+	public function get_id(){
+		return substr($this->get_link(),strpos(strtolower($this->get_link()),'eid=')+4);
+	}
+	
 	public function get_publish_date(){
 		$pubdate = $this->get_date('Y-m-d\TH:i:s\Z');
 		return SimplePie_Item_GCalendar::tstamptotime($pubdate);
 	}
 	
 	public function get_location(){
-		$gd_where = $this->get_item_tags('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM', 'where');
+		$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'where');
 		return $gd_where[0]['attribs']['']['valueString'];
 	}
 	
 	public function get_status(){
-		$gd_where = $this->get_item_tags('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM', 'eventStatus');
+		$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'eventStatus');
 		return substr( $gd_status[0]['attribs']['']['value'], -8);
 	}
 	
-	public function get_start_time($as_timestamp = 'true'){
-		$when = $this->get_item_tags('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM', 'when');
+	public function get_start_time($as_timestamp = TRUE){ 
+		$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
 		$startdate = $when[0]['attribs']['']['startTime'];
 		if($as_timestamp)
 			return SimplePie_Item_GCalendar::tstamptotime($startdate);
 		return $startdate;
 	}
 	
-	public function get_end_time($as_timestamp = 'true'){
-		$when = $this->get_item_tags('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM', 'when');
+	public function get_end_time($as_timestamp = TRUE){
+		$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
 		$enddate = $when[0]['attribs']['']['endTime'];
 		if($as_timestamp)
 			return SimplePie_Item_GCalendar::tstamptotime($enddate);
@@ -136,7 +139,7 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	}
 	
 	function is_full(){
-		return $this->getFeed()->get_calendar_type() == 'full';
+		return $this->feed->get_calendar_type() == 'full';
 	}
 	
 	function tstamptotime($tstamp) {
