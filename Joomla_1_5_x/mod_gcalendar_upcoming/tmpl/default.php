@@ -38,7 +38,6 @@ $calName = $params->get( 'name', NULL );
 // Loop through the array, and display what we wanted.
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
-	$id = substr($item->get_link(),strpos(strtolower($item->get_link()),'eid=')+4);
 	
 	// These are the dates we'll display
     $gCalDate = date($dateformat, $item->get_start_time());
@@ -64,7 +63,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     $temp_event=str_replace("###FROM###",$gCalStartTime,$temp_event);
     $temp_event=str_replace("###UNTIL###",$gCalEndTime,$temp_event);
     $temp_event=str_replace("###WHERE###",$item->get_location(),$temp_event);
-    $temp_event=str_replace("###BACKLINK###",urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),$temp_event);
+    $temp_event=str_replace("###BACKLINK###",urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&calendarName='.$calName.'&ctz='.$tz),$temp_event);
     $temp_event=str_replace("###LINK###",$item->get_link(),$temp_event);
     $temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
     // Accept and translate HTML
