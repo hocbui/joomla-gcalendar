@@ -9,15 +9,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modGcalendarLatestHelper
-{
-	function getCalendarItems(&$params)
-	{
-		$gcalendar_data = array(); //init feed array
-		if(!class_exists('SimplePie')){
-			//include Simple Pie processor class
-			require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
-		}
+class modGcalendarLatestHelper{
+	function getCalendarItems(&$params){
+	
 		$calName = $params->get( 'name_latest', NULL );
 		if(empty($calName)) return array(JText::_("CALENDAR_NO_DEFINED"),NULL);
 		
@@ -31,7 +25,8 @@ class modGcalendarLatestHelper
 		}
 		
 		//Load and build the feed array
-		$feed = new SimplePie();
+		$feed = new SimplePie_GCalendar();
+		$feed->set_calendar_type('basic');
 		
 		//check and set caching
 		if($cache_exists) {
@@ -64,61 +59,16 @@ class modGcalendarLatestHelper
 		// Initialize the feed so that we can use it.
 		$feed->init();
 		 
-		// Make sure the content is being served out to the browser properly.
-		$feed->handle_content_type();
-		 
-		// We'll use this for re-sorting the items based on the new date.
-		$temp = array();
-		
-		$tz = $params->get('timezone', '');
-		if($tz == ''){
-			$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
-			$tz = $tzvalue[0]['attribs']['']['value'];
-		}
-		 
-		$values = $feed->get_items();
-		
 		if ($feed->error()){
 			return array(JText::_("SP_LATEST_ERROR").$feed->error(),NULL);
 		}
 		
-		foreach ($values as $item) {
-			// Now, let's grab the Google-namespaced <gd:where> tag.
-			$gd_where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where');
-		    $location = $gd_where[0]['attribs']['']['valueString'];
-		    
-		    //and the status tag too, come to that
-		    $gd_status = $item->get_item_tags('http://schemas.google.com/g/2005', 'eventStatus');
-		    $status = substr( $gd_status[0]['attribs']['']['value'], -8);
-		 
-		    $pubdate = $item->get_date('Y-m-d\TH:i:s\Z');
-		    $unixpubdate = modGcalendarLatestHelper::tstamptotime($pubdate);
-		    $where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where'); 
-		    $location = $where[0]['attribs']['']['valueString']; 
-
-		    // If there's actually a title here (private events don't have titles) and it's not cancelled...
-			if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($pubdate)) > 0) {
-				$id = substr($item->get_link(),strpos(strtolower($item->get_link()),'eid=')+4);
-		        $temp[] = array(
-		         'published'=>$unixpubdate,
-		         'id'=>$id,
-		         'where'=>$location,
-		         'title'=>$item->get_title(),
-		         'description'=>$item->get_description(),
-		         'backlink'=>urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),
-		         'link'=>$item->get_link());
-		    } 
-		}
-		sort($temp);
+		// Make sure the content is being served out to the browser properly.
+		$feed->handle_content_type();
+		
+		$values = $feed->get_calendar_items();
+		
 		//return the feed data structure for the template	
-		return array(NULL,$temp);
+		return array(NULL,$values);
 	}
-	
-	function tstamptotime($tstamp) {
-        // converts ISODATE to unix date
-        // 1984-09-01T14:21:31Z
-		sscanf($tstamp,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
-		$newtstamp=mktime($hour,$min,$sec,$month,$day,$year);
-		return $newtstamp;
-    } 
 }
