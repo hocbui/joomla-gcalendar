@@ -2,15 +2,28 @@
 $url = $_GET["feedurl"];
 $feed_type = $_GET["feedtype"];
 ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Simplepie -- GGalendar
+</head>
+<body>
+<h1>Simplepie Google Calendar demo web site</h1>
 	<form name="input" action="index.php" method="get">
-	Feed url: <input type="text" name="feedurl" size="100"><br>
-	Feed type: <SELECT NAME="feedtype">
-		<OPTION VALUE="basic" selected>Basic
-		<OPTION VALUE="full">Full	
-	</SELECT><br>
-
-	<input type="submit" value="Submit">
-	</form>
+<table>
+<tr>
+<td>Feed url:</td>
+<td><input type="text" name="feedurl" size="100"></td>
+</tr>
+<tr>
+<td>Feed type:</td>
+<td><SELECT NAME="feedtype">
+	<OPTION VALUE="basic" selected>Basic
+	<OPTION VALUE="full">Full	
+</SELECT></td>
+</tr>
+<tr><td><input type="submit" value="Submit"></td></tr>
+</table>
+</form>
 <?php
 if(empty($url))return;
 $content = FALSE;
@@ -46,3 +59,4 @@ if(!$content){
 	echo $feed;
 }
 ?>
+</body></html>
