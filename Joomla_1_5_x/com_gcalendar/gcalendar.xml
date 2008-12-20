@@ -27,10 +27,9 @@
 		<filename>views/gcalendar/tmpl/default.php</filename>
 		<filename>views/gcalendar/tmpl/default.xml</filename>
 		<filename>views/gcalendar/tmpl/googlecal/.htaccess</filename>
-		<filename>views/gcalendar/tmpl/googlecal/mygooglecal3.css</filename>
-		<filename>views/gcalendar/tmpl/googlecal/mygooglecal3ie.css</filename>
-		<filename>views/gcalendar/tmpl/googlecal/MyGoogleCal3.js</filename>
-		<filename>views/gcalendar/tmpl/googlecal/MyGoogleCal3.php</filename>
+		<filename>views/gcalendar/tmpl/googlecal/mygooglecal4.css</filename>
+		<filename>views/gcalendar/tmpl/googlecal/MyGoogleCal4js.php</filename>
+		<filename>views/gcalendar/tmpl/googlecal/MyGoogleCal4.php</filename>
 		<filename>views/gcalendar/tmpl/googlecal/images/add-to-google-plus.gif</filename>
 		<filename>views/gcalendar/tmpl/googlecal/images/btn_menu6_flip.gif</filename>
 		<filename>views/gcalendar/tmpl/googlecal/images/btn_menu6.gif</filename>
