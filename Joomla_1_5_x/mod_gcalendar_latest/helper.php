@@ -50,7 +50,7 @@ class modGcalendarLatestHelper{
 		foreach ($results as $result) {
 			$url = $result->xmlUrl;
 		}
-		// This is the feed we'll use
+		$url = SimplePie_GCalendar::cfg_feed_without_past_events($url);
 		$feed->set_feed_url($url);
 		 
 		// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.

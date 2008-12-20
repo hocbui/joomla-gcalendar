@@ -50,8 +50,8 @@ class modGcalendarUpcomingHelper {
 		foreach ($results as $result) {
 			$url = $result->xmlUrl;
 		}
-	
-		$url = SimplePie_GCalendar::configure_feed_as_full($url);
+		$url = SimplePie_GCalendar::cfg_feed_without_past_events($url);
+		$url = SimplePie_GCalendar::ensure_feed_is_full($url);
 		$feed->set_feed_url($url);
 		 
 		// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
@@ -73,3 +73,4 @@ class modGcalendarUpcomingHelper {
 		return array(NULL,$values);
 	}
 }
+?>

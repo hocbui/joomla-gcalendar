@@ -15,68 +15,83 @@ if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED')) {
 	define('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED', 'http://schemas.google.com/gCal/2005');
 }
 
+/**
+ * SimplePie_GCalendar is the SimplePie extension which provides some
+ * helper methods as well as a correct sorting of the items.
+ */
 class SimplePie_GCalendar extends SimplePie {
 	
 	var $calendar_type = 'basic';
 	
 	/**
-	* Sets the feed type. Default is basic.
-	*/
+	 * Sets the feed type. Default is basic.
+	 */
 	function set_calendar_type($value = 'basic'){
-		$calendar_type = $value;
+		$this->calendar_type = $value;
 	}
 	
 	/**
-	* Returns the feed type. Default is basic.
-	*/
+	 * Returns the feed type. Default is basic.
+	 */
 	function get_calendar_type(){
-		return $calendar_type;
+		return $this->calendar_type;
 	}
 	
 	/**
-	* Overrides the default ini method and sets automatically 
-	* the as item class SimplePie_Item_GCalendar.
-	*/
+	 * Overrides the default ini method and sets automatically 
+	 * SimplePie_Item_GCalendar as item class.
+	 * It ensures that the feed url is correct if $calendar_type=='full'.
+	 */
 	function init(){
 		$this->set_item_class('SimplePie_Item_GCalendar');
 		parent::init();
 	}
 	
 	/**
-	* Returns the timezone of the feed.
-	*/
+	 * Returns the timezone of the feed.
+	 */
 	public function get_timezone(){
 		$tzvalue = $this->get_feed_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED, 'timezone');
 		return $tzvalue[0]['attribs']['']['value'];
 	}
 	
 	/**
-	* Returns the same array as the method get_items() returns,
-	* but sorted as their publish date or if the calendar is of type
-	* full the start date.
-	* So it makes sense to call enable_order_by_date(false) before fetching
-	* the data to prevent from sorting twice.
-	*/
+	 * Returns the same array as the method get_items() returns,
+	 * but sorted as their publish date or if the calendar is of type
+	 * full the start date.
+	 * If the calendar type is full the closest event is the first in the array,
+	 * if it is basic the first will be the last one published.
+	 * So it makes sense to call enable_order_by_date(false) before fetching
+	 * the data to prevent from sorting twice.
+	 */
 	function get_calendar_items() {
 		$values = $this->get_items();
-		
 		usort($values, array("SimplePie_GCalendar", "cmpItems"));
 		return $values;
 	}
 	
 	/**
-	* Static method to configure the feed to show just events in the future.
-	* So makes just sense if set_calendar_type('full') is called.
-	*/
-	function configure_feed_as_full($url){
-		$url = str_replace("basic","full",$url);
+	 * Static method to configure the feed to show just events in the future.
+	 */
+	function cfg_feed_without_past_events($feed_url){
 		$today = date('Y-m-d');
-		$url = $url."?start-min=".$today;
-		$url .= "&orderby=starttime&sortorder=ascending";
-		$url .= "&singleevents=true";
-		return $url;
+		$feed_url = $feed_url."?start-min=".$today;
+		$feed_url .= "&orderby=starttime&sortorder=ascending";
+		$feed_url .= "&singleevents=true";
+		return $feed_url;
+	}
+	
+	/**
+	 * Returns a feed url which can be used in full mode.
+	 */
+	function ensure_feed_is_full($feed_url){
+		return str_replace("basic","full",$feed_url);
 	}
 
+	/**
+	 * Private function to compare items based on their date,
+	 * see usort() for more documentation.
+	 */
 	function cmpItems($a, $b) {
 		$time1 = $a->get_publish_date();
 		$time2 = $b->get_publish_date();
@@ -84,11 +99,17 @@ class SimplePie_GCalendar extends SimplePie {
 			$time1 = $a->get_start_time();
 			$time2 = $b->get_start_time();
 		}
+		if($a->feed->get_calendar_type()=='basic')
+			return $time2 - $time1;
 		return $time1 - $time2;
 	}
 
 }
 
+/**
+ * The GCalendar Item which provides more google calendar specific
+ * functions like the location of the event, etc.
+ */
 class SimplePie_Item_GCalendar extends SimplePie_Item {
 
 	public function get_id(){

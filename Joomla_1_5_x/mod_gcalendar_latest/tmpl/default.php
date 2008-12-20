@@ -21,15 +21,14 @@ if(!empty($error)){
 $dsplLink = "<a href='###BACKLINK###'>###TITLE###</a>";
 if($params->get( 'openWindow', 0 )==1)
 	$dsplLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
-$event_display="<p>".JText::_("PUBLISHED")." ###PUBLISHED###<br>".$dsplLink."</p>";
+$event_display="<p>".JText::_("PUBLISHED")." ###PUBLISHED###<br>".$dsplLink."<br>###DESCRIPTION###<hr></p>";
 
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y H:i');
 $calName = $params->get( 'name_latest', NULL );
 
-$counter = 0;
 // Loop through the array, and display what we wanted.
-for ($i = sizeof($gcalendar_data)-1; $i >=0 && $counter < $params->get( 'max', 5 ); $i--){
+for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
 	// These are the dates we'll display
     $gCalDate = date($dateformat, $item->get_publish_date());
@@ -58,6 +57,5 @@ for ($i = sizeof($gcalendar_data)-1; $i >=0 && $counter < $params->get( 'max', 5
     $temp_event=str_replace("&quot;","\"",$temp_event);
 
 	echo $temp_event;
-	$counter++;
 }
 ?>
