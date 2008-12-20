@@ -52,7 +52,12 @@ class modGcalendarUpcomingHelper {
 		}
 		$url = SimplePie_GCalendar::cfg_feed_without_past_events($url);
 		$url = SimplePie_GCalendar::ensure_feed_is_full($url);
-		$feed->set_feed_url($url);
+		
+		$params   = JComponentHelper::getParams('com_languages');
+		$lg = $params->get('site', 'en-GB');
+		$lg = '&hl='.$lg;
+
+		$feed->set_feed_url($url.$lg);
 		 
 		// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
 		$feed->enable_order_by_date(false);
