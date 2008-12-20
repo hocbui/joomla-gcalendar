@@ -12,7 +12,7 @@ $feed_type = $_GET["feedtype"];
 	<input type="submit" value="Submit">
 	</form>
 <?php
-
+if(empty($url))return;
 $content = FALSE;
 require_once ('simplepie.inc');
 require_once ('simplepie-gcalendar.php');
@@ -38,7 +38,7 @@ if(!$content){
 		if($feed->get_calendar_type() == 'full'){
 			$gCalDate = date("d.m.Y H:i", $item->get_start_time());
 		}
-		echo '<p>'.$gCalDate.'<br>'.$item->get_title().'<hr></p>';
+		echo '<p>'.$gCalDate.'<br>'.$item->get_title().'<br>'.$item->get_description().'<hr></p>';
 	}
 }else{
 	//header("content-Type: text/text"); 
