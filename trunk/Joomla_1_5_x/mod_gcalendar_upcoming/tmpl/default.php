@@ -33,16 +33,16 @@ $calName = $params->get( 'name', NULL );
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
 	
-	// These are the dates we'll display
-    $startDate = date($dateformat, $item->get_start_time());
-    $startTime = date($timeformat, $item->get_start_time());
-    $endTime = date($timeformat, $item->get_end_time());
-    
-    $tz = $params->get('timezone', '');
+	$tz = $params->get('timezone', '');
 	if($tz == ''){
 		$feed = $item->get_feed();
 		$tz = $feed->get_timezone();
 	}
+
+	// These are the dates we'll display
+    $startDate = date($dateformat, $item->get_start_time());
+    $startTime = date($timeformat, $item->get_start_time());
+    $endTime = date($timeformat, $item->get_end_time());
     
     //Make any URLs used in the description also clickable: thanks Adam
     $desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());

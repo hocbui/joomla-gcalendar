@@ -18,18 +18,22 @@
 	<files>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest.php</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/simplepie.inc</filename>
+		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/simplepie-gcalendar.php</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/sp_compatibility_test.php</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/english.php</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/german.php</filename>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest/languages/germani.php</filename>
 	</files>
 	<params>
-		<param name="name_latest" type="text" size="80" default=""
+		<param name="name" type="text" size="80" default=""
 			label="Calendar name"
 			description="The name of the google calendar. Specified in the GCalendar component." />
-		<param name="dateFormat" type="text" size="80" default="d.m.Y H:i"
+		<param name="dateFormat" type="text" size="80" default="d.m.Y"
 			label="Date format"
 			description="The format of the date for an event (see http://www.php.net/date for details)." />
+		<param name="timeFormat" type="text" size="80" default="H:i"
+			label="Time format"
+			description="The format of the time for an event (see http://www.php.net/date for details)." />
 		<param name="max" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
 		<param name="openWindow" type="radio" default="0"
@@ -46,7 +50,7 @@
 			description="" />
 		<param name="timezone" type="text" size="80" default="" label="Timezone"
 			description="The timezone the event details should be displayed." />
-		<param name="latestcache" type="text" size="6" default="3600"
+		<param name="cache" type="text" size="6" default="3600"
 			label="Cache time" description="Set the cache time (seconds)." />
 	</params>
 </mosinstall>

@@ -18,6 +18,7 @@
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/simplepie.inc</filename>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/simplepie-gcalendar.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/sp_compatibility_test.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/english.php</filename>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming/languages/german.php</filename>
@@ -48,7 +49,7 @@
 			description="" />
 		<param name="timezone" type="text" size="100" default="" label="Timezone"
 			description="The timezone the event details should be displayed." />
-		<param name="upcomingcache" type="text" size="6" default="3600"
+		<param name="cache" type="text" size="6" default="3600"
 			label="Cache time" description="Set the cache time (seconds)." />
 	</params>
 </mosinstall>

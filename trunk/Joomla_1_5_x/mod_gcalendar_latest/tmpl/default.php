@@ -32,6 +32,12 @@ $calName = $params->get( 'name', NULL );
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
 	
+	$tz = $params->get('timezone', '');
+	if($tz == ''){
+		$feed = $item->get_feed();
+		$tz = $feed->get_timezone();
+	}
+
 	// These are the dates we'll display
     $startDate = date($dateformat, $item->get_start_time());
     $startTime = date($timeformat, $item->get_start_time());
@@ -39,13 +45,8 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     $pubDate = date($dateformat, $item->get_publish_date());
     $pubTime = date($timeformat, $item->get_publish_date());
     
-    $tz = $params->get('timezone', '');
-	if($tz == ''){
-		$feed = $item->get_feed();
-		$tz = $feed->get_timezone();
-	}
     
-    //Make any URLs used in the description also clickable: thanks Adam
+    //Make any URLs used in the description also clickable
     $desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
 
     // Now, let's run it through some str_replaces, and store it with the date for easy sorting later
