@@ -1,6 +1,10 @@
 <?php
 $url = $_POST["feedurl"];
 $email = $_POST["email"];
+$show_past_events = $_POST["past"];
+$sort_ascending = $_POST["asc"];
+$order_by = $_POST["order"];
+$expand_single_events = $_POST["expand"];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,7 +16,7 @@ $email = $_POST["email"];
 <table>
 <tr>
 <td>Feed url:</td>
-<td><input type="text" name="feedurl" size="100"></td>
+<td><input type="text" name="feedurl" size="100" value="<?php echo $url; ?>"></td>
 </tr>
 <tr>
 <td>OR</td>
@@ -20,7 +24,27 @@ $email = $_POST["email"];
 </tr>
 <tr>
 <td>EMail address:</td>
-<td><input type="text" name="email" size="100"></td>
+<td><input type="text" name="email" size="100" value="<?php echo $email; ?>"></td>
+</tr>
+<tr>
+<td>Show past events:</td>
+<td><input type="radio" name="past" value="1">True<br>
+<input type="radio" name="past" value="0" checked>False</td>
+</tr>
+<tr>
+<td>Sort ascending:</td>
+<td><input type="radio" name="asc" value="1" checked>True<br>
+<input type="radio" name="asc" value="0">False</td>
+</tr>
+<tr>
+<td>Order by start date:</td>
+<td><input type="radio" name="order" value="1" checked>True<br>
+<input type="radio" name="order" value="0">False</td>
+</tr>
+<tr>
+<td>Expand single events:</td>
+<td><input type="radio" name="expand" value="1" checked>True<br>
+<input type="radio" name="expand" value="0">False</td>
 </tr>
 <tr><td><input type="submit" value="Submit"></td></tr>
 </table>
@@ -36,10 +60,10 @@ if(empty($url))return;
 $content = FALSE;
 
 $feed = new SimplePie_GCalendar();
-$feed->set_show_past_events(FALSE);
-$feed->set_sort_ascending(TRUE);
-$feed->set_orderby_by_start_date(TRUE);
-$feed->set_expand_single_events(TRUE);
+$feed->set_show_past_events($show_past_events==1);
+$feed->set_sort_ascending($sort_ascending==1);
+$feed->set_orderby_by_start_date($order_by==1);
+$feed->set_expand_single_events($expand_single_events==1);
 
 $feed->set_feed_url($url);
 
@@ -59,7 +83,7 @@ if(!$content){
 	}
 }else{
 	//header("content-Type: text/text");
-	$content = '<font>';
+	$content = '<font>THIS<br>';
 	$content .= file_get_contents($url);
 	$content .= '</font>';
 	echo $content;
