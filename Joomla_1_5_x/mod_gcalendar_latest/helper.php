@@ -16,7 +16,8 @@ class modGcalendarLatestHelper{
 		if(empty($calName)) return array(JText::_("CALENDAR_NO_DEFINED"),NULL);
 		
 		// check if cache directory exists and is writeable
-		$cacheDir =  JPATH_BASE.DS.'cache';	
+		$cacheDir =  'cache'.DS.'latest';
+		JFolder::create($cacheDir, 0766);
 		if ( !is_writable( $cacheDir ) ) {	
 			$mod_error['error'][] = 'Cache folder is unwriteable. Solution: chmod 777 '.$cacheDir;
 			$cache_exists = false;
@@ -25,8 +26,8 @@ class modGcalendarLatestHelper{
 		}
 		
 		$feed = new SimplePie_GCalendar();
-		$feed->set_show_past_events(FALSE);
-		$feed->set_sort_ascending(TRUE);
+		$feed->set_show_past_events(TRUE);
+		$feed->set_sort_ascending(FALSE);
 		$feed->set_orderby_by_start_date(FALSE);
 		$feed->set_expand_single_events(TRUE);
 		$feed->enable_order_by_date(FALSE);
@@ -39,7 +40,7 @@ class modGcalendarLatestHelper{
 			$feed->set_cache_duration($cache_time);
 		}
 		else {
-			$feed->enable_cache('false');
+			$feed->enable_cache(FALSE);
 		}
 		
 		$db = &JFactory::getDBO();

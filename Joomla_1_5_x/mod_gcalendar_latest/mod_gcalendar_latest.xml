@@ -51,7 +51,7 @@
 	<params group="advanced">
 		<param name="timezone" type="text" size="100" default="" label="Timezone"
 			description="The timezone the event details should be displayed." />
-		<param name="upcomingcache" type="text" size="6" default="3600"
+		<param name="cache" type="text" size="6" default="3600"
 			label="Cache time" description="Set the cache time (seconds)." />
 	</params>
 </install>
