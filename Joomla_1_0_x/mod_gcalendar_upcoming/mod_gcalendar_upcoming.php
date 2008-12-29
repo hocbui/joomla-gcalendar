@@ -9,7 +9,7 @@
 // no direct access
 defined('_VALID_MOS') or die('Restricted access');
 
-global $mosConfig_absolute_path, $database, $mosConfig_cachepath;
+global $mosConfig_absolute_path, $database, $mosConfig_cachepath, $mosConfig_lang;
 
 // Get the right language if it exists
 if (file_exists($mosConfig_absolute_path."/modules/mod_gcalendar_upcoming/languages/".$mosConfig_lang.".php")){
@@ -23,32 +23,28 @@ if(!class_exists('SimplePie')){
 	include_once('mod_gcalendar_upcoming/simplepie.inc');
 }
 
+if(!class_exists('SimplePie_GCalendar')){
+	//include Simple Pie processor class
+	require_once ('mod_gcalendar_upcoming/simplepie-gcalendar.php');
+}
+
 $calName = $params->get('name', '');
 if(empty($calName)){
 	echo _GCALENDAR_UPCOMING_CALENDAR_NO_DEFINED;
 	return;
 }
 
-$database->setQuery("select id,xmlUrl from #__gcalendar where name='$calName'");
-$results = $database->loadObjectList();
-if(empty($results)){
-	echo _GCALENDAR_UPCOMING_CALENDAR_NOT_FOUND.$calName;
-	return;
-}
-$url = '';
-foreach ($results as $result) {
-	$url = $result->xmlUrl;
-}
-$url = str_replace("basic","full",$url);
-$today = date('Y-m-d');
-$url = $url."?start-min=".$today;
-$url .= "&orderby=starttime&sortorder=ascending";
-$url .= "&singleevents=true";
-
-$gcalendar_data = array(); //init feed array
+$feed = new SimplePie_GCalendar();
+$feed->set_show_past_events(FALSE);
+$feed->set_sort_ascending(TRUE);
+$feed->set_orderby_by_start_date(TRUE);
+$feed->set_expand_single_events(TRUE);
+$feed->enable_order_by_date(FALSE);
 
 // check if cache directory exists and is writeable
-$cacheDir 		= $mosConfig_cachepath .'/';	
+$cacheDir = $mosConfig_cachepath .'/upcoming/';
+if(!file_exists($cacheDir))
+	mkdir($cacheDir, 0755);
 if ( !is_writable( $cacheDir ) ) {	
 	return 'Cache Directory Unwriteable';
 	$cache_exists = false;
@@ -56,83 +52,43 @@ if ( !is_writable( $cacheDir ) ) {
 	$cache_exists = true;
 }
 
-//Load and build the feed array
-$feed = new SimplePie();
-
 //check and set caching
 if($cache_exists) {
 	$feed->set_cache_location($cacheDir);
 	$feed->enable_cache();
-	$cache_time = (intval($params->get( 'upcomingcache', 3600 )));
+	$cache_time = (intval($params->get( 'cache', 3600 )));
 	$feed->set_cache_duration($cache_time);
 }
 else {
-	$feed->enable_cache('false');
+	$feed->enable_cache(FALSE);
 }
 
-// This is the feed we'll use
-$feed->set_feed_url($url);
- 
-// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
-$feed->enable_order_by_date(false);
+$query = "SELECT id,xmlUrl FROM #__gcalendar where name='".$calName."'";
+$database->setQuery( $query );
+$results = $database->loadObjectList();
+if(empty($results)){
+	echo _GCALENDAR_UPCOMING_CALENDAR_NOT_FOUND.$calName;
+	return;
+}
+$url = '';
+foreach ($results as $result) {
+	if(!empty($result->xmlUrl))
+		$url = $result->xmlUrl;
+}
+
+$lg = '?hl='._LANGUAGE;
+$feed->set_feed_url($url.$lg);
  
 // Initialize the feed so that we can use it.
 $feed->init();
  
-// Make sure the content is being served out to the browser properly.
-$feed->handle_content_type();
-
-$tz = $params->get('timezone', '');
-if($tz ===''){
-	$tzvalue = $feed->get_feed_tags('http://schemas.google.com/gCal/2005', 'timezone');
-	$tz = $tzvalue[0]['attribs']['']['value'];
-}
-
-$values = $feed->get_items();
-
 if ($feed->error()){
 	echo _GCALENDAR_UPCOMING_SP_ERROR.$feed->error();
 	return;
 }
 
-foreach ($values as $item) {
-	// Now, let's grab the Google-namespaced <gd:where> tag.
-    $gd_where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where');
-    $location = $gd_where[0]['attribs']['']['valueString'];
-    //and the status tag too, come to that
-    $gd_status = $item->get_item_tags('http://schemas.google.com/g/2005', 'eventStatus');
-    $status = substr( $gd_status[0]['attribs']['']['value'], -8);
- 
-    $when = $item->get_item_tags('http://schemas.google.com/g/2005', 'when');
-    $startdate = $when[0]['attribs']['']['startTime']; 
-    // converts ISODATE to unix date
-    // 1984-09-01T14:21:31Z
-	sscanf($startdate,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
-	$unixstartdate=mktime($hour,$min,$sec,$month,$day,$year);
-    $enddate = $when[0]['attribs']['']['endTime']; 
-    // converts ISODATE to unix date
-    // 1984-09-01T14:21:31Z
-	sscanf($enddate,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
-	$unixenddate=mktime($hour,$min,$sec,$month,$day,$year);
-    $where = $item->get_item_tags('http://schemas.google.com/g/2005', 'where'); 
-    $location = $where[0]['attribs']['']['valueString'];
-	    
-	    // If there's actually a title here (private events don't have titles) and it's not cancelled...
-	if (strlen(trim($item->get_title()))>1 && $status != "canceled" && strlen(trim($startdate)) > 0) {
-        $id = substr($item->get_link(),strpos(strtolower($item->get_link()),'eid=')+4);
-        $gcalendar_data[] = array(
-        'startdate'=>$unixstartdate,
-        'enddate'=>$unixenddate,
-        'id'=>$id,
-        'where'=>$location,
-        'title'=>$item->get_title(),
-        'description'=>$item->get_description(),
-        'backlink'=>urldecode('index.php?option=com_gcalendar&task=event&eventID='.$id.'&calendarName='.$calName.'&ctz='.$tz),
-        'link'=>$item->get_link());
-    }
-}
-sort($gcalendar_data);
-
+// Make sure the content is being served out to the browser properly.
+$feed->handle_content_type();
 
 // How you want each thing to display.
 // All bits listed below which are available:
@@ -144,48 +100,43 @@ if($params->get( 'openWindow', 0 )==1)
 	$dsplLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
 $event_display="<p>###DATE### ###FROM###<br>".$dsplLink."</p>";
 
-// The separate date header is here
-$event_dateheader="<P><B>###DATE###</b></P>";
-$GroupByDate=false;
-// Change the above to 'false' if you don't want to group this by dates,
-// but remember to add ###DATE### in the event_display if you do.
+$tz = $params->get('timezone', '');
+if($tz == '')
+	$tz = $feed->get_timezone();
 
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y'); // 10 March 2009 - see http://www.php.net/date for details
 $timeformat=$params->get('timeFormat', 'H:i');; // 12.15am
 
+$gcalendar_data = $feed->get_items();
 // Loop through the array, and display what we wanted.
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
 	
 	// These are the dates we'll display
-    $gCalDate = date($dateformat, $item['startdate']);
-    $gCalStartTime = date($timeformat, $item['startdate']);
-    $gCalEndTime = date($timeformat, $item['enddate']);
+    $startDate = date($dateformat, $item->get_start_time());
+    $startTime = date($timeformat, $item->get_start_time());
+    $endTime = date($timeformat, $item->get_end_time());
     
-    //Make any URLs used in the description also clickable: thanks Adam
-    $item['description'] = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item['description']);
+    //Make any URLs used in the description also clickable
+    $desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
 
     // Now, let's run it through some str_replaces, and store it with the date for easy sorting later
     $temp_event=$event_display;
-    $temp_dateheader=$event_dateheader;
-    $temp_event=str_replace("###TITLE###",$item['title'],$temp_event);
-    $temp_event=str_replace("###DESCRIPTION###",$item['description'],$temp_event);
-    $temp_event=str_replace("###DATE###",$gCalDate,$temp_event);
-    $temp_dateheader=str_replace("###DATE###",$gCalDate,$temp_dateheader);
-    $temp_event=str_replace("###FROM###",$gCalStartTime,$temp_event);
-    $temp_event=str_replace("###UNTIL###",$gCalEndTime,$temp_event);
-    $temp_event=str_replace("###WHERE###",$item['where'],$temp_event);
-    $temp_event=str_replace("###BACKLINK###",$item['backlink'],$temp_event);
-    $temp_event=str_replace("###LINK###",$item['link'],$temp_event);
-    $temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item['where']),$temp_event);
+    $temp_event=str_replace("###TITLE###",$item->get_title(),$temp_event);
+    $temp_event=str_replace("###DESCRIPTION###",$desc,$temp_event);
+    $temp_event=str_replace("###DATE###",$startDate,$temp_event);
+    $temp_event=str_replace("###FROM###",$startTime,$temp_event);
+    $temp_event=str_replace("###UNTIL###",$endTime,$temp_event);
+    $temp_event=str_replace("###WHERE###",$item->get_location(),$temp_event);
+    $temp_event=str_replace("###BACKLINK###",urldecode('index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&calendarName='.$calName.'&ctz='.$tz),$temp_event);
+    $temp_event=str_replace("###LINK###",$item->get_link(),$temp_event);
+    $temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
     // Accept and translate HTML
     $temp_event=str_replace("&lt;","<",$temp_event);
     $temp_event=str_replace("&gt;",">",$temp_event);
     $temp_event=str_replace("&quot;","\"",$temp_event);
 
-	if ($GroupByDate) {if ($gCalDate!=$old_date) { echo $temp_dateheader; $old_date=$gCalDate;}}
 	echo $temp_event;
 }
-
 ?>
