@@ -86,7 +86,8 @@ class SimplePie_GCalendar extends SimplePie {
 	 */
 	function check_url($url_to_check){
 		$tmp = str_replace("/basic","/full",$url_to_check);
-		$tmp = $this->append($tmp,'?');
+		if(!strpos($tmp,'?'))
+			$tmp = $this->append($tmp,'?');
 		if($this->show_past_events)
 			$tmp = $this->append($tmp,'futureevents=false&');
 		else
@@ -125,10 +126,10 @@ class SimplePie_GCalendar extends SimplePie {
 	}
 	
 	/**
-	 * Returns the timezone of the feed.
+	 * Creates a valid feed url for the given email address.
 	 */
 	function create_feed_url($email_address){
-		return '';
+		return 'http://www.google.com/calendar/feeds/'.$email_address.'/public/full';
 	}
 }
 
