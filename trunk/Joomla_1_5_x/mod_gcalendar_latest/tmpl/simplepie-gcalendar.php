@@ -88,6 +88,10 @@ class SimplePie_GCalendar extends SimplePie {
 		$tmp = str_replace("/basic","/full",$url_to_check);
 		if(!strpos($tmp,'?'))
 			$tmp = $this->append($tmp,'?');
+		else{
+			if(!(substr($tmp, -1) === '&'))
+				$tmp = $this->append($tmp,'&');
+		}
 		if($this->show_past_events)
 			$tmp = $this->append($tmp,'futureevents=false&');
 		else

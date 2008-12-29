@@ -16,7 +16,8 @@ class modGcalendarUpcomingHelper {
 		if(empty($calName)) return array(JText::_("CALENDAR_NO_DEFINED"),NULL);
 		
 		// check if cache directory exists and is writeable
-		$cacheDir =  JPATH_BASE.DS.'cache';	
+		$cacheDir =  JPATH_BASE.DS.'cache'.DS.'upcoming';
+		JFolder::create($cacheDir, 0766);
 		if ( !is_writable( $cacheDir ) ) {	
 			$mod_error['error'][] = 'Cache folder is unwriteable. Solution: chmod 777 '.$cacheDir;
 			$cache_exists = false;
@@ -35,11 +36,11 @@ class modGcalendarUpcomingHelper {
 		if($cache_exists) {
 			$feed->set_cache_location($cacheDir);
 			$feed->enable_cache();
-			$cache_time = (intval($params->get( 'upcomingcache', 3600 )));
+			$cache_time = (intval($params->get( 'cache', 3600 )));
 			$feed->set_cache_duration($cache_time);
 		}
 		else {
-			$feed->enable_cache('false');
+			$feed->enable_cache(FALSE);
 		}
 		
 		$db = &JFactory::getDBO();
@@ -63,7 +64,7 @@ class modGcalendarUpcomingHelper {
 		 
 		// Initialize the feed so that we can use it.
 		$feed->init();
-		 
+		
 		if ($feed->error()){
 			return array(JText::_("SP_LATEST_ERROR").$feed->error(),NULL);
 		}
