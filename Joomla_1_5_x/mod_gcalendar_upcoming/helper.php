@@ -24,9 +24,12 @@ class modGcalendarUpcomingHelper {
 			$cache_exists = true;
 		}
 		
-		//Load and build the feed array
 		$feed = new SimplePie_GCalendar();
-		$feed->set_calendar_type('full');
+		$feed->set_show_past_events(FALSE);
+		$feed->set_sort_ascending(TRUE);
+		$feed->set_orderby_by_start_date(TRUE);
+		$feed->set_expand_single_events(TRUE);
+		$feed->enable_order_by_date(FALSE);
 		
 		//check and set caching
 		if($cache_exists) {
@@ -48,19 +51,15 @@ class modGcalendarUpcomingHelper {
 			return array(JText::_("CALENDAR_NOT_FOUND").$calName,NULL);
 		$url = '';
 		foreach ($results as $result) {
-			$url = $result->xmlUrl;
+			if(!empty($result->xmlUrl))
+				$url = $result->xmlUrl;
 		}
-		$url = SimplePie_GCalendar::cfg_feed_without_past_events($url);
-		$url = SimplePie_GCalendar::ensure_feed_is_full($url);
 		
 		$params   = JComponentHelper::getParams('com_languages');
 		$lg = $params->get('site', 'en-GB');
-		$lg = '&hl='.$lg;
+		$lg = '?hl='.$lg;
 
 		$feed->set_feed_url($url.$lg);
-		 
-		// Let's turn this off because we're just going to re-sort anyways, and there's no reason to waste CPU doing it twice.
-		$feed->enable_order_by_date(false);
 		 
 		// Initialize the feed so that we can use it.
 		$feed->init();
@@ -72,7 +71,7 @@ class modGcalendarUpcomingHelper {
 		// Make sure the content is being served out to the browser properly.
 		$feed->handle_content_type();
 		
-		$values = $feed->get_calendar_items();
+		$values = $feed->get_items();
 		
 		//return the feed data structure for the template	
 		return array(NULL,$values);

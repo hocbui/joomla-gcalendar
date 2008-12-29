@@ -21,20 +21,42 @@ if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED')) {
  */
 class SimplePie_GCalendar extends SimplePie {
 	
-	var $calendar_type = 'basic';
+	var $show_past_events = FALSE;
+	var $sort_ascending = TRUE;
+	var $orderby_by_start_date = TRUE;
+	var $expand_single_events = TRUE;
 	
 	/**
-	 * Sets the feed type. Default is basic.
+	 * If the method $this->get_items() should include past events.
 	 */
-	function set_calendar_type($value = 'basic'){
-		$this->calendar_type = $value;
+	function set_show_past_events($value = FALSE){
+		$this->show_past_events = $value;
 	}
 	
 	/**
-	 * Returns the feed type. Default is basic.
+	 * If is set to true the closest event is the first in the returning items.
+	 * So it makes sense to call enable_order_by_date(false) before fetching
+	 * the data to prevent from sorting twice.
 	 */
-	function get_calendar_type(){
-		return $this->calendar_type;
+	function set_sort_ascending($value = TRUE){
+		$this->sort_ascending = $value;
+	}
+	
+	/**
+	 * The method $this->get_items() will return the events ordered by
+	 * the start date if set to true otherwise by the publish date.
+	 * 
+	 */
+	function set_orderby_by_start_date($value = TRUE){
+		$this->orderby_by_start_date = $value;
+	}
+	
+	/**
+	 * If the method $this->get_items() should treat reccuring events
+	 * as one item.
+	 */
+	function set_expand_single_events($value = TRUE){
+		$this->expand_single_events = $value;
 	}
 	
 	/**
@@ -44,66 +66,71 @@ class SimplePie_GCalendar extends SimplePie {
 	 */
 	function init(){
 		$this->set_item_class('SimplePie_Item_GCalendar');
+		
+		$new_url;
+		if (!empty($this->multifeed_url)){
+			$tmp = array();
+			foreach ($this->multifeed_url as $value)
+				$tmp[] = $this->check_url($value);
+			$new_url = $tmp;
+		}else
+			$new_url = $this->check_url($this->feed_url);
+		$this->set_feed_url($new_url);
+		
 		parent::init();
+	}
+	
+	/**
+	 * Creates an url depending on the variables $show_past_events, etc.
+	 * and returns a valid google calendar feed url.
+	 */
+	function check_url($url_to_check){
+		$tmp = str_replace("/basic","/full",$url_to_check);
+		if(!strpos($tmp,'?'))
+			$tmp = $this->append($tmp,'?');
+		if($this->show_past_events)
+			$tmp = $this->append($tmp,'futureevents=false&');
+		else
+			$tmp = $this->append($tmp,'futureevents=true&');
+		if($this->sort_ascending)
+			$tmp = $this->append($tmp,'sortorder=ascending&');
+		else
+			$tmp = $this->append($tmp,'sortorder=descending&');
+		if($this->orderby_by_start_date)
+			$tmp = $this->append($tmp,'orderby=starttime&');
+		else
+			$tmp = $this->append($tmp,'orderby=lastmodified&');
+		if($this->expand_single_events)
+			$tmp = $this->append($tmp,'singleevents=true&');
+		else
+			$tmp = $this->append($tmp,'singleevents=false&');
+		return $tmp;
+	}
+	
+	/**
+	 * Internal helper method to append a straing to an other one.
+	 */
+	function append($value, $appendix){
+		$pos = strpos($value,$appendix);
+		if($pos === FALSE)
+			$value .= $appendix;
+		return $value;
 	}
 	
 	/**
 	 * Returns the timezone of the feed.
 	 */
-	public function get_timezone(){
+	function get_timezone(){
 		$tzvalue = $this->get_feed_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED, 'timezone');
 		return $tzvalue[0]['attribs']['']['value'];
 	}
 	
 	/**
-	 * Returns the same array as the method get_items() returns,
-	 * but sorted as their publish date or if the calendar is of type
-	 * full the start date.
-	 * If the calendar type is full the closest event is the first in the array,
-	 * if it is basic the first will be the last one published.
-	 * So it makes sense to call enable_order_by_date(false) before fetching
-	 * the data to prevent from sorting twice.
+	 * Creates a valid feed url for the given email address.
 	 */
-	function get_calendar_items() {
-		$values = $this->get_items();
-		usort($values, array("SimplePie_GCalendar", "cmpItems"));
-		return $values;
+	function create_feed_url($email_address){
+		return 'http://www.google.com/calendar/feeds/'.$email_address.'/public/full';
 	}
-	
-	/**
-	 * Static method to configure the feed to show just events in the future.
-	 */
-	function cfg_feed_without_past_events($feed_url){
-		$today = date('Y-m-d');
-		$feed_url = $feed_url."?start-min=".$today;
-		$feed_url .= "&orderby=starttime&sortorder=ascending";
-		$feed_url .= "&singleevents=true";
-		return $feed_url;
-	}
-	
-	/**
-	 * Returns a feed url which can be used in full mode.
-	 */
-	function ensure_feed_is_full($feed_url){
-		return str_replace("basic","full",$feed_url);
-	}
-
-	/**
-	 * Private function to compare items based on their date,
-	 * see usort() for more documentation.
-	 */
-	function cmpItems($a, $b) {
-		$time1 = $a->get_publish_date();
-		$time2 = $b->get_publish_date();
-		if($a->is_full() && $b->is_full()){
-			$time1 = $a->get_start_time();
-			$time2 = $b->get_start_time();
-		}
-		if($a->feed->get_calendar_type()=='basic')
-			return $time2 - $time1;
-		return $time1 - $time2;
-	}
-
 }
 
 /**
@@ -112,26 +139,26 @@ class SimplePie_GCalendar extends SimplePie {
  */
 class SimplePie_Item_GCalendar extends SimplePie_Item {
 
-	public function get_id(){
+	function get_id(){
 		return substr($this->get_link(),strpos(strtolower($this->get_link()),'eid=')+4);
 	}
 	
-	public function get_publish_date(){
+	function get_publish_date(){
 		$pubdate = $this->get_date('Y-m-d\TH:i:s\Z');
 		return SimplePie_Item_GCalendar::tstamptotime($pubdate);
 	}
 	
-	public function get_location(){
+	function get_location(){
 		$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'where');
 		return $gd_where[0]['attribs']['']['valueString'];
 	}
 	
-	public function get_status(){
+	function get_status(){
 		$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'eventStatus');
 		return substr( $gd_status[0]['attribs']['']['value'], -8);
 	}
 	
-	public function get_start_time($as_timestamp = TRUE){ 
+	function get_start_time($as_timestamp = TRUE){ 
 		$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
 		$startdate = $when[0]['attribs']['']['startTime'];
 		if($as_timestamp)
@@ -139,16 +166,12 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 		return $startdate;
 	}
 	
-	public function get_end_time($as_timestamp = TRUE){
+	function get_end_time($as_timestamp = TRUE){
 		$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
 		$enddate = $when[0]['attribs']['']['endTime'];
 		if($as_timestamp)
 			return SimplePie_Item_GCalendar::tstamptotime($enddate);
 		return $enddate;
-	}
-	
-	function is_full(){
-		return $this->feed->get_calendar_type() == 'full';
 	}
 	
 	function tstamptotime($tstamp) {
