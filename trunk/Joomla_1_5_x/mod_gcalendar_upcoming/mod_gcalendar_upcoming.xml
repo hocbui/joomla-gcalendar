@@ -43,6 +43,18 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="showLink" type="radio" default="0"
+			label="Link to event details"
+			description="User can click to see event details.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="showUnderline" type="radio" default="0"
+			label="Divide event display"
+			description="Use an underline to divide events.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>		
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
 		<param name="moduleclass_sfx" type="text" size="80" default=""
