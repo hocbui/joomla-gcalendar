@@ -28,6 +28,18 @@ if($params->get( 'openWindow', 0 )==1)
 	$dsplLink = '###LINK###';
 $event_display="<p>###DATE### ###FROM###<br><a href='".$dsplLink."'>###TITLE###</a></p>";
 
+// smh 2009-01-08 Added params for underline between events and if link is active
+$dsplUnderline = '';
+if($params->get( 'showUnderline', 0) == 1)
+   $dsplUnderline = "<HR>";
+  
+// dsplTitleLink determines if the Title will be clickable or not
+$dsplTitleLink = "###TITLE###";
+if ($params->get( 'showLink', 0)==1) {
+$dsplTitleLink = "<a href='".$dsplLink."'>###TITLE###</a>";  
+}
+// /smh 2009-01-08
+
 // The separate date header is here
 $event_dateheader="<P><B>###DATE###</b></P>";
 $GroupByDate=false;
@@ -63,16 +75,25 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
       //  So, we check to see if start date + 1 day = end day (i.e. a one day, whole day event)
       if (($item['startdate']+ $SECSINDAY) == $item['enddate']) {
          // Single day, whole day	
-         $event_display="<p style=\"font-size: 90%;\">###DATE###</p><div><strong>###TITLE###</strong><hr></div>";
+       // smh 2009-01-08
+         //$event_display="<p style=\"font-size: 90%;\">###DATE###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
+         $event_display="<p style=\"font-size: 90%;\">###DATE###</p><p><strong>".$dsplTitleLink."</strong>".$dsplUnderline."</p>";
+       // /smh 2009-01-08
       } else {
        // multiple days, whole day
        // So, bring end date back to real date. 
        $gCalDateEnd = date($dateformat, $item['enddate'] - $SECSINDAY); 
-       $event_display="<p style=\"font-size: 90%;\">###DATE### to ###DATEEND###</p><div><strong>###TITLE###</strong><hr></div>";
+       // smh 2009-01-08
+       //$event_display="<p style=\"font-size: 90%;\">###DATE### to ###DATEEND###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
+       $event_display="<p style=\"font-size: 90%;\">###DATE### to ###DATEEND###</p><p><strong>".$dsplTitleLink."</strong>".$dsplUnderline."</p>";
+       // /smh 2009-01-08
       }
     } else {
        //  Single day, part of day
-       $event_display="<p style=\"font-size: 90%;\">###DATE### ###FROM### - ###UNTIL###</p><div><strong>###TITLE###</strong><hr></div>";
+       // smh 2009-01-08
+       //$event_display="<p style=\"font-size: 90%;\">###DATE### ###FROM### - ###UNTIL###</p><div><strong>".$dsplTitleLink."</strong>".$dsplUnderline."</div>";
+       $event_display="<p style=\"font-size: 90%;\">###DATE### ###FROM### - ###UNTIL###</p><p><strong>###TITLE###</strong>".$dsplUnderline."</p>";
+       // /smh 2009-01-08
     }
     // /smh 2008-12-17
     
