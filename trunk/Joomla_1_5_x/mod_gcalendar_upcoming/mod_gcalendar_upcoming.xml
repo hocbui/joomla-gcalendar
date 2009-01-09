@@ -43,6 +43,12 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="boldTitle" type="radio" default="0"
+			label="Show event title bold"
+			description="Display the Event Title in bold face.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="showLink" type="radio" default="0"
 			label="Link to event details"
 			description="User can click to see event details.">
