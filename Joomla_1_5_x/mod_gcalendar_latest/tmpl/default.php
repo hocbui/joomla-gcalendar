@@ -78,14 +78,14 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     //       Multiple days - whole day
     //   N.B.  This formatting is fixed for now.  We need to add params to allow configuration in future.
     
-    $gCalDateEnd = date($dateformat, $item['enddate']);
+    $gCalDateEnd = date($dateformat, $item->get_end_time());
     
     // Now customise display format based on event as part of day, whole day or multiple days
     // Need to know if it is whole days or not.  Google reports this with end date > start date
-    if ($item['startdate'] < $item['enddate']) {
+    if ($item->get_start_time < $item->get_end_time()) {
       // For a single whole of day, Google reports the end date as the next day
       //  So, we check to see if start date + 1 day = end day (i.e. a one day, whole day event)
-      if (($item['startdate']+ $SECSINDAY) == $item['enddate']) {
+      if (($item->get_start_time()+ $SECSINDAY) == $item->get_end_time()) {
          // Single day, whole day	
        // smh 2009-01-08
          //$event_display="<p style=\"font-size: 90%;\">###DATE###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
@@ -94,7 +94,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
       } else {
        // multiple days, whole day
        // So, bring end date back to real date. 
-       $gCalDateEnd = date($dateformat, $item['enddate'] - $SECSINDAY); 
+       $gCalDateEnd = date($dateformat, $item->get_end_time() - $SECSINDAY); 
        // smh 2009-01-08
        //$event_display="<p style=\"font-size: 90%;\">###DATE### to ###DATEEND###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
        $event_display="<p style=\"font-size: 90%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### to ###DATEEND###</p><p>".$dsplTitle.$dsplUnderline."</p>";
