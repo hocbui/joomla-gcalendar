@@ -39,9 +39,10 @@ if ($params->get( 'showLink', 0)==1) {
         $dsplTitleLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
    } else {
         $dsplTitleLink = "<a href='###BACKLINK###'>###TITLE###</a>";
+   }     
 }
 // Added option for a bolded title
-$displTitle = $dsplTitleLink;
+$dsplTitle = $dsplTitleLink;
 if ($params->get( 'boldTitle', 0)==1) {
    $dsplTitle = "<strong>".$dsplTitleLink."</strong>";  
 }
@@ -103,7 +104,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
        //  Single day, part of day
        // smh 2009-01-08
        //$event_display="<p style=\"font-size: 90%;\">###DATE### ###FROM### - ###UNTIL###</p><div><strong>".$dsplTitleLink."</strong>".$dsplUnderline."</div>";
-       $event_display="<p style=\"font-size: 90%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### ###FROM### - ###UNTIL###</p><p>.$dsplTitle.$dsplUnderline."</p>";
+       $event_display="<p style=\"font-size: 90%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### ###FROM### - ###UNTIL###</p><p>".$dsplTitle.$dsplUnderline."</p>";
        // /smh 2009-01-08
     }
     // /smh 2008-12-17
