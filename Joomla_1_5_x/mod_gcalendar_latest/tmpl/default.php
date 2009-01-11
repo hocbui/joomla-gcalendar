@@ -34,7 +34,7 @@ if($params->get( 'showUnderline', 0) == 1){
 }
 // dsplTitleLink determines if the Title will be clickable or not
 $dsplTitleLink = "###TITLE###";
-if ($params->get( 'showLink', 0)==1) {
+if ($params->get( 'showLink', 1)==1) {
    if($params->get( 'openWindow', 0 )==1) {
         $dsplTitleLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
    } else {
@@ -46,6 +46,10 @@ $dsplTitle = $dsplTitleLink;
 if ($params->get( 'boldTitle', 0)==1) {
    $dsplTitle = "<strong>".$dsplTitleLink."</strong>";  
 }
+
+$dsplFontPerc = 100;
+if ($params->get( 'fontPerc', "" ) != "") {
+   $dsplFontPerc = $params->get( 'fontPerc', "" );  
 
 // /smh 2009-01-09
 
@@ -89,7 +93,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
          // Single day, whole day	
        // smh 2009-01-08
          //$event_display="<p style=\"font-size: 90%;\">###DATE###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
-         $event_display="<p style=\"font-size: 90%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE###</p><p>".$dsplTitle.$dsplUnderline."</p>";
+         $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE###</p><p>".$dsplTitle.$dsplUnderline."</p>";
        // /smh 2009-01-08
       } else {
        // multiple days, whole day
@@ -97,14 +101,14 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
        $gCalDateEnd = date($dateformat, $item->get_end_time() - $SECSINDAY); 
        // smh 2009-01-08
        //$event_display="<p style=\"font-size: 90%;\">###DATE### to ###DATEEND###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
-       $event_display="<p style=\"font-size: 90%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### to ###DATEEND###</p><p>".$dsplTitle.$dsplUnderline."</p>";
+       $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### to ###DATEEND###</p><p>".$dsplTitle.$dsplUnderline."</p>";
        // /smh 2009-01-08
       }
     } else {
        //  Single day, part of day
        // smh 2009-01-08
        //$event_display="<p style=\"font-size: 90%;\">###DATE### ###FROM### - ###UNTIL###</p><div><strong>".$dsplTitleLink."</strong>".$dsplUnderline."</div>";
-       $event_display="<p style=\"font-size: 90%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### ###FROM### - ###UNTIL###</p><p>".$dsplTitle.$dsplUnderline."</p>";
+       $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### ###FROM### - ###UNTIL###</p><p>".$dsplTitle.$dsplUnderline."</p>";
        // /smh 2009-01-08
     }
     // /smh 2008-12-17

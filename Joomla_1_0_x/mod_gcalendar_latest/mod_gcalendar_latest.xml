@@ -60,6 +60,8 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>		
+		<param name="fontPerc" type="text" size="3" default="100" label="Date Font Size (%)"
+			description="The percentage size to show the date font as." />
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
 		<param name="moduleclass_sfx" type="text" size="80" default=""
