@@ -56,8 +56,10 @@ class modGcalendarLatestHelper{
 				$url = $result->xmlUrl;
 		}
 		
-		$params   = JComponentHelper::getParams('com_languages');
-		$lg = $params->get('site', 'en-GB');
+		// Use temp variable to get language
+		// Need to preserve the $params array
+    $tmpparams   = JComponentHelper::getParams('com_languages');
+		$lg = $tmpparams->get('site', 'en-GB');
 		$lg = '?hl='.$lg;
 
 		$feed->set_feed_url($url.$lg);
