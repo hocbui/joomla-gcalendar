@@ -167,27 +167,17 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
       //  So, we check to see if start date + 1 day = end day (i.e. a one day, whole day event)
       if (($item->get_start_time()+ $SECSINDAY) == $item->get_end_time()) {
          // Single day, whole day	
-       // smh 2009-01-08
-         //$event_display="<p style=\"font-size: 90%;\">###DATE###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
-         $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE###</p><p>".$dsplTitle.$dsplUnderline."</p>";
-       // /smh 2009-01-08
+         $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">"._GCALENDAR_LATEST_PUBLISHED." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE###</p><p>".$dsplTitle.$dsplUnderline."</p>";
       } else {
        // multiple days, whole day
        // So, bring end date back to real date. 
        $gCalDateEnd = date($dateformat, $item->get_end_time() - $SECSINDAY); 
-       // smh 2009-01-08
-       //$event_display="<p style=\"font-size: 90%;\">###DATE### to ###DATEEND###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
-       $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### to ###DATEEND###</p><p>".$dsplTitle.$dsplUnderline."</p>";
-       // /smh 2009-01-08
+       $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">"._GCALENDAR_LATEST_PUBLISHED." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### to ###DATEEND###</p><p>".$dsplTitle.$dsplUnderline."</p>";
       }
     } else {
        //  Single day, part of day
-       // smh 2009-01-08
-       //$event_display="<p style=\"font-size: 90%;\">###DATE### ###FROM### - ###UNTIL###</p><div><strong>".$dsplTitleLink."</strong>".$dsplUnderline."</div>";
-       $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### ###FROM### - ###UNTIL###</p><p>".$dsplTitle.$dsplUnderline."</p>";
-       // /smh 2009-01-08
+       $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">"._GCALENDAR_LATEST_PUBLISHED." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###DATE### ###FROM### - ###UNTIL###</p><p>".$dsplTitle.$dsplUnderline."</p>";
     }
-    // /smh 2008-12-17
     
     //Make any URLs used in the description also clickable
     $desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());

@@ -165,25 +165,16 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
       //  So, we check to see if start date + 1 day = end day (i.e. a one day, whole day event)
       if (($item->get_start_time()+ $SECSINDAY) == $item->get_end_time()) {
          // Single day, whole day	
-       // smh 2009-01-08
-         //$event_display="<p style=\"font-size: 90%;\">###DATE###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
          $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">###DATE###</p><p>".$dsplTitle.$dsplUnderline."</p>";
-       // /smh 2009-01-08
       } else {
        // multiple days, whole day
        // So, bring end date back to real date. 
        $gCalDateEnd = date($dateformat, $item->get_end_time() - $SECSINDAY); 
-       // smh 2009-01-08
-       //$event_display="<p style=\"font-size: 90%;\">###DATE### to ###DATEEND###</p><div><strong>###TITLE###</strong>".$dsplUnderline."</div>";
        $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">###DATE### to ###DATEEND###</p><p>".$dsplTitle.$dsplUnderline."</p>";
-       // /smh 2009-01-08
       }
     } else {
        //  Single day, part of day
-       // smh 2009-01-08
-       //$event_display="<p style=\"font-size: 90%;\">###DATE### ###FROM### - ###UNTIL###</p><div><strong>".$dsplTitleLink."</strong>".$dsplUnderline."</div>";
        $event_display="<p style=\"font-size: ".$dsplFontPerc."%;\">###DATE### ###FROM### - ###UNTIL###</p><p>".$dsplTitle.$dsplUnderline."</p>";
-       // /smh 2009-01-08
     }
     // /smh 2008-12-17
     

@@ -50,6 +50,7 @@ if ($params->get( 'boldTitle', 0)==1) {
 $dsplFontPerc = 100;
 if ($params->get( 'fontPerc', "" ) != "") {
    $dsplFontPerc = $params->get( 'fontPerc', "" );  
+}
 
 // /smh 2009-01-09
 
