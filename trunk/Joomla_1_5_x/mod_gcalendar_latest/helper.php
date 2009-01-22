@@ -23,7 +23,7 @@ class modGcalendarLatestHelper{
 		$feed->enable_order_by_date(FALSE);
 		
 		// check if cache directory exists and is writeable
-		$cacheDir =  JPATH_BASE.DS.'cache'.DS.'latest';
+		$cacheDir =  JPATH_BASE.DS.'cache'.DS.'mod_gcalendar_latest';
 		JFolder::create($cacheDir, 0755);
 		if ( !is_writable( $cacheDir ) ) {	
 			$mod_error['error'][] = 'Cache folder is unwriteable. Solution: chmod 777 '.$cacheDir;
@@ -58,11 +58,11 @@ class modGcalendarLatestHelper{
 		
 		// Use temp variable to get language
 		// Need to preserve the $params array
-    $tmpparams   = JComponentHelper::getParams('com_languages');
+    	$tmpparams   = JComponentHelper::getParams('com_languages');
 		$lg = $tmpparams->get('site', 'en-GB');
-		$lg = '?hl='.$lg;
+		$feed->set_cal_language($lg);
 
-		$feed->set_feed_url($url.$lg);
+		$feed->set_feed_url($url);
 		 
 		// Initialize the feed so that we can use it.
 		$feed->init();
