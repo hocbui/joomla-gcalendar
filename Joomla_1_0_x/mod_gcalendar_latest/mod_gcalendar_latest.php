@@ -162,7 +162,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     
     // Now customise display format based on event as part of day, whole day or multiple days
     // Need to know if it is whole days or not.  Google reports this with end date > start date
-	  if (($item->get_start_time()+ $SECSINDAY) < $item->get_end_time()) {
+	  if (($item->get_start_time()+ $SECSINDAY) <= $item->get_end_time()) {
       // For a single whole of day, Google reports the end date as the next day
       //  So, we check to see if start date + 1 day = end day (i.e. a one day, whole day event)
       if (($item->get_start_time()+ $SECSINDAY) == $item->get_end_time()) {
