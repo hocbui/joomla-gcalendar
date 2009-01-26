@@ -57,13 +57,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     $temp_event=$event_display;
     
     // smh 2008-12-17
-    //       - modification to allow flexible output for various event types viz:
-    //       Part of a day
-    //       Single Day - whole day
-    //       Multiple days - whole day
-    //   N.B.  This formatting is fixed for now.  We need to add params to allow configuration in future.
-    
-    
+
 	// Now customise display format based on event as part of day, whole day or multiple days
 	// Need to know if it is whole days or not.  Google reports this with end date > start date
 	if (($item->get_start_time()+ $SECSINDAY) <= $item->get_end_time()) {
@@ -77,14 +71,23 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 			$temp_event=str_replace("###ENDDATE###","",$temp_event);
 			$temp_event=str_replace("###ENDTIME###","",$temp_event);
 	  	} else {
-			// multiple days, whole day
-			// So, bring end date back to real date. 
-			$endDate = date($dateformat, $item->get_end_time() - $SECSINDAY);
-			$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
-			$temp_event=str_replace("###STARTTIME###","",$temp_event);
-			$temp_event=str_replace("###DATESEPARATOR###",JText::_("DATE_SEPARATOR"),$temp_event); 
-			$temp_event=str_replace("###ENDDATE###",$endDate,$temp_event);
-			$temp_event=str_replace("###ENDTIME###","",$temp_event);
+			if (date('g:i a',$item->get_start_time())=='12:00 am'){
+				// multiple days, whole day
+				// So, bring end date back to real date. 
+				$endDate = date($dateformat, $item->get_end_time() - $SECSINDAY);
+				$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
+				$temp_event=str_replace("###STARTTIME###","",$temp_event);
+				$temp_event=str_replace("###DATESEPARATOR###",JText::_("DATE_SEPARATOR"),$temp_event); 
+				$temp_event=str_replace("###ENDDATE###",$endDate,$temp_event);
+				$temp_event=str_replace("###ENDTIME###","",$temp_event);
+			}else{
+				//  multiple day, part of day
+				$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
+				$temp_event=str_replace("###STARTTIME###",$startTime,$temp_event);
+				$temp_event=str_replace("###DATESEPARATOR###",JText::_("DATE_SEPARATOR"),$temp_event); 
+				$temp_event=str_replace("###ENDDATE###",$endDate,$temp_event);
+				$temp_event=str_replace("###ENDTIME###",$endTime,$temp_event);
+			}
 		}
 	} else {
 		//  Single day, part of day
@@ -114,7 +117,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     $temp_event=str_replace("&quot;","\"",$temp_event);
 
 		//  TEMP FIX! until strftime() is being used?? Just in case dateseparator has not translated...
-    $temp_event=str_replace("DATE_SEPARATOR"," - ",$temp_event); 
+    $temp_event=str_replace("###DATESEPARATOR###"," - ",$temp_event); 
 
 	echo $temp_event;
 }
