@@ -193,7 +193,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     $temp_event=str_replace("###UNTIL###",$endTime,$temp_event);
     $temp_event=str_replace("###WHERE###",$item->get_location(),$temp_event);
     $temp_event=str_replace("###BACKLINK###",urldecode('index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&calendarName='.$calName.'&ctz='.$tz),$temp_event);
-    $temp_event=str_replace("###LINK###",$item->get_link(),$temp_event);
+    $temp_event=str_replace("###LINK###",$item->get_link().'&ctz='.$tz,$temp_event);
     $temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
     // Accept and translate HTML
     $temp_event=str_replace("&lt;","<",$temp_event);
