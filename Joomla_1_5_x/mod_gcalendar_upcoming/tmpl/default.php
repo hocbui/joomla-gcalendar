@@ -14,9 +14,12 @@ if(!empty($error)){
     return;
 }
 
-//  smh - 2008-12-17 - integer count of seconds in a day
 $SECSINDAY=86400;
-//  /smh  2008-12-17
+
+// Include style sheet plus allow for selecting style suffixes
+JHTML::stylesheet('gcalendar.css','modules/mod_gcalendar_upcoming/templates'.'/');
+$MODCLASS_SUFFIX=$params->get('moduleclass_sfx');
+
 //
 // How you want each thing to display.
 // All bits listed below which are available:
@@ -27,7 +30,7 @@ $SECSINDAY=86400;
 $dsplLink = "<a href='###BACKLINK###'>###TITLE###</a>";
 if($params->get( 'openWindow', 0 )==1)
         $dsplLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
-$event_display="<p>###STARTDATE### ###STARTTIME### ###DATESEPARATOR### ###ENDDATE### ###ENDTIME###<br>".$dsplLink."</p>";
+$event_display="<div id=\"gc_upcoming_date".$MODCLASS_SUFFIX."\">###STARTDATE### ###STARTTIME### ###DATESEPARATOR### ###ENDDATE### ###ENDTIME###</div><div id=\"gc_upcoming_event".$MODCLASS_SUFFIX."\">".$dsplLink."</div><br>";
 
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y'); // 10 March 2009 - see http://www.php.net/date for details
@@ -104,6 +107,9 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     $temp_event=str_replace("&lt;","<",$temp_event);
     $temp_event=str_replace("&gt;",">",$temp_event);
     $temp_event=str_replace("&quot;","\"",$temp_event);
+
+		//  TEMP FIX! until strftime() is being used?? Just in case dateseparator has not translated...
+    $temp_event=str_replace("DATE_SEPARATOR"," - ",$temp_event); 
 
 	echo $temp_event;
 }
