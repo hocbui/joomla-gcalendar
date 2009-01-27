@@ -40,6 +40,8 @@ class GCalendarModelGCalendar extends JModel
 		$query = "SELECT id,".$calendarType." FROM #__gcalendar where name='".$calendarName."'";
 		$db->setQuery( $query );
 		$results = $db->loadObjectList();
+		if(empty($results))
+			return '';
 		$url = '';
 		foreach ($results as $result) {
 			if($calendarType == 'xmlUrl')
