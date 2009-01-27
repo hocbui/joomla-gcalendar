@@ -61,7 +61,8 @@ class SimplePie_GCalendar extends SimplePie {
 	}
 	
 	/**
-	 * Sets the language of the feed.
+	 * Sets the language of the feed. Something like
+	 * en or en_GB or de.
 	 */
 	function set_cal_language($value = ""){
 		$this->cal_language = $value;

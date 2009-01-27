@@ -4,7 +4,7 @@
 * Google calendar simplepie feed.
 * 
 * @author allon
-* @version $Revision: 0.1.0 $
+* @version $Revision: 0.2.0 $
 **/
 
 if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM')) {
@@ -25,6 +25,7 @@ class SimplePie_GCalendar extends SimplePie {
 	var $sort_ascending = TRUE;
 	var $orderby_by_start_date = TRUE;
 	var $expand_single_events = TRUE;
+	var $cal_language = "";
 	
 	/**
 	 * If the method $this->get_items() should include past events.
@@ -57,6 +58,14 @@ class SimplePie_GCalendar extends SimplePie {
 	 */
 	function set_expand_single_events($value = TRUE){
 		$this->expand_single_events = $value;
+	}
+	
+	/**
+	 * Sets the language of the feed. Something like
+	 * en or en_GB or de.
+	 */
+	function set_cal_language($value = ""){
+		$this->cal_language = $value;
 	}
 	
 	/**
@@ -108,6 +117,8 @@ class SimplePie_GCalendar extends SimplePie {
 			$tmp = $this->append($tmp,'singleevents=true&');
 		else
 			$tmp = $this->append($tmp,'singleevents=false&');
+		if(!empty($this->cal_language))
+			$tmp = $this->append($tmp,'hl='.$this->cal_language.'&');
 		return $tmp;
 	}
 	
