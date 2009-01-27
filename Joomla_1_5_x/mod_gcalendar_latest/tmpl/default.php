@@ -20,7 +20,6 @@ $SECSINDAY=86400;
 JHTML::stylesheet('gcalendar.css','modules/mod_gcalendar_upcoming/templates'.'/');
 $MODCLASS_SUFFIX=$params->get('moduleclass_sfx');
 
-//
 // How you want each thing to display.
 // All bits listed below which are available:
 // ###TITLE###, ###DESCRIPTION###, ###PUBLISHEDDATE###, ###PUBLISHEDTIME###, 
@@ -71,20 +70,21 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 			$temp_event=str_replace("###ENDDATE###","",$temp_event);
 			$temp_event=str_replace("###ENDTIME###","",$temp_event);
 	  	} else {
-			if (date('g:i a',$item->get_start_time())=='12:00 am'){
+			if ((date('g:i a',$item->get_start_time())=='12:00 am')&&
+				(date('g:i a',$item->get_end_time())=='12:00 am')){
 				// multiple days, whole day
 				// So, bring end date back to real date. 
 				$endDate = date($dateformat, $item->get_end_time() - $SECSINDAY);
 				$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
 				$temp_event=str_replace("###STARTTIME###","",$temp_event);
-				$temp_event=str_replace("###DATESEPARATOR###",JText::_("DATE_SEPARATOR"),$temp_event); 
+				$temp_event=str_replace("###DATESEPARATOR###","-",$temp_event); 
 				$temp_event=str_replace("###ENDDATE###",$endDate,$temp_event);
 				$temp_event=str_replace("###ENDTIME###","",$temp_event);
 			}else{
 				//  multiple day, part of day
 				$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
 				$temp_event=str_replace("###STARTTIME###",$startTime,$temp_event);
-				$temp_event=str_replace("###DATESEPARATOR###",JText::_("DATE_SEPARATOR"),$temp_event); 
+				$temp_event=str_replace("###DATESEPARATOR###","-",$temp_event); 
 				$temp_event=str_replace("###ENDDATE###",$endDate,$temp_event);
 				$temp_event=str_replace("###ENDTIME###",$endTime,$temp_event);
 			}
@@ -93,7 +93,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 		//  Single day, part of day
 		$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
 		$temp_event=str_replace("###STARTTIME###",$startTime,$temp_event);
-		$temp_event=str_replace("###DATESEPARATOR###",JText::_("DATE_SEPARATOR"),$temp_event); 
+		$temp_event=str_replace("###DATESEPARATOR###","-",$temp_event); 
 		$temp_event=str_replace("###ENDDATE###","",$temp_event);
 		$temp_event=str_replace("###ENDTIME###",$endTime,$temp_event);
 	}
@@ -115,9 +115,6 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     $temp_event=str_replace("&lt;","<",$temp_event);
     $temp_event=str_replace("&gt;",">",$temp_event);
     $temp_event=str_replace("&quot;","\"",$temp_event);
-
-		//  TEMP FIX! until strftime() is being used?? Just in case dateseparator has not translated...
-    $temp_event=str_replace("###DATESEPARATOR###"," - ",$temp_event); 
 
 	echo $temp_event;
 }
