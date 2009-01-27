@@ -11,7 +11,8 @@
 	<authorUrl>gcalendar.allon.ch</authorUrl>
 	<version>2.0.0</version>
 	<description>This module shows the last changed events from a
-		google calendar.</description>
+		google calendar. The output of the module uses two css class ids "gc_latest_published", "gc_latest_date" and "gc_latest_event". 
+    Add these to your template css to modify the output format.</description>
 	<files>
 		<filename module="mod_gcalendar_latest">mod_gcalendar_latest.php
 		</filename>

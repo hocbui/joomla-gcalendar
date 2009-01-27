@@ -16,10 +16,6 @@ if(!empty($error)){
 
 $SECSINDAY=86400;
 
-// Include style sheet plus allow for selecting style suffixes
-JHTML::stylesheet('gcalendar.css','modules/mod_gcalendar_upcoming/templates'.'/');
-$MODCLASS_SUFFIX=$params->get('moduleclass_sfx');
-
 // How you want each thing to display.
 // All bits listed below which are available:
 // ###TITLE###, ###DESCRIPTION###, ###PUBLISHEDDATE###, ###PUBLISHEDTIME###, 
@@ -28,7 +24,7 @@ $MODCLASS_SUFFIX=$params->get('moduleclass_sfx');
 $dsplLink = "<a href='###BACKLINK###'>###TITLE###</a>";
 if($params->get( 'openWindow', 0 )==1)
 	$dsplLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
-$event_display="<div id=\"gc_latest_date".$MODCLASS_SUFFIX."\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###<br>###STARTDATE### ###STARTTIME### ###DATESEPARATOR### ###ENDDATE### ###ENDTIME###</div><div id=\"gc_upcoming_event".$MODCLASS_SUFFIX."\">".$dsplLink."</div><br>";
+$event_display="<div id=\"gc_latest_published\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###</div><div id=\"gc_latest_date\">###STARTDATE### ###STARTTIME### ###DATESEPARATOR### ###ENDDATE### ###ENDTIME###</div><div id=\"gc_upcoming_event\">".$dsplLink."</div><br>";
 
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', 'd.m.Y'); // 10 March 2009 - see http://www.php.net/date for details
