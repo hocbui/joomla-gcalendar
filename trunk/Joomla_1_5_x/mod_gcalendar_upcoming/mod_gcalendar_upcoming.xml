@@ -11,7 +11,8 @@
 	<authorUrl>gcalendar.allon.ch</authorUrl>
 	<version>2.0.0</version>
 	<description>This module shows the upcoming events from a google
-		calendar.</description>
+		calendar. The output of the module uses two css class ids gc_upcoming_date" and "gc_upcoming_event". 
+    Add these to your template css to modify the output format.</description>
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php
 		</filename>
