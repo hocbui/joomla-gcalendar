@@ -16,6 +16,33 @@
 		<filename>languages/english.php</filename>
 		<filename>languages/german.php</filename>
 		<filename>languages/germani.php</filename>
+		<filename>googlecal/.htaccess</filename>
+		<filename>googlecal/mygooglecal4.css</filename>
+		<filename>googlecal/MyGoogleCal4js.php</filename>
+		<filename>googlecal/MyGoogleCal4.php</filename>
+		<filename>googlecal/images/add-to-google-plus.gif</filename>
+		<filename>googlecal/images/btn_menu6_flip.gif</filename>
+		<filename>googlecal/images/btn_menu6.gif</filename>
+		<filename>googlecal/images/btn_next_sm.gif</filename>
+		<filename>googlecal/images/btn_prev_sm.gif</filename>
+		<filename>googlecal/images/calendar_plus_en.gif</filename>
+		<filename>googlecal/images/close.gif</filename>
+		<filename>googlecal/images/icon_moreleft.gif</filename>
+		<filename>googlecal/images/icon_moreright.gif</filename>
+		<filename>googlecal/images/icon_print.gif</filename>
+		<filename>googlecal/images/iw_e.png</filename>
+		<filename>googlecal/images/iw_ne.png</filename>
+		<filename>googlecal/images/iw_n.png</filename>
+		<filename>googlecal/images/iw_nw.png</filename>
+		<filename>googlecal/images/iw_se.png</filename>
+		<filename>googlecal/images/iw_s.png</filename>
+		<filename>googlecal/images/iw_sw.png</filename>
+		<filename>googlecal/images/iw_tap.png</filename>
+		<filename>googlecal/images/iw_w.png</filename>
+		<filename>googlecal/images/menu_arrow_hover.gif</filename>
+		<filename>googlecal/images/menu_arrow_open.gif</filename>
+		<filename>googlecal/images/poweredby.png</filename>
+		<filename>googlecal/images/transparent_sm.gif</filename>
 	</files>
 	<install>
 		<queries>
@@ -75,5 +102,13 @@
 		<param name="pageclass_sfx" type="text" size="20" default=""
 			label="Page Class Suffix"
 			description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
+		<param name="@spacer" type="spacer" default="" label="Advanced"
+			description="" />
+		<param name="use_custom_css" type="radio" default="0"
+			label="Use Custom CSS"
+			description="Use custom css in the googlecal folder. Check the documentation at gcalendar.allon.ch for more information">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 </mosinstall>

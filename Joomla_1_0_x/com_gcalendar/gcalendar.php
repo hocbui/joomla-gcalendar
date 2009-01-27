@@ -84,10 +84,15 @@ function showCalendar($option) {
 	$results = $database->loadObjectList();
 	if(!empty($results)){
 		foreach ($results as $result) {
-			$params->set('htmlUrl', $result->htmlUrl);
+			if ($params->get('use_custom_css')) {
+				$params->set('htmlUrl', 'components/com_gcalendar/googlecal/MyGoogleCal4.php?'.str_replace("http://www.google.com/calendar/embed?","",$result->htmlUrl));
+			}else{
+				$params->set('htmlUrl', $result->htmlUrl);
+			}
 		}
 		
 		$mainframe->SetPageTitle($menu->name);
+		
 		HTML_gcalendar :: displayCalendar($params, $menu);
 	}else{
 		echo _GCALENDAR_COMPONENT_NO_CALENDAR;
