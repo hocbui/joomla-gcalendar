@@ -107,8 +107,8 @@ if($tz == '')
 	$tz = $feed->get_timezone();
 
 // Date format you want your details to appear
-$dateformat=$params->get('dateFormat', 'd.m.Y'); // 10 March 2009 - see http://www.php.net/date for details
-$timeformat=$params->get('timeFormat', 'H:i');; // 12.15am
+$dateformat=$params->get('dateFormat', '%d.%m.%Y'); // 10 March 2009 - see http://www.php.net/date for details
+$timeformat=$params->get('timeFormat', '%H:%M');; // 12.15am
 
 $gcalendar_data = $feed->get_items();
 // Loop through the array, and display what we wanted.
@@ -116,10 +116,10 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 	$item = $gcalendar_data[$i];
 	
 	// These are the dates we'll display
-    $startDate = date($dateformat, $item->get_start_time());
-    $startTime = date($timeformat, $item->get_start_time());
-    $endDate = date($dateformat, $item->get_end_time());
-    $endTime = date($timeformat, $item->get_end_time());
+    $startDate = strftime($dateformat, $item->get_start_time());
+    $startTime = strftime($timeformat, $item->get_start_time());
+    $endDate = strftime($dateformat, $item->get_end_time());
+    $endTime = strftime($timeformat, $item->get_end_time());
     
     $temp_event=$event_display;
     
@@ -146,7 +146,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 			(date('g:i a',$item->get_end_time())=='12:00 am')){
 			// multiple days, whole day
 			// So, bring end date back to real date. 
-			$endDate = date($dateformat, $item->get_end_time() - $SECSINDAY);
+			$endDate = strftime($dateformat, $item->get_end_time() - $SECSINDAY);
 			$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
 			$temp_event=str_replace("###STARTTIME###","",$temp_event);
 			$temp_event=str_replace("###DATESEPARATOR###","-",$temp_event); 
