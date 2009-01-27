@@ -1,10 +1,22 @@
 <?php
-
 /**
-* Google calendar latest events module
-* @author allon
-* @version $Revision: 2.0.0 $
-**/
+ * GCalendar is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GCalendar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @author Allon Moritz
+ * @copyright 2007-2009 Allon Moritz
+ * @version $Revision: 2.0.1 $
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -27,8 +39,8 @@ if($params->get( 'openWindow', 0 )==1)
 $event_display="<div id=\"gc_upcoming_date\">###STARTDATE### ###STARTTIME### ###DATESEPARATOR### ###ENDDATE### ###ENDTIME###</div><div id=\"gc_upcoming_event\">".$dsplLink."</div><br>";
 
 // Date format you want your details to appear
-$dateformat=$params->get('dateFormat', '%d.%m.%Y'); // 10 March 2009 - see http://www.php.net/date for details
-$timeformat=$params->get('timeFormat', '%H:%M'); // 12.15am
+$dateformat=$params->get('dateFormat', '%d.%m.%Y');
+$timeformat=$params->get('timeFormat', '%H:%M');
 $calName = $params->get( 'name', NULL );
 
 // Loop through the array, and display what we wanted.
@@ -49,12 +61,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     
     $temp_event=$event_display;
     
-    // smh 2008-12-17
-    //       - modification to allow flexible output for various event types viz:
-    //       Part of a day
-    //       Single Day - whole day
-    //       Multiple days - whole day
-    //   N.B.  This formatting is fixed for now.  We need to add params to allow configuration in future.
+    // N.B.  This formatting is fixed for now.  We need to add params to allow configuration in future.
 	// Now customise display format based on event as part of day, whole day or multiple days
 	// Need to know if it is whole days or not.  Google reports this with end date > start date
 	if (($item->get_start_time()+ $SECSINDAY) <= $item->get_end_time()) {

@@ -7,7 +7,7 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="gcalendar_version" value="2_0_0" />
+	<property name="gcalendar_version" value="2_0_1" />
 	<property name="includeUpgrade" value="true" />
 
 	<target name="init">
@@ -43,7 +43,7 @@
 		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.class.php" todir="${gcalendar_root}" />
 		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/install.gcalendar.php" todir="${gcalendar_root}" />
 		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/uninstall.gcalendar.php" todir="${gcalendar_root}" />
-
+		
 		<copy todir="${gcalendar_root}">
 			<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/images/*" />
 		</copy>
@@ -53,6 +53,7 @@
 		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.html.php" todir="${gcalendar_root_site}" />
 		<copy todir="${gcalendar_root_site}">
 			<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/languages/*" />
+			<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/googlecal/*" />
 		</copy>
 
 		<!-- create the modules upgrade package -->
@@ -71,6 +72,7 @@
 		<zip destfile="${dist}/gcalendar_upgrade_1_4_x_to_${gcalendar_version}_J1_0x.zip">
 			<zipfileset dir="${build}/upgrade_1_0" />
 			<zipfileset dir="${basedir}" includes="ReadFirstJ10x.txt" />
+			<zipfileset dir="${basedir}" includes="license.txt" />
 		</zip>
 	</target>
 
@@ -119,6 +121,7 @@
 		<zip destfile="${dist}/gcalendar_upgrade_1_5_x_to_${gcalendar_version}_J1_5x.zip">
 			<zipfileset dir="${build}/upgrade_1_5" />
 			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
+			<zipfileset dir="${basedir}" includes="license.txt" />
 		</zip>
 	</target>
 
@@ -143,6 +146,7 @@
 		<zip destfile="${dist}/gcalendar_${gcalendar_version}_J15x.zip">
 			<zipfileset dir="${build}/Joomla_1_5_x" includes="**/*" />
 			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
+			<zipfileset dir="${basedir}" includes="license.txt" />
 		</zip>
 
 		<!-- create gcalendar for joomla 1.0 -->
@@ -152,6 +156,7 @@
 		<zip destfile="${dist}/gcalendar_${gcalendar_version}_J10x.zip">
 			<zipfileset dir="${build}/Joomla_1_0_x" includes="**/*" />
 			<zipfileset dir="${basedir}" includes="ReadFirstJ10x.txt" />
+			<zipfileset dir="${basedir}" includes="license.txt" />
 		</zip>
 	</target>
 

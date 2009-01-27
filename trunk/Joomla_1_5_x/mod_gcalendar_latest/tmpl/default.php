@@ -1,10 +1,22 @@
 <?php
-
 /**
-* Google calendar latest events module
-* @author allon
-* @version $Revision: 2.0.0 $
-**/
+ * GCalendar is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GCalendar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @author Allon Moritz
+ * @copyright 2007-2009 Allon Moritz
+ * @version $Revision: 2.0.1 $
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -27,8 +39,8 @@ if($params->get( 'openWindow', 0 )==1)
 $event_display="<div id=\"gc_latest_published\">".JText::_("PUBLISHED")." ###PUBLISHEDDATE### ###PUBLISHEDTIME###</div><div id=\"gc_latest_date\">###STARTDATE### ###STARTTIME### ###DATESEPARATOR### ###ENDDATE### ###ENDTIME###</div><div id=\"gc_upcoming_event\">".$dsplLink."</div><br>";
 
 // Date format you want your details to appear
-$dateformat=$params->get('dateFormat', '%d.%m.%Y'); // 10 March 2009 - see http://www.php.net/date for details
-$timeformat=$params->get('timeFormat', '%H:%M'); // 12.15am
+$dateformat=$params->get('dateFormat', '%d.%m.%Y');
+$timeformat=$params->get('timeFormat', '%H:%M');
 $calName = $params->get( 'name', NULL );
 
 // Loop through the array, and display what we wanted.
