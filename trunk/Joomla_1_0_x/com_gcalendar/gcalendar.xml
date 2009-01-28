@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
 	<name>GCalendar</name>
-	<creationDate>Dec 2008</creationDate>
+	<creationDate>Jan 2009</creationDate>
 	<author>allon</author>
 	<copyright>
 		This component is released under the GNU/GPL License
