@@ -43,6 +43,20 @@ $dateformat=$params->get('dateFormat', '%d.%m.%Y');
 $timeformat=$params->get('timeFormat', '%H:%M');
 $calName = $params->get( 'name', NULL );
 
+//get the menu id
+$component = &JComponentHelper::getComponent('com_gcalendar');
+$menu = &JSite::getMenu();
+$items = $menu->getItems('componentid', $component->id);
+$itemID = '';
+if (is_array($items)){
+	foreach($items as $item) {
+		$paramsItem	=& $menu->getParams($item->id);
+		if($paramsItem->get('name') === $calName){
+			$itemID = '&Itemid='.$item->id;
+		}
+	}
+}
+
 // Loop through the array, and display what we wanted.
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
@@ -116,7 +130,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
     $temp_event=str_replace("###PUBLISHEDDATE###",$pubDate,$temp_event);
     $temp_event=str_replace("###PUBLISHEDTIME###",$pubTime,$temp_event);
     $temp_event=str_replace("###WHERE###",$item->get_location(),$temp_event);
-    $temp_event=str_replace("###BACKLINK###",urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&calendarName='.$calName.'&ctz='.$tz),$temp_event);
+    $temp_event=str_replace("###BACKLINK###",urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&calendarName='.$calName.'&ctz='.$tz.$itemID),$temp_event);
     $temp_event=str_replace("###LINK###",$item->get_link().'&ctz='.$tz,$temp_event);
     $temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
     // Accept and translate HTML
