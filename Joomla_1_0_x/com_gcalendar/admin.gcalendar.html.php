@@ -66,7 +66,7 @@ class HTML_gcalendar {
 </form>  
 <div align="center">
 <br><img src="components/com_gcalendar/images/gcalendar.gif" width="143" height="57"><br>
-  &copy;&nbsp;&nbsp;2008 <a href="http://www.allon.ch" target="_blank">allon moritz</a>
+  &copy;&nbsp;&nbsp;2009 <a href="http://www.allon.ch" target="_blank">allon moritz</a>
   </div>
 <?php
 
@@ -119,7 +119,7 @@ class HTML_gcalendar {
         </form>
         <div align="center">
 <br><img src="components/com_gcalendar/images/gcalendar.gif" width="143" height="57"><br>
-  &copy;&nbsp;&nbsp;2008 <a href="http://www.allon.ch" target="_blank">allon moritz</a>
+  &copy;&nbsp;&nbsp;2009 <a href="http://www.allon.ch" target="_blank">allon moritz</a>
   </div>
 <?php
 
