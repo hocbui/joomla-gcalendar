@@ -32,10 +32,10 @@
 			description="The name of the google calendar. Specified in the GCalendar component." />
 		<param name="dateFormat" type="text" size="80" default="%d.%m.%Y"
 			label="Date format"
-			description="The format of the date for an event (see http://www.php.net/date for details)." />
+			description="The format of the date for an event (see http://www.php.net/strftime for details)." />
 		<param name="timeFormat" type="text" size="80" default="%H:%M"
 			label="Time format"
-			description="The format of the time for an event (see http://www.php.net/date for details)." />
+			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
 		<param name="max" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
 		<param name="openWindow" type="radio" default="0"
