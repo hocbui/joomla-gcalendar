@@ -30,8 +30,8 @@ class GCalendarViewGCalendar extends JView
 	{
 		global $mainframe;
 		
-		$gcalendar = $this->get( 'GCalendar' );
-		$this->assignRef( 'gcalendar',	$gcalendar );
+		$calendars = $this->get( 'GCalendar' );
+		$this->assignRef( 'calendars',	$calendars );
 		
 		$params = &$mainframe->getParams();
 		$this->assignRef('params'  , $params);

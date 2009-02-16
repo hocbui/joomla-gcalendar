@@ -2,7 +2,9 @@
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
 <install type="component" version="1.5.0">
 	<name>GCalendar</name>
-	<!-- The following elements are optional and free of formatting conttraints -->
+	<!--
+		The following elements are optional and free of formatting conttraints
+	-->
 	<creationDate>Jan 2009</creationDate>
 	<author>allon</author>
 	<authorEmail>allon@allon.ch</authorEmail>
@@ -61,9 +63,9 @@
 		<filename>models/index.html</filename>
 	</files>
 	<languages>
-  		<language tag="en-GB">site/languages/en-GB.com_gcalendar.ini</language> 
-  	</languages>
-	
+		<language tag="en-GB">site/languages/en-GB.com_gcalendar.ini</language>
+	</languages>
+
 	<install>
 		<sql>
 			<file charset="utf8" driver="mysql">install.sql</file>
@@ -73,23 +75,25 @@
 		<sql>
 			<file charset="utf8" driver="mysql">uninstall.sql</file>
 		</sql>
-	</uninstall>	
+	</uninstall>
 	<administration>
 		<!-- Administration Menu Section -->
-		<menu >GCalendar</menu>
-		<submenu>			
+		<menu>GCalendar</menu>
+		<submenu>
 			<menu task="calendars">GCalendars</menu>
 			<menu task="googleCalendar">Google Calendar</menu>
 			<menu task="support">Support</menu>
 		</submenu>
-		
-		
+
+
 		<!-- Administration Main File Copy Section -->
-		<!-- Note the folder attribute: This attribute describes the folder
-			to copy FROM in the package to install therefore files copied
-			in this section are copied from /admin/ in the package -->
+		<!--
+			Note the folder attribute: This attribute describes the folder to
+			copy FROM in the package to install therefore files copied in this
+			section are copied from /admin/ in the package
+		-->
 		<files folder="admin">
-	<!-- Site Main File Copy Section -->
+			<!-- Site Main File Copy Section -->
 			<filename>index.html</filename>
 			<filename>admin.gcalendar.php</filename>
 			<filename>controller.php</filename>
@@ -117,10 +121,13 @@
 			<filename>uninstall.sql</filename>
 			<filename>css/gcalendar.css</filename>
 			<filename>css/index.html</filename>
-		</files>		
-		
+			<filename>elements/index.html</filename>
+			<filename>elements/gcalendar.php</filename>
+			<folder>libraries</folder>
+		</files>
+
 		<languages>
-  			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language> 
-  		</languages>
+			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language>
+		</languages>
 	</administration>
 </install>
