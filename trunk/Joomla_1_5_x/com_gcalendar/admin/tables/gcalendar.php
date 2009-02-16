@@ -43,17 +43,22 @@ class TableGCalendar extends JTable
 	/**
 	 * @var string
 	 */
-	var $htmlUrl = null;
+	var $domaine = null;
 	
 	/**
 	 * @var string
 	 */
-	var $xmlUrl = null;
+	var $calendar_id = null;
 	
 	/**
 	 * @var string
 	 */
-	var $icalUrl = null;
+	var $magic_cookie = null;
+	
+	/**
+	 * @var string
+	 */
+	var $color = null;
 
 	/**
 	 * Constructor

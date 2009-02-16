@@ -8,21 +8,63 @@
 	<state>
 		<name>GCalendar</name>
 		<description>GCALENDAR DESC</description>
-		<params>
-			<param name="name" type="text" size="30" default=""
-				label="Calendar name" description="The calendar name, specified in the GCalendar component." />
-			<param name="@spacer" type="spacer" default="" label=""
-				description="" />
-			<param name="scrolling" type="radio" default="auto" label="Scroll Bars"
-				description="PARAMHORIVERT">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
-				<option value="auto">Auto</option>
+		<params addpath="/administrator/components/com_gcalendar/elements">
+			<param name="calendarids" type="gcalendar" default=""
+				label="Select Calendars" description="The calendars" />
+			<param name="title" type="radio" default="1" label="Title"
+				description="">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="navigation" type="radio" default="1" label="Navigation"
+				description="">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="date" type="radio" default="1" label="Date"
+				description="">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="print" type="radio" default="1" label="Print icon"
+				description="">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="tabs" type="radio" default="1" label="Tabs"
+				description="">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="calendars" type="radio" default="1" label="Calendar list"
+				description="">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="tz" type="radio" default="1" label="Time zone"
+				description="">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
 			</param>
 			<param name="width" type="text" size="5" default="100%" label="Width"
 				description="PARAMWIDTH" />
 			<param name="height" type="text" size="5" default="500" label="Height"
 				description="PARAMHEIGHT" />
+			<param name="view" type="radio" default="MONTH" label="Select an option"
+				description="">
+				<option value="WEEK">Week</option>
+				<option value="MONTH">Month</option>
+				<option value="AGENDA">Agenda</option>
+			</param>
+			<param name="weekstart" type="list" default="2" label="Week starts on"
+				description="">
+				<option value="1">Sunday</option>
+				<option value="2">Monday</option>
+				<option value="7">Saturday</option>
+			</param>
+			<param name="bgcolor" type="text" default="FFFFFF" label="Background color" description="" size="10" />
+			<param name="timezone" type="timezones" default="0" label="Time Zone"
+				description="" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
 			<param name="pageclass_sfx" type="text" size="20" default=""
