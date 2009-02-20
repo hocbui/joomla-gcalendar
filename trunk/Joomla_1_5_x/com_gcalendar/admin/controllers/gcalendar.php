@@ -38,18 +38,6 @@ class GCalendarsControllerGCalendar extends GCalendarsController
 		// Register Extra tasks
 		$this->registerTask( 'add'  , 	'edit' );
 	}
-	
-	/**
-	 * display the google calendar
-	 * @return void
-	 */
-	function showCalendar()
-	{
-		JRequest::setVar( 'layout', 'calendar'  );
-		JRequest::setVar('hidemainmenu', 1);
-
-		parent::display();
-	}
 
 	/**
 	 * display the edit form
