@@ -40,7 +40,7 @@ class GCalendarsControllerImport extends GCalendarsController
 	 * save a record (and redirect to main page)
 	 * @return void
 	 */
-	function save()
+	function add()
 	{
 		$model = $this->getModel('Import');
 

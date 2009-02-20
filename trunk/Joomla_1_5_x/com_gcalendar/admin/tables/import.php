@@ -4,15 +4,15 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * GCalendar is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * 
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
  * @version $Revision: 2.0.1 $
@@ -21,29 +21,52 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
 
-//if(!class_exists('Zend_Loader')){
-//	require_once JPATH_COMPONENT.DS.'libraries/Zend/Loader.php';
-//}
+/**
+ * GCalendar Table class
+ *
+ */
+class TableImport extends JTable
+{
+	/**
+	 * Primary Key
+	 *
+	 * @var int
+	 */
+	var $id = null;
 
-// Require specific controller if requested
-if($controller = JRequest::getVar('controller')) {
-	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
+	/**
+	 * @var string
+	 */
+	var $name = null;
+	
+	/**
+	 * @var string
+	 */
+	var $domaine = null;
+	
+	/**
+	 * @var string
+	 */
+	var $calendar_id = null;
+	
+	/**
+	 * @var string
+	 */
+	var $magic_cookie = null;
+	
+	/**
+	 * @var string
+	 */
+	var $color = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @param object Database connector object
+	 */
+	function TableImport(& $db) {
+		parent::__construct('#__gcalendar', 'id', $db);
+	}
 }
-
-$document =& JFactory::getDocument();
-$document->addStyleSheet($mainframe->getSiteURL() . 'administrator/components/com_gcalendar/css/gcalendar.css');
-
-// Create the controller
-$classname	= 'GCalendarsController'.$controller;
-$controller = new $classname( );
-
-// Perform the Request task
-$controller->execute( JRequest::getVar('task'));
-
-// Redirect if set by the controller
-$controller->redirect();
-
 ?>

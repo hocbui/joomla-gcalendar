@@ -4,20 +4,20 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GCalendar is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
  * @version $Revision: 2.0.1 $
  */
- 
+
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
@@ -36,12 +36,8 @@ class GCalendarsViewImport extends JView
 	function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
-		if(JRequest::getVar( 'layout')!='calendar' && JRequest::getVar( 'layout')!='support'){
-			JToolBarHelper::custom('import', 'upload.png', 'upload.png', 'import', false);
-			JToolBarHelper::deleteList();
-			JToolBarHelper::editListX();
-			JToolBarHelper::addNewX();
-		}
+		JToolBarHelper::custom('add', 'new.png', 'new.png', 'add', false);
+		JToolBarHelper::cancel();
 
 		// Get data from the model
 		$items = & $this->get( 'Data');
