@@ -101,7 +101,8 @@ class GCalendarsModelImport extends JModel
 			$tmp = array();
 			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
 			foreach ($calFeed as $calendar) {
-				$table_instance = & $this->getTable('import');;
+				$table_instance = & $this->getTable('import');
+				$table_instance->id = 0;
 				$cal_id = substr($calendar->getId(),strripos($calendar->getId(),'/')+1);
 				$table_instance->calendar_id = $cal_id;
 				$table_instance->name = $calendar->getTitle();
@@ -123,35 +124,35 @@ class GCalendarsModelImport extends JModel
 	function store()	{
 		$row =& $this->getTable();
 
-		$data = JRequest::get( 'post' );
-		if (count($data['calendars'])>0) {
-			foreach ($data['calendars'] as $calendar) {
-				echo $calendar;
+		$cids = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		if (count($cids)>0) {
+			$google_calendars = $this->getData();
+
+			foreach ($cids as $cid) {
+				foreach ($google_calendars as $google_calendar) {
+					if($google_calendar->calendar_id == $cid){
+						// Bind the form fields to the calendar table
+						if (!$row->bind($google_calendar)) {
+							JError::raiseWarning( 500, $row->getError() );
+							return false;
+						}
+
+						// Make sure the calendar record is valid
+						if (!$row->check()) {
+							JError::raiseWarning( 500, $row->getError() );
+							return false;
+						}
+
+						// Store the calendar table to the database
+						if (!$row->store()) {
+							JError::raiseWarning( 500, $row->getError() );
+							return false;
+						}
+					}
+				}
 			}
 		}
-		else    {
-			$data['calendars'] = '';
-		}
-		/**
-		 // Bind the form fields to the calendar table
-		 if (!$row->bind($data)) {
-			JError::raiseWarning( 500, $row->getError() );
-			return false;
-			}
-
-			// Make sure the calendar record is valid
-			if (!$row->check()) {
-			JError::raiseWarning( 500, $row->getError() );
-			return false;
-			}
-
-			// Store the calendar table to the database
-			if (!$row->store()) {
-			JError::raiseWarning( 500, $row->getError() );
-			return false;
-			}
-			**/
-		return false;
+		return true;
 	}
 }
 ?>
