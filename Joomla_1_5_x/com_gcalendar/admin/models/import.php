@@ -80,9 +80,8 @@ class GCalendarsModelImport extends JModel
 		if (!isset($_SESSION['sessionToken']) && isset($_GET['token'])) {
 			$_SESSION['sessionToken'] =
 			Zend_Gdata_AuthSub::getAuthSubSessionToken($_GET['token'], $client);
-		}else {
-			return null;
 		}
+		if(empty($_SESSION['sessionToken']))return null;
 		$client->setAuthSubToken($_SESSION['sessionToken']);
 		return $client;
 	}
@@ -95,22 +94,21 @@ class GCalendarsModelImport extends JModel
 		$client = $this->getAuthSubHttpClient();
 
 		if (!$client) {
-			$this->_data = new stdClass();
-			$this->_data->id = 0;
-			$this->_data->calendar = null;
+			$this->_data = array();
 		}else{
-		$gdataCal = new Zend_Gdata_Calendar($client);
-		$calFeed = $gdataCal->getCalendarListFeed();
-		$tmp = array();
-		foreach ($calFeed as $calendar) {
-			$table_instance = new TableGCalendar();
-			$cal_id = substr($calendar->getId(),strripos($calendar->getId(),'/')+1);
-			$table_instance->calendar_id = $cal_id;
-			$table_instance->name = $calendar->getTitle();
-			$table_instance->color = $calendar->getColor();
-			$tmp[] = $table_instance;
-		}
-		$this->_data = $tmp;
+			$gdataCal = new Zend_Gdata_Calendar($client);
+			$calFeed = $gdataCal->getCalendarListFeed();
+			$tmp = array();
+			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
+			foreach ($calFeed as $calendar) {
+				$table_instance = & $this->getTable('import');;
+				$cal_id = substr($calendar->getId(),strripos($calendar->getId(),'/')+1);
+				$table_instance->calendar_id = $cal_id;
+				$table_instance->name = $calendar->getTitle();
+				$table_instance->color = $calendar->getColor();
+				$tmp[] = $table_instance;
+			}
+			$this->_data = $tmp;
 		}
 
 		return $this->_data;
@@ -122,30 +120,38 @@ class GCalendarsModelImport extends JModel
 	 * @access	public
 	 * @return	boolean	True on success
 	 */
-	function store()	{
+	function store()	{
 		$row =& $this->getTable();
 
 		$data = JRequest::get( 'post' );
-
-		// Bind the form fields to the calendar table
-		if (!$row->bind($data)) {
+		if (count($data['calendars'])>0) {
+			foreach ($data['calendars'] as $calendar) {
+				echo $calendar;
+			}
+		}
+		else    {
+			$data['calendars'] = '';
+		}
+		/**
+		 // Bind the form fields to the calendar table
+		 if (!$row->bind($data)) {
 			JError::raiseWarning( 500, $row->getError() );
 			return false;
-		}
+			}
 
-		// Make sure the calendar record is valid
-		if (!$row->check()) {
+			// Make sure the calendar record is valid
+			if (!$row->check()) {
 			JError::raiseWarning( 500, $row->getError() );
 			return false;
-		}
+			}
 
-		// Store the calendar table to the database
-		if (!$row->store()) {
+			// Store the calendar table to the database
+			if (!$row->store()) {
 			JError::raiseWarning( 500, $row->getError() );
 			return false;
-		}
-
-		return true;
+			}
+			**/
+		return false;
 	}
 }
 ?>
