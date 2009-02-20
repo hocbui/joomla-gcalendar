@@ -76,9 +76,9 @@ if(JRequest::getVar('isLogin')==='FALSE'){
 	if(!is_array($this->items)){
 		echo 'No data found!';
 	}else{
-		echo checkBoxList($this->items, 'calendars[]','id="calendars[]"',null,'id','calendar_id',true);
-	}
-	/**
+		//echo checkBoxList($this->items, 'calendars[]','id="calendars[]"',null,'id','calendar_id',true);
+	
+	
 	 ?>
 	 <form action="index.php" method="post" name="adminForm">
 	 <div id="editcell">
@@ -97,12 +97,12 @@ if(JRequest::getVar('isLogin')==='FALSE'){
 		for ($i=0, $n=count( $this->items ); $i < $n; $i++)
 		{
 		$row = &$this->items[$i];
-		$checked 	= JHTML::_('grid.id',   $i, $row->id );
+		$checked 	= JHTML::_('grid.id',   $i, $row->calendar_id );
 		$link 		= JRoute::_( 'index.php?option=com_gcalendar&controller=gcalendar&task=edit&cid[]='. $row->id );
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">
-		<td><?php echo $row->id; ?></td>
+		<td><?php echo $row->calendar_id; ?></td>
 		<td><?php echo $checked; ?></td>
 		<td><a href="<?php echo $link; ?>"><?php echo $row->name; ?></a></td>
 		<td>
@@ -137,7 +137,8 @@ if(JRequest::getVar('isLogin')==='FALSE'){
 		type="hidden" name="task" value="" /> <input type="hidden"
 		name="boxchecked" value="0" /> <input type="hidden" name="controller"
 		value="import" /></form>
-		**/
+		<?php
+	}
 	?>
 <div align="center"><br>
 <img src="components/com_gcalendar/images/gcalendar.gif" width="143"
