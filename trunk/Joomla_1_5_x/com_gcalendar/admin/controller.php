@@ -32,9 +32,6 @@ class GCalendarsController extends JController
 	 */
 	function __construct(){
 		parent::__construct();
-
-		// Register Extra tasks
-		//$this->registerTask('import', 'import');
 	}
 
 
@@ -61,12 +58,6 @@ class GCalendarsController extends JController
 			JRequest::setVar( 'isLogin', 'TRUE');
 		}
 		
-		//JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'models');
-		//$model = JModel::getInstance('GCalendarsModelImport');
-		//$view =& $this->getView ($viewName, $viewType);
-		//$view->setModel($model);
-
-		//JRequest::setVar( 'layout', 'import'  );
 		JRequest::setVar('hidemainmenu', 0);
 
 		$document =& JFactory::getDocument();
@@ -94,9 +85,9 @@ class GCalendarsController extends JController
 	 * display the google calendar
 	 * @return void
 	 */
-	function googleCalendar()
+	function google()
 	{
-		JRequest::setVar( 'layout', 'calendar'  );
+		JRequest::setVar( 'view', 'google'  );
 		JRequest::setVar('hidemainmenu', 0);
 
 		parent::display();
@@ -108,7 +99,7 @@ class GCalendarsController extends JController
 	 */
 	function support()
 	{
-		JRequest::setVar( 'layout', 'support'  );
+		JRequest::setVar( 'view', 'support'  );
 		JRequest::setVar('hidemainmenu', 0);
 
 		parent::display();
