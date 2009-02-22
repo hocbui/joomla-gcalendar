@@ -53,10 +53,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<td><?php echo $row->calendar_id; ?></td>
 			</tr>
 			<tr>
-				<td><b><?php echo JText::_( 'Domaine' ); ?>:<b></td>
-				<td><?php echo $row->domaine; ?></td>
-			</tr>
-			<tr>
 				<td><b><?php echo JText::_( 'Magic Cookie' ); ?>:</b></td>
 				<td><?php echo $row->magic_cookie; ?></td>
 			</tr>

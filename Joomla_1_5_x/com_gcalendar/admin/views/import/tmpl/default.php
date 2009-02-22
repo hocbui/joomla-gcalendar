@@ -33,59 +33,15 @@ if(JRequest::getVar('isLogin')==='FALSE'){
 	$session);
 	echo "<a href=\"{$authSubUrl}\">Please Login to access the calendar data.</a>";
 }else{
-	/**
-	 * Generates a HTML check box or boxes
-	 * @param array An array of objects
-	 * @param string The value of the HTML name attribute
-	 * @param string Additional HTML attributes for the <select> tag
-	 * @param mixed The key that is selected. Can be array of keys or just one key
-	 * @param string The name of the object variable for the option value
-	 * @param string The name of the object variable for the option text
-	 * @param boolean The porlinea of the object variable for the option text   *
-	 * @returns string HTML for the select list
-	 */
-	function checkBoxList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $porlinea=true ) {
-		reset( $arr );
-		$html = "";
-		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
-			$k = $arr[$i]->$key;
-			$t = $arr[$i]->$text;
-			$id = @$arr[$i]->id;
-
-			$extra = '';
-			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
-			if (is_array( $selected )) {
-				foreach ($selected as $obj) {
-					$k2 = $obj;
-					if ($k == $k2) {
-						$extra .= " checked ";
-						break;
-					}
-				}
-			} else {
-				$extra .= ($k == $selected ? " checked " : '');
-			}
-			$html .= "\n\t<input type=\"checkbox\" name=\"$tag_name\" value=\"".$k."\"$extra $tag_attribs />" . $t;
-			if ($porlinea) {
-				$html .= "<br>";
-			}
-		}
-		$html .= "\n";
-		return $html;
-	}
 	if(!is_array($this->items)){
 		echo 'No data found!';
 	}else{
-		//echo checkBoxList($this->items, 'calendars[]','id="calendars[]"',null,'id','calendar_id',true);
-	
-	
 	 ?>
 	 <form action="index.php" method="post" name="adminForm">
 	 <div id="editcell">
 	 <table class="adminlist">
 	 <thead>
 		<tr>
-		<th width="5"><?php echo JText::_( 'ID' ); ?></th>
 		<th width="20"><input type="checkbox" name="toggle" value=""
 		onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 		<th><?php echo JText::_( 'CALENDAR_NAME' ); ?></th>
@@ -98,22 +54,15 @@ if(JRequest::getVar('isLogin')==='FALSE'){
 		{
 		$row = &$this->items[$i];
 		$checked 	= JHTML::_('grid.id',   $i, $row->calendar_id );
-		$link 		= JRoute::_( 'index.php?option=com_gcalendar&controller=gcalendar&task=edit&cid[]='. $row->id );
-
 		?>
 		<tr class="<?php echo "row$k"; ?>">
-		<td><?php echo $row->calendar_id; ?></td>
 		<td><?php echo $checked; ?></td>
-		<td><a href="<?php echo $link; ?>"><?php echo $row->name; ?></a></td>
+		<td><?php echo $row->name; ?></td>
 		<td>
 		<table>
 		<tr>
 		<td><b><?php echo JText::_( 'Calendar ID' ); ?>:</b></td>
 		<td><?php echo $row->calendar_id; ?></td>
-		</tr>
-		<tr>
-		<td><b><?php echo JText::_( 'Domaine' ); ?>:<b></td>
-		<td><?php echo $row->domaine; ?></td>
 		</tr>
 		<tr>
 		<td><b><?php echo JText::_( 'Magic Cookie' ); ?>:</b></td>

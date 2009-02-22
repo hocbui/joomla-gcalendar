@@ -40,12 +40,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			value="<?php echo $this->gcalendar->calendar_id;?>" /></td>
 	</tr>
 	<tr>
-		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Domaine' ); ?>:
-		</label></td>
-		<td><input class="text_area" type="text" name="domaine" id="domaine"
-			size="100%" value="<?php echo $this->gcalendar->domaine;?>" /></td>
-	</tr>
-	<tr>
 		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Magic Cookie' ); ?>:
 		</label></td>
 		<td><input class="text_area" type="text" name="magic_cookie"

@@ -43,11 +43,6 @@ class TableImport extends JTable
 	/**
 	 * @var string
 	 */
-	var $domaine = null;
-	
-	/**
-	 * @var string
-	 */
 	var $calendar_id = null;
 	
 	/**

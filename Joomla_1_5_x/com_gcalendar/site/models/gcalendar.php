@@ -41,26 +41,28 @@ class GCalendarModelGCalendar extends JModel
 		$calendarids=$params->get('calendarids');
 
 		$db =& JFactory::getDBO();
-		if ($calendarids){
-			if( is_array( $calendarids ) ) {
-				$calCondition = ' id IN ( ' . implode( ',', $calendarids ) . ')';
-			} else {
-				$calCondition = ' id = '.$calendarids;
-			}
-		}
-		$query = "SELECT id, calendar_id, name, domaine, color, magic_cookie  FROM #__gcalendar where ".$calCondition;
+		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar";
 		$db->setQuery( $query );
 		$results = $db->loadObjectList();
 		if(empty($results))
 		return '';
 		$calendars = array();
 		foreach ($results as $result) {
+			$is_selected = FALSE;
+			if ($calendarids){
+				if( is_array( $calendarids ) ) {
+					$is_selected = in_array($result->id,$calendarids);
+				} else {
+					$is_selected = $result->id === $calendarids;
+				}
+			}
+			
 			$calendars[] = array("id"=>$result->id,
 			"calendar_id"=>$result->calendar_id,
 			"name"=>$result->name,
-			"domain"=>$result->domain,
 			"color"=>$result->color,
-			"magic_cookie"=>$result->magic_cookie);
+			"magic_cookie"=>$result->magic_cookie,
+			"selected"=>$is_selected);
 		}
 		return $calendars;
 	}

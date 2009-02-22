@@ -36,11 +36,6 @@
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
-			<param name="calendars" type="radio" default="1" label="Calendar list"
-				description="">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
 			<param name="tz" type="radio" default="1" label="Time zone"
 				description="">
 				<option value="0">No</option>
