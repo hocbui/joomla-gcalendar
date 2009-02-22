@@ -105,8 +105,8 @@ class GCalendarsModelImport extends JModel
 				$table_instance->id = 0;
 				$cal_id = substr($calendar->getId(),strripos($calendar->getId(),'/')+1);
 				$table_instance->calendar_id = $cal_id;
-				$table_instance->name = $calendar->getTitle();
-				$table_instance->color = $calendar->getColor();
+				$table_instance->name = $calendar->title->text;
+				$table_instance->color = $calendar->color->value;
 				$tmp[] = $table_instance;
 			}
 			$this->_data = $tmp;

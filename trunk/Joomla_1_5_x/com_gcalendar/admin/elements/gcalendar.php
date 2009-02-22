@@ -50,26 +50,27 @@ class JElementGCalendar extends JElement
 			}
 		}
 
-		$query = 'SELECT id, name FROM #__gcalendar';
+		$query = 'SELECT id, name, calendar_id FROM #__gcalendar';
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 		$result = '<select name="'.$control_name.'['.$name.'][]" id="'.$name.'" class="'.$class.'" multiple="multiple">';
 		
 		foreach( $options as $option ) {
+			$display_name = $option->name;
 			if(is_array( $value) ) {
 				if( in_array( $option->id, $value ) ) {
-					$result .= '<option selected="true" value="'.$option->id.'" >'.$option->name.'</option>';
+					$result .= '<option selected="true" value="'.$option->id.'" >'.$display_name.'</option>';
 				} else {
-					$result .= '<option value="'.$option->id.'" >'.$option->name.'</option>';
+					$result .= '<option value="'.$option->id.'" >'.$display_name.'</option>';
 				}
 			} elseif ( $value ) {
 				if( $value == $option->id ) {
-					$result .= '<option selected="true" value="'.$option->id.'" >'.$option->name.'</option>';
+					$result .= '<option selected="true" value="'.$option->id.'" >'.$display_name.'</option>';
 				} else {
-					$result .= '<option value="'.$option->id.'" >'.$option->name.'</option>';
+					$result .= '<option value="'.$option->id.'" >'.$display_name.'</option>';
 				}
 			} elseif ( !( $value ) ) {
-				$result .= '<option value="'.$option->id.'" >'.$option->name.'</option>';
+				$result .= '<option value="'.$option->id.'" >'.$display_name.'</option>';
 			}
 		}
 		$result .= '</select>';

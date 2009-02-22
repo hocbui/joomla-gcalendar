@@ -45,13 +45,14 @@ if(!is_array($this->calendars)){
 	class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 
 	<?php
+
 	$variables = '';
 	$variables = $variables.'?showTitle='.$this->params->get( 'title' );
 	$variables = $variables.'&amp;showNav='.$this->params->get( 'navigation' );
 	$variables = $variables.'&amp;showDate='.$this->params->get( 'date' );
 	$variables = $variables.'&amp;showPrint='.$this->params->get( 'print' );
 	$variables = $variables.'&amp;showTabs='.$this->params->get( 'tabs' );
-	$variables = $variables.'&amp;showCalendars='.$this->params->get( 'calendars' );
+	$variables = $variables.'&amp;showCalendars=0';
 	$variables = $variables.'&amp;showTz='.$this->params->get( 'tz' );
 	$variables = $variables.'&amp;mode='.$this->params->get( 'view' );
 	$variables = $variables.'&amp;wkst='.$this->params->get( 'weekstart' );
@@ -60,14 +61,29 @@ if(!is_array($this->calendars)){
 	$variables = $variables.'&amp;height='.$this->params->get( 'height' );
 
 	$domaine = 'http://www.google.com/calendar/embed';
-
+	$calendar_list = '<table>';
 	foreach($this->calendars as $calendar) {
-		$variables = $variables.'&amp;src='.$calendar['calendar_id'];
-		if(!empty($calendar['color'])) 
-			$variables = $variables.'&amp;color='.$calendar['color'];
-		if(!empty($calendar['domaine']))
-			$domaine = $calendar['domaine'];
+		$color = $calendar['color'];
+		if(!empty($color) && !(strpos($calendar['color'], '%23') === 0))
+		$color = '%23$'.$calendar['color'];
+		if(strpos($calendar['color'], '#') === 0)
+		$color = str_replace("#","%23",$calendar['color']);
+		
+		if($calendar['selected']){
+			$variables = $variables.'&amp;src='.$calendar['calendar_id'];
+			if(!empty($color))
+			$variables = $variables.'&amp;color='.$color;
+		}
+
+		$checked = '';
+		if($calendar['selected']) $checked = 'checked';
+		if(empty($color)) $color = '#FFFFFF';
+		$color = str_replace("%23","#",$calendar['color']);
+		$calendar_list = $calendar_list.'<tr>';
+		$calendar_list = $calendar_list.'<td><input type="checkbox" name="'.$calendar['calendar_id'].'" '.$checked.'/></td>';
+		$calendar_list = $calendar_list.'<td><font color="'.$color.'">'.$calendar['name'].'</font></td><td><font color="'.$color.'">'.$calendar['calendar_id'].'</font></td></tr>';
 	}
+	$calendar_list = $calendar_list.'</table>';
 
 	$calendar_url="";
 	if ($this->params->get('use_custom_css')) {
@@ -75,16 +91,16 @@ if(!is_array($this->calendars)){
 	} else {
 		$calendar_url=$domaine.$variables;
 	}
-	?> 
-	
-	<iframe id="gcalendar" name="iframe"
+
+	echo $calendar_list;
+
+	?> <iframe id="gcalendar" name="iframe"
 	src="<?php echo $calendar_url; ?>"
 	width="<?php echo $this->params->get( 'width' ); ?>"
 	height="<?php echo $this->params->get( 'height' ); ?>" align="top"
 	frameborder="0"
 	class="gcalendar<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php echo JText::_( 'NO_IFRAMES' ); ?> 
-	</iframe></div>
+	<?php echo JText::_( 'NO_IFRAMES' ); ?> </iframe></div>
 
 	<?php
 }
