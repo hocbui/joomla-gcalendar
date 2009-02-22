@@ -9,6 +9,3 @@ CREATE TABLE IF NOT EXISTS `#__gcalendar` (
   `color` text NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__gcalendar` (ID,NAME,CALENDAR_ID) VALUES (1,'gcalendar','a7b60lept2k6dbfajd18knh33s@group.calendar.google.com');
-INSERT INTO `#__gcalendar` (ID,NAME,CALENDAR_ID) VALUES (2,'joomla','calendar@joomla.org');

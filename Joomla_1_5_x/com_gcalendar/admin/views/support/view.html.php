@@ -27,7 +27,7 @@ jimport( 'joomla.application.component.view' );
  * GCalendars View
  *
  */
-class GCalendarsViewGCalendars extends JView
+class GCalendarsViewSupport extends JView
 {
 	/**
 	 * GCalendars view display method
@@ -36,14 +36,6 @@ class GCalendarsViewGCalendars extends JView
 	function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
-		JToolBarHelper::custom('import', 'upload.png', 'upload.png', 'import', false);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
-
-		// Get data from the model
-		$items = & $this->get( 'Data');
-		$this->assignRef('items', $items);
 		parent::display($tpl);
 	}
 }
