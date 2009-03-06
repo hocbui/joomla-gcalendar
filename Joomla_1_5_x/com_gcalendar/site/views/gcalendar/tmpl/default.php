@@ -46,6 +46,10 @@ if(!is_array($this->calendars)){
 
 	<?php
 
+	$document = &JFactory::getDocument();
+	$document->addScript( 'components/com_gcalendar/views/gcalendar/tmpl/update_calendars.js' );
+	JHTML::_('behavior.mootools');
+
 	$variables = '';
 	$variables = $variables.'?showTitle='.$this->params->get( 'title' );
 	$variables = $variables.'&amp;showNav='.$this->params->get( 'navigation' );
@@ -61,14 +65,19 @@ if(!is_array($this->calendars)){
 	$variables = $variables.'&amp;height='.$this->params->get( 'height' );
 
 	$domaine = 'http://www.google.com/calendar/embed';
-	$calendar_list = '<table>';
+	
+	
+	echo '<div class="marginbottom">'; 		
+	echo '<a id="v_toggle" href="#">toggle</a> 		| <strong>status</strong>: <span id="vertical_status">open</span> 	</div>';  
+	
+	$calendar_list = '<div id="gcalendar_list"><table>';
 	foreach($this->calendars as $calendar) {
 		$color = $calendar['color'];
 		if(!empty($color) && !(strpos($calendar['color'], '%23') === 0))
 		$color = '%23$'.$calendar['color'];
 		if(strpos($calendar['color'], '#') === 0)
 		$color = str_replace("#","%23",$calendar['color']);
-		
+
 		if($calendar['selected']){
 			$variables = $variables.'&amp;src='.$calendar['calendar_id'];
 			if(!empty($color))
@@ -77,13 +86,14 @@ if(!is_array($this->calendars)){
 
 		$checked = '';
 		if($calendar['selected']) $checked = 'checked';
-		if(empty($color)) $color = '#FFFFFF';
-		$color = str_replace("%23","#",$calendar['color']);
+		$html_color = '#FFFFFF';
+		$html_color = str_replace("%23","#",$calendar['color']);
 		$calendar_list = $calendar_list.'<tr>';
-		$calendar_list = $calendar_list.'<td><input type="checkbox" name="'.$calendar['calendar_id'].'" '.$checked.'/></td>';
-		$calendar_list = $calendar_list.'<td><font color="'.$color.'">'.$calendar['name'].'</font></td><td><font color="'.$color.'">'.$calendar['calendar_id'].'</font></td></tr>';
+		//<input type="checkbox" value="&src=calendar%40joomla.org&color=%235A6986" checked onclick="updateFrame(this)" name="gcalendar1"/>
+		$calendar_list = $calendar_list.'<td><input type="checkbox" name="'.$calendar['calendar_id'].'" value="&src='.$calendar['calendar_id'].'&color='.$color.'" '.$checked.' onclick="updateFrame(this)"/></td>';
+		$calendar_list = $calendar_list.'<td><font color="'.$html_color.'">'.$calendar['name'].'</font></td><td><font color="'.$html_color.'">'.$calendar['calendar_id'].'</font></td></tr>';
 	}
-	$calendar_list = $calendar_list.'</table>';
+	$calendar_list = $calendar_list.'</table></div>';
 
 	$calendar_url="";
 	if ($this->params->get('use_custom_css')) {
@@ -94,7 +104,7 @@ if(!is_array($this->calendars)){
 
 	echo $calendar_list;
 
-	?> <iframe id="gcalendar" name="iframe"
+	?> <iframe id="gcalendar_frame" 
 	src="<?php echo $calendar_url; ?>"
 	width="<?php echo $this->params->get( 'width' ); ?>"
 	height="<?php echo $this->params->get( 'height' ); ?>" align="top"
