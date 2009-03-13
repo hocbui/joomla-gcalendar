@@ -11,6 +11,11 @@
 		<params addpath="/administrator/components/com_gcalendar/elements">
 			<param name="calendarids" type="gcalendar" default=""
 				label="Select Calendars" description="The calendars" />
+		<param name="show_selection" type="radio" default="1" label="Show Calendars"
+				description="Shows the calendar selection list.">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
 			<param name="title" type="radio" default="1" label="Title"
 				description="">
 				<option value="0">No</option>
@@ -62,6 +67,10 @@
 				description="" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
+			<param name="textbefore" type="textarea" default="" label="Content before calendar" description="This text will be displayed before the google calendar." rows="5" cols="50" />
+			<param name="textafter" type="textarea" default="" label="Content after calendar" description="This text will be displayed after the google calendar." rows="5" cols="50" />
+			<param name="@spacer" type="spacer" default="" label=""
+				description="" />
 			<param name="pageclass_sfx" type="text" size="20" default=""
 				label="Page Class Suffix"
 				description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
@@ -72,6 +81,10 @@
 				description="Use custom css in the googlecal folder. Check the documentation at gcalendar.allon.ch for more information">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
+			</param>
+			<param name="google_apps_domain" type="text" default="" size="20"
+				label="Google Apps Domain"
+				description="Your google apps domain.">
 			</param>
 		</advanced>
 	</state>
