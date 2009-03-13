@@ -41,14 +41,14 @@ if(!is_array($this->calendars)){
 	}
 	?>
 
-<div
+	<div
 	class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 
 	<?php
 
 	$document = &JFactory::getDocument();
-	$document->addScript( 'components/com_gcalendar/views/gcalendar/tmpl/update_calendars.js' );
 	JHTML::_('behavior.mootools');
+	$document->addScript( 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 
 	$variables = '';
 	$variables = $variables.'?showTitle='.$this->params->get( 'title' );
@@ -64,13 +64,13 @@ if(!is_array($this->calendars)){
 	$variables = $variables.'&amp;ctz='.$this->params->get( 'timezone' );
 	$variables = $variables.'&amp;height='.$this->params->get( 'height' );
 
-	$domaine = 'http://www.google.com/calendar/embed';
+	$domain = 'http://www.google.com/calendar/embed';
+	$google_apps_domain = $this->params->get('google_apps_domain');
+	if(!empty($google_apps_domain)){
+		$domain = 'http://www.google.com/calendar/hosted/'.$google_apps_domain.'/embed';
+	}
 	
-	
-	echo '<div class="marginbottom">'; 		
-	echo '<a id="v_toggle" href="#">toggle</a> 		| <strong>status</strong>: <span id="vertical_status">open</span> 	</div>';  
-	
-	$calendar_list = '<div id="gcalendar_list"><table>';
+	$calendar_list = '<div id="gcalendar_list"><table >';
 	foreach($this->calendars as $calendar) {
 		$color = $calendar['color'];
 		if(!empty($color) && !(strpos($calendar['color'], '%23') === 0))
@@ -89,20 +89,22 @@ if(!is_array($this->calendars)){
 		$html_color = '#FFFFFF';
 		$html_color = str_replace("%23","#",$calendar['color']);
 		$calendar_list = $calendar_list.'<tr>';
-		//<input type="checkbox" value="&src=calendar%40joomla.org&color=%235A6986" checked onclick="updateFrame(this)" name="gcalendar1"/>
-		$calendar_list = $calendar_list.'<td><input type="checkbox" name="'.$calendar['calendar_id'].'" value="&src='.$calendar['calendar_id'].'&color='.$color.'" '.$checked.' onclick="updateFrame(this)"/></td>';
-		$calendar_list = $calendar_list.'<td><font color="'.$html_color.'">'.$calendar['name'].'</font></td><td><font color="'.$html_color.'">'.$calendar['calendar_id'].'</font></td></tr>';
+		$calendar_list = $calendar_list.'<td><input type="checkbox" name="'.$calendar['calendar_id'].'" value="&src='.$calendar['calendar_id'].'&color='.$color.'" '.$checked.' onclick="updateGCalendarFrame(this)"/></td>';
+		$calendar_list = $calendar_list.'<td><font color="'.$html_color.'">'.$calendar['name'].'</font></td></tr>';
 	}
 	$calendar_list = $calendar_list.'</table></div>';
+	if($this->params->get('show_selection')==1){
+		echo $calendar_list;
 
+		echo '<div align="center" style="text-align:center"><a id="toggle_gc" name="toggle_gc" href="#"><img id="toggle_gc_status" name="toggle_gc_status" src="components/com_gcalendar/views/gcalendar/tmpl/down.png"/></a></div>';  
+	}
 	$calendar_url="";
 	if ($this->params->get('use_custom_css')) {
 		$calendar_url= JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/googlecal/MyGoogleCal4.php'.$variables;
 	} else {
-		$calendar_url=$domaine.$variables;
+		$calendar_url=$domain.$variables;
 	}
-
-	echo $calendar_list;
+	echo $this->params->get( 'textbefore' );
 
 	?> <iframe id="gcalendar_frame" 
 	src="<?php echo $calendar_url; ?>"
@@ -113,5 +115,6 @@ if(!is_array($this->calendars)){
 	<?php echo JText::_( 'NO_IFRAMES' ); ?> </iframe></div>
 
 	<?php
+	echo $this->params->get( 'textafter' );
 }
 ?>
