@@ -11,25 +11,28 @@
 	<authorUrl>gcalendar.allon.ch</authorUrl>
 	<version>2.1.0</version>
 	<description>This module shows the upcoming events from a google
-		calendar. The output of the module uses two css class ids gc_upcoming_date" and "gc_upcoming_event". 
-    Add these to your template css to modify the output format.</description>
+		calendar. The output of the module uses two css class ids
+		gc_upcoming_date" and "gc_upcoming_event".
+		Add these to your template css to modify the output format.</description>
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php
 		</filename>
 		<filename>index.html</filename>
 		<filename>helper.php</filename>
 		<filename>tmpl/default.php</filename>
-		<filename>tmpl/simplepie-gcalendar.php</filename>
-		<filename>tmpl/sp_compatibility_test.php</filename>
+		<filename>tmpl/simplepie-gcalendar.php
+		</filename>
+		<filename>tmpl/sp_compatibility_test.php
+		</filename>
 		<filename>tmpl/index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_gcalendar_upcoming.ini
 		</language>
 	</languages>
-	<params>
-		<param name="name" type="text" size="80" default="" label="Calendar name"
-			description="The name of the google calendar. Specified in the GCalendar component." />
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default=""
+			label="Select Calendars" description="The calendars" />
 		<param name="dateFormat" type="text" size="80" default="%d.%m.%Y"
 			label="Date format"
 			description="The format of the date for an event (see http://www.php.net/strftime for details)." />
@@ -44,8 +47,7 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="order" type="radio" default="0"
-			label="Sort Order"
+		<param name="order" type="radio" default="TRUE" label="Sort Order"
 			description="The order strategy of the events.">
 			<option value="TRUE">Start Time</option>
 			<option value="FALSE">Last Modified</option>
@@ -58,7 +60,7 @@
 	<params group="advanced">
 		<param name="timezone" type="text" size="100" default="" label="Timezone"
 			description="The timezone the event details should be displayed." />
-		<param name="cache" type="text" size="6" default="3600"
-			label="Cache time" description="Set the cache time (seconds)." />
+		<param name="cache" type="text" size="6" default="3600" label="Cache time"
+			description="Set the cache time (seconds)." />
 	</params>
 </install>
