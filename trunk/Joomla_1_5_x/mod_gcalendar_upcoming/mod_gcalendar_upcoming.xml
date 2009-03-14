@@ -9,7 +9,7 @@
 		GNU/GPL</license>
 	<authorEmail>allon.moritz@gmail.com</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
-	<version>2.0.1</version>
+	<version>2.1.0</version>
 	<description>This module shows the upcoming events from a google
 		calendar. The output of the module uses two css class ids gc_upcoming_date" and "gc_upcoming_event". 
     Add these to your template css to modify the output format.</description>
@@ -43,6 +43,12 @@
 			description="If the event should be opened in a new window or inside of joomla.">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
+		</param>
+		<param name="order" type="radio" default="0"
+			label="Sort Order"
+			description="The order strategy of the events.">
+			<option value="TRUE">Start Time</option>
+			<option value="FALSE">Last Modified</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
