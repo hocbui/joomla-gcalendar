@@ -49,9 +49,8 @@ class GCalendarController extends JController
 		$view->addTemplatePath($this->_basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
 		
 		// Get/Create the model
-		if ($model = & $this->getModel('gcalendar')) {
-			$model->setState('calendarName',JRequest::getVar('calendarName', null));
-			$model->setState('calendarType',JRequest::getVar('calendarType', 'htmlUrl'));
+		if ($model = & $this->getModel('event')) {
+			$model->setState('gcid',JRequest::getVar('gcid', null));
 			
 			// Push the model into the view (as default)
 			$view->setModel($model, true);

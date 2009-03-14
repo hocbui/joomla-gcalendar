@@ -21,15 +21,16 @@
  // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$p= parse_url($this->gcalendar);
-
 $tz = '';
 if(!empty($this->timezone))$tz='&ctz='.$this->timezone;
 $params   = JComponentHelper::getParams('com_languages');
 $lg = $params->get('site', 'en-GB');
 $lg = '&hl='.$lg;
-$url = $p['scheme'] . '://' . $p['host'] . '/calendar/event?eid=' . $this->eventID . $tz.$lg;
+$url = 'http://www.google.com/calendar/event?eid=' . $this->eventID . $tz.$lg;
+
+echo '<a href="'.$this->calendarLink.'">'.JText::_( 'CALENDAR_BACK_LINK' ).'</a>';
 ?>
+
 
 <iframe
 id="gcalendarEvent"

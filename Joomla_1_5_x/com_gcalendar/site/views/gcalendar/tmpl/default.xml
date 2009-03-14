@@ -11,8 +11,8 @@
 		<params addpath="/administrator/components/com_gcalendar/elements">
 			<param name="calendarids" type="gcalendar" default=""
 				label="Select Calendars" description="The calendars" />
-		<param name="show_selection" type="radio" default="1" label="Show Calendars"
-				description="Shows the calendar selection list.">
+			<param name="show_selection" type="radio" default="1"
+				label="Show Calendars" description="Shows the calendar selection list.">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
@@ -62,13 +62,18 @@
 				<option value="2">Monday</option>
 				<option value="7">Saturday</option>
 			</param>
-			<param name="bgcolor" type="text" default="FFFFFF" label="Background color" description="" size="10" />
+			<param name="bgcolor" type="text" default="FFFFFF" label="Background color"
+				description="" size="10" />
 			<param name="timezone" type="timezones" default="0" label="Time Zone"
 				description="" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
-			<param name="textbefore" type="textarea" default="" label="Content before calendar" description="This text will be displayed before the google calendar." rows="5" cols="50" />
-			<param name="textafter" type="textarea" default="" label="Content after calendar" description="This text will be displayed after the google calendar." rows="5" cols="50" />
+			<param name="textbefore" type="textarea" default=""
+				label="Content before calendar" description="This text will be displayed before the google calendar."
+				rows="5" cols="50" />
+			<param name="textafter" type="textarea" default=""
+				label="Content after calendar" description="This text will be displayed after the google calendar."
+				rows="5" cols="50" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
 			<param name="pageclass_sfx" type="text" size="20" default=""

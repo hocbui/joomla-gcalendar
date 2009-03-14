@@ -24,9 +24,9 @@
 		<language tag="en-GB">languages/en-GB.mod_gcalendar.ini
 		</language>
 	</languages>
-	<params>
-		<param name="name" type="text" size="80" default="" label="Calendar name"
-			description="The name of the google calendar. Specified in the GCalendar component." />
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default=""
+			label="Select Calendars" description="The calendars" />
 		<param name="url" type="text" size="80" default="" label="Url"
 			description="Alternative url for a calendar. If this url is set the calendar url will be ignored." />
 		<param name="scrolling" type="radio" default="auto" label="Scroll Bars"
