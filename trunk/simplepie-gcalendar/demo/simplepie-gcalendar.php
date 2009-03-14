@@ -37,6 +37,7 @@ class SimplePie_GCalendar extends SimplePie {
 	var $orderby_by_start_date = TRUE;
 	var $expand_single_events = TRUE;
 	var $cal_language = "";
+	var $meta_data = array();
 	
 	/**
 	 * If the method $this->get_items() should include past events.
@@ -149,6 +150,14 @@ class SimplePie_GCalendar extends SimplePie {
 	function get_timezone(){
 		$tzvalue = $this->get_feed_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED, 'timezone');
 		return $tzvalue[0]['attribs']['']['value'];
+	}
+	
+	function put($key, $value){
+		$this->meta_data[$key] = $value;
+	}
+	
+	function get($key){
+		return $this->meta_data[$key];
 	}
 	
 	/**
