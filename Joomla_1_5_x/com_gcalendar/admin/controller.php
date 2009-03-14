@@ -45,40 +45,16 @@ class GCalendarsController extends JController
 		parent::display();
 	}
 
-	/**
-	 * display the google calendar
-	 * @return void
-	 */
-	function import()
-	{
-		global $_SESSION, $_GET;
-		if (!isset($_SESSION['sessionToken']) && !isset($_GET['token'])) {
-			JRequest::setVar( 'isLogin', 'FALSE');
-		} else {
-			JRequest::setVar( 'isLogin', 'TRUE');
+	function import(){
+		if($this->isLoggedIn()){
+			JRequest::setVar( 'view', 'import'  );
+		}else{
+			JRequest::setVar( 'nextTask', 'import'  );
+			JRequest::setVar( 'view', 'login'  );
 		}
-		
 		JRequest::setVar('hidemainmenu', 0);
 
-		$document =& JFactory::getDocument();
-
-		$viewType    = $document->getType();
-		$viewName    = JRequest::getCmd( 'view', 'import');
-		$viewLayout    = JRequest::getCmd( 'layout', 'default' );
-		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
-
-		if ($model = & $this->getModel($viewName)) {
-			$view->setModel($model, true);
-		}
-		$view->setLayout($viewLayout);
-
-		if ($cachable && $viewType != 'feed') {
-			global $option;
-			$cache =& JFactory::getCache($option, 'view');
-			$cache->get($view, 'display');
-		} else {
-			$view->display();
-		}
+		parent::display();
 	}
 
 	/**
@@ -103,6 +79,15 @@ class GCalendarsController extends JController
 		JRequest::setVar('hidemainmenu', 0);
 
 		parent::display();
+	}
+
+	function isLoggedIn(){
+		global $_SESSION, $_GET;
+		if (!isset($_SESSION['sessionToken']) && !isset($_GET['token'])) {
+			return FALSE;
+		} else {
+			return TRUE;
+		}
 	}
 
 }
