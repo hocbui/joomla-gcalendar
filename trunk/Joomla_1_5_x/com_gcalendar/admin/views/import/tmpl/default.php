@@ -20,24 +20,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once 'Zend/Loader.php';
-Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-
-if(JRequest::getVar('isLogin')==='FALSE'){
-	$u = JFactory::getURI();
-	$next = JRoute::_( $u->toString().'?option=com_gcalendar&task=import');
-	$scope = 'http://www.google.com/calendar/feeds/';
-	$session = true;
-	$secure = false;
-	$authSubUrl = Zend_Gdata_AuthSub::getAuthSubTokenUri($next, $scope, $secure,
-	$session);
-	echo "<a href=\"{$authSubUrl}\">Please Login to access the calendar data.</a>";
+if(!is_array($this->online_items)){
+	echo 'No data found!';
 }else{
-	if(!is_array($this->online_items)){
-		echo 'No data found!';
-	}else{
-		function print_line($row, $checked, $k){
-			?>
+	function print_line($row, $checked, $k){
+		?>
 <tr class="<?php echo "row$k"; ?>">
 	<td><?php echo $checked; ?></td>
 	<td><?php echo $row->name; ?></td>
@@ -58,9 +45,9 @@ if(JRequest::getVar('isLogin')==='FALSE'){
 	</table>
 	</td>
 </tr>
-			<?php
-		}
-	 ?>
+		<?php
+	}
+	?>
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
 <table class="adminlist">
@@ -108,14 +95,10 @@ if(JRequest::getVar('isLogin')==='FALSE'){
 	name="boxchecked" value="0" /> <input type="hidden" name="controller"
 	value="import" /></form>
 	<?php
-	}
-	?>
+}
+?>
 <div align="center"><br>
 <img src="components/com_gcalendar/images/gcalendar.gif" width="143"
 	height="57"><br>
 &copy;&nbsp;&nbsp;2009 <a href="http://gcalendar.allon.ch"
 	target="_blank">allon moritz</a></div>
-
-	<?php
-}
-?>
