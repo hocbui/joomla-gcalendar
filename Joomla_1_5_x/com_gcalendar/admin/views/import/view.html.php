@@ -39,9 +39,10 @@ class GCalendarsViewImport extends JView
 		JToolBarHelper::custom('add', 'new.png', 'new.png', 'add', false);
 		JToolBarHelper::cancel();
 
-		// Get data from the model
-		$items = & $this->get( 'Data');
-		$this->assignRef('items', $items);
+		$items = $this->get( 'OnlineData');
+		$this->assignRef('online_items', $items);
+		$dbitems = $this->get( 'DBData');
+		$this->assignRef('db_items', $dbitems);
 		parent::display($tpl);
 	}
 }
