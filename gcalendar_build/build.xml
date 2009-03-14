@@ -22,65 +22,11 @@
 			<istrue value="${includeUpgrade}" />
 			<then>
 				<antcall target="create_upgrade_packages_1_5" />
-				<antcall target="create_upgrade_packages_1_0" />
 			</then>
 			<else>
 				<echo message="Not executing creating the upgrade packages." />
 			</else>
 		</if>
-	</target>
-
-	<target name="create_upgrade_packages_1_0" description="create upgrade package for joomla 1.0">
-		<!-- create com_gcalendar upgrade package -->
-		<mkdir dir="${build}/upgrade_1_0/com_gcalendar" />
-		<property name="gcalendar_root" value="${build}/upgrade_1_0/com_gcalendar/administrator/components/com_gcalendar" />
-
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.xml" todir="${gcalendar_root}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/admin.gcalendar.php" todir="${gcalendar_root}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/admin.gcalendar.html.php" todir="${gcalendar_root}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/toolbar.gcalendar.php" todir="${gcalendar_root}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/toolbar.gcalendar.html.php" todir="${gcalendar_root}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.class.php" todir="${gcalendar_root}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/install.gcalendar.php" todir="${gcalendar_root}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/uninstall.gcalendar.php" todir="${gcalendar_root}" />
-		
-		<copy todir="${gcalendar_root}">
-			<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/images/*" />
-		</copy>
-
-		<property name="gcalendar_root_site" value="${build}/upgrade_1_0/com_gcalendar/components/com_gcalendar" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.php" todir="${gcalendar_root_site}" />
-		<copy file="${basedir}/../Joomla_1_0_x/com_gcalendar/gcalendar.html.php" todir="${gcalendar_root_site}" />
-		<copy todir="${gcalendar_root_site}">
-			<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/languages/*" />
-			<fileset dir="${basedir}/../Joomla_1_0_x/com_gcalendar" includes="**/googlecal/*" />
-		</copy>
-
-		<!-- create the modules upgrade package -->
-		<antcall target="create_module_upgrade_folder_1_0">
-			<param name="module_name" value="mod_gcalendar" />
-		</antcall>
-		<antcall target="create_module_upgrade_folder_1_0">
-			<param name="module_name" value="mod_gcalendar_upcoming" />
-		</antcall>
-		<antcall target="create_module_upgrade_folder_1_0">
-			<param name="module_name" value="mod_gcalendar_latest" />
-		</antcall>
-
-		<!-- create the zip -->
-		<mkdir dir="${dist}" />
-		<zip destfile="${dist}/gcalendar_upgrade_1_4_x_to_${gcalendar_version}_J1_0x.zip">
-			<zipfileset dir="${build}/upgrade_1_0" />
-			<zipfileset dir="${basedir}" includes="ReadFirstJ10x.txt" />
-			<zipfileset dir="${basedir}" includes="license.txt" />
-		</zip>
-	</target>
-
-	<target name="create_module_upgrade_folder_1_0">
-		<mkdir dir="${build}/upgrade_1_0/${module_name}" />
-		<copy todir="${build}/upgrade_1_0/${module_name}/modules">
-			<fileset dir="${basedir}/../Joomla_1_0_x/${module_name}/" />
-		</copy>
 	</target>
 
 	<target name="create_upgrade_packages_1_5" description="create upgradepackagefor joomla 1.5 packages">
@@ -111,9 +57,6 @@
 		</antcall>
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar_upcoming" />
-		</antcall>
-		<antcall target="create_module_upgrade_folder_1_5">
-			<param name="module_name" value="mod_gcalendar_latest" />
 		</antcall>
 
 		<!-- create the zip -->
@@ -178,11 +121,6 @@
 		<!-- create gcalendar upcoming module -->
 		<zip destfile="${build}/${gcalendar}/mod_gcalendar_upcoming_${gcalendar_version}.zip">
 			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar_upcoming" prefix="mod_gcalendar_upcoming" />
-		</zip>
-
-		<!-- create gcalendar latest module -->
-		<zip destfile="${build}/${gcalendar}/mod_gcalendar_latest_${gcalendar_version}.zip">
-			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar_latest" prefix="mod_gcalendar_latest" />
 		</zip>
 	</target>
 
