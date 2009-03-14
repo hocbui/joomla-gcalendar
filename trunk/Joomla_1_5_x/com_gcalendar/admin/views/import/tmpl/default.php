@@ -33,60 +33,81 @@ if(JRequest::getVar('isLogin')==='FALSE'){
 	$session);
 	echo "<a href=\"{$authSubUrl}\">Please Login to access the calendar data.</a>";
 }else{
-	if(!is_array($this->items)){
+	if(!is_array($this->online_items)){
 		echo 'No data found!';
 	}else{
-	 ?>
-	 <form action="index.php" method="post" name="adminForm">
-	 <div id="editcell">
-	 <table class="adminlist">
-	 <thead>
+		function print_line($row, $checked, $k){
+			?>
+<tr class="<?php echo "row$k"; ?>">
+	<td><?php echo $checked; ?></td>
+	<td><?php echo $row->name; ?></td>
+	<td>
+	<table>
 		<tr>
-		<th width="20"><input type="checkbox" name="toggle" value=""
-		onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-		<th><?php echo JText::_( 'CALENDAR_NAME' ); ?></th>
-		<th align="left"><?php echo JText::_( 'CALENDAR_DETAILS' ); ?></th>
+			<td><b><?php echo JText::_( 'Calendar ID' ); ?>:</b></td>
+			<td><?php echo $row->calendar_id; ?></td>
 		</tr>
-		</thead>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $this->items ); $i < $n; $i++)
-		{
-		$row = &$this->items[$i];
-		$checked 	= JHTML::_('grid.id',   $i, $row->calendar_id );
-		?>
-		<tr class="<?php echo "row$k"; ?>">
-		<td><?php echo $checked; ?></td>
-		<td><?php echo $row->name; ?></td>
-		<td>
-		<table>
-		<tr>
-		<td><b><?php echo JText::_( 'Calendar ID' ); ?>:</b></td>
-		<td><?php echo $row->calendar_id; ?></td>
-		</tr>
-		<tr>
+		<!-- tr>
 		<td><b><?php echo JText::_( 'Magic Cookie' ); ?>:</b></td>
 		<td><?php echo $row->magic_cookie; ?></td>
-		</tr>
+		</tr -->
 		<tr>
-		<td><b><?php echo JText::_( 'Color' ); ?>:</b></td>
-		<td><?php echo $row->color; ?></td>
+			<td><b><?php echo JText::_( 'Color' ); ?>:</b></td>
+			<td><?php echo $row->color; ?></td>
 		</tr>
-		</table>
-		</td>
-		</tr>
-		<?php
-		$k = 1 - $k;
+	</table>
+	</td>
+</tr>
+			<?php
 		}
-		?>
-		</table>
-		</div>
+	 ?>
+<form action="index.php" method="post" name="adminForm">
+<div id="editcell">
+<table class="adminlist">
+	<thead>
+		<tr>
+			<th width="20"><input type="checkbox" name="toggle" value=""
+				onclick="checkAll(<?php echo count( $this->online_items ); ?>);" /></th>
+			<th><?php echo JText::_( 'CALENDAR_NAME' ); ?></th>
+			<th align="left"><?php echo JText::_( 'CALENDAR_DETAILS' ); ?></th>
+		</tr>
+	</thead>
+	<?php
+	$k = 0;
+	$containing_items = array();
+	for ($i=0, $n=count( $this->online_items ); $i < $n; $i++)
+	{
+		$row = &$this->online_items[$i];
+		$checked 	= JHTML::_('grid.id',   $i, $row->calendar_id.','.$row->color.','.$row->name );
+		$is_included = FALSE;
+		foreach($this->db_items as $db_item){
+			if($db_item->calendar_id == $row->calendar_id){
+				$containing_items[] = $row;
+				$is_included = TRUE;
+			}
+		}
+		if(!$is_included){
+			print_line($row,$checked,$k);
+		}
+		$k = 1 - $k;
+	}
+	echo '<tr><td colspan="3"><b>'.JText::_( 'Allready added calendars:' ).'</b></td></tr>';
+	$k = 0;
+	for ($i=0, $n=count($containing_items); $i < $n; $i++)
+	{
+		$row = $containing_items[$i];
+		print_line($row,'',$k);
+		$k = 1 - $k;
+	}
+	?>
+</table>
+</div>
 
-		<input type="hidden" name="option" value="com_gcalendar" /> <input
-		type="hidden" name="task" value="" /> <input type="hidden"
-		name="boxchecked" value="0" /> <input type="hidden" name="controller"
-		value="import" /></form>
-		<?php
+<input type="hidden" name="option" value="com_gcalendar" /> <input
+	type="hidden" name="task" value="" /> <input type="hidden"
+	name="boxchecked" value="0" /> <input type="hidden" name="controller"
+	value="import" /></form>
+	<?php
 	}
 	?>
 <div align="center"><br>

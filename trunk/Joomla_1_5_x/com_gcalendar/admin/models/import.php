@@ -90,7 +90,7 @@ class GCalendarsModelImport extends JModel
 	 * Method to get a calendar
 	 * @return object with data
 	 */
-	function getData() {
+	function getOnlineData() {
 		$client = $this->getAuthSubHttpClient();
 
 		if (!$client) {
@@ -116,6 +116,17 @@ class GCalendarsModelImport extends JModel
 	}
 
 	/**
+	 * Method to get a calendar
+	 * @return object with data
+	 */
+	function getDBData()
+	{
+		$query = " SELECT * FROM #__gcalendar";
+		$this->_db->setQuery( $query );
+		return $this->_db->loadObjectList();
+	}
+
+	/**
 	 * Method to store a record
 	 *
 	 * @access	public
@@ -126,29 +137,23 @@ class GCalendarsModelImport extends JModel
 
 		$cids = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		if (count($cids)>0) {
-			$google_calendars = $this->getData();
-
 			foreach ($cids as $cid) {
-				foreach ($google_calendars as $google_calendar) {
-					if($google_calendar->calendar_id == $cid){
-						// Bind the form fields to the calendar table
-						if (!$row->bind($google_calendar)) {
-							JError::raiseWarning( 500, $row->getError() );
-							return false;
-						}
+				$row = & $this->getTable('import');
+				$row->id = 0;
+				$row->calendar_id = strtok($cid, ',');
+				$row->color = strtok(',');
+				$row->name = strtok(',');
 
-						// Make sure the calendar record is valid
-						if (!$row->check()) {
-							JError::raiseWarning( 500, $row->getError() );
-							return false;
-						}
+				// Make sure the calendar record is valid
+				if (!$row->check()) {
+					JError::raiseWarning( 500, $row->getError() );
+					return false;
+				}
 
-						// Store the calendar table to the database
-						if (!$row->store()) {
-							JError::raiseWarning( 500, $row->getError() );
-							return false;
-						}
-					}
+				// Store the calendar table to the database
+				if (!$row->store()) {
+					JError::raiseWarning( 500, $row->getError() );
+					return false;
 				}
 			}
 		}
