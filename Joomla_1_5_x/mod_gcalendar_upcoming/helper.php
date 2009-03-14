@@ -27,10 +27,12 @@ class modGcalendarUpcomingHelper {
 		$calName = $params->get( 'name', NULL );
 		if(empty($calName)) return array(JText::_("CALENDAR_NO_DEFINED"),NULL);
 		
+		$sortOrder = $params->get( 'order', NULL );
+		
 		$feed = new SimplePie_GCalendar();
 		$feed->set_show_past_events(FALSE);
 		$feed->set_sort_ascending(TRUE);
-		$feed->set_orderby_by_start_date(TRUE);
+		$feed->set_orderby_by_start_date($sortOrder);
 		$feed->set_expand_single_events(TRUE);
 		$feed->enable_order_by_date(FALSE);
 
