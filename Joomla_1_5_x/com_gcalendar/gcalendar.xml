@@ -8,7 +8,7 @@
 	<authorUrl>gcalendar.allon.ch</authorUrl>
 	<copyright></copyright>
 	<license></license>
-	<version>2.0.1</version>
+	<version>2.1.0</version>
 	<description>Google calendar integrated in joomla.</description>
 	<files folder="site">
 		<filename>index.html</filename>

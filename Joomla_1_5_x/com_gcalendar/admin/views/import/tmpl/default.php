@@ -78,13 +78,15 @@ if(!is_array($this->online_items)){
 		}
 		$k = 1 - $k;
 	}
-	echo '<tr><td colspan="3"><b>'.JText::_( 'Allready added calendars:' ).'</b></td></tr>';
-	$k = 0;
-	for ($i=0, $n=count($containing_items); $i < $n; $i++)
-	{
-		$row = $containing_items[$i];
-		print_line($row,'',$k);
-		$k = 1 - $k;
+	if(!empty($containing_items)){
+		echo '<tr><td colspan="3"><b>'.JText::_( 'Allready added calendars:' ).'</b></td></tr>';
+		$k = 0;
+		for ($i=0, $n=count($containing_items); $i < $n; $i++)
+		{
+			$row = $containing_items[$i];
+			print_line($row,'',$k);
+			$k = 1 - $k;
+		}
 	}
 	?>
 </table>

@@ -20,8 +20,14 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once 'Zend/Loader.php';
+global $mainframe;
+$absolute_path = $mainframe->getCfg( 'absolute_path' );
+ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT . DS . 'libraries');
+
+require_once('Zend' . DS . 'Loader.php');
 Zend_Loader::loadClass('Zend_Gdata_AuthSub');
+Zend_Loader::loadClass('Zend_Gdata_HttpClient');
+Zend_Loader::loadClass('Zend_Gdata_Calendar');
 
 $u = JFactory::getURI();
 $next = JRoute::_( $u->toString().'?option=com_gcalendar&task='.JRequest::getVar('nextTask'));
