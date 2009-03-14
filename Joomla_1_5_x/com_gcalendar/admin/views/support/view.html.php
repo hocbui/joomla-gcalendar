@@ -36,6 +36,7 @@ class GCalendarsViewSupport extends JView
 	function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
+		JToolBarHelper::preferences( 'com_gcalendar' );
 		parent::display($tpl);
 	}
 }

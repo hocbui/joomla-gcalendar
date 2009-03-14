@@ -29,12 +29,18 @@ Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 Zend_Loader::loadClass('Zend_Gdata_HttpClient');
 Zend_Loader::loadClass('Zend_Gdata_Calendar');
 
+$params = &JComponentHelper::getParams( 'com_gcalendar' );
+$domain = $params->get('google_apps_domain');
+
 $u = JFactory::getURI();
 $next = JRoute::_( $u->toString().'?option=com_gcalendar&task='.JRequest::getVar('nextTask'));
 $scope = 'http://www.google.com/calendar/feeds/';
 $session = true;
 $secure = false;
+$hd = '';
+if(!empty($domain))
+$hd = '?hd='.$domain;
 $authSubUrl = Zend_Gdata_AuthSub::getAuthSubTokenUri($next, $scope, $secure,
-$session);
+$session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI.$hd);
 echo "<a href=\"{$authSubUrl}\">Please Login to access the calendar data.</a>";
 ?>

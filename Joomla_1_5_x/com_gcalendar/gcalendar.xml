@@ -39,6 +39,9 @@
 			<menu task="google">Google Calendar</menu>
 			<menu task="support">Support</menu>
 		</submenu>
+		<files>
+			<filename>config.xml</filename>
+		</files>
 		<files folder="admin">
 			<!-- Site Main File Copy Section -->
 			<filename>index.html</filename>
