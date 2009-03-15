@@ -124,7 +124,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 	$temp_event=str_replace("###TITLE###",$item->get_title(),$temp_event);
 	$temp_event=str_replace("###DESCRIPTION###",$desc,$temp_event);
 	$temp_event=str_replace("###WHERE###",$item->get_location(),$temp_event);
-	$temp_event=str_replace("###BACKLINK###",urldecode(JURI::base().'index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&gcid='.$feed->get('gcid').'&ctz='.$tz.$itemID),$temp_event);
+	$temp_event=str_replace("###BACKLINK###",JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&gcid='.$feed->get('gcid').'&ctz='.$tz.$itemID),$temp_event);
 	$temp_event=str_replace("###LINK###",$item->get_link().'&ctz='.$tz,$temp_event);
 	$temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
 	// Accept and translate HTML
