@@ -34,7 +34,7 @@ class modGcalendarUpcomingHelper {
 
 		$db = &JFactory::getDBO();
 
-		$query = "SELECT id,calendar_id FROM #__gcalendar where ".$condition;
+		$query = "SELECT id,calendar_id, magic_cookie FROM #__gcalendar where ".$condition;
 		$db->setQuery( $query );
 		$results = $db->loadObjectList();
 		if(empty($results))
@@ -45,7 +45,7 @@ class modGcalendarUpcomingHelper {
 			if(!empty($result->calendar_id)){
 				$feed = modGcalendarUpcomingHelper::create_gc_feed($params);
 				$feed->put('gcid',$result->id);
-				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id);
+				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 				// Use temp variable to get language
 				// Need to preserve the $params array
 				$tmpparams   = JComponentHelper::getParams('com_languages');
@@ -68,6 +68,9 @@ class modGcalendarUpcomingHelper {
 			}
 		}
 
+		// we sort the array based on the event compare function
+		usort($values, array("SimplePie_Item_GCalendar", "compare"));
+		
 		//return the feed data structure for the template
 		return array(NULL,$values);
 	}
