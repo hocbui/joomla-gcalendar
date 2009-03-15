@@ -55,7 +55,7 @@ class GCalendarViewEvent extends JView
 					}
 				}
 				if($contains_gc_id){
-					$this->assignRef( 'calendarLink', JRoute::_('index.php?option=com_gcalendar&view=gcalendar&itemid='.$item->id));
+					$this->assignRef( 'calendarLink', JRoute::_('index.php?option=com_gcalendar&view=gcalendar&Itemid='.$item->id));
 					$pathway->addItem($gcalendar->name,'');
 					//$pathway->addItem($this->eventID,'');
 				}
