@@ -24,10 +24,11 @@ $show_past_events = $_POST["past"];
 $sort_ascending = $_POST["asc"];
 $order_by = $_POST["order"];
 $expand_single_events = $_POST["expand"];
+$query = $_POST["query"];
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<title>Simplepie -- GGalendar
+<title>Simplepie -- GGalendar</title>
 </head>
 <body>
 <h1>Simplepie Google Calendar demo web site</h1>
@@ -44,6 +45,11 @@ $expand_single_events = $_POST["expand"];
 <tr>
 <td>EMail address:</td>
 <td><input type="text" name="email" size="100" value="<?php echo $email; ?>"></td>
+</tr>
+<tr>
+<tr>
+<td>Query:</td>
+<td><input type="text" name="query" size="100" value="<?php echo $query; ?>"></td>
 </tr>
 <tr>
 <td>Show past events:</td>
@@ -83,6 +89,7 @@ $feed->set_show_past_events($show_past_events==1);
 $feed->set_sort_ascending($sort_ascending==1);
 $feed->set_orderby_by_start_date($order_by==1);
 $feed->set_expand_single_events($expand_single_events==1);
+$feed->set_cal_query($query);
 
 $feed->set_feed_url($url);
 
