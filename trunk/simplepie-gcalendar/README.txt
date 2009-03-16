@@ -1,9 +1,9 @@
 Hello
 
 This package contains the google calendar simplepie extension 
-version 0.0.1 also called simplepie-gcalendar.
+version 0.2.0 also called simplepie-gcalendar.
 
-In this package is simplepie 1.1.2 used, but simplepie-gcalendar
+In this package is simplepie 1.1.3 used, but simplepie-gcalendar
 should run with all simplepie 1.0 versions.
 
 In the src folder is the source simplepie-gcalendar.php. Use this
