@@ -7,13 +7,12 @@
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
-	<authorEmail>info@gcalendar.allon.ch</authorEmail>
+	<authorEmail>info@gcalendar.allon.ch
+	</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
 	<version>2.1.0</version>
 	<description>This module shows the upcoming events from a google
-		calendar. The output of the module uses two css class ids
-		gc_upcoming_date" and "gc_upcoming_event".
-		Add these to your template css to modify the output format.</description>
+		calendar.</description>
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php
 		</filename>
@@ -41,12 +40,6 @@
 			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
 		<param name="max" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
-		<param name="openWindow" type="radio" default="0"
-			label="Open event in new window"
-			description="If the event should be opened in a new window or inside of joomla.">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</param>
 		<param name="order" type="radio" default="TRUE" label="Sort Order"
 			description="The order strategy of the events.">
 			<option value="TRUE">Start Time</option>
@@ -58,8 +51,19 @@
 			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 	<params group="advanced">
-		<param name="timezone" type="text" size="100" default="" label="Timezone"
-			description="The timezone the event details should be displayed." />
+		<param name="output" type="textarea2" default="" label="Event output"
+			description="Here you can customize the appearance of the event."
+			rows="5" cols="50">
+			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br&gt;&lt;a href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
+			<description>
+				Here you can modify the event output. The following attributes of an event are provided:&lt;br&gt;
+				{title}, {description},
+				{startdate}, {starttime}, {dateseparator}, {enddate}, {endtime}
+				{where}, {backlink}, {link}, {maplink}
+			</description>
+		</param>
+		<param name="timezone" type="timezones" default="" label="Time Zone"
+			description="" />
 		<param name="cache" type="text" size="6" default="3600" label="Cache time"
 			description="Set the cache time (seconds)." />
 	</params>
