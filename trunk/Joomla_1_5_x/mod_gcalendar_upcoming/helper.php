@@ -46,11 +46,7 @@ class modGcalendarUpcomingHelper {
 				$feed = modGcalendarUpcomingHelper::create_gc_feed($params);
 				$feed->put('gcid',$result->id);
 				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
-				// Use temp variable to get language
-				// Need to preserve the $params array
-				$tmpparams   = JComponentHelper::getParams('com_languages');
-				$lg = $tmpparams->get('site', 'en-GB');
-				$feed->set_cal_language($lg);
+				$feed->set_cal_language(GCalendarUtil::get_fr_language());
 
 				$feed->set_feed_url($url);
 					

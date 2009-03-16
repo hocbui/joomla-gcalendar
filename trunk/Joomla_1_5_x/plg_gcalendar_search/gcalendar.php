@@ -29,7 +29,7 @@ JPlugin::loadLanguage( 'plg_search_gcalendar' );
 /**
  * @return array An array of search areas
  */
-function &plgSearchWeblinksAreas() {
+function &plgSearchGCalendarAreas() {
 	static $areas = array(
 		'gcalendar' => 'GCalendar'
 		);
@@ -48,13 +48,7 @@ function &plgSearchWeblinksAreas() {
  */
 function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 {
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
-
-	$searchText = $text;
-
-	require_once(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'helpers'.DS.'route.php');
-
+	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 	if(!class_exists('SimplePie')){
 		//include Simple Pie processor class
 		require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
@@ -63,6 +57,24 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 	if(!class_exists('SimplePie_GCalendar')){
 		//include Simple Pie processor class
 		require_once (JPATH_SITE.DS.'plugins'.DS.'search'.DS.'simplepie-gcalendar.php');
+	}
+	$user	=& JFactory::getUser();
+
+	$text = trim( $text );
+	if ($text == '') {
+		return array();
+	}
+	$section 	= JText::_( 'GCalendar' );
+
+	switch ( $ordering )
+	{
+		case 'oldest':
+			$orderasc = TRUE;
+			break;
+
+		case 'newest':
+		default:
+			$orderasc = FALSE;
 	}
 
 	if (is_array( $areas )) {
@@ -77,121 +89,54 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 
 	$limit = $pluginParams->def( 'search_limit', 50 );
 
-	$text = trim( $text );
-	if ($text == '') {
-		return array();
-	}
-	$section 	= JText::_( 'GCalendar' );
+	$db =& JFactory::getDBO();
+	$query = "SELECT id, calendar_id, magic_cookie  FROM #__gcalendar";
+	$db->setQuery( $query );
+	$results = $db->loadObjectList();
+	if(empty($results))
+	return array();
 
-	$wheres 	= array();
-	switch ($phrase)
-	{
-		case 'exact':
-			$text		= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-			$wheres2 	= array();
-			$wheres2[] 	= 'a.url LIKE '.$text;
-			$wheres2[] 	= 'a.description LIKE '.$text;
-			$wheres2[] 	= 'a.title LIKE '.$text;
-			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
-			break;
-
-		case 'all':
-		case 'any':
-		default:
-			$words 	= explode( ' ', $text );
-			$wheres = array();
-			foreach ($words as $word)
-			{
-				$word		= $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-				$wheres2 	= array();
-				$wheres2[] 	= 'a.url LIKE '.$word;
-				$wheres2[] 	= 'a.description LIKE '.$word;
-				$wheres2[] 	= 'a.title LIKE '.$word;
-				$wheres[] 	= implode( ' OR ', $wheres2 );
-			}
-			$where 	= '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
-			break;
-	}
-
-	switch ( $ordering )
-	{
-		case 'oldest':
-			$order = 'a.date ASC';
-			break;
-
-		case 'popular':
-			$order = 'a.hits DESC';
-			break;
-
-		case 'alpha':
-			$order = 'a.title ASC';
-			break;
-
-		case 'category':
-			$order = 'b.title ASC, a.title ASC';
-			break;
-
-		case 'newest':
-		default:
-			$order = 'a.date DESC';
-	}
-
-	$query = 'SELECT a.title AS title, a.description AS text, a.date AS created, a.url, '
-	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-	. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
-	. ' CONCAT_WS( " / ", '.$db->Quote($section).', b.title ) AS section,'
-	. ' "1" AS browsernav'
-	. ' FROM #__weblinks AS a'
-	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
-	. ' WHERE ('. $where .')'
-	. ' AND a.published = 1'
-	. ' AND b.published = 1'
-	. ' AND b.access <= '.(int) $user->get( 'aid' )
-	. ' ORDER BY '. $order
-	;
-	$db->setQuery( $query, 0, $limit );
-	$rows = $db->loadObjectList();
-
-	foreach($rows as $key => $row) {
-		$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
-	}
-
-	$return = array();
-	foreach($rows AS $key => $weblink) {
-		if(searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title'))) {
-			$return[] = $weblink;
-		}
-	}
-
-	return $return;
-}
-
-function create_gc_feed(){
+	$events = array();
+	foreach ($results as $result) {
 		$feed = new SimplePie_GCalendar();
 		$feed->set_show_past_events(TRUE);
-		$feed->set_sort_ascending(TRUE);
+		$feed->set_sort_ascending($orderasc);
 		$feed->set_orderby_by_start_date(TRUE);
 		$feed->set_expand_single_events(TRUE);
 		$feed->enable_order_by_date(FALSE);
+		$feed->enable_cache(FALSE);
+		$feed->set_cal_query($text);
+		$feed->put('gcid',$result->id);
+		$feed->set_cal_language(GCalendarUtil::get_fr_language());
 
-		// check if cache directory exists and is writeable
-		$cacheDir =  JPATH_BASE.DS.'cache'.DS.'plg_gcalendar_search';
-		JFolder::create($cacheDir, 0755);
-		if ( !is_writable( $cacheDir ) ) {
-			$cache_exists = false;
-		}else{
-			$cache_exists = true;
-		}
-
-		//check and set caching
-		if($cache_exists) {
-			$feed->set_cache_location($cacheDir);
-			$feed->enable_cache();
-			$cache_time = (intval($params->get( 'cache', 3600 )));
-			$feed->set_cache_duration($cache_time);
-		}
-		else {
-			$feed->enable_cache(FALSE);
-		}
-		return $feed;
+		$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
+		$feed->set_feed_url($url);
+		$feed->init();
+			
+		$feed->handle_content_type();
+		$events = array_merge($events, $feed->get_items());
 	}
+
+	usort($events, array("SimplePie_Item_GCalendar", "compare"));
+
+	$return = array();
+	foreach($events as $event){
+		$feed = $event->get_feed();
+		$tz = $feed->get_timezone();
+
+		$itemID = GCalendarUtil::get_item_id($feed->get('gcid'));
+		if(!empty($itemID))$itemID = '&Itemid='.$itemID;
+		$row->href = JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$event->get_id().'&gcid='.$feed->get('gcid').'&ctz='.$tz.$itemID);
+		$row->title = $event->get_title();
+		$row->description = $event->get_description();
+		$return[] = $row;
+	}
+
+	/** foreach($rows AS $key => $weblink) {
+		if(searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title'))) {
+		$return[] = $weblink;
+		}
+		} **/
+
+	return $return;
+}

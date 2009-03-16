@@ -3,19 +3,25 @@
 	<name>Search - GCalendar</name>
 	<author>allon</author>
 	<creationDate>Jan 2009</creationDate>
-	<copyright>This module is released under the GNU/GPL License.</copyright>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
-	<authorEmail>info@gcalendar.allon.ch</authorEmail>
+	<authorEmail>info@gcalendar.allon.ch
+	</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
 	<version>2.1.0</version>
-	<description>Allows Searching of events in the calendars specified in the GCalendar component.</description>
+	<description>Allows Searching of events in the calendars
+		specified in the GCalendar component.</description>
 	<files>
 		<filename plugin="gcalendar">gcalendar.php</filename>
-		<filename plugin="gcalendar">simplepie-gcalendar.php</filename>
+		<filename plugin="gcalendar">simplepie-gcalendar.php
+		</filename>
 	</files>
 	<params>
 		<param name="search_limit" type="text" size="5" default="50"
 			label="Search Limit" description="Number of Search items to return" />
 	</params>
+	<param name="timezone" type="timezones" default="" label="Time Zone"
+		description="" />
 </install>
