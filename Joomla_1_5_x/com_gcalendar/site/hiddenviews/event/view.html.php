@@ -19,6 +19,7 @@
  */
 
 jimport( 'joomla.application.component.view');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
 /**
  * HTML View class for the GCalendar Component
@@ -33,35 +34,7 @@ class GCalendarViewEvent extends JView
 
 		$this->assignRef( 'eventID', JRequest::getVar('eventID', null));
 		$this->assignRef( 'timezone', JRequest::getVar('ctz', null));
-
-		$component	= &JComponentHelper::getComponent('com_gcalendar');
-		$menu = &JSite::getMenu();
-		$items		= $menu->getItems('componentid', $component->id);
-
-		$model = & $this->getModel();
-		$cal_id = $model->getState('gcid');
-		if (is_array($items)){
-			global $mainframe;
-			$pathway	= &$mainframe->getPathway();
-			foreach($items as $item) {
-				$paramsItem	=& $menu->getParams($item->id);
-				$calendarids = $paramsItem->get('calendarids');
-				$contains_gc_id = FALSE;
-				if ($calendarids){
-					if( is_array( $calendarids ) ) {
-						$contains_gc_id = in_array($cal_id,$calendarids);
-					} else {
-						$contains_gc_id = $cal_id === $calendarids;
-					}
-				}
-				if($contains_gc_id){
-					$this->assignRef( 'calendarLink', JRoute::_('index.php?option=com_gcalendar&view=gcalendar&Itemid='.$item->id));
-					$pathway->addItem($gcalendar->name,'');
-					//$pathway->addItem($this->eventID,'');
-				}
-			}
-		}
-
+		
 		parent::display($tpl);
 	}
 }

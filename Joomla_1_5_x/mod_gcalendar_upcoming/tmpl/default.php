@@ -35,20 +35,6 @@ $dateformat=$params->get('dateFormat', '%d.%m.%Y');
 $timeformat=$params->get('timeFormat', '%H:%M');
 $calName = $params->get( 'name', NULL );
 
-//get the menu id
-$component = &JComponentHelper::getComponent('com_gcalendar');
-$menu = &JSite::getMenu();
-$items = $menu->getItems('componentid', $component->id);
-$itemID = '';
-if (is_array($items)){
-	foreach($items as $item) {
-		$paramsItem	=& $menu->getParams($item->id);
-		if($paramsItem->get('name') === $calName){
-			$itemID = '&Itemid='.$item->id;
-		}
-	}
-}
-
 // Loop through the array, and display what we wanted.
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
@@ -58,6 +44,9 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 	if($tz == ''){
 		$tz = $feed->get_timezone();
 	}
+
+	$itemID = GCalendarUtil::get_item_id($feed->get('gcid'));
+	if(!empty($itemID))$itemID = '&Itemid='.$itemID;
 
 	// These are the dates we'll display
 	$startDate = strftime($dateformat, $item->get_start_time());
