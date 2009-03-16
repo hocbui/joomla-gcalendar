@@ -28,15 +28,7 @@ if(!empty($error)){
 
 $SECSINDAY=86400;
 
-// How you want each thing to display.
-// All bits listed below which are available:
-// ###TITLE###, ###DESCRIPTION###,
-// ###STARTDATE###, ###STARTTIME###, ###DATESEPARATOR###, ###ENDDATE###, ###ENDTIME###
-// ###WHERE###, ###BACKLINK###, ###LINK###, ###MAPLINK###
-$dsplLink = "<a href='###BACKLINK###'>###TITLE###</a>";
-if($params->get( 'openWindow', 0 )==1)
-$dsplLink = "<a href='###LINK###' target='_blank'>###TITLE###</a>";
-$event_display="<div id=\"gc_upcoming_date\">###STARTDATE### ###STARTTIME### ###DATESEPARATOR### ###ENDDATE### ###ENDTIME###</div><div id=\"gc_upcoming_event\">".$dsplLink."</div><br>";
+$event_display=$params->get('output', '');
 
 // Date format you want your details to appear
 $dateformat=$params->get('dateFormat', '%d.%m.%Y');
@@ -83,50 +75,50 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 		//  So, we check to see if start date + 1 day = end day (i.e. a one day, whole day event)
 		if (($item->get_start_time()+ $SECSINDAY) == $item->get_end_time()) {
 			// Single day, whole day
-			$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
-			$temp_event=str_replace("###STARTTIME###","",$temp_event);
-			$temp_event=str_replace("###DATESEPARATOR###","",$temp_event);
-			$temp_event=str_replace("###ENDDATE###","",$temp_event);
-			$temp_event=str_replace("###ENDTIME###","",$temp_event);
+			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+			$temp_event=str_replace("{starttime}","",$temp_event);
+			$temp_event=str_replace("{dateseparator}","",$temp_event);
+			$temp_event=str_replace("{enddate}","",$temp_event);
+			$temp_event=str_replace("{endtime}","",$temp_event);
 		} else {
 			if ((date('g:i a',$item->get_start_time())=='12:00 am')&&
 			(date('g:i a',$item->get_end_time())=='12:00 am')){
 				// multiple days, whole day
 				// So, bring end date back to real date.
 				$endDate = strftime($dateformat, $item->get_end_time() - $SECSINDAY);
-				$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
-				$temp_event=str_replace("###STARTTIME###","",$temp_event);
-				$temp_event=str_replace("###DATESEPARATOR###","-",$temp_event);
-				$temp_event=str_replace("###ENDDATE###",$endDate,$temp_event);
-				$temp_event=str_replace("###ENDTIME###","",$temp_event);
+				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+				$temp_event=str_replace("{starttime}","",$temp_event);
+				$temp_event=str_replace("{dateseparator}","-",$temp_event);
+				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
+				$temp_event=str_replace("{endtime}","",$temp_event);
 			}else{
 				//  multiple day, part of day
-				$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
-				$temp_event=str_replace("###STARTTIME###",$startTime,$temp_event);
-				$temp_event=str_replace("###DATESEPARATOR###","-",$temp_event);
-				$temp_event=str_replace("###ENDDATE###",$endDate,$temp_event);
-				$temp_event=str_replace("###ENDTIME###",$endTime,$temp_event);
+				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+				$temp_event=str_replace("{starttime}",$startTime,$temp_event);
+				$temp_event=str_replace("{dateseparator}","-",$temp_event);
+				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
+				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
 			}
 		}
 	} else {
 		//  Single day, part of day
-		$temp_event=str_replace("###STARTDATE###",$startDate,$temp_event);
-		$temp_event=str_replace("###STARTTIME###",$startTime,$temp_event);
-		$temp_event=str_replace("###DATESEPARATOR###","-",$temp_event);
-		$temp_event=str_replace("###ENDDATE###","",$temp_event);
-		$temp_event=str_replace("###ENDTIME###",$endTime,$temp_event);
+		$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+		$temp_event=str_replace("{starttime}",$startTime,$temp_event);
+		$temp_event=str_replace("{dateseparator}","-",$temp_event);
+		$temp_event=str_replace("{enddate}","",$temp_event);
+		$temp_event=str_replace("{endtime}",$endTime,$temp_event);
 	}
 	// /smh 2008-12-17
 
 	//Make any URLs used in the description also clickable: thanks Adam
 	$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
 
-	$temp_event=str_replace("###TITLE###",$item->get_title(),$temp_event);
-	$temp_event=str_replace("###DESCRIPTION###",$desc,$temp_event);
-	$temp_event=str_replace("###WHERE###",$item->get_location(),$temp_event);
-	$temp_event=str_replace("###BACKLINK###",JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&gcid='.$feed->get('gcid').'&ctz='.$tz.$itemID),$temp_event);
-	$temp_event=str_replace("###LINK###",$item->get_link().'&ctz='.$tz,$temp_event);
-	$temp_event=str_replace("###MAPLINK###","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
+	$temp_event=str_replace("{title}",$item->get_title(),$temp_event);
+	$temp_event=str_replace("{description}",$desc,$temp_event);
+	$temp_event=str_replace("{where}",$item->get_location(),$temp_event);
+	$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&gcid='.$feed->get('gcid').'&ctz='.$tz.$itemID),$temp_event);
+	$temp_event=str_replace("{link}",$item->get_link().'&ctz='.$tz,$temp_event);
+	$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
 	// Accept and translate HTML
 	$temp_event=str_replace("&lt;","<",$temp_event);
 	$temp_event=str_replace("&gt;",">",$temp_event);

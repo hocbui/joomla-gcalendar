@@ -15,7 +15,6 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 /**
- * Renders a newsfeed selection element
  *
  * @package 	GCalendar
  * @subpackage	Parameter
