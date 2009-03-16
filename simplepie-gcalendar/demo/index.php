@@ -36,39 +36,35 @@ $query = $_POST["query"];
 <table>
 <tr>
 <td>Feed url:</td>
-<td><input type="text" name="feedurl" size="100" value="<?php echo $url; ?>"></td>
+<td colspan="4"><input type="text" name="feedurl" size="100" value="<?php echo $url; ?>"></td>
 </tr>
 <tr>
 <td>OR</td>
-<td></td>
+<td colspan="4"></td>
 </tr>
 <tr>
 <td>EMail address:</td>
-<td><input type="text" name="email" size="100" value="<?php echo $email; ?>"></td>
+<td colspan="4"><input type="text" name="email" size="100" value="<?php echo $email; ?>"></td>
 </tr>
 <tr>
 <tr>
 <td>Query:</td>
-<td><input type="text" name="query" size="100" value="<?php echo $query; ?>"></td>
+<td colspan="4"><input type="text" name="query" size="100" value="<?php echo $query; ?>"></td>
 </tr>
 <tr>
-<td>Show past events:</td>
-<td><input type="radio" name="past" value="1">True<br>
+<td align="right">Show past events:</td>
+<td align="left"><input type="radio" name="past" value="1">True<br>
 <input type="radio" name="past" value="0" checked>False</td>
-</tr>
-<tr>
-<td>Sort ascending:</td>
-<td><input type="radio" name="asc" value="1" checked>True<br>
+<td align="right">Sort ascending:</td>
+<td align="left"><input type="radio" name="asc" value="1" checked>True<br>
 <input type="radio" name="asc" value="0">False</td>
 </tr>
 <tr>
-<td>Order by start date:</td>
-<td><input type="radio" name="order" value="1" checked>True<br>
+<td align="right">Order by start date:</td>
+<td align="left"><input type="radio" name="order" value="1" checked>True<br>
 <input type="radio" name="order" value="0">False</td>
-</tr>
-<tr>
-<td>Expand single events:</td>
-<td><input type="radio" name="expand" value="1" checked>True<br>
+<td align="right">Expand single events:</td>
+<td align="left"><input type="radio" name="expand" value="1" checked>True<br>
 <input type="radio" name="expand" value="0">False</td>
 </tr>
 <tr><td><input type="submit" value="Submit"></td></tr>
