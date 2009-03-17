@@ -21,12 +21,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$tz = '';
-if(!empty($this->timezone))$tz='&ctz='.$this->timezone;
-$lg = '&hl='.GCalendarUtil::get_fr_language();
+$tz = GCalendarUtil::getComponentParameter('timezone');;
+if(!empty($tz))$tz='&ctz='.$tz;
+$lg = '&hl='.GCalendarUtil::getFrLanguage();
 $url = 'http://www.google.com/calendar/event?eid=' . $this->eventID . $tz.$lg;
 
-$itemID = GCalendarUtil::get_item_id(JRequest::getVar('gcid', null));
+$itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
 if(!empty($itemID)){
 	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view=gcalendar&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' ).'</a>';
 }

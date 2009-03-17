@@ -23,13 +23,17 @@
  *
  */
 class GCalendarUtil{
-	function get_fr_language(){
-		$tmpparams   = JComponentHelper::getParams('com_languages');
-		$lg = $tmpparams->get('site', 'en-GB');
-		return $lg;
+	function getComponentParameter($key){
+		$params   = JComponentHelper::getParams('com_gcalendar');
+		return $params->get($key);
 	}
-	
-	function get_item_id($cal_id){
+
+	function getFrLanguage(){
+		$params   = JComponentHelper::getParams('com_languages');
+		return $params->get('site', 'en-GB');
+	}
+
+	function getItemId($cal_id){
 		$component	= &JComponentHelper::getComponent('com_gcalendar');
 		$menu = &JSite::getMenu();
 		$items		= $menu->getItems('componentid', $component->id);

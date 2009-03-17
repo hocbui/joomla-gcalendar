@@ -22,6 +22,7 @@
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
 /**
  * GCalendars View

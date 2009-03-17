@@ -33,7 +33,6 @@ class GCalendarViewEvent extends JView
 		$this->assignRef( 'gcalendar',	$gcalendar );
 
 		$this->assignRef( 'eventID', JRequest::getVar('eventID', null));
-		$this->assignRef( 'timezone', JRequest::getVar('ctz', null));
 		
 		parent::display($tpl);
 	}

@@ -43,11 +43,6 @@ function GCalendarBuildRoute( &$query )
 			$segments[] = $query['eventID'];
 			unset( $query['eventID'] );
 		}
-		if(isset($query['ctz']))
-		{
-			$segments[] = $query['ctz'];
-			unset( $query['ctz'] );
-		}
 		if(isset($query['Itemid']))
 		{
 			$segments[] = $query['Itemid'];
@@ -64,8 +59,10 @@ function GCalendarBuildRoute( &$query )
 
 			$menu = &JSite::getMenu();
 			$params	=& $menu->getParams($itemid);
-			if($params->get('calendarids'))
-			$segments[] = 'calendar'.$params->get('calendarids');
+			if($params->get('calendarids')){
+				$segments[] = 'calendars';
+				$segments[] = implode("-", $params->get('calendarids'));
+			}
 		}
 	}
 	return $segments;
@@ -84,12 +81,12 @@ function GCalendarParseRoute( $segments )
 		case 'event':
 			$vars['task'] = 'event';
 			$vars['eventID'] = $segments[1];
-			$vars['ctz'] = $segments[2];
-			$vars['Itemid'] = $segments[3];
-			$vars['gcid'] = $segments[4];
+			$vars['Itemid'] = $segments[2];
+			$vars['gcid'] = $segments[3];
 			break;
 		case 'gcalendar':
 			$vars['task'] = 'gcalendar';
+			$vars['calendarids'] = explode("-",$segments[2]);
 			break;
 
 	}
