@@ -20,21 +20,73 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' ); 
 
-if(empty($calendar)){
+if(empty($calendars)){
 	echo JText::_( 'NO_CALENDAR' );
 }else{
 ?>
-	<iframe
-	id="mod_gcalendar"
-	src="<?php echo $calendar; ?>"
-	width="<?php echo $params->get( 'width' ); ?>"
-	height="<?php echo $params->get( 'height' ); ?>"
-	scrolling="<?php echo $params->get( 'scrolling' ); ?>"
-	align="top"
-	frameborder="0"
-	class="mod_gcalendar<?php echo $params->get( 'moduleclass_sfx' ); ?>">
-	<?php echo JText::_( 'NO_IFRAMES' ); ?>
-	</iframe>
+<div
+	class="contentpane<?php echo $params->get( 'moduleclass_sfx' ); ?>">
+
 	<?php
+	$variables = '';
+	$variables = $variables.'?showTitle='.$params->get( 'title' );
+	$variables = $variables.'&amp;showNav='.$params->get( 'navigation' );
+	$variables = $variables.'&amp;showDate='.$params->get( 'date' );
+	$variables = $variables.'&amp;showPrint='.$params->get( 'print' );
+	$variables = $variables.'&amp;showTabs='.$params->get( 'tabs' );
+	$variables = $variables.'&amp;showCalendars=0';
+	$variables = $variables.'&amp;showTz='.$params->get( 'tz' );
+	$variables = $variables.'&amp;mode='.$params->get( 'view' );
+	$variables = $variables.'&amp;wkst='.$params->get( 'weekstart' );
+	$variables = $variables.'&amp;bgcolor=%23'.$params->get( 'bgcolor' );
+	$tz = GCalendarUtil::getComponentParameter('timezone');
+	if(!empty($tz))$tz='&ctz='.$tz;
+	$variables = $variables.$tz;
+	$variables = $variables.'&amp;height='.$params->get( 'height' );
+
+	$domain = 'http://www.google.com/calendar/embed';
+	$google_apps_domain = GCalendarUtil::getComponentParameter('google_apps_domain');
+	if(!empty($google_apps_domain)){
+		$domain = 'http://www.google.com/calendar/hosted/'.$google_apps_domain.'/embed';
+	}
+
+	foreach($calendars as $calendar) {
+		$value = '&amp;src='.$calendar->calendar_id;
+
+		if(!empty($calendar->color)){
+			$color = $calendar->color;
+			if(strpos($calendar->color, '#') === 0)
+			$color = str_replace("#","%23",$calendar->color);
+			else if(!(strpos($calendar->color, '%23') === 0))
+			$color = '%23$'.$calendar->color;
+			$value = $value.'&amp;color='.$color;
+		}
+
+		if(!empty($calendar->magic_cookie)){
+			$value = $value.'&amp;pvttk='.$calendar->magic_cookie;
+		}
+
+		if($calendar->selected){
+			$variables = $variables.$value;
+		}
+	}
+	
+	$calendar_url="";
+	if ($params->get('use_custom_css')) {
+		$calendar_url= JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/googlecal/MyGoogleCal4.php'.$variables;
+	} else {
+		$calendar_url=$domain.$variables;
+	}
+	echo $params->get( 'textbefore' );
+
+	?> <iframe id="mod_gcalendar_frame" src="<?php echo $calendar_url; ?>"
+	width="<?php echo $params->get( 'width' ); ?>"
+	height="<?php echo $params->get( 'height' ); ?>" align="top"
+	frameborder="0"
+	class="gcalendar<?php echo $params->get( 'pageclass_sfx' ); ?>">
+	<?php echo JText::_( 'NO_IFRAMES' ); ?> </iframe></div>
+
+	<?php
+	echo $params->get( 'textafter' );
 }
 ?>
