@@ -61,7 +61,9 @@ if(!is_array($this->calendars)){
 	$variables = $variables.'&amp;mode='.$this->params->get( 'view' );
 	$variables = $variables.'&amp;wkst='.$this->params->get( 'weekstart' );
 	$variables = $variables.'&amp;bgcolor=%23'.$this->params->get( 'bgcolor' );
-	$variables = $variables.'&amp;ctz='.$this->params->get( 'timezone' );
+	$tz = GCalendarUtil::getComponentParameter('timezone');;
+	if(!empty($tz))$tz='&ctz='.$tz;
+	$variables = $variables.$tz;
 	$variables = $variables.'&amp;height='.$this->params->get( 'height' );
 
 	$domain = 'http://www.google.com/calendar/embed';
@@ -112,8 +114,7 @@ if(!is_array($this->calendars)){
 	}
 	echo $this->params->get( 'textbefore' );
 
-	?> 
-	<iframe id="gcalendar_frame" src="<?php echo $calendar_url; ?>"
+	?> <iframe id="gcalendar_frame" src="<?php echo $calendar_url; ?>"
 	width="<?php echo $this->params->get( 'width' ); ?>"
 	height="<?php echo $this->params->get( 'height' ); ?>" align="top"
 	frameborder="0"

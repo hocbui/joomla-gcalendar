@@ -62,8 +62,6 @@
 				{where}, {backlink}, {link}, {maplink}
 			</description>
 		</param>
-		<param name="timezone" type="timezones" default="" label="Time Zone"
-			description="" />
 		<param name="cache" type="text" size="6" default="3600" label="Cache time"
 			description="Set the cache time (seconds)." />
 	</params>

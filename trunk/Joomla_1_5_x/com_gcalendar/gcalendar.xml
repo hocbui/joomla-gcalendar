@@ -39,9 +39,6 @@
 			<menu task="google">Google Calendar</menu>
 			<menu task="support">Support</menu>
 		</submenu>
-		<files>
-			<filename>config.xml</filename>
-		</files>
 		<files folder="admin">
 			<!-- Site Main File Copy Section -->
 			<filename>index.html</filename>
@@ -50,6 +47,7 @@
 			<filename>install.sql</filename>
 			<filename>uninstall.sql</filename>
 			<filename>util.php</filename>
+			<filename>config.xml</filename>
 			<folder>controllers</folder>
 			<folder>models</folder>
 			<folder>views</folder>

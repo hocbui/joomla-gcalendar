@@ -64,8 +64,6 @@
 			</param>
 			<param name="bgcolor" type="text" default="FFFFFF" label="Background color"
 				description="" size="10" />
-			<param name="timezone" type="timezones" default="0" label="Time Zone"
-				description="" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
 			<param name="textbefore" type="textarea" default=""

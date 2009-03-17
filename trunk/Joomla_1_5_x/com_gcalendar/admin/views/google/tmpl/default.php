@@ -20,8 +20,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$params = &JComponentHelper::getParams( 'com_gcalendar' );
-$domain = $params->get('google_apps_domain');
+$domain = GCalendarUtil::getComponentParameter('google_apps_domain');
 if(empty($domain))
 $domain = 'http://www.google.com/calendar';
 if(!(substr($domain,0,7)=='http://')){

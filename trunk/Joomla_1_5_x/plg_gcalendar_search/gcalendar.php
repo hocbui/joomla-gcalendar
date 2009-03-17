@@ -107,7 +107,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 		$feed->enable_cache(FALSE);
 		$feed->set_cal_query($text);
 		$feed->put('gcid',$result->id);
-		$feed->set_cal_language(GCalendarUtil::get_fr_language());
+		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 
 		$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 		$feed->set_feed_url($url);
@@ -122,11 +122,10 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 	$return = array();
 	foreach($events as $event){
 		$feed = $event->get_feed();
-		$tz = $feed->get_timezone();
 
-		$itemID = GCalendarUtil::get_item_id($feed->get('gcid'));
+		$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
 		if(!empty($itemID))$itemID = '&Itemid='.$itemID;
-		$row->href = JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$event->get_id().'&gcid='.$feed->get('gcid').'&ctz='.$tz.$itemID);
+		$row->href = JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$event->get_id().'&gcid='.$feed->get('gcid').$itemID);
 		$row->title = $event->get_title();
 		$row->description = $event->get_description();
 		$return[] = $row;
