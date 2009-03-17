@@ -51,18 +51,12 @@ class GCalendarModelGCalendar extends JModel
 			$is_selected = FALSE;
 			if ($calendarids){
 				if( is_array( $calendarids ) ) {
-					$is_selected = in_array($result->id,$calendarids);
+					$result->selected = in_array($result->id,$calendarids);
 				} else {
-					$is_selected = $result->id === $calendarids;
+					$result->selected = $result->id === $calendarids;
 				}
 			}
-			
-			$calendars[] = array("id"=>$result->id,
-			"calendar_id"=>$result->calendar_id,
-			"name"=>$result->name,
-			"color"=>$result->color,
-			"magic_cookie"=>$result->magic_cookie,
-			"selected"=>$is_selected);
+			$calendars[] = $result;
 		}
 		return $calendars;
 	}
