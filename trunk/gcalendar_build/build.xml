@@ -7,8 +7,8 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="gcalendar_version" value="2_0_1" />
-	<property name="includeUpgrade" value="true" />
+	<property name="gcalendar_version" value="2_1_0M1" />
+	<property name="includeUpgrade" value="false" />
 
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -51,6 +51,11 @@
 			<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/site/languages/" />
 		</copy>
 
+		<!-- create the search plugin upgrade folder -->
+		<copy todir="${build}/upgrade_1_5/com_gcalendar/plg_gcalendar_search/plugins/search">
+			<fileset dir="${basedir}/../Joomla_1_5_x/plg_gcalendar_search" />
+		</copy>
+
 		<!-- create the modules upgrade package -->
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar" />
@@ -91,16 +96,6 @@
 			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
 			<zipfileset dir="${basedir}" includes="license.txt" />
 		</zip>
-
-		<!-- create gcalendar for joomla 1.0 -->
-		<antcall target="create_zips">
-			<param name="gcalendar" value="Joomla_1_0_x" />
-		</antcall>
-		<zip destfile="${dist}/gcalendar_${gcalendar_version}_J10x.zip">
-			<zipfileset dir="${build}/Joomla_1_0_x" includes="**/*" />
-			<zipfileset dir="${basedir}" includes="ReadFirstJ10x.txt" />
-			<zipfileset dir="${basedir}" includes="license.txt" />
-		</zip>
 	</target>
 
 	<target name="create_zips" description="generate the zips">
@@ -111,6 +106,11 @@
 		<!-- create gcalendar component -->
 		<zip destfile="${build}/${gcalendar}/com_gcalendar_${gcalendar_version}.zip">
 			<zipfileset dir="${basedir}/../${gcalendar}/com_gcalendar" prefix="com_gcalendar" />
+		</zip>
+
+		<!-- create gcalendar search plugin -->
+		<zip destfile="${build}/${gcalendar}/plg_gcalendar_search_${gcalendar_version}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/plg_gcalendar_search" prefix="plg_gcalendar_search" />
 		</zip>
 
 		<!-- create gcalendar module -->

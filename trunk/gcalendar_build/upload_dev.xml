@@ -91,6 +91,19 @@
 				<echo message="Not creating gcalendar dir for 1.5" />
 			</else>
 		</if>
+
+		<if>
+			<istrue value="${upload15.plg_gcalendar_search}" />
+			<then>
+				<copy todir="${dir}/plugins/search">
+					<fileset dir="${basedir}/../Joomla_1_5_x/plg_gcalendar_search" />
+				</copy>
+			</then>
+			<else>
+				<echo message="Not creating search plugin dir for 1.5" />
+			</else>
+		</if>
+
 		<!-- create the modules dir tree structure package -->
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar" />
@@ -99,10 +112,6 @@
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar_upcoming" />
 			<param name="cond" value="${upload15.mod_gcalendar_upcoming}" />
-		</antcall>
-		<antcall target="create_module_upgrade_folder_1_5">
-			<param name="module_name" value="mod_gcalendar_latest" />
-			<param name="cond" value="${upload15.mod_gcalendar_latest}" />
 		</antcall>
 	</target>
 
