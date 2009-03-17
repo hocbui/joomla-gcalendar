@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.0.1 $
+ * @version $Revision: 2.1.0 $
  */
 
 /**
@@ -61,7 +61,13 @@ function GCalendarBuildRoute( &$query )
 			$params	=& $menu->getParams($itemid);
 			if($params->get('calendarids')){
 				$segments[] = 'calendars';
-				$segments[] = implode("-", $params->get('calendarids'));
+				$calendarids = $params->get('calendarids');
+				if(empty($calendarids))
+				$calendarids = array();
+				if( !is_array( $calendarids ) ) {
+					$calendarids = array($calendarids);
+				}
+				$segments[] = implode("-", $calendarids);
 			}
 		}
 	}
