@@ -18,7 +18,10 @@
 		<filename plugin="gcalendar">simplepie-gcalendar.php
 		</filename>
 	</files>
-	<params>
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default=""
+			label="Select Calendars"
+			description="The calendars, if none is selected it searches in all calendars." />
 		<param name="search_limit" type="text" size="5" default="50"
 			label="Search Limit" description="Number of Search items to return" />
 	</params>

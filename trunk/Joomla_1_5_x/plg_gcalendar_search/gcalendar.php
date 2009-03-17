@@ -64,7 +64,6 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 	if ($text == '') {
 		return array();
 	}
-	$section 	= JText::_( 'GCalendar' );
 
 	switch ( $ordering )
 	{
@@ -89,8 +88,18 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 
 	$limit = $pluginParams->def( 'search_limit', 50 );
 
+	$calendarids = $pluginParams->get( 'calendarids', NULL );
+	$condition = '';
+	if(!empty($calendarids)){
+		if( is_array( $calendarids ) ) {
+			$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
+		} else {
+			$condition = 'id = '.$calendarids;
+		}
+	}
+
 	$db =& JFactory::getDBO();
-	$query = "SELECT id, calendar_id, magic_cookie  FROM #__gcalendar";
+	$query = "SELECT id, calendar_id, magic_cookie  FROM #__gcalendar ".$condition;
 	$db->setQuery( $query );
 	$results = $db->loadObjectList();
 	if(empty($results))
@@ -105,6 +114,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 		$feed->set_expand_single_events(TRUE);
 		$feed->enable_order_by_date(FALSE);
 		$feed->enable_cache(FALSE);
+		$feed->set_cache_duration(1);
 		$feed->set_cal_query($text);
 		$feed->put('gcid',$result->id);
 		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
@@ -118,6 +128,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	usort($events, array("SimplePie_Item_GCalendar", "compare"));
+	array_splice($events, $limit);
 
 	$return = array();
 	foreach($events as $event){
@@ -127,15 +138,11 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 		if(!empty($itemID))$itemID = '&Itemid='.$itemID;
 		$row->href = JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$event->get_id().'&gcid='.$feed->get('gcid').$itemID);
 		$row->title = $event->get_title();
-		$row->description = $event->get_description();
+		$row->text = $event->get_description();
+		$row->section = 'gcalendar';
+		$row->category = $feed->get('gcid');
+		$row->created = $event->get_publish_date();
 		$return[] = $row;
 	}
-
-	/** foreach($rows AS $key => $weblink) {
-		if(searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title'))) {
-		$return[] = $weblink;
-		}
-		} **/
-
 	return $return;
 }
