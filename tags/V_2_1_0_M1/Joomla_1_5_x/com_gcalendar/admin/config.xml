@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="google_apps_domain" type="text" default="" size="100"
+			label="Google Apps Domain" description="The Google Apps domain to get the calendar data from." />
+		<param name="timezone" type="text" default="" label="Time Zone" size="100"
+			description="The global timezone for GCalendar." />
+	</params>
+</config>
