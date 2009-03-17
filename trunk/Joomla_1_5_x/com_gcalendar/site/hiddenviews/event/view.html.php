@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.0.1 $
+ * @version $Revision: 2.1.0 $
  */
 
 jimport( 'joomla.application.component.view');

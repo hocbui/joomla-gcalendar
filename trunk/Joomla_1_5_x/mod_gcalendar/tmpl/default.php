@@ -15,7 +15,7 @@
  * 
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.0.1 $
+ * @version $Revision: 2.1.0 $
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' ); 
@@ -23,11 +23,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 if(empty($calendars)){
 	echo JText::_( 'NO_CALENDAR' );
 }else{
-?>
-<div
-	class="contentpane<?php echo $params->get( 'moduleclass_sfx' ); ?>">
-
-	<?php
 	$variables = '';
 	$variables = $variables.'?showTitle='.$params->get( 'title' );
 	$variables = $variables.'&amp;showNav='.$params->get( 'navigation' );
@@ -83,8 +78,8 @@ if(empty($calendars)){
 	width="<?php echo $params->get( 'width' ); ?>"
 	height="<?php echo $params->get( 'height' ); ?>" align="top"
 	frameborder="0"
-	class="gcalendar<?php echo $params->get( 'pageclass_sfx' ); ?>">
-	<?php echo JText::_( 'NO_IFRAMES' ); ?> </iframe></div>
+	class="gcalendar<?php echo $params->get( 'moduleclass_sfx' ); ?>">
+	<?php echo JText::_( 'NO_IFRAMES' ); ?> </iframe>
 
 	<?php
 	echo $params->get( 'textafter' );
