@@ -8,12 +8,12 @@
 	<reference>
 		<table name="gcalendar">
 			<field type="referenceid" name="id" translate="0">ID</field>
-			<field type="titletext" name="calendar_id" translate="1">Calendar
+			<field type="text" name="calendar_id" translate="1">Calendar
 				ID</field>
 			<field type="titletext" name="name" translate="1">Name</field>
-			<field type="htmltext" name="magic_cookie" translate="1">Magic
+			<field type="text" name="magic_cookie" translate="1">Magic
 				Cookie</field>
-			<field type="htmltext" name="color" translate="1">Color
+			<field type="text" name="color" translate="1">Color
 			</field>
 		</table>
 	</reference>
