@@ -32,17 +32,16 @@ class modGcalendarUpcomingHelper {
 			$condition = 'id = '.$calendarids;
 		}
 
-		$db = &JFactory::getDBO();
-
-		$query = "SELECT id,calendar_id, magic_cookie FROM #__gcalendar where ".$condition;
-		$db->setQuery( $query );
-		$results = $db->loadObjectList();
+		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'models');
+		$model =JModel::getInstance('GCalendar','GCalendarModel');
+		$model->setState('parameters.menu', $params);
+		$results = $model->getGCalendar();
 		if(empty($results))
 		return array(JText::_("CALENDAR_NOT_FOUND"),NULL);
 
 		$values = array();
 		foreach ($results as $result) {
-			if(!empty($result->calendar_id)){
+			if(!empty($result->calendar_id) && $result->selected){
 				$feed = modGcalendarUpcomingHelper::create_gc_feed($params);
 				$feed->put('gcid',$result->id);
 				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
