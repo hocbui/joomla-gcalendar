@@ -21,8 +21,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modGcalendarUpcomingHelper {
-	function getCalendarItems(&$params) {
+class ModGcalendarUpcomingHelper {
+	
+	function getCalendarItems(&$params){
+		$cache = & JFactory::getCache();
+		$items  = $cache->call( array( 'ModGCalendarUpcomingHelper', 'getOnlineItems' ), &$params );
+		return $items;
+	}
+	
+	function getOnlineItems(&$params) {
 		$calendarids = $params->get( 'calendarids', NULL );
 		if(empty($calendarids)) return array(JText::_("CALENDAR_NO_DEFINED").$calendarids.'allon',NULL);
 
@@ -65,7 +72,7 @@ class modGcalendarUpcomingHelper {
 
 		// we sort the array based on the event compare function
 		usort($values, array("SimplePie_Item_GCalendar", "compare"));
-		
+
 		//return the feed data structure for the template
 		return array(NULL,$values);
 	}
@@ -79,26 +86,7 @@ class modGcalendarUpcomingHelper {
 		$feed->set_orderby_by_start_date($sortOrder);
 		$feed->set_expand_single_events(TRUE);
 		$feed->enable_order_by_date(FALSE);
-
-		// check if cache directory exists and is writeable
-		$cacheDir =  JPATH_BASE.DS.'cache'.DS.'mod_gcalendar_upcoming';
-		JFolder::create($cacheDir, 0755);
-		if ( !is_writable( $cacheDir ) ) {
-			$cache_exists = false;
-		}else{
-			$cache_exists = true;
-		}
-
-		//check and set caching
-		if($cache_exists) {
-			$feed->set_cache_location($cacheDir);
-			$feed->enable_cache();
-			$cache_time = (intval($params->get( 'cache', 3600 )));
-			$feed->set_cache_duration($cache_time);
-		}
-		else {
-			$feed->enable_cache(FALSE);
-		}
+		$feed->enable_cache(FALSE);
 		return $feed;
 	}
 }
