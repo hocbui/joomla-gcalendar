@@ -36,6 +36,11 @@ class GCalendarController extends JController
 		parent::display();
 	}
 	
+	function local(){
+		JRequest::setVar( 'view', 'local'  );
+		parent::display();
+	}
+	
 	function event()
 	{
 		$document =& JFactory::getDocument();
