@@ -36,7 +36,7 @@ if(!class_exists('SimplePie_GCalendar')){
 }
 
 // Get data from helper class
-$returnValue = modGcalendarUpcomingHelper::getCalendarItems($params);
+$returnValue = ModGCalendarUpcomingHelper::getCalendarItems($params);
 $error = $returnValue[0];
 $gcalendar_data = $returnValue[1];
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar_upcoming' ) );
