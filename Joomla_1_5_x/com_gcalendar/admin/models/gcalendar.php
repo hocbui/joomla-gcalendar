@@ -73,7 +73,10 @@ class GCalendarsModelGCalendar extends JModel
 		if (!$this->_data) {
 			$this->_data = new stdClass();
 			$this->_data->id = 0;
-			$this->_data->calendar = null;
+			$this->_data->name = null;
+			$this->_data->calendar_id = null;
+			$this->_data->magic_cookie = null;
+			$this->_data->color = null;
 		}
 		return $this->_data;
 	}
