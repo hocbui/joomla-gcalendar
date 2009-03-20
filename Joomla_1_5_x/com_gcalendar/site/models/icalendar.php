@@ -27,7 +27,7 @@ jimport( 'joomla.application.component.model' );
  * GCalendar Model
  *
  */
-class GCalendarModelLocal extends JModel
+class GCalendarModelICalendar extends JModel
 {
 
 	/**
