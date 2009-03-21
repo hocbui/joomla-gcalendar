@@ -71,12 +71,17 @@ if(!is_array($this->calendars)){
 	foreach($this->calendars as $calendar) {
 		$value = '&amp;src='.$calendar->calendar_id;
 
+		$html_color = '';
 		if(!empty($calendar->color)){
 			$color = $calendar->color;
-			if(strpos($calendar->color, '#') === 0)
-			$color = str_replace("#","%23",$calendar->color);
-			else if(!(strpos($calendar->color, '%23') === 0))
-			$color = '%23$'.$calendar->color;
+			if(strpos($calendar->color, '#') === 0){
+				$color = str_replace("#","%23",$calendar->color);
+				$html_color = $calendar->color;
+			}
+			else if(!(strpos($calendar->color, '%23') === 0)){
+				$color = '%23'.$calendar->color;
+				$html_color = '#'.$calendar->color;
+			}
 			$value = $value.'&amp;color='.$color;
 		}
 
@@ -90,15 +95,14 @@ if(!is_array($this->calendars)){
 			$checked = 'checked';
 		}
 
-		$html_color = str_replace("%23","#",$calendar->color);
 		$calendar_list = $calendar_list.'<tr>';
 		$calendar_list = $calendar_list.'<td><input type="checkbox" name="'.$calendar->calendar_id.'" value="'.$value.'" '.$checked.' onclick="updateGCalendarFrame(this)"/></td>';
 		$calendar_list = $calendar_list.'<td><font color="'.$html_color.'">'.$calendar->name.'</font></td></tr>';
 	}
 	$calendar_list = $calendar_list.'</table></div>';
 	if($this->params->get('show_selection')==1){
-		$document = &JFactory::getDocument();
 		JHTML::_('behavior.mootools');
+		$document = &JFactory::getDocument();
 		$document->addScript( 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 		echo $calendar_list;
 		echo '<div align="center" style="text-align:center"><a id="toggle_gc" name="toggle_gc" href="#"><img id="toggle_gc_status" name="toggle_gc_status" src="components/com_gcalendar/views/gcalendar/tmpl/down.png"/></a></div>';

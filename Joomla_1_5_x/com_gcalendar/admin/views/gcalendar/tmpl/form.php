@@ -18,7 +18,11 @@
  * @version $Revision: 2.1.0 $
  */
 
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+
+$document = &JFactory::getDocument();
+$document->addScript( 'components/com_gcalendar/libraries/jscolor/jscolor.js' );
+?>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 <div class="col100">
@@ -49,8 +53,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Color' ); ?>:
 		</label></td>
-		<td><input class="text_area" type="text" name="color" id="color"
-			size="100%" value="<?php echo $this->gcalendar->color;?>" /></td>
+		<td><input class="color" name="color" id="color" size="100%"
+			value="<?php echo $this->gcalendar->color;?>" /></td>
 	</tr>
 </table>
 </fieldset>

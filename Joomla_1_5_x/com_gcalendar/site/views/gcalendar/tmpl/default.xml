@@ -62,7 +62,7 @@
 				<option value="2">Monday</option>
 				<option value="7">Saturday</option>
 			</param>
-			<param name="bgcolor" type="text" default="FFFFFF" label="Background color"
+			<param name="bgcolor" type="color" default="FFFFFF" label="Background color"
 				description="" size="10" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
