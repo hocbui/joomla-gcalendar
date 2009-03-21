@@ -346,11 +346,13 @@ class iWebCal {
 								<span class="Ctr">Day</span>
 							</a>
 							<a <?php if ($view == "week") echo "class=\"Sel\""; ?> href="javascript:document.controlForm.iwebcalview.value='week';document.controlForm.submit();">Week</a>
-							<a <?php if ($view == "month") echo "class=\"Sel\""; ?> href="javascript:document.controlForm.iwebcalview.value='month';document.controlForm.submit();">Month</a>
-							<a class="Lst End<?php if ($view == "tasks") echo " Sel" ?>" href="javascript:document.controlForm.iwebcalview.value='tasks';document.controlForm.submit();">
+							<a class="Lst End<?php if ($view == "month") echo " Sel"; ?>" href="javascript:document.controlForm.iwebcalview.value='month';document.controlForm.submit();">
+							<span class="Ctr">Month</span>
+								<span class="Rt"></span></a>
+							<!-- a class="Lst End<?php if ($view == "tasks") echo " Sel" ?>" href="javascript:document.controlForm.iwebcalview.value='tasks';document.controlForm.submit();">
 								<span class="Ctr">Tasks</span>
 								<span class="Rt"></span>
-							</a>
+							</a -->
 						</div>
 					</div>
 					<?php
