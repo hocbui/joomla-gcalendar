@@ -4,15 +4,15 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GCalendar is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
  * @version $Revision: 2.1.0 $
@@ -103,7 +103,10 @@ class GCalendarsModelGCalendar extends JModel
 			JError::raiseWarning( 500, $row->getError() );
 			return false;
 		}
-		
+
+		if(strpos($row->color, '#') === 0)
+		$row->color = str_replace("#","",$row->color);
+
 		// Store the calendar table to the database
 		if (!$row->store()) {
 			JError::raiseWarning( 500, $row->getError() );
@@ -131,11 +134,11 @@ class GCalendarsModelGCalendar extends JModel
 					JError::raiseWarning( 500, $row->getError() );
 					return false;
 				}
-			}						
+			}
 		}
 		return true;
 	}
-			
+		
 
 }
 ?>
