@@ -25,9 +25,10 @@ if(!is_array($this->calendars)){
 	echo JText::_( 'NO_CALENDAR' );
 }else{
 	function getFiles($calendars){
-		$filePath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'phpicalendar'.DS.'calendars';
+		$filePath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'iwebcal'.DS.'calendars';
 
 		$googleHost = 'http://www.google.com/calendar/ical/';
+		$files = array();
 		foreach($calendars as $calendar) {
 			if($calendar->selected){
 				$calurl = $googleHost.$calendar->calendar_id;
@@ -48,46 +49,85 @@ if(!is_array($this->calendars)){
 				}else{
 					$data = file_get_contents($calurl);
 				}
-				$fh = fopen($filePath.DS.$calendar->calendar_id.'basic.ics', 'w');
+				$src = $filePath.DS.$calendar->id.'.ics';
+				$fh = fopen($src, 'w');
 				fwrite($fh, $data);
 				fclose($fh);
+				$files[] = $src;
 			}
 		}
+		return $files;
 	}
 
 	$cache = & JFactory::getCache();
-	$cache->call('getFiles', $this->calendars );
+	$files = $cache->call('getFiles', $this->calendars );
 
-	$configs = array(
-	#     'language'             => 'Spanish',
-	#     'default_cal'          => 'US Holidays',	   // Exact filename of calendar without .ics.
-	#     'template'             => 'green',           // Template support: change this to have a different "skin" for your installation.
-   'default_view'           => $this->params->get( 'default_view' ),           // Default view for calendars'     => 'day', 'week', 'month', 'year'
-	#      'printview_default'    => 'yes',	           // Set print view as the default view. Uses'default_view (listed above).
-	#     'gridLength'           => 10,                // Grid size in day and week views. Allowed values are 1,2,3,4,10,12,15,20,30,60. Default is 15
-	#     'minical_view'         => 'current',	       // Where do the mini-calendars go when clicked?'     => 'day', 'week', 'month', 'current'
-#     'allow_preferences'    => 'no', 
-#     'month_locations'      => 'no',
-#     'show_search'          => 'no',
-#     'show_todos'           => 'no',
-#     'show_completed'       => 'no',
-	#     'allow_login'          => 'yes',	           // Set to yes to prompt for login to unlock calendars.
-	#     'week_start_day'       => 'Monday',          // Day of the week your week starts on
-	#     'week_length'          => '5',	           // Number of days to display in the week view
-	#     'day_start'            => '0600',	           // Start time for day grid
-	#     'day_end'              => '2000',	           // End time for day grid
-	#      'event_download' => 'yes',
-	'phpicalendar_publishing'=> 1,
-	);
-	?> 
+	if(count($files)<1)return;
+	include JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'iwebcal'.DS.'config.inc';
 	
-	<iframe id="gcalendar_frame" src="administrator/components/com_gcalendar/libraries/phpicalendar/index.php"
-	width="100%"
-	height="500" align="top"
-	frameborder="0"
-	class="gcalendar<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php echo JText::_( 'NO_IFRAMES' ); ?> </iframe></div>
+	$iWebConfig['iWebCal_CALENDAR_FILE'] = $files[0];
+	$my_iWebCal = new iWebCal($iWebConfig); // Creates a new iWebCal viewer and calendar based on your settings in config.inc.
+	$my_iWebCal->includes(); // Includes stylesheets and scripts needed by the calendar viewer.
+	?>
+<div class="iWebCal_Page">
+<div class="componentheading"><?php 
+echo $my_iWebCal->title(); // Gives the page a title based on the filename of the calendar.
+?></div>
+<?php $my_iWebCal->display(); // Displays the calendar and controls for it (i.e. most of the page).
 
-	<?php
+// If you need to do debugging, you can use Calendar's dprint() method to print out raw Calendar
+// object data in a reasonably readable form. Just comment out the call to printCal() above and
+// uncomment the line below. For actual deployment, make sure the dprint() call is commented out
+// again.
+// $my_iWebCal->cal->dprint();
+?></div>
+<?php
+
+function showDetails($path)
+{
+	$title = JRequest::getVar('title', 'Event Details');
+	$content = $_GET['content'];
+	$content = unserialize($content);
+
+	?>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title><?php echo $title; ?></title>
+<link href="<?php echo $path; ?>/include/iWebCal.css" type="text/css"
+	rel="stylesheet" media="all" />
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+</head>
+
+<body class="PopupEventInfo">
+<h1><?php echo $title; ?></h1>
+<div id="content"><?php 
+
+$filter =& JInputFilter::getInstance();
+
+echo "<p>" . $filter->clean($content["summ"]) . "</p>";
+foreach ($content as $key => $item) {
+
+	$key = $filter->clean($key);
+	$item = $filter->clean($item, 'array');
+
+	if ($key != "summ") {
+		echo "<h3>${key}:</h3>";
+		if (is_array($item)) {
+			foreach ($item as $p) {
+				echo "<p>" . urldecode(stripslashes($p)) . "</p>";
+			}
+		}
+		else {
+			echo "<p>" . urldecode(stripslashes($item)) . "</p>";
+		}
+}
+}
+?></div>
+</body>
+
+</html>
+<?php
+}
 }
 ?>

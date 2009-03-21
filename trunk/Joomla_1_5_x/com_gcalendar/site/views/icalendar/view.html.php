@@ -21,7 +21,6 @@
 jimport( 'joomla.application.component.view');
 jimport('joomla.filesystem.file');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-//require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'phpicalendar'.DS.'embed.php');
 
 /**
  * HTML View class for the GCalendar Component
