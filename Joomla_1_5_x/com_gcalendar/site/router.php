@@ -100,6 +100,10 @@ function GCalendarParseRoute( $segments )
 			$vars['task'] = 'gcalendar';
 			$vars['calendarids'] = explode("-",$segments[2]);
 			break;
+		case 'gcalendar2':
+			$vars['task'] = 'gcalendar2';
+			$vars['calendarids'] = explode("-",$segments[2]);
+			break;
 		case 'icalendar':
 			$vars['task'] = 'icalendar';
 			$vars['calendarids'] = explode("-",$segments[2]);
