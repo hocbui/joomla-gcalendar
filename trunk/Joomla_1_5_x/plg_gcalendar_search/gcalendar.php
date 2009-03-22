@@ -50,13 +50,11 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 {
 	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 	if(!class_exists('SimplePie')){
-		//include Simple Pie processor class
 		require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
 	}
 
 	if(!class_exists('SimplePie_GCalendar')){
-		//include Simple Pie processor class
-		require_once (JPATH_SITE.DS.'plugins'.DS.'search'.DS.'simplepie-gcalendar.php');
+		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
 	}
 	$user	=& JFactory::getUser();
 

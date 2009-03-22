@@ -26,13 +26,11 @@ require_once (dirname(__FILE__).DS.'helper.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
 if(!class_exists('SimplePie')){
-	//include Simple Pie processor class
 	require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
 }
 
 if(!class_exists('SimplePie_GCalendar')){
-	//include Simple Pie processor class
-	require_once (JPATH_SITE.DS.'modules'.DS.'mod_gcalendar_upcoming'.DS.'tmpl'.DS.'simplepie-gcalendar.php');
+	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
 }
 
 // Get data from helper class
