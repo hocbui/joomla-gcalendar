@@ -56,48 +56,37 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 
 	$temp_event=$event_display;
 
-	// N.B.  This formatting is fixed for now.  We need to add params to allow configuration in future.
-	// Now customise display format based on event as part of day, whole day or multiple days
-	// Need to know if it is whole days or not.  Google reports this with end date > start date
-	if (($item->get_start_time()+ $SECSINDAY) <= $item->get_end_time()) {
-		// For a single whole of day, Google reports the end date as the next day
-		//  So, we check to see if start date + 1 day = end day (i.e. a one day, whole day event)
-		if (($item->get_start_time()+ $SECSINDAY) == $item->get_end_time()) {
-			// Single day, whole day
+	switch($item->get_day_type()){
+		case $item->SINGLE_WHOLE_DAY:
 			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 			$temp_event=str_replace("{starttime}","",$temp_event);
 			$temp_event=str_replace("{dateseparator}","",$temp_event);
 			$temp_event=str_replace("{enddate}","",$temp_event);
 			$temp_event=str_replace("{endtime}","",$temp_event);
-		} else {
-			if ((date('g:i a',$item->get_start_time())=='12:00 am')&&
-			(date('g:i a',$item->get_end_time())=='12:00 am')){
-				// multiple days, whole day
-				// So, bring end date back to real date.
-				$endDate = strftime($dateformat, $item->get_end_time() - $SECSINDAY);
-				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-				$temp_event=str_replace("{starttime}","",$temp_event);
-				$temp_event=str_replace("{dateseparator}","-",$temp_event);
-				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
-				$temp_event=str_replace("{endtime}","",$temp_event);
-			}else{
-				//  multiple day, part of day
-				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-				$temp_event=str_replace("{starttime}",$startTime,$temp_event);
-				$temp_event=str_replace("{dateseparator}","-",$temp_event);
-				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
-				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
-			}
-		}
-	} else {
-		//  Single day, part of day
-		$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-		$temp_event=str_replace("{starttime}",$startTime,$temp_event);
-		$temp_event=str_replace("{dateseparator}","-",$temp_event);
-		$temp_event=str_replace("{enddate}","",$temp_event);
-		$temp_event=str_replace("{endtime}",$endTime,$temp_event);
+			break;
+		case $item->SINGLE_PART_DAY:
+			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+			$temp_event=str_replace("{starttime}",$startTime,$temp_event);
+			$temp_event=str_replace("{dateseparator}","-",$temp_event);
+			$temp_event=str_replace("{enddate}","",$temp_event);
+			$temp_event=str_replace("{endtime}",$endTime,$temp_event);
+			break;
+		case $item->MULTIPLE_WHOLE_DAY:
+			$endDate = strftime($dateformat, $item->get_end_time() - $SECSINDAY);
+			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+			$temp_event=str_replace("{starttime}","",$temp_event);
+			$temp_event=str_replace("{dateseparator}","-",$temp_event);
+			$temp_event=str_replace("{enddate}",$endDate,$temp_event);
+			$temp_event=str_replace("{endtime}","",$temp_event);
+			break;
+		case $item->MULTIPLE_PART_DAY:
+			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+			$temp_event=str_replace("{starttime}",$startTime,$temp_event);
+			$temp_event=str_replace("{dateseparator}","-",$temp_event);
+			$temp_event=str_replace("{enddate}",$endDate,$temp_event);
+			$temp_event=str_replace("{endtime}",$endTime,$temp_event);
+			break;
 	}
-	// /smh 2008-12-17
 
 	//Make any URLs used in the description also clickable: thanks Adam
 	$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
