@@ -30,15 +30,6 @@ class ModGcalendarUpcomingHelper {
 	}
 	
 	function getOnlineItems(&$params) {
-		$calendarids = $params->get( 'calendarids', NULL );
-		if(empty($calendarids)) return array(JText::_("CALENDAR_NO_DEFINED").$calendarids.'allon',NULL);
-
-		if( is_array( $calendarids ) ) {
-			$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
-		} else {
-			$condition = 'id = '.$calendarids;
-		}
-
 		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'models');
 		$model =JModel::getInstance('GCalendar','GCalendarModel');
 		$model->setState('parameters.menu', $params);
