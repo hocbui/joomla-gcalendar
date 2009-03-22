@@ -4,38 +4,47 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GCalendar is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
  * @version $Revision: 2.1.0 $
  */
 
 jimport( 'joomla.application.component.view');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+
+if(!class_exists('SimplePie')){
+	require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
+}
+
+if(!class_exists('SimplePie_GCalendar')){
+	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
+}
 
 /**
  * HTML View class for the GCalendar Component
  *
  */
-class GCalendarViewICalendar extends JView
+class GCalendarViewGCalendar2 extends JView
 {
 	function display($tpl = null)
 	{
 		global $mainframe;
-		
-		$calendars = $this->get( 'GCalendars' );
-		$this->assignRef( 'calendars',	$calendars );
-		
+
 		$params = &$mainframe->getParams();
 		$this->assignRef('params'  , $params);
+		
+		include JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar2'.DS.'tmpl'.DS.'config.php';
+		$params = &$mainframe->getParams();
+		$this->assignRef('config'  , $iWebConfig);
 
 		parent::display($tpl);
 	}
