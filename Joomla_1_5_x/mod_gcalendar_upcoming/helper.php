@@ -33,7 +33,7 @@ class ModGcalendarUpcomingHelper {
 		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'models');
 		$model =JModel::getInstance('GCalendar','GCalendarModel');
 		$model->setState('parameters.menu', $params);
-		$results = $model->getGCalendar();
+		$results = $model->getDBCalendars();
 		if(empty($results))
 		return array(JText::_("CALENDAR_NOT_FOUND"),NULL);
 
