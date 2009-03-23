@@ -54,14 +54,13 @@ class GCalendar2 {
 			$this->uaPlatform = "unk";
 		}
 		//2005-08-09T10:57:00-08:00 alway catch the full month
-		$startDate = strftime('%Y-%m-%dT%H:%M:%S%z',mktime(0, 0, 0, $this->month, 1, $this->year));
-
-		$endDate    = strtotime( "+" . $months . " months", $base_time );
-		$month_before              = (int) date( "m", $base_time ) + 12 * (int) date( "Y", $base_time );
-		$month_after               = (int) date( "m", $endDate ) + 12 * (int) date( "Y", $endDate );
+		$start = mktime(0, 0, 0, $this->month, 1, $this->year);
+		$end    = strtotime( "+1 months", $start );
+		$month_before              = (int) date( "m", $start ) + 12 * (int) date( "Y", $start );
+		$month_after               = (int) date( "m", $end ) + 12 * (int) date( "Y", $end );
 		if ($month_after > $months + $month_before)
-		$endDate = strftime('%Y-%m-%dT%H:%M:%S%z',strtotime( date("Ym01His", $endDate) . " -1 day" ));
-		$this->feeds = &$model->getGoogleCalendarEvents($startDate, $endDate);
+		$end = strtotime( date("Ym01His", $end) . " -1 day" );
+		$this->feeds = &$model->getGoogleCalendarEvents($start, $end);
 		$this->cal = new Calendar(&$this);
 	}
 
@@ -75,22 +74,12 @@ class GCalendar2 {
 
 	function includes() {
 		$iWebCal_URL_PATH = $this->config['iWebCal_URL_PATH'];
-
-		?>
-<link
-	href="<?php echo $iWebCal_URL_PATH ?>/include/iWebCal.css"
-	rel="stylesheet" />
-		<?php 		if ($this->userAgent == "ie") {
-			?>
-<link
-	href="<?php echo $iWebCal_URL_PATH ?>/include/iWebCal-ie6.css"
-	rel="stylesheet" />
-			<?php 		}
-			?>
-<script
-	type="text/javascript"
-	src="<?php echo $iWebCal_URL_PATH ?>/include/iWebCal.js"></script>
-			<?php
+		$document =& JFactory::getDocument();
+		$document->addScript($iWebCal_URL_PATH.'/include/iWebCal.js');
+		$document->addStyleSheet($iWebCal_URL_PATH.'/include/iWebCal.css');
+		if ($this->userAgent == "ie") {
+			$document->addStyleSheet($iWebCal_URL_PATH.'/include/iWebCal-ie6.css');
+		}
 	}
 
 	function display() {
@@ -154,15 +143,7 @@ class GCalendar2 {
 			}
 			?>
 <div class="iWebCal"><?php $linkToHere = "http://interfacethis.com/iwebcal/iwebcal.php"; ?>
-<div id="calToolbar"><?php 						if ($view == "tasks") {
-	?>
-<form method="get" name="taskControlForm" action="." class="Item"><label>
-<input type="checkbox" name="showCompleted" value="1"
-	onclick="toggleShowCompleted()" <?php if ($this->showCompleted) { ?>
-	checked <?php } ?> /> Show completed tasks </label></form>
-	<?php 						}
-	else {
-		?>
+<div id="calToolbar">
 <div id="calPager" class="Item"><a class="Item"
 	href="<?php echo JRoute::_($prevURL) ?>"
 	title="<?php echo "previous ${view}"; ?>"
@@ -174,62 +155,62 @@ class GCalendar2 {
 	onmouseover="imageSwap('nextBtn_img', '<?php echo $iWebCal_URL_PATH ?>/img/btn-next-over.gif')"
 	onmouseout="imageSwap('nextBtn_img', '<?php echo $iWebCal_URL_PATH ?>/img/btn-next.gif')"><?php $this->image("btn-next.gif", "next ${view}", "nextBtn_img"); ?></a>
 </div>
-		<?php 						}
-		$this->button("Today", $this->todayURL, "Item");
-		switch($month) {
-			case "1":
-				$monthName = "Jan";
-				break;
-			case "2":
-				$monthName = "Feb";
-				break;
-			case "3":
-				$monthName = "Mar";
-				break;
-			case "4":
-				$monthName = "Apr";
-				break;
-			case "5":
-				$monthName = "May";
-				break;
-			case "6":
-				$monthName = "Jun";
-				break;
-			case "7":
-				$monthName = "Jul";
-				break;
-			case "8":
-				$monthName = "Aug";
-				break;
-			case "9":
-				$monthName = "Sep";
-				break;
-			case "10":
-				$monthName = "Oct";
-				break;
-			case "11":
-				$monthName = "Nov";
-				break;
-			case "12":
-				$monthName = "Dec";
-				break;
-		}
+			<?php
+			$this->button("Today", $this->todayURL, "Item");
+			switch($month) {
+				case "1":
+					$monthName = "Jan";
+					break;
+				case "2":
+					$monthName = "Feb";
+					break;
+				case "3":
+					$monthName = "Mar";
+					break;
+				case "4":
+					$monthName = "Apr";
+					break;
+				case "5":
+					$monthName = "May";
+					break;
+				case "6":
+					$monthName = "Jun";
+					break;
+				case "7":
+					$monthName = "Jul";
+					break;
+				case "8":
+					$monthName = "Aug";
+					break;
+				case "9":
+					$monthName = "Sep";
+					break;
+				case "10":
+					$monthName = "Oct";
+					break;
+				case "11":
+					$monthName = "Nov";
+					break;
+				case "12":
+					$monthName = "Dec";
+					break;
+			}
 
-		switch ($format) {
-			case 'day':
-				$inputVal = "{$day} {$monthName} {$year}";
-				break;
-					
-			case 'year':
-				$inputVal = "{$year} {$monthName} {$day}";
-				break;
-					
-			case 'month':
-			default:
-				$inputVal = "{$monthName} {$day}, {$year}";
-				break;
-		}
-		?> <?php global $option, $Itemid; ?>
+			switch ($format) {
+				case 'day':
+					$inputVal = "{$day} {$monthName} {$year}";
+					break;
+
+				case 'year':
+					$inputVal = "{$year} {$monthName} {$day}";
+					break;
+
+				case 'month':
+				default:
+					$inputVal = "{$monthName} {$day}, {$year}";
+					break;
+			}
+			?> <?php global $option, $Itemid; ?>
 <form action="<?php echo $this->main_filename ?>" method="get"
 	name="controlForm" id="controlForm" class="Item"><input class="Item"
 	type="text" name="date" value="<?php echo $inputVal; ?>" size="13"

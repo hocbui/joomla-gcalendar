@@ -99,10 +99,10 @@ class SimplePie_GCalendar extends SimplePie {
 	 * If this value is set the set_show_past_events(...)
 	 * will be ignored.
 	 *
-	 * @param $value must be a RFC 3339 timestamp format. For example: 2005-08-09T10:57:00-08:00.
+	 * @param $value must php timestamp
 	 */
-	function set_start_date($value = null){
-		$this->start_date = $value;
+	function set_start_date($value = 0){
+		$this->start_date = strftime('%Y-%m-%dT%H:%M:%S',$value);
 	}
 
 	/**
@@ -110,10 +110,10 @@ class SimplePie_GCalendar extends SimplePie {
 	 * must also be feeded with a value.
 	 * If this value is set the set_show_past_events(...)
 	 * will be ignored.
-	 * @param $value must be a RFC 3339 timestamp format. For example: 2005-08-09T10:57:00-08:00.
+	 * @param $value must be php timestamp
 	 */
-	function set_end_date($value = null){
-		$this->end_date = $value;
+	function set_end_date($value = 0){
+		$this->end_date = strftime('%Y-%m-%dT%H:%M:%S',$value);
 	}
 
 	/**
