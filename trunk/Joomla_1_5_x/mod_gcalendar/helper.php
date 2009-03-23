@@ -34,7 +34,7 @@ class modGCalendarHelper
 		$model =JModel::getInstance('GCalendar','GCalendarModel');
 		$model->setState('parameters.menu', $params);
 			
-		return $model->getGCalendar();
+		return $model->getDBCalendars();
 	}
 }
 
