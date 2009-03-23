@@ -15,19 +15,20 @@ class Calendar {
 	function itemsForDate($year, $month, $day) {
 		$result = array();
 		$gcal = $this->gcalendar;
+		$time = mktime(0, 0, 0, $month, $day, $year);
 		foreach($gcal->getFeeds() as $feed){
 			foreach($feed->get_items() as $item){
-				if(strftime('%V,%G,%Y',mktime(0, 0, 0, $month, $day, $year)) == strftime('%V,%G,%Y',$item->get_start_time())){
+				if(strftime('%d,%m,%Y',$time) == strftime('%d,%m,%Y',$item->get_start_time())){
 					$result[] = $item;
 				}
 			}
-			usort($result, array("SimplePie_Item_GCalendar", "compare"));
-			return $result;
 		}
+		usort($result, array("SimplePie_Item_GCalendar", "compare"));
+		return $result;
 	}
 
 	function printMonth($year, $month, $day) {
-		$WEEKDAY_FULL_NAMES = $this->config['WEEKDAY_FULL_NAMES'];
+		$WEEKDAY_FULL_NAMES = $this->gcalendar->config['WEEKDAY_FULL_NAMES'];
 		$today = getdate();
 
 		// 0 is Sunday
@@ -62,7 +63,7 @@ class Calendar {
 			}
 			$thisDay = $i + 1;
 			$thisLink = "${iWebCal_MAIN_FILENAME}&iwebcalview=day&year=${year}&month=${month}&day=${thisDay}";
-			echo '<td';
+			echo '<td ';
 			if (($thisDay == $today["mday"]) && ($month == $today["mon"])) {
 				echo 'class="Today"';
 			}
@@ -70,7 +71,7 @@ class Calendar {
 			$myItems = $this->itemsForDate($year, $month, $i+1);
 			if ($myItems) {
 				foreach($myItems as $item) {
-					$item->display("month", $thisLink);
+					CalItem::display("month",$item,$thisLink);
 				}
 			}
 			echo '</td>';
@@ -150,7 +151,7 @@ class Calendar {
 	}
 
 	function printUntimedEventsForDay($layout, $view) {
-		$iWebCal_URL_PATH = $this->config['iWebCal_URL_PATH'];
+		$iWebCal_URL_PATH = $this->gcalendar->config['iWebCal_URL_PATH'];
 		if ($layout) {
 			$classString = ($view == "week") ? "Week" : "Day";
 			$items = array_pop($layout);
@@ -166,8 +167,8 @@ class Calendar {
 	}
 
 	function printTimedEventsForDay($layout, $view, $initialMinute) {
-		$iWebCal_HOUR_HEIGHT = $this->config['iWebCal_HOUR_HEIGHT'];
-		$iWebCal_URL_PATH = $this->config['iWebCal_URL_PATH'];
+		$iWebCal_HOUR_HEIGHT = $this->gcalendar->config['iWebCal_HOUR_HEIGHT'];
+		$iWebCal_URL_PATH = $this->gcalendar->config['iWebCal_URL_PATH'];
 
 		if ($layout && (count($layout) > 1)) {
 			// remove untimed? events from layout
@@ -231,8 +232,8 @@ $whichCol++;
 	}
 
 	function printDay($year, $month, $day) {
-		$iWebCal_HOUR_HEIGHT = $this->config['iWebCal_HOUR_HEIGHT'];
-		$iWebCal_URL_PATH = $this->config['iWebCal_URL_PATH'];
+		$iWebCal_HOUR_HEIGHT = $this->gcalendar->config['iWebCal_HOUR_HEIGHT'];
+		$iWebCal_URL_PATH = $this->gcalendar->config['iWebCal_URL_PATH'];
 		$dayLayout = $this->getDayLayout($year, $month, $day);
 
 		// get start time for the first event
@@ -299,9 +300,9 @@ else {
 	}
 
 	function printWeek($year, $month, $day) {
-		$iWebCal_HOUR_HEIGHT = $this->config['iWebCal_HOUR_HEIGHT'];
-		$iWebCal_MAIN_FILENAME = $this->config['iWebCal_MAIN_FILENAME'];
-		$iWebCal_URL_PATH = $this->config['iWebCal_URL_PATH'];
+		$iWebCal_HOUR_HEIGHT = $this->gcalendar->config['iWebCal_HOUR_HEIGHT'];
+		$iWebCal_MAIN_FILENAME = $this->gcalendar->config['iWebCal_MAIN_FILENAME'];
+		$iWebCal_URL_PATH = $this->gcalendar->config['iWebCal_URL_PATH'];
 
 		$tDate = strtotime("${year}-${month}-${day}");
 		if (strftime("%u", $tDate) == 7) {
@@ -365,11 +366,11 @@ else {
 			$dayIndex++;
 		}
 		$dayIndex = 0;
-		$totalNonEmptyWidth = 100 - $this->config["iWebCal_AXIS_PERCENT_WIDTH"]
-		- ($totalEmptyCols * $this->config["iWebCal_EMPTY_WEEKDAY_PERCENT_WIDTH"]);
+		$totalNonEmptyWidth = 100 - $this->gcalendar->config["iWebCal_AXIS_PERCENT_WIDTH"]
+		- ($totalEmptyCols * $this->gcalendar->config["iWebCal_EMPTY_WEEKDAY_PERCENT_WIDTH"]);
 		foreach ($displayedDates as $dInfo) {
 			$myColWidth = ($subColCounts[$dayIndex] ? (int)floor($subColCounts[$dayIndex] / $totalSubCols * $totalNonEmptyWidth)
-			: $this->config["iWebCal_EMPTY_WEEKDAY_PERCENT_WIDTH"]);
+			: $this->gcalendar->config["iWebCal_EMPTY_WEEKDAY_PERCENT_WIDTH"]);
 			?>
 		<th style="width: <?php echo $myColWidth; ?>%"><?php
 		$myURL = $this->url;
@@ -454,9 +455,9 @@ else {
 				if ($format == 'year') {
 					echo $year;
 					echo " ";
-					echo $this->config["MONTH_FULL_NAMES"][$month-1];
+					echo $this->gcalendar->config["MONTH_FULL_NAMES"][$month-1];
 				} else {
-					echo $this->config["MONTH_FULL_NAMES"][$month-1];
+					echo $this->gcalendar->config["MONTH_FULL_NAMES"][$month-1];
 					echo " ";
 					echo $year;
 				}
