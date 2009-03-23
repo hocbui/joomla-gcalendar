@@ -27,38 +27,76 @@ jimport( 'joomla.application.component.model' );
  * GCalendar Model
  *
  */
-class GCalendarModelGCalendar extends JModel
-{
+class GCalendarModelGCalendar extends JModel {
+
+	var $cached_data = null;
 
 	/**
-	 * Gets the calendar
-	 * @return string The calendar to be displayed to the user
+	 * Returns all calendars in the database. The returned
+	 * rows contain an additional attribute selected which is set
+	 * to true when the specific calendar is mentioned in the
+	 * parameters property calendarids.
+	 *
+	 * @return the calendars specified in the database
 	 */
-	function getGCalendar()
-	{
-		$params = $this->getState('parameters.menu');
-		if($params==null)return;
-		$calendarids=$params->get('calendarids');
+	function getDBCalendars(){
+		if($cached_data == null){
+			$params = $this->getState('parameters.menu');
+			$calendarids = null;
+			if($params != null)
+			$calendarids=$params->get('calendarids');
 
-		$db =& JFactory::getDBO();
-		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar";
-		$db->setQuery( $query );
-		$results = $db->loadObjectList();
-		if(empty($results))
-		return '';
-		$calendars = array();
-		foreach ($results as $result) {
-			$is_selected = FALSE;
-			if ($calendarids){
-				if( is_array( $calendarids ) ) {
-					$result->selected = in_array($result->id,$calendarids);
-				} else {
-					$result->selected = $result->id === $calendarids;
+			$db =& JFactory::getDBO();
+			$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar";
+			$db->setQuery( $query );
+			$results = $db->loadObjectList();
+			if(empty($results))
+			return '';
+			$calendars = array();
+			foreach ($results as $result) {
+				$is_selected = FALSE;
+				if ($calendarids){
+					if( is_array( $calendarids ) ) {
+						$result->selected = in_array($result->id,$calendarids);
+					} else {
+						$result->selected = $result->id === $calendarids;
+					}
 				}
+				$calendars[] = $result;
 			}
-			$calendars[] = $result;
+			$cached_data = $calendars;
 		}
-		return $calendars;
+		return $cached_data;
 	}
 
+	function getGoogleCalendarEvents($startDate, $endDate) {
+		$results = $this->getDBCalendars();
+		if(empty($results))
+		return null;
+
+		$calendars = array();
+		foreach ($results as $result) {
+			if(!empty($result->calendar_id) && $result->selected){
+				$feed = new SimplePie_GCalendar();
+				$feed->set_show_past_events(FALSE);
+				$feed->set_sort_ascending(TRUE);
+				$feed->set_orderby_by_start_date(TRUE);
+				$feed->set_expand_single_events(TRUE);
+				$feed->enable_order_by_date(FALSE);
+				$feed->enable_cache(FALSE);
+				$feed->set_start_date($startDate);
+				$feed->set_end_date($endDate);
+				$feed->put('gcid',$result->id);
+				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
+				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
+
+				$feed->set_feed_url($url);
+				$feed->init();
+				$feed->handle_content_type();
+				$calendars[] = $feed;
+			}
+		}
+
+		return $calendars;
+	}
 }

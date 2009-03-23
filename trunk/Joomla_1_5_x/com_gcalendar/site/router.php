@@ -84,10 +84,8 @@ function GCalendarParseRoute( $segments )
 	$menu =& JSite::getMenu();
 	$item =& $menu->getActive();
 
-	// Count route segments
-	$count = count($segments);
-
-	// Handle View and Identifier
+	$vars = array();
+	$vars['view'] = $item->query['view'];
 	switch($item->query['view'])
 	{
 		case 'event':
@@ -96,16 +94,9 @@ function GCalendarParseRoute( $segments )
 			$vars['Itemid'] = $segments[2];
 			$vars['gcid'] = $segments[3];
 			break;
+		case 'google':
 		case 'gcalendar':
-			$vars['task'] = 'gcalendar';
-			$vars['calendarids'] = explode("-",$segments[2]);
-			break;
-		case 'gcalendar2':
-			$vars['task'] = 'gcalendar2';
-			$vars['calendarids'] = explode("-",$segments[2]);
-			break;
 		case 'icalendar':
-			$vars['task'] = 'icalendar';
 			$vars['calendarids'] = explode("-",$segments[2]);
 			break;
 	}
