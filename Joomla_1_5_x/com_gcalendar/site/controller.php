@@ -41,8 +41,8 @@ class GCalendarController extends JController
 		parent::display();
 	}
 
-	function gcalendar2(){
-		JRequest::setVar( 'view', 'gcalendar2'  );
+	function google(){
+		JRequest::setVar( 'view', 'google'  );
 		parent::display();
 	}
 
