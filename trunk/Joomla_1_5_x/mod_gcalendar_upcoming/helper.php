@@ -70,6 +70,7 @@ class ModGcalendarUpcomingHelper {
 
 	function create_gc_feed($params){
 		$sortOrder = $params->get( 'order', NULL );
+		$pasteEvents = $params->get( 'pastevents', 0 );
 
 		$feed = new SimplePie_GCalendar();
 		$feed->set_show_past_events(FALSE);
