@@ -42,9 +42,12 @@ class GCalendarsViewGCalendars extends JView
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 
-		// Get data from the model
 		$items = & $this->get( 'Data');
+		$pagination =& $this->get('Pagination');
+		
 		$this->assignRef('items', $items);
+		$this->assignRef('pagination', $pagination);
+		
 		parent::display($tpl);
 	}
 }
