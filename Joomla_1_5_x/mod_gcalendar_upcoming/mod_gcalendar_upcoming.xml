@@ -41,6 +41,11 @@
 			<option value="TRUE">Start Time</option>
 			<option value="FALSE">Last Modified</option>
 		</param>
+		<param name="pastevents" type="radio" default="FALSE" label="Past events"
+			description="Include past events.">
+			<option value="FALSE">No</option>
+			<option value="TRUE">Yes</option>
+		</param>
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
 		<param name="moduleclass_sfx" type="text" size="80" default=""
