@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 0.2.0 $
+ * @version $Revision: 0.3.0 $
  */
 
 if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM')) {
@@ -39,6 +39,9 @@ class SimplePie_GCalendar extends SimplePie {
 	var $cal_language = "";
 	var $cal_query = "";
 	var $meta_data = array();
+	var $start_date = null;
+	var $end_date = null;
+	var $max_events = 25;
 
 	/**
 	 * If the method $this->get_items() should include past events.
@@ -80,15 +83,48 @@ class SimplePie_GCalendar extends SimplePie {
 	function set_cal_language($value = ""){
 		$this->cal_language = $value;
 	}
-	
+
 	/**
 	 * If this parameter is set the feed will just contain events
 	 * which contain the given parameter in the titel or the description.
-	 * 
+	 *
 	 * @param $value
 	 */
 	function set_cal_query($value = ""){
 		$this->cal_query = $value;
+	}
+
+	/**
+	 * Sets the start date of the events in the feed, set_end_date(...)
+	 * must also be feeded with a value.
+	 * If this value is set the set_show_past_events(...)
+	 * will be ignored.
+	 *
+	 * @param $value must php timestamp
+	 */
+	function set_start_date($value = 0){
+		$this->start_date = strftime('%Y-%m-%dT%H:%M:%S',$value);
+	}
+
+	/**
+	 * Sets the end date of the events in the feed, set_start_date(...)
+	 * must also be feeded with a value.
+	 * If this value is set the set_show_past_events(...)
+	 * will be ignored.
+	 *
+	 * @param $value must be php timestamp
+	 */
+	function set_end_date($value = 0){
+		$this->end_date = strftime('%Y-%m-%dT%H:%M:%S',$value);
+	}
+
+	/**
+	 * Sets the max events this feed should fetch
+	 *
+	 * @param $value the max events
+	 */
+	function set_max_events($value = 25){
+
 	}
 
 	/**
@@ -124,10 +160,18 @@ class SimplePie_GCalendar extends SimplePie {
 			if(!(substr($tmp, -1) === '&'))
 			$tmp = $this->append($tmp,'&');
 		}
-		if($this->show_past_events)
-		$tmp = $this->append($tmp,'futureevents=false&');
-		else
-		$tmp = $this->append($tmp,'futureevents=true&');
+		if($this->start_date==null && $this->end_date==null){
+			if($this->show_past_events )
+			$tmp = $this->append($tmp,'futureevents=false&');
+			else
+			$tmp = $this->append($tmp,'futureevents=true&');
+		}
+		if($this->start_date!=null){
+			$tmp = $this->append($tmp,'start-min='.$this->start_date.'&');
+		}
+		if( $this->end_date!=null){
+			$tmp = $this->append($tmp,'start-max='.$this->end_date.'&');
+		}
 		if($this->sort_ascending)
 		$tmp = $this->append($tmp,'sortorder=ascending&');
 		else
@@ -144,6 +188,7 @@ class SimplePie_GCalendar extends SimplePie {
 		$tmp = $this->append($tmp,'hl='.$this->cal_language.'&');
 		if(!empty($this->cal_query))
 		$tmp = $this->append($tmp,'q='.$this->cal_query.'&');
+		$tmp = $this->append($tmp,'max-results='.$this->max_events);
 		return $tmp;
 	}
 
@@ -202,6 +247,11 @@ class SimplePie_GCalendar extends SimplePie {
  */
 class SimplePie_Item_GCalendar extends SimplePie_Item {
 
+	var $SINGLE_WHOLE_DAY    = 1;
+	var $SINGLE_PART_DAY     = 2;
+	var $MULTIPLE_WHOLE_DAY  = 3;
+	var $MULTIPLE_PART_DAY   = 4;
+
 	function get_id(){
 		return substr($this->get_link(),strpos(strtolower($this->get_link()),'eid=')+4);
 	}
@@ -235,6 +285,32 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 		if($as_timestamp)
 		return SimplePie_Item_GCalendar::tstamptotime($enddate);
 		return $enddate;
+	}
+
+	/**
+	 * Returns the event type. One of the following constants:
+	 *  - SINGLE_WHOLE_DAY
+	 *  - SINGLE_PART_DAY
+	 *  - MULTIPLE_WHOLE_DAY
+	 *  - MULTIPLE_PART_DAY
+	 *
+	 * @return the event type
+	 */
+	function get_day_type(){
+		$SECSINDAY=86400;
+
+		if (($this->get_start_time()+ $SECSINDAY) <= $this->get_end_time()) {
+			if (($this->get_start_time()+ $SECSINDAY) == $this->get_end_time()) {
+				return $this->SINGLE_WHOLE_DAY;
+			} else {
+				if ((date('g:i a',$this->get_start_time())=='12:00 am')&&(date('g:i a',$this->get_end_time())=='12:00 am')){
+					return $this->MULTIPLE_WHOLE_DAY;
+				}else{
+					return $this->MULTIPLE_PART_DAY;
+				}
+			}
+		}
+		return $this->SINGLE_PART_DAY;
 	}
 
 	function tstamptotime($tstamp) {
