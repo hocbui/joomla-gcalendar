@@ -35,13 +35,15 @@ class ModGcalendarUpcomingHelper {
 		$model->setState('parameters.menu', $params);
 		$results = $model->getDBCalendars();
 		if(empty($results))
-		return array(JText::_("CALENDAR_NOT_FOUND"),NULL);
+		return array('The selected calendar(s) were not found in the database.',NULL);
 
 		$values = array();
 		foreach ($results as $result) {
 			if(!empty($result->calendar_id) && $result->selected){
 				$feed = modGcalendarUpcomingHelper::create_gc_feed($params);
 				$feed->put('gcid',$result->id);
+				$feed->put('gcalendarName',$result->name);
+				$feed->put('gcalendarColor',$result->color);
 				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 
@@ -51,7 +53,7 @@ class ModGcalendarUpcomingHelper {
 				$feed->init();
 
 				if ($feed->error()){
-					return array(JText::_("SP_LATEST_ERROR").$feed->error(),NULL);
+					return array('Simplepie detected an error. Please run the <a href=<"administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error(),NULL);
 				}
 
 				// Make sure the content is being served out to the browser properly.
@@ -69,8 +71,8 @@ class ModGcalendarUpcomingHelper {
 	}
 
 	function create_gc_feed($params){
-		$sortOrder = $params->get( 'order', NULL );
-		$pasteEvents = $params->get( 'pastevents', 0 );
+		$sortOrder = $params->get( 'order', 1 )==1;
+		$maxEvents = $params->get( 'max', 5 );
 
 		$feed = new SimplePie_GCalendar();
 		$feed->set_show_past_events(FALSE);
@@ -79,6 +81,7 @@ class ModGcalendarUpcomingHelper {
 		$feed->set_expand_single_events(TRUE);
 		$feed->enable_order_by_date(FALSE);
 		$feed->enable_cache(FALSE);
+		$feed->set_max_events($maxEvents);
 		return $feed;
 	}
 }

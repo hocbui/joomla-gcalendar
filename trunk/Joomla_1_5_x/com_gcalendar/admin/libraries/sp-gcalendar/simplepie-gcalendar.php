@@ -41,6 +41,7 @@ class SimplePie_GCalendar extends SimplePie {
 	var $meta_data = array();
 	var $start_date = null;
 	var $end_date = null;
+	var $max_events = 25;
 
 	/**
 	 * If the method $this->get_items() should include past events.
@@ -110,10 +111,20 @@ class SimplePie_GCalendar extends SimplePie {
 	 * must also be feeded with a value.
 	 * If this value is set the set_show_past_events(...)
 	 * will be ignored.
+	 *
 	 * @param $value must be php timestamp
 	 */
 	function set_end_date($value = 0){
 		$this->end_date = strftime('%Y-%m-%dT%H:%M:%S',$value);
+	}
+
+	/**
+	 * Sets the max events this feed should fetch
+	 *
+	 * @param $value the max events
+	 */
+	function set_max_events($value = 25){
+
 	}
 
 	/**
@@ -155,8 +166,10 @@ class SimplePie_GCalendar extends SimplePie {
 			else
 			$tmp = $this->append($tmp,'futureevents=true&');
 		}
-		if($this->start_date!=null && $this->end_date!=null){
+		if($this->start_date!=null){
 			$tmp = $this->append($tmp,'start-min='.$this->start_date.'&');
+		}
+		if( $this->end_date!=null){
 			$tmp = $this->append($tmp,'start-max='.$this->end_date.'&');
 		}
 		if($this->sort_ascending)
@@ -175,6 +188,7 @@ class SimplePie_GCalendar extends SimplePie {
 		$tmp = $this->append($tmp,'hl='.$this->cal_language.'&');
 		if(!empty($this->cal_query))
 		$tmp = $this->append($tmp,'q='.$this->cal_query.'&');
+		$tmp = $this->append($tmp,'max-results='.$this->max_events);
 		return $tmp;
 	}
 
@@ -310,8 +324,7 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	function compare($gc_sp_item1, $gc_sp_item2){
 		$time1 = $gc_sp_item1->get_start_time();
 		$time2 = $gc_sp_item2->get_start_time();
-		$feed = $gc_sp_item1->get_feed();
-		if(!$feed->orderby_by_start_date){
+		if(!$gc_sp_item1->get_feed()->orderby_by_start_date){
 			$time1 = $gc_sp_item1->get_publish_date();
 			$time2 = $gc_sp_item2->get_publish_date();
 		}
