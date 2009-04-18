@@ -36,15 +36,10 @@
 			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
 		<param name="max" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
-		<param name="order" type="radio" default="TRUE" label="Sort Order"
+		<param name="order" type="radio" default="1" label="Sort Order"
 			description="The order strategy of the events.">
-			<option value="TRUE">Start Time</option>
-			<option value="FALSE">Last Modified</option>
-		</param>
-		<param name="pastevents" type="radio" default="FALSE" label="Past events"
-			description="Include past events.">
-			<option value="FALSE">No</option>
-			<option value="TRUE">Yes</option>
+			<option value="1">Start Time</option>
+			<option value="0">Last Modified</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
@@ -60,7 +55,7 @@
 				Here you can modify the event output. The following attributes of an event are provided:&lt;br&gt;
 				{title}, {description},
 				{startdate}, {starttime}, {dateseparator}, {enddate}, {endtime}
-				{where}, {backlink}, {link}, {maplink}
+				{where}, {backlink}, {link}, {maplink}, {calendarname}, {calendarcolor}
 			</description>
 		</param>
 	</params>
