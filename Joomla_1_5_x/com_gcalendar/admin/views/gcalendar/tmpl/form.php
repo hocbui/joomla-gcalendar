@@ -22,6 +22,35 @@ defined('_JEXEC') or die('Restricted access');
 
 $document = &JFactory::getDocument();
 $document->addScript( 'components/com_gcalendar/libraries/jscolor/jscolor.js' );
+
+$googleColors = array(
+'A32929'
+,'B1365F'
+,'7A367A'
+,'5229A3'
+,'29527A'
+,'2952A3'
+,'1B887A'
+,'28754E'
+,'0D7813'
+,'528800'
+,'88880E'
+,'AB8B00'
+,'BE6D00'
+,'B1440E'
+,'865A5A'
+,'705770'
+,'4E5D6C'
+,'5A6986'
+,'4A716C'
+,'6E6E41'
+,'8D6F47');
+$styles = '';
+foreach ($googleColors as $c){
+	$styles .= "option.".$c." {background-color: #".$c."}\n";
+}
+$document->addStyleDeclaration($styles);
+$calendar = $this->gcalendar;
 ?>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">
@@ -34,27 +63,36 @@ $document->addScript( 'components/com_gcalendar/libraries/jscolor/jscolor.js' );
 		</label></td>
 		<td><input class="text_area" type="text" name="name" id="name"
 			size="100%" maxlength="250"
-			value="<?php echo $this->gcalendar->name;?>" /></td>
+			value="<?php echo $calendar->name;?>" /></td>
 	</tr>
 	<tr>
 		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Calendar ID' ); ?>:
 		</label></td>
 		<td><input class="text_area" type="text" name="calendar_id"
 			id="calendar_id" size="100%"
-			value="<?php echo $this->gcalendar->calendar_id;?>" /></td>
+			value="<?php echo $calendar->calendar_id;?>" /></td>
 	</tr>
 	<tr>
 		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Magic Cookie' ); ?>:
 		</label></td>
 		<td><input class="text_area" type="text" name="magic_cookie"
 			id="magic_cookie" size="100%"
-			value="<?php echo $this->gcalendar->magic_cookie;?>" /></td>
+			value="<?php echo $calendar->magic_cookie;?>" /></td>
 	</tr>
 	<tr>
 		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Color' ); ?>:
 		</label></td>
-		<td><input class="color" name="color" id="color" size="100%"
-			value="<?php echo $this->gcalendar->color;?>" /></td>
+		<td><select name="color"
+			size="21">
+			<?php
+			foreach ($googleColors as $c){
+				if($calendar->color==$c)
+				echo "<option class=\"".$c."\" value=\"".$c."\" selected=\"yes\">".$c."</option>\n";
+				else
+				echo "<option class=\"".$c."\" value=\"".$c."\">".$c."</option>\n";
+			}
+			?>
+		</select></td>
 	</tr>
 </table>
 </fieldset>
@@ -62,7 +100,7 @@ $document->addScript( 'components/com_gcalendar/libraries/jscolor/jscolor.js' );
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="com_gcalendar" /> <input
-	type="hidden" name="id" value="<?php echo $this->gcalendar->id; ?>" />
+	type="hidden" name="id" value="<?php echo $calendar->id; ?>" />
 <input type="hidden" name="task" value="" /> <input type="hidden"
 	name="controller" value="gcalendar" /></form>
 
