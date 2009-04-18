@@ -10,11 +10,14 @@ window
 									function(e) {
 										e = new Event(e);
 										gcSlide.toggle();
-
-										var gcalImage = 'components\/com_gcalendar\/views\/google\/tmpl\/up.png';
-										if (gcSlide.open) {
-											var gcalImage = 'components\/com_gcalendar\/views\/google\/tmpl\/down.png';
-										}
+										
+										var oldImage = window.document.getElementById('toggle_gc_status').src;
+										var gcalImage = oldImage;
+										var path = oldImage.substring(0,oldImage.lastIndexOf('/'));
+										if (gcSlide.open) 
+											var gcalImage = path + '/down.png';
+										else
+											var gcalImage = path + '/up.png';
 										window.document
 												.getElementById('toggle_gc_status').src = gcalImage;
 										e.stop();
