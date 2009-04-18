@@ -95,17 +95,17 @@ if(!is_array($this->calendars)){
 			$checked = 'checked';
 		}
 
-		$calendar_list = $calendar_list.'<tr>';
-		$calendar_list = $calendar_list.'<td><input type="checkbox" name="'.$calendar->calendar_id.'" value="'.$value.'" '.$checked.' onclick="updateGCalendarFrame(this)"/></td>';
-		$calendar_list = $calendar_list.'<td><font color="'.$html_color.'">'.$calendar->name.'</font></td></tr>';
+		$calendar_list .='<tr>';
+		$calendar_list .='<td><input type="checkbox" name="'.$calendar->calendar_id.'" value="'.$value.'" '.$checked.' onclick="updateGCalendarFrame(this)"/></td>';
+		$calendar_list .='<td><font color="'.$html_color.'">'.$calendar->name.'</font></td></tr>';
 	}
-	$calendar_list = $calendar_list.'</table></div>';
+	$calendar_list .='</table></div>';
 	if($this->params->get('show_selection')==1){
 		JHTML::_('behavior.mootools');
 		$document = &JFactory::getDocument();
 		$document->addScript( 'components/com_gcalendar/views/google/tmpl/gcalendar.js' );
 		echo $calendar_list;
-		echo '<div align="center" style="text-align:center"><a id="toggle_gc" name="toggle_gc" href="#"><img id="toggle_gc_status" name="toggle_gc_status" src="components/com_gcalendar/views/google/tmpl/down.png"/></a></div>';
+		echo '<div align="center" style="text-align:center"><a id="toggle_gc" name="toggle_gc" href="#"><img id="toggle_gc_status" name="toggle_gc_status" src="'.JURI::base().'components/com_gcalendar/views/google/tmpl/down.png"/></a></div>';
 	}
 	$calendar_url="";
 	if ($this->params->get('use_custom_css')) {
