@@ -1,7 +1,26 @@
 <?php
+/**
+ * GCalendar is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * GCalendar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Allon Moritz
+ * @copyright 2007-2009 Allon Moritz
+ * @version $Revision: 2.1.0 $
+ */
+
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class CalItem {
+class CalEvent {
 
 	function display($displayType, $spItem, $linkString="javascript:;") {
 		switch ($displayType) {
@@ -15,15 +34,15 @@ class CalItem {
 					
 				echo "<a class=\"${myClass}\" href=\"${linkString}\" ";
 				echo "title=\"";
-				echo CalItem::summary($spItem);
+				echo CalEvent::summary($spItem);
 				echo "\">";
-				echo CalItem::summary($spItem,22);
+				echo CalEvent::summary($spItem,22);
 				echo "</a>";
 				return true;
 				break;
 			case "week":
 			case "day":
-				$description = CalItem::descriptionPopup($spItem);
+				$description = CalEvent::descriptionPopup($spItem);
 				$summaryLength = ($displayType == "week") ? ($description ? 23 : 24) : 0;
 				if (!$spItem->get_day_type() == $spItem->SINGLE_WHOLE_DAY) {
 					echo '<div class="Header">';
@@ -55,14 +74,13 @@ class CalItem {
 				// TODO - Any way to get a title without an anchor tag? Or, barring that, set the status bar in a more helpful manner.
 				echo "<a href=\"javascript:;\" class=\"Summ\"";
 				echo " title=\"";
-				echo CalItem::summary($spItem);
+				echo CalEvent::summary($spItem);
 				echo "\">";
-				echo CalItem::summary($spItem,$summaryLength);
+				echo CalEvent::summary($spItem,$summaryLength);
 				echo "</a>";
 				return true;
 				break;
 		}
-		echo "<p><b>iWebCal Error:</b> Invalid calendar display type.</p>";
 		return false;
 	}
 
@@ -109,7 +127,7 @@ class CalItem {
 			$items["Notes"][] = $p;
 		}
 			
-		$items["summ"] = CalItem::summary($spItem);
+		$items["summ"] = CalEvent::summary($spItem);
 
 		$popupDocString = 'index.php?option=com_iwebcal&task=details&format=raw&title=Event+Details&content=' . urlencode(serialize($items));
 		$result = "<a href=\"javascript:;\" onclick=\"javascript:myWin=window.open('" .
@@ -120,8 +138,5 @@ class CalItem {
 			"details</a>";
 		return $result;
 	}
-
 }
-
-
 ?>

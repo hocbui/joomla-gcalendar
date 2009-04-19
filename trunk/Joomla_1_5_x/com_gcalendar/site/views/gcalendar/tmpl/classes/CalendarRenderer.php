@@ -1,10 +1,29 @@
 <?php
+/**
+ * GCalendar is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * GCalendar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Allon Moritz
+ * @copyright 2007-2009 Allon Moritz
+ * @version $Revision: 2.1.0 $
+ */
+
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class Calendar {
+class CalendarRenderer {
 	var $gcalendar = null;
 
-	function Calendar(&$gcalendar) {
+	function CalendarRenderer(&$gcalendar) {
 		$this->gcalendar = &$gcalendar;
 	}
 
@@ -30,12 +49,12 @@ class Calendar {
 		// TODO - Solaris may label Sunday as 1; investigate
 		$startDayOfWeek = strftime("%u", strtotime("${year}-${month}-01")) % 7;
 
-		echo '<table class="iWebCalendar CalMonth" width="100%" cellspacing="0" cellpadding="0"><tr>';
+		echo "<table class=\"gcalendarcal CalMonth\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 		// print days of the week at the top
 		for ($i=0; $i<7; $i++) {
-			echo '<th>'.JFactory::getDate()->_dayToString($i).'</th>\n';
+			echo "<th>".JFactory::getDate()->_dayToString($i)."</th>\n";
 		}
-		echo '</tr>';
+		echo "</tr>";
 		for ($i=28; $i<33; $i++) {
 			if (!checkdate($month, $i, $year)) {
 				$lastDay = $i-1;
@@ -50,35 +69,35 @@ class Calendar {
 		$colWidth = "14%";
 		$rowHeight = (int)round(100 / $numRows) . "%";
 		for ($i=0;$i<$startDayOfWeek;$i++) {
-			echo '<td class="EmptyCell"></td>\n';
+			echo "<td class=\"EmptyCell\"></td>\n";
 		}
 		for ($i=0;$i< $lastDay;$i++) {
 			if (($i + $startDayOfWeek) % 7 == 0) {
-				echo '<tr>';
+				echo "<tr>";
 			}
 			$thisDay = $i + 1;
-			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&iwebcalview=day&year=${year}&month=${month}&day=${thisDay}";
-			echo '<td ';
+			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=${year}&month=${month}&day=${thisDay}";
+			echo "<td ";
 			if (($thisDay == $today["mday"]) && ($month == $today["mon"])) {
-				echo 'class="Today"';
+				echo "class=\"Today\"";
 			}
-			echo '><a class="DayNum" href="'. JRoute::_($thisLink).'">'.$thisDay.'</a>';
+			echo "><a class=\"DayNum\" href=\"". JRoute::_($thisLink)."\">".$thisDay."</a>";
 			$myItems = $this->itemsForDate($year, $month, $i+1);
 			if ($myItems) {
 				foreach($myItems as $item) {
-					CalItem::display("month",$item,$thisLink);
+					CalEvent::display("month",$item,$thisLink);
 				}
 			}
-			echo '</td>\n';
+			echo "</td>\n";
 			if (($i + $startDayOfWeek) % 7 == 6) {
-				echo '</tr>';
+				echo "</tr>";
 			}
 			}
 			for ($i=$lastDay + $startDayOfWeek;$i<($numRows * 7);$i++) {
 				// [DAF-060426] fixed typo
-				echo '<td class="EmptyCell"></td>';
+				echo "<td class=\"EmptyCell\"></td>";
 			}
-			echo '</table>';
+			echo "</table>";
 	}
 
 	function getDayLayout($year, $month, $day) {
@@ -153,7 +172,7 @@ class Calendar {
 			if ($items && count($items)) {
 				for ($i=0;$i<count($items);$i++) {
 					echo "<div class=\"Event\">";
-					CalItem::display($view,$items[$i]);
+					CalEvent::display($view,$items[$i]);
 					echo "</div>";
 				}
 			}
@@ -211,7 +230,7 @@ foreach($col as $item) {
 <div class="Event" style="height:<?php echo $myDuration; ?>px; top:<?php echo $myStartOffset ?>px" 
 							onmouseover="eventOver(this)"
 							onmouseout="eventOut(this)"><?php
-							CalItem::display($view,$item);
+							CalEvent::display($view,$item);
 							?></div>
 							<?php
 }
@@ -254,7 +273,7 @@ $whichCol++;
 
 		// TODO - Is there a way to avoid the amount of nesting used below?
 		?>
-<div class="iWebCalendar CalDay">
+<div class="gcalendarcal CalDay">
 <div class="UntimedEvents"><?php $this->printUntimedEventsForDay($dayLayout, "day"); ?>
 </div>
 <table class="TimedArea" cellspacing="0" cellpadding="0">
@@ -329,7 +348,7 @@ else {
 		if (!$lastHour) $lastHour = 17;
 			
 		?>
-<table class="iWebCalendar CalWeek" cellspacing="0" cellpadding="0">
+<table class="gcalendarcal CalWeek" cellspacing="0" cellpadding="0">
 	<tr>
 		<td class="Empty"></td>
 		<?php	// Possibly for absolute positioning: calculate column widths based on # sub-cols
@@ -359,22 +378,20 @@ else {
 			?>
 		<th style="width: <?php echo $myColWidth; ?>%"><?php
 		$myURL = $this->url;
-		$thisLink = "index.php?option=com_gcalendar&view=gcalendar&iwebcalview=day&year=" .
+		$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=" .
 		$dInfo["year"] .
 							"&month=" . $dInfo["mon"] . 
 							"&day=" . $dInfo["mday"];
-		foreach ($this->extraURLVariables as $varName => $varVal) {
-			$thisLink .= "&${varName}=${varVal}";
-						}
-						echo "<a href=\"" . JRoute::_($thisLink) . "\">";
-						echo substr($dInfo["weekday"], 0, 3);
-						echo " ";
-						echo $dInfo["mday"];
-						echo "</a>";
-						?></th>
-						<?php 			 		$dayIndex++;
-				}
-				?>
+
+		echo "<a href=\"" . JRoute::_($thisLink) . "\">";
+		echo substr($dInfo["weekday"], 0, 3);
+		echo " ";
+		echo $dInfo["mday"];
+		echo "</a>";
+		?></th>
+		<?php 			 		$dayIndex++;
+		}
+		?>
 	</tr>
 	<tr class="UntimedEvents">
 		<td class="Empty"></td>
@@ -440,9 +457,9 @@ else {
 				if ($format == 'year') {
 					echo $year;
 					echo " ";
-					echo JFactory::getDate()->_monthToString($month-1);
+					echo JFactory::getDate()->_monthToString($month);
 				} else {
-					echo JFactory::getDate()->_monthToString($month-1);
+					echo JFactory::getDate()->_monthToString($month);
 					echo " ";
 					echo $year;
 				}
