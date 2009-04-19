@@ -22,10 +22,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 $document =& JFactory::getDocument();
-$document->addScript('components/com_gcalendar/views/gcalendar/tmpl/include/iWebCal.js');
-$document->addStyleSheet('components/com_gcalendar/views/gcalendar/tmpl/include/iWebCal.css');
+$document->addScript('administrator/components/com_gcalendar/libraries/datepicker/datepicker.js');
+$document->addStyleSheet('administrator/components/com_gcalendar/libraries/datepicker/style.js');
+$document->addStyleSheet('components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css');
 if ($this->userAgent == "ie") {
-	$document->addStyleSheet('components/com_gcalendar/views/gcalendar/tmpl/include/iWebCal-ie6.css');
+	$document->addStyleSheet('components/com_gcalendar/views/gcalendar/tmpl/gcalendar-ie6.css');
 }
 
 ?>
@@ -54,3 +55,4 @@ $model = &$this->getModel();
 $cal = new GCalendar($model);
 $cal->display();
 ?>
+</div>

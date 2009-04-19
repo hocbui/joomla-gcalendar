@@ -29,9 +29,9 @@ if(!class_exists('SimplePie_GCalendar')){
 	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
 }
 
-require_once ('tmpl/class/CalItem.inc');
-require_once ('tmpl/class/Calendar.inc');
-require_once ('tmpl/class/GCalendar.php');
+require_once ('tmpl/classes/CalEvent.php');
+require_once ('tmpl/classes/CalendarRenderer.php');
+require_once ('tmpl/classes/GCalendar.php');
 
 /**
  * HTML View class for the GCalendar Component
