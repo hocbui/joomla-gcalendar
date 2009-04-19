@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $document =& JFactory::getDocument();
 $document->addScript('administrator/components/com_gcalendar/libraries/datepicker/datepicker.js');
-$document->addStyleSheet('administrator/components/com_gcalendar/libraries/datepicker/style.js');
+$document->addStyleSheet('administrator/components/com_gcalendar/libraries/datepicker/style.css');
 $document->addStyleSheet('components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css');
 if ($this->userAgent == "ie") {
 	$document->addStyleSheet('components/com_gcalendar/views/gcalendar/tmpl/gcalendar-ie6.css');
