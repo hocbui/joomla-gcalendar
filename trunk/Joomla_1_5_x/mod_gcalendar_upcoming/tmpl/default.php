@@ -94,7 +94,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 	$temp_event=str_replace("{title}",$item->get_title(),$temp_event);
 	$temp_event=str_replace("{description}",$desc,$temp_event);
 	$temp_event=str_replace("{where}",$item->get_location(),$temp_event);
-	$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$item->get_id().'&gcid='.$feed->get('gcid').$itemID),$temp_event);
+	$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$item->get_id().'&gcid='.$feed->get('gcid').$itemID),$temp_event);
 	$temp_event=str_replace("{link}",$item->get_link().'&ctz='.$tz,$temp_event);
 	$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
 	$temp_event=str_replace("{calendarname}",$feed->get('gcalendarName'),$temp_event);

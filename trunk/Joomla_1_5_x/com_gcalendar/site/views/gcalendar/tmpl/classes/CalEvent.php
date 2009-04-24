@@ -22,20 +22,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class CalEvent {
 
-	function display($displayType, $spItem, $linkString="javascript:;") {
+	function display($displayType, $spItem) {
+		$feed = $spItem->get_feed();
 		switch ($displayType) {
 			case "month":
 				$myClass = $spItem->get_day_type()== $spItem->SINGLE_WHOLE_DAY ? "AllDayItem" : "TimedItem";
-				if ($linkString == "#"){
-					$myClass .= " NoHREF";
-				} else {
-					$linkString = JRoute::_($linkString);
-				}
 					
-				echo "<a class=\"${myClass}\" href=\"${linkString}\" ";
-				echo "title=\"";
+				echo "<a class=\"modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid'))."\" ";
+				echo " rel=\"{handler: 'iframe', size: {x: 680, y: 600}}\" title=\"";
 				echo CalEvent::summary($spItem);
-				echo "\">";
+				echo "\" >";
 				echo CalEvent::summary($spItem,22);
 				echo "</a>";
 				return true;
@@ -72,8 +68,8 @@ class CalEvent {
 						echo '</div>';
 				}
 				// TODO - Any way to get a title without an anchor tag? Or, barring that, set the status bar in a more helpful manner.
-				echo "<a href=\"javascript:;\" class=\"Summ\"";
-				echo " title=\"";
+				echo "<a href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid'))."\" class=\"modal\"";
+				echo " rel=\"{handler: 'iframe', size: {x: 680, y: 600}}\" title=\"";
 				echo CalEvent::summary($spItem);
 				echo "\">";
 				echo CalEvent::summary($spItem,$summaryLength);
