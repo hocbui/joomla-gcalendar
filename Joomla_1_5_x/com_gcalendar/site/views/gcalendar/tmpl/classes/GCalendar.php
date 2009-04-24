@@ -130,6 +130,7 @@ class GCalendar {
 
 				break;
 			}
+			JHTML::_('behavior.modal');
 			?>
 <div class="gcalendar">
 <div id="calToolbar">
@@ -138,38 +139,37 @@ class GCalendar {
 	title="<?php echo "previous ${view}"; ?>"> <?php $this->image("btn-prev.gif", "previous ${view}", "prevBtn_img"); ?></a>
 <span class="ViewTitle Item"> <?php $cal->printViewTitle($year, $month, $day, $view); ?>
 </span> <a class="Item" href="<?php echo JRoute::_($nextURL) ?>"
-	title="<?php echo "next ${view}" ?>"> 
-	<?php $this->image("btn-next.gif", "next ${view}", "nextBtn_img"); ?></a>
+	title="<?php echo "next ${view}" ?>"> <?php $this->image("btn-next.gif", "next ${view}", "nextBtn_img"); ?></a>
 </div>
-			<?php 
+			<?php
 			global $option, $Itemid;?>
 <form action="<?php echo $this->mainFilename ?>" method="get"
-	name="controlForm" id="controlForm" class="Item">
-	<a class="Item" href="javascript:document.controlForm.date.value='<?php echo $this->today["mday"].'/'.$this->today["mon"].'/'.$this->today["year"]; ?>';document.controlForm.submit();">
-	<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
-<input class="Item" type="text" name="date" onclick="displayDatePicker('date', false, 'dmy', '/');"
-	value="<?php echo date('d/m/Y',mktime(0,0,0,$month,$day,$year)); ?>" size="10" maxlength="10"
-	title="jump to date use the format day/month/year" /> 
-	<input type="hidden"
-	name="gcalendarview" value="<?php echo $view; ?>" /> 
-<a class="Item" href="javascript:document.controlForm.submit();">
-<?php $this->image("btn-go.gif", "go to date", "gi_img"); ?></a> 
+	name="controlForm" id="controlForm" class="Item"><a class="Item"
+	href="javascript:document.controlForm.date.value='<?php echo $this->today["mday"].'/'.$this->today["mon"].'/'.$this->today["year"]; ?>';document.controlForm.submit();">
+			<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
+<input class="Item" type="text" name="date"
+	onclick="displayDatePicker('date', false, 'dmy', '/');"
+	value="<?php echo date('d/m/Y',mktime(0,0,0,$month,$day,$year)); ?>"
+	size="10" maxlength="10"
+	title="jump to date use the format day/month/year" /> <input
+	type="hidden" name="gcalendarview" value="<?php echo $view; ?>" /> <a
+	class="Item" href="javascript:document.controlForm.submit();"> <?php $this->image("btn-go.gif", "go to date", "gi_img"); ?></a>
 </form>
-<div id="viewSelector" class="Item">
-<a href="javascript:document.controlForm.gcalendarview.value='day';document.controlForm.submit();">
-<?php $this->image("cal-day.gif", "day view", "calday_img"); ?></a> 
-<a	href="javascript:document.controlForm.gcalendarview.value='week';document.controlForm.submit();">
-<?php $this->image("cal-week.gif", "week view", "calweek_img"); ?></a>
-<a href="javascript:document.controlForm.gcalendarview.value='month';document.controlForm.submit();">
-<?php $this->image("cal-month.gif", "month view", "calmonth_img"); ?></a>
+<div id="viewSelector" class="Item"><a
+	href="javascript:document.controlForm.gcalendarview.value='day';document.controlForm.submit();">
+			<?php $this->image("cal-day.gif", "day view", "calday_img"); ?></a> <a
+	href="javascript:document.controlForm.gcalendarview.value='week';document.controlForm.submit();">
+			<?php $this->image("cal-week.gif", "week view", "calweek_img"); ?></a>
+<a
+	href="javascript:document.controlForm.gcalendarview.value='month';document.controlForm.submit();">
+			<?php $this->image("cal-month.gif", "month view", "calmonth_img"); ?></a>
 </div>
 </div>
-<?php
-$cal->printCal($year, $month, $day, $view);
-?></div>
-<?php
+			<?php
+			$cal->printCal($year, $month, $day, $view);
+			?></div>
+			<?php
 	}
-
 	function image($name, $alt = "[needs alt tag]", $id="", $attrs="") {
 		list($width, $height, $d0, $d1) = getimagesize(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar'.DS.'tmpl' . DS.'img'.DS . $name);
 		echo "<img src=\"".JURI::base() . "components/com_gcalendar/views/gcalendar/tmpl/img/" . $name."\"";

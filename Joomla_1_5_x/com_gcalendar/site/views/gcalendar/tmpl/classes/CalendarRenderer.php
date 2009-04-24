@@ -30,10 +30,18 @@ class CalendarRenderer {
 	function itemsForDate($year, $month, $day) {
 		$result = array();
 		$gcal = $this->gcalendar;
-		$time = mktime(0, 0, 0, $month, $day, $year);
+		$requestedDayStart = mktime(0, 0, 0, $month, $day, $year);
+		$requestedDayEnd = $requestedDayStart + 86400;
 		foreach($gcal->getFeeds() as $feed){
 			foreach($feed->get_items() as $item){
-				if(strftime('%d,%m,%Y',$time) == strftime('%d,%m,%Y',$item->get_start_time())){
+				if($requestedDayStart <= $item->get_start_time()
+				&& $item->get_start_time() < $requestedDayEnd){
+					$result[] = $item;
+				}else if($requestedDayStart < $item->get_end_time()
+				&& $item->get_end_time() <= $requestedDayEnd){
+					$result[] = $item;
+				}else if($item->get_start_time() <= $requestedDayStart
+				&& $requestedDayEnd <= $item->get_start_time()){
 					$result[] = $item;
 				}
 			}

@@ -25,19 +25,19 @@
 function GCalendarBuildRoute( &$query )
 {
 	$segments = array();
-	$task = null;
+	$view = null;
 	if(isset($query['view']))
 	{
 		$segments[] = $query['view'];
+		$view = $query['view'];
 		unset( $query['view'] );
 	}
 	if(isset($query['task']))
 	{
 		$segments[] = $query['task'];
-		$task=$query['task'];
 		unset( $query['task'] );
 	}
-	if($task === 'event'){
+	if($view === 'event'){
 		if(isset($query['eventID']))
 		{
 			$segments[] = $query['eventID'];
@@ -85,8 +85,13 @@ function GCalendarParseRoute( $segments )
 	$item =& $menu->getActive();
 
 	$vars = array();
-	$vars['view'] = $item->query['view'];
-	switch($item->query['view'])
+	$view = null;
+	if(!empty($item->query['view']))
+	$view = $item->query['view'];
+	else
+	$view = $segments[0];
+	$vars['view'] = $view;
+	switch($view)
 	{
 		case 'event':
 			$vars['task'] = 'event';
@@ -96,7 +101,6 @@ function GCalendarParseRoute( $segments )
 			break;
 		case 'google':
 		case 'gcalendar':
-		case 'icalendar':
 			$vars['calendarids'] = explode("-",$segments[2]);
 			break;
 	}

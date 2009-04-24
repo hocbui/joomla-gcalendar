@@ -247,44 +247,110 @@ class SimplePie_GCalendar extends SimplePie {
  */
 class SimplePie_Item_GCalendar extends SimplePie_Item {
 
+	// static variables used as return value for get_day_type()
 	var $SINGLE_WHOLE_DAY    = 1;
 	var $SINGLE_PART_DAY     = 2;
 	var $MULTIPLE_WHOLE_DAY  = 3;
 	var $MULTIPLE_PART_DAY   = 4;
 
+	//internal cache variables
+	var $gc_id;
+	var $gc_pub_date;
+	var $gc_location;
+	var $gc_status;
+	var $gc_start_date;
+	var $gc_end_date;
+	var $gc_day_type;
+
+	/**
+	 * Returns the id of the event.
+	 *
+	 * @return the id of the event
+	 */
 	function get_id(){
-		return substr($this->get_link(),strpos(strtolower($this->get_link()),'eid=')+4);
+		if(!$this->gc_id){
+			$this->gc_id = substr($this->get_link(),strpos(strtolower($this->get_link()),'eid=')+4);
+		}
+		return $this->gc_id;
 	}
 
+	/**
+	 * Returns the publish date as unix timestamp of the event.
+	 *
+	 * @return the publish date of the event
+	 */
 	function get_publish_date(){
-		$pubdate = $this->get_date('Y-m-d\TH:i:s\Z');
-		return SimplePie_Item_GCalendar::tstamptotime($pubdate);
+		if(!$this->gc_pub_date){
+			$pubdate = $this->get_date('Y-m-d\TH:i:s\Z');
+			$this->gc_pub_date = SimplePie_Item_GCalendar::tstamptotime($pubdate);
+		}
+		return $this->gc_pub_date;
 	}
 
+	/**
+	 * Returns the location of the event.
+	 *
+	 * @return the location of the event
+	 */
 	function get_location(){
-		$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'where');
-		return $gd_where[0]['attribs']['']['valueString'];
+		if(!$this->gc_location){
+			$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'where');
+			$this->gc_location = $gd_where[0]['attribs']['']['valueString'];
+		}
+		return $this->gc_location;
 	}
 
+	/**
+	 * Returns the status of the event.
+	 *
+	 * @return the status of the event
+	 */
 	function get_status(){
-		$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'eventStatus');
-		return substr( $gd_status[0]['attribs']['']['value'], -8);
+		if(!$this->gc_status){
+			$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'eventStatus');
+			$this->gc_status = substr( $gd_status[0]['attribs']['']['value'], -8);
+		}
+		return $this->gc_status;
 	}
 
-	function get_start_time($as_timestamp = TRUE){
-		$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
-		$startdate = $when[0]['attribs']['']['startTime'];
-		if($as_timestamp)
-		return SimplePie_Item_GCalendar::tstamptotime($startdate);
-		return $startdate;
+	/**
+	 * If the given format (must match the criterias of strftime)
+	 * is not null a string is returned otherwise a unix timestamp.
+	 *
+	 * @see http://www.php.net/mktime
+	 * @see http://www.php.net/strftime
+	 * @param $format
+	 * @return the start date of the event
+	 */
+	function get_start_time($format = null){
+		if(!$this->gc_start_date){
+			$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
+			$startdate = $when[0]['attribs']['']['startTime'];
+			$this->gc_start_date = SimplePie_Item_GCalendar::tstamptotime($startdate);
+		}
+		if($format != null)
+		return strftime($format, $this->gc_start_date);
+		return $this->gc_start_date;
 	}
 
+	/**
+	 * If the given format (must match the criterias of strftime)
+	 * is not null a string is returned otherwise a unix timestamp.
+	 *
+	 * @see http://www.php.net/mktime
+	 * @see http://www.php.net/strftime
+	 * @param $format
+	 * @return the end date of the event
+	 */
 	function get_end_time($as_timestamp = TRUE){
-		$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
-		$enddate = $when[0]['attribs']['']['endTime'];
-		if($as_timestamp)
-		return SimplePie_Item_GCalendar::tstamptotime($enddate);
-		return $enddate;
+		if(!$this->gc_end_date){
+			$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
+			$enddate = $when[0]['attribs']['']['endTime'];
+			$this->gc_end_date = SimplePie_Item_GCalendar::tstamptotime($enddate);
+		}
+		if($format != null)
+		return strftime($format, $this->gc_end_date);
+		return $this->gc_end_date;
 	}
 
 	/**
@@ -297,30 +363,51 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	 * @return the event type
 	 */
 	function get_day_type(){
-		$SECSINDAY=86400;
+		if(!$this->gc_day_type){
+			$SECSINDAY=86400;
 
-		if (($this->get_start_time()+ $SECSINDAY) <= $this->get_end_time()) {
-			if (($this->get_start_time()+ $SECSINDAY) == $this->get_end_time()) {
-				return $this->SINGLE_WHOLE_DAY;
-			} else {
-				if ((date('g:i a',$this->get_start_time())=='12:00 am')&&(date('g:i a',$this->get_end_time())=='12:00 am')){
-					return $this->MULTIPLE_WHOLE_DAY;
-				}else{
-					return $this->MULTIPLE_PART_DAY;
+			if (($this->get_start_time()+ $SECSINDAY) <= $this->get_end_time()) {
+				if (($this->get_start_time()+ $SECSINDAY) == $this->get_end_time()) {
+					$this->gc_day_type =  $this->SINGLE_WHOLE_DAY;
+				} else {
+					if ((date('g:i a',$this->get_start_time())=='12:00 am')&&(date('g:i a',$this->get_end_time())=='12:00 am')){
+						$this->gc_day_type =  $this->MULTIPLE_WHOLE_DAY;
+					}else{
+						$this->gc_day_type =  $this->MULTIPLE_PART_DAY;
+					}
 				}
-			}
+			}else
+			$this->gc_day_type = $this->SINGLE_PART_DAY;
 		}
-		return $this->SINGLE_PART_DAY;
+		return $this->gc_day_type;
 	}
 
-	function tstamptotime($tstamp) {
+	/**
+	 * Returns a unix timestamp of the given iso date.
+	 *
+	 * @param $iso_date
+	 * @return unix timestamp
+	 */
+	function tstamptotime($iso_date) {
 		// converts ISODATE to unix date
 		// 1984-09-01T14:21:31Z
-		sscanf($tstamp,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
-		$newtstamp=mktime($hour,$min,$sec,$month,$day,$year);
+		sscanf($iso_date,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
+		$newtstamp = mktime($hour,$min,$sec,$month,$day,$year);
 		return $newtstamp;
 	}
 
+	/**
+	 * Returns an integer less than, equal to, or greater than zero if
+	 * the first argument is considered to be respectively less than,
+	 * equal to, or greater than the second.
+	 * This function can be used to sort an array of SimplePie_Item_GCalendar
+	 * items with usort.
+	 *
+	 * @see http://www.php.net/usort
+	 * @param $gc_sp_item1
+	 * @param $gc_sp_item2
+	 * @return the comparison integer
+	 */
 	function compare($gc_sp_item1, $gc_sp_item2){
 		$time1 = $gc_sp_item1->get_start_time();
 		$time2 = $gc_sp_item2->get_start_time();

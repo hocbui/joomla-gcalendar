@@ -27,7 +27,7 @@ $lg = '&hl='.GCalendarUtil::getFrLanguage();
 $url = 'http://www.google.com/calendar/event?eid=' . $this->eventID . $tz.$lg;
 
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
-if(!empty($itemID)){
+if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view=gcalendar&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' ).'</a>';
 }
 ?>
