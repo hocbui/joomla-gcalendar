@@ -99,7 +99,7 @@ if(!$content){
 	
 	for ($i = 0; $i < sizeof($gcalendar_data) ; $i++){
 		$item = $gcalendar_data[$i];
-		$startDate = date("d.m.Y H:i", $item->get_start_time());
+		$startDate = date("d.m.Y H:i", $item->get_start_date());
 		$pubDate = date("d.m.Y H:i", $item->get_publish_date());
 		echo '<p>'.$startDate.'<br>Published: '.$pubDate.'<br>'.$item->get_title().'<br>'.$item->get_description().'<hr></p>';
 	}
