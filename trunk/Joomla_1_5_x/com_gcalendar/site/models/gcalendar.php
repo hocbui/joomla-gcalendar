@@ -18,7 +18,6 @@
  * @version $Revision: 2.1.0 $
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
@@ -87,6 +86,7 @@ class GCalendarModelGCalendar extends JModel {
 				$feed->set_start_date($startDate);
 				$feed->set_end_date($endDate);
 				$feed->put('gcid',$result->id);
+				$feed->put('gccolor',$result->color);
 				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 
