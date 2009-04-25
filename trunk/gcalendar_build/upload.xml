@@ -3,16 +3,8 @@
 	<description>
 		automated upload to gcalendar demo servers
     </description>
-	<!-- set global properties for this build -->
-	<property name="server_url15" value="allon.ch" />
-	<property name="username15" value="gcal_demo15@allon.ch" />
-	<property name="password15" value="gcal_demo15_" />
-	<property name="remote_root_dir15" value="/" />
 
 	<property name="build" location="build" />
-
-	<property file="upload.properties" />
-
 
 	<target name="upload">
 		<antcall target="clean" />
@@ -46,6 +38,7 @@
 						<exclude name="**/languages/" />
 						<exclude name="**/images/" />
 						<exclude name="**/css/" />
+						<exclude name="**/libraries/" />
 					</fileset>
 				</copy>
 				<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/gcalendar.xml" todir="${dir}/administrator/components/com_gcalendar" />
@@ -60,6 +53,7 @@
 							<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/admin">
 								<include name="**/images/" />
 								<include name="**/css/" />
+								<include name="**/libraries/" />
 							</fileset>
 						</copy>
 					</then>
@@ -69,6 +63,7 @@
 					<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/site">
 						<exclude name="**/languages/" />
 						<exclude name="**/googlecal/" />
+						<exclude name="**/img/" />
 					</fileset>
 				</copy>
 				<if>
@@ -80,6 +75,7 @@
 						<copy todir="${dir}/components/com_gcalendar">
 							<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/site">
 								<include name="**/googlecal/" />
+								<include name="**/img/" />
 							</fileset>
 						</copy>
 					</then>
@@ -89,6 +85,19 @@
 				<echo message="Not creating gcalendar dir for 1.5" />
 			</else>
 		</if>
+
+		<if>
+			<istrue value="${upload15.plg_gcalendar_search}" />
+			<then>
+				<copy todir="${dir}/plugins/search">
+					<fileset dir="${basedir}/../Joomla_1_5_x/plg_gcalendar_search" />
+				</copy>
+			</then>
+			<else>
+				<echo message="Not creating search plugin dir for 1.5" />
+			</else>
+		</if>
+
 		<!-- create the modules dir tree structure package -->
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar" />
