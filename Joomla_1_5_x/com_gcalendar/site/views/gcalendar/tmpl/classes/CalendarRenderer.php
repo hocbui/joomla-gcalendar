@@ -34,20 +34,27 @@ class CalendarRenderer {
 		$requestedDayEnd = $requestedDayStart + 86400;
 		foreach($gcal->getFeeds() as $feed){
 			foreach($feed->get_items() as $item){
-				if($requestedDayStart <= $item->get_start_time()
-				&& $item->get_start_time() < $requestedDayEnd){
+				if($requestedDayStart <= $item->get_start_date()
+				&& $item->get_start_date() < $requestedDayEnd){
 					$result[] = $item;
-				}else if($requestedDayStart < $item->get_end_time()
-				&& $item->get_end_time() <= $requestedDayEnd){
+				}else if($requestedDayStart < $item->get_end_date()
+				&& $item->get_end_date() <= $requestedDayEnd){
 					$result[] = $item;
-				}else if($item->get_start_time() <= $requestedDayStart
-				&& $requestedDayEnd <= $item->get_start_time()){
+				}else if($item->get_start_date() <= $requestedDayStart
+				&& $requestedDayEnd <= $item->get_start_date()){
 					$result[] = $item;
 				}
 			}
 		}
 		usort($result, array("SimplePie_Item_GCalendar", "compare"));
 		return $result;
+	}
+
+	function printEvent($view, $item){
+		$feed = $item->get_feed();
+		echo "<div class=\"gccal_".$feed->get('gcid')."\">";
+		CalEvent::display($view ,$item);
+		echo "</div>";
 	}
 
 	function printMonth($year, $month, $day) {
@@ -93,7 +100,7 @@ class CalendarRenderer {
 			$myItems = $this->itemsForDate($year, $month, $i+1);
 			if ($myItems) {
 				foreach($myItems as $item) {
-					CalEvent::display("month",$item,$thisLink);
+					$this->printEvent("month", $item);
 				}
 			}
 			echo "</td>\n";
@@ -134,7 +141,7 @@ class CalendarRenderer {
 				$untimedItems[] = $item;
 			}
 			else {
-				$itemStart = $item->get_start_time();
+				$itemStart = $item->get_start_date();
 				// remove closed items, and determine the lowest column
 				// with no overlap
 
@@ -143,7 +150,7 @@ class CalendarRenderer {
 				for ($i=$columnCount-1;$i>=0;$i--) {
 					$overlap = false;
 					foreach ($openItems[$i] as $thisKey => $thisOpenItem) {
-						if ($thisOpenItem->get_end_time() <= $itemStart) {
+						if ($thisOpenItem->get_end_date() <= $itemStart) {
 							unset($openItems[$i][$thisKey]);
 						}
 						else {
@@ -179,9 +186,7 @@ class CalendarRenderer {
 
 			if ($items && count($items)) {
 				for ($i=0;$i<count($items);$i++) {
-					echo "<div class=\"Event\">";
-					CalEvent::display($view,$items[$i]);
-					echo "</div>";
+					$this->printEvent($view, $items[$i]);
 				}
 			}
 		}
@@ -199,8 +204,8 @@ class CalendarRenderer {
 <div class="Col" style="width:<?php echo $colWidth-0.5 ?>%; left: <?php echo $colWidth * $whichCol ?>%"><?php
 $currentOffset = $initialMinute;
 foreach($col as $item) {
-	$myStart = $item->get_start_time();
-	$myEnd = $item->get_end_time();
+	$myStart = $item->get_start_date();
+	$myEnd = $item->get_end_date();
 
 	// [TO DO] Do we need a more robust way to do this? Timed events are generally considered
 	// to be confined to one day right now.
@@ -235,12 +240,11 @@ foreach($col as $item) {
 	$myStartOffset = $myStartOffset * 64 / 60;
 	$myDuration = $myDuration * 64 / 60;
 	?>
-<div class="Event" style="height:<?php echo $myDuration; ?>px; top:<?php echo $myStartOffset ?>px" 
-							onmouseover="eventOver(this)"
-							onmouseout="eventOut(this)"><?php
-							CalEvent::display($view,$item);
-							?></div>
-							<?php
+<div class="Event" style="height:<?php echo $myDuration; ?>px; top:<?php echo $myStartOffset ?>px" >
+	<?php
+	$this->printEvent($view, $item);
+	?></div>
+	<?php
 }
 $whichCol++;
 ?></div>
@@ -254,7 +258,7 @@ $whichCol++;
 
 		// get start time for the first event
 		if (count($dayLayout) > 1) {
-			$firstStart = $dayLayout[0][0]->get_start_time();
+			$firstStart = $dayLayout[0][0]->get_start_date();
 			$initialMinuteOffset = (int)strftime("%H", $firstStart) * 60;
 		}
 		else {
@@ -268,7 +272,7 @@ $whichCol++;
 		$lastEnd = 0;
 		for ($i=0;$i<count($dayLayout)-1;$i++) {
 			if (count($dayLayout[$i])) {
-				$thisEnd = $dayLayout[$i][count($dayLayout[$i])-1]->get_end_time();
+				$thisEnd = $dayLayout[$i][count($dayLayout[$i])-1]->get_end_date();
 				if ($thisEnd > $lastEnd) $lastEnd = $thisEnd;
 			}
 		}
@@ -335,10 +339,10 @@ else {
 			if (count($thisLayout) > 1) {
 				for ($i=0;$i<count($thisLayout)-1;$i++) {
 					if (count($thisLayout[$i])) {
-						$thisEndHour = (int)strftime("%H", $thisLayout[$i][count($thisLayout[$i])-1]->get_end_time());
+						$thisEndHour = (int)strftime("%H", $thisLayout[$i][count($thisLayout[$i])-1]->get_end_date());
 						if ($thisEndHour > $lastHour) $lastHour = $thisEndHour;
 
-						$thisStartHour = (int)strftime("%H", $thisLayout[0][0]->get_start_time());
+						$thisStartHour = (int)strftime("%H", $thisLayout[0][0]->get_start_date());
 						if ($thisStartHour < $firstHour) $firstHour = $thisStartHour;
 					}
 				}
@@ -434,6 +438,19 @@ else {
 		$year = (int)$year;
 		$month = (int)$month;
 		$day = (int)$day;
+
+		$document =& JFactory::getDocument();
+
+		$calCode = "window.addEvent(\"domready\", function(){\n";
+		$gcal = $this->gcalendar;
+		foreach($gcal->getFeeds() as $feed){
+			$calCode .= "Nifty(\"div.gccal_".$feed->get('gcid')."\",\"small\");\n";
+			$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')."{padding: 1px;margin:0 auto;background:#".$feed->get('gccolor')."}\n");
+			$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')." a{color: #FFFFFF}\n");
+		}
+		$calCode .= "});";
+		$document->addScriptDeclaration($calCode);
+
 		switch($view) {
 			case "month":
 				$this->printMonth($year, $month, $day);
@@ -448,7 +465,6 @@ else {
 				$this->printTasks($year, $month, $day);
 				break;
 		}
-		$this->lastAccess = time();
 	}
 
 	function printViewTitle($year, $month, $day, $view, $suppressLogo = "false") {

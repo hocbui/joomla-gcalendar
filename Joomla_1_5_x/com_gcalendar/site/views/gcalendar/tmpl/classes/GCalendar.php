@@ -130,7 +130,6 @@ class GCalendar {
 
 				break;
 			}
-			JHTML::_('behavior.modal');
 			?>
 <div class="gcalendar">
 <div id="calToolbar">

@@ -322,7 +322,7 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	 * @param $format
 	 * @return the start date of the event
 	 */
-	function get_start_time($format = null){
+	function get_start_date($format = null){
 		if(!$this->gc_start_date){
 			$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
 			$startdate = $when[0]['attribs']['']['startTime'];
@@ -342,7 +342,7 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	 * @param $format
 	 * @return the end date of the event
 	 */
-	function get_end_time($as_timestamp = TRUE){
+	function get_end_date($format = null){
 		if(!$this->gc_end_date){
 			$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
 			$enddate = $when[0]['attribs']['']['endTime'];
@@ -366,11 +366,11 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 		if(!$this->gc_day_type){
 			$SECSINDAY=86400;
 
-			if (($this->get_start_time()+ $SECSINDAY) <= $this->get_end_time()) {
-				if (($this->get_start_time()+ $SECSINDAY) == $this->get_end_time()) {
+			if (($this->get_start_date()+ $SECSINDAY) <= $this->get_end_date()) {
+				if (($this->get_start_date()+ $SECSINDAY) == $this->get_end_date()) {
 					$this->gc_day_type =  $this->SINGLE_WHOLE_DAY;
 				} else {
-					if ((date('g:i a',$this->get_start_time())=='12:00 am')&&(date('g:i a',$this->get_end_time())=='12:00 am')){
+					if ((date('g:i a',$this->get_start_date())=='12:00 am')&&(date('g:i a',$this->get_end_date())=='12:00 am')){
 						$this->gc_day_type =  $this->MULTIPLE_WHOLE_DAY;
 					}else{
 						$this->gc_day_type =  $this->MULTIPLE_PART_DAY;
@@ -409,8 +409,8 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	 * @return the comparison integer
 	 */
 	function compare($gc_sp_item1, $gc_sp_item2){
-		$time1 = $gc_sp_item1->get_start_time();
-		$time2 = $gc_sp_item2->get_start_time();
+		$time1 = $gc_sp_item1->get_start_date();
+		$time2 = $gc_sp_item2->get_start_date();
 		if(!$gc_sp_item1->get_feed()->orderby_by_start_date){
 			$time1 = $gc_sp_item1->get_publish_date();
 			$time2 = $gc_sp_item2->get_publish_date();
