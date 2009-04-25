@@ -50,10 +50,14 @@ class CalendarRenderer {
 		return $result;
 	}
 
-	function printEvent($view, $item){
+	function printEvent($view, $item, $style = null){
 		$feed = $item->get_feed();
 		echo "<div class=\"gccal_".$feed->get('gcid')."\">";
+		if($style != null)
+		echo "<div style=\"".$style."\">";
 		CalEvent::display($view ,$item);
+		if($style != null)
+		echo "</div>";
 		echo "</div>";
 	}
 
@@ -239,12 +243,7 @@ foreach($col as $item) {
 	// Now, convert minute values to pixels.
 	$myStartOffset = $myStartOffset * 64 / 60;
 	$myDuration = $myDuration * 64 / 60;
-	?>
-<div class="Event" style="height:<?php echo $myDuration; ?>px; top:<?php echo $myStartOffset ?>px" >
-	<?php
-	$this->printEvent($view, $item);
-	?></div>
-	<?php
+	$this->printEvent($view, $item, "height:".$myDuration."px; top:". $myStartOffset."px");
 }
 $whichCol++;
 ?></div>
@@ -461,9 +460,6 @@ else {
 			case "week":
 				$this->printWeek($year, $month, $day);
 				break;
-			case "tasks":
-				$this->printTasks($year, $month, $day);
-				break;
 		}
 	}
 
@@ -548,9 +544,6 @@ else {
 					echo strftime("%A, %Y %b %e", $tDate);
 				}
 
-				break;
-			case "tasks":
-				echo "Tasks";
 				break;
 		}
 	}
