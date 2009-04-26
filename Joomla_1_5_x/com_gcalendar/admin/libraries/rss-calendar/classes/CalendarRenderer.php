@@ -99,16 +99,25 @@ class CalendarRenderer {
 				echo "<tr>";
 			}
 			$thisDay = $i + 1;
-			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=${year}&month=${month}&day=${thisDay}";
-			echo "<td ";
+			$myItems = $this->itemsForDate($year, $month, $i+1);
+			$calids = array();
+			if ($myItems) {
+				foreach($myItems as $item) {
+					$feed = $item->get_feed();
+					if(!in_array($feed->get('gcid'),$calids))
+					$calids[] = $feed->get('gcid');
+				}
+			}
+			if(!empty($calids)) $calids = '&gcids='.implode(',',$calids);
+			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=${year}&month=${month}&day=${thisDay}".$calids;
+			echo "<td height=\"".$gcal->config['cellHeight']."\" ";
 			if (($thisDay == $today["mday"]) && ($month == $today["mon"])) {
-				echo "class=\"Today\" height=\"".$gcal->config['cellHeight']."\"";
+				echo "class=\"Today\"";
 			}
 			echo ">";
-			$myItems = $this->itemsForDate($year, $month, $i+1);
 			if($gcal->config['printDayLink']=='yes' || count($myItems) > 0)
 			echo "<a class=\"DayNum\" href=\"". JRoute::_($thisLink)."\">".$thisDay."</a>";
-			else 
+			else
 			echo "<p class=\"DayNum\">".$thisDay."</p>";
 			if ($myItems) {
 				foreach($myItems as $item) {
@@ -122,7 +131,7 @@ class CalendarRenderer {
 			}
 			for ($i=$lastDay + $startDayOfWeek;$i<($numRows * 7);$i++) {
 				// [DAF-060426] fixed typo
-				echo "<td class=\"EmptyCell\"></td>";
+				echo "<td class=\"EmptyCell\" height=\"".$gcal->config['cellHeight']."\" ></td>";
 			}
 			echo "</table>";
 	}

@@ -31,7 +31,7 @@ $config = array(
  'showEventTitle'=>'no',
  'printDayLink'=>'no',
  'forceView'=>'month',
- 'cellHeight=15');
+ 'cellHeight'=>'15');
 $cal = new GCalendar($model, $config);
 $cal->display();
 ?>

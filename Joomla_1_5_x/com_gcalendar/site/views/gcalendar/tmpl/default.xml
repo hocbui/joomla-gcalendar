@@ -17,7 +17,5 @@
 				label="Page Class Suffix"
 				description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
 		</params>
-		<advanced>
-		</advanced>
 	</state>
 </metadata>
