@@ -23,6 +23,17 @@
  *
  */
 class GCalendarUtil{
+
+	function ensureSPIsLoaded(){
+		if(!class_exists('SimplePie')){
+			require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
+		}
+
+		if(!class_exists('SimplePie_GCalendar')){
+			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
+		}
+	}
+
 	function getComponentParameter($key){
 		$params   = JComponentHelper::getParams('com_gcalendar');
 		return $params->get($key);

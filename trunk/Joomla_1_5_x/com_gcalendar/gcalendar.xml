@@ -36,8 +36,9 @@
 		<menu>GCalendar</menu>
 		<submenu>
 			<menu task="gcalendars">GCalendars</menu>
-			<menu task="google">Google Calendar</menu>
-			<menu task="support">Support</menu>
+			<menu view="google">Google Calendar</menu>
+			<menu view="tools">Tools</menu>
+			<menu view="support">Support</menu>
 		</submenu>
 		<files folder="admin">
 			<!-- Site Main File Copy Section -->

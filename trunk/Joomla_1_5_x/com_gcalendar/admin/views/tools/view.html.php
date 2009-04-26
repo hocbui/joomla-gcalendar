@@ -18,53 +18,27 @@
  * @version $Revision: 2.1.0 $
  */
 
-jimport('joomla.application.component.controller');
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die();
+
+jimport( 'joomla.application.component.view' );
+require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
 /**
- * GCalendar Component Controller
+ * GCalendars View
  *
  */
-class GCalendarsController extends JController
+class GCalendarsViewTools extends JView
 {
 	/**
-	 * constructor (registers additional tasks to methods)
+	 * GCalendars view display method
 	 * @return void
-	 */
-	function __construct(){
-		parent::__construct();
-	}
-
-
-	/**
-	 * Method to display the view
-	 *
-	 * @access	public
-	 */
-	function display()
+	 **/
+	function display($tpl = null)
 	{
-		parent::display();
+		GCalendarUtil::ensureSPIsLoaded();
+		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
+		JToolBarHelper::preferences( 'com_gcalendar' );
+		parent::display($tpl);
 	}
-
-	function import(){
-		if($this->isLoggedIn()){
-			JRequest::setVar( 'view', 'import'  );
-		}else{
-			JRequest::setVar( 'nextTask', 'import'  );
-			JRequest::setVar( 'view', 'login'  );
-		}
-		JRequest::setVar('hidemainmenu', 0);
-
-		parent::display();
-	}
-
-	function isLoggedIn(){
-		global $_SESSION, $_GET;
-		if (!isset($_SESSION['sessionToken']) && !isset($_GET['token'])) {
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
-
 }
-?>

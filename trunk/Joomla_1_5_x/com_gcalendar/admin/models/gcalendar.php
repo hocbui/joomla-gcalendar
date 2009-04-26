@@ -107,6 +107,9 @@ class GCalendarsModelGCalendar extends JModel
 		if(strpos($row->color, '#') === 0)
 		$row->color = str_replace("#","",$row->color);
 
+		if(strpos($row->calendar_id, '@'))
+		$row->calendar_id = str_replace("@","%40",$row->calendar_id);
+
 		// Store the calendar table to the database
 		if (!$row->store()) {
 			JError::raiseWarning( 500, $row->getError() );

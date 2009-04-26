@@ -25,15 +25,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once (dirname(__FILE__).DS.'helper.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-if(!class_exists('SimplePie')){
-	require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
-}
+GCalendarUtil::ensureSPIsLoaded();
 
-if(!class_exists('SimplePie_GCalendar')){
-	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
-}
-
-// Get data from helper class
 $returnValue = ModGCalendarUpcomingHelper::getCalendarItems($params);
 $error = $returnValue[0];
 $gcalendar_data = $returnValue[1];

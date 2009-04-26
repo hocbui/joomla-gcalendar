@@ -20,16 +20,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-if(!class_exists('SimplePie')){
-	require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
-}
-
-if(!class_exists('SimplePie_GCalendar')){
-	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
-}
-
-
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 require_once ('classes/EventRenderer.php');
 require_once ('classes/CalendarRenderer.php');
 
@@ -40,6 +31,7 @@ class GCalendar {
 	var $config;
 
 	function GCalendar(&$model, $config) {
+		GCalendarUtil::ensureSPIsLoaded();
 		$this->config = $config;
 		$this->mainFilename = "index.php?option=com_gcalendar&view=gcalendar";
 		$this->today = getdate();
