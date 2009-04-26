@@ -46,16 +46,10 @@ function &plgSearchGCalendarAreas() {
  * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if the search it to be restricted to areas, null if search all
  */
-function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
-{
+function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-	if(!class_exists('SimplePie')){
-		require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
-	}
-
-	if(!class_exists('SimplePie_GCalendar')){
-		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
-	}
+	GCalendarUtil::ensureSPIsLoaded();
+	
 	$user	=& JFactory::getUser();
 
 	$text = trim( $text );
@@ -134,10 +128,10 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null )
 
 		$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
 		if(!empty($itemID))$itemID = '&Itemid='.$itemID;
-		$row->href = JRoute::_('index.php?option=com_gcalendar&task=event&eventID='.$event->get_id().'&gcid='.$feed->get('gcid').$itemID);
+		$row->href = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&gcid='.$feed->get('gcid').$itemID);
 		$row->title = $event->get_title();
 		$row->text = $event->get_description();
-		$row->section = 'gcalendar';
+		$row->section = JText::_('GCalendar');
 		$row->category = $feed->get('gcid');
 		$row->created = $event->get_publish_date();
 		$return[] = $row;
