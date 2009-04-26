@@ -18,14 +18,12 @@
  * @version $Revision: 2.1.0 $
  */
 
-// no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport( 'joomla.application.component.model' );
 
-// Include the syndicate functions only once
-require_once( dirname(__FILE__).DS.'helper.php' );
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'GCalendar.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-$calendars = modGCalendarHelper::getCalendars( $params );
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar' ) );
 ?>

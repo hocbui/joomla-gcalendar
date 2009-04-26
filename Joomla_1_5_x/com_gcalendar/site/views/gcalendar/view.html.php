@@ -19,19 +19,9 @@
  */
 
 jimport( 'joomla.application.component.view');
+
 require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-
-if(!class_exists('SimplePie')){
-	require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
-}
-
-if(!class_exists('SimplePie_GCalendar')){
-	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
-}
-
-require_once ('tmpl/classes/CalEvent.php');
-require_once ('tmpl/classes/CalendarRenderer.php');
-require_once ('tmpl/classes/GCalendar.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'GCalendar.php');
 
 /**
  * HTML View class for the GCalendar Component
