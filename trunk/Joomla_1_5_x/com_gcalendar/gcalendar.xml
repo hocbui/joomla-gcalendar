@@ -2,12 +2,14 @@
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
 <install type="component" version="1.5.0">
 	<name>GCalendar</name>
-	<creationDate>Jan 2009</creationDate>
+	<creationDate>Apr 2009</creationDate>
 	<author>allon</author>
-	<authorEmail>allon@allon.ch</authorEmail>
+	<authorEmail>info@gcalendar.allon.ch</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
-	<copyright></copyright>
-	<license></license>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
 	<version>2.1.0</version>
 	<description>Google calendar integrated in joomla.</description>
 	<files folder="site">

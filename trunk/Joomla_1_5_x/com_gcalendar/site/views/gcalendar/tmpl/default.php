@@ -29,7 +29,7 @@ $config = array(
  'defaultView'=>'month',
  'showEventTitle'=>'yes',
  'printDayLink'=>'yes',
- 'cellHeight=90');
+ 'cellHeight'=>'90');
 $model = &$this->getModel();
 $cal = new GCalendar($model, $config);
 $cal->display();

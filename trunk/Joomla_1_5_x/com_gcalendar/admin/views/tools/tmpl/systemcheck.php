@@ -56,7 +56,7 @@ defined('_JEXEC') or die('Restricted access');
 		$db->setQuery( $query );
 		$results = $db->loadObjectList();
 		if(empty($results)){
-			$tmp[] = array('name'=>'DB Entrys Check', 'description'=>'No DB data found.', 'status'=>'ok', 'solution'=>'');
+			$tmp[] = array('name'=>'DB Entries Check', 'description'=>'No DB data found.', 'status'=>'ok', 'solution'=>'');
 		}else{
 			foreach ($results as $result) {
 				$feed = new SimplePie_GCalendar();

@@ -33,34 +33,18 @@ class GCalendarController extends JController
 	 */
 	function display()
 	{
+		if(JRequest::getVar('view', null)=='event'){
+			$document =& JFactory::getDocument();
+
+			$viewType	= $document->getType();
+			$viewName	= JRequest::getCmd( 'view', 'Event' );
+			$viewLayout	= JRequest::getCmd( 'layout', 'default' );
+			
+			$this->addViewPath($this->_basePath.DS.'hiddenviews');
+			$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
+			$view->addTemplatePath($this->_basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
+		}
 		parent::display();
 	}
-
-	function event()
-	{
-		$document =& JFactory::getDocument();
-
-		$viewType	= $document->getType();
-		$viewName	= JRequest::getCmd( 'view', 'Event' );
-		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
-
-		$this->addViewPath($this->_basePath.DS.'hiddenviews');
-		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
-		$view->addTemplatePath($this->_basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
-
-		// Get/Create the model
-		if ($model = & $this->getModel('event')) {
-			$model->setState('gcid',JRequest::getVar('gcid', null));
-				
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-
-		// Set the layout
-		$view->setLayout($viewLayout);
-
-		$view->display();
-	}
-
 }
 ?>
