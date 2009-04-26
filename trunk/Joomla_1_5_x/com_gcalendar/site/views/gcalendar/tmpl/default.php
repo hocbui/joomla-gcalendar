@@ -19,23 +19,19 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-
-$document =& JFactory::getDocument();
-JHTML::_('behavior.modal');
-$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');
-$document->addStyleSheet('administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
-$document->addScript('administrator/components/com_gcalendar/libraries/datepicker/datepicker.js');
-$document->addStyleSheet('administrator/components/com_gcalendar/libraries/datepicker/style.css');
-$document->addStyleSheet('components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css');
-if ($this->userAgent == "ie") {
-	$document->addStyleSheet('components/com_gcalendar/views/gcalendar/tmpl/gcalendar-ie6.css');
-}
 ?>
 <div
 	class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php
+$config = array(
+ 'showToolbar'=>'yes',
+ 'shortDayNames'=>'no',
+ 'defaultView'=>'month',
+ 'showEventTitle'=>'yes',
+ 'printDayLink'=>'yes',
+ 'cellHeight=90');
 $model = &$this->getModel();
-$cal = new GCalendar($model);
+$cal = new GCalendar($model, $config);
 $cal->display();
 ?>
 </div>

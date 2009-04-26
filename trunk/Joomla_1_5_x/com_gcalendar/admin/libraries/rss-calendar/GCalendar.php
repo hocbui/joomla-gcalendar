@@ -20,12 +20,27 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+if(!class_exists('SimplePie')){
+	require_once (JPATH_SITE.DS.'libraries'.DS.'simplepie'.DS.'simplepie.php');
+}
+
+if(!class_exists('SimplePie_GCalendar')){
+	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
+}
+
+
+require_once ('classes/EventRenderer.php');
+require_once ('classes/CalendarRenderer.php');
+
 class GCalendar {
 	var $cal;
 	var $today, $month, $year, $day, $view;
 	var $mainFilename;
+	var $config;
 
-	function GCalendar(&$model) {
+	function GCalendar(&$model, $config) {
+		$this->config = $config;
 		$this->mainFilename = "index.php?option=com_gcalendar&view=gcalendar";
 		$this->today = getdate();
 		if (isset($_GET["date"])) {
@@ -42,7 +57,10 @@ class GCalendar {
 				$this->day = 1;
 			}
 		}
-		$this->view = isset($_GET["gcalendarview"]) ? $_GET["gcalendarview"] : "month";
+		$this->view = isset($_GET["gcalendarview"]) ? $_GET["gcalendarview"] : $config['defaultView'];
+		if(isset($config['forceView'])){
+			$this->view = $config['forceView'];
+		}
 
 		$this->year = (int)$this->year;
 		$this->month = (int)$this->month;
@@ -86,11 +104,19 @@ class GCalendar {
 	}
 
 	function display() {
-		global $mainframe;
 
-		$params =& $mainframe->getPageParameters();
+		$document =& JFactory::getDocument();
+		JHTML::_('behavior.modal');
+		$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');
+		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
+		$document->addScript('administrator/components/com_gcalendar/libraries/datepicker/datepicker.js');
+		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/datepicker/style.css');
+		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.css');
+		if ($this->userAgent == "ie") {
+			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
+		}
 
-		$urlPath = JURI::base() . 'components/com_gcalendar/views/gcalendar/tmpl';
+		$urlPath = JURI::base() . 'administrator/components/com_gcalendar/libraries/rss-calendar';
 		$cal = &$this->cal;
 
 		$this->todayURL = $this->mainFilename . "&gcalendarview=" .  $this->view . "&year=";
@@ -131,7 +157,9 @@ class GCalendar {
 				break;
 			}
 			?>
-<div class="gcalendar">
+<div class="gcalendar"><?php
+if($this->config['showToolbar'] == 'yes'){
+	?>
 <div id="calToolbar">
 <div id="calPager" class="Item"><a class="Item"
 	href="<?php echo JRoute::_($prevURL) ?>"
@@ -140,12 +168,10 @@ class GCalendar {
 </span> <a class="Item" href="<?php echo JRoute::_($nextURL) ?>"
 	title="<?php echo "next ${view}" ?>"> <?php $this->image("btn-next.gif", "next ${view}", "nextBtn_img"); ?></a>
 </div>
-			<?php
-			global $option, $Itemid;?>
 <form action="<?php echo $this->mainFilename ?>" method="get"
 	name="controlForm" id="controlForm" class="Item"><a class="Item"
 	href="javascript:document.controlForm.date.value='<?php echo $this->today["mday"].'/'.$this->today["mon"].'/'.$this->today["year"]; ?>';document.controlForm.submit();">
-			<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
+	<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
 <input class="Item" type="text" name="date"
 	onclick="displayDatePicker('date', false, 'dmy', '/');"
 	value="<?php echo date('d/m/Y',mktime(0,0,0,$month,$day,$year)); ?>"
@@ -156,22 +182,23 @@ class GCalendar {
 </form>
 <div id="viewSelector" class="Item"><a
 	href="javascript:document.controlForm.gcalendarview.value='day';document.controlForm.submit();">
-			<?php $this->image("cal-day.gif", "day view", "calday_img"); ?></a> <a
+	<?php $this->image("cal-day.gif", "day view", "calday_img"); ?></a> <a
 	href="javascript:document.controlForm.gcalendarview.value='week';document.controlForm.submit();">
-			<?php $this->image("cal-week.gif", "week view", "calweek_img"); ?></a>
+	<?php $this->image("cal-week.gif", "week view", "calweek_img"); ?></a>
 <a
 	href="javascript:document.controlForm.gcalendarview.value='month';document.controlForm.submit();">
-			<?php $this->image("cal-month.gif", "month view", "calmonth_img"); ?></a>
+	<?php $this->image("cal-month.gif", "month view", "calmonth_img"); ?></a>
 </div>
 </div>
-			<?php
+	<?php
+			}
 			$cal->printCal($year, $month, $day, $view);
 			?></div>
 			<?php
 	}
 	function image($name, $alt = "[needs alt tag]", $id="", $attrs="") {
-		list($width, $height, $d0, $d1) = getimagesize(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar'.DS.'tmpl' . DS.'img'.DS . $name);
-		echo "<img src=\"".JURI::base() . "components/com_gcalendar/views/gcalendar/tmpl/img/" . $name."\"";
+		list($width, $height, $d0, $d1) = getimagesize(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'img'.DS . $name);
+		echo "<img src=\"".JURI::base() . "administrator/components/com_gcalendar/libraries/rss-calendar/img/" . $name."\"";
 		echo "id=\"". $id."\" width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\"";
 		echo $attrs ."/>";
 	}
