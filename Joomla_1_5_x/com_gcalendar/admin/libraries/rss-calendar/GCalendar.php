@@ -30,7 +30,7 @@ class GCalendar {
 	var $mainFilename;
 	var $config;
 
-	function GCalendar(&$model, $config) {
+	function GCalendar($feedFetcher, $config) {
 		GCalendarUtil::ensureSPIsLoaded();
 		$this->config = $config;
 		$this->mainFilename = "index.php?option=com_gcalendar&view=gcalendar";
@@ -80,14 +80,20 @@ class GCalendar {
 			$this->userAgent = "unk";
 			$this->uaPlatform = "unk";
 		}
-		//2005-08-09T10:57:00-08:00 alway catch the full month
-		$start = mktime(0, 0, 0, $this->month, 1, $this->year);
-		$end    = strtotime( "+1 months", $start );
-		$month_before              = (int) date( "m", $start ) + 12 * (int) date( "Y", $start );
-		$month_after               = (int) date( "m", $end ) + 12 * (int) date( "Y", $end );
-		if ($month_after > $months + $month_before)
-		$end = strtotime( date("Ym01His", $end) . " -1 day" );
-		$this->feeds = &$model->getGoogleCalendarEvents($start, $end);
+		switch($this->view) {
+			case "month":
+				$start = mktime(0, 0, 0, $this->month, 1, $this->year);
+				$end = strtotime( "+1 month", $start );
+				break;
+			case "day":
+				$start = mktime(0, 0, 0, $this->month, $this->day, $this->year);
+				$end = strtotime( "+1 day", $start );
+				break;
+			case "week":
+				$start = CalendarRenderer::getFirstDayOfWeek($this->year, $this->month, $this->day, $config['weekStart']);
+				$end = strtotime( "+1 week +1 day", $start );
+		}
+		$this->feeds = $feedFetcher->getGoogleCalendarEvents($start, $end, $config['projection']);
 		$this->cal = new CalendarRenderer(&$this);
 	}
 
@@ -96,7 +102,6 @@ class GCalendar {
 	}
 
 	function display() {
-
 		$document =& JFactory::getDocument();
 		JHTML::_('behavior.modal');
 		$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');

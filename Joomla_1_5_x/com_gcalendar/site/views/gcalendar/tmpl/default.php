@@ -19,9 +19,10 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+$params = $this->params;
 ?>
 <div
-	class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 <?php
 $config = array(
  'showToolbar'=>'yes',
@@ -29,7 +30,8 @@ $config = array(
  'defaultView'=>'month',
  'showEventTitle'=>'yes',
  'printDayLink'=>'yes',
- 'cellHeight'=>'90');
+ 'cellHeight'=>'90',
+ 'weekStart'=>$params->get( 'weekstart' ));
 $model = &$this->getModel();
 $cal = new GCalendar($model, $config);
 $cal->display();

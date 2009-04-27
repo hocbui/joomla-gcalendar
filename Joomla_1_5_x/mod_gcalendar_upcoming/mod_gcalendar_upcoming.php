@@ -18,10 +18,8 @@
  * @version $Revision: 2.1.0 $
  */
 
-// no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// Include the helper functions only once
 require_once (dirname(__FILE__).DS.'helper.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 

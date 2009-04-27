@@ -7,7 +7,8 @@
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
-	<authorEmail>info@gcalendar.allon.ch</authorEmail>
+	<authorEmail>info@gcalendar.allon.ch
+	</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
 	<version>2.1.0</version>
 	<description>This module shows the google calendar at a module
@@ -16,6 +17,7 @@
 		<filename module="mod_gcalendar">mod_gcalendar.php
 		</filename>
 		<filename>index.html</filename>
+		<filename>helper.php</filename>
 		<filename>tmpl/default.php</filename>
 		<filename>tmpl/index.html</filename>
 	</files>
@@ -26,6 +28,12 @@
 	<params addpath="/administrator/components/com_gcalendar/elements">
 		<param name="calendarids" type="gcalendar" default=""
 			label="Select Calendars" description="The calendars" />
+		<param name="weekstart" type="list" default="2" label="Week starts on"
+			description="">
+			<option value="1">Sunday</option>
+			<option value="2">Monday</option>
+			<option value="7">Saturday</option>
+		</param>
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
 		<param name="moduleclass_sfx" type="text" size="80" default=""

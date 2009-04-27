@@ -30,23 +30,26 @@ class CalendarRenderer {
 	function itemsForDate($year, $month, $day) {
 		$result = array();
 		$gcal = $this->gcalendar;
+		$feeds = $gcal->getFeeds();
 		$requestedDayStart = mktime(0, 0, 0, $month, $day, $year);
 		$requestedDayEnd = $requestedDayStart + 86400;
-		foreach($gcal->getFeeds() as $feed){
-			foreach($feed->get_items() as $item){
-				if($requestedDayStart <= $item->get_start_date()
-				&& $item->get_start_date() < $requestedDayEnd){
-					$result[] = $item;
-				}else if($requestedDayStart < $item->get_end_date()
-				&& $item->get_end_date() <= $requestedDayEnd){
-					$result[] = $item;
-				}else if($item->get_start_date() <= $requestedDayStart
-				&& $requestedDayEnd <= $item->get_start_date()){
-					$result[] = $item;
+		if(!empty($feeds)){
+			foreach($feeds as $feed){
+				foreach($feed->get_items() as $item){
+					if($requestedDayStart <= $item->get_start_date()
+					&& $item->get_start_date() < $requestedDayEnd){
+						$result[] = $item;
+					}else if($requestedDayStart < $item->get_end_date()
+					&& $item->get_end_date() <= $requestedDayEnd){
+						$result[] = $item;
+					}else if($item->get_start_date() <= $requestedDayStart
+					&& $requestedDayEnd <= $item->get_start_date()){
+						$result[] = $item;
+					}
 				}
 			}
+			usort($result, array("SimplePie_Item_GCalendar", "compare"));
 		}
-		usort($result, array("SimplePie_Item_GCalendar", "compare"));
 		return $result;
 	}
 
@@ -66,24 +69,23 @@ class CalendarRenderer {
 
 	function printMonth($year, $month, $day) {
 		$today = getdate();
+		$gcal = $this->gcalendar;
 
-		// 0 is Sunday
-		// TODO - Solaris may label Sunday as 1; investigate
-		$startDayOfWeek = strftime("%u", strtotime("${year}-${month}-01")) % 7;
-
+		$startWeekDay = ((int)$gcal->config['weekStart'])-1;
+		$daysOffset = (strftime("%u", strtotime("${year}-${month}-01"))+(7-$startWeekDay))%7;
 		echo "<table class=\"gcalendarcal CalMonth\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 		// print days of the week at the top
-		$gcal = $this->gcalendar;
 		for ($i=0; $i<7; $i++) {
-			echo "<th>".JFactory::getDate()->_dayToString($i, $gcal->config['shortDayNames']=='yes')."</th>\n";
+			$dateObject = JFactory::getDate();
+			echo "<th>".$dateObject->_dayToString(($i+$startWeekDay)%7, $gcal->config['shortDayNames']=='yes')."</th>\n";
 		}
-		echo "</tr>";
+		echo "</tr><tr>";
 		for ($i=28; $i<33; $i++) {
 			if (!checkdate($month, $i, $year)) {
 				$lastDay = $i-1;
-				$lastDaySlot = ($lastDay - 1) + $startDayOfWeek;
+				$lastDaySlot = ($lastDay - 1) + $daysOffset;
 				$lastDayOfWeek = $lastDaySlot % 7;
-				$numberOfSlotsNeeded = $startDayOfWeek + $lastDay;
+				$numberOfSlotsNeeded = $daysOffset + $lastDay;
 				$numRows = floor($numberOfSlotsNeeded / 7) + 1;
 				break;
 			}
@@ -91,15 +93,15 @@ class CalendarRenderer {
 
 		$colWidth = "14%";
 		$rowHeight = (int)round(100 / $numRows) . "%";
-		for ($i=0;$i<$startDayOfWeek;$i++) {
+		for ($i=0;$i<$daysOffset;$i++) {
 			echo "<td class=\"EmptyCell\"></td>\n";
 		}
 		for ($i=0;$i< $lastDay;$i++) {
-			if (($i + $startDayOfWeek) % 7 == 0) {
+			if (($i + $daysOffset) % 7 == 0) {
 				echo "<tr>";
 			}
 			$thisDay = $i + 1;
-			$myItems = $this->itemsForDate($year, $month, $i+1);
+			$myItems = $this->itemsForDate($year, $month, $thisDay);
 			$calids = array();
 			if ($myItems) {
 				foreach($myItems as $item) {
@@ -125,15 +127,15 @@ class CalendarRenderer {
 				}
 			}
 			echo "</td>\n";
-			if (($i + $startDayOfWeek) % 7 == 6) {
+			if (($i + $daysOffset) % 7 == 6) {
 				echo "</tr>";
 			}
-			}
-			for ($i=$lastDay + $startDayOfWeek;$i<($numRows * 7);$i++) {
-				// [DAF-060426] fixed typo
-				echo "<td class=\"EmptyCell\" height=\"".$gcal->config['cellHeight']."\" ></td>";
-			}
-			echo "</table>";
+		}
+		for ($i=$lastDay + $daysOffset;$i<($numRows * 7);$i++) {
+			// [DAF-060426] fixed typo
+			echo "<td class=\"EmptyCell\" height=\"".$gcal->config['cellHeight']."\" ></td>";
+		}
+		echo "</tr></table>";
 	}
 
 	function getDayLayout($year, $month, $day) {
@@ -158,7 +160,9 @@ class CalendarRenderer {
 		$untimedItems = array();
 
 		foreach($items as $item) {
-			if ($item->get_day_type() == $item->SINGLE_WHOLE_DAY || $item->get_day_type() == $item->MULTIPLE_WHOLE_DAY ) {
+			if ($item->get_day_type() == $item->SINGLE_WHOLE_DAY 
+			|| $item->get_day_type() == $item->MULTIPLE_WHOLE_DAY 
+			|| $item->get_day_type() == $item->MULTIPLE_PART_DAY) {
 				$untimedItems[] = $item;
 			}
 			else {
@@ -336,18 +340,14 @@ else {
 	}
 
 	function printWeek($year, $month, $day) {
-		$tDate = strtotime("${year}-${month}-${day}");
-		if (strftime("%u", $tDate) == 7) {
-			$firstDisplayedDate = $tDate;
-		}
-		else {
-			$firstDisplayedDate = strtotime("last Sunday", strtotime("${year}-${month}-${day}"));
-		}
+		$gcal = $this->gcalendar;
+		$firstDisplayedDate = $this->getFirstDayOfWeek($year, $month, $day, $gcal->config['weekStart']);
+
 		$dayLayouts = array();
 		$lastHour = 0;
 		$firstHour = 24;
 		for ($j=0;$j<7;$j++) {
-			$thisDate = strtotime("+${j} days", $firstDisplayedDate);
+			$thisDate = strtotime('+'.$j.' days', $firstDisplayedDate);
 			$displayedDates[] = getdate($thisDate);
 		}
 		foreach ($displayedDates as $dInfo) {
@@ -374,7 +374,7 @@ else {
 
 		// get end time for the last event
 		if (!$lastHour) $lastHour = 17;
-			
+
 		?>
 <table class="gcalendarcal CalWeek" cellspacing="0" cellpadding="0">
 	<tr>
@@ -412,7 +412,10 @@ else {
 							"&day=" . $dInfo["mday"];
 
 		echo "<a href=\"" . JRoute::_($thisLink) . "\">";
-		echo substr($dInfo["weekday"], 0, 3);
+		$gcal = $this->gcalendar;
+		$startWeekDay = ((int)$gcal->config['weekStart'])-1;
+		$dateObject = JFactory::getDate();
+		echo $dateObject->_dayToString(($dayIndex+$startWeekDay)%7,TRUE);
 		echo " ";
 		echo $dInfo["mday"];
 		echo "</a>";
@@ -455,17 +458,19 @@ else {
 		$month = (int)$month;
 		$day = (int)$day;
 
-		$document =& JFactory::getDocument();
-
-		$calCode = "window.addEvent(\"domready\", function(){\n";
 		$gcal = $this->gcalendar;
-		foreach($gcal->getFeeds() as $feed){
-			$calCode .= "Nifty(\"div.gccal_".$feed->get('gcid')."\",\"small\");\n";
-			$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')."{padding: 1px;margin:0 auto;background:#".$feed->get('gccolor')."}\n");
-			$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')." a{color: #FFFFFF}\n");
+		$feeds = $gcal->getFeeds();
+		if(!empty($feeds)){
+			$document =& JFactory::getDocument();
+			$calCode = "window.addEvent(\"domready\", function(){\n";
+			foreach($feeds as $feed){
+				$calCode .= "Nifty(\"div.gccal_".$feed->get('gcid')."\",\"small\");\n";
+				$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')."{padding: 1px;margin:0 auto;background:#".$feed->get('gccolor')."}\n");
+				$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')." a{color: #FFFFFF}\n");
+			}
+			$calCode .= "});";
+			$document->addScriptDeclaration($calCode);
 		}
-		$calCode .= "});";
-		$document->addScriptDeclaration($calCode);
 
 		switch($view) {
 			case "month":
@@ -502,13 +507,8 @@ else {
 				}
 				break;
 			case "week":
-				$tDate = strtotime("${year}-${month}-${day}");
-				if (strftime("%u", $tDate) == 7) {
-					$firstDisplayedDate = $tDate;
-				}
-				else {
-					$firstDisplayedDate = strtotime("last Sunday", $tDate);
-				}
+				$gcal = $this->gcalendar;
+				$firstDisplayedDate = $this->getFirstDayOfWeek($year, $month, $day, $gcal->config['weekStart']);
 				$lastDisplayedDate = strtotime("+6 days", $firstDisplayedDate);
 				$infoS = getdate($firstDisplayedDate);
 				$infoF = getdate($lastDisplayedDate);
@@ -519,15 +519,12 @@ else {
 
 					if ($format == 'month') {
 						echo "${m1} " . $infoS["mday"] . ", " . $infoS["year"] . " - ${m2} " . $infoF["mday"] . ", " . $infoF["year"];
-					} else if ($format == 'day') {
-						echo $infoS["mday"] . " ${m1} " . $infoS["year"] . " - "  . $infoF["mday"] . " ${m2} ". $infoF["year"];
+		} else if ($format == 'day') {
+			echo $infoS["mday"] . " ${m1} " . $infoS["year"] . " - "  . $infoF["mday"] . " ${m2} ". $infoF["year"];
 					} else {
 						echo $infoS["year"] . " ${m1} " . $infoS["mday"] . " - " . $infoF["year"] . " ${m2} " . $infoF["mday"];
 					}
-
-
-				}
-				elseif ($infoS["mon"] != $infoF["mon"]) {
+				} elseif ($infoS["mon"] != $infoF["mon"]) {
 					$m1 = substr($infoS["month"], 0, 3);
 					$m2 = substr($infoF["month"], 0, 3);
 
@@ -539,8 +536,7 @@ else {
 						echo $infoS["year"] . " ${m1} " . $infoS["mday"] . " - ${m2} " . $infoF["mday"];
 					}
 
-				}
-				else {
+				} else {
 					if ($format == 'month') {
 						echo $infoS["month"] . " " . $infoS["mday"] . " - " . $infoF["mday"] . ", " . $infoS["year"];
 					} else if ($format == 'day') {
@@ -562,6 +558,29 @@ else {
 				}
 
 				break;
+		}
+	}
+
+	function getFirstDayOfWeek($year, $month, $day, $weekStart) {
+		$tDate = strtotime($year.'-'.$month.'-'.$day);
+
+		switch($weekStart){
+			case 1:
+				$name = 'Sunday';
+				break;
+			case 2:
+				$name = 'Monday';
+				break;
+			case 7:
+				$name = 'Saturday';
+				break;
+			default:
+				$name = 'Sunday';
+		}
+		if (strftime("%w", $tDate) == $weekStart-1) {
+			return $tDate;
+		}else {
+			return strtotime("last ".$name, $tDate);
 		}
 	}
 }
