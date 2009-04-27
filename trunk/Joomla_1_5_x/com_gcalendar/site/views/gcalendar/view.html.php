@@ -36,7 +36,7 @@ class GCalendarViewGCalendar extends JView
 		$params = &$mainframe->getParams();
 		$this->assignRef('params'  , $params);
 
-		if(JRequest::getVar('calendarids', null) != null){
+		if(JRequest::getVar('gcids', null) != null){
 			$calendarids = explode(',', JRequest::getVar('gcids', null));
 			$model = &$this->getModel();
 			$model->setState('gcids',$calendarids);

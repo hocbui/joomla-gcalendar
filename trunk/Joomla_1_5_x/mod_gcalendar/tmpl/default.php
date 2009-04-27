@@ -20,10 +20,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'models');
-$model =JModel::getInstance('GCalendar','GCalendarModel');
-$model->setState('parameters.menu', $params);
-
 $config = array(
  'showToolbar'=>'no',
  'shortDayNames'=>'yes',
@@ -31,7 +27,9 @@ $config = array(
  'showEventTitle'=>'no',
  'printDayLink'=>'no',
  'forceView'=>'month',
- 'cellHeight'=>'15');
-$cal = new GCalendar($model, $config);
+ 'cellHeight'=>'15',
+ 'projection'=>'full',
+ 'weekStart'=>$params->get( 'weekstart' ));
+$cal = new GCalendar($feedFetcher, $config);
 $cal->display();
 ?>

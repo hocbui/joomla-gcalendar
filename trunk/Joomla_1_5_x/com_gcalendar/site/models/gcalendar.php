@@ -44,7 +44,8 @@ class GCalendarModelGCalendar extends JModel {
 			$calendarids = null;
 			if($params != null)
 			$calendarids=$params->get('calendarids');
-			if($this->getState('gcids'))
+			$gcids = $this->getState('gcids');
+			if(!empty($gcids))
 			$calendarids = $this->getState('gcids');
 
 			$db =& JFactory::getDBO();
@@ -70,7 +71,7 @@ class GCalendarModelGCalendar extends JModel {
 		return $cached_data;
 	}
 
-	function getGoogleCalendarEvents($startDate, $endDate) {
+	function getGoogleCalendarEvents($startDate, $endDate, $projection = null) {
 		$results = $this->getDBCalendars();
 		if(empty($results))
 		return null;
@@ -85,8 +86,10 @@ class GCalendarModelGCalendar extends JModel {
 				$feed->set_expand_single_events(TRUE);
 				$feed->enable_order_by_date(FALSE);
 				$feed->enable_cache(FALSE);
+				$feed->set_projection($projection);
 				$feed->set_start_date($startDate);
 				$feed->set_end_date($endDate);
+				$feed->set_max_events(100);
 				$feed->put('gcid',$result->id);
 				$feed->put('gccolor',$result->color);
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
