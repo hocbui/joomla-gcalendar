@@ -28,7 +28,9 @@ if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED')) {
 
 /**
  * SimplePie_GCalendar is the SimplePie extension which provides some
- * helper methods as well as a correct sorting of the items.
+ * helper methods.
+ * 
+ * @see http://code.google.com/apis/calendar/docs/2.0/reference.html
  */
 class SimplePie_GCalendar extends SimplePie {
 
@@ -42,6 +44,7 @@ class SimplePie_GCalendar extends SimplePie {
 	var $start_date = null;
 	var $end_date = null;
 	var $max_events = 25;
+	var $projection = 'full';
 
 	/**
 	 * If the method $this->get_items() should include past events.
@@ -124,13 +127,34 @@ class SimplePie_GCalendar extends SimplePie {
 	 * @param $value the max events
 	 */
 	function set_max_events($value = 25){
+		$this->max_events = $value;
+	}
 
+	/**
+	 * Sets the projection of this feed. The given value must one of the
+	 * following strings:
+	 * - full
+	 * - full-noattendees
+	 * - composite
+	 * - attendees-only
+	 * - free-busy
+	 * - basic
+	 * Note if the feed projection is not full, some methodes in the returned
+	 * items are empty. For example if the feed projection is basic the method
+	 * SimplePie_Item_GCalendar->get_start_date() returns an empty string,
+	 * because this information is only included in the full projection.
+	 * @param $value
+	 */
+	function set_projection($value = 'full'){
+		if(!empty($value))
+		$this->projection = $value;
 	}
 
 	/**
 	 * Overrides the default ini method and sets automatically
 	 * SimplePie_Item_GCalendar as item class.
-	 * It ensures that the feed url is correct if $calendar_type=='full'.
+	 * It also sets the variables specified in this feed as query
+	 * parameters.
 	 */
 	function init(){
 		$this->set_item_class('SimplePie_Item_GCalendar');
@@ -153,13 +177,12 @@ class SimplePie_GCalendar extends SimplePie {
 	 * and returns a valid google calendar feed url.
 	 */
 	function check_url($url_to_check){
-		$tmp = str_replace("/basic","/full",$url_to_check);
-		if(!strpos($tmp,'?'))
-		$tmp = $this->append($tmp,'?');
-		else{
-			if(!(substr($tmp, -1) === '&'))
-			$tmp = $this->append($tmp,'&');
-		}
+		$new_url = parse_url($url_to_check);
+		$path = $new_url['path'];
+		$path = substr($path, 0, strrpos($path, '/')+1).$this->projection;
+		$tmp = $new_url['scheme'].'://'.$new_url['host'].$path.'?'.$new_url['query'];
+		if(!empty($new_url['query']))
+		$tmp = $this->append($tmp,'&');
 		if($this->start_date==null && $this->end_date==null){
 			if($this->show_past_events )
 			$tmp = $this->append($tmp,'futureevents=false&');
@@ -189,11 +212,12 @@ class SimplePie_GCalendar extends SimplePie {
 		if(!empty($this->cal_query))
 		$tmp = $this->append($tmp,'q='.$this->cal_query.'&');
 		$tmp = $this->append($tmp,'max-results='.$this->max_events);
+		
 		return $tmp;
 	}
 
 	/**
-	 * Internal helper method to append a straing to an other one.
+	 * Internal helper method to append a string to an other one.
 	 */
 	function append($value, $appendix){
 		$pos = strpos($value,$appendix);
