@@ -75,10 +75,11 @@ defined('_JEXEC') or die('Restricted access');
 
 				if ($feed->error()){
 					$desc = "The following Simplepie error occurred when reading calendar ".$result->name.":<br>".$feed->error();
-					$solution = "If the error is the same as in the connection test use the solution described there. ";
-					$solution .= "Please check your shared settings of the calendar and the events, ";
-					$solution .= "if you do not share your calendar with the public the <a href=\"http://code.google.com/apis/calendar/docs/2.0/developers_guide_protocol.html#AuthMagicCookie\">magic cookie</a> field must be set.<br/>";
-					$solution .= "<b>If the problem still exists check the forum at <a href=\"http://gcalendar.allon.ch\">gcalendar.allon.ch</a>.</b>";
+					$solution = "<ul><li>If the error is the same as in the connection test use the solution described there.</li>";
+					$solution .= "<li>Please check your shared settings of the calendar and the events, ";
+					$solution .= "if you do not share your calendar with the public the <a href=\"http://code.google.com/apis/calendar/docs/2.0/developers_guide_protocol.html#AuthMagicCookie\">magic cookie</a> field must be set.</li>";
+					$solution .= "<li>Run the <a href=\"components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php\">simplepie compatibility test</a> and check if your system does meet the minimum requirements of simplepie.</li>";
+					$solution .= "<li><b>If the problem still exists check the forum at <a href=\"http://gcalendar.allon.ch\">gcalendar.allon.ch</a>.</b></li>";
 					$status = 'failure';
 				}else{
 					$solution = '';

@@ -23,4 +23,6 @@ $u = JFactory::getURI();
 $url = JRoute::_( $u->toString().'?option=com_gcalendar&view=tools&layout=');
 ?>
 
-<div><a href="<?php echo $url; ?>systemcheck">System Check!!</a></div>
+<ul>
+<li><a href="<?php echo $url; ?>systemcheck">System Check!!</a></li>
+</ul>
