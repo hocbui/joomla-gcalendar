@@ -25,7 +25,7 @@ class ModGcalendarUpcomingHelper {
 	
 	function getCalendarItems(&$params){
 		$cache = & JFactory::getCache();
-		$items  = $cache->call( array( 'ModGCalendarUpcomingHelper', 'getOnlineItems' ), &$params );
+		$items  = $cache->call( array( 'ModGCalendarUpcomingHelper', 'getOnlineItems' ), $params );
 		return $items;
 	}
 	
