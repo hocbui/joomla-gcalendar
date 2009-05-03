@@ -21,15 +21,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class ModGcalendarUpcomingHelper {
+class ModGCalendarUpcomingHelper {
 	
-	function getCalendarItems(&$params){
-		$cache = & JFactory::getCache();
-		$items  = $cache->call( array( 'ModGCalendarUpcomingHelper', 'getOnlineItems' ), $params );
-		return $items;
-	}
-	
-	function getOnlineItems(&$params) {
+	function getCalendarItems(&$params) {
 		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'models');
 		$model =JModel::getInstance('GCalendar','GCalendarModel');
 		$model->setState('parameters.menu', $params);

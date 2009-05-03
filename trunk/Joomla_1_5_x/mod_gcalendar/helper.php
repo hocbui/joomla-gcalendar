@@ -36,14 +36,9 @@ class ModFeedFetcher{
 		$this->calendarids = $calendarids;
 	}
 
-	function getGoogleCalendarEvents($start, $end, $projection){
-		$cache = & JFactory::getCache();
-		$feeds  = $cache->call(array('ModFeedFetcher', 'getFeeds'), $this->calendarids, $start, $end, $projection);
-		return $feeds;
-	}
-
-	function getFeeds($calendarids, $start, $end, $projection) {
+	function getGoogleCalendarEvents($start, $end, $projection) {
 		$condition = '';
+		$calendarids = $this->calendarids;
 		if(!empty($calendarids)){
 			if(is_array($calendarids)) {
 				$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
