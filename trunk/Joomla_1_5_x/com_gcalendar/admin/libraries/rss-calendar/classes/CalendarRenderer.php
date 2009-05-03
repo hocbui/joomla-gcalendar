@@ -75,8 +75,8 @@ class CalendarRenderer {
 		$daysOffset = (strftime("%u", strtotime("${year}-${month}-01"))+(7-$startWeekDay))%7;
 		echo "<table class=\"gcalendarcal CalMonth\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 		// print days of the week at the top
+		$dateObject = JFactory::getDate();
 		for ($i=0; $i<7; $i++) {
-			$dateObject = JFactory::getDate();
 			echo "<th>".$dateObject->_dayToString(($i+$startWeekDay)%7, $gcal->config['shortDayNames']=='yes')."</th>\n";
 		}
 		echo "</tr><tr>";
@@ -86,7 +86,7 @@ class CalendarRenderer {
 				$lastDaySlot = ($lastDay - 1) + $daysOffset;
 				$lastDayOfWeek = $lastDaySlot % 7;
 				$numberOfSlotsNeeded = $daysOffset + $lastDay;
-				$numRows = floor($numberOfSlotsNeeded / 7) + 1;
+				$numRows = ceil($numberOfSlotsNeeded / 7);
 				break;
 			}
 		}
@@ -160,8 +160,8 @@ class CalendarRenderer {
 		$untimedItems = array();
 
 		foreach($items as $item) {
-			if ($item->get_day_type() == $item->SINGLE_WHOLE_DAY 
-			|| $item->get_day_type() == $item->MULTIPLE_WHOLE_DAY 
+			if ($item->get_day_type() == $item->SINGLE_WHOLE_DAY
+			|| $item->get_day_type() == $item->MULTIPLE_WHOLE_DAY
 			|| $item->get_day_type() == $item->MULTIPLE_PART_DAY) {
 				$untimedItems[] = $item;
 			}

@@ -113,7 +113,6 @@ class GCalendar {
 			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
 		}
 
-		$urlPath = JURI::base() . 'administrator/components/com_gcalendar/libraries/rss-calendar';
 		$cal = &$this->cal;
 
 		$year = &$this->year;
@@ -151,6 +150,7 @@ class GCalendar {
 			?>
 <div class="gcalendar"><?php
 if($this->config['showToolbar'] == 'yes'){
+	global $option, $Itemid;
 	?>
 <div id="calToolbar">
 <div id="calPager" class="Item"><a class="Item"
@@ -160,8 +160,9 @@ if($this->config['showToolbar'] == 'yes'){
 </span> <a class="Item" href="<?php echo JRoute::_($nextURL); ?>"
 	title="<?php echo "next ${view}" ?>"> <?php $this->image("btn-next.gif", "next ${view}", "nextBtn_img"); ?></a>
 </div>
-<form action="<?php echo JRoute::_($this->mainFilename); ?>" method="get"
-	name="controlForm" id="controlForm" class="Item"><a class="Item"
+<form action="<?php echo JRoute::_($this->mainFilename); ?>"
+	method="get" name="controlForm" id="controlForm" class="Item"><a
+	class="Item"
 	href="javascript:document.controlForm.date.value='<?php echo $this->today["mday"].'/'.$this->today["mon"].'/'.$this->today["year"]; ?>';document.controlForm.submit();">
 	<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
 <input class="Item" type="text" name="date"
@@ -169,20 +170,26 @@ if($this->config['showToolbar'] == 'yes'){
 	value="<?php echo date('d/m/Y',mktime(0,0,0,$month,$day,$year)); ?>"
 	size="10" maxlength="10"
 	title="jump to date use the format day/month/year" /> <input
-	type="hidden" name="gcalendarview" value="<?php echo $view; ?>" /> <a
+	type="hidden" name="gcalendarview" value="<?php echo $view; ?>" /> <?php
+	$config =& JFactory::getConfig();
+
+	if($config->getValue( 'config.sef' )==0){
+		?> <input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" /> <input
+	type="hidden" name="view" value="gcalendar" /> <?php }	?> <a
 	class="Item" href="javascript:document.controlForm.submit();"> <?php $this->image("btn-go.gif", "go to date", "gi_img"); ?></a>
 </form>
 <div id="viewSelector" class="Item"><a
 	href="javascript:document.controlForm.gcalendarview.value='day';document.controlForm.submit();">
-	<?php $this->image("cal-day.gif", "day view", "calday_img"); ?></a> <a
+		<?php $this->image("cal-day.gif", "day view", "calday_img"); ?></a> <a
 	href="javascript:document.controlForm.gcalendarview.value='week';document.controlForm.submit();">
-	<?php $this->image("cal-week.gif", "week view", "calweek_img"); ?></a>
+		<?php $this->image("cal-week.gif", "week view", "calweek_img"); ?></a>
 <a
 	href="javascript:document.controlForm.gcalendarview.value='month';document.controlForm.submit();">
-	<?php $this->image("cal-month.gif", "month view", "calmonth_img"); ?></a>
+		<?php $this->image("cal-month.gif", "month view", "calmonth_img"); ?></a>
 </div>
 </div>
-	<?php
+		<?php
 			}
 			$cal->printCal($year, $month, $day, $view);
 			?></div>
