@@ -94,7 +94,7 @@ class GCalendar {
 				$end = strtotime( "+1 week +1 day", $start );
 		}
 		$this->feeds = $feedFetcher->getGoogleCalendarEvents($start, $end, $config['projection']);
-		$this->cal = new CalendarRenderer(&$this);
+		$this->cal = new CalendarRenderer($this);
 	}
 
 	function getFeeds(){
@@ -115,11 +115,6 @@ class GCalendar {
 
 		$urlPath = JURI::base() . 'administrator/components/com_gcalendar/libraries/rss-calendar';
 		$cal = &$this->cal;
-
-		$this->todayURL = $this->mainFilename . "&gcalendarview=" .  $this->view . "&year=";
-		$this->todayURL .= $this->today["year"] . "&month=";
-		$this->todayURL .= $this->today["mon"] . "&day=";
-		$this->todayURL .= $this->today["mday"];
 
 		$year = &$this->year;
 		$month = &$this->month;
@@ -162,10 +157,10 @@ if($this->config['showToolbar'] == 'yes'){
 	href="<?php echo JRoute::_($prevURL) ?>"
 	title="<?php echo "previous ${view}"; ?>"> <?php $this->image("btn-prev.gif", "previous ${view}", "prevBtn_img"); ?></a>
 <span class="ViewTitle Item"> <?php $cal->printViewTitle($year, $month, $day, $view); ?>
-</span> <a class="Item" href="<?php echo JRoute::_($nextURL) ?>"
+</span> <a class="Item" href="<?php echo JRoute::_($nextURL); ?>"
 	title="<?php echo "next ${view}" ?>"> <?php $this->image("btn-next.gif", "next ${view}", "nextBtn_img"); ?></a>
 </div>
-<form action="<?php echo $this->mainFilename ?>" method="get"
+<form action="<?php echo JRoute::_($this->mainFilename); ?>" method="get"
 	name="controlForm" id="controlForm" class="Item"><a class="Item"
 	href="javascript:document.controlForm.date.value='<?php echo $this->today["mday"].'/'.$this->today["mon"].'/'.$this->today["year"]; ?>';document.controlForm.submit();">
 	<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
