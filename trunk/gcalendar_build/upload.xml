@@ -1,7 +1,8 @@
 <project name="upload to ftp" default="upload" basedir=".">
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 	<description>
-		automated upload to gcalendar demo servers
+		automated upload to gcalendar servers
+		usage ant upload -propertyfile upload_xxx.properties
     </description>
 
 	<property name="build" location="build" />
