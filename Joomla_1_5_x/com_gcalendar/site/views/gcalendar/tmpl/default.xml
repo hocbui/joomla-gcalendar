@@ -11,6 +11,11 @@
 		<params addpath="/administrator/components/com_gcalendar/elements">
 			<param name="calendarids" type="gcalendar" default=""
 				label="Select Calendars" description="The calendars" />
+			<param name="show_selection" type="radio" default="yes"
+				label="Show Calendars" description="Shows the calendar list.">
+				<option value="no">No</option>
+				<option value="yes">Yes</option>
+			</param>
 			<param name="weekstart" type="list" default="2" label="Week starts on"
 				description="">
 				<option value="1">Sunday</option>

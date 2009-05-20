@@ -119,9 +119,44 @@ class GCalendar {
 		$month = &$this->month;
 		$day = &$this->day;
 		$view = &$this->view;
+		echo "<div class=\"gcalendar\">\n";
 
+		if($this->config['showSelectionList'] == 'yes'){
+			$this->printCalendarSelectionList($year, $month, $day, $view);
+		}
+
+		if($this->config['showToolbar'] == 'yes'){
+			$this->printToolBar($year, $month, $day, $view);
+		}
+		$cal->printCal($year, $month, $day, $view);
+		echo "</div>\n";
+	}
+
+	function printCalendarSelectionList(){
+		JHTML::_('behavior.mootools');
+		$document = &JFactory::getDocument();
+		$document->addScript( 'administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.js' );
+		$calendar_list = "<div id=\"gc_gcalendar_view_list\"><table>\n";
+		$feeds = $this->feeds;
+		if(!empty($feeds)){
+			foreach($feeds as $feed){
+				$calendar_list .="<tr>\n";
+				$calendar_list .="<td><div class=\"gccal_".$feed->get('gcid')."\"><font color=\"#FFFFFF\">".$feed->get('gcname')."</font></div></td></tr>\n";
+			}
+		}
+		$calendar_list .="</table></div>\n";
+		echo $calendar_list;
+		echo "<div align=\"center\" style=\"text-align:center\">\n";
+		echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
+		echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".JURI::base()."administrator/components/com_gcalendar/libraries/rss-calendar/img/btn-down.png\"/>\n";
+		echo "</a></div>\n";
+	}
+
+	function printToolBar($year, $month, $day, $view){
+		global $option, $Itemid;
+		$cal = &$this->cal;
 		// Generate URLs for next/prev buttons
-		switch($this->view) {
+		switch($view) {
 			case "month":
 				$nextMonth = ($month == 12) ? 1 : $month+1;
 				$prevMonth = ($month == 1) ? 12 : $month-1;
@@ -148,10 +183,6 @@ class GCalendar {
 				break;
 			}
 			?>
-<div class="gcalendar"><?php
-if($this->config['showToolbar'] == 'yes'){
-	global $option, $Itemid;
-	?>
 <div id="calToolbar">
 <div id="calPager" class="Item"><a class="Item"
 	href="<?php echo JRoute::_($prevURL) ?>"
@@ -164,7 +195,7 @@ if($this->config['showToolbar'] == 'yes'){
 	method="get" name="controlForm" id="controlForm" class="Item"><a
 	class="Item"
 	href="javascript:document.controlForm.date.value='<?php echo $this->today["mday"].'/'.$this->today["mon"].'/'.$this->today["year"]; ?>';document.controlForm.submit();">
-	<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
+			<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
 <input class="Item" type="text" name="date"
 	onclick="displayDatePicker('date', false, 'dmy', '/');"
 	value="<?php echo date('d/m/Y',mktime(0,0,0,$month,$day,$year)); ?>"
@@ -190,11 +221,8 @@ if($this->config['showToolbar'] == 'yes'){
 </div>
 </div>
 		<?php
-			}
-			$cal->printCal($year, $month, $day, $view);
-			?></div>
-			<?php
 	}
+
 	function image($name, $alt = "[needs alt tag]", $id="", $attrs="") {
 		list($width, $height, $d0, $d1) = getimagesize(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'img'.DS . $name);
 		echo "<img src=\"".JURI::base() . "administrator/components/com_gcalendar/libraries/rss-calendar/img/" . $name."\"";
