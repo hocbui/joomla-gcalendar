@@ -39,35 +39,36 @@ if(!is_array($this->calendars)){
 			//}
 		}
 	}
+	$params = $this->params;
 	?>
 
 <div
-	class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 
 	<?php
 	$variables = '';
-	$variables = $variables.'?showTitle='.$this->params->get( 'title' );
-	$variables = $variables.'&amp;showNav='.$this->params->get( 'navigation' );
-	$variables = $variables.'&amp;showDate='.$this->params->get( 'date' );
-	$variables = $variables.'&amp;showPrint='.$this->params->get( 'print' );
-	$variables = $variables.'&amp;showTabs='.$this->params->get( 'tabs' );
+	$variables = $variables.'?showTitle='.$params->get( 'title' );
+	$variables = $variables.'&amp;showNav='.$params->get( 'navigation' );
+	$variables = $variables.'&amp;showDate='.$params->get( 'date' );
+	$variables = $variables.'&amp;showPrint='.$params->get( 'print' );
+	$variables = $variables.'&amp;showTabs='.$params->get( 'tabs' );
 	$variables = $variables.'&amp;showCalendars=0';
-	$variables = $variables.'&amp;showTz='.$this->params->get( 'tz' );
-	$variables = $variables.'&amp;mode='.$this->params->get( 'view' );
-	$variables = $variables.'&amp;wkst='.$this->params->get( 'weekstart' );
-	$variables = $variables.'&amp;bgcolor=%23'.$this->params->get( 'bgcolor' );
-	$tz = $this->params->get('timezone');
+	$variables = $variables.'&amp;showTz='.$params->get( 'tz' );
+	$variables = $variables.'&amp;mode='.$params->get( 'view' );
+	$variables = $variables.'&amp;wkst='.$params->get( 'weekstart' );
+	$variables = $variables.'&amp;bgcolor=%23'.$params->get( 'bgcolor' );
+	$tz = $params->get('timezone');
 	if(!empty($tz))$tz='&ctz='.$tz;
 	$variables = $variables.$tz;
-	$variables = $variables.'&amp;height='.$this->params->get( 'height' );
+	$variables = $variables.'&amp;height='.$params->get( 'height' );
 
 	$domain = 'http://www.google.com/calendar/embed';
-	$google_apps_domain = $this->params->get('google_apps_domain');
+	$google_apps_domain = $params->get('google_apps_domain');
 	if(!empty($google_apps_domain)){
 		$domain = 'http://www.google.com/calendar/hosted/'.$google_apps_domain.'/embed';
 	}
 
-	$calendar_list = '<div id="gcalendar_list"><table >';
+	$calendar_list = '<div id="gc_google_view_list"><table>';
 	foreach($this->calendars as $calendar) {
 		$value = '&amp;src='.$calendar->calendar_id;
 
@@ -95,34 +96,37 @@ if(!is_array($this->calendars)){
 			$checked = 'checked';
 		}
 
-		$calendar_list .='<tr>';
-		$calendar_list .='<td><input type="checkbox" name="'.$calendar->calendar_id.'" value="'.$value.'" '.$checked.' onclick="updateGCalendarFrame(this)"/></td>';
-		$calendar_list .='<td><font color="'.$html_color.'">'.$calendar->name.'</font></td></tr>';
+		$calendar_list .="<tr>\n";
+		$calendar_list .="<td><input type=\"checkbox\" name=\"".$calendar->calendar_id."\" value=\"".$value."\" ".$checked." onclick=\"updateGCalendarFrame(this)\"/></td>\n";
+		$calendar_list .="<td><font color=\"".$html_color."\">".$calendar->name."</font></td></tr>\n";
 	}
-	$calendar_list .='</table></div>';
-	if($this->params->get('show_selection')==1){
+	$calendar_list .="</table></div>\n";
+	if($params->get('show_selection')==1){
 		JHTML::_('behavior.mootools');
 		$document = &JFactory::getDocument();
 		$document->addScript( 'components/com_gcalendar/views/google/tmpl/gcalendar.js' );
 		echo $calendar_list;
-		echo '<div align="center" style="text-align:center"><a id="toggle_gc" name="toggle_gc" href="#"><img id="toggle_gc_status" name="toggle_gc_status" src="'.JURI::base().'components/com_gcalendar/views/google/tmpl/down.png"/></a></div>';
+		echo "<div align=\"center\" style=\"text-align:center\">\n";
+		echo "<a id=\"gc_google_view_toggle\" name=\"gc_google_view_toggle\" href=\"#\">\n";
+		echo "<img id=\"gc_google_view_toggle_status\" name=\"gc_google_view_toggle_status\" src=\"".JURI::base()."components/com_gcalendar/views/google/tmpl/down.png\"/>\n";
+		echo "</a></div>\n";
 	}
 	$calendar_url="";
-	if ($this->params->get('use_custom_css')) {
+	if ($params->get('use_custom_css')) {
 		$calendar_url= JURI::base().'components/com_gcalendar/views/google/tmpl/googlecal/MyGoogleCal4.php'.$variables;
 	} else {
 		$calendar_url=$domain.$variables;
 	}
-	echo $this->params->get( 'textbefore' );
+	echo $params->get( 'textbefore' );
 
 	?> <iframe id="gcalendar_frame" src="<?php echo $calendar_url; ?>"
-	width="<?php echo $this->params->get( 'width' ); ?>"
-	height="<?php echo $this->params->get( 'height' ); ?>" align="top"
+	width="<?php echo $params->get( 'width' ); ?>"
+	height="<?php echo $params->get( 'height' ); ?>" align="top"
 	frameborder="0"
-	class="gcalendar<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	class="gcalendar<?php echo $params->get( 'pageclass_sfx' ); ?>">
 	<?php echo JText::_( 'NO_IFRAMES' ); ?> </iframe></div>
 
 	<?php
-	echo $this->params->get( 'textafter' );
+	echo $params->get( 'textafter' );
 }
 ?>

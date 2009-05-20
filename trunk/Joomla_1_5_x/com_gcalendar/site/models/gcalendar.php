@@ -92,6 +92,7 @@ class GCalendarModelGCalendar extends JModel {
 				$feed->set_max_events(100);
 				$feed->put('gcid',$result->id);
 				$feed->put('gccolor',$result->color);
+				$feed->put('gcname',$result->name);
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 
 				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
