@@ -435,10 +435,12 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	function compare($gc_sp_item1, $gc_sp_item2){
 		$time1 = $gc_sp_item1->get_start_date();
 		$time2 = $gc_sp_item2->get_start_date();
-		if(!$gc_sp_item1->get_feed()->orderby_by_start_date){
+		$feed = $gc_sp_item1->get_feed();
+		if(!$feed->orderby_by_start_date){
 			$time1 = $gc_sp_item1->get_publish_date();
 			$time2 = $gc_sp_item2->get_publish_date();
 		}
 		return $time1-$time2;
 	}
 }
+?>
