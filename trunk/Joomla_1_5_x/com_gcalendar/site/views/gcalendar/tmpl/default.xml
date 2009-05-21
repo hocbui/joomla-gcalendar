@@ -17,10 +17,16 @@
 				<option value="yes">Yes</option>
 			</param>
 			<param name="weekstart" type="list" default="2" label="Week starts on"
-				description="">
+				description="The starting day of the week in the calendar.">
 				<option value="1">Sunday</option>
 				<option value="2">Monday</option>
 				<option value="7">Saturday</option>
+			</param>
+			<param name="dateformat" type="list" default="d/m/Y" label="Date format"
+				description="The format of the date field.">
+				<option value="d/m/Y">Day/Month/Year</option>
+				<option value="m/d/Y">Month/Day/Year</option>
+				<option value="Y/m/d">Year/Month/Day</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />

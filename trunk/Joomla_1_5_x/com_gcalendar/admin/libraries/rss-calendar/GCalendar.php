@@ -35,20 +35,14 @@ class GCalendar {
 		$this->config = $config;
 		$this->mainFilename = "index.php?option=com_gcalendar&view=gcalendar";
 		$this->today = getdate();
-		if (isset($_GET["date"])) {
-			$dateInfo = explode("/", $_GET["date"]);
-			$this->year = $dateInfo[2];
-			$this->month = $dateInfo[1];
-			$this->day = $dateInfo[0];
+
+		$this->month = isset($_GET["month"]) ? $_GET["month"] : $this->today["mon"];
+		$this->year = isset($_GET["year"]) ? $_GET["year"] : $this->today["year"];
+		$this->day = isset($_GET["day"]) ? $_GET["day"] : $this->today["mday"];
+		if (!checkdate($this->month, $this->day, $this->year)) {
+			$this->day = 1;
 		}
-		else {
-			$this->month = isset($_GET["month"]) ? $_GET["month"] : $this->today["mon"];
-			$this->year = isset($_GET["year"]) ? $_GET["year"] : $this->today["year"];
-			$this->day = isset($_GET["day"]) ? $_GET["day"] : $this->today["mday"];
-			if (!checkdate($this->month, $this->day, $this->year)) {
-				$this->day = 1;
-			}
-		}
+
 		$this->view = isset($_GET["gcalendarview"]) ? $_GET["gcalendarview"] : $config['defaultView'];
 		if(isset($config['forceView'])){
 			$this->view = $config['forceView'];
@@ -153,7 +147,6 @@ class GCalendar {
 	}
 
 	function printToolBar($year, $month, $day, $view){
-		global $option, $Itemid;
 		$cal = &$this->cal;
 		// Generate URLs for next/prev buttons
 		switch($view) {
@@ -182,51 +175,69 @@ class GCalendar {
 
 				break;
 			}
-			?>
-<div id="calToolbar">
-<div id="calPager" class="Item"><a class="Item"
-	href="<?php echo JRoute::_($prevURL) ?>"
-	title="<?php echo "previous ${view}"; ?>"> <?php $this->image("btn-prev.gif", "previous ${view}", "prevBtn_img"); ?></a>
-<span class="ViewTitle Item"> <?php $cal->printViewTitle($year, $month, $day, $view); ?>
-</span> <a class="Item" href="<?php echo JRoute::_($nextURL); ?>"
-	title="<?php echo "next ${view}" ?>"> <?php $this->image("btn-next.gif", "next ${view}", "nextBtn_img"); ?></a>
-</div>
-<form action="<?php echo JRoute::_($this->mainFilename); ?>"
-	method="get" name="controlForm" id="controlForm" class="Item"><a
-	class="Item"
-	href="javascript:document.controlForm.date.value='<?php echo $this->today["mday"].'/'.$this->today["mon"].'/'.$this->today["year"]; ?>';document.controlForm.submit();">
-			<?php $this->image("btn-today.gif", "go to today", "", "today_img"); ?></a>
-<input class="Item" type="text" name="date"
-	onclick="displayDatePicker('date', false, 'dmy', '/');"
-	value="<?php echo date('d/m/Y',mktime(0,0,0,$month,$day,$year)); ?>"
-	size="10" maxlength="10"
-	title="jump to date use the format day/month/year" /> <input
-	type="hidden" name="gcalendarview" value="<?php echo $view; ?>" /> <?php
-	$config =& JFactory::getConfig();
 
-	if($config->getValue( 'config.sef' )==0){
-		?> <input type="hidden" name="option" value="<?php echo $option; ?>" />
-<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" /> <input
-	type="hidden" name="view" value="gcalendar" /> <?php }	?> <a
-	class="Item" href="javascript:document.controlForm.submit();"> <?php $this->image("btn-go.gif", "go to date", "gi_img"); ?></a>
-</form>
-<div id="viewSelector" class="Item"><a
-	href="javascript:document.controlForm.gcalendarview.value='day';document.controlForm.submit();">
-		<?php $this->image("cal-day.gif", "day view", "calday_img"); ?></a> <a
-	href="javascript:document.controlForm.gcalendarview.value='week';document.controlForm.submit();">
-		<?php $this->image("cal-week.gif", "week view", "calweek_img"); ?></a>
-<a
-	href="javascript:document.controlForm.gcalendarview.value='month';document.controlForm.submit();">
-		<?php $this->image("cal-month.gif", "month view", "calmonth_img"); ?></a>
-</div>
-</div>
-		<?php
+			$document =& JFactory::getDocument();
+			$calCode  = "function datePickerClosed(dateField){\n";
+			$calCode .= "var gcdateValues = dateField.value.split('/');\n";
+			$calCode .= "var gcformatValues = '".$this->config['dateFormat']."'.split('/');\n";
+			$calCode .= "var gcday = '';\n";
+			$calCode .= "var gcmonth = '';\n";
+			$calCode .= "var gcyear = '';\n";
+			$calCode .= "for(i = 0; i < gcformatValues.length; i++){\n";
+			$calCode .= "if(gcformatValues[i]=='d')\n";
+			$calCode .= "gcday = gcdateValues[i];\n";
+			$calCode .= "else if(gcformatValues[i]=='m')\n";
+			$calCode .= "gcmonth = gcdateValues[i];\n";
+			$calCode .= "else if(gcformatValues[i]=='Y')\n";
+			$calCode .= "gcyear = gcdateValues[i];\n";
+			$calCode .= "}\n";
+			$calCode .= "document.getElementById('gc_go_link').href = '".JRoute::_($this->mainFilename."&gcalendarview=".$view)."&day='+gcday+'&month='+gcmonth+'&year='+gcyear;\n";
+			$calCode .= "}\n";
+			$document->addScriptDeclaration($calCode);
+
+
+
+			echo "<div id=\"calToolbar\">\n";
+			echo "<div id=\"calPager\" class=\"Item\">\n";
+			echo "<a class=\"Item\" href=\"".JRoute::_($prevURL)."\" title=\"previous ".$view."\">\n";
+			$this->image("btn-prev.gif", "previous ".$view, "prevBtn_img");
+			echo "</a>\n";
+			echo "<span class=\"ViewTitle Item\">\n";
+			$cal->printViewTitle($year, $month, $day, $view);
+			echo "</span>\n";
+			echo "<a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"next ".$view."\">\n";
+			$this->image("btn-next.gif", "next ".$view, "nextBtn_img");
+			echo "</a></div>\n";
+			echo "<a class=\"Item\" href=\"".JRoute::_($this->mainFilename."&gcalendarview=".$view."&year=".$this->today["year"]."&month=".$this->today["mon"]."&day=".$this->today["mday"])."\">\n";
+			$this->image("btn-today.gif", "go to today", "", "today_img");
+			echo "</a>\n";
+			echo "<input class=\"Item\"	type=\"text\" name=\"date\" \n";
+			echo "value=\"".date($this->config['dateFormat'],mktime(0,0,0,$month,$day,$year))."\"\n ";
+			echo "onclick=\"displayDatePicker('date', false, '".str_replace("/","",strtolower($this->config['dateFormat']))."', '/');\" \n";
+			echo "onchange=\"datePickerClosed(this);\" \n";
+			echo "size=\"10\" maxlength=\"10\" title=\"jump to date\" />";
+			echo "<a class=\"Item\" id=\"gc_go_link\" href=\"".JRoute::_($this->mainFilename."&gcalendarview=".$view."&year=".$year."&month=".$month."&day=".$day)."\">\n";
+			$this->image("btn-go.gif", "go to date", "gi_img");
+			echo "</a>\n";
+
+			echo "<div id=\"viewSelector\" class=\"Item\">\n";
+			echo "<a href=\"".JRoute::_($this->mainFilename."&gcalendarview=day&year=".$year."&month=".$month."&day=".$day)."\">\n";
+			$this->image("cal-day.gif", "day view", "calday_img");
+			echo "</a>\n";
+
+			echo "<a href=\"".JRoute::_($this->mainFilename."&gcalendarview=week&year=".$year."&month=".$month."&day=".$day)."\">\n";
+			$this->image("cal-week.gif", "week view", "calweek_img");
+			echo "</a>\n";
+
+			echo "<a href=\"".JRoute::_($this->mainFilename."&gcalendarview=month&year=".$year."&month=".$month."&day=".$day)."\">\n";
+			$this->image("cal-month.gif", "month view", "calmonth_img");
+			echo "</a></div></div>\n";
 	}
 
 	function image($name, $alt = "[needs alt tag]", $id="", $attrs="") {
 		list($width, $height, $d0, $d1) = getimagesize(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'img'.DS . $name);
 		echo "<img src=\"".JURI::base() . "administrator/components/com_gcalendar/libraries/rss-calendar/img/" . $name."\"";
-		echo "id=\"". $id."\" width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\"";
+		echo " id=\"". $id."\" width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\"";
 		echo $attrs ."/>";
 	}
 }
