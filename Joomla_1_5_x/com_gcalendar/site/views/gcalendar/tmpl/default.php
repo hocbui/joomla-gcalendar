@@ -32,7 +32,8 @@ $config = array(
  'printDayLink'=>'yes',
  'cellHeight'=>'90',
  'weekStart'=>$params->get('weekstart'),
- 'showSelectionList'=>$params->get('show_selection'));
+ 'showSelectionList'=>$params->get('show_selection'),
+ 'dateFormat'=>$params->get('dateformat'));
 $model = &$this->getModel();
 $cal = new GCalendar($model, $config);
 $cal->display();

@@ -29,7 +29,8 @@ $config = array(
  'forceView'=>'month',
  'cellHeight'=>'15',
  'projection'=>'full',
- 'weekStart'=>$params->get( 'weekstart' ));
+ 'weekStart'=>$params->get( 'weekstart' ),
+ 'dateFormat'=>'d/m/Y');
 $cal = new GCalendar($feedFetcher, $config);
 $cal->display();
 ?>
