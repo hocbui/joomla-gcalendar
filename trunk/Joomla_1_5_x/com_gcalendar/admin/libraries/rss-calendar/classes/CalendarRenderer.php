@@ -494,14 +494,15 @@ else {
 		$year = (int)$year;
 		$month = (int)$month;
 		$day = (int)$day;
+		$date = JFactory::getDate();
 		switch($view) {
 			case "month":
 				if ($format == 'year') {
 					echo $year;
 					echo " ";
-					echo JFactory::getDate()->_monthToString($month);
+					echo $date->_monthToString($month);
 				} else {
-					echo JFactory::getDate()->_monthToString($month);
+					echo $date->_monthToString($month);
 					echo " ";
 					echo $year;
 				}
