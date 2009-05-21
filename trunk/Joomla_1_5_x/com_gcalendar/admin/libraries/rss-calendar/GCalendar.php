@@ -100,8 +100,6 @@ class GCalendar {
 		JHTML::_('behavior.modal');
 		$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');
 		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
-		$document->addScript('administrator/components/com_gcalendar/libraries/datepicker/datepicker.js');
-		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/datepicker/style.css');
 		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.css');
 		if ($this->userAgent == "ie") {
 			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
@@ -184,18 +182,28 @@ class GCalendar {
 			$calCode .= "var gcmonth = '';\n";
 			$calCode .= "var gcyear = '';\n";
 			$calCode .= "for(i = 0; i < gcformatValues.length; i++){\n";
-			$calCode .= "if(gcformatValues[i]=='d')\n";
+			$calCode .= "if(gcformatValues[i]=='dd')\n";
 			$calCode .= "gcday = gcdateValues[i];\n";
-			$calCode .= "else if(gcformatValues[i]=='m')\n";
+			$calCode .= "else if(gcformatValues[i]=='mm')\n";
 			$calCode .= "gcmonth = gcdateValues[i];\n";
-			$calCode .= "else if(gcformatValues[i]=='Y')\n";
+			$calCode .= "else if(gcformatValues[i]=='yy')\n";
 			$calCode .= "gcyear = gcdateValues[i];\n";
 			$calCode .= "}\n";
 			$calCode .= "document.getElementById('gc_go_link').href = '".JRoute::_($this->mainFilename."&gcalendarview=".$view)."&day='+gcday+'&month='+gcmonth+'&year='+gcyear;\n";
 			$calCode .= "}\n";
 			$document->addScriptDeclaration($calCode);
 
+			$document->addScript('administrator/components/com_gcalendar/libraries/jquery/jquery-1.3.2.js');
+			$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
+			$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
+			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
 
+			$calCode = "jQuery.noConflict();\n";
+			$calCode .= "jQuery(document).ready(function(){\n";
+			$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$this->config['dateFormat']."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
+			$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$this->config['dateFormat']."'});\n";
+			$calCode .= "})\n";
+			$document->addScriptDeclaration($calCode);
 
 			echo "<div id=\"calToolbar\">\n";
 			echo "<div id=\"calPager\" class=\"Item\">\n";
@@ -211,9 +219,7 @@ class GCalendar {
 			echo "<a class=\"Item\" href=\"".JRoute::_($this->mainFilename."&gcalendarview=".$view."&year=".$this->today["year"]."&month=".$this->today["mon"]."&day=".$this->today["mday"])."\">\n";
 			$this->image("btn-today.gif", "go to today", "", "today_img");
 			echo "</a>\n";
-			echo "<input class=\"Item\"	type=\"text\" name=\"date\" \n";
-			echo "value=\"".date($this->config['dateFormat'],mktime(0,0,0,$month,$day,$year))."\"\n ";
-			echo "onclick=\"displayDatePicker('date', false, '".str_replace("/","",strtolower($this->config['dateFormat']))."', '/');\" \n";
+			echo "<input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
 			echo "onchange=\"datePickerClosed(this);\" \n";
 			echo "size=\"10\" maxlength=\"10\" title=\"jump to date\" />";
 			echo "<a class=\"Item\" id=\"gc_go_link\" href=\"".JRoute::_($this->mainFilename."&gcalendarview=".$view."&year=".$year."&month=".$month."&day=".$day)."\">\n";

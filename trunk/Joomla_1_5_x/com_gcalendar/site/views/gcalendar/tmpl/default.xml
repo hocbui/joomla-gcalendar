@@ -22,11 +22,11 @@
 				<option value="2">Monday</option>
 				<option value="7">Saturday</option>
 			</param>
-			<param name="dateformat" type="list" default="d/m/Y" label="Date format"
+			<param name="dateformat" type="list" default="dd/mm/yy" label="Date format"
 				description="The format of the date field.">
-				<option value="d/m/Y">Day/Month/Year</option>
-				<option value="m/d/Y">Month/Day/Year</option>
-				<option value="Y/m/d">Year/Month/Day</option>
+				<option value="dd/mm/yy">Day/Month/Year</option>
+				<option value="mm/dd/yy">Month/Day/Year</option>
+				<option value="yy/mm/dd">Year/Month/Day</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />

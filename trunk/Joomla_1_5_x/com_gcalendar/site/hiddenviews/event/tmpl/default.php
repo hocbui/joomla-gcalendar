@@ -28,7 +28,31 @@ $url = 'http://www.google.com/calendar/event?eid=' . $this->eventID . $tz.$lg;
 
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
 if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
-	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view=gcalendar&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' ).'</a>';
+	$backLinkView = 'google';
+	$component	= &JComponentHelper::getComponent('com_gcalendar');
+	$menu = &JSite::getMenu();
+	$items		= $menu->getItems('componentid', $component->id);
+
+	if (is_array($items)){
+		global $mainframe;
+		$pathway	= &$mainframe->getPathway();
+		foreach($items as $item) {
+			$paramsItem	=& $menu->getParams($item->id);
+			$calendarids = $paramsItem->get('calendarids');
+			$contains_gc_id = FALSE;
+			if ($calendarids){
+				if( is_array( $calendarids ) ) {
+					$contains_gc_id = in_array(JRequest::getVar('gcid', null),$calendarids);
+				} else {
+					$contains_gc_id = JRequest::getVar('gcid', null) == $calendarids;
+				}
+			}
+			if($contains_gc_id){
+				$backLinkView = $item->query['view'];
+			}
+		}
+	}
+	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' ).'</a>';
 }
 ?>
 

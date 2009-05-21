@@ -59,7 +59,7 @@ class GCalendarModelGoogle extends JModel {
 					if( is_array( $calendarids ) ) {
 						$result->selected = in_array($result->id,$calendarids);
 					} else {
-						$result->selected = $result->id === $calendarids;
+						$result->selected = $result->id == $calendarids;
 					}
 				}
 				$calendars[] = $result;
