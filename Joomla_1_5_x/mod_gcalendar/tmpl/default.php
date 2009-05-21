@@ -30,7 +30,7 @@ $config = array(
  'cellHeight'=>'15',
  'projection'=>'full',
  'weekStart'=>$params->get( 'weekstart' ),
- 'dateFormat'=>'d/m/Y');
+ 'dateFormat'=>'dd/mm/yy');
 $cal = new GCalendar($feedFetcher, $config);
 $cal->display();
 ?>

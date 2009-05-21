@@ -60,7 +60,7 @@ class GCalendarUtil{
 					if( is_array( $calendarids ) ) {
 						$contains_gc_id = in_array($cal_id,$calendarids);
 					} else {
-						$contains_gc_id = $cal_id === $calendarids;
+						$contains_gc_id = $cal_id == $calendarids;
 					}
 				}
 				if($contains_gc_id){
