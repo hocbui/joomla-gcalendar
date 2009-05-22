@@ -20,17 +20,16 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$config = array(
- 'showToolbar'=>'no',
- 'shortDayNames'=>'yes',
- 'defaultView'=>'month',
- 'showEventTitle'=>'no',
- 'printDayLink'=>'no',
- 'forceView'=>'month',
- 'cellHeight'=>'15',
- 'projection'=>'full',
- 'weekStart'=>$params->get( 'weekstart' ),
- 'dateFormat'=>'dd/mm/yy');
-$cal = new GCalendar($feedFetcher, $config);
+$calendarConfig->weekStart = $params->get('weekstart');
+$calendarConfig->showSelectionList = false;
+$calendarConfig->dateFormat = 'dd/mm/yy';
+$calendarConfig->cellHeight = 15;
+$calendarConfig->forceView = month;
+$calendarConfig->printDayLink = false;
+$calendarConfig->showEventTitle = false;
+$calendarConfig->showToolbar = false;
+$calendarConfig->shortDayNames = true;
+$calendarConfig->forceView ='month';
+$cal = new GCalendar($calendarConfig);
 $cal->display();
 ?>

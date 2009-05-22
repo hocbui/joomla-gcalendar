@@ -20,22 +20,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 $params = $this->params;
-?>
-<div
-	class="contentpane<?php echo $params->get('pageclass_sfx'); ?>">
-<?php
-$config = array(
- 'showToolbar'=>'yes',
- 'shortDayNames'=>'no',
- 'defaultView'=>'month',
- 'showEventTitle'=>'yes',
- 'printDayLink'=>'yes',
- 'cellHeight'=>'90',
- 'weekStart'=>$params->get('weekstart'),
- 'showSelectionList'=>$params->get('show_selection'),
- 'dateFormat'=>$params->get('dateformat'));
+echo "<div class=\"contentpane".$params->get('pageclass_sfx')."\">\n";
+
 $model = &$this->getModel();
-$cal = new GCalendar($model, $config);
+$calendarConfig = new DefaultCalendarConfig($model);
+$calendarConfig->weekStart = $params->get('weekstart');
+$calendarConfig->showSelectionList = $params->get('show_selection');
+$calendarConfig->dateFormat = $params->get('dateformat');
+
+$cal = new GCalendar($calendarConfig);
 $cal->display();
+
+echo "</div>\n";
 ?>
-</div>
