@@ -28,11 +28,13 @@ class GCalendar {
 	var $cal;
 	var $today, $month, $year, $day, $view;
 	var $mainFilename;
-	var $config;
+	var $calendarConfig;
+	var $feeds;
 
-	function GCalendar($feedFetcher, $config) {
+	function GCalendar($calendarConfig) {
 		GCalendarUtil::ensureSPIsLoaded();
 		$this->config = $config;
+		$this->calendarConfig = $calendarConfig;
 		$this->mainFilename = "index.php?option=com_gcalendar&view=gcalendar";
 		$this->today = getdate();
 
@@ -43,9 +45,9 @@ class GCalendar {
 			$this->day = 1;
 		}
 
-		$this->view = isset($_GET["gcalendarview"]) ? $_GET["gcalendarview"] : $config['defaultView'];
-		if(isset($config['forceView'])){
-			$this->view = $config['forceView'];
+		$this->view = isset($_GET["gcalendarview"]) ? $_GET["gcalendarview"] : $calendarConfig->getDefaultView();
+		if($calendarConfig->getForceView() != null){
+			$this->view = $calendarConfig->getForceView();
 		}
 
 		$this->year = (int)$this->year;
@@ -84,10 +86,10 @@ class GCalendar {
 				$end = strtotime( "+1 day", $start );
 				break;
 			case "week":
-				$start = CalendarRenderer::getFirstDayOfWeek($this->year, $this->month, $this->day, $config['weekStart']);
+				$start = CalendarRenderer::getFirstDayOfWeek($this->year, $this->month, $this->day, $calendarConfig->getWeekStart());
 				$end = strtotime( "+1 week +1 day", $start );
 		}
-		$this->feeds = $feedFetcher->getGoogleCalendarEvents($start, $end, $config['projection']);
+		$this->feeds = $calendarConfig->getGoogleCalendarFeeds($start, $end);
 		$this->cal = new CalendarRenderer($this);
 	}
 
@@ -105,7 +107,7 @@ class GCalendar {
 			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
 		}
 
-		$cal = &$this->cal;
+		$cal = $this->cal;
 
 		$year = &$this->year;
 		$month = &$this->month;
@@ -113,11 +115,12 @@ class GCalendar {
 		$view = &$this->view;
 		echo "<div class=\"gcalendar\">\n";
 
-		if($this->config['showSelectionList'] == 'yes'){
+		$calendarConfig = $this->calendarConfig;
+		if($calendarConfig->getShowSelectionList()){
 			$this->printCalendarSelectionList($year, $month, $day, $view);
 		}
 
-		if($this->config['showToolbar'] == 'yes'){
+		if($calendarConfig->getShowToolbar()){
 			$this->printToolBar($year, $month, $day, $view);
 		}
 		$cal->printCal($year, $month, $day, $view);
@@ -145,8 +148,9 @@ class GCalendar {
 	}
 
 	function printToolBar($year, $month, $day, $view){
-		$cal = &$this->cal;
-		// Generate URLs for next/prev buttons
+		$cal = $this->cal;
+		$calendarConfig = $this->calendarConfig;
+		
 		switch($view) {
 			case "month":
 				$nextMonth = ($month == 12) ? 1 : $month+1;
@@ -177,7 +181,7 @@ class GCalendar {
 			$document =& JFactory::getDocument();
 			$calCode  = "function datePickerClosed(dateField){\n";
 			$calCode .= "var gcdateValues = dateField.value.split('/');\n";
-			$calCode .= "var gcformatValues = '".$this->config['dateFormat']."'.split('/');\n";
+			$calCode .= "var gcformatValues = '".$calendarConfig->getDateFormat()."'.split('/');\n";
 			$calCode .= "var gcday = '';\n";
 			$calCode .= "var gcmonth = '';\n";
 			$calCode .= "var gcyear = '';\n";
@@ -200,8 +204,8 @@ class GCalendar {
 
 			$calCode = "jQuery.noConflict();\n";
 			$calCode .= "jQuery(document).ready(function(){\n";
-			$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$this->config['dateFormat']."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
-			$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$this->config['dateFormat']."'});\n";
+			$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$calendarConfig->getDateFormat()."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
+			$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$calendarConfig->getDateFormat()."'});\n";
 			$calCode .= "})\n";
 			$document->addScriptDeclaration($calCode);
 

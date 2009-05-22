@@ -20,23 +20,24 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'DefaultCalendarConfig.php');
+
 class ModGCalendarHelper {
 
-	function getFeedFetcher($calendarids) {
-		$feedFetcher = new ModFeedFetcher($calendarids);
-		return $feedFetcher;
+	function getCalendarConfig($calendarids) {
+		$calendarConfig = new ModCalendarConfig($calendarids);
+		return $calendarConfig;
 	}
 }
 
-class ModFeedFetcher{
-
+class ModCalendarConfig extends DefaultCalendarConfig{
 	var $calendarids;
 
-	function ModFeedFetcher($calendarids){
+	function ModCalendarConfig($calendarids){
 		$this->calendarids = $calendarids;
 	}
 
-	function getGoogleCalendarEvents($start, $end, $projection) {
+	function getGoogleCalendarFeeds($start, $end) {
 		$condition = '';
 		$calendarids = $this->calendarids;
 		if(!empty($calendarids)){
@@ -65,7 +66,6 @@ class ModFeedFetcher{
 				$feed->set_expand_single_events(TRUE);
 				$feed->enable_order_by_date(FALSE);
 				$feed->enable_cache(FALSE);
-				$feed->set_projection($projection);
 				$feed->set_start_date($start);
 				$feed->set_end_date($end);
 				$feed->set_max_events(100);

@@ -55,7 +55,8 @@ class CalendarRenderer {
 
 	function printEvent($view, $item, $style = null){
 		$gcal = $this->gcalendar;
-		if($gcal->config['showEventTitle'] == 'no')
+		$calendarConfig = $gcal->calendarConfig;
+		if(!$calendarConfig->getShowEventTitle())
 		return;
 		$feed = $item->get_feed();
 		echo "<div class=\"gccal_".$feed->get('gcid')."\">";
@@ -70,14 +71,15 @@ class CalendarRenderer {
 	function printMonth($year, $month, $day) {
 		$today = getdate();
 		$gcal = $this->gcalendar;
+		$calendarConfig = $gcal->calendarConfig;
 
-		$startWeekDay = ((int)$gcal->config['weekStart'])-1;
+		$startWeekDay = ((int)$calendarConfig->getWeekStart())-1;
 		$daysOffset = (strftime("%u", strtotime("${year}-${month}-01"))+(7-$startWeekDay))%7;
 		echo "<table class=\"gcalendarcal CalMonth\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 		// print days of the week at the top
 		$dateObject = JFactory::getDate();
 		for ($i=0; $i<7; $i++) {
-			echo "<th>".$dateObject->_dayToString(($i+$startWeekDay)%7, $gcal->config['shortDayNames']=='yes')."</th>\n";
+			echo "<th>".$dateObject->_dayToString(($i+$startWeekDay)%7, $calendarConfig->getShortDayNames())."</th>\n";
 		}
 		echo "</tr><tr>";
 		for ($i=28; $i<33; $i++) {
@@ -94,7 +96,7 @@ class CalendarRenderer {
 		$colWidth = "14%";
 		$rowHeight = (int)round(100 / $numRows) . "%";
 		for ($i=0;$i<$daysOffset;$i++) {
-			echo "<td class=\"EmptyCell\"></td>\n";
+			echo "<td class=\"EmptyCell\" height=\"".$calendarConfig->getCellHeight()."\"></td>\n";
 		}
 		for ($i=0;$i< $lastDay;$i++) {
 			if (($i + $daysOffset) % 7 == 0) {
@@ -112,12 +114,12 @@ class CalendarRenderer {
 			}
 			if(!empty($calids)) $calids = '&gcids='.implode(',',$calids);
 			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=${year}&month=${month}&day=${thisDay}".$calids;
-			echo "<td height=\"".$gcal->config['cellHeight']."\" ";
+			echo "<td height=\"".$calendarConfig->getCellHeight()."\" ";
 			if (($thisDay == $today["mday"]) && ($month == $today["mon"])) {
 				echo "class=\"Today\"";
 			}
 			echo ">";
-			if($gcal->config['printDayLink']=='yes' || count($myItems) > 0)
+			if($calendarConfig->getPrintDayLink() || count($myItems) > 0)
 			echo "<a class=\"DayNum\" href=\"". JRoute::_($thisLink)."\">".$thisDay."</a>";
 			else
 			echo "<p class=\"DayNum\">".$thisDay."</p>";
@@ -133,7 +135,7 @@ class CalendarRenderer {
 		}
 		for ($i=$lastDay + $daysOffset;$i<($numRows * 7);$i++) {
 			// [DAF-060426] fixed typo
-			echo "<td class=\"EmptyCell\" height=\"".$gcal->config['cellHeight']."\" ></td>";
+			echo "<td class=\"EmptyCell\" height=\"".$calendarConfig->getCellHeight()."\" ></td>";
 		}
 		echo "</tr></table>";
 	}
@@ -225,50 +227,48 @@ class CalendarRenderer {
 			$whichCol = 0;
 			$colWidth = (int)floor(100 / count($layout));
 			foreach($layout as $col) {
-				?>
-<div class="Col" style="width:<?php echo $colWidth-0.5 ?>%; left: <?php echo $colWidth * $whichCol ?>%"><?php
-$currentOffset = $initialMinute;
-foreach($col as $item) {
-	$myStart = $item->get_start_date();
-	$myEnd = $item->get_end_date();
+				echo "<div class=\"Col\" style=\"width:".$colWidth-0.5."%; left: ".$colWidth * $whichCol."%\">\n";
+				$currentOffset = $initialMinute;
+				foreach($col as $item) {
+					$myStart = $item->get_start_date();
+					$myEnd = $item->get_end_date();
 
-	// [TO DO] Do we need a more robust way to do this? Timed events are generally considered
-	// to be confined to one day right now.
+					// [TO DO] Do we need a more robust way to do this? Timed events are generally considered
+					// to be confined to one day right now.
 
-	// The fix here for midnight helps users who set their
-	// end times to midnight, and in addition works with an iCal bug that sets a midnight end time
-	// to the wrong day.
-	if (!((int)strftime("%H%M", $myEnd))) {
-		// End date is midnight.
+					// The fix here for midnight helps users who set their
+					// end times to midnight, and in addition works with an iCal bug that sets a midnight end time
+					// to the wrong day.
+					if (!((int)strftime("%H%M", $myEnd))) {
+						// End date is midnight.
 
-		// iCal handles this wrong and sets the end date prior to the
-		// start date. Fix this.
+						// iCal handles this wrong and sets the end date prior to the
+						// start date. Fix this.
 
-		// Now decrement end date just slightly so it's on the same day as start
-		$myEnd--;
-	}
+						// Now decrement end date just slightly so it's on the same day as start
+						$myEnd--;
+					}
 
-	// $myStart and $myEnd are UNIX timestamps representing the start and
-	// end time of the event
+					// $myStart and $myEnd are UNIX timestamps representing the start and
+					// end time of the event
 
-	// Get the number of minutes (past midnight) of the start and end times
-	$myStartOffset = ((int)strftime("%H", $myStart) * 60) + (int)strftime("%M", $myStart);
-	$myEndOffset = ((int)strftime("%H", $myEnd) * 60) + (int)strftime("%M", $myEnd);
+					// Get the number of minutes (past midnight) of the start and end times
+					$myStartOffset = ((int)strftime("%H", $myStart) * 60) + (int)strftime("%M", $myStart);
+					$myEndOffset = ((int)strftime("%H", $myEnd) * 60) + (int)strftime("%M", $myEnd);
 
-	// Get the duration in minutes
-	$myDuration = $myEndOffset - $myStartOffset;
+					// Get the duration in minutes
+					$myDuration = $myEndOffset - $myStartOffset;
 
-	// Subtract initial minute from start to get actual offset
-	$myStartOffset = $myStartOffset - $initialMinute;
+					// Subtract initial minute from start to get actual offset
+					$myStartOffset = $myStartOffset - $initialMinute;
 
-	// Now, convert minute values to pixels.
-	$myStartOffset = $myStartOffset * 64 / 60;
-	$myDuration = $myDuration * 64 / 60;
-	$this->printEvent($view, $item, "height:".$myDuration."px; top:". $myStartOffset."px");
-}
-$whichCol++;
-?></div>
-<?php
+					// Now, convert minute values to pixels.
+					$myStartOffset = $myStartOffset * 64 / 60;
+					$myDuration = $myDuration * 64 / 60;
+					$this->printEvent($view, $item, "height:".$myDuration."px; top:". $myStartOffset."px");
+				}
+				$whichCol++;
+				echo "</div>\n";
 			}
 		}
 	}
@@ -326,22 +326,21 @@ $whichCol++;
 
 	function printDayAxis($startHr, $endHr) {
 		for ($hour=$startHr; $hour<=$endHr; $hour++) {
-			?>
-<div><?php
-if (($hour == 0) || ($hour == 24)) echo "mid";
-elseif ($hour == 12) echo "noon";
-else {
-	echo $hour % 12;
-	echo ":00";
-}
-?></div>
-<?php
+			echo "<div>\n";
+			if (($hour == 0) || ($hour == 24)) echo "mid";
+			elseif ($hour == 12) echo "noon";
+			else {
+				echo $hour % 12;
+				echo ":00";
+			}
+			echo "</div>\n";
 		}
 	}
 
 	function printWeek($year, $month, $day) {
 		$gcal = $this->gcalendar;
-		$firstDisplayedDate = $this->getFirstDayOfWeek($year, $month, $day, $gcal->config['weekStart']);
+		$calendarConfig = $gcal->calendarConfig;
+		$firstDisplayedDate = $this->getFirstDayOfWeek($year, $month, $day, $calendarConfig->getWeekStart());
 
 		$dayLayouts = array();
 		$lastHour = 0;
@@ -375,11 +374,9 @@ else {
 		// get end time for the last event
 		if (!$lastHour) $lastHour = 17;
 
-		?>
-<table class="gcalendarcal CalWeek" cellspacing="0" cellpadding="0">
-	<tr>
-		<td class="Empty"></td>
-		<?php	// Possibly for absolute positioning: calculate column widths based on # sub-cols
+		echo "<table class=\"gcalendarcal CalWeek\" cellspacing=\"0\" cellpadding=\"0\">\n";
+		echo "<tr>\n";
+		echo "<td class=\"Empty\"></td>\n";
 		$totalSubCols = 0;
 		$totalEmptyCols = 0;
 		$dayIndex = 0;
@@ -403,54 +400,49 @@ else {
 		foreach ($displayedDates as $dInfo) {
 			$myColWidth = ($subColCounts[$dayIndex] ? (int)floor($subColCounts[$dayIndex] / $totalSubCols * $totalNonEmptyWidth)
 			: 8);
-			?>
-		<th style="width: <?php echo $myColWidth; ?>%"><?php
-		$myURL = $this->url;
-		$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=" .
-		$dInfo["year"] .
+			echo "<th style=\"width: ".$myColWidth."%\">";
+			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=" .
+			$dInfo["year"] .
 							"&month=" . $dInfo["mon"] . 
 							"&day=" . $dInfo["mday"];
 
-		echo "<a href=\"" . JRoute::_($thisLink) . "\">";
-		$gcal = $this->gcalendar;
-		$startWeekDay = ((int)$gcal->config['weekStart'])-1;
-		$dateObject = JFactory::getDate();
-		echo $dateObject->_dayToString(($dayIndex+$startWeekDay)%7,TRUE);
-		echo " ";
-		echo $dInfo["mday"];
-		echo "</a>";
-		?></th>
-		<?php 			 		$dayIndex++;
+			echo "<a href=\"" . JRoute::_($thisLink) . "\">";
+			$startWeekDay = $calendarConfig->getWeekStart()-1;
+			$dateObject = JFactory::getDate();
+			echo $dateObject->_dayToString(($dayIndex+$startWeekDay)%7,true);
+			echo " ";
+			echo $dInfo["mday"];
+			echo "</a>";
+			echo "</th>\n";
+			$dayIndex++;
 		}
-		?>
-	</tr>
-	<tr class="UntimedEvents">
-		<td class="Empty"></td>
-		<?php
+		echo "</tr>\n";
+		echo "<tr class=\"UntimedEvents\">\n";
+		echo "<td class=\"Empty\"></td>\n";
 		foreach ($dayLayouts as $thisLayout) {
-			?>
-		<td><?php $this->printUntimedEventsForDay($thisLayout, "week"); ?></td>
-		<?php
+			echo "<td>\n";
+			$this->printUntimedEventsForDay($thisLayout, "week");
+			echo "</td>\n";
 		}
+		echo "</tr>\n";
 		?>
-	</tr>
-	<tr class="TimedEvents">
-		<td class="DayAxis"><?php $this->printDayAxis($firstHour, $lastHour); ?>
-		</td>
-		<?php
-		$dayIndex = 0;
-		foreach ($dayLayouts as $thisLayout) {
-			?>
-		<td>
-		<div class="Inner"><?php $this->printTimedEventsForDay($thisLayout, "week", $initialMinuteOffset); ?>
-		</div>
-		</td>
-		<?php 					$dayIndex++;
-		}
+<tr class="TimedEvents">
+	<td class="DayAxis"><?php $this->printDayAxis($firstHour, $lastHour); ?>
+	</td>
+	<?php
+	$dayIndex = 0;
+	foreach ($dayLayouts as $thisLayout) {
 		?>
-	</tr>
+	<td>
+	<div class="Inner"><?php $this->printTimedEventsForDay($thisLayout, "week", $initialMinuteOffset); ?>
+	</div>
+	</td>
+	<?php 					$dayIndex++;
+	}
+	?>
+</tr>
 </table>
-		<?php
+	<?php
 	}
 
 	function printCal($year, $month, $day, $view) {
@@ -486,11 +478,6 @@ else {
 	}
 
 	function printViewTitle($year, $month, $day, $view, $suppressLogo = "false") {
-		global $mainframe;
-
-		$params =& $mainframe->getPageParameters();
-		$format = $params->get('calendardateformat');
-
 		$year = (int)$year;
 		$month = (int)$month;
 		$day = (int)$day;
@@ -509,7 +496,8 @@ else {
 				break;
 			case "week":
 				$gcal = $this->gcalendar;
-				$firstDisplayedDate = $this->getFirstDayOfWeek($year, $month, $day, $gcal->config['weekStart']);
+				$calendarConfig = $gcal->calendarConfig;
+				$firstDisplayedDate = $this->getFirstDayOfWeek($year, $month, $day, $calendarConfig->getWeekStart());
 				$lastDisplayedDate = strtotime("+6 days", $firstDisplayedDate);
 				$infoS = getdate($firstDisplayedDate);
 				$infoF = getdate($lastDisplayedDate);

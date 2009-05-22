@@ -71,7 +71,7 @@ class GCalendarModelGCalendar extends JModel {
 		return $cached_data;
 	}
 
-	function getGoogleCalendarEvents($startDate, $endDate, $projection = null) {
+	function getGoogleCalendarFeeds($startDate, $endDate, $projection = null) {
 		$results = $this->getDBCalendars();
 		if(empty($results))
 		return null;

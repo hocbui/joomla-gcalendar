@@ -25,6 +25,6 @@ require_once (dirname(__FILE__).DS.'helper.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'GCalendar.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-$feedFetcher = ModGCalendarHelper::getFeedFetcher($params->get('calendarids'));
+$calendarConfig = ModGCalendarHelper::getCalendarConfig($params->get('calendarids'));
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar' ) );
 ?>
