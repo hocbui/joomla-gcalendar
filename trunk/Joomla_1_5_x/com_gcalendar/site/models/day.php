@@ -18,28 +18,22 @@
  * @version $Revision: 2.1.0 $
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'DefaultCalendarConfig.php');
+jimport( 'joomla.application.component.model' );
 
-class ModGCalendarHelper {
-
-	function getCalendarConfig($calendarids) {
-		$calendarConfig = new ModCalendarConfig($calendarids);
-		return $calendarConfig;
-	}
-}
-
-class ModCalendarConfig extends DefaultCalendarConfig{
-	var $calendarids;
-
-	function ModCalendarConfig($calendarids){
-		$this->calendarids = $calendarids;
-	}
+/**
+ * GCalendar Model
+ *
+ */
+class GCalendarModelDay extends JModel {
 
 	function getGoogleCalendarFeeds($start, $end) {
+		$calendarids = null;
+		$gcids = $this->getState('gcids');
+		if(!empty($gcids))
+		$calendarids = $gcids;
 		$condition = '';
-		$calendarids = $this->calendarids;
 		if(!empty($calendarids)){
 			if(is_array($calendarids)) {
 				$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
@@ -82,11 +76,4 @@ class ModCalendarConfig extends DefaultCalendarConfig{
 		}
 		return $calendars;
 	}
-
-	function createLink($year, $month, $day, $calids){
-		$calendars = '';
-		if(!empty($calids)) $calendars = '&gcids='.implode(',',$calids);
-		return JURI::base()."index.php?option=com_gcalendar&view=day&gcalendarview=day&year=".$year."&month=".$month."&day=".$day.$calendars;
-	}
 }
-?>

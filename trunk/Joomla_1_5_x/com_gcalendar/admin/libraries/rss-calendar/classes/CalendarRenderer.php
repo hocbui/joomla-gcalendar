@@ -53,17 +53,19 @@ class CalendarRenderer {
 		return $result;
 	}
 
-	function printEvent($view, $item, $style = null){
+	function printEvent($view, $item, $height = -1, $top = -1){
 		$gcal = $this->gcalendar;
 		$calendarConfig = $gcal->calendarConfig;
 		if(!$calendarConfig->getShowEventTitle())
 		return;
 		$feed = $item->get_feed();
+		if($height > -1)
+		echo "<div class=\"Event\" style=\"height:".$height."px; top:".$top."px\">";
 		echo "<div class=\"gccal_".$feed->get('gcid')."\">";
-		if($style != null)
-		echo "<div style=\"".$style."\">";
+		echo "<div style=\"height:".($height-2)."px\">";
 		EventRenderer::display($view ,$item);
-		if($style != null)
+		if($height > -1)
+		echo "</div>";
 		echo "</div>";
 		echo "</div>";
 	}
@@ -112,15 +114,14 @@ class CalendarRenderer {
 					$calids[] = $feed->get('gcid');
 				}
 			}
-			if(!empty($calids)) $calids = '&gcids='.implode(',',$calids);
-			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=${year}&month=${month}&day=${thisDay}".$calids;
+			$thisLink = $calendarConfig->createLink($year, $month, $thisDay, $calids);
 			echo "<td height=\"".$calendarConfig->getCellHeight()."\" ";
 			if (($thisDay == $today["mday"]) && ($month == $today["mon"])) {
 				echo "class=\"Today\"";
 			}
 			echo ">";
 			if($calendarConfig->getPrintDayLink() || count($myItems) > 0)
-			echo "<a class=\"DayNum\" href=\"". JRoute::_($thisLink)."\">".$thisDay."</a>";
+			echo "<a class=\"DayNum\" href=\"". $thisLink."\">".$thisDay."</a>";
 			else
 			echo "<p class=\"DayNum\">".$thisDay."</p>";
 			if ($myItems) {
@@ -137,7 +138,7 @@ class CalendarRenderer {
 			// [DAF-060426] fixed typo
 			echo "<td class=\"EmptyCell\" height=\"".$calendarConfig->getCellHeight()."\" ></td>";
 		}
-		echo "</tr></table>";
+		echo "</table>";
 	}
 
 	function getDayLayout($year, $month, $day) {
@@ -227,7 +228,7 @@ class CalendarRenderer {
 			$whichCol = 0;
 			$colWidth = (int)floor(100 / count($layout));
 			foreach($layout as $col) {
-				echo "<div class=\"Col\" style=\"width:".$colWidth-0.5."%; left: ".$colWidth * $whichCol."%\">\n";
+				echo "<div class=\"Col\" style=\"width:".($colWidth-0.5)."%; left: ".($colWidth * $whichCol)."%\">\n";
 				$currentOffset = $initialMinute;
 				foreach($col as $item) {
 					$myStart = $item->get_start_date();
@@ -265,7 +266,7 @@ class CalendarRenderer {
 					// Now, convert minute values to pixels.
 					$myStartOffset = $myStartOffset * 64 / 60;
 					$myDuration = $myDuration * 64 / 60;
-					$this->printEvent($view, $item, "height:".$myDuration."px; top:". $myStartOffset."px");
+					$this->printEvent($view, $item, $myDuration, $myStartOffset);
 				}
 				$whichCol++;
 				echo "</div>\n";
@@ -315,7 +316,7 @@ class CalendarRenderer {
 		<td class="TimedEvents">
 		<div class="Inner"><?php $this->printTimedEventsForDay($dayLayout, "day", $initialMinuteOffset); ?>
 		</div>
-		&nbsp;</td>
+		</td>
 	</tr>
 </table>
 </div>
@@ -477,22 +478,15 @@ class CalendarRenderer {
 		}
 	}
 
-	function printViewTitle($year, $month, $day, $view, $suppressLogo = "false") {
+	function getViewTitle($year, $month, $day, $view, $suppressLogo = "false") {
 		$year = (int)$year;
 		$month = (int)$month;
 		$day = (int)$day;
 		$date = JFactory::getDate();
+		$title = '';
 		switch($view) {
 			case "month":
-				if ($format == 'year') {
-					echo $year;
-					echo " ";
-					echo $date->_monthToString($month);
-				} else {
-					echo $date->_monthToString($month);
-					echo " ";
-					echo $year;
-				}
+				$title = $date->_monthToString($month)." ".$year;
 				break;
 			case "week":
 				$gcal = $this->gcalendar;
@@ -506,48 +500,22 @@ class CalendarRenderer {
 					$m1 = substr($infoS["month"], 0, 3);
 					$m2 = substr($infoF["month"], 0, 3);
 
-					if ($format == 'month') {
-						echo "${m1} " . $infoS["mday"] . ", " . $infoS["year"] . " - ${m2} " . $infoF["mday"] . ", " . $infoF["year"];
-		} else if ($format == 'day') {
-			echo $infoS["mday"] . " ${m1} " . $infoS["year"] . " - "  . $infoF["mday"] . " ${m2} ". $infoF["year"];
-					} else {
-						echo $infoS["year"] . " ${m1} " . $infoS["mday"] . " - " . $infoF["year"] . " ${m2} " . $infoF["mday"];
-					}
-				} elseif ($infoS["mon"] != $infoF["mon"]) {
+					$title = $infoS["year"] . " ${m1} " . $infoS["mday"] . " - " . $infoF["year"] . " ${m2} " . $infoF["mday"];
+				}else if ($infoS["mon"] != $infoF["mon"]) {
 					$m1 = substr($infoS["month"], 0, 3);
 					$m2 = substr($infoF["month"], 0, 3);
-
-					if ($format == 'month') {
-						echo "${m1} " . $infoS["mday"] . " - ${m2} " . $infoF["mday"] . ", " . $infoS["year"];
-					} else if ($format == 'day') {
-						echo $infoS["mday"] . " ${m1} - " . $infoF["mday"] . " ${m2} " . $infoS["year"];
-					} else {
-						echo $infoS["year"] . " ${m1} " . $infoS["mday"] . " - ${m2} " . $infoF["mday"];
-					}
-
+			
+					$title = $infoS["year"] . " ${m1} " . $infoS["mday"] . " - ${m2} " . $infoF["mday"];
 				} else {
-					if ($format == 'month') {
-						echo $infoS["month"] . " " . $infoS["mday"] . " - " . $infoF["mday"] . ", " . $infoS["year"];
-					} else if ($format == 'day') {
-						echo $infoS["mday"] . " - " . $infoF["mday"] . " " . $infoS["month"] . " " . $infoS["year"];
-					} else {
-						echo $infoS["year"] . " " . $infoS["month"] . " ". $infoS["mday"] . " - " . $infoF["mday"];
-					}
-
+					$title = $infoS["year"] . " " . $infoS["month"] . " ". $infoS["mday"] . " - " . $infoF["mday"];
 				}
 				break;
 			case "day":
 				$tDate = strtotime("${year}-${month}-${day}");
-				if ($format == 'month') {
-					echo strftime("%A, %b %e, %Y", $tDate);
-				} else if ($format == 'day') {
-					echo strftime("%A, %e %b %Y", $tDate);
-				} else {
-					echo strftime("%A, %Y %b %e", $tDate);
-				}
-
+				$title = strftime("%A, %Y %b %e", $tDate);
 				break;
 		}
+		return $title;
 	}
 
 	function getFirstDayOfWeek($year, $month, $day, $weekStart) {

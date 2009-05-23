@@ -28,7 +28,7 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'librari
  * HTML View class for the GCalendar Component
  *
  */
-class GCalendarViewGCalendar extends JView
+class GCalendarViewDay extends JView
 {
 	function display($tpl = null)
 	{
@@ -37,6 +37,11 @@ class GCalendarViewGCalendar extends JView
 		$params = &$mainframe->getParams();
 		$this->assignRef('params'  , $params);
 
+		if(JRequest::getVar('gcids', null) != null){
+			$calendarids = explode(',', JRequest::getVar('gcids', null));
+			$model = &$this->getModel();
+			$model->setState('gcids',$calendarids);
+		}
 		parent::display($tpl);
 	}
 }

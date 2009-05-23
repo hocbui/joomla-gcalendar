@@ -32,11 +32,6 @@ function GCalendarBuildRoute( &$query )
 		$view = $query['view'];
 		unset( $query['view'] );
 	}
-	if(isset($query['task']))
-	{
-		$segments[] = $query['task'];
-		unset( $query['task'] );
-	}
 	if($view === 'event'){
 		if(isset($query['eventID']))
 		{

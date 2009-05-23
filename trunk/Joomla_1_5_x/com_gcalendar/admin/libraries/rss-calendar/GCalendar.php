@@ -30,6 +30,7 @@ class GCalendar {
 	var $mainFilename;
 	var $calendarConfig;
 	var $feeds;
+	var $userAgent;
 
 	function GCalendar($calendarConfig) {
 		GCalendarUtil::ensureSPIsLoaded();
@@ -38,14 +39,14 @@ class GCalendar {
 		$this->mainFilename = "index.php?option=com_gcalendar&view=gcalendar";
 		$this->today = getdate();
 
-		$this->month = isset($_GET["month"]) ? $_GET["month"] : $this->today["mon"];
-		$this->year = isset($_GET["year"]) ? $_GET["year"] : $this->today["year"];
-		$this->day = isset($_GET["day"]) ? $_GET["day"] : $this->today["mday"];
+		$this->month = JRequest::getVar('month', $this->today["mon"]);
+		$this->year = JRequest::getVar('year', $this->today["year"]);
+		$this->day = JRequest::getVar('day', $this->today["mday"]);
 		if (!checkdate($this->month, $this->day, $this->year)) {
 			$this->day = 1;
 		}
 
-		$this->view = isset($_GET["gcalendarview"]) ? $_GET["gcalendarview"] : $calendarConfig->getDefaultView();
+		$this->view = JRequest::getVar('gcalendarview', $calendarConfig->getDefaultView());
 		if($calendarConfig->getForceView() != null){
 			$this->view = $calendarConfig->getForceView();
 		}
@@ -56,25 +57,16 @@ class GCalendar {
 
 		if (isset($_SERVER['HTTP_USER_AGENT'])) {
 			$uaRaw = strtolower($_SERVER['HTTP_USER_AGENT']);
-			$this->uaVersion = "unk";
 			if (strpos($uaRaw, "opera") !== false)
 			$this->userAgent = "opera";
 			elseif (strpos($uaRaw, "msie") !== false) {
 				$this->userAgent = "ie";
-				if (strpos($uaRaw, "msie 6") !== false) $this->uaVersion = 6;
 			}
 			else
 			$this->userAgent = "other";
-
-			if (strpos($uaRaw, "mac") !== false)
-			$this->uaPlatform = "mac";
-			else
-			$this->uaPlatform = "other";
 		}
 		else {
-			$this->uaVersion = "unk";
 			$this->userAgent = "unk";
-			$this->uaPlatform = "unk";
 		}
 		switch($this->view) {
 			case "month":
@@ -107,12 +99,13 @@ class GCalendar {
 			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
 		}
 
-		$cal = $this->cal;
-
 		$year = &$this->year;
 		$month = &$this->month;
 		$day = &$this->day;
 		$view = &$this->view;
+
+		$cal = $this->cal;
+
 		echo "<div class=\"gcalendar\">\n";
 
 		$calendarConfig = $this->calendarConfig;
@@ -121,6 +114,7 @@ class GCalendar {
 		}
 
 		if($calendarConfig->getShowToolbar()){
+			$document->setTitle('GCalendar: '.$cal->getViewTitle($year, $month, $day, $view));
 			$this->printToolBar($year, $month, $day, $view);
 		}
 		$cal->printCal($year, $month, $day, $view);
@@ -150,7 +144,7 @@ class GCalendar {
 	function printToolBar($year, $month, $day, $view){
 		$cal = $this->cal;
 		$calendarConfig = $this->calendarConfig;
-		
+
 		switch($view) {
 			case "month":
 				$nextMonth = ($month == 12) ? 1 : $month+1;
@@ -180,20 +174,8 @@ class GCalendar {
 
 			$document =& JFactory::getDocument();
 			$calCode  = "function datePickerClosed(dateField){\n";
-			$calCode .= "var gcdateValues = dateField.value.split('/');\n";
-			$calCode .= "var gcformatValues = '".$calendarConfig->getDateFormat()."'.split('/');\n";
-			$calCode .= "var gcday = '';\n";
-			$calCode .= "var gcmonth = '';\n";
-			$calCode .= "var gcyear = '';\n";
-			$calCode .= "for(i = 0; i < gcformatValues.length; i++){\n";
-			$calCode .= "if(gcformatValues[i]=='dd')\n";
-			$calCode .= "gcday = gcdateValues[i];\n";
-			$calCode .= "else if(gcformatValues[i]=='mm')\n";
-			$calCode .= "gcmonth = gcdateValues[i];\n";
-			$calCode .= "else if(gcformatValues[i]=='yy')\n";
-			$calCode .= "gcyear = gcdateValues[i];\n";
-			$calCode .= "}\n";
-			$calCode .= "document.getElementById('gc_go_link').href = '".JRoute::_($this->mainFilename."&gcalendarview=".$view)."&day='+gcday+'&month='+gcmonth+'&year='+gcyear;\n";
+			$calCode .= "var d = jQuery.datepicker.parseDate('".$calendarConfig->getDateFormat()."', dateField.value);\n";
+			$calCode .= "document.getElementById('gc_go_link').href = '".JRoute::_($this->mainFilename."&gcalendarview=".$view)."&day='+d.getDate()+'&month='+(d.getMonth()+1)+'&year='+d.getFullYear();\n";
 			$calCode .= "}\n";
 			$document->addScriptDeclaration($calCode);
 
@@ -202,10 +184,46 @@ class GCalendar {
 			$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
 			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
 
+			$daysLong = "[";
+			$daysShort = "[";
+			$daysMin = "[";
+			$monthsLong = "[";
+			$monthsShort = "[";
+			$dateObject = JFactory::getDate();
+			for ($i=0; $i<7; $i++) {
+				$daysLong .= "'".$dateObject->_dayToString($i, false)."'";
+				$daysShort .= "'".$dateObject->_dayToString($i, true)."'";
+				$daysMin .= "'".substr($dateObject->_dayToString($i, true), 0, 2)."'";
+				if($i < 6){
+					$daysLong .= ",";
+					$daysShort .= ",";
+					$daysMin .= ",";
+				}
+			}
+
+			for ($i=0; $i<12; $i++) {
+				$monthsLong .= "'".$dateObject->_monthToString($i, false)."'";
+				$monthsShort .= "'".$dateObject->_monthToString($i, true)."'";
+				if($i < 11){
+					$monthsLong .= ",";
+					$monthsShort .= ",";
+				}
+			}
+			$daysLong .= "]";
+			$daysShort .= "]";
+			$daysMin .= "]";
+			$monthsLong .= "]";
+			$monthsShort .= "]";
+
 			$calCode = "jQuery.noConflict();\n";
 			$calCode .= "jQuery(document).ready(function(){\n";
 			$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$calendarConfig->getDateFormat()."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
 			$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$calendarConfig->getDateFormat()."'});\n";
+			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNames', ".$daysLong.");\n";
+			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNamesShort', ".$daysShort.");\n";
+			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNamesMin', ".$daysMin.");\n";
+			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'monthNames', ".$monthsLong.");\n";
+			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'monthNamesShort', ".$monthsShort.");\n";
 			$calCode .= "})\n";
 			$document->addScriptDeclaration($calCode);
 
@@ -215,7 +233,7 @@ class GCalendar {
 			$this->image("btn-prev.gif", "previous ".$view, "prevBtn_img");
 			echo "</a>\n";
 			echo "<span class=\"ViewTitle Item\">\n";
-			$cal->printViewTitle($year, $month, $day, $view);
+			echo $cal->getViewTitle($year, $month, $day, $view);
 			echo "</span>\n";
 			echo "<a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"next ".$view."\">\n";
 			$this->image("btn-next.gif", "next ".$view, "nextBtn_img");

@@ -41,7 +41,7 @@ class EventRenderer {
 		echo EventRenderer::summary($spItem);
 		echo "\" >";
 		echo EventRenderer::summary($spItem,$summaryLength);
-		echo "</a>\n</div></div>";
+		echo "</a>\n";
 	}
 
 	function summary($spItem, $maxlength = 0) {
