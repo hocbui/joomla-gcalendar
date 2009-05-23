@@ -85,5 +85,11 @@ class DefaultCalendarConfig{
 	function getPrintDayLink() {
 		return $this->printDayLink;
 	}
+	
+	function createLink($year, $month, $day, $calids){
+		$calendars = '';
+		if(!empty($calids)) $calendars = '&gcids='.implode(',',$calids);
+		return JRoute::_("index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=".$year."&month=".$month."&day=".$day.$calendars);
+	}
 }
 ?>

@@ -50,7 +50,7 @@
 		<param name="output" type="textarea2" default="" label="Event output"
 			description="Here you can customize the appearance of the event."
 			rows="5" cols="50">
-			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br&gt;&lt;a href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
+			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;&lt;a href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
 			<description>
 				Here you can modify the event output. The following attributes of an event are provided:&lt;br&gt;
 				{title}, {description},

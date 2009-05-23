@@ -44,9 +44,6 @@ class GCalendarModelGCalendar extends JModel {
 			$calendarids = null;
 			if($params != null)
 			$calendarids=$params->get('calendarids');
-			$gcids = $this->getState('gcids');
-			if(!empty($gcids))
-			$calendarids = $this->getState('gcids');
 
 			$db =& JFactory::getDBO();
 			$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar";
