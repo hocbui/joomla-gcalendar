@@ -1,0 +1,16 @@
+------ 0.3.0 ------
+* a limit of events in the feed can be set
+* increasing performance by caching variables
+* the projection of a feed can be set
+* removed some php 4 errors
+* added timezone parameter
+
+------ 0.2.0 ------
+* setting a language for the feed
+* added gnu gpl license
+* its possible to set some metadata to a feed
+* filtering the list of events trough a query
+
+------ 0.0.1 ------
+* initial release
+* basic google calendar feed support
