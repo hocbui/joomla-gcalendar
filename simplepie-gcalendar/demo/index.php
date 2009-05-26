@@ -15,7 +15,7 @@
  * 
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 0.2.0 $
+ * @version $Revision: 0.3.0 $
  */
  
 $url = $_POST["feedurl"];
