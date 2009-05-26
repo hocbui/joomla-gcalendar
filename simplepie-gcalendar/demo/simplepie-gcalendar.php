@@ -29,7 +29,7 @@ if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED')) {
 /**
  * SimplePie_GCalendar is the SimplePie extension which provides some
  * helper methods.
- * 
+ *
  * @see http://code.google.com/apis/calendar/docs/2.0/reference.html
  */
 class SimplePie_GCalendar extends SimplePie {
@@ -44,7 +44,8 @@ class SimplePie_GCalendar extends SimplePie {
 	var $start_date = null;
 	var $end_date = null;
 	var $max_events = 25;
-	var $projection = 'full';
+	var $projection = "full";
+	var $timezone = "";
 
 	/**
 	 * If the method $this->get_items() should include past events.
@@ -145,9 +146,19 @@ class SimplePie_GCalendar extends SimplePie {
 	 * because this information is only included in the full projection.
 	 * @param $value
 	 */
-	function set_projection($value = 'full'){
+	function set_projection($value = "full"){
 		if(!empty($value))
 		$this->projection = $value;
+	}
+
+	/**
+	 * Sets the timezone of this feed.
+	 *
+	 * @param $value
+	 */
+	function set_timezone($value = "") {
+		if(!empty($value))
+		$this->timezone = $value;
 	}
 
 	/**
@@ -165,8 +176,9 @@ class SimplePie_GCalendar extends SimplePie {
 			foreach ($this->multifeed_url as $value)
 			$tmp[] = $this->check_url($value);
 			$new_url = $tmp;
-		}else
-		$new_url = $this->check_url($this->feed_url);
+		}else{
+			$new_url = $this->check_url($this->feed_url);
+		}
 		$this->set_feed_url($new_url);
 
 		parent::init();
@@ -211,8 +223,10 @@ class SimplePie_GCalendar extends SimplePie {
 		$tmp = $this->append($tmp,'hl='.$this->cal_language.'&');
 		if(!empty($this->cal_query))
 		$tmp = $this->append($tmp,'q='.$this->cal_query.'&');
+		if(!empty($this->timezone))
+		$tmp = $this->append($tmp,'ctz='.$this->timezone.'&');
 		$tmp = $this->append($tmp,'max-results='.$this->max_events);
-		
+
 		return $tmp;
 	}
 
