@@ -21,7 +21,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$tz = GCalendarUtil::getComponentParameter('timezone');;
+$tz = GCalendarUtil::getComponentParameter('timezone');
 if(!empty($tz))$tz='&ctz='.$tz;
 $lg = '&hl='.GCalendarUtil::getFrLanguage();
 $url = 'http://www.google.com/calendar/event?eid=' . $this->eventID . $tz.$lg;

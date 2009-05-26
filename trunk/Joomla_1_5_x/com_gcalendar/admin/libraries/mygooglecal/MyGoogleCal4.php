@@ -41,11 +41,16 @@
  *   16 December 2008 - Modified MyGoogleCal4js.php so that the regex does a
  *                      general match rather than specifically look for the
  *                      variable 'Ac'.
+ *   Mar--Apr    2009 - Added jQuery for modifying the style after page load
  *                      
  *   
  * ACKNOWLEDGMENTS:
  *   Michael McCall (http://www.castlemccall.com/) for pointing out "htmlembed"
  *   Mike (http://mikahn.com/) for the link to the online CSS formatter
+ *   TechTriad.com (http://techtriad.com/) for requesting and funding the 
+ *       Javascript code to edit CSS properties and for selflessly letting the
+ *       code be published for everyone's use and benefit.
+ *   
  *
  * copyright (c) by Brian Gibson
  * email: bwg1974 yahoo com
@@ -95,6 +100,39 @@ $buffer = preg_replace($pattern, $replacement, $buffer);
 
 $pattern = '/src="(.*js)"/';
 $replacement = 'src="MyGoogleCal4js.php?$1"';  
+$buffer = preg_replace($pattern, $replacement, $buffer);
+
+// Add a hook to the window onload function
+$pattern = '/}\);}<\/script>/';
+$replacement = '}); myGoogleCal();}</script>';
+$buffer = preg_replace($pattern, $replacement, $buffer);
+
+// Use DHTML to modify the DOM after the calendar loads
+$pattern = '/(<\/head>)/';
+$replacement = <<<MGC
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+<script type="text/javascript">
+function myGoogleCal() {
+    // remove inline style from body so background-color can be set using the stylesheet
+    $('body').removeAttr('style');
+
+    // iterate over each bubble and remove the width property from the style attribute
+    // so that the width can be set using the stylesheet
+    $('.bubble').each(function(){
+        style = $(this).attr('style').replace(/width: 400px;?/i, '');
+        $(this).attr('style', style);
+    });
+
+    // alternate method: directly set width for all elements of class 'bubble'
+    // $('.bubble').width('200px');
+
+    // see jQuery Attributes and CSS for other ways to edit DOM
+    // http://docs.jquery.com/Attributes
+    // http://docs.jquery.com/CSS
+}
+</script>
+</head>
+MGC;
 $buffer = preg_replace($pattern, $replacement, $buffer);
 
 // display the calendar
