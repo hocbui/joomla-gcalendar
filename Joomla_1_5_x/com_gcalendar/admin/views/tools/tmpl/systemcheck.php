@@ -67,6 +67,7 @@ defined('_JEXEC') or die('Restricted access');
 				$feed->enable_order_by_date(FALSE);
 				$feed->enable_cache(FALSE);
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
+				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
 
 				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 				$feed->set_feed_url($url);

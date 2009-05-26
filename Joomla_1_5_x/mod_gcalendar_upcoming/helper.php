@@ -22,7 +22,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 class ModGCalendarUpcomingHelper {
-	
+
 	function getCalendarItems(&$params) {
 		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'models');
 		$model =JModel::getInstance('GCalendar','GCalendarModel');
@@ -36,10 +36,9 @@ class ModGCalendarUpcomingHelper {
 			if(!empty($result->calendar_id) && $result->selected){
 				$feed = modGcalendarUpcomingHelper::create_gc_feed($params);
 				$feed->put('gcid',$result->id);
-				$feed->put('gcalendarName',$result->name);
-				$feed->put('gcalendarColor',$result->color);
+				$feed->put('gcname',$result->name);
+				$feed->put('gccolor',$result->color);
 				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
-				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 
 				$feed->set_feed_url($url);
 					
@@ -76,6 +75,9 @@ class ModGCalendarUpcomingHelper {
 		$feed->enable_order_by_date(FALSE);
 		$feed->enable_cache(FALSE);
 		$feed->set_max_events($maxEvents);
+		$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
+		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
+		
 		return $feed;
 	}
 }

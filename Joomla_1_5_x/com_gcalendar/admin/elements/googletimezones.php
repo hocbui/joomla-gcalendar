@@ -34,6 +34,7 @@ class JElementGoogletimezones extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$timezones = array (
+		JHTML::_('select.option','', JText::_('')),
 		JHTML::_('select.option','Pacific/Apia', JText::_('(GMT-11:00) Apia')),
 		JHTML::_('select.option','Pacific/Midway', JText::_('(GMT-11:00) Midway')),
 		JHTML::_('select.option','Pacific/Niue', JText::_('(GMT-11:00) Niue')),
@@ -344,121 +345,125 @@ class JElementGoogletimezones extends JElement
 		JHTML::_('select.option','Pacific/Tongatapu', JText::_('(GMT+13:00) Tongatapu')),
 		JHTML::_('select.option','Pacific/Kiritimati', JText::_('(GMT+14:00) Kiritimati')));
 
-		$conf =& JFactory::getConfig();
-		$globalTz = $conf->getValue('config.offset');
-		switch ($globalTz) {
-			case -11:
-				$value = 'Pacific/Midway';
-				break;
-			case -10:
-				$value = 'Pacific/Honolulu';
-				break;
-			case -9.5:
-				$value = 'Pacific/Marquesas';
-				break;
-			case -9:
-				$value = 'America/Anchorage';
-				break;
-			case -8:
-				$value = 'America/Los_Angeles';
-				break;
-			case -7:
-				$value = 'America/Dawson_Creek';
-				break;
-			case -6:
-				$value = 'America/Chicago';
-				break;
-			case -5:
-				$value = 'America/New_York';
-				break;
-			case -4.5:
-				$value = 'America/Caracas';
-				break;
-			case -4:
-				$value = 'America/Halifax';
-				break;
-			case -3.5:
-				$value = 'America/St_Johns';
-				break;
-			case -3:
-				$value = 'America/Montevideo';
-				break;
-			case -2:
-				$value = 'America/Noronha';
-				break;
-			case -1:
-				$value = 'Atlantic/Azores';
-				break;
-			case 0:
-				$value = 'Europe/London';
-				break;
-			case 1:
-				$value = 'Europe/Belgrade';
-				break;
-			case 2:
-				$value = 'Europe/Istanbul';
-				break;
-			case 3:
-				$value = 'Europe/Moscow';
-				break;
-			case 3.5:
-				$value = 'Asia/Tehran';
-				break;
-			case 4:
-				$value = 'Asia/Dubai';
-				break;
-			case 4.5:
-				$value = 'Asia/Kabul';
-				break;
-			case 5:
-				$value = 'Asia/Yekaterinburg';
-				break;
-			case 5.5:
-				$value = 'Asia/Calcutta';
-				break;
-			case 5.75:
-				$value = 'Asia/Katmandu';
-				break;
-			case 6:
-				$value = 'Asia/Almaty';
-				break;
-			case 6.5:
-				$value = 'Asia/Rangoon';
-				break;
-			case 7:
-				$value = 'Asia/Bangkok';
-				break;
-			case 8:
-				$value = 'Asia/Shanghai';
-				break;
-			case 9:
-				$value = 'Asia/Tokyo';
-				break;
-			case 9.5:
-				$value = 'Australia/Adelaide';
-				break;
-			case 10:
-				$value = 'Australia/Brisbane';
-				break;
-			case 11:
-				$value = 'Pacific/Kosrae';
-				break;
-			case 11.5:
-				$value = 'Pacific/Norfolk';
-				break;
-			case 12:
-				$value = 'Pacific/Auckland';
-				break;
-			case 13:
-				$value = 'Pacific/Tongatapu';
-				break;
-			case 14:
-				$value = 'Pacific/Kiritimati';
-				break;
-			default:
-				$value = 'Europe/London';
+		/*
+		if(empty($value)){
+			$conf =& JFactory::getConfig();
+			$globalTz = $conf->getValue('config.offset');
+			switch ($globalTz) {
+				case -11:
+					$value = 'Pacific/Midway';
+					break;
+				case -10:
+					$value = 'Pacific/Honolulu';
+					break;
+				case -9.5:
+					$value = 'Pacific/Marquesas';
+					break;
+				case -9:
+					$value = 'America/Anchorage';
+					break;
+				case -8:
+					$value = 'America/Los_Angeles';
+					break;
+				case -7:
+					$value = 'America/Dawson_Creek';
+					break;
+				case -6:
+					$value = 'America/Chicago';
+					break;
+				case -5:
+					$value = 'America/New_York';
+					break;
+				case -4.5:
+					$value = 'America/Caracas';
+					break;
+				case -4:
+					$value = 'America/Halifax';
+					break;
+				case -3.5:
+					$value = 'America/St_Johns';
+					break;
+				case -3:
+					$value = 'America/Montevideo';
+					break;
+				case -2:
+					$value = 'America/Noronha';
+					break;
+				case -1:
+					$value = 'Atlantic/Azores';
+					break;
+				case 0:
+					$value = 'Europe/London';
+					break;
+				case 1:
+					$value = 'Europe/Belgrade';
+					break;
+				case 2:
+					$value = 'Europe/Istanbul';
+					break;
+				case 3:
+					$value = 'Europe/Moscow';
+					break;
+				case 3.5:
+					$value = 'Asia/Tehran';
+					break;
+				case 4:
+					$value = 'Asia/Dubai';
+					break;
+				case 4.5:
+					$value = 'Asia/Kabul';
+					break;
+				case 5:
+					$value = 'Asia/Yekaterinburg';
+					break;
+				case 5.5:
+					$value = 'Asia/Calcutta';
+					break;
+				case 5.75:
+					$value = 'Asia/Katmandu';
+					break;
+				case 6:
+					$value = 'Asia/Almaty';
+					break;
+				case 6.5:
+					$value = 'Asia/Rangoon';
+					break;
+				case 7:
+					$value = 'Asia/Bangkok';
+					break;
+				case 8:
+					$value = 'Asia/Shanghai';
+					break;
+				case 9:
+					$value = 'Asia/Tokyo';
+					break;
+				case 9.5:
+					$value = 'Australia/Adelaide';
+					break;
+				case 10:
+					$value = 'Australia/Brisbane';
+					break;
+				case 11:
+					$value = 'Pacific/Kosrae';
+					break;
+				case 11.5:
+					$value = 'Pacific/Norfolk';
+					break;
+				case 12:
+					$value = 'Pacific/Auckland';
+					break;
+				case 13:
+					$value = 'Pacific/Tongatapu';
+					break;
+				case 14:
+					$value = 'Pacific/Kiritimati';
+					break;
+				default:
+					$value = 'Europe/London';
+			}
 		}
-		return JHTML::_('select.genericlist',  $timezones, ''.$control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name );
+		*/
+		return JHTML::_('select.genericlist',  $timezones, $control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }
 ?>

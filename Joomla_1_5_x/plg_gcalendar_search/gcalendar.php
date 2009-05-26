@@ -110,6 +110,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 		$feed->set_cal_query($text);
 		$feed->put('gcid',$result->id);
 		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
+		$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
 
 		$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 		$feed->set_feed_url($url);
