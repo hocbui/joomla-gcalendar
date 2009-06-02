@@ -19,6 +19,10 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'GCalendar.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'DefaultCalendarConfig.php');
+
 $params = $this->params;
 echo "<div class=\"contentpane".$params->get('pageclass_sfx')."\">\n";
 

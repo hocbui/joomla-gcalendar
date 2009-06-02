@@ -20,6 +20,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'GCalendar.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'DefaultCalendarConfig.php');
+
 $gcids = JRequest::getVar('gcids', null);
 if($gcids !=null){
 	$cals = explode(',', $gcids);

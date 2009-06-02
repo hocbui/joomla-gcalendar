@@ -21,6 +21,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+
 $tz = GCalendarUtil::getComponentParameter('timezone');
 if(!empty($tz))$tz='&ctz='.$tz;
 $lg = '&hl='.GCalendarUtil::getFrLanguage();

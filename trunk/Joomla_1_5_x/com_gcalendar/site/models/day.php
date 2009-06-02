@@ -22,6 +22,9 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
+
 /**
  * GCalendar Model
  *
@@ -33,20 +36,8 @@ class GCalendarModelDay extends JModel {
 		$gcids = $this->getState('gcids');
 		if(!empty($gcids))
 		$calendarids = $gcids;
-		$condition = '';
-		if(!empty($calendarids)){
-			if(is_array($calendarids)) {
-				$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
-			} else {
-				$condition = 'id = '.$calendarids;
-			}
-		}else
-		return array();
-
-		$db =& JFactory::getDBO();
-		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar where ".$condition;
-		$db->setQuery( $query );
-		$results = $db->loadObjectList();
+		
+		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
 		return array();
 

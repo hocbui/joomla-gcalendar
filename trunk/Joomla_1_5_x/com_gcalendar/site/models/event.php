@@ -23,6 +23,9 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
+
 /**
  * GCalendar Model
  *
@@ -37,12 +40,8 @@ class GCalendarModelEvent extends JModel
 	function getGCalendar()
 	{
 		$gcid=$this->getState('gcid');
-
-		$db =& JFactory::getDBO();
-		$query = "SELECT id, calendar_id, magic_cookie, name  FROM #__gcalendar where id=".$gcid;
-		$db->setQuery( $query );
-		$result = $db->loadObject();
-		return $result;
+		$calendars = GCalendarDBUtil::getCalendars($gcid);
+		return $calendars;
 	}
 
 }
