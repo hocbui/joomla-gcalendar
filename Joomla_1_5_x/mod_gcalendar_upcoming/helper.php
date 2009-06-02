@@ -24,16 +24,27 @@ defined('_JEXEC') or die('Restricted access');
 class ModGCalendarUpcomingHelper {
 
 	function getCalendarItems(&$params) {
-		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'models');
-		$model =JModel::getInstance('GCalendar','GCalendarModel');
-		$model->setState('parameters.menu', $params);
-		$results = $model->getDBCalendars();
+		$calendarids = $params->get('calendarids');
+		$condition = '';
+		if(!empty($calendarids)){
+			if(is_array($calendarids)) {
+				$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
+			} else {
+				$condition = 'id = '.$calendarids;
+			}
+		}else
+		return array();
+
+		$db =& JFactory::getDBO();
+		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar where ".$condition;
+		$db->setQuery( $query );
+		$results = $db->loadObjectList();
 		if(empty($results))
 		return array('The selected calendar(s) were not found in the database.',NULL);
 
 		$values = array();
 		foreach ($results as $result) {
-			if(!empty($result->calendar_id) && $result->selected){
+			if(!empty($result->calendar_id)){
 				$feed = modGcalendarUpcomingHelper::create_gc_feed($params);
 				$feed->put('gcid',$result->id);
 				$feed->put('gcname',$result->name);
