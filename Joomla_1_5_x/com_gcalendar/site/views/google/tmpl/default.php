@@ -47,20 +47,21 @@ if(!is_array($this->calendars)){
 
 	<?php
 	$variables = '';
-	$variables = $variables.'?showTitle='.$params->get( 'title' );
-	$variables = $variables.'&amp;showNav='.$params->get( 'navigation' );
-	$variables = $variables.'&amp;showDate='.$params->get( 'date' );
-	$variables = $variables.'&amp;showPrint='.$params->get( 'print' );
-	$variables = $variables.'&amp;showTabs='.$params->get( 'tabs' );
-	$variables = $variables.'&amp;showCalendars=0';
-	$variables = $variables.'&amp;showTz='.$params->get( 'tz' );
-	$variables = $variables.'&amp;mode='.$params->get( 'view' );
-	$variables = $variables.'&amp;wkst='.$params->get( 'weekstart' );
-	$variables = $variables.'&amp;bgcolor=%23'.$params->get( 'bgcolor' );
+	$variables .= '?showTitle='.$params->get( 'title' );
+	$variables .= '&amp;showNav='.$params->get( 'navigation' );
+	$variables .= '&amp;showDate='.$params->get( 'date' );
+	$variables .= '&amp;showPrint='.$params->get( 'print' );
+	$variables .= '&amp;showTabs='.$params->get( 'tabs' );
+	$variables .= '&amp;showCalendars=0';
+	$variables .= '&amp;showTz='.$params->get( 'tz' );
+	$variables .= '&amp;mode='.$params->get( 'view' );
+	$variables .= '&amp;wkst='.$params->get( 'weekstart' );
+	$variables .= '&amp;bgcolor=%23'.$params->get( 'bgcolor' );
+	$variables .= '&hl='.GCalendarUtil::getFrLanguage();
 	$tz = $params->get('timezone');
 	if(!empty($tz))$tz='&ctz='.$tz;
-	$variables = $variables.$tz;
-	$variables = $variables.'&amp;height='.$params->get( 'height' );
+	$variables .= $tz;
+	$variables .= '&amp;height='.$params->get( 'height' );
 
 	$domain = 'http://www.google.com/calendar/embed';
 	$google_apps_domain = $params->get('google_apps_domain');
@@ -92,7 +93,7 @@ if(!is_array($this->calendars)){
 
 		$checked = '';
 		if($calendar->selected){
-			$variables = $variables.$value;
+			$variables .= $value;
 			$checked = 'checked';
 		}
 
