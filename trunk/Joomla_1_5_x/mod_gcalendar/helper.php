@@ -21,6 +21,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'DefaultCalendarConfig.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
 class ModGCalendarHelper {
 
@@ -40,19 +42,7 @@ class ModCalendarConfig extends DefaultCalendarConfig{
 	function getGoogleCalendarFeeds($start, $end) {
 		$condition = '';
 		$calendarids = $this->calendarids;
-		if(!empty($calendarids)){
-			if(is_array($calendarids)) {
-				$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
-			} else {
-				$condition = 'id = '.$calendarids;
-			}
-		}else
-		return array();
-
-		$db =& JFactory::getDBO();
-		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar where ".$condition;
-		$db->setQuery( $query );
-		$results = $db->loadObjectList();
+		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
 		return array();
 
@@ -85,9 +75,8 @@ class ModCalendarConfig extends DefaultCalendarConfig{
 	}
 
 	function createLink($year, $month, $day, $calids){
-		$calendars = '';
-		if(!empty($calids)) $calendars = '&gcids='.implode(',',$calids);
-		return JURI::base()."index.php?option=com_gcalendar&view=day&gcalendarview=day&year=".$year."&month=".$month."&day=".$day.$calendars;
+		$calids = $this->getIdString($calids);
+		return JRoute::_("index.php?option=com_gcalendar&view=day&gcalendarview=day&year=".$year."&month=".$month."&day=".$day.$calids);
 	}
 }
 ?>

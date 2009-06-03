@@ -478,7 +478,7 @@ class CalendarRenderer {
 		}
 	}
 
-	function getViewTitle($year, $month, $day, $view, $suppressLogo = "false") {
+	function getViewTitle($year, $month, $day, $view) {
 		$year = (int)$year;
 		$month = (int)$month;
 		$day = (int)$day;

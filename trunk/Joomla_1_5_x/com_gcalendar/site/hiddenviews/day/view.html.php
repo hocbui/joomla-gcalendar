@@ -34,6 +34,9 @@ class GCalendarViewDay extends JView
 		$this->assignRef('params'  , $params);
 
 		if(JRequest::getVar('gcids', null) != null){
+			if(is_array(JRequest::getVar('gcids', null)))
+			$calendarids = JRequest::getVar('gcids', null);
+			else
 			$calendarids = explode(',', JRequest::getVar('gcids', null));
 			$model = &$this->getModel();
 			$model->setState('gcids',$calendarids);

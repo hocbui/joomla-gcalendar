@@ -18,10 +18,8 @@
  * @version $Revision: 2.1.0 $
  */
 
-/**
- * @param	array
- * @return	array
- */
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+
 function GCalendarBuildRoute( &$query )
 {
 	$segments = array();
@@ -38,15 +36,23 @@ function GCalendarBuildRoute( &$query )
 			$segments[] = $query['eventID'];
 			unset( $query['eventID'] );
 		}
-		if(isset($query['Itemid']))
-		{
-			$segments[] = $query['Itemid'];
-			unset( $query['Itemid'] );
-		}
 		if(isset($query['gcid']))
 		{
 			$segments[] = $query['gcid'];
 			unset( $query['gcid'] );
+		}
+	}else if($view === 'day'){
+		if(isset($query['gcids']))
+		{
+			$segments[] = 'calendars';
+			$calendars = $query['gcids'];
+			if(empty($calendars))
+			$calendars = array();
+			if( !is_array( $calendars ) ) {
+				$calendars = array($calendars);
+			}
+			$segments[] = implode("-", $calendars);
+			unset( $query['gcids'] );
 		}
 	}else{
 		if (isset($query['Itemid'])){
@@ -80,19 +86,35 @@ function GCalendarParseRoute( $segments )
 	$item =& $menu->getActive();
 
 	$vars = array();
-	$view = null;
-	if(!empty($item->query['view']))
-	$view = $item->query['view'];
-	else
 	$view = $segments[0];
+	//if the view is calendars it is a menu link
+	if($view == 'calendars')
+	$view = $item->query['view'];
 	$vars['view'] = $view;
+
 	switch($view)
 	{
 		case 'event':
-			$vars['task'] = 'event';
 			$vars['eventID'] = $segments[1];
-			$vars['Itemid'] = $segments[2];
-			$vars['gcid'] = $segments[3];
+			$vars['gcid'] = $segments[2];
+			$vars['Itemid'] = GCalendarUtil::getItemId($segments[2]);
+			break;
+		case 'day':
+			$vars['gcids'] = explode("-",$segments[2]);
+			$calids = $vars['gcids']; 
+			if(count($calids) > 0){
+				$itemid = GCalendarUtil::getItemId($calids[0]);
+				foreach ($calids as $cal) {
+					$id = GCalendarUtil::getItemId($cal);
+					if($id != $itemid){
+						$itemid = null;
+						break;
+					}
+				}
+				if($itemid !=null){
+					$vars['Itemid'] = $itemid;
+				}
+			}
 			break;
 		case 'google':
 		case 'gcalendar':
