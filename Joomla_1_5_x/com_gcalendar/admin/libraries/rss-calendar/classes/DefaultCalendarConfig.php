@@ -85,11 +85,34 @@ class DefaultCalendarConfig{
 	function getPrintDayLink() {
 		return $this->printDayLink;
 	}
-	
+
 	function createLink($year, $month, $day, $calids){
+		$calids = $this->getIdString($calids);
+		return JRoute::_("index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=".$year."&month=".$month."&day=".$day.$calids);
+	}
+
+	/**
+	 * This is an internal helper method.
+	 *
+	 */
+	function getIdString($calids){
 		$calendars = '';
-		if(!empty($calids)) $calendars = '&gcids='.implode(',',$calids);
-		return JRoute::_("index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=".$year."&month=".$month."&day=".$day.$calendars);
+		$itemid = null;
+		if(!empty($calids)){
+			$calendars = '&gcids='.implode(',',$calids);
+			$itemid = GCalendarUtil::getItemId($calids[0]);
+			foreach ($calids as $cal) {
+				$id = GCalendarUtil::getItemId($cal);
+				if($id != $itemid){
+					$itemid = null;
+					break;
+				}
+			}
+		}
+		if($itemid !=null){
+			return $calendars.'&Itemid='.$itemid;
+		}
+		return $calendars;
 	}
 }
 ?>

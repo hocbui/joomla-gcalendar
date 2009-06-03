@@ -20,6 +20,8 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'GCalendar.php');
+
 $calendarConfig->weekStart = $params->get('weekstart');
 $calendarConfig->showSelectionList = false;
 $calendarConfig->dateFormat = 'dd/mm/yy';

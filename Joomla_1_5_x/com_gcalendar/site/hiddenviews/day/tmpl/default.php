@@ -23,11 +23,10 @@ defined('_JEXEC') or die('Restricted access');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'GCalendar.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'DefaultCalendarConfig.php');
 
-$gcids = JRequest::getVar('gcids', null);
-if($gcids !=null){
-	$cals = explode(',', $gcids);
-	
-	foreach ($cals as $cal) {
+$model = &$this->getModel();
+$gcids = $model->getState('gcids');
+if(!empty($gcids)){
+	foreach ($gcids as $cal) {
 		$itemID = GCalendarUtil::getItemId($cal);
 		if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 			$backLinkView = 'google';
@@ -61,7 +60,6 @@ if($gcids !=null){
 }
 echo "<div class=\"gcalendarDaySingleView\">\n";
 
-$model = &$this->getModel();
 $calendarConfig = new DefaultCalendarConfig($model);
 $calendarConfig->weekStart = 1;
 $calendarConfig->showSelectionList = false;
