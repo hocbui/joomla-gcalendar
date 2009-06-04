@@ -20,20 +20,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'gcalendar.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'defaultcalendarconfig.php');
 
-$params = $this->params;
-echo "<div class=\"contentpane".$params->get('pageclass_sfx')."\">\n";
-
-$model = &$this->getModel();
-$calendarConfig = new DefaultCalendarConfig($model);
-$calendarConfig->weekStart = $params->get('weekstart');
-$calendarConfig->showSelectionList = $params->get('show_selection');
-$calendarConfig->dateFormat = $params->get('dateformat');
-
-$cal = new GCalendar($calendarConfig);
-$cal->display();
-
-echo "</div>\n";
+class DayCalendarConfig extends DefaultCalendarConfig{
+	
+	function DayCalendarConfig($model){
+		$this->DefaultCalendarConfig($model);
+	}
+	
+	function printToolBar(){
+		
+	}
+}
 ?>
