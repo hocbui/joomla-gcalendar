@@ -20,7 +20,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'GCalendar.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'gcalendar.php');
 
 $calendarConfig->weekStart = $params->get('weekstart');
 $calendarConfig->showSelectionList = false;
