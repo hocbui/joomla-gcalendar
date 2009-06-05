@@ -55,6 +55,7 @@ class GCalendarModelGCalendar extends JModel {
 	}
 
 	function getGoogleCalendarFeeds($startDate, $endDate, $projection = null) {
+		GCalendarUtil::ensureSPIsLoaded();
 		$results = $this->getDBCalendars();
 		if(empty($results))
 		return null;

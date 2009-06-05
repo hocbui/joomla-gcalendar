@@ -438,10 +438,12 @@ class CalendarRenderer {
 		echo "</tr></table>\n";
 	}
 
-	function printCal($year, $month, $day, $view) {
-		$year = (int)$year;
-		$month = (int)$month;
-		$day = (int)$day;
+	function printCal() {
+		$gcal = $this->calendar;
+		$year = (int)$gcal->year;
+		$month = (int)$gcal->month;
+		$day = (int)$gcal->day;
+		$view = $gcal->view;
 
 		switch($view) {
 			case "month":

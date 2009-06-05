@@ -20,18 +20,15 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'gcalendar.php');
-
-$calendarConfig->weekStart = $params->get('weekstart');
-$calendarConfig->showSelectionList = false;
-$calendarConfig->dateFormat = 'dd/mm/yy';
-$calendarConfig->cellHeight = 15;
-$calendarConfig->forceView = month;
-$calendarConfig->printDayLink = false;
-$calendarConfig->showEventTitle = false;
-$calendarConfig->showToolbar = false;
-$calendarConfig->shortDayNames = true;
-$calendarConfig->forceView ='month';
-$cal = new GCalendar($calendarConfig);
-$cal->display();
+$calendar->weekStart = $params->get('weekstart');
+$calendar->showSelectionList = false;
+$calendar->dateFormat = 'dd/mm/yy';
+$calendar->cellHeight = 15;
+$calendar->forceView = month;
+$calendar->printDayLink = false;
+$calendar->showEventTitle = false;
+$calendar->showToolbar = false;
+$calendar->shortDayNames = true;
+$calendar->forceView ='month';
+$calendar->display();
 ?>

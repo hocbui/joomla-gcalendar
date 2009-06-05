@@ -20,8 +20,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'gcalendar.php');
-require_once ('daycalendarconfig.php');
+require_once ('daycalendar.php');
 
 $model = &$this->getModel();
 $gcids = $model->getState('gcids');
@@ -60,13 +59,12 @@ if(!empty($gcids)){
 }
 echo "<div class=\"gcalendarDaySingleView\">\n";
 
-$calendarConfig = new DayCalendarConfig($model);
-$calendarConfig->weekStart = 1;
-$calendarConfig->showSelectionList = false;
-$calendarConfig->showToolbar = false;
-
-$cal = new GCalendar($calendarConfig);
-$cal->display();
+$calendar = new DayCalendar($model);
+$calendar->weekStart = 1;
+$calendar->showSelectionList = false;
+$calendar->showToolbar = false;
+$calendar->forceView ='day';
+$calendar->display();
 
 echo "</div>\n";
 ?>

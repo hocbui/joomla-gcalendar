@@ -24,44 +24,38 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
 require_once ('eventrenderer.php');
 require_once ('calendarrenderer.php');
 
-class DefaultCalendarConfig{
+class DefaultCalendar{
 
 	var $feedFetcher;
 	var $defaultView = 'month';
 	var $forceView = null;
 	var $weekStart = '1';
-	var $dateFormat = 'dd/mm/yy';
 	var $showEventTitle = true;
 	var $shortDayNames = false;
 	var $cellHeight = 90;
 	var $printDayLink = true;
+	var $showSelectionList = true;
 
 	var $cal;
 	var $month, $year, $day;
 	var $view;
 	var $feeds;
 
-	function DefaultCalendarConfig($feedFetcher){
+	function DefaultCalendar($feedFetcher){
 		$this->feedFetcher = $feedFetcher;
 	}
 
-	function print(){
-		$today = getdate();
-		$this->month = JRequest::getVar('month', $today["mon"]);
-		$this->year = JRequest::getVar('year', $today["year"]);
-		$this->day = JRequest::getVar('day', $today["mday"]);
-		if (!checkdate($this->month, $this->day, $this->year)) {
-			$this->day = 1;
-		}
+	function display(){
+		$calculatedDate = $this->calculateDate();
+		$dateObject = getdate($calculatedDate);
+		$this->month = (int)$dateObject["mon"];
+		$this->year = (int)$dateObject["year"];
+		$this->day = (int)$dateObject["mday"];
 
 		$this->view = JRequest::getVar('gcalendarview', $this->getDefaultView());
 		if($this->getForceView() != null){
 			$this->view = $this->getForceView();
 		}
-
-		$this->year = (int)$this->year;
-		$this->month = (int)$this->month;
-		$this->day = (int)$this->day;
 
 		$userAgent = "unk";
 		if (isset($_SERVER['HTTP_USER_AGENT'])) {
@@ -89,7 +83,7 @@ class DefaultCalendarConfig{
 				$end = strtotime( "+1 week +1 day", $start );
 		}
 		$this->feeds = $this->getGoogleCalendarFeeds($start, $end);
-		$this->cal = new CalendarRenderer($this);
+		$cal = new CalendarRenderer($this);
 
 		$document =& JFactory::getDocument();
 		JHTML::_('behavior.modal');
@@ -100,6 +94,7 @@ class DefaultCalendarConfig{
 			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
 		}
 
+		$feeds = $this->getFeeds();
 		if(!empty($feeds)){
 			$document =& JFactory::getDocument();
 			$calCode = "window.addEvent(\"domready\", function(){\n";
@@ -113,16 +108,26 @@ class DefaultCalendarConfig{
 		}
 
 		echo "<div class=\"gcalendar\">\n";
+		if($this->showSelectionList){
+			$this->printCalendarSelectionList();
+		}
 		$this->printToolBar();
 		$cal->printCal();
 		echo "</div>\n";
 	}
 
-	function getGoogleCalendarFeeds($start, $end){
-		if($this->feeds == null){
-			$feedFetcher = $this->feedFetcher;
-			$this->feeds = $feedFetcher->getGoogleCalendarFeeds($start, $end);
+	function calculateDate(){
+		$today = getdate();
+		$day = JRequest::getVar('day', $today["mday"]);
+		$month = JRequest::getVar('month', $today["mon"]);
+		$year = JRequest::getVar('year', $today["year"]);
+		if (!checkdate($month, $day, $year)) {
+			$day = 1;
 		}
+		return mktime(0, 0, 0, $month, $day, $year);
+	}
+
+	function getFeeds(){
 		return $this->feeds;
 	}
 
@@ -136,14 +141,6 @@ class DefaultCalendarConfig{
 
 	function getWeekStart(){
 		return $this->weekStart;
-	}
-
-	function printToolbar(){
-		echo $this->getViewTitle();
-	}
-
-	function getDateFormat(){
-		return $this->dateFormat;
 	}
 
 	function getShowEventTitle(){
@@ -167,18 +164,42 @@ class DefaultCalendarConfig{
 		return JRoute::_("index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=".$year."&month=".$month."&day=".$day.$calids);
 	}
 
-	function getViewTitle() {
-		$year = (int)$this->year;
-		$month = (int)$this->month;
-		$day = (int)$this->day;
+	function printToolbar(){
+	}
+
+	function printCalendarSelectionList(){
+		JHTML::_('behavior.mootools');
+		$document = &JFactory::getDocument();
+		$document->addScript( 'administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.js' );
+		$calendar_list = "<div id=\"gc_gcalendar_view_list\"><table>\n";
+		$feeds = $this->getFeeds();
+		if(!empty($feeds)){
+			foreach($feeds as $feed){
+				$calendar_list .="<tr>\n";
+				$calendar_list .="<td><div class=\"gccal_".$feed->get('gcid')."\"><font color=\"#FFFFFF\">".$feed->get('gcname')."</font></div></td></tr>\n";
+			}
+		}
+		$calendar_list .="</table></div>\n";
+		echo $calendar_list;
+		echo "<div align=\"center\" style=\"text-align:center\">\n";
+		echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
+		echo "<img src=\"".JURI::base() . "administrator/components/com_gcalendar/libraries/rss-calendar/btn-down.png\" id=\"gc_gcalendar_view_toggle_status\">";
+		echo "</a></div>\n";
+	}
+
+	/**
+	 * This is a helper method to get a readable title according to the given view, date and weekStart.
+	 *
+	 */
+	function getViewTitle($year, $month, $day, $weekStart, $view) {
 		$date = JFactory::getDate();
 		$title = '';
-		switch($this->view) {
+		switch($view) {
 			case "month":
 				$title = $date->_monthToString($month)." ".$year;
 				break;
 			case "week":
-				$firstDisplayedDate = $this->getFirstDayOfWeek($year, $month, $day, $this->getWeekStart());
+				$firstDisplayedDate = DefaultCalendar::getFirstDayOfWeek($year, $month, $day, $weekStart);
 				$lastDisplayedDate = strtotime("+6 days", $firstDisplayedDate);
 				$infoS = getdate($firstDisplayedDate);
 				$infoF = getdate($lastDisplayedDate);
@@ -205,6 +226,11 @@ class DefaultCalendarConfig{
 		return $title;
 	}
 
+	/**
+	 * This is an internal helper method and should not be called from outside of the class
+	 * otherwise you know what you do.
+	 *
+	 */
 	function getFirstDayOfWeek($year, $month, $day, $weekStart) {
 		$tDate = strtotime($year.'-'.$month.'-'.$day);
 
@@ -229,7 +255,21 @@ class DefaultCalendarConfig{
 	}
 
 	/**
-	 * This is an internal helper method.
+	 * This is an internal helper method and should not be called from outside of the class
+	 * otherwise you know what you do.
+	 *
+	 */
+	function getGoogleCalendarFeeds($start, $end){
+		if($this->feeds == null){
+			$feedFetcher = $this->feedFetcher;
+			$this->feeds = $feedFetcher->getGoogleCalendarFeeds($start, $end);
+		}
+		return $this->feeds;
+	}
+
+	/**
+	 * This is an internal helper method and should not be called from outside of the class
+	 * otherwise you know what you do.
 	 *
 	 */
 	function getIdString($calids){

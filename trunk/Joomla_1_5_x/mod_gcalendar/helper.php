@@ -20,31 +20,37 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'defaultcalendarconfig.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'defaultcalendar.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
 class ModGCalendarHelper {
 
-	function getCalendarConfig($calendarids) {
-		$calendarConfig = new ModCalendarConfig($calendarids);
-		return $calendarConfig;
+	function getCalendar($calendarids) {
+		$calendar = new ModCalendar($calendarids);
+		return $calendar;
 	}
 }
 
-class ModCalendarConfig extends DefaultCalendarConfig{
+class ModCalendar extends DefaultCalendar{
 	var $calendarids;
 
-	function ModCalendarConfig($calendarids){
+	function ModCalendar($calendarids){
 		$this->calendarids = $calendarids;
 	}
 
 	function getGoogleCalendarFeeds($start, $end) {
+		GCalendarUtil::ensureSPIsLoaded();
 		$condition = '';
 		$calendarids = $this->calendarids;
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
 		return array();
+
+		//we always show the actual month
+		$today = getdate();
+		$start = mktime(0, 0, 0, $today["mon"], 1, $today["year"]);
+		$end = strtotime( "+1 month", $start );
 
 		$calendars = array();
 		foreach ($results as $result) {
@@ -74,13 +80,17 @@ class ModCalendarConfig extends DefaultCalendarConfig{
 		return $calendars;
 	}
 
-	function printToolBar(){
+	function calculateDate() {
+		return time();
+	}
 
+	function printToolBar(){
+		echo "<div style=\"text-align:center;\"><b>".$this->getViewTitle($this->year, $this->month, $this->day, $this->getWeekStart(), $this->view)."</b></div>\n";
 	}
 
 	function createLink($year, $month, $day, $calids){
 		$calids = $this->getIdString($calids);
-		return JRoute::_("index.php?option=com_gcalendar&view=day&gcalendarview=day&year=".$year."&month=".$month."&day=".$day.$calids);
+		return JRoute::_("index.php?option=com_gcalendar&view=day&year=".$year."&month=".$month."&day=".$day.$calids);
 	}
 }
 ?>
