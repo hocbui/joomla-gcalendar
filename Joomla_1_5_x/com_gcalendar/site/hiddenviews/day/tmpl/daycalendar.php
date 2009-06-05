@@ -20,16 +20,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'classes'.DS.'defaultcalendarconfig.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'defaultcalendar.php');
 
-class DayCalendarConfig extends DefaultCalendarConfig{
+class DayCalendar extends DefaultCalendar{
 	
-	function DayCalendarConfig($model){
-		$this->DefaultCalendarConfig($model);
+	function DayCalendar($model){
+		$this->DefaultCalendar($model);
 	}
 	
 	function printToolBar(){
-		
+		echo "<div style=\"text-align:center;\"><b>".$this->getViewTitle($this->year, $this->month, $this->day, $this->getWeekStart(), $this->view)."</b></div>\n";
 	}
 }
 ?>

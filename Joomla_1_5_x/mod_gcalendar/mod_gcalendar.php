@@ -24,6 +24,6 @@ jimport( 'joomla.application.component.model' );
 
 require_once (dirname(__FILE__).DS.'helper.php');
 
-$calendarConfig = ModGCalendarHelper::getCalendarConfig($params->get('calendarids'));
+$calendar = ModGCalendarHelper::getCalendar($params->get('calendarids'));
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar' ) );
 ?>

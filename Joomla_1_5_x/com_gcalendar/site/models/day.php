@@ -32,6 +32,7 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.
 class GCalendarModelDay extends JModel {
 
 	function getGoogleCalendarFeeds($start, $end) {
+		GCalendarUtil::ensureSPIsLoaded();
 		$calendarids = null;
 		$gcids = $this->getState('gcids');
 		if(!empty($gcids))
