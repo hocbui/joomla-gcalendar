@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <joomfish type="contentelement">
 	<name>GCalendar</name>
-	<author>allon</author>
-	<version>2.1.0</version>
+	<author>Allon Moritz</author>
+	<version>2.1.0 RC2</version>
 	<description>Definition for Google calendar Component
 	</description>
 	<reference>
