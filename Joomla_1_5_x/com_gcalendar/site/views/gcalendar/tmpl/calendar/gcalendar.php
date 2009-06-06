@@ -94,10 +94,10 @@ class GCalendar extends DefaultCalendar{
 				}
 			}
 
-			for ($i=0; $i<12; $i++) {
+			for ($i=1; $i<=12; $i++) {
 				$monthsLong .= "'".$dateObject->_monthToString($i, false)."'";
 				$monthsShort .= "'".$dateObject->_monthToString($i, true)."'";
-				if($i < 11){
+				if($i < 12){
 					$monthsLong .= ",";
 					$monthsShort .= ",";
 				}
@@ -111,6 +111,7 @@ class GCalendar extends DefaultCalendar{
 			$calCode = "jQuery.noConflict();\n";
 			$calCode .= "jQuery(document).ready(function(){\n";
 			$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$this->dateFormat."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
+//			$calCode .= "jQuery(\"#gcdate\").datepicker({changeYear: true});\n";
 			$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$this->dateFormat."'});\n";
 			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNames', ".$daysLong.");\n";
 			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNamesShort', ".$daysShort.");\n";
@@ -131,7 +132,8 @@ class GCalendar extends DefaultCalendar{
 			echo "<a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"next ".$view."\">\n";
 			$this->image("btn-next.gif", "next ".$view, "nextBtn_img");
 			echo "</a></div>\n";
-			echo "<a class=\"Item\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$this->today["year"]."&month=".$this->today["mon"]."&day=".$this->today["mday"])."\">\n";
+			$today = getdate();
+			echo "<a class=\"Item\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$today["year"]."&month=".$today["mon"]."&day=".$today["mday"])."\">\n";
 			$this->image("btn-today.gif", "go to today", "", "today_img");
 			echo "</a>\n";
 			echo "<input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
