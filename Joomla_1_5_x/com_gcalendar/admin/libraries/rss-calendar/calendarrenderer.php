@@ -61,11 +61,13 @@ class CalendarRenderer {
 		if($height > -1)
 		echo "<div class=\"Event\" style=\"height:".$height."px; top:".$top."px\">";
 		echo "<div class=\"gccal_".$feed->get('gcid')."\">";
+		if($height > -1)
 		echo "<div style=\"height:".($height-2)."px\">";
 		EventRenderer::display($view ,$item);
-		if($height > -1)
-		echo "</div>";
-		echo "</div>";
+		if($height > -1){
+			echo "</div>";
+			echo "</div>";
+		}
 		echo "</div>";
 	}
 
@@ -212,7 +214,9 @@ class CalendarRenderer {
 
 			if ($items && count($items)) {
 				for ($i=0;$i<count($items);$i++) {
+					echo "<div style=\"margin-bottom: 5px;\">\n";
 					$this->printEvent($view, $items[$i]);
+					echo "</div>\n";
 				}
 			}
 		}

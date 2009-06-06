@@ -29,6 +29,8 @@ class DayCalendar extends DefaultCalendar{
 	}
 	
 	function printToolBar(){
+		$document =& JFactory::getDocument();
+		$document->setTitle('GCalendar: '.$this->getViewTitle($this->year, $this->month, $this->day, $this->getWeekStart(), $this->view));
 		echo "<div style=\"text-align:center;\"><b>".$this->getViewTitle($this->year, $this->month, $this->day, $this->getWeekStart(), $this->view)."</b></div>\n";
 	}
 }

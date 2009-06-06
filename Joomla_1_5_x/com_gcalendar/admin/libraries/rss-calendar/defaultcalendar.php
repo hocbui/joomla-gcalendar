@@ -96,7 +96,6 @@ class DefaultCalendar{
 
 		$feeds = $this->getFeeds();
 		if(!empty($feeds)){
-			$document =& JFactory::getDocument();
 			$calCode = "window.addEvent(\"domready\", function(){\n";
 			foreach($feeds as $feed){
 				$calCode .= "Nifty(\"div.gccal_".$feed->get('gcid')."\",\"small\");\n";
@@ -171,15 +170,19 @@ class DefaultCalendar{
 		JHTML::_('behavior.mootools');
 		$document = &JFactory::getDocument();
 		$document->addScript( 'administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.js' );
-		$calendar_list = "<div id=\"gc_gcalendar_view_list\"><table>\n";
+		$calendar_list = "<div id=\"gc_gcalendar_view_list\"><table width=\"100%\"><tr>\n";
 		$feeds = $this->getFeeds();
 		if(!empty($feeds)){
-			foreach($feeds as $feed){
-				$calendar_list .="<tr>\n";
-				$calendar_list .="<td><div class=\"gccal_".$feed->get('gcid')."\"><font color=\"#FFFFFF\">".$feed->get('gcname')."</font></div></td></tr>\n";
+			$totalFeeds = count($feeds);
+			$slice = 100/$totalFeeds;
+			for ($i = 0; $i < $totalFeeds; $i++) {
+				$feed = $feeds[$i];
+				//				$calendar_list .="<tr>\n";
+				$calendar_list .="<td width=\"".$slice."%\"><div class=\"gccal_".$feed->get('gcid')."\"><font color=\"#FFFFFF\">".$feed->get('gcname')."</font></div></td>\n";
+				//			$calendar_list .="</tr>\n";
 			}
 		}
-		$calendar_list .="</table></div>\n";
+		$calendar_list .="</tr></table><br/></div>\n";
 		echo $calendar_list;
 		echo "<div align=\"center\" style=\"text-align:center\">\n";
 		echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";

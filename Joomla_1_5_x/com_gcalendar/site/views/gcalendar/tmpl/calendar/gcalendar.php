@@ -111,7 +111,7 @@ class GCalendar extends DefaultCalendar{
 			$calCode = "jQuery.noConflict();\n";
 			$calCode .= "jQuery(document).ready(function(){\n";
 			$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$this->dateFormat."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
-//			$calCode .= "jQuery(\"#gcdate\").datepicker({changeYear: true});\n";
+			//			$calCode .= "jQuery(\"#gcdate\").datepicker({changeYear: true});\n";
 			$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$this->dateFormat."'});\n";
 			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNames', ".$daysLong.");\n";
 			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNamesShort', ".$daysShort.");\n";
@@ -122,39 +122,40 @@ class GCalendar extends DefaultCalendar{
 			$document->addScriptDeclaration($calCode);
 
 			echo "<div id=\"calToolbar\">\n";
-			echo "<div id=\"calPager\" class=\"Item\">\n";
-			echo "<a class=\"Item\" href=\"".JRoute::_($prevURL)."\" title=\"previous ".$view."\">\n";
+			echo "<table><tr>\n";
+			echo " <td valign=\"center\"><a class=\"Item\" href=\"".JRoute::_($prevURL)."\" title=\"previous ".$view."\">\n";
 			$this->image("btn-prev.gif", "previous ".$view, "prevBtn_img");
-			echo "</a>\n";
-			echo "<span class=\"ViewTitle Item\">\n";
+			echo "</a></td>\n";
+			echo " <td valign=\"center\"><span class=\"ViewTitle\">\n";
 			echo $this->getViewTitle($year, $month, $day, $this->getWeekStart(), $view);
-			echo "</span>\n";
-			echo "<a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"next ".$view."\">\n";
+			echo "</span></td>\n";
+			echo " <td valign=\"center\"><a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"next ".$view."\">\n";
 			$this->image("btn-next.gif", "next ".$view, "nextBtn_img");
-			echo "</a></div>\n";
+			echo "</a></td>\n";
+			echo "<td width=\"20px\"/>\n";
 			$today = getdate();
-			echo "<a class=\"Item\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$today["year"]."&month=".$today["mon"]."&day=".$today["mday"])."\">\n";
+			echo " <td valign=\"center\"><a class=\"Item\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$today["year"]."&month=".$today["mon"]."&day=".$today["mday"])."\">\n";
 			$this->image("btn-today.gif", "go to today", "", "today_img");
-			echo "</a>\n";
-			echo "<input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
+			echo "</a></td>\n";
+			echo " <td valign=\"center\"><input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
 			echo "onchange=\"datePickerClosed(this);\" \n";
-			echo "size=\"10\" maxlength=\"10\" title=\"jump to date\" />";
-			echo "<a class=\"Item\" id=\"gc_go_link\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$year."&month=".$month."&day=".$day)."\">\n";
+			echo "size=\"10\" maxlength=\"10\" title=\"jump to date\" /></td>";
+			echo " <td valign=\"center\"><a class=\"Item\" id=\"gc_go_link\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$year."&month=".$month."&day=".$day)."\">\n";
 			$this->image("btn-go.gif", "go to date", "gi_img");
-			echo "</a>\n";
+			echo "</a></td>\n";
+			echo "<td width=\"20px\"/>\n";
 
-			echo "<div id=\"viewSelector\" class=\"Item\">\n";
-			echo "<a href=\"".JRoute::_($mainFilename."&gcalendarview=day&year=".$year."&month=".$month."&day=".$day)."\">\n";
+			echo " <td valign=\"center\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=day&year=".$year."&month=".$month."&day=".$day)."\">\n";
 			$this->image("cal-day.gif", "day view", "calday_img");
-			echo "</a>\n";
+			echo "</a></td>\n";
 
-			echo "<a href=\"".JRoute::_($mainFilename."&gcalendarview=week&year=".$year."&month=".$month."&day=".$day)."\">\n";
+			echo " <td valign=\"center\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=week&year=".$year."&month=".$month."&day=".$day)."\">\n";
 			$this->image("cal-week.gif", "week view", "calweek_img");
-			echo "</a>\n";
+			echo "</a></td>\n";
 
-			echo "<a href=\"".JRoute::_($mainFilename."&gcalendarview=month&year=".$year."&month=".$month."&day=".$day)."\">\n";
+			echo " <td valign=\"center\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=month&year=".$year."&month=".$month."&day=".$day)."\">\n";
 			$this->image("cal-month.gif", "month view", "calmonth_img");
-			echo "</a></div></div>\n";
+			echo "</a></td></tr></table></div>\n";
 	}
 
 	/**
