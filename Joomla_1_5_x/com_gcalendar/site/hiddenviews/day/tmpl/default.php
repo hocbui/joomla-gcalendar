@@ -24,39 +24,27 @@ require_once ('daycalendar.php');
 
 $model = &$this->getModel();
 $gcids = $model->getState('gcids');
-if(!empty($gcids)){
-	foreach ($gcids as $cal) {
-		$itemID = GCalendarUtil::getItemId($cal);
-		if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
-			$backLinkView = 'google';
-			$component	= &JComponentHelper::getComponent('com_gcalendar');
-			$menu = &JSite::getMenu();
-			$items		= $menu->getItems('componentid', $component->id);
 
-			if (is_array($items)){
-				global $mainframe;
-				$pathway	= &$mainframe->getPathway();
-				foreach($items as $item) {
-					$paramsItem	=& $menu->getParams($item->id);
-					$calendarids = $paramsItem->get('calendarids');
-					$contains_gc_id = FALSE;
-					if ($calendarids){
-						if( is_array( $calendarids ) ) {
-							$contains_gc_id = in_array($cal,$calendarids);
-						} else {
-							$contains_gc_id = $cal == $calendarids;
-						}
-					}
-					if($contains_gc_id){
-						$backLinkView = $item->query['view'];
-					}
-				}
-			}
-			echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' ).'</a>';
+$itemID = null;
+if(!empty($gcids)){
+	$itemID = GCalendarUtil::getItemId($gcids[0]);
+	foreach ($gcids as $cal) {
+		$id = GCalendarUtil::getItemId($cal);
+		if($id != $itemID){
+			$itemID = null;
 			break;
 		}
 	}
+	if($itemID !=null){
+		$component	= &JComponentHelper::getComponent('com_gcalendar');
+		$menu = &JSite::getMenu();
+		$item = $menu->getItem($itemID);
+		$backLinkView = $item->query['view'];
+		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' ).'</a>';
+	}
 }
+
+
 echo "<div class=\"gcalendarDaySingleView\">\n";
 
 $calendar = new DayCalendar($model);

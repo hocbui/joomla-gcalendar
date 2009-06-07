@@ -21,9 +21,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once (dirname(__FILE__).DS.'helper.php');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-
-GCalendarUtil::ensureSPIsLoaded();
 
 $returnValue = ModGCalendarUpcomingHelper::getCalendarItems($params);
 $error = $returnValue[0];
