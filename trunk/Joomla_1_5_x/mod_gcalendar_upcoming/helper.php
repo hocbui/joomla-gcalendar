@@ -18,34 +18,36 @@
  * @version $Revision: 2.1.0 $
  */
 
-// no direct access
 defined('_JEXEC') or die('Restricted access');
+
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
 class ModGCalendarUpcomingHelper {
 
 	function getCalendarItems(&$params) {
+		GCalendarUtil::ensureSPIsLoaded();
 		$calendarids = $params->get('calendarids');
-		$condition = '';
-		if(!empty($calendarids)){
-			if(is_array($calendarids)) {
-				$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
-			} else {
-				$condition = 'id = '.$calendarids;
-			}
-		}else
-		return array();
-
-		$db =& JFactory::getDBO();
-		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar where ".$condition;
-		$db->setQuery( $query );
-		$results = $db->loadObjectList();
+		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
 		return array('The selected calendar(s) were not found in the database.',NULL);
 
 		$values = array();
 		foreach ($results as $result) {
 			if(!empty($result->calendar_id)){
-				$feed = modGcalendarUpcomingHelper::create_gc_feed($params);
+				$sortOrder = $params->get( 'order', 1 )==1;
+				$maxEvents = $params->get( 'max', 5 );
+
+				$feed = new SimplePie_GCalendar();
+				$feed->set_show_past_events(FALSE);
+				$feed->set_sort_ascending(TRUE);
+				$feed->set_orderby_by_start_date($sortOrder);
+				$feed->set_expand_single_events(TRUE);
+				$feed->enable_order_by_date(FALSE);
+				$feed->enable_cache(FALSE);
+				$feed->set_max_events($maxEvents);
+				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
+				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 				$feed->put('gcid',$result->id);
 				$feed->put('gcname',$result->name);
 				$feed->put('gccolor',$result->color);
@@ -72,24 +74,6 @@ class ModGCalendarUpcomingHelper {
 
 		//return the feed data structure for the template
 		return array(NULL,$values);
-	}
-
-	function create_gc_feed($params){
-		$sortOrder = $params->get( 'order', 1 )==1;
-		$maxEvents = $params->get( 'max', 5 );
-
-		$feed = new SimplePie_GCalendar();
-		$feed->set_show_past_events(FALSE);
-		$feed->set_sort_ascending(TRUE);
-		$feed->set_orderby_by_start_date($sortOrder);
-		$feed->set_expand_single_events(TRUE);
-		$feed->enable_order_by_date(FALSE);
-		$feed->enable_cache(FALSE);
-		$feed->set_max_events($maxEvents);
-		$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
-		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
-		
-		return $feed;
 	}
 }
 ?>

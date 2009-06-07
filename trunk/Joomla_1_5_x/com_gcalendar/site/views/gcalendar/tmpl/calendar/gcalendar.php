@@ -68,7 +68,8 @@ class GCalendar extends DefaultCalendar{
 			$document =& JFactory::getDocument();
 			$calCode  = "function datePickerClosed(dateField){\n";
 			$calCode .= "var d = jQuery.datepicker.parseDate('".$this->dateFormat."', dateField.value);\n";
-			$calCode .= "document.getElementById('gc_go_link').href = '".JRoute::_($mainFilename."&gcalendarview=".$view)."&day='+d.getDate()+'&month='+(d.getMonth()+1)+'&year='+d.getFullYear();\n";
+			$calCode .= "if(d == null) d = new Date();\n";
+			$calCode .= "document.getElementById('gc_go_link').href = '".html_entity_decode(JRoute::_($mainFilename."&gcalendarview=".$view))."&day='+d.getDate()+'&month='+(d.getMonth()+1)+'&year='+d.getFullYear();\n";
 			$calCode .= "};\n";
 			$document->addScriptDeclaration($calCode);
 
