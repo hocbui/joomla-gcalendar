@@ -70,5 +70,16 @@ class GCalendarUtil{
 		}
 		return null;
 	}
+
+	function getFadedColor($pCol, $pPercentage = 85) {
+		$pPercentage = 100 - $pPercentage;
+		$rgbValues = array_map( 'hexDec', str_split( ltrim($pCol, '#'), 2 ) );
+
+		for ($i = 0, $len = count($rgbValues); $i < $len; $i++) {
+			$rgbValues[$i] = decHex( floor($rgbValues[$i] + (255 - $rgbValues[$i]) * ($pPercentage / 100) ) );
+		}
+
+		return '#'.implode('', $rgbValues);
+	}
 }
 ?>

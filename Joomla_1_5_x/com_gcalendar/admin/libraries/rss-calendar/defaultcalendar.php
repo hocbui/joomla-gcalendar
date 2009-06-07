@@ -99,7 +99,7 @@ class DefaultCalendar{
 			$calCode = "window.addEvent(\"domready\", function(){\n";
 			foreach($feeds as $feed){
 				$calCode .= "Nifty(\"div.gccal_".$feed->get('gcid')."\",\"small\");\n";
-				$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')."{padding: 1px;margin:0 auto;background:#".$feed->get('gccolor')."}");
+				$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')."{padding: 1px;margin:0 auto;background:".GCalendarUtil::getFadedColor($feed->get('gccolor'))."}");
 				$document->addStyleDeclaration("div.gccal_".$feed->get('gcid')." a{color: #FFFFFF}");
 			}
 			$calCode .= "});";

@@ -194,9 +194,9 @@ class SimplePie_GCalendar extends SimplePie {
 		$path = substr($path, 0, strrpos($path, '/')+1).$this->projection;
 		$query = '';
 		if(isset($new_url['query'])){
-			$query = '?'.$new_url['query'];
+			$query = $new_url['query'];
 		}
-		$tmp = $new_url['scheme'].'://'.$new_url['host'].$path.$query;
+		$tmp = $new_url['scheme'].'://'.$new_url['host'].$path.'?'.$query;
 		if(!empty($new_url['query']))
 		$tmp = $this->append($tmp,'&');
 		if($this->start_date==null && $this->end_date==null){

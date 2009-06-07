@@ -20,8 +20,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$document = &JFactory::getDocument();
-$document->addScript( 'components/com_gcalendar/libraries/jscolor/jscolor.js' );
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
 $googleColors = array(
 'A32929'
@@ -45,11 +44,6 @@ $googleColors = array(
 ,'4A716C'
 ,'6E6E41'
 ,'8D6F47');
-$styles = '';
-foreach ($googleColors as $c){
-	$styles .= "option.".$c." {background-color: #".$c."}\n";
-}
-$document->addStyleDeclaration($styles);
 $calendar = $this->gcalendar;
 ?>
 
@@ -57,13 +51,12 @@ $calendar = $this->gcalendar;
 <div class="col100">
 <fieldset class="adminform"><legend><?php echo JText::_( 'CALENDAR_DETAILS' ); ?></legend>
 
-<table class="admintable">
+<table class="admintable" width="100%">
 	<tr>
 		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'CALENDAR_NAME' ); ?>:
 		</label></td>
 		<td><input class="text_area" type="text" name="name" id="name"
-			size="100%" maxlength="250"
-			value="<?php echo $calendar->name;?>" /></td>
+			size="100%" maxlength="250" value="<?php echo $calendar->name;?>" /></td>
 	</tr>
 	<tr>
 		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Calendar ID' ); ?>:
@@ -82,17 +75,24 @@ $calendar = $this->gcalendar;
 	<tr>
 		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Color' ); ?>:
 		</label></td>
-		<td><select name="color"
-			size="21">
+		<td><input class="text_area" type="text" name="color" id="color" readonly
+			size="100%" value="<?php echo $calendar->color;?>" style="background-color: <?php echo GCalendarUtil::getFadedColor($calendar->color);?>;" />
+		<table>
+			<tbody>
 			<?php
-			foreach ($googleColors as $c){
-				if($calendar->color==$c)
-				echo "<option class=\"".$c."\" value=\"".$c."\" selected=\"yes\">".$c."</option>\n";
-				else
-				echo "<option class=\"".$c."\" value=\"".$c."\">".$c."</option>\n";
+			for ($i = 0; $i < count($googleColors); $i++) {
+				if($i % 7 == 0)
+				echo "<tr>\n";
+				$c = $googleColors[$i];
+				$cFaded = GCalendarUtil::getFadedColor($c);
+				echo "<td onMouseOver=\"this.style.cursor='pointer'\" onclick=\"document.getElementById('color').style.backgroundColor = '".$cFaded."';document.getElementById('color').value = '".$c."';\" style=\"background-color: ".$cFaded.";width: 20px;\"/><td>".$c."</td>\n";
+				if($i % 7 == 6)
+				echo "</tr>\n";
 			}
 			?>
-		</select></td>
+			</tbody>
+		</table>
+		</td>
 	</tr>
 </table>
 </fieldset>
@@ -100,8 +100,8 @@ $calendar = $this->gcalendar;
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="com_gcalendar" /> <input
-	type="hidden" name="id" value="<?php echo $calendar->id; ?>" />
-<input type="hidden" name="task" value="" /> <input type="hidden"
+	type="hidden" name="id" value="<?php echo $calendar->id; ?>" /> <input
+	type="hidden" name="task" value="" /> <input type="hidden"
 	name="controller" value="gcalendar" /></form>
 
 <div align="center"><br>
