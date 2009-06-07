@@ -18,8 +18,10 @@
  * @version $Revision: 2.1.0 $
  */
 
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+?>
 
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
@@ -30,6 +32,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th width="20"><input type="checkbox" name="toggle" value=""
 				onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 			<th><?php echo JText::_( 'CALENDAR_NAME' ); ?></th>
+			<th><?php echo JText::_( 'CALENDAR_COLOR' ); ?></th>
 			<th align="left"><?php echo JText::_( 'CALENDAR_DETAILS' ); ?></th>
 		</tr>
 	</thead>
@@ -46,6 +49,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo $row->id; ?></td>
 		<td><?php echo $checked; ?></td>
 		<td><a href="<?php echo $link; ?>"><?php echo $row->name; ?></a></td>
+		<td width="40px"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($row->color);?>;width: 100%;height: 100%;"/></td>
 		<td>
 		<table>
 			<tr>
@@ -56,10 +60,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<td><b><?php echo JText::_( 'Magic Cookie' ); ?>:</b></td>
 				<td><?php echo $row->magic_cookie; ?></td>
 			</tr>
-			<tr>
-				<td><b><?php echo JText::_( 'Color' ); ?>:</b></td>
-				<td><?php echo $row->color; ?></td>
-			</tr>
 		</table>
 		</td>
 	</tr>
@@ -68,11 +68,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	}
 	?>
 	<tfoot>
-    <tr>
-      <td colspan="4"><?php echo $this->pagination->getListFooter(); ?></td>
-    </tr>
-  </tfoot>
-	
+		<tr>
+			<td colspan="5"><?php echo $this->pagination->getListFooter(); ?></td>
+		</tr>
+	</tfoot>
+
 </table>
 </div>
 
