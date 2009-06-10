@@ -35,6 +35,7 @@ class DefaultCalendar{
 	var $cellHeight = 90;
 	var $printDayLink = true;
 	var $showSelectionList = true;
+	var $columnInWeekViewEqual = false;
 
 	var $cal;
 	var $month, $year, $day;
@@ -152,6 +153,10 @@ class DefaultCalendar{
 
 	function getCellHeight() {
 		return $this->cellHeight;
+	}
+	
+	function isColumnInWeekViewEqual() {
+		return $this->columnInWeekViewEqual;
 	}
 
 	function getPrintDayLink() {

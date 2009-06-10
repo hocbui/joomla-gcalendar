@@ -30,6 +30,8 @@ $calendar = new GCalendar($model);
 $calendar->weekStart = $params->get('weekstart');
 $calendar->showSelectionList = $params->get('show_selection');
 $calendar->dateFormat = $params->get('dateformat');
+$calendar->columnInWeekViewEqual = $params->get('columnInWeekViewEqual')=='yes';
+$calendar->defaultView = $params->get('defaultView');
 $calendar->display();
 
 echo "</div>\n";

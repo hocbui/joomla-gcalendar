@@ -16,6 +16,12 @@
 				<option value="no">No</option>
 				<option value="yes">Yes</option>
 			</param>
+			<param name="defaultView" type="list" default="month" label="The default view"
+				description="The view which is shown when clicking the first time on a link.">
+				<option value="month">Month</option>
+				<option value="week">Week</option>
+				<option value="day">Day</option>
+			</param>
 			<param name="weekstart" type="list" default="2" label="Week starts on"
 				description="The starting day of the week in the calendar.">
 				<option value="1">Sunday</option>
@@ -34,5 +40,12 @@
 				label="Page Class Suffix"
 				description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
 		</params>
+		<advanced>
+			<param name="columnInWeekViewEqual" type="list" default="no"
+				label="Show Columns Equal" description="A flag to set the column width on equal size or not.">
+				<option value="no">No</option>
+				<option value="yes">Yes</option>
+			</param>
+		</advanced>
 	</state>
 </metadata>
