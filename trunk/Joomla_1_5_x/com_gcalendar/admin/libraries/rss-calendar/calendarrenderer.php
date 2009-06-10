@@ -43,7 +43,7 @@ class CalendarRenderer {
 					&& $item->get_end_date() <= $requestedDayEnd){
 						$result[] = $item;
 					}else if($item->get_start_date() <= $requestedDayStart
-					&& $requestedDayEnd <= $item->get_start_date()){
+					&& $requestedDayEnd <= $item->get_end_date()){
 						$result[] = $item;
 					}
 				}
