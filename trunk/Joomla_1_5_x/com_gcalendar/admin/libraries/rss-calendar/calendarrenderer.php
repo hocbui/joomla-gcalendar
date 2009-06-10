@@ -400,8 +400,13 @@ class CalendarRenderer {
 		$totalNonEmptyWidth = 100 - 4
 		- ($totalEmptyCols * 8);
 		foreach ($displayedDates as $dInfo) {
-			$myColWidth = ($subColCounts[$dayIndex] ? (int)floor($subColCounts[$dayIndex] / $totalSubCols * $totalNonEmptyWidth)
-			: 8);
+			if(!$gcal->isColumnInWeekViewEqual()){
+				$myColWidth = ($subColCounts[$dayIndex] ? (int)floor($subColCounts[$dayIndex] / $totalSubCols * $totalNonEmptyWidth): 8);
+			}
+			else{
+				//we make the equal 100/7 = 14
+				$myColWidth = 14;
+			}
 			echo "<th style=\"width: ".$myColWidth."%\">";
 			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=" .
 			$dInfo["year"] .
