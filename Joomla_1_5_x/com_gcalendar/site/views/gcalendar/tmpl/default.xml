@@ -34,6 +34,12 @@
 				<option value="mm/dd/yy">Month/Day/Year</option>
 				<option value="yy/mm/dd">Year/Month/Day</option>
 			</param>
+			<param name="textbefore" type="textarea" default=""
+				label="Content before calendar" description="This text will be displayed before the google calendar."
+				rows="5" cols="50" />
+			<param name="textafter" type="textarea" default=""
+				label="Content after calendar" description="This text will be displayed after the google calendar."
+				rows="5" cols="50" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
 			<param name="pageclass_sfx" type="text" size="20" default=""

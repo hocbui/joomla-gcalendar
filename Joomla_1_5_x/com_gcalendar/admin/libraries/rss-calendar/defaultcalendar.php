@@ -191,7 +191,7 @@ class DefaultCalendar{
 		echo $calendar_list;
 		echo "<div align=\"center\" style=\"text-align:center\">\n";
 		echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
-		echo "<img src=\"".JURI::base() . "administrator/components/com_gcalendar/libraries/rss-calendar/btn-down.png\" id=\"gc_gcalendar_view_toggle_status\">";
+		echo "<img src=\"".JURI::base() . "administrator/components/com_gcalendar/libraries/rss-calendar/btn-down.png\" id=\"gc_gcalendar_view_toggle_status\" alt=\"toggle status\"/>";
 		echo "</a></div>\n";
 	}
 
