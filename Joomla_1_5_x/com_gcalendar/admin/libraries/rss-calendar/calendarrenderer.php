@@ -116,7 +116,7 @@ class CalendarRenderer {
 			}
 			$thisLink = $gcal->createLink($year, $month, $thisDay, $calids);
 			echo "<td height=\"".$gcal->getCellHeight()."\" ";
-			if (($thisDay == $today["mday"]) && ($month == $today["mon"])) {
+			if (($thisDay == $today["mday"]) && ($month == $today["mon"])&&($year == $today["year"])) {
 				echo "class=\"Today\"";
 			}
 			echo ">";
@@ -305,26 +305,20 @@ class CalendarRenderer {
 		else {
 			$lastHour = (int)strftime("%H", $lastEnd) + 1;
 		}
-
-		// TODO - Is there a way to avoid the amount of nesting used below?
-		?>
-<div class="gcalendarcal CalDay">
-<div class="UntimedEvents"><?php $this->printUntimedEventsForDay($dayLayout, "day"); ?>
-</div>
-<table class="TimedArea" cellspacing="0" cellpadding="0">
-	<tr>
-		<td class="DayAxis"><?php $this->printDayAxis($firstHour, $lastHour); ?>
-		</td>
-		<td class="TimedEvents">
-		<div class="Inner"><?php $this->printTimedEventsForDay($dayLayout, "day", $initialMinuteOffset); ?>
-		</div>
-		</td>
-	</tr>
-</table>
-</div>
-<!-- TODO - Better way? -->
-<div class="Clr"></div>
-		<?php
+		echo "<div class=\"gcalendarcal CalDay\">\n";
+		echo "<div class=\"UntimedEvents\">".$this->printUntimedEventsForDay($dayLayout, "day")."</div>\n";
+		echo "<table class=\"TimedArea\" cellspacing=\"0\" cellpadding=\"0\">\n";
+		echo "	<tr>\n";
+		echo "		<td class=\"DayAxis\">".$this->printDayAxis($firstHour, $lastHour)."\n";
+		echo "		</td>\n";
+		echo "		<td class=\"TimedEvents\">\n";
+		echo "		<div class=\"Inner\">".$this->printTimedEventsForDay($dayLayout, "day", $initialMinuteOffset)."\n";
+		echo "		</div>\n";
+		echo "		</td>\n";
+		echo "	</tr>\n";
+		echo "</table>\n";
+		echo "</div>\n";
+		echo "<div class=\"Clr\"></div>\n";
 	}
 
 	function printDayAxis($startHr, $endHr) {
@@ -342,6 +336,7 @@ class CalendarRenderer {
 
 	function printWeek($year, $month, $day) {
 		$gcal = $this->calendar;
+		$today = getdate();
 		$firstDisplayedDate = $gcal->getFirstDayOfWeek($year, $month, $day, $gcal->getWeekStart());
 
 		$dayLayouts = array();
@@ -404,7 +399,7 @@ class CalendarRenderer {
 				$myColWidth = ($subColCounts[$dayIndex] ? (int)floor($subColCounts[$dayIndex] / $totalSubCols * $totalNonEmptyWidth): 8);
 			}
 			else{
-				//we make the equal 100/7 = 14
+				//we make them equal 100/7 = 14
 				$myColWidth = 14;
 			}
 			echo "<th style=\"width: ".$myColWidth."%\">";
@@ -426,10 +421,17 @@ class CalendarRenderer {
 		echo "</tr>\n";
 		echo "<tr class=\"UntimedEvents\">\n";
 		echo "<td class=\"Empty\"></td>\n";
+		$dayIndex = 0;
 		foreach ($dayLayouts as $thisLayout) {
-			echo "<td>\n";
+			$dInfo = $displayedDates[$dayIndex];
+			echo "<td ";
+			if (($dInfo["mday"] == $today["mday"]) && ($month == $today["mon"])&&($year == $today["year"])) {
+				echo "class=\"Today\"";
+			}
+			echo ">\n";
 			$this->printUntimedEventsForDay($thisLayout, "week");
 			echo "</td>\n";
+			$dayIndex++;
 		}
 		echo "</tr>\n";
 		echo "<tr class=\"TimedEvents\">\n";
@@ -438,7 +440,12 @@ class CalendarRenderer {
 		echo "</td>\n";
 		$dayIndex = 0;
 		foreach ($dayLayouts as $thisLayout) {
-			echo "<td>\n";
+			$dInfo = $displayedDates[$dayIndex];
+			echo "<td ";
+			if (($dInfo["mday"] == $today["mday"]) && ($month == $today["mon"])&&($year == $today["year"])) {
+				echo "class=\"Today\"";
+			}
+			echo ">\n";
 			echo "<div class=\"Inner\">\n";
 			$this->printTimedEventsForDay($thisLayout, "week", $initialMinuteOffset);
 			echo "</div></td>\n";
