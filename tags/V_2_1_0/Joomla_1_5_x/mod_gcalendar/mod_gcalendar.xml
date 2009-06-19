@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>GCalendar Overview</name>
+	<author>Allon Moritz</author>
+	<creationDate>Jun 2009</creationDate>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorEmail>info@gcalendar.allon.ch
+	</authorEmail>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<version>2.1.0</version>
+	<description>This module shows the google calendar at a module
+		position.</description>
+	<files>
+		<filename module="mod_gcalendar">mod_gcalendar.php
+		</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<filename>tmpl/default.php</filename>
+		<filename>tmpl/index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar.ini
+		</language>
+	</languages>
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default=""
+			label="Select Calendars" description="The calendars" />
+		<param name="weekstart" type="list" default="2" label="Week starts on"
+			description="">
+			<option value="1">Sunday</option>
+			<option value="2">Monday</option>
+			<option value="7">Saturday</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="moduleclass_sfx" type="text" size="80" default=""
+			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module.">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached in sec." />
+	</params>
+</install>
