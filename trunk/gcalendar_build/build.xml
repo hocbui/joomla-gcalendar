@@ -53,7 +53,7 @@
 		</copy>
 
 		<!-- create the search plugin upgrade folder -->
-		<copy todir="${build}/upgrade_1_5/com_gcalendar/plg_gcalendar_search/plugins/search">
+		<copy todir="${build}/upgrade_1_5/plg_gcalendar_search/plugins/search">
 			<fileset dir="${basedir}/../Joomla_1_5_x/plg_gcalendar_search" />
 		</copy>
 
