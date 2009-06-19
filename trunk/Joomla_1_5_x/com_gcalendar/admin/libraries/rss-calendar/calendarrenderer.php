@@ -83,7 +83,7 @@ class CalendarRenderer {
 		for ($i=0; $i<7; $i++) {
 			echo "<th>".$dateObject->_dayToString(($i+$startWeekDay)%7, $gcal->getShortDayNames())."</th>\n";
 		}
-		echo "</tr><tr>";
+		echo "</tr>";
 		for ($i=28; $i<33; $i++) {
 			if (!checkdate($month, $i, $year)) {
 				$lastDay = $i-1;
@@ -98,6 +98,7 @@ class CalendarRenderer {
 		$colWidth = "14%";
 		$rowHeight = (int)round(100 / $numRows) . "%";
 		for ($i=0;$i<$daysOffset;$i++) {
+			if($i==0)echo "<tr>";
 			echo "<td class=\"EmptyCell\" height=\"".$gcal->getCellHeight()."\"></td>\n";
 		}
 		for ($i=0;$i< $lastDay;$i++) {
@@ -135,8 +136,8 @@ class CalendarRenderer {
 			}
 		}
 		for ($i=$lastDay + $daysOffset;$i<($numRows * 7);$i++) {
-			// [DAF-060426] fixed typo
 			echo "<td class=\"EmptyCell\" height=\"".$gcal->getCellHeight()."\" ></td>";
+			if($i==($numRows * 7-1))echo "</tr>\n";
 		}
 		echo "</table>";
 	}
@@ -305,20 +306,26 @@ class CalendarRenderer {
 		else {
 			$lastHour = (int)strftime("%H", $lastEnd) + 1;
 		}
-		echo "<div class=\"gcalendarcal CalDay\">\n";
-		echo "<div class=\"UntimedEvents\">".$this->printUntimedEventsForDay($dayLayout, "day")."</div>\n";
-		echo "<table class=\"TimedArea\" cellspacing=\"0\" cellpadding=\"0\">\n";
-		echo "	<tr>\n";
-		echo "		<td class=\"DayAxis\">".$this->printDayAxis($firstHour, $lastHour)."\n";
-		echo "		</td>\n";
-		echo "		<td class=\"TimedEvents\">\n";
-		echo "		<div class=\"Inner\">".$this->printTimedEventsForDay($dayLayout, "day", $initialMinuteOffset)."\n";
-		echo "		</div>\n";
-		echo "		</td>\n";
-		echo "	</tr>\n";
-		echo "</table>\n";
-		echo "</div>\n";
-		echo "<div class=\"Clr\"></div>\n";
+		
+		// TODO - Is there a way to avoid the amount of nesting used below?
+		?>
+<div class="gcalendarcal CalDay">
+<div class="UntimedEvents"><?php $this->printUntimedEventsForDay($dayLayout, "day"); ?>
+</div>
+<table class="TimedArea" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="DayAxis"><?php $this->printDayAxis($firstHour, $lastHour); ?>
+		</td>
+		<td class="TimedEvents">
+		<div class="Inner"><?php $this->printTimedEventsForDay($dayLayout, "day", $initialMinuteOffset); ?>
+		</div>
+		</td>
+	</tr>
+</table>
+</div>
+<!-- TODO - Better way? -->
+<div class="Clr"></div>
+		<?php
 	}
 
 	function printDayAxis($startHr, $endHr) {

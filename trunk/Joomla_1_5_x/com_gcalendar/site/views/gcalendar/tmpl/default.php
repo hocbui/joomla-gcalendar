@@ -25,14 +25,17 @@ require_once ('calendar/gcalendar.php');
 $params = $this->params;
 echo "<div class=\"contentpane".$params->get('pageclass_sfx')."\">\n";
 
+echo $params->get( 'textbefore' );
+
 $model = &$this->getModel();
 $calendar = new GCalendar($model);
 $calendar->weekStart = $params->get('weekstart');
-$calendar->showSelectionList = $params->get('show_selection');
+$calendar->showSelectionList = $params->get('show_selection')=='yes';
 $calendar->dateFormat = $params->get('dateformat');
 $calendar->columnInWeekViewEqual = $params->get('columnInWeekViewEqual')=='yes';
 $calendar->defaultView = $params->get('defaultView');
 $calendar->display();
 
+echo $params->get( 'textafter' );
 echo "</div>\n";
 ?>
