@@ -16,7 +16,8 @@
 				<option value="no">No</option>
 				<option value="yes">Yes</option>
 			</param>
-			<param name="defaultView" type="list" default="month" label="The default view"
+			<param name="defaultView" type="list" default="month"
+				label="The default view"
 				description="The view which is shown when clicking the first time on a link.">
 				<option value="month">Month</option>
 				<option value="week">Week</option>
@@ -52,6 +53,15 @@
 				<option value="no">No</option>
 				<option value="yes">Yes</option>
 			</param>
+			<param name="@spacer" type="spacer" default="" label=""
+				description="" />
+			<param name="cache" type="radio" default="no" label="Cache"
+				description="Is cacheing enabled.">
+				<option value="no">No</option>
+				<option value="yes">Yes</option>
+			</param>
+			<param name="cache_time" type="text" default="3600" label="Cache Time"
+				description="The cache time." />
 		</advanced>
 	</state>
 </metadata>

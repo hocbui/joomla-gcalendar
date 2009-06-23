@@ -33,9 +33,10 @@ defined('_JEXEC') or die('Restricted access');
 	<?php
 	$data = array();
 	$data[] = checkRemoteConnection();
+	$data[] = checkPhpVersion();
+	$data[] = checkCacheForGCalendarView();
 	$tmp = checkDB();
 	$data = array_merge($data, $tmp);
-	$data[] = checkPhpVersion();
 	foreach ($data as $test) {
 		echo "<tr>\n";
 		$img = "components/com_gcalendar/views/tools/tmpl/ok.png";
@@ -136,5 +137,19 @@ defined('_JEXEC') or die('Restricted access');
 			$solution = 'Contact your web hoster and check if it possible to upgrade your php version to 5.1.4.';
 		}
 		return array('name'=>'PHP Version Check', 'description'=>$desc, 'status'=>$status, 'solution'=>$solution);
+	}
+
+	function checkCacheForGCalendarView() {
+		$cacheDir =  JPATH_BASE.DS.'cache'.DS.'com_gcalendar';
+		$desc = "The directory ".$cacheDir." which is used by the GCalendar view as cache directory is writable, this means you can enable caching in the GCalendar view.";
+		$status = 'ok';
+		$solution = '';
+		JFolder::create($cacheDir, 0755);
+		if ( !is_writable( $cacheDir ) ) {
+			$desc = "The directory ".$cacheDir." which is used by the GCalendar view as cache directory is not writable, this means you can't enable caching in the GCalendar view.";
+			$status = 'failure';
+			$solution = 'Set manually the write permission for the folder '.$cacheDir.' to writable.';
+		}
+		return array('name'=>'GCalendar View Cache Dir Check', 'description'=>$desc, 'status'=>$status, 'solution'=>$solution);
 	}
 	?>
