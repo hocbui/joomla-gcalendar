@@ -60,6 +60,12 @@ class GCalendarModelGCalendar extends JModel {
 		if(empty($results))
 		return null;
 
+		$params = $this->getState('parameters.menu');
+		$useCache = false;
+		if($params != null){
+			$useCache = $params->get('cache', 'no') == 'yes';
+		}
+
 		$calendars = array();
 		foreach ($results as $result) {
 			if(!empty($result->calendar_id) && $result->selected){
@@ -69,7 +75,27 @@ class GCalendarModelGCalendar extends JModel {
 				$feed->set_orderby_by_start_date(TRUE);
 				$feed->set_expand_single_events(TRUE);
 				$feed->enable_order_by_date(FALSE);
-				$feed->enable_cache(FALSE);
+				if($useCache){
+					$feed->set_cache_duration($cacheTime);
+
+					// check if cache directory exists and is writeable
+					$cacheDir =  JPATH_BASE.DS.'cache'.DS.'com_gcalendar';
+					JFolder::create($cacheDir, 0755);
+					if ( !is_writable( $cacheDir ) ) {
+						JError::raiseWarning( 500, "Created cache at ".$cacheDir." is not writable, disabling cache.");
+						$cache_exists = false;
+					}else{
+						$cache_exists = true;
+					}
+
+					//check and set caching
+					$feed->enable_cache($cache_exists);
+					if($cache_exists) {
+						$feed->set_cache_location($cacheDir);
+						$cache_time = (intval($params->get( 'cache_time', 3600 )));
+						$feed->set_cache_duration($cache_time);
+					}
+				}
 				$feed->set_projection($projection);
 				$feed->set_start_date($startDate);
 				$feed->set_end_date($endDate);
