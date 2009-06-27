@@ -167,8 +167,7 @@ class GCalendar extends DefaultCalendar{
 	function image($name, $alt = "[needs alt tag]", $id="") {
 		list($width, $height, $d0, $d1) = getimagesize(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar'.DS.'tmpl'.DS.'img'.DS . $name);
 		echo "<img src=\"".JURI::base() . "components/com_gcalendar/views/gcalendar/tmpl/img/" . $name."\"";
-		echo " id=\"". $id."\" width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\"";
-		echo $attrs ."/>";
+		echo " id=\"". $id."\" width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\" />";
 	}
 }
 ?>

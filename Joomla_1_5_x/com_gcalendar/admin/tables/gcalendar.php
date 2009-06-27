@@ -56,9 +56,9 @@ class TableGCalendar extends JTable
 	var $color = null;
 
 	/**
-	 * @var string
+	 * @var boolean
 	 */
-	var $selected = null;
+	var $selected = false;
 
 	/**
 	 * Constructor

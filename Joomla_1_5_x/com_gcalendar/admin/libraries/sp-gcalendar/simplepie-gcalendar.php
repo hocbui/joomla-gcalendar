@@ -337,6 +337,10 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	function get_location(){
 		if(!$this->gc_location){
 			$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'where');
+			if(isset($gd_where[0]) &&
+			isset($gd_where[0]['attribs']) &&
+			isset($gd_where[0]['attribs']['']) &&
+			isset($gd_where[0]['attribs']['']['valueString']))
 			$this->gc_location = $gd_where[0]['attribs']['']['valueString'];
 		}
 		return $this->gc_location;

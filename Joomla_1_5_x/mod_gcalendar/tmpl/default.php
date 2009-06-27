@@ -24,7 +24,6 @@ $calendar->weekStart = $params->get('weekstart');
 $calendar->showSelectionList = false;
 $calendar->dateFormat = 'dd/mm/yy';
 $calendar->cellHeight = 15;
-$calendar->forceView = month;
 $calendar->printDayLink = false;
 $calendar->showEventTitle = false;
 $calendar->showToolbar = false;

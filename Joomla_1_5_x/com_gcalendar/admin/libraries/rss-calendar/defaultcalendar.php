@@ -91,7 +91,7 @@ class DefaultCalendar{
 		$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');
 		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
 		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.css');
-		if ($this->userAgent == "ie") {
+		if ($userAgent == "ie") {
 			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
 		}
 
