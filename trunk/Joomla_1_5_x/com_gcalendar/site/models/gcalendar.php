@@ -42,16 +42,16 @@ class GCalendarModelGCalendar extends JModel {
 	 * @return the calendars specified in the database
 	 */
 	function getDBCalendars(){
-		if($cached_data == null){
+		if($this->cached_data == null){
 			$params = $this->getState('parameters.menu');
 			$calendarids = null;
 			if($params != null)
 			$calendarids=$params->get('calendarids');
 
 			$calendars = GCalendarDBUtil::getAllCalendars($calendarids);
-			$cached_data = $calendars;
+			$this->cached_data = $calendars;
 		}
-		return $cached_data;
+		return $this->cached_data;
 	}
 
 	function getGoogleCalendarFeeds($startDate, $endDate, $projection = null) {

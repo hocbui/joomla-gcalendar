@@ -135,6 +135,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 		$row->section = JText::_('GCalendar');
 		$row->category = $feed->get('gcid');
 		$row->created = $event->get_publish_date();
+		$row->browsernav = '';
 		$return[] = $row;
 	}
 	return $return;
