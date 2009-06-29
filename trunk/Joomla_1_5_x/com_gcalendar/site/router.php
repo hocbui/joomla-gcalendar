@@ -118,7 +118,7 @@ function GCalendarParseRoute( $segments )
 			break;
 		case 'google':
 		case 'gcalendar':
-			$vars['calendarids'] = explode("-",$segments[2]);
+			$vars['calendarids'] = explode("-",$segments[1]);
 			break;
 	}
 	return $vars;
