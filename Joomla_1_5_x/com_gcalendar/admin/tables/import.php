@@ -54,11 +54,6 @@ class TableImport extends JTable
 	 * @var string
 	 */
 	var $color = null;
-	
-	/**
-	 * @var boolean
-	 */
-	var $selected = false;
 
 	/**
 	 * Constructor
