@@ -85,6 +85,7 @@ class GCalendarModelGCalendar extends JModel {
 			$feed->set_orderby_by_start_date(TRUE);
 			$feed->set_expand_single_events(TRUE);
 			$feed->enable_order_by_date(FALSE);
+			$feed->enable_cache($useCache);
 			if($useCache){
 				// check if cache directory exists and is writeable
 				$cacheDir =  JPATH_BASE.DS.'cache'.DS.'com_gcalendar';
