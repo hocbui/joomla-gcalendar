@@ -15,7 +15,7 @@
  * 
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.0 $
+ * @version $Revision: 2.1.1 $
  */
  
 // Check to ensure this file is included in Joomla!
