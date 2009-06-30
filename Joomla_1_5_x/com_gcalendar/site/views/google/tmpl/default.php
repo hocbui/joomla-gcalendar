@@ -66,6 +66,7 @@ if(!empty($google_apps_domain)){
 }
 
 $calendar_list = '<div id="gc_google_view_list"><table>';
+$calendarIDs = $params->get( 'calendarids' );
 foreach($this->calendars as $calendar) {
 	$value = '&amp;src='.$calendar->calendar_id;
 
@@ -88,7 +89,9 @@ foreach($this->calendars as $calendar) {
 	}
 
 	$checked = '';
-	if($calendar->selected){
+	if(!empty($calendar->calendar_id)
+	&& ((is_array( $calendarIDs ) && in_array($calendar->id, $calendarIDs))
+	|| $calendar->id == $calendarIDs)){
 		$variables .= $value;
 		$checked = 'checked';
 	}

@@ -46,32 +46,14 @@ class GCalendarDBUtil{
 
 	/**
 	 * Returns all database entries as objects with the column fields as
-	 * variable (according to the joomla table framework) and an additional
-	 * field with the name selected which is set if the calendar id matches
-	 * to the given $calendarIDs.
+	 * variable (according to the joomla table framework).
 	 *
-	 * @param $calendarIDs the calendar ID's to set as selected
 	 */
-	function getAllCalendars($calendarIDs) {
+	function getAllCalendars() {
 		$db =& JFactory::getDBO();
 		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar";
 		$db->setQuery( $query );
-		$results = $db->loadObjectList();
-		if(empty($results))
-		return '';
-		$calendars = array();
-		foreach ($results as $result) {
-			$is_selected = FALSE;
-			if ($calendarIDs){
-				if( is_array( $calendarIDs ) ) {
-					$result->selected = in_array($result->id, $calendarIDs);
-				} else {
-					$result->selected = $result->id == $calendarIDs;
-				}
-			}
-			$calendars[] = $result;
-		}
-		return $calendars;
+		return $db->loadObjectList();
 	}
 }
 

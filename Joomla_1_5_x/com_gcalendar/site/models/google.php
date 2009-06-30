@@ -44,12 +44,7 @@ class GCalendarModelGoogle extends JModel {
 	 */
 	function getDBCalendars(){
 		if($this->cached_data == null){
-			$params = $this->getState('parameters.menu');
-			$calendarids = null;
-			if($params != null)
-			$calendarids=$params->get('calendarids');
-
-			$calendars = GCalendarDBUtil::getAllCalendars($calendarids);
+			$calendars = GCalendarDBUtil::getAllCalendars();
 			$this->cached_data = $calendars;
 		}
 		return $this->cached_data;
