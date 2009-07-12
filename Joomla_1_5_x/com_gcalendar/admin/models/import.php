@@ -99,7 +99,7 @@ class GCalendarsModelImport extends JModel
 			foreach ($calFeed as $calendar) {
 				$table_instance = & $this->getTable('import');
 				$table_instance->id = 0;
-				$cal_id = substr($calendar->getId(),strripos($calendar->getId(),'/')+1);
+				$cal_id = substr($calendar->id->text,strripos($calendar->id->text,'/')+1);
 				$table_instance->calendar_id = $cal_id;
 				$table_instance->name = $calendar->title->text;
 
@@ -159,8 +159,7 @@ class GCalendarsModelImport extends JModel
 		return true;
 	}
 
-	function loadZendClasses()
-	{
+	function loadZendClasses() {
 		global $mainframe;
 		$absolute_path = $mainframe->getCfg( 'absolute_path' );
 		ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT . DS . 'libraries');

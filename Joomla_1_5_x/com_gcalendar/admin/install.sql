@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `#__gcalendar` (
   `magic_cookie` text NOT NULL,
   `color` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ;
