@@ -113,7 +113,7 @@ if($params->get('show_selection')==1){
 }
 $calendar_url="";
 if ($params->get('use_custom_css')) {
-	$calendar_url= JURI::base().'administrator/components/com_gcalendar/libraries/mygooglecal/MyGoogleCal4.php'.$variables;
+	$calendar_url= JURI::base().'administrator/components/com_gcalendar/libraries/restylegc/restylegc.php'.$variables;
 } else {
 	$calendar_url=$domain.$variables;
 }
