@@ -35,6 +35,8 @@ $dateformat=$params->get('dateFormat', '%d.%m.%Y');
 $timeformat=$params->get('timeFormat', '%H:%M');
 $calName = $params->get( 'name', NULL );
 
+echo $params->get( 'textbefore' );
+
 // Loop through the array, and display what we wanted.
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
@@ -106,4 +108,6 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 
 	echo $temp_event;
 }
+
+echo $params->get( 'textafter' );
 ?>
