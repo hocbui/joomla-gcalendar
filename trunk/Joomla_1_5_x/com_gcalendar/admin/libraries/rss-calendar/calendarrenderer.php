@@ -342,6 +342,7 @@ class CalendarRenderer {
 	}
 
 	function printWeek($year, $month, $day) {
+		global $Itemid;
 		$gcal = $this->calendar;
 		$today = getdate();
 		$firstDisplayedDate = $gcal->getFirstDayOfWeek($year, $month, $day, $gcal->getWeekStart());
@@ -413,7 +414,7 @@ class CalendarRenderer {
 			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=" .
 			$dInfo["year"] .
 							"&month=" . $dInfo["mon"] . 
-							"&day=" . $dInfo["mday"];
+							"&day=" . $dInfo["mday"].'&Itemid='.$Itemid;
 
 			echo "<a href=\"" . JRoute::_($thisLink) . "\">";
 			$startWeekDay = $gcal->getWeekStart()-1;
