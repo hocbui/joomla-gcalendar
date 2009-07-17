@@ -30,6 +30,7 @@ class GCalendar extends DefaultCalendar{
 	}
 
 	function printToolBar(){
+		global $Itemid;
 		$year = (int)$this->year;
 		$month = (int)$this->month;
 		$day = (int)$this->day;
@@ -38,7 +39,7 @@ class GCalendar extends DefaultCalendar{
 		$document =& JFactory::getDocument();
 		$document->setTitle('GCalendar: '.$this->getViewTitle($year, $month, $day, $this->getWeekStart(), $view));
 
-		$mainFilename = "index.php?option=com_gcalendar&view=gcalendar";
+		$mainFilename = "index.php?option=com_gcalendar&view=gcalendar&Itemid=".$Itemid;
 		switch($view) {
 			case "month":
 				$nextMonth = ($month == 12) ? 1 : $month+1;
