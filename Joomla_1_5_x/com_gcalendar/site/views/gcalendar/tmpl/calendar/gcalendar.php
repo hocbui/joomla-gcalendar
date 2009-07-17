@@ -23,6 +23,7 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'librari
 class GCalendar extends DefaultCalendar{
 
 	var $dateFormat = 'dd/mm/yy';
+	var $loadJQuery = true;
 
 	function GCalendar($model){
 		$this->DefaultCalendar($model);
@@ -44,119 +45,120 @@ class GCalendar extends DefaultCalendar{
 				$prevMonth = ($month == 1) ? 12 : $month-1;
 				$nextYear = ($month == 12) ? $year+1 : $year;
 				$prevYear = ($month == 1) ? $year-1 : $year;
-				$prevURL = $mainFilename . "&gcalendarview=month&year=${prevYear}&month=${prevMonth}";
-				$nextURL = $mainFilename . "&gcalendarview=month&year=${nextYear}&month=${nextMonth}";
+				$prevURL = $mainFilename . "&gcalendarview=month&year=".$prevYear."&month=".$prevMonth;
+				$nextURL = $mainFilename . "&gcalendarview=month&year=".$nextYear."&month=".$nextMonth;
 				break;
 			case "week":
-				list($nextYear, $nextMonth, $nextDay) = explode(",", date("Y,n,j", strtotime("+7 days", strtotime("${year}-${month}-${day}"))));
-				list($prevYear, $prevMonth, $prevDay) = explode(",", date("Y,n,j", strtotime("-7 days", strtotime("${year}-${month}-${day}"))));
+				list($nextYear, $nextMonth, $nextDay) = explode(",", date("Y,n,j", strtotime("+7 days", strtotime("".$year."-".$month."-".$day))));
+				list($prevYear, $prevMonth, $prevDay) = explode(",", date("Y,n,j", strtotime("-7 days", strtotime("".$year."-".$month."-".$day))));
 
-				$prevURL = $mainFilename . "&gcalendarview=week&year=${prevYear}&month=${prevMonth}&day=${prevDay}";
-				$nextURL = $mainFilename . "&gcalendarview=week&year=${nextYear}&month=${nextMonth}&day=${nextDay}";
+				$prevURL = $mainFilename . "&gcalendarview=week&year=".$prevYear."&month=".$prevMonth."&day=".$prevDay;
+				$nextURL = $mainFilename . "&gcalendarview=week&year=".$nextYear."&month=".$nextMonth."&day=".$nextDay;
 
 				break;
 			case "day":
-				list($nextYear, $nextMonth, $nextDay) = explode(",", date("Y,n,j", strtotime("+1 day", strtotime("${year}-${month}-${day}"))));
-				list($prevYear, $prevMonth, $prevDay) = explode(",", date("Y,n,j", strtotime("-1 day", strtotime("${year}-${month}-${day}"))));
+				list($nextYear, $nextMonth, $nextDay) = explode(",", date("Y,n,j", strtotime("+1 day", strtotime("".$year."-".$month."-".$day))));
+				list($prevYear, $prevMonth, $prevDay) = explode(",", date("Y,n,j", strtotime("-1 day", strtotime("".$year."-".$month."-".$day))));
 
-				$prevURL = $mainFilename . "&gcalendarview=day&year=${prevYear}&month=${prevMonth}&day=${prevDay}";
-				$nextURL = $mainFilename . "&gcalendarview=day&year=${nextYear}&month=${nextMonth}&day=${nextDay}";
+				$prevURL = $mainFilename . "&gcalendarview=day&year=".$prevYear."&month=".$prevMonth."&day=".$prevDay;
+				$nextURL = $mainFilename . "&gcalendarview=day&year=".$nextYear."&month=".$nextMonth."&day=".$nextDay;
 
 				break;
+		}
+
+		$document =& JFactory::getDocument();
+		$calCode  = "function datePickerClosed(dateField){\n";
+		$calCode .= "var d = jQuery.datepicker.parseDate('".$this->dateFormat."', dateField.value);\n";
+		$calCode .= "if(d == null) d = new Date();\n";
+		$calCode .= "document.getElementById('gc_go_link').href = '".html_entity_decode(JRoute::_($mainFilename."&gcalendarview=".$view))."&day='+d.getDate()+'&month='+(d.getMonth()+1)+'&year='+d.getFullYear();\n";
+		$calCode .= "};\n";
+		$document->addScriptDeclaration($calCode);
+
+		if($this->loadJQuery)
+		$document->addScript('administrator/components/com_gcalendar/libraries/jquery/jquery-1.3.2.js');
+		$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
+		$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
+		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
+
+		$daysLong = "[";
+		$daysShort = "[";
+		$daysMin = "[";
+		$monthsLong = "[";
+		$monthsShort = "[";
+		$dateObject = JFactory::getDate();
+		for ($i=0; $i<7; $i++) {
+			$daysLong .= "'".$dateObject->_dayToString($i, false)."'";
+			$daysShort .= "'".$dateObject->_dayToString($i, true)."'";
+			$daysMin .= "'".substr($dateObject->_dayToString($i, true), 0, 2)."'";
+			if($i < 6){
+				$daysLong .= ",";
+				$daysShort .= ",";
+				$daysMin .= ",";
 			}
+		}
 
-			$document =& JFactory::getDocument();
-			$calCode  = "function datePickerClosed(dateField){\n";
-			$calCode .= "var d = jQuery.datepicker.parseDate('".$this->dateFormat."', dateField.value);\n";
-			$calCode .= "if(d == null) d = new Date();\n";
-			$calCode .= "document.getElementById('gc_go_link').href = '".html_entity_decode(JRoute::_($mainFilename."&gcalendarview=".$view))."&day='+d.getDate()+'&month='+(d.getMonth()+1)+'&year='+d.getFullYear();\n";
-			$calCode .= "};\n";
-			$document->addScriptDeclaration($calCode);
-
-			$document->addScript('administrator/components/com_gcalendar/libraries/jquery/jquery-1.3.2.js');
-			$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
-			$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
-			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
-
-			$daysLong = "[";
-			$daysShort = "[";
-			$daysMin = "[";
-			$monthsLong = "[";
-			$monthsShort = "[";
-			$dateObject = JFactory::getDate();
-			for ($i=0; $i<7; $i++) {
-				$daysLong .= "'".$dateObject->_dayToString($i, false)."'";
-				$daysShort .= "'".$dateObject->_dayToString($i, true)."'";
-				$daysMin .= "'".substr($dateObject->_dayToString($i, true), 0, 2)."'";
-				if($i < 6){
-					$daysLong .= ",";
-					$daysShort .= ",";
-					$daysMin .= ",";
-				}
+		for ($i=1; $i<=12; $i++) {
+			$monthsLong .= "'".$dateObject->_monthToString($i, false)."'";
+			$monthsShort .= "'".$dateObject->_monthToString($i, true)."'";
+			if($i < 12){
+				$monthsLong .= ",";
+				$monthsShort .= ",";
 			}
+		}
+		$daysLong .= "]";
+		$daysShort .= "]";
+		$daysMin .= "]";
+		$monthsLong .= "]";
+		$monthsShort .= "]";
 
-			for ($i=1; $i<=12; $i++) {
-				$monthsLong .= "'".$dateObject->_monthToString($i, false)."'";
-				$monthsShort .= "'".$dateObject->_monthToString($i, true)."'";
-				if($i < 12){
-					$monthsLong .= ",";
-					$monthsShort .= ",";
-				}
-			}
-			$daysLong .= "]";
-			$daysShort .= "]";
-			$daysMin .= "]";
-			$monthsLong .= "]";
-			$monthsShort .= "]";
+		$calCode = "jQuery.noConflict();\n";
+		$calCode .= "jQuery(document).ready(function(){\n";
+		$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$this->dateFormat."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
+		//			$calCode .= "jQuery(\"#gcdate\").datepicker({changeYear: true});\n";
+		$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$this->dateFormat."'});\n";
+		$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNames', ".$daysLong.");\n";
+		$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNamesShort', ".$daysShort.");\n";
+		$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNamesMin', ".$daysMin.");\n";
+		$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'monthNames', ".$monthsLong.");\n";
+		$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'monthNamesShort', ".$monthsShort.");\n";
+		$calCode .= "});\n";
+		$document->addScriptDeclaration($calCode);
 
-			$calCode = "jQuery.noConflict();\n";
-			$calCode .= "jQuery(document).ready(function(){\n";
-			$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$this->dateFormat."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
-			//			$calCode .= "jQuery(\"#gcdate\").datepicker({changeYear: true});\n";
-			$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$this->dateFormat."'});\n";
-			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNames', ".$daysLong.");\n";
-			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNamesShort', ".$daysShort.");\n";
-			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'dayNamesMin', ".$daysMin.");\n";
-			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'monthNames', ".$monthsLong.");\n";
-			$calCode .= "jQuery(\"#gcdate\").datepicker('option', 'monthNamesShort', ".$monthsShort.");\n";
-			$calCode .= "});\n";
-			$document->addScriptDeclaration($calCode);
+		echo "<div id=\"calToolbar\">\n";
+		echo "<table><tr>\n";
+		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($prevURL)."\" title=\"previous ".$view."\">\n";
+		$this->image("btn-prev.gif", "previous ".$view, "prevBtn_img");
+		echo "</a></td>\n";
+		echo " <td valign=\"middle\"><span class=\"ViewTitle\">\n";
+		echo $this->getViewTitle($year, $month, $day, $this->getWeekStart(), $view);
+		echo "</span></td>\n";
+		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"next ".$view."\">\n";
+		$this->image("btn-next.gif", "next ".$view, "nextBtn_img");
+		echo "</a></td>\n";
+		echo "<td width=\"20px\"/>\n";
+		$today = getdate();
+		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$today["year"]."&month=".$today["mon"]."&day=".$today["mday"])."\">\n";
+		$this->image("btn-today.gif", "go to today", "jump_to_today", "today_img");
+		echo "</a></td>\n";
+		echo " <td valign=\"middle\"><input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
+		echo "onchange=\"datePickerClosed(this);\" \n";
+		echo "size=\"10\" maxlength=\"10\" title=\"jump to date\" /></td>";
+		echo " <td valign=\"middle\"><a class=\"Item\" id=\"gc_go_link\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$year."&month=".$month."&day=".$day)."\">\n";
+		$this->image("btn-go.gif", "go to date", "gi_img");
+		echo "</a></td>\n";
+		echo "<td width=\"20px\"/>\n";
 
-			echo "<div id=\"calToolbar\">\n";
-			echo "<table><tr>\n";
-			echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($prevURL)."\" title=\"previous ".$view."\">\n";
-			$this->image("btn-prev.gif", "previous ".$view, "prevBtn_img");
-			echo "</a></td>\n";
-			echo " <td valign=\"middle\"><span class=\"ViewTitle\">\n";
-			echo $this->getViewTitle($year, $month, $day, $this->getWeekStart(), $view);
-			echo "</span></td>\n";
-			echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"next ".$view."\">\n";
-			$this->image("btn-next.gif", "next ".$view, "nextBtn_img");
-			echo "</a></td>\n";
-			echo "<td width=\"20px\"/>\n";
-			$today = getdate();
-			echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$today["year"]."&month=".$today["mon"]."&day=".$today["mday"])."\">\n";
-			$this->image("btn-today.gif", "go to today", "jump_to_today", "today_img");
-			echo "</a></td>\n";
-			echo " <td valign=\"middle\"><input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
-			echo "onchange=\"datePickerClosed(this);\" \n";
-			echo "size=\"10\" maxlength=\"10\" title=\"jump to date\" /></td>";
-			echo " <td valign=\"middle\"><a class=\"Item\" id=\"gc_go_link\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$year."&month=".$month."&day=".$day)."\">\n";
-			$this->image("btn-go.gif", "go to date", "gi_img");
-			echo "</a></td>\n";
-			echo "<td width=\"20px\"/>\n";
+		echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=day&year=".$year."&month=".$month."&day=".$day)."\">\n";
+		$this->image("cal-day.gif", "day view", "calday_img");
+		echo "</a></td>\n";
 
-			echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=day&year=".$year."&month=".$month."&day=".$day)."\">\n";
-			$this->image("cal-day.gif", "day view", "calday_img");
-			echo "</a></td>\n";
+		echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=week&year=".$year."&month=".$month."&day=".$day)."\">\n";
+		$this->image("cal-week.gif", "week view", "calweek_img");
+		echo "</a></td>\n";
 
-			echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=week&year=".$year."&month=".$month."&day=".$day)."\">\n";
-			$this->image("cal-week.gif", "week view", "calweek_img");
-			echo "</a></td>\n";
-
-			echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=month&year=".$year."&month=".$month."&day=".$day)."\">\n";
-			$this->image("cal-month.gif", "month view", "calmonth_img");
-			echo "</a></td></tr></table></div>\n";
+		echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=month&year=".$year."&month=".$month."&day=".$day)."\">\n";
+		$this->image("cal-month.gif", "month view", "calmonth_img");
+		echo "</a></td></tr></table></div>\n";
 	}
 
 	/**
