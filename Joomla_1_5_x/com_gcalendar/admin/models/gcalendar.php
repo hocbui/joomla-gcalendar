@@ -76,7 +76,7 @@ class GCalendarsModelGCalendar extends JModel
 			$this->_data->name = null;
 			$this->_data->calendar_id = null;
 			$this->_data->magic_cookie = null;
-			$this->_data->color = null;
+			$this->_data->color = 'A32929';
 		}
 		return $this->_data;
 	}
