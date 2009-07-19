@@ -226,7 +226,7 @@ class SimplePie_GCalendar extends SimplePie {
 		if(!empty($this->cal_language))
 		$tmp = $this->append($tmp,'hl='.$this->cal_language.'&');
 		if(!empty($this->cal_query))
-		$tmp = $this->append($tmp,'q='.$this->cal_query.'&');
+		$tmp = $this->append($tmp,'q='.urlencode($this->cal_query).'&');
 		if(!empty($this->timezone))
 		$tmp = $this->append($tmp,'ctz='.$this->timezone.'&');
 		$tmp = $this->append($tmp,'max-results='.$this->max_events);
