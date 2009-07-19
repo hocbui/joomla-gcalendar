@@ -18,28 +18,29 @@
  * @version $Revision: 0.3.0 $
  */
 
-$url = $_POST["feedurl"];
-$email = $_POST["email"];
-$show_past_events = $_POST["past"];
-$sort_ascending = $_POST["asc"];
-$order_by = $_POST["order"];
-$expand_single_events = $_POST["expand"];
-$language = $_POST["lang"];
-$query = $_POST["query"];
-$start = $_POST["start"];
-$end = $_POST["end"];
-$max = $_POST["max"];
-$projection = $_POST["projection"];
-$timezone = $_POST["tz"];
+$url = $_GET["feedurl"];
+$email = $_GET["email"];
+$show_past_events = $_GET["past"];
+$sort_ascending = $_GET["asc"];
+$order_by = $_GET["order"];
+$expand_single_events = $_GET["expand"];
+$language = $_GET["lang"];
+$query = $_GET["query"];
+$start = $_GET["start"];
+$end = $_GET["end"];
+$max = $_GET["max"];
+$projection = $_GET["projection"];
+$timezone = $_GET["tz"];
 ?>
 <html>
 <head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Simplepie -- GGalendar</title>
 <link rel="stylesheet" href="sp-gcalendar.css" type="text/css" />
 </head>
 <body>
 <h1>Simplepie Google Calendar demo web site</h1>
-<form name="input" action="index.php" method="post">
+<form name="input" action="index.php" method="get">
 <table>
 	<tr>
 		<td>Feed url:</td>
@@ -130,7 +131,19 @@ $timezone = $_POST["tz"];
 			$item = $gcalendar_data[$i];
 			$startDate = date("d.m.Y H:i", $item->get_start_date());
 			$pubDate = date("d.m.Y H:i", $item->get_publish_date());
-			echo '<p>'.$startDate.'<br>Published: '.$pubDate.'<br>'.$item->get_title().'<br>'.$item->get_description().'<hr></p>';
+			echo '<p>Published: '.$pubDate."<br/>\n";
+			if( $projection == 'full')
+				echo $startDate.'<br/>';
+			//Make any URLs used in the description also clickable
+			$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
+			echo $item->get_title()."<br/>\n".$desc;
+			
+			$loc = $item->get_location();
+			if(!empty($loc)){
+			   echo "<br/>Location: ". $loc."<br/><br/>\n";
+			   echo "<iframe width=\"400px\" height=\"200px\" frameborder=\"no\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&output=embed\"></iframe>\n";
+			}
+			echo "<br/><hr></p>\n";
 		}
 	}else{
 		//header("content-Type: text/text");
@@ -143,7 +156,7 @@ $timezone = $_POST["tz"];
 	function printList($title, $name, $defaultValue, $values) {
 		echo "\t<td align=\"left\">".$title."</td>\n";
 		echo "\t\t<td><select name=\"".$name."\" style=\"width:100%\">\n";
-		$selected = $_POST[$name];
+		$selected = $_GET[$name];
 		if(empty($selected))
 		$selected = $defaultValue;
 		foreach ($values as $value) {
@@ -156,7 +169,7 @@ $timezone = $_POST["tz"];
 	}
 
 	function printCheckBox($title, $name, $defaultValue) {
-		$value = $_POST[$name];
+		$value = $_GET[$name];
 		if(empty($value))
 		$value = $defaultValue;
 		echo "\t<td align=\"left\">".$title."</td>\n";
