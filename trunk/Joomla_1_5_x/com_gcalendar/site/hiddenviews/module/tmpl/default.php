@@ -20,23 +20,10 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once ('calendar/gcalendar.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-$params = $this->params;
-echo "<div class=\"contentpane".$params->get('pageclass_sfx')."\">\n";
-
-echo $params->get( 'textbefore' );
-
-$model = &$this->getModel();
-$calendar = new GCalendar($model);
-$calendar->weekStart = $params->get('weekstart');
-$calendar->showSelectionList = $params->get('show_selection') == 'yes';
-$calendar->dateFormat = $params->get('dateformat');
-$calendar->columnInWeekViewEqual = $params->get('columnInWeekViewEqual') == 'yes';
-$calendar->defaultView = $params->get('defaultView');
-$calendar->display();
-
-echo $params->get( 'textafter' );
-echo "</div>\n";
-echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://gcalendar.allon.ch\">Powered by GCalendar</a></div>\n";
+$modName = 'gcalendar';
+$mod = JModuleHelper::getModule($modName, $this->modTitle);
+$content = JModuleHelper::renderModule($mod);
+echo $content;
 ?>

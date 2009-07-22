@@ -32,6 +32,18 @@ class GCalendarUtil{
 		}
 	}
 
+	function loadJQuery(){
+		static $jQueryloaded;
+		if($jQueryloaded == null){
+			$params   = JComponentHelper::getParams('com_languages');
+			if($params->get('loadJQuery', 'yes') == 'yes'){
+				$document =& JFactory::getDocument();
+				$document->addScript('administrator/components/com_gcalendar/libraries/jquery/jquery-1.3.2.js');
+			}
+			$jQueryloaded = 'loaded';
+		}
+	}
+
 	function getComponentParameter($key){
 		$params   = JComponentHelper::getParams('com_gcalendar');
 		return $params->get($key);

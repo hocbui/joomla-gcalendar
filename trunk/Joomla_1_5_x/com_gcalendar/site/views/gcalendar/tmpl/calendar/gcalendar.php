@@ -19,11 +19,11 @@
  */
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'defaultcalendar.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
 class GCalendar extends DefaultCalendar{
 
 	var $dateFormat = 'dd/mm/yy';
-	var $loadJQuery = true;
 
 	function GCalendar($model){
 		$this->DefaultCalendar($model);
@@ -67,7 +67,6 @@ class GCalendar extends DefaultCalendar{
 				break;
 		}
 
-		$document =& JFactory::getDocument();
 		$calCode  = "function datePickerClosed(dateField){\n";
 		$calCode .= "var d = jQuery.datepicker.parseDate('".$this->dateFormat."', dateField.value);\n";
 		$calCode .= "if(d == null) d = new Date();\n";
@@ -75,8 +74,7 @@ class GCalendar extends DefaultCalendar{
 		$calCode .= "};\n";
 		$document->addScriptDeclaration($calCode);
 
-		if($this->loadJQuery)
-		$document->addScript('administrator/components/com_gcalendar/libraries/jquery/jquery-1.3.2.js');
+		GCalendarUtil::loadJQuery();
 		$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
 		$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
 		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');

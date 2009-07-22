@@ -20,6 +20,9 @@
 		<filename>helper.php</filename>
 		<filename>tmpl/default.php</filename>
 		<filename>tmpl/index.html</filename>
+		<filename>tmpl/img/index.html</filename>
+		<filename>tmpl/img/btn-next.gif</filename>
+		<filename>tmpl/img/btn-prev.gif</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_gcalendar.ini

@@ -33,23 +33,19 @@ class GCalendarController extends JController
 	 */
 	function display()
 	{
-		if(JRequest::getVar('view', null)=='event'){
+		$hiddenView = null;
+		if(JRequest::getVar('view', null) == 'event')
+		$hiddenView = 'Event';
+		if(JRequest::getVar('view', null) == 'day')
+		$hiddenView = 'Day';
+		if(JRequest::getVar('view', null) == 'module')
+		$hiddenView = 'Module';
+		
+		if($hiddenView !=null){
 			$document =& JFactory::getDocument();
 
 			$viewType	= $document->getType();
-			$viewName	= JRequest::getCmd( 'view', 'Event' );
-			$viewLayout	= JRequest::getCmd( 'layout', 'default' );
-				
-			$this->addViewPath($this->_basePath.DS.'hiddenviews');
-			$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
-			$view->addTemplatePath($this->_basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
-		}
-
-		if(JRequest::getVar('view', null)=='day'){
-			$document =& JFactory::getDocument();
-
-			$viewType	= $document->getType();
-			$viewName	= JRequest::getCmd( 'view', 'Day' );
+			$viewName	= JRequest::getCmd( 'view', $hiddenView );
 			$viewLayout	= JRequest::getCmd( 'layout', 'default' );
 				
 			$this->addViewPath($this->_basePath.DS.'hiddenviews');
