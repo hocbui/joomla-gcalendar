@@ -53,11 +53,6 @@
 				<option value="no">No</option>
 				<option value="yes">Yes</option>
 			</param>
-			<param name="loadJQuery" type="radio" default="yes"
-				label="Load JQuery" description="jQuery is required by this component The only reason not to load it is if it has already been loaded manually or by another module.">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
-			</param>
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
 			<param name="cache" type="radio" default="no" label="Cache"

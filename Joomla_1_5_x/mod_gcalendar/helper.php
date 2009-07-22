@@ -34,9 +34,12 @@ class ModGCalendarHelper {
 
 class ModCalendar extends DefaultCalendar{
 	var $calendarids;
+	var $moduleTitle;
+	var $loadJQuery = true;
 
 	function ModCalendar($calendarids){
 		$this->calendarids = $calendarids;
+		$this->id = '_mod_gcalendar';
 	}
 
 	function getGoogleCalendarFeeds($start, $end) {
@@ -46,11 +49,6 @@ class ModCalendar extends DefaultCalendar{
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
 		return array();
-
-		//we always show the actual month
-		$today = getdate();
-		$start = mktime(0, 0, 0, $today["mon"], 1, $today["year"]);
-		$end = strtotime( "+1 month", $start );
 
 		$calendars = array();
 		foreach ($results as $result) {
@@ -81,16 +79,68 @@ class ModCalendar extends DefaultCalendar{
 	}
 
 	function calculateDate() {
-		return time();
+		//we always show the actual month
+		$today = getdate();
+		$month = $today["mon"];
+		$year = $today["year"];
+		if(JRequest::getVar('modulemonth', null)){
+			$month = JRequest::getVar('modulemonth', null);
+		}
+		if(JRequest::getVar('moduleyear', null)){
+			$year = JRequest::getVar('moduleyear', null);
+		}
+		return mktime(0, 0, 0, $month, 1, $year);
 	}
 
 	function printToolBar(){
-		echo "<div style=\"text-align:center;\"><b>".$this->getViewTitle($this->year, $this->month, $this->day, $this->getWeekStart(), $this->view)."</b></div>\n";
+		$year = (int)$this->year;
+		$month = (int)$this->month;
+		$day = (int)$this->day;
+		$view = 'month';
+
+		$document =& JFactory::getDocument();
+		GCalendarUtil::loadJQuery();
+
+		$scripCode = "function loadCalendar(url){\n";
+		$scripCode .= "jQuery.noConflict();\n";
+		$scripCode .= "	jQuery(\".gcalendar_mod_gcalendar\").load(url);\n";
+		$scripCode .= "};\n";
+		$document->addScriptDeclaration($scripCode);
+
+		$mainFilename = "index.php?option=com_gcalendar&view=module&tmpl=component&modulename=".$this->moduleTitle;
+		$nextMonth = ($month == 12) ? 1 : $month+1;
+		$prevMonth = ($month == 1) ? 12 : $month-1;
+		$nextYear = ($month == 12) ? $year+1 : $year;
+		$prevYear = ($month == 1) ? $year-1 : $year;
+		$prevURL = $mainFilename . "&moduleyear=".$prevYear."&modulemonth=".$prevMonth;
+		$nextURL = $mainFilename . "&moduleyear=".$nextYear."&modulemonth=".$nextMonth;
+
+		echo "<div style=\"text-align: center;\"><table style=\" margin: 0 auto;\"><tr>\n";
+		echo " <td valign=\"middle\">\n";
+		$this->image("btn-prev.gif", "previous ".$view, JRoute::_($prevURL));
+		echo "</td>\n";
+		echo " <td valign=\"middle\"><span class=\"ViewTitle\">\n";
+		echo $this->getViewTitle($year, $month, $day, $this->getWeekStart(), $view);
+		echo "</span></td>\n";
+		echo " <td valign=\"middle\">\n";
+		$this->image("btn-next.gif", "next ".$view, JRoute::_($nextURL));
+		echo "</td></tr></table></div>\n";
 	}
 
 	function createLink($year, $month, $day, $calids){
 		$calids = $this->getIdString($calids);
 		return JRoute::_("index.php?option=com_gcalendar&view=day&year=".$year."&month=".$month."&day=".$day.$calids);
+	}
+
+	/**
+	 * This is an internal helper method and should not be called from outside of the class
+	 * otherwise you know what you do.
+	 *
+	 */
+	function image($name, $alt = "[needs alt tag]", $url) {
+		list($width, $height, $d0, $d1) = getimagesize(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar'.DS.'tmpl'.DS.'img'.DS . $name);
+		echo "<img src=\"".JURI::base() . "modules/mod_gcalendar/tmpl/img/" . $name."\"";
+		echo " width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\" onclick=\"loadCalendar('".$url."');\" style=\"cursor: pointer; cursor: hand; \" onMouseOver=\"this.style.cursor = 'hand';\"/>";
 	}
 }
 ?>
