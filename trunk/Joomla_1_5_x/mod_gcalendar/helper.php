@@ -98,15 +98,6 @@ class ModCalendar extends DefaultCalendar{
 		$day = (int)$this->day;
 		$view = 'month';
 
-		$document =& JFactory::getDocument();
-		GCalendarUtil::loadJQuery();
-
-		$scripCode = "function loadCalendar(url){\n";
-		$scripCode .= "jQuery.noConflict();\n";
-		$scripCode .= "	jQuery(\".gcalendar_mod_gcalendar\").load(url);\n";
-		$scripCode .= "};\n";
-		$document->addScriptDeclaration($scripCode);
-
 		$mainFilename = "index.php?option=com_gcalendar&view=module&tmpl=component&modulename=".$this->moduleTitle;
 		$nextMonth = ($month == 12) ? 1 : $month+1;
 		$prevMonth = ($month == 1) ? 12 : $month-1;
@@ -114,6 +105,15 @@ class ModCalendar extends DefaultCalendar{
 		$prevYear = ($month == 1) ? $year-1 : $year;
 		$prevURL = $mainFilename . "&moduleyear=".$prevYear."&modulemonth=".$prevMonth;
 		$nextURL = $mainFilename . "&moduleyear=".$nextYear."&modulemonth=".$nextMonth;
+
+		$document =& JFactory::getDocument();
+		GCalendarUtil::loadJQuery();
+
+		$scripCode = "function loadCalendar(url){\n";
+		$scripCode .= " jQuery(\"#gc_month_table_mod_gcalendar\").empty().html('<div style=\"text-align: center;\"><img src=\"".JURI::base() . "modules/mod_gcalendar/tmpl/img/ajax-loader.gif\" /></div>');\n";
+		$scripCode .= "	jQuery(\".gcalendar_mod_gcalendar\").load(url);\n";
+		$scripCode .= "};\n";
+		$document->addScriptDeclaration($scripCode);
 
 		echo "<div style=\"text-align: center;\"><table style=\" margin: 0 auto;\"><tr>\n";
 		echo " <td valign=\"middle\">\n";
@@ -139,7 +139,7 @@ class ModCalendar extends DefaultCalendar{
 	 */
 	function image($name, $alt = "[needs alt tag]", $url) {
 		list($width, $height, $d0, $d1) = getimagesize(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar'.DS.'tmpl'.DS.'img'.DS . $name);
-		echo "<img src=\"".JURI::base() . "modules/mod_gcalendar/tmpl/img/" . $name."\"";
+		echo "<img src=\"".JURI::base()."modules/mod_gcalendar/tmpl/img/".$name."\"";
 		echo " width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\" onclick=\"loadCalendar('".$url."');\" style=\"cursor: pointer; cursor: hand; \" onMouseOver=\"this.style.cursor = 'hand';\"/>";
 	}
 }

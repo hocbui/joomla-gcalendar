@@ -25,8 +25,6 @@ if(!empty($error)){
 	echo $error;
 	return;
 }
-//if some people configure the link to be opened modal
-JHTML::_('behavior.modal');
 
 $SECSINDAY=86400;
 
