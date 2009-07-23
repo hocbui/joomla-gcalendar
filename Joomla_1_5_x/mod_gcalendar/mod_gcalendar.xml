@@ -21,6 +21,7 @@
 		<filename>tmpl/default.php</filename>
 		<filename>tmpl/index.html</filename>
 		<filename>tmpl/img/index.html</filename>
+		<filename>tmpl/img/ajax-loader.gif</filename>
 		<filename>tmpl/img/btn-next.gif</filename>
 		<filename>tmpl/img/btn-prev.gif</filename>
 	</files>
