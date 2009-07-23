@@ -140,7 +140,7 @@ class ModCalendar extends DefaultCalendar{
 	function image($name, $alt = "[needs alt tag]", $url) {
 		list($width, $height, $d0, $d1) = getimagesize(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar'.DS.'tmpl'.DS.'img'.DS . $name);
 		echo "<img src=\"".JURI::base()."modules/mod_gcalendar/tmpl/img/".$name."\"";
-		echo " width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\" onclick=\"loadCalendar('".$url."');\" style=\"cursor: pointer; cursor: hand; \" onMouseOver=\"this.style.cursor = 'hand';\"/>";
+		echo " width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\" onclick=\"loadCalendar('".$url."');\" style=\"cursor: pointer; cursor: hand; \" onmouseover=\"this.style.cursor = 'hand';\"/>";
 	}
 }
 ?>

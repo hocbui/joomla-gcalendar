@@ -34,7 +34,12 @@ if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 	$item = $menu->getItem($itemID);
 	if($item !=null){
 		$backLinkView = $item->query['view'];
-		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' ).'</a>';
+		echo "<table><tr><td valign=\"middle\">\n";
+		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID)."\">\n";
+		echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/back.png\"/>\n";
+		echo "</a></td><td valign=\"middle\">\n";
+		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
+		echo "</td></tr></table>\n";
 	}
 }
 ?>
