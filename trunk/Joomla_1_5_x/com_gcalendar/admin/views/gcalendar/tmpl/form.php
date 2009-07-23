@@ -85,7 +85,7 @@ $calendar = $this->gcalendar;
 				echo "<tr>\n";
 				$c = $googleColors[$i];
 				$cFaded = GCalendarUtil::getFadedColor($c);
-				echo "<td onMouseOver=\"this.style.cursor='pointer'\" onclick=\"document.getElementById('color').style.backgroundColor = '".$cFaded."';document.getElementById('color').value = '".$c."';\" style=\"background-color: ".$cFaded.";width: 20px;\"/><td>".$c."</td>\n";
+				echo "<td onmouseover=\"this.style.cursor='pointer'\" onclick=\"document.getElementById('color').style.backgroundColor = '".$cFaded."';document.getElementById('color').value = '".$c."';\" style=\"background-color: ".$cFaded.";width: 20px;\"/><td>".$c."</td>\n";
 				if($i % 7 == 6)
 				echo "</tr>\n";
 			}
