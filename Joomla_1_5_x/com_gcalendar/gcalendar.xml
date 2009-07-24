@@ -23,18 +23,15 @@
 	</files>
 	<languages>
 		<language tag="en-GB">site/languages/en-GB.com_gcalendar.ini</language>
-		<language tag="de-DE">site/languages/de-DE.com_gcalendar.ini</language>
 	</languages>
 	<install>
 		<sql>
 			<file charset="utf8" driver="mysql">install.sql</file>
-			<file driver="mysql">install.sql</file>
 		</sql>
 	</install>
 	<uninstall>
 		<sql>
 			<file charset="utf8" driver="mysql">uninstall.sql</file>
-			<file driver="mysql">uninstall.sql</file>
 		</sql>
 	</uninstall>
 	<administration>
@@ -66,7 +63,6 @@
 		</files>
 		<languages>
 			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language>
-			<language tag="de-DE">admin/languages/de-DE.com_gcalendar.ini</language>
 		</languages>
 	</administration>
 </install>

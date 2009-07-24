@@ -1,32 +1,22 @@
 <?php header("Content-type: application/x-javascript");
 /*******************************************************************************
- * FILE: restylegc-js.php
+ * FILE: MyGoogleCal4js.php
  *
  * DESCRIPTION:
- *  Companion file for restylegc.php to edit the javascript file that
+ *  Companion file for MyGoogleCal4.php to edit the javascript file that
  *  generates the Google Calendar.
  *   
  * USAGE:
  *  There are no user-editable parameters.
  *
- * MIT LICENSE:
- * Copyright (c) 2009 Brian Gibson (http://www.restylegc.com/)
- * Full text in restylegc.php
+ * copyright (c) by Brian Gibson
+ * email: bwg1974 yahoo com
  ******************************************************************************/
 // URL for the javascript
 $url = "";
 if(count($_GET) > 0) {
   $url = "http://www.google.com/calendar/" . $_SERVER['QUERY_STRING'];
 }
-
-/* If you would like to freeze the calendar version, download the Javascript
- * file using the same method for downloading the CSS file, as described in
- * the main script.  You can find some previous versions in the archive folder.
- * NOTE: You should use the corresponding CSS file as well.
- *
- * Edit and uncomment the following line to freeze the calendar version.
- */
-//$url = "http://myserver.tld/path/to/archive/6a3eb8ba4a07edb76f79a18d6bdb8933embedcompiled__en.js";
 
 // Request the javascript
 $ch = curl_init();

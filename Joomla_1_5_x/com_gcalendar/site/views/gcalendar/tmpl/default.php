@@ -30,13 +30,12 @@ echo $params->get( 'textbefore' );
 $model = &$this->getModel();
 $calendar = new GCalendar($model);
 $calendar->weekStart = $params->get('weekstart');
-$calendar->showSelectionList = $params->get('show_selection') == 'yes';
+$calendar->showSelectionList = $params->get('show_selection')=='yes';
 $calendar->dateFormat = $params->get('dateformat');
-$calendar->columnInWeekViewEqual = $params->get('columnInWeekViewEqual') == 'yes';
+$calendar->columnInWeekViewEqual = $params->get('columnInWeekViewEqual')=='yes';
 $calendar->defaultView = $params->get('defaultView');
 $calendar->display();
 
 echo $params->get( 'textafter' );
 echo "</div>\n";
-echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://gcalendar.allon.ch\">Powered by GCalendar</a></div>\n";
 ?>

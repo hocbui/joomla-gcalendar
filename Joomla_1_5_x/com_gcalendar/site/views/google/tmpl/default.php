@@ -113,7 +113,7 @@ if($params->get('show_selection')==1){
 }
 $calendar_url="";
 if ($params->get('use_custom_css')) {
-	$calendar_url= JURI::base().'administrator/components/com_gcalendar/libraries/restylegc/restylegc.php'.$variables;
+	$calendar_url= JURI::base().'administrator/components/com_gcalendar/libraries/mygooglecal/MyGoogleCal4.php'.$variables;
 } else {
 	$calendar_url=$domain.$variables;
 }
@@ -128,5 +128,4 @@ echo $params->get( 'textbefore' );
 
 <?php
 echo $params->get( 'textafter' );
-echo "\n<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://gcalendar.allon.ch\">Powered by GCalendar</a></div>\n";
 ?>

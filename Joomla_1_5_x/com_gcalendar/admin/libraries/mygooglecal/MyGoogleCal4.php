@@ -1,13 +1,13 @@
 <?php
 /*******************************************************************************
- * FILE: restylegc.php
+ * FILE: MyGoogleCal4.php
  *
  * DESCRIPTION:
  *  This script is an intermediary between an iframe and Google Calendar that
  *  allows you to override the default style.
  *
  * USAGE:
- *  <iframe src="restylegc.php?src=user%40domain.tld"></iframe>
+ *  <iframe src="MyGoogleCal4.php?src=user%40domain.tld"></iframe>
  *
  *  where user@domain.tld is a valid Google Calendar account.
  *
@@ -38,14 +38,10 @@
  *   03 December 2008 - Original release
  *                      Uses technique from MyGoogleCal2 for all browsers,
  *                      rather than giving IE special treatment.
- *   16 December 2008 - Modified restylegc-js.php so that the regex does a
+ *   16 December 2008 - Modified MyGoogleCal4js.php so that the regex does a
  *                      general match rather than specifically look for the
  *                      variable 'Ac'.
  *   Mar--Apr    2009 - Added jQuery for modifying the style after page load
- *   23 June     2009 - Replaced jQuery with Dojo since jQuery, Prototype, and
- *                      MooTools are not compatible
- *   03 July     2009 - Fixed bug to remove width style from bubble
- *   05 July     2009 - Rebranded to RESTYLEgc
  *                      
  *   
  * ACKNOWLEDGMENTS:
@@ -56,30 +52,8 @@
  *       code be published for everyone's use and benefit.
  *   
  *
- * MIT LICENSE:
- * Copyright (c) 2009 Brian Gibson (http://www.restylegc.com/)
- * 
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- *
+ * copyright (c) by Brian Gibson
+ * email: bwg1974 yahoo com
  ******************************************************************************/
 
 /* URL for overriding stylesheet
@@ -99,7 +73,7 @@
  * in the URL field at http://mabblog.com/cssoptimizer/uncompress.html.
  * That site will automatically format the CSS so that it's easier to edit.
  */
-$stylesheet = 'restylegc.css';
+$stylesheet = 'mygooglecal4.css';
 
 /*******************************************************************************
  * DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING
@@ -125,7 +99,7 @@ $replacement = '<link rel="stylesheet" type="text/css" href="' . $stylesheet . '
 $buffer = preg_replace($pattern, $replacement, $buffer);
 
 $pattern = '/src="(.*js)"/';
-$replacement = 'src="restylegc-js.php?$1"';  
+$replacement = 'src="MyGoogleCal4js.php?$1"';  
 $buffer = preg_replace($pattern, $replacement, $buffer);
 
 // Add a hook to the window onload function
@@ -136,20 +110,25 @@ $buffer = preg_replace($pattern, $replacement, $buffer);
 // Use DHTML to modify the DOM after the calendar loads
 $pattern = '/(<\/head>)/';
 $replacement = <<<MGC
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.3.1/dojo/dojo.xd.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script type="text/javascript">
 function myGoogleCal() {
     // remove inline style from body so background-color can be set using the stylesheet
-    dojo.removeAttr(dojo.body(),'style');
+    $('body').removeAttr('style');
 
     // iterate over each bubble and remove the width property from the style attribute
     // so that the width can be set using the stylesheet
-    dojo.query('.bubble').forEach(function(node){
-        dojo.attr(node, {style:{'width': ''}});
+    $('.bubble').each(function(){
+        style = $(this).attr('style').replace(/width: 400px;?/i, '');
+        $(this).attr('style', style);
     });
 
-    // see Dojo documentation for other ways to edit DOM
-    // http://dojotoolkit.org/
+    // alternate method: directly set width for all elements of class 'bubble'
+    // $('.bubble').width('200px');
+
+    // see jQuery Attributes and CSS for other ways to edit DOM
+    // http://docs.jquery.com/Attributes
+    // http://docs.jquery.com/CSS
 }
 </script>
 </head>
