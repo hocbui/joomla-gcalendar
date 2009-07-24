@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.1.2 $
  */
 
 // Check to ensure this file is included in Joomla!
@@ -76,7 +76,7 @@ class GCalendarsModelGCalendar extends JModel
 			$this->_data->name = null;
 			$this->_data->calendar_id = null;
 			$this->_data->magic_cookie = null;
-			$this->_data->color = null;
+			$this->_data->color = 'A32929';
 		}
 		return $this->_data;
 	}

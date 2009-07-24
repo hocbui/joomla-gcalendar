@@ -2,7 +2,7 @@
 <install type="module" version="1.5.0">
 	<name>GCalendar Upcoming Events</name>
 	<author>Allon Moritz</author>
-	<creationDate>Jun 2009</creationDate>
+	<creationDate>Aug 2009</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
@@ -10,7 +10,7 @@
 	<authorEmail>info@gcalendar.allon.ch
 	</authorEmail>
 	<authorUrl>gcalendar.allon.ch</authorUrl>
-	<version>2.1.1</version>
+	<version>2.1.2</version>
 	<description>This module shows the upcoming events from a google
 		calendar.</description>
 	<files>
@@ -23,6 +23,8 @@
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_gcalendar_upcoming.ini
+		</language>
+		<language tag="de-DE">languages/de-DE.mod_gcalendar.ini
 		</language>
 	</languages>
 	<params addpath="/administrator/components/com_gcalendar/elements">
@@ -47,21 +49,35 @@
 			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 	<params group="advanced">
+		<param name="textbefore" type="textarea" default=""
+			label="Content before events" description="This text will be displayed before the event list."
+			rows="3" cols="50" />
 		<param name="output" type="textarea2" default="" label="Event output"
 			description="Here you can customize the appearance of the event."
 			rows="5" cols="50">
-			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;&lt;a href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
+			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate}
+				{endtime}&lt;br/&gt;&lt;a
+				href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
 			<description>
-				Here you can modify the event output. The following attributes of an event are provided:&lt;br&gt;
-				{title}, {description},
-				{startdate}, {starttime}, {dateseparator}, {enddate}, {endtime}
-				{where}, {backlink}, {link}, {maplink}, {calendarname}, {calendarcolor}
+				Here you can modify the event output. The following
+				attributes of an event are provided:&lt;br&gt;
+				{title},
+				{description},
+				{startdate}, {starttime}, {dateseparator}, {enddate},
+				{endtime}
+				{where}, {backlink}, {link}, {maplink}, {calendarname},
+				{calendarcolor}
 			</description>
 		</param>
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module.">
+		<param name="textafter" type="textarea" default=""
+			label="Content after events" description="This text will be displayed after the event list."
+			rows="3" cols="50" />
+		<param name="cache" type="list" default="1" label="Caching"
+			description="Select whether to cache the content of this module.">
 			<option value="1">Use global</option>
 			<option value="0">No caching</option>
 		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached in sec." />
+		<param name="cache_time" type="text" default="900" label="Cache Time"
+			description="The time before the module is recached in sec." />
 	</params>
 </install>

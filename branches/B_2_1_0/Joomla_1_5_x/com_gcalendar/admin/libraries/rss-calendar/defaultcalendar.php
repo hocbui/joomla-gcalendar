@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.1.2 $
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -26,6 +26,7 @@ require_once ('calendarrenderer.php');
 
 class DefaultCalendar{
 
+	var $id = '';
 	var $feedFetcher;
 	var $defaultView = 'month';
 	var $forceView = null;
@@ -87,7 +88,6 @@ class DefaultCalendar{
 		$cal = new CalendarRenderer($this);
 
 		$document =& JFactory::getDocument();
-		JHTML::_('behavior.modal');
 		$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');
 		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
 		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.css');
@@ -107,7 +107,7 @@ class DefaultCalendar{
 			$document->addScriptDeclaration($calCode);
 		}
 
-		echo "<div class=\"gcalendar\">\n";
+		echo "<div class=\"gcalendar".$this->id."\">\n";
 		if($this->showSelectionList){
 			$this->printCalendarSelectionList();
 		}

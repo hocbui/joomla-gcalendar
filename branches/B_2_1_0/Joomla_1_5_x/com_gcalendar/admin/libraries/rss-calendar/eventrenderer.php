@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.1.2 $
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -23,6 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class EventRenderer {
 
 	function display($displayType, $spItem) {
+		global $Itemid;
 		$feed = $spItem->get_feed();
 		$summaryLength = 0;
 		switch ($displayType) {
@@ -36,8 +37,9 @@ class EventRenderer {
 				$summaryLength = 0;
 				break;
 		}
-		echo "<a class=\"modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid'))."\" ";
-		echo " rel=\"{handler: 'iframe', size: {x: 680, y: 600}}\" title=\"";
+		JHTML::_('behavior.modal');
+		echo "<a class=\"modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
+		echo " rel=\"{handler: 'iframe', size: {x: 680, y: 620}}\" title=\"";
 		echo EventRenderer::summary($spItem);
 		echo "\" >";
 		echo EventRenderer::summary($spItem,$summaryLength);

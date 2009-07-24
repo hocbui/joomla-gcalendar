@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.1.2 $
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -67,10 +67,12 @@ if(!is_array($this->online_items)){
 		$row = &$this->online_items[$i];
 		$checked 	= JHTML::_('grid.id',   $i, $row->calendar_id.','.$row->color.','.$row->name );
 		$is_included = FALSE;
-		foreach($this->db_items as $db_item){
-			if($db_item->calendar_id == $row->calendar_id){
-				$containing_items[] = $row;
-				$is_included = TRUE;
+		if($this->db_items){
+			foreach($this->db_items as $db_item){
+				if($db_item->calendar_id == $row->calendar_id){
+					$containing_items[] = $row;
+					$is_included = TRUE;
+				}
 			}
 		}
 		if(!$is_included){
