@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.1.2 $
  */
 
 // no direct access
@@ -34,6 +34,8 @@ $event_display=$params->get('output', '');
 $dateformat=$params->get('dateFormat', '%d.%m.%Y');
 $timeformat=$params->get('timeFormat', '%H:%M');
 $calName = $params->get( 'name', NULL );
+
+echo $params->get( 'textbefore' );
 
 // Loop through the array, and display what we wanted.
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
@@ -106,4 +108,6 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 
 	echo $temp_event;
 }
+
+echo $params->get( 'textafter' );
 ?>

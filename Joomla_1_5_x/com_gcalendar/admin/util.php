@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.1.2 $
  */
 
 /**
@@ -29,6 +29,19 @@ class GCalendarUtil{
 
 		if(!class_exists('SimplePie_GCalendar')){
 			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
+		}
+	}
+
+	function loadJQuery(){
+		static $jQueryloaded;
+		if($jQueryloaded == null){
+			$params   = JComponentHelper::getParams('com_languages');
+			if($params->get('loadJQuery', 'yes') == 'yes'){
+				$document =& JFactory::getDocument();
+				$document->addScript('administrator/components/com_gcalendar/libraries/jquery/jquery-1.3.2.js');
+				$document->addScriptDeclaration("jQuery.noConflict();");
+			}
+			$jQueryloaded = 'loaded';
 		}
 	}
 

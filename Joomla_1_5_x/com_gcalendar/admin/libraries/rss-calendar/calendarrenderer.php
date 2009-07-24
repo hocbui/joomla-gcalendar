@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.1.2 $
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -76,8 +76,8 @@ class CalendarRenderer {
 		$gcal = $this->calendar;
 
 		$startWeekDay = ((int)$gcal->getWeekStart())-1;
-		$daysOffset = (strftime("%u", strtotime("${year}-${month}-01"))+(7-$startWeekDay))%7;
-		echo "<table class=\"gcalendarcal CalMonth\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
+		$daysOffset = (strftime("%w", mktime(0, 0, 0, $month, 1, $year))+(7-$startWeekDay))%7;
+		echo "<table id=\"gc_month_table".$gcal->id."\" class=\"gcalendarcal CalMonth\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 		// print days of the week at the top
 		$dateObject = JFactory::getDate();
 		for ($i=0; $i<7; $i++) {
@@ -342,6 +342,7 @@ class CalendarRenderer {
 	}
 
 	function printWeek($year, $month, $day) {
+		global $Itemid;
 		$gcal = $this->calendar;
 		$today = getdate();
 		$firstDisplayedDate = $gcal->getFirstDayOfWeek($year, $month, $day, $gcal->getWeekStart());
@@ -413,7 +414,7 @@ class CalendarRenderer {
 			$thisLink = "index.php?option=com_gcalendar&view=gcalendar&gcalendarview=day&year=" .
 			$dInfo["year"] .
 							"&month=" . $dInfo["mon"] . 
-							"&day=" . $dInfo["mday"];
+							"&day=" . $dInfo["mday"].'&Itemid='.$Itemid;
 
 			echo "<a href=\"" . JRoute::_($thisLink) . "\">";
 			$startWeekDay = $gcal->getWeekStart()-1;
