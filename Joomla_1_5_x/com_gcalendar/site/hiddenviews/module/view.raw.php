@@ -18,13 +18,19 @@
  * @version $Revision: 2.1.1 $
  */
 
-defined('_JEXEC') or die('Restricted access');
+jimport( 'joomla.application.component.view');
 
-jimport('joomla.application.module.helper');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+/**
+ * Raw View class for the GCalendar Component
+ *
+ */
+class GCalendarViewModule extends JView
+{
+	function display($tpl = null)
+	{
+		$this->assignRef('modTitle', JRequest::getVar('modtitle', null));
 
-$modName = 'gcalendar';
-$mod = JModuleHelper::getModule($modName, $this->modTitle);
-$content = JModuleHelper::renderModule($mod);
-echo $content;
+		parent::display($tpl);
+	}
+}
 ?>

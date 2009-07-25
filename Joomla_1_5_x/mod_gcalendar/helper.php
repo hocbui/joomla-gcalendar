@@ -98,7 +98,7 @@ class ModCalendar extends DefaultCalendar{
 		$day = (int)$this->day;
 		$view = 'month';
 
-		$mainFilename = "index.php?option=com_gcalendar&view=module&tmpl=component&modulename=".$this->moduleTitle;
+		$mainFilename = "index.php?option=com_gcalendar&view=module&format=raw&modulename=".$this->moduleTitle;
 		$nextMonth = ($month == 12) ? 1 : $month+1;
 		$prevMonth = ($month == 1) ? 12 : $month-1;
 		$nextYear = ($month == 12) ? $year+1 : $year;
@@ -108,9 +108,24 @@ class ModCalendar extends DefaultCalendar{
 
 		$document =& JFactory::getDocument();
 		GCalendarUtil::loadJQuery();
+		
+		//		$scripCode = "window.addEvent('domready', function(){\n";
+		//		$scripCode .= " $('gc_module_next_btn').addEvent('click', function(e) {\n";
+		//		$scripCode .= "  e = new Event(e).stop();\n";
+		//        $scripCode .= "  $('gc_month_table_mod_gcalendar').remove();\n";
+		//        $scripCode .= "  var cont = new Element('div',{'styles': {'text-align': 'center'}});\n";
+		//        $scripCode .= "  cont.injectInside(new Element('img',{'src':'".JURI::base()."modules/mod_gcalendar/tmpl/img/ajax-loader.gif'}));\n";
+		//        $scripCode .= "  $$('gcalendar_mod_gcalendar').injectInside(cont);\n";
+		//		$scripCode .= "  new Ajax('".JRoute::_($prevURL)."', {\n";
+		//		$scripCode .= " 	method: 'get',\n";
+		//		$scripCode .= " 	update: $$('gcalendar_mod_gcalendar')\n";
+		//		$scripCode .= "  }).request();\n";
+		//		$scripCode .= " });\n";
+		//		$scripCode .= "});\n";
+
 
 		$scripCode = "function loadCalendar(url){\n";
-		$scripCode .= " jQuery(\"#gc_month_table_mod_gcalendar\").empty().html('<div style=\"text-align: center;\"><img src=\"".JURI::base() . "modules/mod_gcalendar/tmpl/img/ajax-loader.gif\" /></div>');\n";
+		$scripCode .= " jQuery(\"#gc_month_table_mod_gcalendar\").after('<div style=\"text-align: center;\"><img src=\"".JURI::base() . "modules/mod_gcalendar/tmpl/img/ajax-loader.gif\" /></div>').remove();\n";
 		$scripCode .= "	jQuery(\".gcalendar_mod_gcalendar\").load(url);\n";
 		$scripCode .= "};\n";
 		$document->addScriptDeclaration($scripCode);
