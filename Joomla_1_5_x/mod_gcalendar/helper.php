@@ -132,13 +132,13 @@ class ModCalendar extends DefaultCalendar{
 
 		echo "<div style=\"text-align: center;\"><table style=\" margin: 0 auto;\"><tr>\n";
 		echo " <td valign=\"middle\">\n";
-		$this->image("btn-prev.gif", "previous ".$view, JRoute::_($prevURL));
+		$this->image("btn-prev.gif", JText::_('TOOLBAR_PREVIOUS').$this->getTranslatedViewName(), JRoute::_($prevURL));
 		echo "</td>\n";
 		echo " <td valign=\"middle\"><span class=\"ViewTitle\">\n";
 		echo $this->getViewTitle($year, $month, $day, $this->getWeekStart(), $view);
 		echo "</span></td>\n";
 		echo " <td valign=\"middle\">\n";
-		$this->image("btn-next.gif", "next ".$view, JRoute::_($nextURL));
+		$this->image("btn-next.gif", JText::_('TOOLBAR_NEXT').$this->getTranslatedViewName(), JRoute::_($nextURL));
 		echo "</td></tr></table></div>\n";
 	}
 
@@ -155,7 +155,7 @@ class ModCalendar extends DefaultCalendar{
 	function image($name, $alt = "[needs alt tag]", $url) {
 		list($width, $height, $d0, $d1) = getimagesize(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar'.DS.'tmpl'.DS.'img'.DS . $name);
 		echo "<img src=\"".JURI::base()."modules/mod_gcalendar/tmpl/img/".$name."\"";
-		echo " width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\" onclick=\"loadCalendar('".$url."');\" style=\"cursor: pointer; cursor: hand; \" onmouseover=\"this.style.cursor = 'hand';\"/>";
+		echo " width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" title=\"".$alt."\" border=\"0\" onclick=\"loadCalendar('".$url."');\" style=\"cursor: pointer; cursor: hand; \" onmouseover=\"this.style.cursor = 'hand';\"/>";
 	}
 }
 ?>
