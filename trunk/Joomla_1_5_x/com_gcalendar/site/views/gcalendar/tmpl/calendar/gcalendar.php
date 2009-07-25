@@ -67,10 +67,9 @@ class GCalendar extends DefaultCalendar{
 				break;
 		}
 
-		$calCode  = "function datePickerClosed(dateField){\n";
-		$calCode .= "var d = jQuery.datepicker.parseDate('".$this->dateFormat."', dateField.value);\n";
+		$calCode  = "function jumpToDate(d){\n";
 		$calCode .= "if(d == null) d = new Date();\n";
-		$calCode .= "document.getElementById('gc_go_link').href = '".html_entity_decode(JRoute::_($mainFilename."&gcalendarview=".$view))."&day='+d.getDate()+'&month='+(d.getMonth()+1)+'&year='+d.getFullYear();\n";
+		$calCode .= "window.location = '".html_entity_decode(JRoute::_($mainFilename."&gcalendarview=".$view))."&day='+d.getDate()+'&month='+(d.getMonth()+1)+'&year='+d.getFullYear();\n";
 		$calCode .= "};\n";
 		$document->addScriptDeclaration($calCode);
 
@@ -123,7 +122,7 @@ class GCalendar extends DefaultCalendar{
 		$document->addScriptDeclaration($calCode);
 
 		echo "<div id=\"calToolbar\">\n";
-		echo "<table><tr>\n";
+		echo "<table style=\"margin: 0pt auto;\"><tr>\n";
 		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($prevURL)."\" title=\"previous ".$view."\">\n";
 		$this->image("btn-prev.gif", "previous ".$view, "prevBtn_img");
 		echo "</a></td>\n";
@@ -135,15 +134,14 @@ class GCalendar extends DefaultCalendar{
 		echo "</a></td>\n";
 		echo "<td width=\"20px\"/>\n";
 		$today = getdate();
-		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$today["year"]."&month=".$today["mon"]."&day=".$today["mday"])."\">\n";
-		$this->image("btn-today.gif", "go to today", "jump_to_today", "today_img");
-		echo "</a></td>\n";
+		echo " <td valign=\"middle\">\n";
+		echo "<button onClick=\"jumpToDate(null)\">Today</button>\n";
+		echo "</td>\n";
 		echo " <td valign=\"middle\"><input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
-		echo "onchange=\"datePickerClosed(this);\" \n";
 		echo "size=\"10\" maxlength=\"10\" title=\"jump to date\" /></td>";
-		echo " <td valign=\"middle\"><a class=\"Item\" id=\"gc_go_link\" href=\"".JRoute::_($mainFilename."&gcalendarview=".$view."&year=".$year."&month=".$month."&day=".$day)."\">\n";
-		$this->image("btn-go.gif", "go to date", "gi_img");
-		echo "</a></td>\n";
+		echo " <td valign=\"middle\">\n";
+		echo "<button onClick=\"jumpToDate(jQuery.datepicker.parseDate('".$this->dateFormat."', document.getElementById('gcdate').value))\">Go</button>\n";
+		echo "</td>\n";
 		echo "<td width=\"20px\"/>\n";
 
 		echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=day&year=".$year."&month=".$month."&day=".$day)."\">\n";
