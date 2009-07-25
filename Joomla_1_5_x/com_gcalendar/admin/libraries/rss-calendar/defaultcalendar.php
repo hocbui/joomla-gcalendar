@@ -154,7 +154,7 @@ class DefaultCalendar{
 	function getCellHeight() {
 		return $this->cellHeight;
 	}
-	
+
 	function isColumnInWeekViewEqual() {
 		return $this->columnInWeekViewEqual;
 	}
@@ -216,19 +216,19 @@ class DefaultCalendar{
 					$m1 = substr($infoS["month"], 0, 3);
 					$m2 = substr($infoF["month"], 0, 3);
 
-					$title = $infoS["year"] . " ${m1} " . $infoS["mday"] . " - " . $infoF["year"] . " ${m2} " . $infoF["mday"];
-	}else if ($infoS["mon"] != $infoF["mon"]) {
-		$m1 = substr($infoS["month"], 0, 3);
-		$m2 = substr($infoF["month"], 0, 3);
+					$title = $infoS["year"] .' '.$m1.' '. $infoS["mday"] . " - " . $infoF["year"] . ' '.$m2.' ' . $infoF["mday"];
+				}else if ($infoS["mon"] != $infoF["mon"]) {
+					$m1 = substr($infoS["month"], 0, 3);
+					$m2 = substr($infoF["month"], 0, 3);
 
-		$title = $infoS["year"] . " ${m1} " . $infoS["mday"] . " - ${m2} " . $infoF["mday"];
+					$title = $infoS["year"] . ' '.$m1.' '. $infoS["mday"] . ' - '.$m1.' ' . $infoF["mday"];
 				} else {
 					$title = $infoS["year"] . " " . $infoS["month"] . " ". $infoS["mday"] . " - " . $infoF["mday"];
 				}
 				break;
 			case "day":
 				$tDate = strtotime("${year}-${month}-${day}");
-				$title = strftime("%A, %Y %b %e", $tDate);
+				$title = strftime("%a, %Y %b %e", $tDate);
 				break;
 		}
 		return $title;
