@@ -191,7 +191,7 @@ class DefaultCalendar{
 		echo $calendar_list;
 		echo "<div align=\"center\" style=\"text-align:center\">\n";
 		echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
-		echo "<img src=\"".JURI::base() . "administrator/components/com_gcalendar/libraries/rss-calendar/btn-down.png\" id=\"gc_gcalendar_view_toggle_status\" alt=\"toggle status\"/>";
+		echo "<img src=\"".JURI::base() . "administrator/components/com_gcalendar/libraries/rss-calendar/btn-down.png\" id=\"gc_gcalendar_view_toggle_status\" alt=\"".JText::_('CALENDAR_LIST')."\" title=\"".JText::_('CALENDAR_LIST')."\"/>";
 		echo "</a></div>\n";
 	}
 
@@ -298,6 +298,18 @@ class DefaultCalendar{
 			return $calendars.'&Itemid='.$itemid;
 		}
 		return $calendars;
+	}
+	
+	function getTranslatedViewName($view = null){
+		if($view == null)
+		$view = $this->view;
+		if($view == 'month')
+		return ' '.JText::_('VIEW_MONTH');
+		if($view == 'week')
+		return ' '.JText::_('VIEW_WEEK');
+		if($view == 'day')
+		return ' '.JText::_('VIEW_DAY');
+		return '';
 	}
 }
 ?>

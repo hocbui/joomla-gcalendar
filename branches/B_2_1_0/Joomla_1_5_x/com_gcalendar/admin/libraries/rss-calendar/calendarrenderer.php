@@ -306,8 +306,6 @@ class CalendarRenderer {
 		else {
 			$lastHour = (int)strftime("%H", $lastEnd) + 1;
 		}
-
-		// TODO - Is there a way to avoid the amount of nesting used below?
 		echo "<div class=\"gcalendarcal CalDay\">\n";
 		?>
 <div class="UntimedEvents"><?php $this->printUntimedEventsForDay($dayLayout, "day"); ?>
@@ -321,21 +319,17 @@ class CalendarRenderer {
 		</div>
 		</td>
 	</tr>
-</table>
-</div>
-		<?php
-		echo "<div class=\"Clr\"></div>\n";
+	<?php
+	echo "</table>\n";
+	echo "</div>\n";
+	echo "<div class=\"Clr\"></div>\n";
 	}
 
 	function printDayAxis($startHr, $endHr) {
 		for ($hour=$startHr; $hour<=$endHr; $hour++) {
 			echo "<div>\n";
-			if (($hour == 0) || ($hour == 24)) echo "mid";
-			elseif ($hour == 12) echo "noon";
-			else {
-				echo $hour % 12;
-				echo ":00";
-			}
+			echo str_pad($hour, 2, "0", STR_PAD_LEFT);
+			echo ":00";
 			echo "</div>\n";
 		}
 	}

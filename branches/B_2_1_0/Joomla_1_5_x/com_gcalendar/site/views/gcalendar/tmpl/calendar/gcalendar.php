@@ -123,37 +123,37 @@ class GCalendar extends DefaultCalendar{
 
 		echo "<div id=\"calToolbar\">\n";
 		echo "<table style=\"margin: 0pt auto;\"><tr>\n";
-		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($prevURL)."\" title=\"previous ".$view."\">\n";
-		$this->image("btn-prev.gif", "previous ".$view, "prevBtn_img");
+		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($prevURL)."\" title=\"".JText::_('TOOLBAR_PREVIOUS').$this->getTranslatedViewName()."\">\n";
+		$this->image("btn-prev.gif", JText::_('TOOLBAR_PREVIOUS').$this->getTranslatedViewName(), "prevBtn_img");
 		echo "</a></td>\n";
 		echo " <td valign=\"middle\"><span class=\"ViewTitle\">\n";
 		echo $this->getViewTitle($year, $month, $day, $this->getWeekStart(), $view);
 		echo "</span></td>\n";
-		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"next ".$view."\">\n";
-		$this->image("btn-next.gif", "next ".$view, "nextBtn_img");
+		echo " <td valign=\"middle\"><a class=\"Item\" href=\"".JRoute::_($nextURL)."\" title=\"".JText::_('TOOLBAR_NEXT').$this->getTranslatedViewName()."\">\n";
+		$this->image("btn-next.gif", JText::_('TOOLBAR_NEXT').$this->getTranslatedViewName(), "nextBtn_img");
 		echo "</a></td>\n";
 		echo "<td width=\"20px\"/>\n";
 		$today = getdate();
 		echo " <td valign=\"middle\">\n";
-		echo "<button onClick=\"jumpToDate(null)\">Today</button>\n";
+		echo "<button onClick=\"jumpToDate(null)\" title=\"".JText::_('TOOLBAR_JUMP').JText::_('TOOLBAR_TODAY')."\">".JText::_('TOOLBAR_TODAY')."</button>\n";
 		echo "</td>\n";
 		echo " <td valign=\"middle\"><input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
-		echo "size=\"10\" maxlength=\"10\" title=\"jump to date\" /></td>";
+		echo "size=\"10\" maxlength=\"10\" title=\"".JText::_('TOOLBAR_SELECT_DATE')."\" /></td>";
 		echo " <td valign=\"middle\">\n";
-		echo "<button onClick=\"jumpToDate(jQuery.datepicker.parseDate('".$this->dateFormat."', document.getElementById('gcdate').value))\">Go</button>\n";
+		echo "<button onClick=\"jumpToDate(jQuery.datepicker.parseDate('".$this->dateFormat."', document.getElementById('gcdate').value))\" title=\"".JText::_('TOOLBAR_JUMP')."\">".JText::_('TOOLBAR_GO')."</button>\n";
 		echo "</td>\n";
 		echo "<td width=\"20px\"/>\n";
 
 		echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=day&year=".$year."&month=".$month."&day=".$day)."\">\n";
-		$this->image("cal-day.gif", "day view", "calday_img");
+		$this->image("cal-day.gif", JText::_('TOOLBAR_JUMP').$this->getTranslatedViewName('day'), "calday_img");
 		echo "</a></td>\n";
 
 		echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=week&year=".$year."&month=".$month."&day=".$day)."\">\n";
-		$this->image("cal-week.gif", "week view", "calweek_img");
+		$this->image("cal-week.gif", JText::_('TOOLBAR_JUMP').$this->getTranslatedViewName('week'), "calweek_img");
 		echo "</a></td>\n";
 
 		echo " <td valign=\"middle\"><a href=\"".JRoute::_($mainFilename."&gcalendarview=month&year=".$year."&month=".$month."&day=".$day)."\">\n";
-		$this->image("cal-month.gif", "month view", "calmonth_img");
+		$this->image("cal-month.gif", JText::_('TOOLBAR_JUMP').$this->getTranslatedViewName('month'), "calmonth_img");
 		echo "</a></td></tr></table></div>\n";
 	}
 
@@ -165,7 +165,7 @@ class GCalendar extends DefaultCalendar{
 	function image($name, $alt = "[needs alt tag]", $id="") {
 		list($width, $height, $d0, $d1) = getimagesize(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'views'.DS.'gcalendar'.DS.'tmpl'.DS.'img'.DS . $name);
 		echo "<img src=\"".JURI::base() . "components/com_gcalendar/views/gcalendar/tmpl/img/" . $name."\"";
-		echo " id=\"". $id."\" width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" border=\"0\" />";
+		echo " id=\"". $id."\" width=\"". $width."\" height=\"".$height."\" alt=\"".$alt."\" title=\"".$alt."\" border=\"0\" />";
 	}
 }
 ?>
