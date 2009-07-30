@@ -35,7 +35,7 @@ class GCalendarDBUtil{
 				$condition = 'id = '.$calendarIDs;
 			}
 		}else
-		return array();
+		return GCalendarDBUtil::getAllCalendars();
 
 		$db =& JFactory::getDBO();
 		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar where ".$condition;
