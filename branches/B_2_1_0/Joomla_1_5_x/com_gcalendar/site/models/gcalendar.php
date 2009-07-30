@@ -61,22 +61,21 @@ class GCalendarModelGCalendar extends JModel {
 
 		$params = $this->getState('parameters.menu');
 		$useCache = false;
-		$calendarids = null;
+		$calendarids = array();
 		if($params != null){
 			$useCache = $params->get('cache', 'no') == 'yes';
-			$calendarids = $params->get('calendarids');
+			$tmp = $params->get('calendarids');
+			if(is_array($tmp))
+			$calendarids = $tmp;
+			else if(!empty($tmp))
+			$calendarids[] = $tmp;
 		}
 
 		$calendars = array();
 		foreach ($results as $result) {
 			if(empty($result->calendar_id))
 			continue;
-			$selected = true;
-			if(is_array($calendarids))
-			$selected = in_array($result->id, $calendarids);
-			else 
-			$selected = $result->id == $calendarids;
-			if(!$selected)
+			if(!empty($calendarids) && !in_array($result->id, $calendarids))
 			continue;
 
 			$feed = new SimplePie_GCalendar();

@@ -48,6 +48,7 @@ function &plgSearchGCalendarAreas() {
  */
 function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 	GCalendarUtil::ensureSPIsLoaded();
 	
 	$user	=& JFactory::getUser();
@@ -81,19 +82,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	$limit = $pluginParams->def( 'search_limit', 50 );
 
 	$calendarids = $pluginParams->get( 'calendarids', NULL );
-	$condition = '';
-	if(!empty($calendarids)){
-		if( is_array( $calendarids ) ) {
-			$condition = 'id IN ( ' . implode( ',', $calendarids ) . ')';
-		} else {
-			$condition = 'id = '.$calendarids;
-		}
-	}
-
-	$db =& JFactory::getDBO();
-	$query = "SELECT id, calendar_id, magic_cookie  FROM #__gcalendar ".$condition;
-	$db->setQuery( $query );
-	$results = $db->loadObjectList();
+	$results = GCalendarDBUtil::getCalendars($calendarids);
 	if(empty($results))
 	return array();
 
