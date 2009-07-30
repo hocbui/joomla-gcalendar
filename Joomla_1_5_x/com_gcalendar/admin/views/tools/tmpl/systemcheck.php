@@ -81,7 +81,7 @@ defined('_JEXEC') or die('Restricted access');
 					$solution .= "<li>Please check your shared settings of the calendar and the events, ";
 					$solution .= "if you do not share your calendar with the public the <a href=\"http://code.google.com/apis/calendar/docs/2.0/developers_guide_protocol.html#AuthMagicCookie\">magic cookie</a> field must be set.</li>";
 					$solution .= "<li>Run the <a href=\"components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php\">simplepie compatibility test</a> and check if your system does meet the minimum requirements of simplepie.</li>";
-					$solution .= "<li><b>If the problem still exists check the forum at <a href=\"http://gcalendar.allon.ch\">gcalendar.allon.ch</a>.</b></li>";
+					$solution .= "<li><b>If the problem still exists check the forum at <a href=\"http://gcalendar.laoneo.net\">gcalendar.laoneo.net</a>.</b></li>";
 					$status = 'failure';
 				}else{
 					$solution = '';
