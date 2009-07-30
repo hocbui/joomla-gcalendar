@@ -51,8 +51,10 @@ class GCalendarUtil{
 	}
 
 	function getFrLanguage(){
-		$params   = JComponentHelper::getParams('com_languages');
-		return $params->get('site', 'en-GB');
+		$conf	=& JFactory::getConfig();
+		return $conf->getValue('config.language');
+//		$params   = JComponentHelper::getParams('com_languages');
+//		return $params->get('site', 'en-GB');
 	}
 
 	function getItemId($cal_id){
