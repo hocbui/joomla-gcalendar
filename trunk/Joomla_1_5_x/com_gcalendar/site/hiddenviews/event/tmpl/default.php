@@ -26,6 +26,10 @@ $tz = GCalendarUtil::getComponentParameter('timezone');
 if(!empty($tz))$tz='&ctz='.$tz;
 $lg = '&hl='.GCalendarUtil::getFrLanguage();
 $url = 'http://www.google.com/calendar/event?eid=' . $this->eventID . $tz.$lg;
+$domain = GCalendarUtil::getComponentParameter('google_apps_domain');
+if(!empty($domain)){
+	$url = 'http://www.google.com/calendar/hosted/'.$domain.'/event?eid=' . $this->eventID . $tz.$lg;
+}
 
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
 if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
