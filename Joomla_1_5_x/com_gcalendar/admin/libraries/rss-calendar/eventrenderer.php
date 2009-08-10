@@ -38,7 +38,7 @@ class EventRenderer {
 				break;
 		}
 		JHTML::_('behavior.modal');
-		echo "<a id=\"gcalendar_daylink\" class=\"modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
+		echo "<a class=\"gcalendar_daylink modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
 		echo " rel=\"{handler: 'iframe', size: {x: 680, y: 620}}\" title=\"";
 		echo EventRenderer::summary($spItem);
 		echo "\" >";
