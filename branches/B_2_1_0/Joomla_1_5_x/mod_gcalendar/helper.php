@@ -33,16 +33,17 @@ class ModGCalendarHelper {
 }
 
 class ModCalendar extends DefaultCalendar{
-	var $calendarids;
+	var $params;
 
-	function ModCalendar($calendarids){
-		$this->calendarids = $calendarids;
+	function ModCalendar($params){
+		$this->params = $params;
 	}
 
 	function getGoogleCalendarFeeds($start, $end) {
 		GCalendarUtil::ensureSPIsLoaded();
 		$condition = '';
-		$calendarids = $this->calendarids;
+		$params = $this->params;
+		$calendarids = $params->get('calendarids');
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
 		return array();
@@ -69,6 +70,27 @@ class ModCalendar extends DefaultCalendar{
 				$feed->put('gccolor',$result->color);
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
+
+				$conf =& JFactory::getConfig();
+				if ($params->get('gccache', 0) && $conf->getValue( 'config.caching' )){
+					// check if cache directory exists and is writeable
+					$cacheDir =  JPATH_BASE.DS.'cache'.DS.'mod_gcalendar';
+					JFolder::create($cacheDir, 0755);
+					if ( !is_writable( $cacheDir ) ) {
+						JError::raiseWarning( 500, "Created cache at ".$cacheDir." is not writable, disabling cache.");
+						$cache_exists = false;
+					}else{
+						$cache_exists = true;
+					}
+
+					//check and set caching
+					$feed->enable_cache($cache_exists);
+					if($cache_exists) {
+						$feed->set_cache_location($cacheDir);
+						$cache_time = (intval($params->get( 'gccache_time', $conf->getValue( 'config.cachetime' ) * 60 )));
+						$feed->set_cache_duration($cache_time);
+					}
+				}
 
 				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 				$feed->set_feed_url($url);
