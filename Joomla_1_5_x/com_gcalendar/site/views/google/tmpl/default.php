@@ -128,5 +128,5 @@ echo $params->get( 'textbefore' );
 
 <?php
 echo $params->get( 'textafter' );
-echo "\n<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://gcalendar.allon.ch\">Powered by GCalendar</a></div>\n";
+echo "\n<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://gcalendar.laoneo.net\">Powered by GCalendar</a></div>\n";
 ?>
