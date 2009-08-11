@@ -9,12 +9,12 @@ with the joomla installer.
 
 ***** UPGRADE *****
 You must have installed a previous version of the gcalendar component or the modules.
-Extract the component or module folder to your joomla root folder. E.g. if you want to
-upgrade mod_gcalendar version 2.1.0 RC2 to this version extract the content of the folder
-mod_gcalendar to your joomla root. 
+Extract the component or module zip file to your joomla root folder. E.g. if you want to
+upgrade mod_gcalendar version 2.1.0 RC2 to this version extract the content of the zip file
+mod_gcalendar.zip to your joomla root. 
 
 ***** DOCUMENTATION *****
-Check http://gcalendar.allon.ch for the documentation, forum and current issues. 
+Check http://gcalendar.laoneo.net for the documentation, forum and current issues. 
 
 
 Have fun

@@ -48,5 +48,5 @@ if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 }
 echo "<iframe id=\"gcalendarEvent\" name=\"iframe\" src=\"".$url."\" ";
 echo "width=\"100%\" height=\"600\" align=\"top\" frameborder=\"0\">".JText::_( 'NO_IFRAMES' )."</iframe>\n";
-echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://gcalendar.allon.ch\">Powered by GCalendar</a></div>\n";
+echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://gcalendar.laoneo.net\">Powered by GCalendar</a></div>\n";
 ?>

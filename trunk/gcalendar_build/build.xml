@@ -39,31 +39,47 @@
 			</fileset>
 		</copy>
 		<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/gcalendar.xml" todir="${build}/upgrade_1_5/com_gcalendar/administrator/components/com_gcalendar" />
-		<copy todir="${build}/upgrade_1_5/com_gcalendar/administrator/language/en-GB">
-			<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/admin/languages/" />
-		</copy>
+		<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/admin/languages/en-GB.com_gcalendar.ini" todir="${build}/upgrade_1_5/com_gcalendar/administrator/language/en-GB" />
+		<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/admin/languages/de-DE.com_gcalendar.ini" todir="${build}/upgrade_1_5/com_gcalendar/administrator/language/de-DE" />
 
 		<copy todir="${build}/upgrade_1_5/com_gcalendar/components/com_gcalendar">
 			<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/site">
 				<exclude name="**/languages/" />
 			</fileset>
 		</copy>
-		<copy todir="${build}/upgrade_1_5/com_gcalendar/language/en-GB">
-			<fileset dir="${basedir}/../Joomla_1_5_x/com_gcalendar/site/languages/" />
-		</copy>
+		<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/site/languages/en-GB.com_gcalendar.ini" todir="${build}/upgrade_1_5/com_gcalendar/language/en-GB" />
+		<copy file="${basedir}/../Joomla_1_5_x/com_gcalendar/site/languages/de-DE.com_gcalendar.ini" todir="${build}/upgrade_1_5/com_gcalendar/language/de-DE" />
+		<zip destfile="${build}/upgrade_1_5/com_gcalendar.zip">
+			<zipfileset dir="${build}/upgrade_1_5/com_gcalendar" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/com_gcalendar" />
+
 
 		<!-- create the search plugin upgrade folder -->
 		<copy todir="${build}/upgrade_1_5/plg_gcalendar_search/plugins/search">
 			<fileset dir="${basedir}/../Joomla_1_5_x/plg_gcalendar_search" />
 		</copy>
+		<zip destfile="${build}/upgrade_1_5/plg_gcalendar_search.zip">
+			<zipfileset dir="${build}/upgrade_1_5/plg_gcalendar_search" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/plg_gcalendar_search" />
 
 		<!-- create the modules upgrade package -->
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar" />
 		</antcall>
+		<zip destfile="${build}/upgrade_1_5/mod_gcalendar.zip">
+			<zipfileset dir="${build}/upgrade_1_5/mod_gcalendar" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/mod_gcalendar" />
+
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar_upcoming" />
 		</antcall>
+		<zip destfile="${build}/upgrade_1_5/mod_gcalendar_upcoming.zip">
+			<zipfileset dir="${build}/upgrade_1_5/mod_gcalendar_upcoming" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/mod_gcalendar_upcoming" />
 
 		<!-- create the zip -->
 		<mkdir dir="${dist}" />
@@ -80,9 +96,8 @@
 				<exclude name="**/languages/" />
 			</fileset>
 		</copy>
-		<copy todir="${build}/upgrade_1_5/${module_name}/language/en-GB">
-			<fileset dir="${basedir}/../Joomla_1_5_x/${module_name}/languages/" />
-		</copy>
+		<copy file="${basedir}/../Joomla_1_5_x/${module_name}/languages/en-GB.${module_name}.ini" todir="${build}/upgrade_1_5/${module_name}/language/en-GB" />
+		<copy file="${basedir}/../Joomla_1_5_x/${module_name}/languages/de-DE.${module_name}.ini" todir="${build}/upgrade_1_5/${module_name}/language/de-DE" />
 	</target>
 
 	<target name="create_install_packages" description="create install package">

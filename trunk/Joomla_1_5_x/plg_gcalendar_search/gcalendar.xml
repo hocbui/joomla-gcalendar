@@ -7,9 +7,9 @@
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
-	<authorEmail>info@gcalendar.allon.ch
+	<authorEmail>info@gcalendar.laoneo.net
 	</authorEmail>
-	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<authorUrl>gcalendar.laoneo.net</authorUrl>
 	<version>2.1.1</version>
 	<description>Allows Searching of events in the calendars
 		specified in the GCalendar component.</description>

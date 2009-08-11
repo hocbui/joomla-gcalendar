@@ -84,5 +84,5 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
 <div align="center"><br>
 <img src="components/com_gcalendar/images/gcalendar.gif" width="143"
 	height="57"><br>
-&copy;&nbsp;&nbsp;2009 <a href="http://gcalendar.allon.ch"
+&copy;&nbsp;&nbsp;2009 <a href="http://gcalendar.laoneo.net"
 	target="_blank">allon moritz</a></div>
