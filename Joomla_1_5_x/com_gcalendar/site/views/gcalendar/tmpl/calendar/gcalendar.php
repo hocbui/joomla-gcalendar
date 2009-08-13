@@ -109,7 +109,7 @@ class GCalendar extends DefaultCalendar{
 		$monthsLong .= "]";
 		$monthsShort .= "]";
 
-		$calCode .= "jQuery(document).ready(function(){\n";
+		$calCode = "jQuery(document).ready(function(){\n";
 		$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$this->dateFormat."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
 		//			$calCode .= "jQuery(\"#gcdate\").datepicker({changeYear: true});\n";
 		$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$this->dateFormat."'});\n";

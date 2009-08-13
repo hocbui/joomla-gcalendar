@@ -38,16 +38,25 @@ class EventRenderer {
 				break;
 		}
 		JHTML::_('behavior.modal');
+		static $isTooltipLoaded = false;
+		if(!$isTooltipLoaded){
+			$document =& JFactory::getDocument();
+			$calCode = "window.addEvent(\"domready\", function(){\n";
+			$calCode .= "var Tips1 = new Tips($$('.gcalendar_daylink'));\n";
+			$calCode .= "});";
+			$document->addScriptDeclaration($calCode);
+			$isTooltipLoaded = true;
+		}
+
 		echo "<a class=\"gcalendar_daylink modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
 		echo " rel=\"{handler: 'iframe', size: {x: 680, y: 650}}\" title=\"";
-		echo EventRenderer::summary($spItem);
+		echo $spItem->get_title().' :: '.$spItem->get_description();
 		echo "\" >";
-		echo EventRenderer::summary($spItem,$summaryLength);
+		echo EventRenderer::trim($spItem->get_title(),$summaryLength);
 		echo "</a>\n";
 	}
 
-	function summary($spItem, $maxlength = 0) {
-		$sum = $spItem->get_title();
+	function trim($sum, $maxlength = 0) {
 		if (!$sum) return NULL;
 		$sum = stripslashes($sum);
 		if (!$sum) return NULL;
