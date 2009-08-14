@@ -18,6 +18,9 @@
  * @version $Revision: 0.3.0 $
  */
 
+require_once ('simplepie.inc');
+require_once ('simplepie-gcalendar.php');
+
 $url = $_GET["feedurl"];
 $email = $_GET["email"];
 $show_past_events = $_GET["past"];
@@ -95,14 +98,9 @@ $timezone = $_GET["tz"];
 </table>
 </form>
 	<?php
-
-	require_once ('simplepie.inc');
-	require_once ('simplepie-gcalendar.php');
-
 	if(!empty($email))
 	$url = SimplePie_GCalendar::create_feed_url($email);
 	if(empty($url))return;
-	$content = FALSE;
 
 	$feed = new SimplePie_GCalendar();
 	$feed->set_show_past_events($show_past_events==1);
@@ -119,40 +117,35 @@ $timezone = $_GET["tz"];
 
 	$feed->set_feed_url($url);
 
-	if(!$content){
-		$feed->enable_order_by_date(FALSE);
-		$feed->init();
+	$feed->enable_order_by_date(FALSE);
+	$feed->init();
 
-		$feed->handle_content_type();
-		$gcalendar_data = $feed->get_items();
-		echo '<p><b>feed url: '.$feed->feed_url.'</b></p>';
+	$feed->handle_content_type();
+	$gcalendar_data = $feed->get_items();
+	echo '<p><b>feed url: '.$feed->feed_url.'</b></p>';
 
-		for ($i = 0; $i < sizeof($gcalendar_data) ; $i++){
-			$item = $gcalendar_data[$i];
-			$startDate = date("d.m.Y H:i", $item->get_start_date());
-			$pubDate = date("d.m.Y H:i", $item->get_publish_date());
-			echo '<p>Published: '.$pubDate."<br/>\n";
-			if( $projection == 'full')
-				echo $startDate.'<br/>';
-			//Make any URLs used in the description also clickable
-			$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
-			echo $item->get_title()."<br/>\n".$desc;
-			
-			$loc = $item->get_location();
-			if(!empty($loc)){
-			   echo "<br/>Location: ". $loc."<br/><br/>\n";
-			   echo "<iframe width=\"400px\" height=\"200px\" frameborder=\"no\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&output=embed\"></iframe>\n";
-			}
-			echo "<br/><hr></p>\n";
+	for ($i = 0; $i < sizeof($gcalendar_data) ; $i++){
+		$item = $gcalendar_data[$i];
+		$startDate = date("d.m.Y H:i", $item->get_start_date());
+		$pubDate = date("d.m.Y H:i", $item->get_publish_date());
+		echo '<p>Published: '.$pubDate."<br/>\n";
+		if( $projection == 'full')
+		echo $startDate.'<br/>';
+		//Make any URLs used in the description also clickable
+		$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
+		echo $item->get_title()."<br/>\n".$desc;
+
+		$loc = $item->get_location();
+		if(!empty($loc)){
+			echo "<br/>Location: ". $loc."<br/><br/>\n";
+			echo "<iframe width=\"400px\" height=\"200px\" frameborder=\"no\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&output=embed\"></iframe>\n";
 		}
-	}else{
-		//header("content-Type: text/text");
-		$content = '<font>THIS<br>';
-		$content .= file_get_contents($url);
-		$content .= '</font>';
-		echo $content;
+		echo "<br/><hr></p>\n";
 	}
-
+	?>
+</body>
+</html>
+	<?php
 	function printList($title, $name, $defaultValue, $values) {
 		echo "\t<td align=\"left\">".$title."</td>\n";
 		echo "\t\t<td><select name=\"".$name."\" style=\"width:100%\">\n";
@@ -498,5 +491,3 @@ $timezone = $_GET["tz"];
 		));
 	}
 	?>
-</body>
-</html>

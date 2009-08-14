@@ -1,3 +1,8 @@
+------ 0.4.0 ------
+* under some circumstances the query parameter was not set which was causing an error
+* the location string was not always accessible
+* demo improvements
+
 ------ 0.3.0 ------
 * a limit of events in the feed can be set
 * increasing performance by caching variables
