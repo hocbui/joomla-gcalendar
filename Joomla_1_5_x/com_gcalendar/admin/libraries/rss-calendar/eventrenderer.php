@@ -38,15 +38,12 @@ class EventRenderer {
 				break;
 		}
 		JHTML::_('behavior.modal');
-		static $isTooltipLoaded = false;
-		if(!$isTooltipLoaded){
-			$document =& JFactory::getDocument();
-			$calCode = "window.addEvent(\"domready\", function(){\n";
-			$calCode .= "var Tips1 = new Tips($$('.gcalendar_daylink'));\n";
-			$calCode .= "});";
-			$document->addScriptDeclaration($calCode);
-			$isTooltipLoaded = true;
-		}
+		$toolTipArray = array(
+   			'onShow'=>"function(tip) {tip.effect('opacity', 
+      			{duration: 500, wait: false}).start(0,1)}", 
+   			'onHide'=>"function(tip) {tip.effect('opacity', 
+      			{duration: 500, wait: false}).start(1,0)}");
+		JHTML::_('behavior.tooltip', '.gcalendar_daylink', $toolTipArray);
 
 		echo "<a class=\"gcalendar_daylink modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
 		echo " rel=\"{handler: 'iframe', size: {x: 680, y: 650}}\" title=\"";
