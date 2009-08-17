@@ -126,6 +126,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 		$row->created = $event->get_publish_date();
 		$row->browsernav = '';
 		$return[] = $row;
+		$row = null;
 	}
 	return $return;
 }
