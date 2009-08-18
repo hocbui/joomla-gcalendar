@@ -260,6 +260,10 @@ class CalendarRenderer {
 					$myStartOffset = ((int)strftime("%H", $myStart) * 60) + (int)strftime("%M", $myStart);
 					$myEndOffset = ((int)strftime("%H", $myEnd) * 60) + (int)strftime("%M", $myEnd);
 
+					if($myEndOffset < $myStartOffset){
+						// the end is after midnight so we set the end to 24
+						$myEndOffset = 1440; // 24 * 60;
+					}
 					// Get the duration in minutes
 					$myDuration = $myEndOffset - $myStartOffset;
 
@@ -305,6 +309,10 @@ class CalendarRenderer {
 		}
 		else {
 			$lastHour = (int)strftime("%H", $lastEnd) + 1;
+		}
+		if($lastHour < $firstHour){
+			// the end is after midnight so we set the end to 24
+			$lastHour = 24;
 		}
 		echo "<div class=\"gcalendarcal CalDay\">\n";
 		?>
