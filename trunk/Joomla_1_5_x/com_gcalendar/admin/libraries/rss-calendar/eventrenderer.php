@@ -20,6 +20,8 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+
 class EventRenderer {
 
 	function display($displayType, $spItem) {
@@ -47,7 +49,7 @@ class EventRenderer {
 
 		echo "<a class=\"gcalendar_daylink modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
 		echo " rel=\"{handler: 'iframe', size: {x: 680, y: 650}}\" title=\"";
-		echo $spItem->get_title().' :: '.$spItem->get_description();
+		echo $spItem->get_title().' :: '.GCalendarUtil::createToolTip($spItem);
 		echo "\" >";
 		echo EventRenderer::trim($spItem->get_title(),$summaryLength);
 		echo "</a>\n";
