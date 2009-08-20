@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 0.3.0 $
+ * @version $Revision: 0.4.0 $
  */
 
 if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM')) {
@@ -170,7 +170,7 @@ class SimplePie_GCalendar extends SimplePie {
 	function init(){
 		$this->set_item_class('SimplePie_Item_GCalendar');
 
-		$new_url;
+		$new_url = '';
 		if (!empty($this->multifeed_url)){
 			$tmp = array();
 			foreach ($this->multifeed_url as $value)
