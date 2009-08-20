@@ -170,7 +170,7 @@ class SimplePie_GCalendar extends SimplePie {
 	function init(){
 		$this->set_item_class('SimplePie_Item_GCalendar');
 
-		$new_url;
+		$new_url = '';
 		if (!empty($this->multifeed_url)){
 			$tmp = array();
 			foreach ($this->multifeed_url as $value)
