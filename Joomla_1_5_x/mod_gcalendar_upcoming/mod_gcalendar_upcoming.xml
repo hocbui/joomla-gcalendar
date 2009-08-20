@@ -10,7 +10,7 @@
 	<authorEmail>info@gcalendar.laoneo.net
 	</authorEmail>
 	<authorUrl>gcalendar.laoneo.net</authorUrl>
-	<version>2.1.1</version>
+	<version>2.2.0</version>
 	<description>This module shows the upcoming events from a google
 		calendar.</description>
 	<files>
