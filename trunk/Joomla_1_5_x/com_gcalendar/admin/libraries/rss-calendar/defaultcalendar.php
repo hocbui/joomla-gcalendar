@@ -95,6 +95,7 @@ class DefaultCalendar{
 			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
 		}
 
+		JHTML::_('behavior.mootools');
 		$feeds = $this->getFeeds();
 		if(!empty($feeds)){
 			$calCode = "window.addEvent(\"domready\", function(){\n";
