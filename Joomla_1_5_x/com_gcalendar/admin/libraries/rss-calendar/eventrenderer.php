@@ -24,7 +24,7 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
 
 class EventRenderer {
 
-	function display($displayType, $spItem) {
+	function display($displayType, $spItem, $calendar) {
 		global $Itemid;
 		$feed = $spItem->get_feed();
 		$summaryLength = 0;
@@ -49,7 +49,7 @@ class EventRenderer {
 
 		echo "<a class=\"gcalendar_daylink modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
 		echo " rel=\"{handler: 'iframe', size: {x: 680, y: 650}}\" title=\"";
-		echo $spItem->get_title().' :: '.GCalendarUtil::createToolTip($spItem);
+		echo $spItem->get_title().' :: '.EventRenderer::createToolTip($spItem, $calendar);
 		echo "\" >";
 		echo EventRenderer::trim($spItem->get_title(),$summaryLength);
 		echo "</a>\n";
@@ -66,6 +66,73 @@ class EventRenderer {
 			return substr($sum, 0, $maxlength);
 		}
 		return $sum;
+	}
+	
+	function createToolTip($simplepieItem, $calendar) {
+		$feed = $simplepieItem->get_feed();
+		$tooltip = $calendar->toolTipText;
+
+		$tz = GCalendarUtil::getComponentParameter('timezone');
+		if($tz == '') $tz = $feed->get_timezone();
+		$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
+		if(!empty($itemID))$itemID = '&Itemid='.$itemID;
+
+		// These are the dates we'll display
+		$dateformat = '%d.%m.%Y';
+		$timeformat = '%H:%M';
+
+		$startDate = strftime($dateformat, $simplepieItem->get_start_date());
+		$startTime = strftime($timeformat, $simplepieItem->get_start_date());
+		$endDate = strftime($dateformat, $simplepieItem->get_end_date());
+		$endTime = strftime($timeformat, $simplepieItem->get_end_date());
+
+		switch($simplepieItem->get_day_type()){
+			case $simplepieItem->SINGLE_WHOLE_DAY:
+				$tooltip=str_replace("{startdate}",$startDate,$tooltip);
+				$tooltip=str_replace("{starttime}","",$tooltip);
+				$tooltip=str_replace("{dateseparator}","",$tooltip);
+				$tooltip=str_replace("{enddate}","",$tooltip);
+				$tooltip=str_replace("{endtime}","",$tooltip);
+				break;
+			case $simplepieItem->SINGLE_PART_DAY:
+				$tooltip=str_replace("{startdate}",$startDate,$tooltip);
+				$tooltip=str_replace("{starttime}",$startTime,$tooltip);
+				$tooltip=str_replace("{dateseparator}","-",$tooltip);
+				$tooltip=str_replace("{enddate}","",$tooltip);
+				$tooltip=str_replace("{endtime}",$endTime,$tooltip);
+				break;
+			case $simplepieItem->MULTIPLE_WHOLE_DAY:
+				$SECSINDAY=86400;
+				$endDate = strftime($dateformat, $simplepieItem->get_end_date() - $SECSINDAY);
+				$tooltip=str_replace("{startdate}",$startDate,$tooltip);
+				$tooltip=str_replace("{starttime}","",$tooltip);
+				$tooltip=str_replace("{dateseparator}","-",$tooltip);
+				$tooltip=str_replace("{enddate}",$endDate,$tooltip);
+				$tooltip=str_replace("{endtime}","",$tooltip);
+				break;
+			case $simplepieItem->MULTIPLE_PART_DAY:
+				$tooltip=str_replace("{startdate}",$startDate,$tooltip);
+				$tooltip=str_replace("{starttime}",$startTime,$tooltip);
+				$tooltip=str_replace("{dateseparator}","-",$tooltip);
+				$tooltip=str_replace("{enddate}",$endDate,$tooltip);
+				$tooltip=str_replace("{endtime}",$endTime,$tooltip);
+				break;
+		}
+
+		$tooltip=str_replace("{title}",$simplepieItem->get_title(),$tooltip);
+		$tooltip=str_replace("{description}",$simplepieItem->get_description(),$tooltip);
+		$tooltip=str_replace("{where}",$simplepieItem->get_location(),$tooltip);
+		$tooltip=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$simplepieItem->get_id().'&gcid='.$feed->get('gcid').$itemID),$tooltip);
+		$tooltip=str_replace("{link}",$simplepieItem->get_link().'&ctz='.$tz,$tooltip);
+		$tooltip=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($simplepieItem->get_location()),$tooltip);
+		$tooltip=str_replace("{calendarname}",$feed->get('gcname'),$tooltip);
+		$tooltip=str_replace("{calendarcolor}",$feed->get('gccolor'),$tooltip);
+		// Accept and translate HTML
+		$tooltip=str_replace("&lt;","<",$tooltip);
+		$tooltip=str_replace("&gt;",">",$tooltip);
+		$tooltip=str_replace("&quot;","\"",$tooltip);
+
+		return $tooltip;
 	}
 }
 ?>

@@ -34,9 +34,10 @@ $calendar->showSelectionList = $params->get('show_selection') == 'yes';
 $calendar->dateFormat = $params->get('dateformat');
 $calendar->columnInWeekViewEqual = $params->get('columnInWeekViewEqual') == 'yes';
 $calendar->defaultView = $params->get('defaultView');
+$calendar->toolTipText = $params->get('toolTipText');
 $calendar->display();
 
 echo $params->get( 'textafter' );
 echo "</div>\n";
-echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://gcalendar.laoneo.net\">Powered by GCalendar</a></div>\n";
+echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by G4J</a></div>\n";
 ?>
