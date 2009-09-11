@@ -16,7 +16,7 @@ folder on a web server and open the address of the index.php file with
 a web browser.
 
 The newest releases can be downloaded at 
-http://gcalendar.laoneo.net/content/download.html?task=viewcategory&catid=4
+http://g4j.laoneo.net/content/download/cat_view/2-simplepie-gcalendar.html
 
 Have fun!!
 allon
