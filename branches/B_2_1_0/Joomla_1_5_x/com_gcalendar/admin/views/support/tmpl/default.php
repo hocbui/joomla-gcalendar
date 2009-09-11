@@ -21,7 +21,7 @@
  defined('_JEXEC') or die('Restricted access'); ?>
 
  <iframe 
-src="http://gcalendar.laoneo.net/gcalendar_support.php"
+src="http://g4j.laoneo.net/gcalendar_support.php"
 width="100%"
 height="700"
 scrolling="auto"

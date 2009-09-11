@@ -107,5 +107,5 @@ $calendar = $this->gcalendar;
 <div align="center"><br>
 <img src="components/com_gcalendar/images/gcalendar.gif" width="143"
 	height="57"><br>
-&copy;&nbsp;&nbsp;2009 <a href="http://gcalendar.laoneo.net"
+&copy;&nbsp;&nbsp;2009 <a href="http://g4j.laoneo.net"
 	target="_blank">allon moritz</a></div>
