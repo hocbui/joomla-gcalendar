@@ -63,7 +63,7 @@ class CalendarRenderer {
 		echo "<div class=\"gccal_".$feed->get('gcid')."\">";
 		if($height > -1)
 		echo "<div style=\"height:".($height-2)."px\">";
-		EventRenderer::display($view ,$item);
+		EventRenderer::display($view ,$item, $gcal);
 		if($height > -1){
 			echo "</div>";
 			echo "</div>";

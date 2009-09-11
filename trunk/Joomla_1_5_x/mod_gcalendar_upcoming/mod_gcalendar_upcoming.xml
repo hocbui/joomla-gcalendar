@@ -7,9 +7,9 @@
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
-	<authorEmail>info@gcalendar.laoneo.net
+	<authorEmail>info@g4j.laoneo.net
 	</authorEmail>
-	<authorUrl>gcalendar.laoneo.net</authorUrl>
+	<authorUrl>g4j.laoneo.net</authorUrl>
 	<version>2.2.0</version>
 	<description>This module shows the upcoming events from a google
 		calendar.</description>

@@ -37,6 +37,7 @@ class DefaultCalendar{
 	var $printDayLink = true;
 	var $showSelectionList = true;
 	var $columnInWeekViewEqual = false;
+	var $toolTipText = '';
 
 	var $cal;
 	var $month, $year, $day;
