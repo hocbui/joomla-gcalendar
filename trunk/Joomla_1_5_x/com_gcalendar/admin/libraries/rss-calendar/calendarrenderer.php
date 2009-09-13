@@ -72,7 +72,6 @@ class CalendarRenderer {
 	}
 
 	function printMonth($year, $month, $day) {
-		$today = getdate();
 		$gcal = $this->calendar;
 
 		$startWeekDay = ((int)$gcal->getWeekStart())-1;
@@ -117,7 +116,7 @@ class CalendarRenderer {
 			}
 			$thisLink = $gcal->createLink($year, $month, $thisDay, $calids);
 			echo "<td height=\"".$gcal->getCellHeight()."\" ";
-			if (($thisDay == $today["mday"]) && ($month == $today["mon"])&&($year == $today["year"])) {
+			if (($thisDay == ((int)strftime('%d'))) && ($month == ((int)strftime('%m')))&&($year == ((int)strftime('%Y')))) {
 				echo "class=\"Today\"";
 			}
 			echo ">";
