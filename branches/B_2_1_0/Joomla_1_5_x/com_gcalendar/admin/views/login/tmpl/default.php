@@ -39,8 +39,8 @@ $session = true;
 $secure = false;
 $hd = '';
 if(!empty($domain))
-$hd = '?hd='.$domain;
+$hd = '&hd='.$domain;
 $authSubUrl = Zend_Gdata_AuthSub::getAuthSubTokenUri($next, $scope, $secure,
-$session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI.$hd);
-echo "<a href=\"{$authSubUrl}\">Please Login to access the calendar data.</a>";
+$session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI);
+echo "<a href=\"".$authSubUrl.$hd."\">Please Login to access the calendar data.</a>";
 ?>
