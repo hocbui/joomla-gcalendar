@@ -39,9 +39,33 @@ class GCalendarModelEvent extends JModel
 	 */
 	function getGCalendar()
 	{
+		GCalendarUtil::ensureSPIsLoaded();
 		$gcid=$this->getState('gcid');
-		$calendars = GCalendarDBUtil::getCalendars($gcid);
-		return $calendars;
+		$results = GCalendarDBUtil::getCalendars($gcid);
+		if(empty($results) || JRequest::getVar('eventID', null) == null)
+		return null;
+		$result = $results[0];
+
+		$feed = new SimplePie_GCalendar();
+		$feed->set_show_past_events(FALSE);
+		$feed->set_sort_ascending(TRUE);
+		$feed->set_orderby_by_start_date(TRUE);
+		$feed->set_expand_single_events(TRUE);
+		$feed->enable_order_by_date(FALSE);
+		$feed->enable_cache(FALSE);
+		$feed->put('gcid',$result->id);
+		$feed->put('gccolor',$result->color);
+		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
+		$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
+		$feed->set_event_id(JRequest::getVar('eventID', null));
+
+		$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
+		$feed->set_feed_url($url);
+		$feed->init();echo $feed->feed_url;
+		$feed->handle_content_type();
+		$items = $feed->get_items();
+		if(empty($items))return null;
+		return $items[0];
 	}
 
 }
