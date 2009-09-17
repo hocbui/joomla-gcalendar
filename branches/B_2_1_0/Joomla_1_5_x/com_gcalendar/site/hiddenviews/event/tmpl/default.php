@@ -22,15 +22,6 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-$tz = GCalendarUtil::getComponentParameter('timezone');
-if(!empty($tz))$tz='&ctz='.$tz;
-$lg = '&hl='.GCalendarUtil::getFrLanguage();
-$url = 'http://www.google.com/calendar/event?eid=' . $this->eventID . $tz.$lg;
-$domain = GCalendarUtil::getComponentParameter('google_apps_domain');
-if(!empty($domain)){
-	$url = 'http://www.google.com/calendar/hosted/'.$domain.'/event?eid=' . $this->eventID . $tz.$lg;
-}
-
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
 if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 	$component	= &JComponentHelper::getComponent('com_gcalendar');
@@ -46,7 +37,13 @@ if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 		echo "</td></tr></table>\n";
 	}
 }
-echo "<iframe id=\"gcalendarEvent\" name=\"iframe\" src=\"".$url."\" ";
-echo "width=\"100%\" height=\"600\" align=\"top\" frameborder=\"0\">".JText::_( 'NO_IFRAMES' )."</iframe>\n";
+$event = $this->event;
+if($event == null){
+	echo "no event found";
+}else{
+	echo "<table>\n";
+	echo "<tr><td>".JText::_( 'EVENT_TITLE' ).": </td><td>".$event->get_title()."</td></tr>\n";
+	echo "</table>\n";
+}
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by G4J</a></div>\n";
 ?>
