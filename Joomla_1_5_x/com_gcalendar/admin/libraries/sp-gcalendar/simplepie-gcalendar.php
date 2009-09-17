@@ -331,7 +331,12 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	 */
 	function get_id(){
 		if(!$this->gc_id){
-			$this->gc_id = substr($this->get_link(),strpos(strtolower($this->get_link()),'eid=')+4);
+			 substr($this->get_link(),strpos(strtolower($this->get_link()),'eid=')+4);
+		if ($return = $this->get_item_tags(SIMPLEPIE_NAMESPACE_ATOM_10, 'id'))
+			{
+				$tmp = $return[0]['data'];
+				$this->gc_id = substr($tmp, strrpos($tmp, '/')+1);
+			}
 		}
 		return $this->gc_id;
 	}
