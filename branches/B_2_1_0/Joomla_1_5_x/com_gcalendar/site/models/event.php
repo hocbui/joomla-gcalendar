@@ -61,7 +61,7 @@ class GCalendarModelEvent extends JModel
 
 		$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 		$feed->set_feed_url($url);
-		$feed->init();echo $feed->feed_url;
+		$feed->init();
 		$feed->handle_content_type();
 		$items = $feed->get_items();
 		if(empty($items))return null;
