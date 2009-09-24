@@ -105,6 +105,10 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 		$feed->set_feed_url($url);
 		$feed->init();
 			
+		if ($feed->error()){
+			JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
+		}
+
 		$feed->handle_content_type();
 		$events = array_merge($events, $feed->get_items());
 	}
