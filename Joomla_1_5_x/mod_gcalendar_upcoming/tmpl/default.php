@@ -18,13 +18,7 @@
  * @version $Revision: 2.1.2 $
  */
 
-// no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-if(!empty($error)){
-	echo $error;
-	return;
-}
 
 $SECSINDAY=86400;
 
@@ -90,7 +84,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 			break;
 	}
 
-	//Make any URLs used in the description also clickable: thanks Adam
+	//Make any URLs used in the description also clickable
 	$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
 
 	$temp_event=str_replace("{title}",$item->get_title(),$temp_event);
