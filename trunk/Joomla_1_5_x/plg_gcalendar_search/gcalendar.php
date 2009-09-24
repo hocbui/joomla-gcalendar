@@ -50,7 +50,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 	GCalendarUtil::ensureSPIsLoaded();
-	
+
 	$user	=& JFactory::getUser();
 
 	$text = trim( $text );
@@ -116,14 +116,38 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	foreach($events as $event){
 		$feed = $event->get_feed();
 
+		// the date formats from http://php.net/strftime
+		$dateformat = '%d.%m.%Y';
+		$timeformat = '%H:%M';
+
+		// These are the dates we'll display
+		$startDate = strftime($dateformat, $event->get_start_date());
+		$startTime = strftime($timeformat, $event->get_start_date());
+
+		$timeString = $startTime.' '.$startDate;
+		switch($event->get_day_type()){
+			case $event->SINGLE_WHOLE_DAY:
+				$timeString = $startDate;
+				break;
+			case $event->SINGLE_PART_DAY:
+				$timeString = $startTime.' '.$startDate;
+				break;
+			case $event->MULTIPLE_WHOLE_DAY:
+				$timeString = $startDate;
+				break;
+			case $event->MULTIPLE_PART_DAY:
+				$timeString = $startTime.' '.$startDate;
+				break;
+		}
+
 		$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
 		if(!empty($itemID))$itemID = '&Itemid='.$itemID;
-		$row->href = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&gcid='.$feed->get('gcid').$itemID);
-		$row->title = $event->get_title();
+		$row->href = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$feed->get('gcid').$itemID);
+		$row->title = $timeString.' '.$event->get_title();
 		$row->text = $event->get_description();
 		$row->section = JText::_('GCalendar');
 		$row->category = $feed->get('gcid');
-		$row->created = $event->get_publish_date();
+		$row->created = $event->get_start_date();
 		$row->browsernav = '';
 		$return[] = $row;
 		$row = null;
