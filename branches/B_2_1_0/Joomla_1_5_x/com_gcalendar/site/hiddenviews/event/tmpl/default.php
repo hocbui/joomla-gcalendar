@@ -70,7 +70,7 @@ if($event == null){
 			break;
 	}
 	
-	echo "<table>\n";
+	echo "<table style=\"margin: 5px;\">\n";
 	echo "<tr><td>".JText::_( 'EVENT_TITLE' ).": </td><td>".$event->get_title()."</td></tr>\n";
 	echo "<tr><td>".JText::_( 'WHEN' ).": </td><td>".$timeString."</td></tr>\n";
 	//Make any URLs used in the description also clickable
