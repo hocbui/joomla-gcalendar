@@ -46,7 +46,6 @@ class SimplePie_GCalendar extends SimplePie {
 	var $max_events = 25;
 	var $projection = "full";
 	var $timezone = "";
-	var $event_id = '';
 
 	/**
 	 * If the method $this->get_items() should include past events.
@@ -161,21 +160,6 @@ class SimplePie_GCalendar extends SimplePie {
 		if(!empty($value))
 		$this->timezone = $value;
 	}
-	
-	/**
-	 * Sets the event to be fetched. If this
-	 * is not null the returned item list will
-	 * contain only one single item which has the given
-	 * event id.
-	 * 
-	 * @param $event_id
-	 * @see SimplePie_Item_GCalendar->get_id()
-	 */
-	function set_event_id($event_id = '') {
-		if(!empty($event_id)){
-			$this->event_id = $event_id;
-		}
-	}
 
 	/**
 	 * Overrides the default ini method and sets automatically
@@ -208,9 +192,6 @@ class SimplePie_GCalendar extends SimplePie {
 		$new_url = parse_url($url_to_check);
 		$path = $new_url['path'];
 		$path = substr($path, 0, strrpos($path, '/')+1).$this->projection;
-		if(!empty($this->event_id)){
-			$path .= '/'.$this->event_id;
-		}
 		$query = '';
 		if(isset($new_url['query'])){
 			$query = $new_url['query'];
