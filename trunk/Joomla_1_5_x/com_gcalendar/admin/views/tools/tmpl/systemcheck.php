@@ -35,13 +35,16 @@ defined('_JEXEC') or die('Restricted access');
 	$data[] = checkRemoteConnection();
 	$data[] = checkPhpVersion();
 	$data[] = checkCacheForGCalendarView();
+	$data[] = checkTimezones();
 	$tmp = checkDB();
 	$data = array_merge($data, $tmp);
 	foreach ($data as $test) {
 		echo "<tr>\n";
 		$img = "components/com_gcalendar/views/tools/tmpl/ok.png";
-		if($test['status']=="ok")
+		if($test['status']=="failure")
 		$img = "components/com_gcalendar/views/tools/tmpl/failure.png";
+		else if($test['status']=="warning")
+		$img = "components/com_gcalendar/views/tools/tmpl/warning.png";
 		echo "<td width=\"17\" align=\"center\"><img src=\"".$img."\" width=\"16\" height=\"16\"/></td>\n";
 		echo "<td width=\"120\">".$test['name']."</td><td>".$test['description']."</td><td>".$test['solution']."</td>";
 		echo "</tr>\n";
@@ -152,4 +155,20 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		return array('name'=>'GCalendar View Cache Dir Check', 'description'=>$desc, 'status'=>$status, 'solution'=>$solution);
 	}
-	?>
+	
+	function checkTimezones() {
+		$defaultTZ = date_default_timezone_get();
+		if(empty($defaultTZ))$defaultTZ = 'empty';
+		$gcalendarTZ = GCalendarUtil::getComponentParameter('timezone');
+		if(empty($gcalendarTZ))$gcalendarTZ = 'empty';
+		$desc = "Your default timezone is ".$defaultTZ." and the GCalendar timezone is ".$gcalendarTZ.". They are the same which means you should have no problems with date issues.";
+		$status = 'ok';
+		$solution = '';
+		if ( $defaultTZ != $gcalendarTZ) {
+			$desc = "Your default timezone is ".$defaultTZ." and the GCalendar timezone is ".$gcalendarTZ.". They are not the same which means you can run into some date issues.";
+			$status = 'warning';
+			$solution = 'Set the timezone propriate timezone in the GCalendar preferences or the <a href="http://php.net/manual/en/function.date-default-timezone-get.php" target="_blank">default timezone</a>.';
+		}
+		return array('name'=>'Timezone Check', 'description'=>$desc, 'status'=>$status, 'solution'=>$solution);
+	}
+?>
