@@ -29,8 +29,10 @@ class ModGCalendarUpcomingHelper {
 		GCalendarUtil::ensureSPIsLoaded();
 		$calendarids = $params->get('calendarids');
 		$results = GCalendarDBUtil::getCalendars($calendarids);
-		if(empty($results))
-		return array('The selected calendar(s) were not found in the database.',NULL);
+		if(empty($results)){
+			JError::raiseWarning( 500, 'The selected calendar(s) were not found in the database.');
+			return null;
+		}
 
 		$values = array();
 		foreach ($results as $result) {
@@ -59,9 +61,8 @@ class ModGCalendarUpcomingHelper {
 				$feed->init();
 
 				if ($feed->error()){
-					return array('Simplepie detected an error. Please run the <a href=<"administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error(),NULL);
+					JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
 				}
-
 				// Make sure the content is being served out to the browser properly.
 				$feed->handle_content_type();
 
@@ -72,8 +73,7 @@ class ModGCalendarUpcomingHelper {
 		// we sort the array based on the event compare function
 		usort($values, array("SimplePie_Item_GCalendar", "compare"));
 
-		//return the feed data structure for the template
-		return array(NULL,$values);
+		return $values;
 	}
 }
 ?>

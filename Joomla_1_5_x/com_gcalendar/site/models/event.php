@@ -62,6 +62,9 @@ class GCalendarModelEvent extends JModel
 		$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 		$feed->set_feed_url($url);
 		$feed->init();
+		if ($feed->error()){
+			JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
+		}
 		$feed->handle_content_type();
 		$items = $feed->get_items();
 		foreach ($items as $item) {
