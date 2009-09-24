@@ -22,8 +22,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once (dirname(__FILE__).DS.'helper.php');
 
-$returnValue = ModGCalendarUpcomingHelper::getCalendarItems($params);
-$error = $returnValue[0];
-$gcalendar_data = $returnValue[1];
+$gcalendar_data = ModGCalendarUpcomingHelper::getCalendarItems($params);
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar_upcoming' ) );
 ?>

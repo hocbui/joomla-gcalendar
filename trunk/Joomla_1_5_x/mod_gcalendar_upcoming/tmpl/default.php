@@ -18,13 +18,7 @@
  * @version $Revision: 2.1.1 $
  */
 
-// no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-if(!empty($error)){
-	echo $error;
-	return;
-}
 
 $SECSINDAY=86400;
 
