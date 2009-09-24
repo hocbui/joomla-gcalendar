@@ -105,7 +105,7 @@ $calendar = $this->gcalendar;
 	name="controller" value="gcalendar" /></form>
 
 <div align="center"><br>
-<img src="components/com_gcalendar/images/gcalendar.gif" width="143"
-	height="57"><br>
+<img src="components/com_gcalendar/images/gcalendar.gif" width="156"
+	height="30"><br>
 &copy;&nbsp;&nbsp;2009 <a href="http://g4j.laoneo.net"
 	target="_blank">allon moritz</a></div>
