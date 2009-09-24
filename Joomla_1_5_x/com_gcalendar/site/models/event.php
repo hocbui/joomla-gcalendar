@@ -34,14 +34,41 @@ class GCalendarModelEvent extends JModel
 {
 
 	/**
-	 * Gets the calendar
-	 * @return string The calendar to be displayed to the user
+	 * Gets the simplepie event
+	 * @return string event
 	 */
 	function getGCalendar()
 	{
-		$gcid=$this->getState('gcid');
-		$calendars = GCalendarDBUtil::getCalendars($gcid);
-		return $calendars;
+		GCalendarUtil::ensureSPIsLoaded();
+		$results = GCalendarDBUtil::getCalendars(JRequest::getVar('gcid', null));
+		if(empty($results) || JRequest::getVar('eventID', null) == null)
+		return null;
+		$result = $results[0];
+
+		$feed = new SimplePie_GCalendar();
+		$feed->set_show_past_events(FALSE);
+		$feed->set_sort_ascending(TRUE);
+		$feed->set_orderby_by_start_date(TRUE);
+		$feed->set_expand_single_events(TRUE);
+		$feed->enable_order_by_date(FALSE);
+		$feed->enable_cache(FALSE);
+		$feed->set_start_date(JRequest::getVar('start', null));
+		$feed->set_end_date(JRequest::getVar('end', null));
+		$feed->put('gcid',$result->id);
+		$feed->put('gccolor',$result->color);
+		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
+		$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
+
+		$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
+		$feed->set_feed_url($url);
+		$feed->init();
+		$feed->handle_content_type();
+		$items = $feed->get_items();
+		foreach ($items as $item) {
+			if($item->get_id() == JRequest::getVar('eventID', null));
+			return $item;
+		}
+		return null;
 	}
 
 }

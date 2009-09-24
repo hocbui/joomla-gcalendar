@@ -28,10 +28,8 @@ class GCalendarViewEvent extends JView
 {
 	function display($tpl = null)
 	{
-		$gcalendar = $this->get( 'GCalendar' );
-		$this->assignRef( 'gcalendar',	$gcalendar );
-
-		$this->assignRef( 'eventID', JRequest::getVar('eventID', null));
+		$event = $this->get( 'GCalendar' );
+		$this->assignRef( 'event',	$event );
 		
 		parent::display($tpl);
 	}
