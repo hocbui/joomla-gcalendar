@@ -52,8 +52,8 @@ class GCalendarModelEvent extends JModel
 		$feed->set_expand_single_events(TRUE);
 		$feed->enable_order_by_date(FALSE);
 		$feed->enable_cache(FALSE);
-		$feed->set_start_date(JRequest::getVar('start', null));
-		$feed->set_end_date(JRequest::getVar('end', null));
+		$feed->set_start_date((JRequest::getVar('start', 0)-86400));
+		$feed->set_end_date((JRequest::getVar('end', 0)+86400));
 		$feed->put('gcid',$result->id);
 		$feed->put('gccolor',$result->color);
 		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
@@ -68,7 +68,7 @@ class GCalendarModelEvent extends JModel
 		$feed->handle_content_type();
 		$items = $feed->get_items();
 		foreach ($items as $item) {
-			if($item->get_id() == JRequest::getVar('eventID', null));
+			if($item->get_id() == JRequest::getVar('eventID', null))
 			return $item;
 		}
 		return null;
