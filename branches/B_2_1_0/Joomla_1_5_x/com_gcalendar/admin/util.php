@@ -18,10 +18,8 @@
  * @version $Revision: 2.1.3 $
  */
 
-/**
- * Util class.
- *
- */
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
+
 class GCalendarUtil{
 
 	function ensureSPIsLoaded(){
@@ -53,8 +51,8 @@ class GCalendarUtil{
 	function getFrLanguage(){
 		$conf	=& JFactory::getConfig();
 		return $conf->getValue('config.language');
-//		$params   = JComponentHelper::getParams('com_languages');
-//		return $params->get('site', 'en-GB');
+		//		$params   = JComponentHelper::getParams('com_languages');
+		//		return $params->get('site', 'en-GB');
 	}
 
 	function getItemId($cal_id){
@@ -63,11 +61,18 @@ class GCalendarUtil{
 		$items		= $menu->getItems('componentid', $component->id);
 
 		if (is_array($items)){
-			global $mainframe;
-			$pathway	= &$mainframe->getPathway();
 			foreach($items as $item) {
 				$paramsItem	=& $menu->getParams($item->id);
 				$calendarids = $paramsItem->get('calendarids');
+				if(empty($calendarids)){
+					$results = GCalendarDBUtil::getAllCalendars();
+					if($results){
+						$calendarids = array();
+						foreach ($results as $result) {
+							$calendarids[] = $result->id;
+						}
+					}
+				}
 				$contains_gc_id = FALSE;
 				if ($calendarids){
 					if( is_array( $calendarids ) ) {
