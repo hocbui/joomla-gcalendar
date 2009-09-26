@@ -69,18 +69,30 @@ if($event == null){
 			$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
 			break;
 	}
-	
-	echo "<table style=\"margin: 5px;\">\n";
-	echo "<tr><td>".JText::_( 'EVENT_TITLE' ).": </td><td>".$event->get_title()."</td></tr>\n";
-	echo "<tr><td>".JText::_( 'WHEN' ).": </td><td>".$timeString."</td></tr>\n";
-	//Make any URLs used in the description also clickable
-	echo "<tr><td>".JText::_( 'DESCRIPTION' ).": </td><td>". eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $event->get_description())."</td></tr>\n";
+
+	$document =& JFactory::getDocument();
+	$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');
+	$document->addStyleSheet('administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
+	$document->addStyleSheet('components/com_gcalendar/hiddenviews/event/tmpl/default.css');
+	$calCode = "window.addEvent(\"domready\", function(){\n";
+	$calCode .= "Nifty(\"div.event_content\",\"big\");\n";
+	$calCode .= "});";
+	$document->addScriptDeclaration($calCode);
+
+	echo "<div class=\"event_content\"><table id=\"content_table\">\n";
+	echo "<tr><td class=\"event_content_key\">".JText::_( 'EVENT_TITLE' ).": </td><td>".$event->get_title()."</td></tr>\n";
+	echo "<tr><td class=\"event_content_key\">".JText::_( 'WHEN' ).": </td><td>".$timeString."</td></tr>\n";
+	echo "<tr><td class=\"event_content_key\">".JText::_( 'DESCRIPTION' ).": </td><td>". eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $event->get_description())."</td></tr>\n";
 	$loc = $event->get_location();
 	if(!empty($loc)){
-		echo "<tr><td>".JText::_( 'LOCATION' ).": </td><td>".$loc."</td></tr>\n";
-		echo "<tr><td colspan=\"2\"><iframe width=\"500px\" height=\"300px\" frameborder=\"no\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&output=embed\"></iframe></td></tr>\n";
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'LOCATION' ).": </td><td>".$loc."</td></tr>\n";
+		echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"no\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&output=embed\"></iframe></td></tr>\n";
 	}
-	echo "</table>\n";
+	$authors = $event->get_authors();
+	if(count($authors)>0){
+	echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td>".$authors[0]->get_name()."</td></tr>\n";
+	}
+	echo "</table></div>\n";
 }
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
 ?>

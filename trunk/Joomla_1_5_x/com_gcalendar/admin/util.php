@@ -63,11 +63,18 @@ class GCalendarUtil{
 		$items		= $menu->getItems('componentid', $component->id);
 
 		if (is_array($items)){
-			global $mainframe;
-			$pathway	= &$mainframe->getPathway();
 			foreach($items as $item) {
 				$paramsItem	=& $menu->getParams($item->id);
 				$calendarids = $paramsItem->get('calendarids');
+				if(empty($calendarids)){
+					$results = GCalendarDBUtil::getAllCalendars();
+					if($results){
+						$calendarids = array();
+						foreach ($results as $result) {
+							$calendarids[] = $result->id;
+						}
+					}
+				}
 				$contains_gc_id = FALSE;
 				if ($calendarids){
 					if( is_array( $calendarids ) ) {
