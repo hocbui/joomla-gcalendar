@@ -56,6 +56,7 @@ class GCalendarModelEvent extends JModel
 		$feed->set_end_date((JRequest::getVar('end', 0)+86400));
 		$feed->put('gcid',$result->id);
 		$feed->put('gccolor',$result->color);
+		$feed->put('gcname',$result->name);
 		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 		$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
 

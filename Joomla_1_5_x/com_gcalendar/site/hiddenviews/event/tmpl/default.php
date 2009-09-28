@@ -79,7 +79,9 @@ if($event == null){
 	$calCode .= "});";
 	$document->addScriptDeclaration($calCode);
 
+	$feed = $event->get_feed();
 	echo "<div class=\"event_content\"><table id=\"content_table\">\n";
+	echo "<tr><td class=\"event_content_key\">".JText::_( 'CALENDAR_NAME' ).": </td><td>".$feed->get('gcname')."</td></tr>\n";
 	echo "<tr><td class=\"event_content_key\">".JText::_( 'EVENT_TITLE' ).": </td><td>".$event->get_title()."</td></tr>\n";
 	echo "<tr><td class=\"event_content_key\">".JText::_( 'WHEN' ).": </td><td>".$timeString."</td></tr>\n";
 	echo "<tr><td class=\"event_content_key\">".JText::_( 'DESCRIPTION' ).": </td><td>". eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $event->get_description())."</td></tr>\n";
@@ -90,7 +92,13 @@ if($event == null){
 	}
 	$authors = $event->get_authors();
 	if(count($authors)>0){
-	echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td>".$authors[0]->get_name()."</td></tr>\n";
+		$calCode = "function sdafgkl437jeeee(a){\n";
+		$calCode .= "RE = /^(.+)\#(.+)$/;\n";
+		$calCode .= "var launch = a.replace(RE,\"mail\"+\"to:$1@$2\");\n";
+		$calCode .= "window.location = launch;\n";
+		$calCode .= "};\n";
+		$document->addScriptDeclaration($calCode);
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td><a href=\"javascript:sdafgkl437jeeee('".str_replace('@','#',$authors[0]->get_email())."')\">".$authors[0]->get_name()."</a></td></tr>\n";
 	}
 	echo "</table></div>\n";
 }
