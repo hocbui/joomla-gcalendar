@@ -93,7 +93,7 @@ if($event == null){
 	$authors = $event->get_authors();
 	if(count($authors)>0){
 		$document->addScript('components/com_gcalendar/hiddenviews/event/tmpl/default.js');
-		echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td style=\"valign:top\">".$authors[0]->get_name()." <a href=\"javascript:sdafgkl437jeeee('".base64_encode(str_replace('@','#',$authors[0]->get_email()))."')\"><img height=\"16\" border=\"0\" width=\"16\" alt=\"email\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/mail.png\"/></a></td></tr>\n";
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td style=\"valign:top\">".$authors[0]->get_name()." <a href=\"javascript:sdafgkl437jeeee('".base64_encode(str_replace('@','#',$authors[0]->get_email()))."')\"><img height=\"11\" border=\"0\" width=\"16\" alt=\"email\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/mail.png\"/></a></td></tr>\n";
 	}
 	echo "</table></div>\n";
 }
