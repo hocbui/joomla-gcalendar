@@ -47,6 +47,8 @@ class EventRenderer {
       			{duration: 500, wait: false}).start(1,0)}");
 		JHTML::_('behavior.tooltip', '.gcalendar_daylink', $toolTipArray);
 
+		$document =& JFactory::getDocument();
+		$document->addScript('components/com_gcalendar/hiddenviews/event/tmpl/default.js');
 		echo "<a class=\"gcalendar_daylink modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&start='.$spItem->get_start_date().'&end='.$spItem->get_end_date().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
 		echo " title=\"";
 		echo $spItem->get_title().' :: '.EventRenderer::createToolTip($spItem, $calendar);
