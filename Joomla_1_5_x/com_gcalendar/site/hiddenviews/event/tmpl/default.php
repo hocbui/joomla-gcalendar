@@ -92,12 +92,7 @@ if($event == null){
 	}
 	$authors = $event->get_authors();
 	if(count($authors)>0){
-		$calCode = "function sdafgkl437jeeee(a){\n";
-		$calCode .= "RE = /^(.+)\#(.+)$/;\n";
-		$calCode .= "var launch = a.replace(RE,\"mail\"+\"to:$1@$2\");\n";
-		$calCode .= "window.location = launch;\n";
-		$calCode .= "};\n";
-		$document->addScriptDeclaration($calCode);
+		$document->addScript('components/com_gcalendar/hiddenviews/event/tmpl/default.js');
 		echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td><a href=\"javascript:sdafgkl437jeeee('".str_replace('@','#',$authors[0]->get_email())."')\">".$authors[0]->get_name()."</a></td></tr>\n";
 	}
 	echo "</table></div>\n";
