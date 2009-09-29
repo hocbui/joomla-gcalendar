@@ -199,6 +199,7 @@ class SimplePie_GAnalytics extends SimplePie {
 		$this->set_feed_url($url.'&auth='.$this->authorization);
 
 		parent::init();
+		$this->set_feed_url($url);
 	}
 
 
@@ -241,6 +242,12 @@ class SimplePie_File_GAnalytics extends SimplePie_File{
  */
 class SimplePie_Item_GAnalytics_Account extends SimplePie_Item {
 
+	function SimplePie_Item_GAnalytics_Account($feed, $data){
+		parent::SimplePie_Item($feed, $data);
+		$this->init();
+	}
+
+	// internal cache variables
 	var $account_id = null;
 	var $account_name = null;
 	var $profile_id = null;
@@ -248,98 +255,128 @@ class SimplePie_Item_GAnalytics_Account extends SimplePie_Item {
 
 	/**
 	 * Returns the account ID.
-	 * 
+	 *
 	 * @return account ID
 	 */
 	function get_account_id(){
-		$this->init();
 		return $this->account_id;
 	}
 
 	/**
 	 * Returns the account name.
-	 * 
+	 *
 	 * @return account name
 	 */
 	function get_account_name(){
-		$this->init();
 		return $this->account_name;
 	}
 
 	/**
 	 * Returns the profile ID.
-	 * 
+	 *
 	 * @return profile ID
 	 */
 	function get_profile_id(){
-		$this->init();
 		return $this->profile_id;
 	}
 
 	/**
 	 * Returns the web property ID.
-	 * 
+	 *
 	 * @return web property ID
 	 */
 	function get_web_property_id(){
-		$this->init();
 		return $this->web_property_id;
 	}
 
 	/**
-	 * Initializes the variables. Do not call this method directly.
+	 * Initializes the variables. Do not call this method directly it
+	 * is used internal.
 	 */
 	function init(){
-		if($this->account_id == null){
-			$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT, 'property');
-			foreach ($data as $variable) {
-				$attr = $variable['attribs'][''];
-				if($attr['name'] == 'ga:accountId')
-				$this->account_id = $attr['value'];
-				if($attr['name'] == 'ga:accountName')
-				$this->account_name = $attr['value'];
-				if($attr['name'] == 'ga:profileId')
-				$this->profile_id = $attr['value'];
-				if($attr['name'] == 'ga:webPropertyId')
-				$this->web_property_id = $attr['value'];
-			}
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT, 'property');
+		foreach ($data as $variable) {
+			$attr = $variable['attribs'][''];
+			if($attr['name'] == 'ga:accountId')
+			$this->account_id = $attr['value'];
+			if($attr['name'] == 'ga:accountName')
+			$this->account_name = $attr['value'];
+			if($attr['name'] == 'ga:profileId')
+			$this->profile_id = $attr['value'];
+			if($attr['name'] == 'ga:webPropertyId')
+			$this->web_property_id = $attr['value'];
 		}
 	}
 }
 
+/**
+ * Data items.
+ */
 class SimplePie_Item_GAnalytics extends SimplePie_Item {
 
-	//internal cache variables
-	var $gc_metrics;
-	var $gc_pub_date;
-	var $gc_location;
-	var $gc_status;
-	var $gc_start_date;
-	var $gc_end_date;
-	var $gc_day_type;
+	function SimplePie_Item_GAnalytics($feed, $data){
+		parent::SimplePie_Item($feed, $data);
+		$this->init();
+	}
 
+	//internal cache variables
+	var $dimensions;
+	var $metrics;
+
+	/**
+	 * Returns all available dimension identifiers as array.
+	 *
+	 * @return the dimensions
+	 */
 	function get_available_dimension_names(){
 		return array_keys($this->dimensions);
 	}
 
-	function getDimension($dimensionName){
-		return $this->dimensions[$dimensionName];
+	/**
+	 * Returns the dimension value for the given dimension.
+	 *
+	 * @param $dimension_name
+	 * @return the dimension
+	 */
+	function get_dimension($dimension_name){
+		return $this->dimensions[$dimension_name];
 	}
 
-	function addDimension($dimensionName, $dimensionValue){
-		$this->dimensions[$dimensionName] = $dimensionValue;
-	}
-
-	function getAvailableMetricNames(){
+	/**
+	 * Returns all available metric identifiers as array.
+	 *
+	 * @return the metrics
+	 */
+	function get_available_metric_names(){
 		return array_keys($this->metrics);
 	}
 
-	function getMetric($metricName){
-		return $this->metrics[$metricName];
+	/**
+	 * Returns the metric value for the given metric.
+	 *
+	 * @param $metric_name
+	 * @return the metric
+	 */
+	function get_metric($metric_name){
+		return $this->metrics[$metric_name];
 	}
 
-	function addMetric($metricName, $metricValue){
-		$this->metrics[$metricName] = $metricValue;
+	/**
+	 * Initializes the variables. Do not call this method directly it
+	 * is used internal.
+	 */
+	function init(){
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT, 'dimension');
+		foreach ($data as $variable) {
+			$attr = $variable['attribs'][''];
+			$this->dimensions[$attr['name']] = $attr['value'];
+		}
+
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT, 'metric');
+		foreach ($data as $variable) {
+			$attr = $variable['attribs'][''];
+			$this->metrics[$attr['name']] = $attr['value'];
+		}
 	}
 }
 ?>
