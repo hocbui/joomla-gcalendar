@@ -30,7 +30,7 @@ $max = $_GET["max"];
 $profileID = $_GET["profileid"];
 
 $uname = 'allon.moritz';
-$passwd = 'CKBRSntX';
+$passwd = '';
 $dimensions = 'ga:country';
 $metrics = 'ga:visits';
 $sort = '-ga:visits';
