@@ -1,0 +1,5 @@
+------ 0.0.1 ------
+* initial release
+* support for dimension and mertics
+* support for account data
+* ClientLogin authentication
