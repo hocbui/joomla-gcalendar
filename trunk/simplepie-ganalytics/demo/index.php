@@ -92,7 +92,7 @@ if(!empty($uname)){
 	$feed = new SimplePie_GAnalytics();
 	$feed->set_login($uname, $passwd);
 	$feed->set_parameters($dimensions, $metrics, $max, $sort);
-	$feed->set_profile_id($profileID);
+	//	$feed->set_profile_id($profileID);
 	$feed->set_start_date(strtotime('-1 month'));
 	$feed->set_end_date(time());
 	$feed->enable_cache(false);
@@ -109,9 +109,7 @@ if(!empty($uname)){
 
 	for ($i = 0; $i < sizeof($data); $i++){
 		$item = $data[$i];
-		//Make any URLs used in the description also clickable
-		$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
-		echo $item->get_title()."<br/>\n".$desc;
+		echo $item->get_account_id();
 	}
 }
 ?>
