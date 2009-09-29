@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns='http://www.w3.org/2005/Atom' xmlns:dxp='http://schemas.google.com/analytics/2009'
+	xmlns:openSearch='http://a9.com/-/spec/opensearchrss/1.0/'>
+	<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;dimensions=ga:day&amp;metrics=ga:visits&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+	</id>
+	<updated>2009-09-29T11:42:36.945-07:00</updated>
+	<title type='text'>Google Analytics Data for Profile 6400110</title>
+	<link rel='self' type='application/atom+xml'
+		href='http://www.google.com/analytics/feeds/data?sort=ga%3Aday&amp;end-date=2009-09-30&amp;start-date=2009-09-01&amp;metrics=ga%3Avisits&amp;ids=ga%3A6400110&amp;dimensions=ga%3Aday' />
+	<author>
+		<name>Google Analytics</name>
+	</author>
+	<generator version='1.0'>Google Analytics</generator>
+	<openSearch:totalResults>30</openSearch:totalResults>
+	<openSearch:startIndex>1</openSearch:startIndex>
+	<openSearch:itemsPerPage>30</openSearch:itemsPerPage>
+	<dxp:aggregates>
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='154' />
+	</dxp:aggregates>
+	<dxp:dataSource>
+		<dxp:property name='ga:profileId' value='6400110' />
+		<dxp:property name='ga:webPropertyId' value='UA-3287418-3' />
+		<dxp:property name='ga:accountName' value='allon' />
+		<dxp:tableId>ga:6400110</dxp:tableId>
+		<dxp:tableName>allon.ch</dxp:tableName>
+	</dxp:dataSource>
+	<dxp:endDate>2009-09-30</dxp:endDate>
+	<dxp:startDate>2009-09-01</dxp:startDate>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=01&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=01</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='01' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='4' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=02&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=02</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='02' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='8' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=03&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=03</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='03' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='10' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=04&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=04</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='04' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='11' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=05&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=05</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='05' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='5' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=06&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=06</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='06' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='2' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=07&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=07</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='07' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='4' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=08&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=08</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='08' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='3' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=09&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=09</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='09' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='6' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=10&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=10</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='10' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='3' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=11&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=11</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='11' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='4' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=12&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=12</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='12' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='4' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=13&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=13</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='13' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='4' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=14&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=14</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='14' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='10' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=15&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=15</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='15' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='5' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=16&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=16</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='16' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='3' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=17&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=17</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='17' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='7' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=18&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=18</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='18' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='5' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=19&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=19</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='19' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='1' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=20&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=20</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='20' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='5' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=21&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=21</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='21' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='8' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=22&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=22</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='22' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='7' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=23&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=23</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='23' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='2' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=24&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=24</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='24' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='6' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=25&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=25</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='25' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='7' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=26&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=26</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='26' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='2' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=27&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=27</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='27' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='4' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=28&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=28</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='28' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='9' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=29&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=29</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='29' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='5' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/analytics/feeds/data?ids=ga:6400110&amp;ga:day=30&amp;start-date=2009-09-01&amp;end-date=2009-09-30
+		</id>
+		<updated>2009-09-29T17:00:00.001-07:00</updated>
+		<title type='text'>ga:day=30</title>
+		<link rel='alternate' type='text/html' href='http://www.google.com/analytics' />
+		<dxp:dimension name='ga:day' value='30' />
+		<dxp:metric confidenceInterval='0.0' name='ga:visits' type='integer'
+			value='0' />
+	</entry>
+</feed>

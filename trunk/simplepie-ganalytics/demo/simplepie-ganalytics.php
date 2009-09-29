@@ -18,8 +18,8 @@
  * @version $Revision: 0.1.0 $
  */
 
-if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT')) {
-	define('SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT', 'http://schemas.google.com/analytics/2009');
+if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS')) {
+	define('SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS', 'http://schemas.google.com/analytics/2009');
 }
 
 /**
@@ -139,29 +139,37 @@ class SimplePie_GAnalytics extends SimplePie {
 	}
 
 	/**
+	 * Returns the profile ID.
+	 *
+	 * @return profile ID
+	 */
+	function get_profile_id(){
+		return $this->profile_id;
+	}
+
+	/**
 	 * Sets the profile ID. If this is not set get_items() will return
 	 * an array of SimplePie_Item_GAnalytics_Account items.
 	 *
 	 * @param $value
 	 */
-	public function set_profile_id($value = null){
+	function set_profile_id($value = null){
 		if(strpos($value, 'ga:') !== 0)
 		$value = 'ga:'.$value;
 		$this->profile_id = $value;
 	}
 
 	/**
-	 * Overrides the default ini method and sets automatically
-	 * SimplePie_File_GAnalytics as file class.
-	 * If the profile id is set the items of this feed are
-	 * SimplePie_Item_GAnalytics_Account else they are
-	 * SimplePie_Item_GAnalytics.
-	 * Authorization is also handled here if $this->authorization
-	 * is empty.
+	 * Checks if the feed is authorized to retrieve the
+	 * data. If not a ClientLogin call against google is
+	 * done to get an authorization token which is accessible
+	 * through get_authorization().
+	 * This method can be called from autside to retrieve the authorization
+	 * token in advance.
+	 *
+	 * @return the authorization token
 	 */
-	function init(){
-		$this->set_file_class('SimplePie_File_GAnalytics');
-
+	function authorize() {
 		if(empty($this->authorization)){
 			$file = new SimplePie_File_GAnalytics(
 				'https://www.google.com/accounts/ClientLogin?accountType=HOSTED_OR_GOOGLE&Email='.$this->user_name.'&Passwd='.$this->password.'&service=analytics&source=GAnalytics-com_ganalytics-0.5.1',
@@ -178,8 +186,24 @@ class SimplePie_GAnalytics extends SimplePie {
 		}
 		if(empty($this->authorization)){
 			$this->error = 'Error authenticating user '.$this->user_name.'. Erro response was '.$content;
-			return;
 		}
+		return $this->authorization;
+	}
+
+	/**
+	 * Overrides the default ini method and sets automatically
+	 * SimplePie_File_GAnalytics as file class.
+	 * If the profile id is set the items of this feed are
+	 * SimplePie_Item_GAnalytics_Account else they are
+	 * SimplePie_Item_GAnalytics.
+	 * Authorization is also handled here if $this->authorization
+	 * is empty.
+	 */
+	function init(){
+		$this->set_file_class('SimplePie_File_GAnalytics');
+
+		$this->authorize();
+
 		$url = '';
 		if(empty($this->profile_id)){
 			$this->set_item_class('SimplePie_Item_GAnalytics_Account');
@@ -281,6 +305,15 @@ class SimplePie_Item_GAnalytics_Account extends SimplePie_Item {
 	}
 
 	/**
+	 * Returns the profile name.
+	 *
+	 * @return profile name
+	 */
+	function get_profile_name() {
+		return $this->get_title();
+	}
+
+	/**
 	 * Returns the web property ID.
 	 *
 	 * @return web property ID
@@ -294,7 +327,7 @@ class SimplePie_Item_GAnalytics_Account extends SimplePie_Item {
 	 * is used internal.
 	 */
 	function init(){
-		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT, 'property');
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS, 'property');
 		foreach ($data as $variable) {
 			$attr = $variable['attribs'][''];
 			if($attr['name'] == 'ga:accountId')
@@ -366,13 +399,13 @@ class SimplePie_Item_GAnalytics extends SimplePie_Item {
 	 * is used internal.
 	 */
 	function init(){
-		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT, 'dimension');
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS, 'dimension');
 		foreach ($data as $variable) {
 			$attr = $variable['attribs'][''];
 			$this->dimensions[$attr['name']] = $attr['value'];
 		}
 
-		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS_ITEM_ACCOUNT, 'metric');
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS, 'metric');
 		foreach ($data as $variable) {
 			$attr = $variable['attribs'][''];
 			$this->metrics[$attr['name']] = $attr['value'];

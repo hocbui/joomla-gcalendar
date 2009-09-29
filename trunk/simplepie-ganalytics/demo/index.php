@@ -50,8 +50,8 @@ if($dimensions == null){
 <?php if(($uname == null || $passwd == null) && $auth == null){?>
 	<tr>
 		<td>Google Account Username:</td>
-		<td colspan="4"><input type="text" name="uname" size="100" onfocus="value=''"
-			value="something like demo@gmail.com"></td>
+		<td colspan="4"><input type="text" name="uname" size="100"
+			onfocus="value=''" value="something like demo@gmail.com"></td>
 	</tr>
 	<tr>
 		<td>Password:</td>
@@ -60,7 +60,7 @@ if($dimensions == null){
 	</tr>
 	<?php }else{?>
 	<tr>
-		<td colspan="5"><a target="_blank" 
+		<td colspan="5"><a target="_blank"
 			href="http://code.google.com/apis/analytics/docs/gdata/gdataExplorer.html">Google
 		Analytis Query Explorer</a></td>
 	</tr>
@@ -140,7 +140,7 @@ if($dimensions == null){
 			echo $feed->error();
 		}
 
-		if(count($data) < 1){
+		if(empty($data)){
 			echo 'no data found';
 		}else{
 			$dimensions = $data[0]->get_available_dimension_names();
