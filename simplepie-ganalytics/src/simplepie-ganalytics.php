@@ -1,36 +1,33 @@
 <?php
 /**
- * GCalendar is free software: you can redistribute it and/or modify
+ * GAnalytics is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GCalendar is distributed in the hope that it will be useful,
+ * GAnalytics is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with GAnalytics.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
  * @version $Revision: 0.1.0 $
  */
 
-if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM')) {
-	define('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM', 'http://schemas.google.com/g/2005');
-}
-
-if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED')) {
-	define('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED', 'http://schemas.google.com/gCal/2005');
+if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS')) {
+	define('SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS', 'http://schemas.google.com/analytics/2009');
 }
 
 /**
- * SimplePie_GCalendar is the SimplePie extension which provides some
+ * SimplePie_GAnalytics is the SimplePie extension which provides some
  * helper methods.
  *
- * @see http://code.google.com/apis/calendar/docs/2.0/reference.html
+ * @see http://code.google.com/apis/analytics/docs/gdata/gdataReferenceAccountFeed.html
+ * @see http://code.google.com/apis/analytics/docs/gdata/gdataReferenceDataFeed.html
  */
 class SimplePie_GAnalytics extends SimplePie {
 
@@ -43,9 +40,31 @@ class SimplePie_GAnalytics extends SimplePie {
 	var $authorization = null;
 
 	/**
-	 * Sets the timezone of this feed.
+	 * Returns the authorization string. Useful to store
+	 * it in a session to prevent multiple authorizations.
 	 *
-	 * @param $value
+	 * @return authorization
+	 */
+	function get_authorization() {
+		return $this->authorization;
+	}
+
+	/**
+	 * Sets the authorizaion string. Useful to prevent the
+	 * feed to do the authentication process.
+	 *
+	 * @param $value the authentication string
+	 */
+	function set_authorization($value = null) {
+		if(!empty($value))
+		$this->authorization = $value;
+	}
+
+	/**
+	 * Sets the login information
+	 *
+	 * @param $uname
+	 * @param $passwd
 	 */
 	function set_login($uname = null, $passwd = null) {
 		if(!empty($uname))
@@ -54,31 +73,63 @@ class SimplePie_GAnalytics extends SimplePie {
 		$this->password = $passwd;
 	}
 
+	/**
+	 * Returns the start date as unix timestamp.
+	 *
+	 * @return start date
+	 */
 	function get_start_date() {
 		return $this->start_date;
 	}
 
+	/**
+	 * Sets the start date from a unix timestamp.
+	 *
+	 * @param $value the start date as unix timestamp
+	 */
 	function set_start_date($value = null) {
 		if(!empty($value))
-		return $this->start_date = $value;
+		$this->start_date = $value;
 	}
 
+	/**
+	 * Returns the end date as unix timestamp.
+	 *
+	 * @return end date
+	 */
 	function get_end_date() {
 		return $this->end_date;
 	}
 
+	/**
+	 * Sets the end date from a unix timestamp.
+	 *
+	 * @param $value the end date as unix timestamp
+	 */
 	function set_end_date($value = null) {
 		if(!empty($value))
-		return $this->end_date = $value;
+		$this->end_date = $value;
 	}
 
+	/**
+	 * Returns the parameters.
+	 *
+	 * @return parameters
+	 */
 	function get_parameters(){
 		return $this->parameters;
 	}
 
-	function set_parameters($dimension, $metrics, $max_results, $sort){
-		$this->data = null;
-		$parameters = array('dimensions' 	=> $dimension,
+	/**
+	 * Sets the parameters.
+	 *
+	 * @param $dimensions
+	 * @param $metrics
+	 * @param $max_results
+	 * @param $sort
+	 */
+	function set_parameters($dimensions, $metrics, $max_results, $sort){
+		$parameters = array('dimensions' 	=> $dimensions,
 						'metrics'    	=> $metrics,
 						'max-results'   => $max_results);
 		if(!empty($sort))
@@ -86,44 +137,136 @@ class SimplePie_GAnalytics extends SimplePie {
 		$this->parameters = $parameters;
 	}
 
-	public function set_profile_id($value = null){
+	/**
+	 * Returns the dimensions.
+	 * 
+	 * @return dimensions
+	 */
+	function get_dimensions() {
+		if($this->parameters != null && isset($this->parameters))
+		return $this->parameters['dimensions'];
+		return '';
+	}
+
+	/**
+	 * Returns the metrics.
+	 * 
+	 * @return metrics
+	 */
+	function get_metrics() {
+		if($this->parameters != null && isset($this->parameters))
+		return $this->parameters['metrics'];
+		return '';
+	}
+
+	/**
+	 * Returns the sort criteria.
+	 *  
+	 * @return sort criteria
+	 */
+	function get_sort() {
+		if($this->parameters != null && isset($this->parameters))
+		return $this->parameters['sort'];
+		return '';
+	}
+
+	/**
+	 * Returns the total returned items.
+	 * 
+	 * @return max items
+	 */
+	function get_max_results() {
+		if($this->parameters != null && isset($this->parameters))
+		return $this->parameters['max-results'];
+		return '';
+	}
+
+	/**
+	 * Returns the profile ID.
+	 *
+	 * @return profile ID
+	 */
+	function get_profile_id(){
+		return $this->profile_id;
+	}
+
+	/**
+	 * Sets the profile ID. If this is not set get_items() will return
+	 * an array of SimplePie_Item_GAnalytics_Account items.
+	 *
+	 * @param $value
+	 */
+	function set_profile_id($value = null){
+		if(strpos($value, 'ga:') !== 0)
+		$value = 'ga:'.$value;
 		$this->profile_id = $value;
 	}
 
 	/**
-	 * Overrides the default ini method and sets automatically
-	 * SimplePie_Item_GCalendar as item class.
-	 * It also sets the variables specified in this feed as query
-	 * parameters.
+	 * Checks if the feed is authorized to retrieve the
+	 * data. If not a ClientLogin call against google is
+	 * done to get an authorization token which is accessible
+	 * through get_authorization().
+	 * This method can be called from autside to retrieve the authorization
+	 * token in advance.
+	 *
+	 * @return the authorization token
 	 */
-	function init(){
-		$this->set_item_class('SimplePie_Item_GAnalytics');
-		$this->set_file_class('SimplePie_File_GAnalytics');
-
-		$file = new SimplePie_File_GAnalytics(
-		'https://www.google.com/accounts/ClientLogin?accountType=HOSTED_OR_GOOGLE&Email='.$this->user.'&Passwd='.$this->password.'&service=analytics&source=GAnalytics-com_ganalytics-0.5.1',
-		10, 5, null, null, false);
-		$auth_content = $file->body;
-		if (strpos($auth_content, "\n") !== false){
-			$responses = explode("\n", $auth_content);
-			foreach ($responses as $response){
-				if (substr($response, 0, 4) == 'Auth'){
-					$this->authorization = trim(substr($sResponse, 5));
+	function authorize() {
+		if(empty($this->authorization)){
+			$file = new SimplePie_File_GAnalytics(
+				'https://www.google.com/accounts/ClientLogin?accountType=HOSTED_OR_GOOGLE&Email='.$this->user_name.'&Passwd='.$this->password.'&service=analytics&source=GAnalytics-com_ganalytics-0.5.1',
+			10, 5, null, null, false);
+			$content = $file->body;
+			if (strpos($content, "\n") !== false){
+				$responses = explode("\n", $content);
+				foreach ($responses as $response){
+					if (substr($response, 0, 4) == 'Auth'){
+						$this->authorization = trim(substr($response, 5));
+					}
 				}
 			}
 		}
-		$params = array();
-		foreach($this->parameters as $key => $property){
-			$params[] = $key . '=' . urlencode($property);
+		if(empty($this->authorization)){
+			$this->error = 'Error authenticating user '.$this->user_name.'. Erro response was '.$content;
 		}
+		return $this->authorization;
+	}
 
-		$url = 'https://www.google.com/analytics/feeds/data?ids=' . $this->profile_id .
+	/**
+	 * Overrides the default ini method and sets automatically
+	 * SimplePie_File_GAnalytics as file class.
+	 * If the profile id is set the items of this feed are
+	 * SimplePie_Item_GAnalytics_Account else they are
+	 * SimplePie_Item_GAnalytics.
+	 * Authorization is also handled here if $this->authorization
+	 * is empty.
+	 */
+	function init(){
+		$this->set_file_class('SimplePie_File_GAnalytics');
+
+		$this->authorize();
+
+		$url = '';
+		if(empty($this->profile_id)){
+			$this->set_item_class('SimplePie_Item_GAnalytics_Account');
+			$url = 'https://www.google.com/analytics/feeds/accounts/default';
+		}else {
+			$this->set_item_class('SimplePie_Item_GAnalytics');
+			$params = array();
+			foreach($this->parameters as $key => $property){
+				$params[] = $key . '=' . urlencode($property);
+			}
+
+			$url = 'https://www.google.com/analytics/feeds/data?ids=' . $this->profile_id .
                                                         '&start-date=' . date('Y-m-d', $this->start_date). 
                                                         '&end-date=' . date('Y-m-d', $this->end_date). '&' . 
-		implode('&', $params);
-		$this->set_feed_url($url);
+			implode('&', $params);
+		}
+		$this->set_feed_url($url.'&auth='.$this->authorization);
 
 		parent::init();
+		$this->set_feed_url($url);
 	}
 
 
@@ -146,193 +289,170 @@ class SimplePie_GAnalytics extends SimplePie {
 	}
 }
 
+/**
+ * Class which handles the authorization requirements from google.
+ */
 class SimplePie_File_GAnalytics extends SimplePie_File{
 
 	function SimplePie_File_GAnalytics($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false){
-		parent::SimplePie_File($url, $timeout = 10, $redirects = 5, array('Authorization: GoogleLogin auth=' . $this->authorization), $useragent = null, $force_fsockopen = false);
+		$parts = explode('&auth=', $url);
+		if(is_array($parts) && count($parts) > 1){
+			$auth = $parts[1];
+			$url = $parts[0];
+		}
+		parent::SimplePie_File($url, $timeout = 10, $redirects = 5, array('Authorization' => 'GoogleLogin auth=' . $auth), $useragent = null, $force_fsockopen = false);
 	}
 }
 
 /**
- * The GCalendar Item which provides more google calendar specific
- * functions like the location of the event, etc.
+ * Account items.
+ */
+class SimplePie_Item_GAnalytics_Account extends SimplePie_Item {
+
+	function SimplePie_Item_GAnalytics_Account($feed, $data){
+		parent::SimplePie_Item($feed, $data);
+		$this->init();
+	}
+
+	// internal cache variables
+	var $account_id = null;
+	var $account_name = null;
+	var $profile_id = null;
+	var $web_property_id = null;
+
+	/**
+	 * Returns the account ID.
+	 *
+	 * @return account ID
+	 */
+	function get_account_id(){
+		return $this->account_id;
+	}
+
+	/**
+	 * Returns the account name.
+	 *
+	 * @return account name
+	 */
+	function get_account_name(){
+		return $this->account_name;
+	}
+
+	/**
+	 * Returns the profile ID.
+	 *
+	 * @return profile ID
+	 */
+	function get_profile_id(){
+		return $this->profile_id;
+	}
+
+	/**
+	 * Returns the profile name.
+	 *
+	 * @return profile name
+	 */
+	function get_profile_name() {
+		return $this->get_title();
+	}
+
+	/**
+	 * Returns the web property ID.
+	 *
+	 * @return web property ID
+	 */
+	function get_web_property_id(){
+		return $this->web_property_id;
+	}
+
+	/**
+	 * Initializes the variables. Do not call this method directly it
+	 * is used internal.
+	 */
+	function init(){
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS, 'property');
+		foreach ($data as $variable) {
+			$attr = $variable['attribs'][''];
+			if($attr['name'] == 'ga:accountId')
+			$this->account_id = $attr['value'];
+			if($attr['name'] == 'ga:accountName')
+			$this->account_name = $attr['value'];
+			if($attr['name'] == 'ga:profileId')
+			$this->profile_id = $attr['value'];
+			if($attr['name'] == 'ga:webPropertyId')
+			$this->web_property_id = $attr['value'];
+		}
+	}
+}
+
+/**
+ * Data items.
  */
 class SimplePie_Item_GAnalytics extends SimplePie_Item {
 
-	// static variables used as return value for get_day_type()
-	var $SINGLE_WHOLE_DAY    = 1;
-	var $SINGLE_PART_DAY     = 2;
-	var $MULTIPLE_WHOLE_DAY  = 3;
-	var $MULTIPLE_PART_DAY   = 4;
+	function SimplePie_Item_GAnalytics($feed, $data){
+		parent::SimplePie_Item($feed, $data);
+		$this->init();
+	}
 
 	//internal cache variables
-	var $gc_id;
-	var $gc_pub_date;
-	var $gc_location;
-	var $gc_status;
-	var $gc_start_date;
-	var $gc_end_date;
-	var $gc_day_type;
+	var $dimensions;
+	var $metrics;
 
 	/**
-	 * Returns the id of the event.
+	 * Returns all available dimension identifiers as array.
 	 *
-	 * @return the id of the event
+	 * @return the dimensions
 	 */
-	function get_id(){
-		if(!$this->gc_id){
-			$this->gc_id = substr($this->get_link(),strpos(strtolower($this->get_link()),'eid=')+4);
-		}
-		return $this->gc_id;
+	function get_available_dimension_names(){
+		return array_keys($this->dimensions);
 	}
 
 	/**
-	 * Returns the publish date as unix timestamp of the event.
+	 * Returns the dimension value for the given dimension.
 	 *
-	 * @return the publish date of the event
+	 * @param $dimension_name
+	 * @return the dimension
 	 */
-	function get_publish_date(){
-		if(!$this->gc_pub_date){
-			$pubdate = $this->get_date('Y-m-d\TH:i:s\Z');
-			$this->gc_pub_date = SimplePie_Item_GCalendar::tstamptotime($pubdate);
-		}
-		return $this->gc_pub_date;
+	function get_dimension($dimension_name){
+		return $this->dimensions[$dimension_name];
 	}
 
 	/**
-	 * Returns the location of the event.
+	 * Returns all available metric identifiers as array.
 	 *
-	 * @return the location of the event
+	 * @return the metrics
 	 */
-	function get_location(){
-		if(!$this->gc_location){
-			$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'where');
-			if(isset($gd_where[0]) &&
-			isset($gd_where[0]['attribs']) &&
-			isset($gd_where[0]['attribs']['']) &&
-			isset($gd_where[0]['attribs']['']['valueString']))
-			$this->gc_location = $gd_where[0]['attribs']['']['valueString'];
-		}
-		return $this->gc_location;
+	function get_available_metric_names(){
+		return array_keys($this->metrics);
 	}
 
 	/**
-	 * Returns the status of the event.
+	 * Returns the metric value for the given metric.
 	 *
-	 * @return the status of the event
+	 * @param $metric_name
+	 * @return the metric
 	 */
-	function get_status(){
-		if(!$this->gc_status){
-			$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'eventStatus');
-			$this->gc_status = substr( $gd_status[0]['attribs']['']['value'], -8);
-		}
-		return $this->gc_status;
+	function get_metric($metric_name){
+		return $this->metrics[$metric_name];
 	}
 
 	/**
-	 * If the given format (must match the criterias of strftime)
-	 * is not null a string is returned otherwise a unix timestamp.
-	 *
-	 * @see http://www.php.net/mktime
-	 * @see http://www.php.net/strftime
-	 * @param $format
-	 * @return the start date of the event
+	 * Initializes the variables. Do not call this method directly it
+	 * is used internal.
 	 */
-	function get_start_date($format = null){
-		if(!$this->gc_start_date){
-			$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
-			$startdate = $when[0]['attribs']['']['startTime'];
-			$this->gc_start_date = SimplePie_Item_GCalendar::tstamptotime($startdate);
+	function init(){
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS, 'dimension');
+		foreach ($data as $variable) {
+			$attr = $variable['attribs'][''];
+			$this->dimensions[$attr['name']] = $attr['value'];
 		}
-		if($format != null)
-		return strftime($format, $this->gc_start_date);
-		return $this->gc_start_date;
-	}
 
-	/**
-	 * If the given format (must match the criterias of strftime)
-	 * is not null a string is returned otherwise a unix timestamp.
-	 *
-	 * @see http://www.php.net/mktime
-	 * @see http://www.php.net/strftime
-	 * @param $format
-	 * @return the end date of the event
-	 */
-	function get_end_date($format = null){
-		if(!$this->gc_end_date){
-			$when = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'when');
-			$enddate = $when[0]['attribs']['']['endTime'];
-			$this->gc_end_date = SimplePie_Item_GCalendar::tstamptotime($enddate);
+		$data = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS, 'metric');
+		foreach ($data as $variable) {
+			$attr = $variable['attribs'][''];
+			$this->metrics[$attr['name']] = $attr['value'];
 		}
-		if($format != null)
-		return strftime($format, $this->gc_end_date);
-		return $this->gc_end_date;
-	}
-
-	/**
-	 * Returns the event type. One of the following constants:
-	 *  - SINGLE_WHOLE_DAY
-	 *  - SINGLE_PART_DAY
-	 *  - MULTIPLE_WHOLE_DAY
-	 *  - MULTIPLE_PART_DAY
-	 *
-	 * @return the event type
-	 */
-	function get_day_type(){
-		if(!$this->gc_day_type){
-			$SECSINDAY=86400;
-
-			if (($this->get_start_date()+ $SECSINDAY) <= $this->get_end_date()) {
-				if (($this->get_start_date()+ $SECSINDAY) == $this->get_end_date()) {
-					$this->gc_day_type =  $this->SINGLE_WHOLE_DAY;
-				} else {
-					if ((date('g:i a',$this->get_start_date())=='12:00 am')&&(date('g:i a',$this->get_end_date())=='12:00 am')){
-						$this->gc_day_type =  $this->MULTIPLE_WHOLE_DAY;
-					}else{
-						$this->gc_day_type =  $this->MULTIPLE_PART_DAY;
-					}
-				}
-			}else
-			$this->gc_day_type = $this->SINGLE_PART_DAY;
-		}
-		return $this->gc_day_type;
-	}
-
-	/**
-	 * Returns a unix timestamp of the given iso date.
-	 *
-	 * @param $iso_date
-	 * @return unix timestamp
-	 */
-	function tstamptotime($iso_date) {
-		// converts ISODATE to unix date
-		// 1984-09-01T14:21:31Z
-		sscanf($iso_date,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
-		$newtstamp = mktime($hour,$min,$sec,$month,$day,$year);
-		return $newtstamp;
-	}
-
-	/**
-	 * Returns an integer less than, equal to, or greater than zero if
-	 * the first argument is considered to be respectively less than,
-	 * equal to, or greater than the second.
-	 * This function can be used to sort an array of SimplePie_Item_GCalendar
-	 * items with usort.
-	 *
-	 * @see http://www.php.net/usort
-	 * @param $gc_sp_item1
-	 * @param $gc_sp_item2
-	 * @return the comparison integer
-	 */
-	function compare($gc_sp_item1, $gc_sp_item2){
-		$time1 = $gc_sp_item1->get_start_date();
-		$time2 = $gc_sp_item2->get_start_date();
-		$feed = $gc_sp_item1->get_feed();
-		if(!$feed->orderby_by_start_date){
-			$time1 = $gc_sp_item1->get_publish_date();
-			$time2 = $gc_sp_item2->get_publish_date();
-		}
-		return $time1-$time2;
 	}
 }
 ?>

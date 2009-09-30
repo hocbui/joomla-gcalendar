@@ -123,19 +123,62 @@ class SimplePie_GAnalytics extends SimplePie {
 	/**
 	 * Sets the parameters.
 	 *
-	 * @param $dimension
+	 * @param $dimensions
 	 * @param $metrics
 	 * @param $max_results
 	 * @param $sort
 	 */
-	function set_parameters($dimension, $metrics, $max_results, $sort){
-		$this->data = null;
-		$parameters = array('dimensions' 	=> $dimension,
+	function set_parameters($dimensions, $metrics, $max_results, $sort){
+		$parameters = array('dimensions' 	=> $dimensions,
 						'metrics'    	=> $metrics,
 						'max-results'   => $max_results);
 		if(!empty($sort))
 		$parameters['sort'] = $sort;
 		$this->parameters = $parameters;
+	}
+
+	/**
+	 * Returns the dimensions.
+	 * 
+	 * @return dimensions
+	 */
+	function get_dimensions() {
+		if($this->parameters != null && isset($this->parameters))
+		return $this->parameters['dimensions'];
+		return '';
+	}
+
+	/**
+	 * Returns the metrics.
+	 * 
+	 * @return metrics
+	 */
+	function get_metrics() {
+		if($this->parameters != null && isset($this->parameters))
+		return $this->parameters['metrics'];
+		return '';
+	}
+
+	/**
+	 * Returns the sort criteria.
+	 *  
+	 * @return sort criteria
+	 */
+	function get_sort() {
+		if($this->parameters != null && isset($this->parameters))
+		return $this->parameters['sort'];
+		return '';
+	}
+
+	/**
+	 * Returns the total returned items.
+	 * 
+	 * @return max items
+	 */
+	function get_max_results() {
+		if($this->parameters != null && isset($this->parameters))
+		return $this->parameters['max-results'];
+		return '';
 	}
 
 	/**
