@@ -50,12 +50,12 @@ if($dimensions == null){
 <?php if(($uname == null || $passwd == null) && $auth == null){?>
 	<tr>
 		<td>Google Account Username:</td>
-		<td colspan="4"><input type="text" name="uname" size="100"
+		<td colspan="4"><input type="text" name="uname" size="50px"
 			onfocus="value=''" value="something like demo@gmail.com"></td>
 	</tr>
 	<tr>
 		<td>Password:</td>
-		<td colspan="4"><input type="password" name="passwd" size="100"
+		<td colspan="4"><input type="password" name="passwd" size="50px"
 			value="<?php echo $passwd; ?>"></td>
 	</tr>
 	<?php }else{?>
@@ -66,22 +66,22 @@ if($dimensions == null){
 	</tr>
 	<tr>
 		<td>Dimensions:</td>
-		<td colspan="4"><input type="text" name="dimensions" size="100"
+		<td colspan="4"><input type="text" name="dimensions" size="50px"
 			value="<?php echo $dimensions; ?>"></td>
 	</tr>
 	<tr>
 		<td>Metrics:</td>
-		<td colspan="4"><input type="text" name="metrics" size="100"
+		<td colspan="4"><input type="text" name="metrics" size="50px"
 			value="<?php echo $metrics; ?>"></td>
 	</tr>
 	<tr>
 		<td>Sort:</td>
-		<td colspan="4"><input type="text" name="sort" size="100"
+		<td colspan="4"><input type="text" name="sort" size="50px"
 			value="<?php echo $sort; ?>"></td>
 	</tr>
 	<tr>
 		<td>Max:</td>
-		<td colspan="4"><input type="text" name="max" size="100"
+		<td colspan="4"><input type="text" name="max" size="50px"
 			value="<?php echo $max; ?>"></td>
 	</tr>
 	<tr>
