@@ -47,7 +47,7 @@ $timezone = $_GET["tz"];
 <table>
 	<tr>
 		<td>Feed url:</td>
-		<td colspan="4"><input type="text" name="feedurl" size="100"
+		<td colspan="4"><input type="text" name="feedurl" size="50px"
 			value="<?php echo $url; ?>"></td>
 	</tr>
 	<tr>
@@ -56,8 +56,8 @@ $timezone = $_GET["tz"];
 	</tr>
 	<tr>
 		<td>EMail address:</td>
-		<td colspan="4"><input type="text" name="email" size="100"
-			value="<?php echo $email; ?>"></td>
+		<td colspan="4"><input type="text" name="email" size="50px"
+			value="<?php echo empty($email) ? 'calendar@joomla.org':$email; ?>"></td>
 	</tr>
 	<tr>
 		<td colspan="5">
@@ -66,10 +66,10 @@ $timezone = $_GET["tz"];
 	</tr>
 	<tr>
 		<td>Filter (Query):</td>
-		<td><input type="text" name="query" size="50"
+		<td><input type="text" name="query" size="50px"
 			value="<?php echo $query; ?>"></td>
 		<td>Max events:</td>
-		<td><input type="text" name="max" size="10"
+		<td><input type="text" name="max" size="10px"
 			value="<?php echo empty($max) ? 5 : $max; ?>"></td>
 	</tr>
 	<tr>
