@@ -296,9 +296,10 @@ class SimplePie_File_GAnalytics extends SimplePie_File{
 
 	function SimplePie_File_GAnalytics($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false){
 		$parts = explode('&auth=', $url);
+		$auth = '';
 		if(is_array($parts) && count($parts) > 1){
-			$auth = $parts[1];
 			$url = $parts[0];
+			$auth = $parts[1];
 		}
 		parent::SimplePie_File($url, $timeout = 10, $redirects = 5, array('Authorization' => 'GoogleLogin auth=' . $auth), $useragent = null, $force_fsockopen = false);
 	}
