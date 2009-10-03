@@ -42,7 +42,14 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 	}
 
 	$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
-	if(!empty($itemID))$itemID = '&Itemid='.$itemID;
+	if(!empty($itemID)){
+		$itemID = '&Itemid='.$itemID;
+	}else{
+		$menu=JSite::getMenu();
+		$activemenu=$menu->getActive();
+		if($activemenu != null)
+		$itemID = '&Itemid='.$activemenu->id;
+	}
 
 	// These are the dates we'll display
 	$startDate = strftime($dateformat, $item->get_start_date());
