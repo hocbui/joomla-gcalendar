@@ -157,6 +157,8 @@ defined('_JEXEC') or die('Restricted access');
 	}
 	
 	function checkTimezones() {
+		$defaultTZ = ini_get('date.timezone');
+		if(function_exists('date_default_timezone_get'))
 		$defaultTZ = date_default_timezone_get();
 		if(empty($defaultTZ))$defaultTZ = 'empty';
 		$gcalendarTZ = GCalendarUtil::getComponentParameter('timezone');
