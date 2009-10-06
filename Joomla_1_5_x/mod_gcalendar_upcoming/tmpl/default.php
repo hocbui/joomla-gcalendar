@@ -45,10 +45,14 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 	if(!empty($itemID))$itemID = '&Itemid='.$itemID;
 
 	// These are the dates we'll display
-	$startDate = strftime($dateformat, $item->get_start_date());
-	$startTime = strftime($timeformat, $item->get_start_date());
-	$endDate = strftime($dateformat, $item->get_end_date());
-	$endTime = strftime($timeformat, $item->get_end_date());
+	$tmp = JFactory::getDate($item->get_start_date());
+	$startDate = $tmp->toFormat($dateformat);
+	$tmp = JFactory::getDate($item->get_start_date());
+	$startTime = $tmp->toFormat($timeformat);
+	$tmp = JFactory::getDate($item->get_end_date());
+	$endDate = $tmp->toFormat($dateformat);
+	$tmp = JFactory::getDate($item->get_end_date());
+	$endTime = $tmp->toFormat($timeformat);
 
 	$temp_event=$event_display;
 
@@ -68,7 +72,8 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 			$temp_event=str_replace("{endtime}",$endTime,$temp_event);
 			break;
 		case $item->MULTIPLE_WHOLE_DAY:
-			$endDate = strftime($dateformat, $item->get_end_date() - $SECSINDAY);
+			$tmp = JFactory::getDate($item->get_end_date() - $SECSINDAY);
+			$endDate = $tmp->toFormat($dateformat);
 			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 			$temp_event=str_replace("{starttime}","",$temp_event);
 			$temp_event=str_replace("{dateseparator}","-",$temp_event);

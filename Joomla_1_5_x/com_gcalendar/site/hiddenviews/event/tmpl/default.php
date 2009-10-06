@@ -46,10 +46,14 @@ if($event == null){
 	$timeformat = '%H:%M';
 
 	// These are the dates we'll display
-	$startDate = strftime($dateformat, $event->get_start_date());
-	$startTime = strftime($timeformat, $event->get_start_date());
-	$endDate = strftime($dateformat, $event->get_end_date());
-	$endTime = strftime($timeformat, $event->get_end_date());
+	$tmp = JFactory::getDate($event->get_start_date());
+	$startDate = $tmp->toFormat($dateformat);
+	$tmp = JFactory::getDate($event->get_start_date());
+	$startTime = $tmp->toFormat($timeformat);
+	$tmp = JFactory::getDate($event->get_end_date());
+	$endDate = $tmp->toFormat($dateformat);
+	$tmp = JFactory::getDate($event->get_end_date());
+	$endTime = $tmp->toFormat($timeformat);
 	$dateSeparator = '-';
 
 	$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
@@ -62,7 +66,8 @@ if($event == null){
 			break;
 		case $event->MULTIPLE_WHOLE_DAY:
 			$SECSINDAY=86400;
-			$endDate = strftime($dateformat, $event->get_end_date() - $SECSINDAY);
+			$tmp = JFactory::getDate($event->get_end_date() - $SECSINDAY);
+			$endDate = $tmp->toFormat($timeformat);
 			$timeString = $startDate.' '.$dateSeparator.' '.$endDate;
 			break;
 		case $event->MULTIPLE_PART_DAY:
