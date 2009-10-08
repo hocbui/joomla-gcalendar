@@ -230,7 +230,8 @@ class DefaultCalendar{
 				break;
 			case "day":
 				$tDate = strtotime("${year}-${month}-${day}");
-				$title = strftime("%a, %Y %b %e", $tDate);
+				$tmp = JFactory::getDate($tDate);
+				$title = $tmp->toFormat("%a, %Y %b %e");
 				break;
 		}
 		return $title;
