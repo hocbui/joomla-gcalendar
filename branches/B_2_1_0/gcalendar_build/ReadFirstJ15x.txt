@@ -18,4 +18,4 @@ Check http://g4j.laoneo.net for the documentation, forum and current issues.
 
 
 Have fun
-the gcalendar team
+the G4J team
