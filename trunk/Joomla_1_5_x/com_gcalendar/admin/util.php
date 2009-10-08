@@ -18,10 +18,8 @@
  * @version $Revision: 2.1.1 $
  */
 
-/**
- * Util class.
- *
- */
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
+
 class GCalendarUtil{
 
 	function ensureSPIsLoaded(){
