@@ -154,7 +154,7 @@ html>body .goog-inline-block {
 	width:9px;
 	height:7px;
 	line-height:7px;
-	background-image:url(//calendar.google.com/googlecalendar/images/combined_v7.gif);
+	background-image:url(//calendar.google.com/googlecalendar/images/combined_v9.gif);
 }
 
 .ff2 .cic {
@@ -219,6 +219,13 @@ html>body .goog-inline-block {
 	width:10px;
 	margin-left:auto;
 	margin-right:auto;
+}
+
+.cwci {
+	height:16px;
+	width:16px;
+	margin:-1px 0;
+	vertical-align:top;
 }
 
 .calendar-container {
@@ -328,7 +335,7 @@ html>body .goog-inline-block {
 	cursor:pointer;
 	width:15px;
 	height:15px;
-	background:url(//calendar.google.com/googlecalendar/images/combined_v7.gif) 0 -50px;
+	background:url(//calendar.google.com/googlecalendar/images/combined_v9.gif) 0 -50px;
 }
 
 .cc-title {
@@ -486,19 +493,19 @@ html>body .goog-inline-block {
 
 .navBack {
 	background-position:-148px -17px;
-	background-image:url(//calendar.google.com/googlecalendar/images/combined_v7.gif);
+	background-image:url(//calendar.google.com/googlecalendar/images/combined_v9.gif);
 }
 
 .navForward {
 	background-position:-148px 0;
-	background-image:url(//calendar.google.com/googlecalendar/images/combined_v7.gif);
+	background-image:url(//calendar.google.com/googlecalendar/images/combined_v9.gif);
 }
 
-body.rtl .navBack {
+.rtl .navBack {
 	background-position:-148px 0;
 }
 
-body.rtl .navForward {
+.rtl .navForward {
 	background-position:-148px -17px;
 }
 
@@ -524,6 +531,25 @@ body.rtl .navForward {
 .tab-spacer {
 	width:3px;
 	cursor:default;
+}
+
+.link-tab-selected, .link-tab-unselected {
+	cursor:pointer;
+}
+
+.link-tab-selected {
+	color:#000;
+	font-weight:bold;
+}
+
+.link-tab-unselected {
+	font-weight:normal;
+	color:#112abb;
+	text-decoration:underline;
+}
+
+.link-tab-unselected:hover {
+	color:#cc0000;
 }
 
 .bubble {
@@ -592,7 +618,7 @@ body.rtl .navForward {
 	height:15px;
 	cursor:pointer;
 	position:absolute;
-	background:url(//calendar.google.com/googlecalendar/images/combined_v7.gif) 0 -50px;
+	background:url(//calendar.google.com/googlecalendar/images/combined_v9.gif) 0 -50px;
 }
 
 .bubble-top, .bubble-bottom {
@@ -642,6 +668,7 @@ body.rtl .navForward {
 	font-weight:bold;
 	white-space:nowrap;
 	line-height:1.2;
+	vertical-align:bottom;
 }
 
 .te-rev {
@@ -852,7 +879,6 @@ body.rtl .navForward {
 	position:absolute;
 	background-color:#c3d9ff;
 	opacity:0.5;
-	-moz-opacity:0.5;
 	-khtml-opacity:0.5;
 	filter:alpha(opacity=50);
 }
@@ -862,6 +888,35 @@ body.rtl .navForward {
 	z-index:1000;
 	position:absolute;
 	cursor:pointer;
+}
+
+.drag-chip-wrapper {
+	z-index:1;
+	position:absolute;
+	left:0;
+	width:100%;
+}
+
+.drag-chip {
+	cursor:pointer;
+	opacity:0.8;
+	-khtml-opacity:0.8;
+	filter:alpha(opacity=80);
+}
+
+.drag-halo {
+	margin:-4px;
+	border:2px solid #68e;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	position:relative;
+	zoom:1;
+}
+
+.drag-halo-inner {
+	border:2px solid #fff;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
 }
 
 .agenda {
@@ -1139,7 +1194,6 @@ img.agenda-web-content {
 	vertical-align:top;
 	padding-right:1px;
 	padding-top:1px;
-	overflow:hidden;
 }
 
 .tg-time {
@@ -1153,7 +1207,6 @@ img.agenda-web-content {
 
 .tg-col {
 	border-left:3px double #ddd;
-	overflow:hidden;
 	vertical-align:top;
 }
 
@@ -1214,7 +1267,7 @@ img.agenda-web-content {
 	background-position:-60px -68px;
 	width:5px;
 	height:9px;
-	background-image:url(//calendar.google.com/googlecalendar/images/combined_v7.gif);
+	background-image:url(//calendar.google.com/googlecalendar/images/combined_v9.gif);
 }
 
 .rtl .tg-nowptr {
@@ -1255,7 +1308,7 @@ img.agenda-web-content {
 	width:15px;
 	height:13px;
 	vertical-align:center;
-	background:url(//calendar.google.com/googlecalendar/images/combined_v7.gif) no-repeat;
+	background:url(//calendar.google.com/googlecalendar/images/combined_v9.gif) no-repeat;
 }
 
 .wk-sarr-no {
@@ -1296,7 +1349,7 @@ img.agenda-web-content {
 	width:11px;
 	height:11px;
 	overflow:hidden;
-	background-image:url(//calendar.google.com/googlecalendar/images/combined_v7.gif);
+	background-image:url(//calendar.google.com/googlecalendar/images/combined_v9.gif);
 	background-position:-37px -64px;
 }
 
