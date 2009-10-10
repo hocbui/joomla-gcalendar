@@ -139,7 +139,7 @@ class SimplePie_GAnalytics extends SimplePie {
 
 	/**
 	 * Returns the dimensions.
-	 * 
+	 *
 	 * @return dimensions
 	 */
 	function get_dimensions() {
@@ -150,7 +150,7 @@ class SimplePie_GAnalytics extends SimplePie {
 
 	/**
 	 * Returns the metrics.
-	 * 
+	 *
 	 * @return metrics
 	 */
 	function get_metrics() {
@@ -161,7 +161,7 @@ class SimplePie_GAnalytics extends SimplePie {
 
 	/**
 	 * Returns the sort criteria.
-	 *  
+	 *
 	 * @return sort criteria
 	 */
 	function get_sort() {
@@ -172,7 +172,7 @@ class SimplePie_GAnalytics extends SimplePie {
 
 	/**
 	 * Returns the total returned items.
-	 * 
+	 *
 	 * @return max items
 	 */
 	function get_max_results() {
@@ -244,6 +244,7 @@ class SimplePie_GAnalytics extends SimplePie {
 	 */
 	function init(){
 		$this->set_file_class('SimplePie_File_GAnalytics');
+		$this->set_cache_name_function(array('SimplePie_GAnalytics', 'ga_md5'));
 
 		$this->authorize();
 
@@ -286,6 +287,18 @@ class SimplePie_GAnalytics extends SimplePie {
 	 */
 	function get($key){
 		return $this->meta_data[$key];
+	}
+
+	/**
+	 * This function strips the auth code from the url to be sure
+	 * there is no cache generated for every session.
+	 */
+	function ga_md5($name){
+		$parts = explode('&auth=', $name);
+		if(is_array($parts) && count($parts) > 1){
+			$name = $parts[0];
+		}
+		return md5($name);
 	}
 }
 
