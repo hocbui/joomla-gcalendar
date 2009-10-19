@@ -135,6 +135,9 @@ class SimplePie_GAnalytics extends SimplePie {
 		if(!empty($sort))
 		$parameters['sort'] = $sort;
 		$this->parameters = $parameters;
+		
+		if(!empty($max_results))
+		$this->set_item_limit($max_results);
 	}
 
 	/**
