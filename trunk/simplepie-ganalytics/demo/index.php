@@ -90,6 +90,7 @@ if($dimensions == null){
 		$feed = new SimplePie_GAnalytics();
 		$feed->set_login($uname, $passwd);
 		$feed->set_authorization($auth);
+		$feed->set_stupidly_fast(true);
 		$feed->enable_cache(false);
 		$feed->set_cache_duration(0);
 		$feed->init();
