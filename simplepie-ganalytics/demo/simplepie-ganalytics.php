@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 0.1.0 $
+ * @version $Revision: 0.2.0 $
  */
 
 if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS')) {
@@ -23,8 +23,8 @@ if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_ANALYTICS')) {
 }
 
 /**
- * SimplePie_GAnalytics is the SimplePie extension which provides some
- * helper methods.
+ * SimplePie_GAnalytics is a SimplePie extension which provides some
+ * helper methods for google analytics data feeds.
  *
  * @see http://code.google.com/apis/analytics/docs/gdata/gdataReferenceAccountFeed.html
  * @see http://code.google.com/apis/analytics/docs/gdata/gdataReferenceDataFeed.html
@@ -33,10 +33,10 @@ class SimplePie_GAnalytics extends SimplePie {
 
 	var $user_name = null;
 	var $password = null;
-	var $profile_id;
-	var $parameters;
-	var $start_date;
-	var $end_date;
+	var $profile_id = null;
+	var $parameters = null;
+	var $start_date = null;
+	var $end_date = null;
 	var $authorization = null;
 
 	/**
@@ -51,7 +51,7 @@ class SimplePie_GAnalytics extends SimplePie {
 
 	/**
 	 * Sets the authorizaion string. Useful to prevent the
-	 * feed to do the authentication process.
+	 * feed to do the authentication process for every request.
 	 *
 	 * @param $value the authentication string
 	 */
@@ -112,15 +112,6 @@ class SimplePie_GAnalytics extends SimplePie {
 	}
 
 	/**
-	 * Returns the parameters.
-	 *
-	 * @return parameters
-	 */
-	function get_parameters(){
-		return $this->parameters;
-	}
-
-	/**
 	 * Sets the parameters.
 	 *
 	 * @param $dimensions
@@ -135,9 +126,6 @@ class SimplePie_GAnalytics extends SimplePie {
 		if(!empty($sort))
 		$parameters['sort'] = $sort;
 		$this->parameters = $parameters;
-		
-		if(!empty($max_results))
-		$this->set_item_limit($max_results);
 	}
 
 	/**
