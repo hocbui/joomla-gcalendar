@@ -88,11 +88,11 @@ class DefaultCalendar{
 		$cal = new CalendarRenderer($this);
 
 		$document =& JFactory::getDocument();
-		$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');
-		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
-		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.css');
+		$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/nifty/nifty.js');
+		$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
+		$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.css');
 		if ($userAgent == "ie") {
-			$document->addStyleSheet('administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
+			$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar-ie6.css');
 		}
 
 		JHTML::_('behavior.mootools');
@@ -174,7 +174,7 @@ class DefaultCalendar{
 	function printCalendarSelectionList(){
 		JHTML::_('behavior.mootools');
 		$document = &JFactory::getDocument();
-		$document->addScript( 'administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.js' );
+		$document->addScript(JURI::base(). 'administrator/components/com_gcalendar/libraries/rss-calendar/gcalendar.js' );
 		$calendar_list = "<div id=\"gc_gcalendar_view_list\"><table width=\"100%\"><tr>\n";
 		$feeds = $this->getFeeds();
 		if(!empty($feeds)){

@@ -76,9 +76,9 @@ if($event == null){
 	}
 
 	$document =& JFactory::getDocument();
-	$document->addScript('administrator/components/com_gcalendar/libraries/nifty/nifty.js');
-	$document->addStyleSheet('administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
-	$document->addStyleSheet('components/com_gcalendar/hiddenviews/event/tmpl/default.css');
+	$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/nifty/nifty.js');
+	$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
+	$document->addStyleSheet(JURI::base().'components/com_gcalendar/hiddenviews/event/tmpl/default.css');
 	$calCode = "window.addEvent(\"domready\", function(){\n";
 	$calCode .= "Nifty(\"div.event_content\",\"big\");\n";
 	$calCode .= "});";
@@ -97,7 +97,7 @@ if($event == null){
 	}
 	$authors = $event->get_authors();
 	if(count($authors)>0){
-		$document->addScript('components/com_gcalendar/hiddenviews/event/tmpl/default.js');
+		$document->addScript(JURI::base().'components/com_gcalendar/hiddenviews/event/tmpl/default.js');
 		echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td style=\"valign:top\">".$authors[0]->get_name()." <a href=\"javascript:sdafgkl437jeeee('".base64_encode(str_replace('@','#',$authors[0]->get_email()))."')\"><img height=\"11\" border=\"0\" width=\"16\" alt=\"email\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/mail.png\"/></a></td></tr>\n";
 	}
 	echo "</table></div>\n";

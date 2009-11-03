@@ -36,7 +36,7 @@ class GCalendarUtil{
 			$params   = JComponentHelper::getParams('com_languages');
 			if($params->get('loadJQuery', 'yes') == 'yes'){
 				$document =& JFactory::getDocument();
-				$document->addScript('administrator/components/com_gcalendar/libraries/jquery/jquery-1.3.2.js');
+				$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/jquery-1.3.2.js');
 				$document->addScriptDeclaration("jQuery.noConflict();");
 			}
 			$jQueryloaded = 'loaded';

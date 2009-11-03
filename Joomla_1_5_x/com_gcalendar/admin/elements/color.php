@@ -34,7 +34,7 @@ class JElementColor extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$document = &JFactory::getDocument();
-		$document->addScript( 'components/com_gcalendar/libraries/jscolor/jscolor.js' );
+		$document->addScript(JURI::base(). 'components/com_gcalendar/libraries/jscolor/jscolor.js' );
 		return '<input class="color" value="'.$value.'" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'"/>';
 		
 	}
