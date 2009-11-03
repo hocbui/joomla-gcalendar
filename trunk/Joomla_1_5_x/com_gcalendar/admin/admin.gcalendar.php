@@ -34,7 +34,7 @@ if($controller = JRequest::getVar('controller')) {
 }
 
 $document =& JFactory::getDocument();
-$document->addStyleSheet($mainframe->getSiteURL() . 'administrator/components/com_gcalendar/css/gcalendar.css');
+$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/css/gcalendar.css');
 
 // Create the controller
 $classname	= 'GCalendarsController'.$controller;
