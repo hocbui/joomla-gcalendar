@@ -107,7 +107,7 @@ $calendar_list .="</table></div>\n";
 if($params->get('show_selection')==1){
 	JHTML::_('behavior.mootools');
 	$document = &JFactory::getDocument();
-	$document->addScript( 'components/com_gcalendar/views/google/tmpl/gcalendar.js' );
+	$document->addScript(JURI::base(). 'components/com_gcalendar/views/google/tmpl/gcalendar.js' );
 	echo $calendar_list;
 	echo "<div align=\"center\" style=\"text-align:center\">\n";
 	echo "<a id=\"gc_google_view_toggle\" name=\"gc_google_view_toggle\" href=\"#\">\n";

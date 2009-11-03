@@ -74,9 +74,9 @@ class GCalendar extends DefaultCalendar{
 		$document->addScriptDeclaration($calCode);
 
 		GCalendarUtil::loadJQuery();
-		$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
-		$document->addScript('administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
-		$document->addStyleSheet('administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
+		$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
+		$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
+		$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
 
 		$daysLong = "[";
 		$daysShort = "[";
