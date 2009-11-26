@@ -54,6 +54,7 @@
 			<filename>uninstall.sql</filename>
 			<filename>util.php</filename>
 			<filename>dbutil.php</filename>
+			<filename>nextevents.php</filename>
 			<filename>config.xml</filename>
 			<folder>controllers</folder>
 			<folder>models</folder>
