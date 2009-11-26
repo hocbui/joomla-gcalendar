@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <!DOCTYPE install PUBLIC 
+  "-//Joomla! 1.5//DTD plugin 1.0//EN" "http://dev.joomla.org/xml/1.5/plugin-install.dtd">
+<install version="1.5" type="plugin" group="content">
+<name>Content - GCalendar Next Event</name>
+<creationDate>November 24, 2009</creationDate>
+<author>Eric Horne</author>
+<authorEmail>plggcalendarnext@box11.org</authorEmail>
+<authorUrl>www.box11.org</authorUrl>
+<copyright>Copyright 2009</copyright>
+<license>GNU/GPL</license>
+<version>V1.0.0</version>
+<description>Embeds a date from a Google Calendar event into content.</description>
+
+<files>
+	<filename plugin="gcalendar_next">gcalendar_next.php</filename>
+</files>
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars" />>
+		<param name="moduleclass_sfx" type="text" size="80" default="" label="Plugin Class Suffix" description="CSS for the dates inserted." />
+	</params>
+	<params group="advanced">
+		<param name="offset" type="text" size="10" default="0" label="Event Order Offset" description="Show the event X number of events after the immediate next event"/>
+		<param name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event." rows="5" cols="50">
+			<content>[$ startdate %m %d, %Y @ %H:%M%a $] at [$ maplink $]</content>
+			<description>
+				Here you can modify the default event output. Use strftime formatting for dates. Valid functions are embedded in [$ cmd args ... $], everything outside of that is taken literally. Valid functions are: start, finish, location (text location), maphref (url to google maps), maplink (anchor link to google maps with the location embedded as the link) and title. 
+			</description>
+		</param>
+		<param name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now." rows="5" cols="50">
+			<content>Happening right now here: [$ maplink $]</content>
+		</param>
+		<param name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found." rows="5" cols="50">
+			<content>No scheduled events could be found at this time.</content>
+		</param>
+		<param name="event_filter" type="text" size="40" default=".*" label="Event Title Filter" description="Show only events with titles that match this regular expression"/>
+		<param name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative)"/>
+		<param name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative)"/>
+		<param name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events."/>
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module.">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached in sec." />
+	</params>
+</install>
