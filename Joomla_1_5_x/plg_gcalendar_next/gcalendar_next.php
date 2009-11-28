@@ -57,85 +57,154 @@ class plgContentgcalendar_next extends JPlugin {
 	}
 
 	function embedEvent($gcalnext) {
-		$text = $gcalnext[1];
+		$embedded_str = $gcalnext[1];
 
-		$matches = Array();
-		preg_match_all('/\[\$\s*(.*?)\s*\$\]/', $text, $matches);
-		$localparams = Array();
+		$helper = new GCalendarKeywordsHelper($this->params, $embedded_str);
 
-		foreach ($matches[1] as $match) {
-			$kv = explode(' ', $match, 2);
-			if (count($kv) == 1) {
-				$kv[1] = "";
-			}	
-			$localparams[$kv[0]] = $kv[1];
-		}
-
-		$helper = new GCalendarNextHelper($this->params, $localparams);
 		if (!$helper->event) {
 			return $this->params->get('no_event');
 		}
 
-		return $helper->replace($text);
-	}
-
-	function replaceVar($var) {
-
-
+		return $helper->replace();
 	}
 }
 
-class GCalendarNextHelper {
+class PluginKeywordsHelper {
 
-	var $event = null;
 	var $params;
+	var $argre;
+	var $plgText;
 
-	function GCalendarNextHelper($params, $localparams) {
+	function PluginKeywordsHelper($params, $plgText, $argre = '/(?:\[\$|{)\s*(.*?)\s*(?:\$\]|})/') {
 		$this->params = $params;
+		$this->plgText = $plgText;
+		$this->argre = $argre;
 
-		foreach ($localparams as $key => $value) {
-			$this->params->set($key, $value);
+		$matches = Array();
+		preg_match_all($this->argre, $this->plgText, $matches);
+
+		foreach ($matches[1] as $match) {
+			list($key, $value) = explode(' ', $match, 2) + Array("", "");
+			if  (strpos($key, '+') === 0) {
+				$key = substr($key, 1);
+				$this->params->set($key, $value);
+			}
 		}
 
-
-		$gcalnext = new GCalendarNext($this->params);
-		$events = $gcalnext->getCalendarItems();
-		if (count($events) > 0) {
-			$this->event = $events[0];
-		}
+		$this->setDataObj();
 	}
 
-	function replace($text) {
-		return preg_replace_callback('/\[\$\s*(.*?)\s*\$\]/', array($this, 'replaceSingle'), $text);
+	function setDataObj() {
+		return "";
+	}
+
+
+	function replace() {
+		return preg_replace_callback($this->argre, array($this, 'replaceSingle'), $this->plgText);
 	}
 
 	function replaceSingle($val) {
+		list($func, $arg) = explode(' ', $val[1], 2) + Array("", "");
 
-		$kv = explode(' ', $val[1], 2);
-		if (count($kv) == 1) {
-			$kv[1] = "";
-		}	
-		if (is_callable(array($this, $kv[0]))) {
-			return call_user_func(array($this, $kv[0]), $kv[1]);
+		if (is_callable(array($this, $func))) {
+			return call_user_func(array($this, $func), $arg);
 		}
 
 		return "";
 	}
+}
+
+class GCalendarKeywordsHelper extends PluginKeywordsHelper {
+
+	var $event = null;
+
+	function setDataObj() {
+		$gcalnext = new GCalendarNext($this->params);
+		$events = $gcalnext->getCalendarItems();
+		if (count($events) > 0) {
+			$this->event = $events[0];
+		}	
+		return $this->event;	
+	}		
+
 
 	function date($format, $time) {
 		return strftime($format, $time);
+	}
+
+	function startdate($param) {
+		return $this->start($param);
 	}
 
 	function start($param) {
 		return $this->date($param, $this->event->get_start_date());
 	}
 
+	function finishdate($param) {
+		return $this->finish($param);
+	}
+
 	function finish($param) {
-		return $this->date($param, $this->event->get_end_date());
+		$ftime = $this->event->get_end_date();
+		$daytype = $this->event->get_day_type();
+		if ($daytype == $this->event->MULTIPLE_WHOLE_DAY) {
+			$ftime = $ftime - 1; // to account for midnight
+		}
+
+		return $this->date($param, $ftime);
+	}
+
+	function range($param) {
+		$event = $this->event;
+
+		switch($event->get_day_type()) {
+		case $event->SINGLE_WHOLE_DAY:
+			$fmt = $this->params->get("only-whole_day", "%A, %B %d, %Y all day");
+			break;
+		case $event->SINGLE_PART_DAY:
+			$fmt = $this->params->get("only-part_day", "%A, %B %d, %Y %I:%M%P until %%I:%%M%%P");
+			break;
+		case $event->MULTIPLE_WHOLE_DAY:
+			$fmt = $this->params->get("multi-whole_day", "%B %d - %%d, %%Y all day");
+			break;
+		case $event->MULTIPLE_PART_DAY:
+			$fmt = $this->params->get("multi-part_day", "%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P");
+			break;			
+		}
+		
+		$str = $this->start($fmt);
+		$str = $this->finish($str);
+
+		return $str;
+	}
+
+	function duration($param) {
+
 	}
 
 	function title($param) {
 		return $this->event->get_title();
+	}
+
+	function description($param) {
+		$desc = $this->event->get_description();
+		return eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $desc);
+	}
+
+	function backlink($param) {
+		$gcid = $this->event->get_feed()->get('gcid');
+		$itemID = GCalendarUtil::getItemID($gcid);
+		if (!empty($itemID)) $itemID = '&Itemid='.$itemID;
+		return JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$this->event->get_id().'&gcid='.$gcid.$itemID);
+	}
+
+	function link($param) {
+		$timezone = GCalendarUtil::getComponentParameter('timezone');
+		if ($timezone == ''){
+			$timezone = $feed->get_timezone();
+		}
+		
+		return $this->event->get_link() . '&ctz=' . $timezone;
 	}
 
 	function maplink($param) {
@@ -147,8 +216,19 @@ class GCalendarNextHelper {
 	}
 
 	function location($param) {
+		return $this->where($param);
+	}
+
+	function where($param) {
 		return $this->event->get_location();
 	}
 
+	function calendarname($param) {
+		return $this->event->get_feed()->get('gcname');
+	}
+
+	function calendarcolor($param) {
+		return $this->event->get_feed()->get('gccolor');
+	}
 }
 ?>
