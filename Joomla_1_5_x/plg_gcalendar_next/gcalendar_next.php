@@ -161,8 +161,6 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if ($text == "" or $text == null) {
 			$text = $this->params->get('output');
 		}
-
-		print "using ($text) \n";
 		
 		return preg_replace_callback($this->argre, array($this, 'replaceSingle'), $text);
 	}
