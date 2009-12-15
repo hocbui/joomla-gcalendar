@@ -15,7 +15,7 @@
  *
  * @author Eric Horne
  * @copyright 2009 Eric Horne 
- * @version $Revision: 1.1.0 $
+ * @version $Revision: 2.2.0 $
  */
 
 // no direct access

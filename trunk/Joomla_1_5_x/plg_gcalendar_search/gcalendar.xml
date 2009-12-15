@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="search">
 	<name>Search - GCalendar</name>
-	<author>Allon Moritz</author>
+	<author>G4J Project</author>
 	<creationDate>Jun 2009</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
