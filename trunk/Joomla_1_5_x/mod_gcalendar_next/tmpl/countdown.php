@@ -31,8 +31,6 @@ if (!$gcalendar_item) {
 	return;
 }
 
-$modtmplpath = "/modules/mod_gcalendar_next/tmpl/";
-
 $targetDate = $gcalendar_item->get_start_date();
 $now = false;
 if ($targetDate < time()) {
@@ -56,8 +54,8 @@ if (preg_match_all('/{{([^}]+)}}/', $layout, $mapREs)) {
 $objid = "countdown-" . $module->id;
 
 GCalendarUtil::loadJQuery();
-$document->addScript($modtmplpath . 'jquery.countdown.js');
-$document->addStyleSheet($modtmplpath . 'jquery.countdown.css');
+$document->addScript(JURI::base(). 'modules/mod_gcalendar_next/tmpl/jquery.countdown.js');
+$document->addStyleSheet(JURI::base(). 'modules/mod_gcalendar_next/tmpl/jquery.countdown.css');
 
 ?>
 
