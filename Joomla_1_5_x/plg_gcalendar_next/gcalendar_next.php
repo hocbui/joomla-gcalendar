@@ -18,13 +18,13 @@
  * 
  * @author Eric Horne
  * @copyright 2009 Eric Horne 
- * @version $Revision: 1.0.0 $
+ * @version $Revision: 2.2.0 $
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'nextevents.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'nextevents.php');
 
 /**
  * Constructor

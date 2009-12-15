@@ -3,7 +3,7 @@
 <install type="component" version="1.5.0">
 	<name>GCalendar</name>
 	<creationDate>Jun 2009</creationDate>
-	<author>Allon Moritz</author>
+	<author>G4J Project</author>
 	<authorEmail>info@g4j.laoneo.net</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
 	<copyright>This module is released under the GNU/GPL License.
@@ -54,7 +54,6 @@
 			<filename>uninstall.sql</filename>
 			<filename>util.php</filename>
 			<filename>dbutil.php</filename>
-			<filename>nextevents.php</filename>
 			<filename>config.xml</filename>
 			<folder>controllers</folder>
 			<folder>models</folder>

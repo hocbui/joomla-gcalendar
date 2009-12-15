@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0">
 	<name>GCalendar Overview</name>
-	<author>Allon Moritz</author>
+	<author>G4J Project</author>
 	<creationDate>Jun 2009</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
