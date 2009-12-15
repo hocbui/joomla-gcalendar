@@ -7,7 +7,7 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="gcalendarVersion" value="2_1_4" />
+	<property name="gcalendarVersion" value="2_1_5" />
 	<property name="gcalendarUpgradeStartPoint" value="2_1_0M1" />
 	<property name="includeUpgrade" value="true" />
 
@@ -64,12 +64,24 @@
 		</zip>
 		<delete dir="${build}/upgrade_1_5/plg_gcalendar_search" />
 
+		<!-- create the next plugin upgrade folder -->
+		<copy todir="${build}/upgrade_1_5/plg_gcalendar_next/plugins/search">
+			<fileset dir="${basedir}/../Joomla_1_5_x/plg_gcalendar_next" />
+		</copy>
+		<zip destfile="${build}/upgrade_1_5/plg_gcalendar_next_${gcalendarVersion}.zip">
+			<zipfileset dir="${build}/upgrade_1_5/plg_gcalendar_next" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/plg_gcalendar_next" />
+
 		<!-- create the modules upgrade package -->
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar" />
 		</antcall>
 		<antcall target="create_module_upgrade_folder_1_5">
 			<param name="module_name" value="mod_gcalendar_upcoming" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar_next" />
 		</antcall>
 
 		<!-- create the zip -->
@@ -124,6 +136,11 @@
 			<zipfileset dir="${basedir}/../${gcalendar}/plg_gcalendar_search" prefix="plg_gcalendar_search" />
 		</zip>
 
+		<!-- create gcalendar next plugin -->
+		<zip destfile="${build}/${gcalendar}/plg_gcalendar_next_${gcalendarVersion}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/plg_gcalendar_next" prefix="plg_gcalendar_next" />
+		</zip>
+
 		<!-- create gcalendar module -->
 		<zip destfile="${build}/${gcalendar}/mod_gcalendar_${gcalendarVersion}.zip">
 			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar" prefix="mod_gcalendar" />
@@ -132,6 +149,11 @@
 		<!-- create gcalendar upcoming module -->
 		<zip destfile="${build}/${gcalendar}/mod_gcalendar_upcoming_${gcalendarVersion}.zip">
 			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar_upcoming" prefix="mod_gcalendar_upcoming" />
+		</zip>
+
+		<!-- create gcalendar next module -->
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_next_${gcalendarVersion}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar_next" prefix="mod_gcalendar_next" />
 		</zip>
 	</target>
 

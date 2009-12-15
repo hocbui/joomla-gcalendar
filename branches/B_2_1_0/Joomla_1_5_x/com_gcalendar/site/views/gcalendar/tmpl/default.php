@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.4 $
+ * @version $Revision: 2.1.5 $
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -34,6 +34,7 @@ $calendar->showSelectionList = $params->get('show_selection') == 'yes';
 $calendar->dateFormat = $params->get('dateformat');
 $calendar->columnInWeekViewEqual = $params->get('columnInWeekViewEqual') == 'yes';
 $calendar->defaultView = $params->get('defaultView');
+$calendar->toolTipText = $params->get('toolTipText');
 $calendar->display();
 
 echo $params->get( 'textafter' );

@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.4 $
+ * @version $Revision: 2.1.5 $
  */
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'rss-calendar'.DS.'defaultcalendar.php');
@@ -109,7 +109,7 @@ class GCalendar extends DefaultCalendar{
 		$monthsLong .= "]";
 		$monthsShort .= "]";
 
-		$calCode .= "jQuery(document).ready(function(){\n";
+		$calCode = "jQuery(document).ready(function(){\n";
 		$calCode .= "document.getElementById('gcdate').value = jQuery.datepicker.formatDate('".$this->dateFormat."', new Date(".$year.", ".$month." - 1, ".$day."));\n";
 		//			$calCode .= "jQuery(\"#gcdate\").datepicker({changeYear: true});\n";
 		$calCode .= "jQuery(\"#gcdate\").datepicker({dateFormat: '".$this->dateFormat."'});\n";
