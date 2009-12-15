@@ -196,7 +196,8 @@ class DefaultCalendar{
 	}
 
 	/**
-	 * This is a helper method to get a readable title according to the given view, date and weekStart.
+	 * This is a helper method to get a readable title 
+	 * according to the given view, date and weekStart.
 	 *
 	 */
 	function getViewTitle($year, $month, $day, $weekStart, $view) {
