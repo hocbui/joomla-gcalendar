@@ -299,8 +299,13 @@ class DefaultCalendar{
 		}
 		if($itemid !=null){
 			return $calendars.'&Itemid='.$itemid;
+		}else{
+			$menu=JSite::getMenu();
+			$activemenu=$menu->getActive();
+			if($activemenu != null)
+			return $calendars.'&Itemid='.$activemenu->id;
+			return $calendars;
 		}
-		return $calendars;
 	}
 
 	function getTranslatedViewName($view = null){
