@@ -72,6 +72,8 @@ class DefaultCalendar{
 			$userAgent = "other";
 		}
 
+		$start = time();
+		$end = time();
 		switch($this->view) {
 			case "month":
 				$start = mktime(0, 0, 0, $this->month, 1, $this->year);
