@@ -26,8 +26,6 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'nextevents.php');
 
-date_default_timezone_set(GCalendarUtil::getComponentParameter('timezone'));
-
 class ModGCalendarNextHelper {
 
 	function getCalendarItems(&$params) {
