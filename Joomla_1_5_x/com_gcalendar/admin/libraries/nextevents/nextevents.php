@@ -43,7 +43,7 @@ class GCalendarNext {
 		$calendarids = $params->get('calendarids');
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
-			JError::raiseError(500, 'The selected calendar(s) were not found in the database.');
+			return array();
 		$values = array();
 		foreach ($results as $result) {
 			if(!empty($result->calendar_id)){
@@ -55,7 +55,7 @@ class GCalendarNext {
 				$feed->set_end_date(strtotime($params->get('enddate', "+10 years")));
 				$feed->set_sort_ascending(TRUE);
 				$feed->set_orderby_by_start_date($sortOrder);
-				$feed->set_expand_single_events(TRUE);
+				$feed->set_expand_single_events($params->get('expand_events', TRUE));
 				$feed->enable_order_by_date(TRUE);
 				$feed->enable_cache(FALSE);
 				$feed->set_max_events($params->get("max_events", 10));
