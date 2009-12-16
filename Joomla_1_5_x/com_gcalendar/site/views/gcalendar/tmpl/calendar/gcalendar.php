@@ -40,6 +40,8 @@ class GCalendar extends DefaultCalendar{
 		$document->setTitle('GCalendar: '.$this->getViewTitle($year, $month, $day, $this->getWeekStart(), $view));
 
 		$mainFilename = "index.php?option=com_gcalendar&view=gcalendar&Itemid=".$Itemid;
+		$prevURL = '';
+		$nextURL = '';
 		switch($view) {
 			case "month":
 				$nextMonth = ($month == 12) ? 1 : $month+1;

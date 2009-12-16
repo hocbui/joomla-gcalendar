@@ -30,7 +30,7 @@ class GCalendarDBUtil{
 		$condition = '';
 		if(!empty($calendarIDs)){
 			if(is_array($calendarIDs)) {
-				$condition = 'id IN ( ' . implode( ',', (int)$calendarIDs ) . ')';
+				$condition = 'id IN ( ' . implode( ',', $calendarIDs ) . ')';
 			} else {
 				$condition = 'id = '.(int)$calendarIDs;
 			}
