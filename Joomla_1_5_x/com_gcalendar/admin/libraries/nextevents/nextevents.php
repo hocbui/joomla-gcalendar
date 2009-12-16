@@ -27,8 +27,6 @@ defined('_JEXEC') or die('Restricted access');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
-date_default_timezone_set(GCalendarUtil::getComponentParameter('timezone'));
-
 class GCalendarNext {
 
 	var $params = "";
@@ -93,7 +91,7 @@ class GCalendarNext {
 		$offset = $params->get('offset', 0);
 		$numevents = $params->get('count', 1);
 
-		$events = array_slice($events, $offset, $numevents, false);
+		$events = array_slice($events, $offset, $numevents);
 
 		//return the feed data structure for the template
 		return $events;

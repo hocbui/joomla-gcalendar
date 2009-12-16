@@ -140,7 +140,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		$end_soon = date($this->params->get('end_soon', '-2 hours', $end));
 		$plgText = preg_replace($this->argre, "", $this->plgText);
 		$plgText = preg_replace('/\s+/', "", $plgText);
-
+		$text = '';
 		
 		if ($plgText) {
 			$this->params->set('output', $this->plgText);
@@ -193,7 +193,8 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	}
 
 	function start($param) {
-		return $this->date($param, $this->event()->get_start_date());
+		$event = $this->event();
+		return $this->date($param, $event->get_start_date());
 	}
 
 	function finishdate($param) {
@@ -201,9 +202,10 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	}
 
 	function finish($param) {
-		$ftime = $this->event()->get_end_date();
-		$daytype = $this->event()->get_day_type();
-		if ($daytype == $this->event()->MULTIPLE_WHOLE_DAY) {
+		$event = $this->event();
+		$ftime = $event->get_end_date();
+		$daytype = $event->get_day_type();
+		if ($daytype == $event->MULTIPLE_WHOLE_DAY) {
 			$ftime = $ftime - 1; // to account for midnight
 		}
 
@@ -244,19 +246,23 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	}
 
 	function title($param) {
-		return $this->event()->get_title();
+		$event = $this->event();
+		return $event->get_title();
 	}
 
 	function description($param) {
-		$desc = $this->event()->get_description();
+		$event = $this->event();
+		$desc = $event->get_description();
 		return eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $desc);
 	}
 
 	function backlink($param) {
-		$gcid = $this->event()->get_feed()->get('gcid');
+		$event = $this->event();
+		$feed = $event->get_feed();
+		$gcid = $feed->get('gcid');
 		$itemID = GCalendarUtil::getItemID($gcid);
 		if (!empty($itemID)) $itemID = '&Itemid='.$itemID;
-		return JRoute::_('index.php?option=com_gcalendar&view=event()&event()ID='.$this->event()->get_id().'&gcid='.$gcid.$itemID);
+		return JRoute::_('index.php?option=com_gcalendar&view=event()&event()ID='.$event->get_id().'&gcid='.$gcid.$itemID);
 	}
 
 	function link($param) {
@@ -264,8 +270,8 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if ($timezone == ''){
 			$timezone = $feed->get_timezone();
 		}
-		
-		return $this->event()->get_link() . '&ctz=' . $timezone;
+		$event = $this->event();
+		return $event->get_link() . '&ctz=' . $timezone;
 	}
 
 	function maplink($param) {
@@ -281,15 +287,20 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	}
 
 	function where($param) {
-		return $this->event()->get_location();
+		$event = $this->event();
+		return $event->get_location();
 	}
 
 	function calendarname($param) {
-		return $this->event()->get_feed()->get('gcname');
+		$event = $this->event();
+		$feed = $event->get_feed();
+		return $feed->get('gcname');
 	}
 
 	function calendarcolor($param) {
-		return $this->event()->get_feed()->get('gccolor');
+		$event = $this->event();
+		$feed = $event->get_feed();
+		return $feed->get('gccolor');
 	}
 }
 ?>
