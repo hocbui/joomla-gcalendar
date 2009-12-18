@@ -20,60 +20,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'events_helper.php');
 
-class ModGCalendarUpcomingHelper {
+class ModGCalendarUpcomingHelper extends GCalendarEventsHelper {
 
 	function getCalendarItems(&$params) {
-		GCalendarUtil::ensureSPIsLoaded();
-		$calendarids = $params->get('calendarids');
-		$results = GCalendarDBUtil::getCalendars($calendarids);
-		if(empty($results)){
-			JError::raiseWarning( 500, 'The selected calendar(s) were not found in the database.');
-			return null;
+		$events = parent::getCalendarItems($params);
+		if ($events != null) {
+			return $events;
 		}
-
-		$values = array();
-		foreach ($results as $result) {
-			if(!empty($result->calendar_id)){
-				$sortOrder = $params->get( 'order', 1 )==1;
-				$maxEvents = $params->get( 'max', 5 );
-
-				$feed = new SimplePie_GCalendar();
-				$feed->set_show_past_events(FALSE);
-				$feed->set_sort_ascending(TRUE);
-				$feed->set_orderby_by_start_date($sortOrder);
-				$feed->set_expand_single_events(TRUE);
-				$feed->enable_order_by_date(FALSE);
-				$feed->enable_cache(FALSE);
-				$feed->set_max_events($maxEvents);
-				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
-				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
-				$feed->put('gcid',$result->id);
-				$feed->put('gcname',$result->name);
-				$feed->put('gccolor',$result->color);
-				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
-
-				$feed->set_feed_url($url);
-					
-				// Initialize the feed so that we can use it.
-				$feed->init();
-
-				if ($feed->error()){
-					JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
-				}
-				// Make sure the content is being served out to the browser properly.
-				$feed->handle_content_type();
-
-				$values = array_merge($values, $feed->get_items());
-			}
-		}
-
-		// we sort the array based on the event compare function
-		usort($values, array("SimplePie_Item_GCalendar", "compare"));
-
-		return $values;
+		return Array();
 	}
 }
 ?>
