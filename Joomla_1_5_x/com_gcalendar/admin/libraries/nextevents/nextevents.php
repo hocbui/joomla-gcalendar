@@ -18,7 +18,7 @@
  * 
  * @author Eric Horne
  * @copyright 2009 Eric Horne 
- * @version $Revision: 1.0.0 $
+ * @version $Revision: 2.2.0 $
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -57,7 +57,7 @@ class GCalendarNext {
 				$feed->set_orderby_by_start_date($sortOrder);
 				$feed->set_expand_single_events($params->get('expand_events', TRUE));
 				$feed->enable_order_by_date(TRUE);
-				$feed->enable_cache(FALSE);
+				$feed->enable_cache(TRUE);
 				$feed->set_max_events($params->get("max_events", 10));
 				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
@@ -84,7 +84,6 @@ class GCalendarNext {
 
 		// we sort the array based on the event compare function
 		usort($values, array("SimplePie_Item_GCalendar", "compare"));
-
 
 		$events = array_filter($values, array($this, "filter"));
 
