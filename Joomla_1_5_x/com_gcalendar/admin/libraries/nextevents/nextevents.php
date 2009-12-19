@@ -48,6 +48,7 @@ class GCalendarNext {
 		foreach ($results as $result) {
 			if(!empty($result->calendar_id)){
 				$sortOrder = $params->get( 'order', 1 )==1;
+				$maxEvents = $params->get("max_events", 10);
 
 				$feed = new SimplePie_GCalendar();
 				$feed->set_show_past_events($params->get('past_events', TRUE));
@@ -58,9 +59,10 @@ class GCalendarNext {
 				$feed->set_expand_single_events($params->get('expand_events', TRUE));
 				$feed->enable_order_by_date(TRUE);
 				$feed->enable_cache(TRUE);
-				$feed->set_max_events($params->get("max_events", 10));
+				$feed->set_max_events($maxEvents);
 				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
+				$feed->set_cal_query($params->get("find", ""));
 				$feed->put('gcid',$result->id);
 				$feed->put('gcname',$result->name);
 				$feed->put('gccolor',$result->color);
@@ -88,7 +90,7 @@ class GCalendarNext {
 		$events = array_filter($values, array($this, "filter"));
 
 		$offset = $params->get('offset', 0);
-		$numevents = $params->get('count', 1);
+		$numevents = $params->get('count', $maxEvents);
 
 		$events = array_slice($events, $offset, $numevents);
 
@@ -97,7 +99,7 @@ class GCalendarNext {
 	}
 
 	function filter($event) {
-		$filter = $this->params->get('event_filter', '.*');
+		$filter = $this->params->get('title_filter', '.*');
 
 		if (!preg_match('/'.$filter.'/', $event->get_title())) {
 			return false;

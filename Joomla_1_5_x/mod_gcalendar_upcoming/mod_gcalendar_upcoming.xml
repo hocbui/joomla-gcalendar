@@ -36,19 +36,26 @@
 		<param name="timeFormat" type="text" size="80" default="%H:%M"
 			label="Time format"
 			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
-		<param name="max" type="text" size="2" default="5" label="Max events"
+		<param name="count" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
 		<param name="order" type="radio" default="1" label="Sort Order"
 			description="The order strategy of the events.">
 			<option value="1">Start Time</option>
 			<option value="0">Last Modified</option>
 		</param>
+		<param name="find" type="text" size="40" default="" label="Event Search" description="Find events whose title/description contain this string. Standard Google search expressions are allowed (e.g. &amp;quot;find only me&amp;quot;, &amp;quot;-dont_find_me&amp;quot;, find this that)"/>
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
 		<param name="moduleclass_sfx" type="text" size="80" default=""
 			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 	<params group="advanced">
+		<param name="max_events" type="text" size="2" default="0" label="Events to download"
+			description="Limit the number of events for download (not display) to this number." />
+		<param name="offset" type="text" size="10" default="0" label="Event Order Offset" description="Show the event X number of events after the immediate next event"/>
+		<param name="title_filter" type="text" size="40" default=".*" label="Event Title Filter" description="Show only events with titles that match this regular expression"/>
+		<param name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative)"/>
+		<param name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative)"/>		
 		<param name="textbefore" type="textarea" default=""
 			label="Content before events" description="This text will be displayed before the event list."
 			rows="3" cols="50" />
