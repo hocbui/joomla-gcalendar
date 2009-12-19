@@ -39,6 +39,7 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'librari
  */
 
 class plgContentgcalendar_next extends JPlugin {
+	var $params;
 
 	function plgContentgcalendar_next(&$subject, $params) {
 		parent::__construct($subject, $params);
@@ -80,7 +81,7 @@ class PluginKeywordsHelper {
 	var $fmtParams = Array();
 
 	function PluginKeywordsHelper($params, $plgText, $argre = '/(?:\[\$)\s*(.*?)\s*(?:\$\])/') {
-		$this->params = $params;
+		$this->params = new JParameter($params->toString("INI")); // Prevents bleedover to other instances
 		$this->plgText = $plgText;
 		$this->argre = $argre;
 
@@ -136,8 +137,8 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		$start = $this->dataobj->get_start_date();
 		$end = $this->dataobj->get_end_date();
 		$now = time();
-		$start_soon = date($this->params->get('start_soon', '-4 hours', $start));
-		$end_soon = date($this->params->get('end_soon', '-2 hours', $end));
+		$start_soon = date($this->params->get('start_soon', '-4 hours'), $start);
+		$end_soon = date($this->params->get('end_soon', '-2 hours'), $end);
 		$plgText = preg_replace($this->argre, "", $this->plgText);
 		$plgText = preg_replace('/\s+/', "", $plgText);
 		$text = '';
@@ -241,8 +242,51 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		return $str;
 	}
 
-	function duration($param) {
+	function duration($param, $interval) {
+		$days = 0;
+		$hours = 0;
+		$minutes = 0;
+		$seconds = 0;
 
+		if (strpos($param, '%d') !== FALSE) {
+			$days = intval($interval / (24 * 3600));
+			$interval = $interval - ($days * 24 * 3600);
+			$param = str_replace('%d', $days, $param);
+		}
+
+		if (strpos($param, '%h') !== FALSE) {
+			$hours = intval($interval / (3600));
+			$interval = $interval - ($hours * 3600);
+			$param = str_replace('%h', $hours, $param);
+		}
+
+		if (strpos($param, '%m') !== FALSE) {
+			$minutes = intval($interval / (60));
+			$interval = $interval - ($minutes * 60);
+			$param = str_replace('%m', $minutes, $param);
+		}
+
+		if (strpos($param, '%s') !== FALSE) {
+			$seconds = intval($interval);
+			$param = str_replace('%s', $seconds, $param);
+		}		
+
+		return $param;
+	}
+
+	function lasts($param) {
+		$event = $this->event();
+		return $this->duration($param, $event->get_end_date() - $event->get_start_date());
+	}
+
+	function startsin($param) {
+		$event = $this->event();
+		return $this->duration($param, $event->get_start_date() - time());
+	}
+
+	function endsin($param) {
+		$event = $this->event();
+		return $this->duration($param, $event->get_end_date() - time());
 	}
 
 	function title($param) {
