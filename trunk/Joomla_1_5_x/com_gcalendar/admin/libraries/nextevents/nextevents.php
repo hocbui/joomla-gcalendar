@@ -58,7 +58,7 @@ class GCalendarNext {
 				$feed->set_orderby_by_start_date($sortOrder);
 				$feed->set_expand_single_events($params->get('expand_events', TRUE));
 				$feed->enable_order_by_date(TRUE);
-				$feed->enable_cache(TRUE);
+				$feed->enable_cache(FALSE);
 				$feed->set_max_events($maxEvents);
 				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());

@@ -27,5 +27,5 @@ require_once (dirname(__FILE__).DS.'helper.php');
 
 $document =& JFactory::getDocument();
 $gcalendar_item = ModGCalendarNextHelper::getCalendarItems($params);
-require( JModuleHelper::getLayoutPath( 'mod_gcalendar_next', $params->get('style') ) );
+require( JModuleHelper::getLayoutPath( 'mod_gcalendar_next') );
 ?>

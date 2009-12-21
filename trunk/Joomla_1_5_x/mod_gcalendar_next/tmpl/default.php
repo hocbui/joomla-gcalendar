@@ -13,100 +13,63 @@
  * You should have received a copy of the GNU General Public License
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Allon Moritz
- * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.2.0 $
+ * @author Eric Horne
+ * @copyright 2009 Eric Horne 
+ * @version $Revision: 2.1.5 $
  */
 
+// no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$SECSINDAY=86400;
-
-$event_display=$params->get('output', '');
-
-// Date format you want your details to appear
-$dateformat=$params->get('dateFormat', '%d.%m.%Y');
-$timeformat=$params->get('timeFormat', '%H:%M');
-$calName = $params->get( 'name', NULL );
-
-echo $params->get( 'textbefore' );
-
-// Loop through the array, and display what we wanted.
-for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
-	$item = $gcalendar_data[$i];
-
-	$feed = $item->get_feed();
-	$tz = GCalendarUtil::getComponentParameter('timezone');
-	if($tz == ''){
-		$tz = $feed->get_timezone();
-	}
-
-	$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
-	if(!empty($itemID))$itemID = '&Itemid='.$itemID;
-
-	// These are the dates we'll display
-	$tmp = JFactory::getDate($item->get_start_date());
-	$startDate = $tmp->toFormat($dateformat);
-	$tmp = JFactory::getDate($item->get_start_date());
-	$startTime = $tmp->toFormat($timeformat);
-	$tmp = JFactory::getDate($item->get_end_date());
-	$endDate = $tmp->toFormat($dateformat);
-	$tmp = JFactory::getDate($item->get_end_date());
-	$endTime = $tmp->toFormat($timeformat);
-
-	$temp_event=$event_display;
-
-	switch($item->get_day_type()){
-		case $item->SINGLE_WHOLE_DAY:
-			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-			$temp_event=str_replace("{starttime}","",$temp_event);
-			$temp_event=str_replace("{dateseparator}","",$temp_event);
-			$temp_event=str_replace("{enddate}","",$temp_event);
-			$temp_event=str_replace("{endtime}","",$temp_event);
-			break;
-		case $item->SINGLE_PART_DAY:
-			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-			$temp_event=str_replace("{starttime}",$startTime,$temp_event);
-			$temp_event=str_replace("{dateseparator}","-",$temp_event);
-			$temp_event=str_replace("{enddate}","",$temp_event);
-			$temp_event=str_replace("{endtime}",$endTime,$temp_event);
-			break;
-		case $item->MULTIPLE_WHOLE_DAY:
-			$tmp = JFactory::getDate($item->get_end_date() - $SECSINDAY);
-			$endDate = $tmp->toFormat($dateformat);
-			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-			$temp_event=str_replace("{starttime}","",$temp_event);
-			$temp_event=str_replace("{dateseparator}","-",$temp_event);
-			$temp_event=str_replace("{enddate}",$endDate,$temp_event);
-			$temp_event=str_replace("{endtime}","",$temp_event);
-			break;
-		case $item->MULTIPLE_PART_DAY:
-			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-			$temp_event=str_replace("{starttime}",$startTime,$temp_event);
-			$temp_event=str_replace("{dateseparator}","-",$temp_event);
-			$temp_event=str_replace("{enddate}",$endDate,$temp_event);
-			$temp_event=str_replace("{endtime}",$endTime,$temp_event);
-			break;
-	}
-
-	//Make any URLs used in the description also clickable
-	$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $item->get_description());
-
-	$temp_event=str_replace("{title}",$item->get_title(),$temp_event);
-	$temp_event=str_replace("{description}",$desc,$temp_event);
-	$temp_event=str_replace("{where}",$item->get_location(),$temp_event);
-	$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$item->get_id().'&start='.$item->get_start_date().'&end='.$item->get_end_date().'&gcid='.$feed->get('gcid').$itemID),$temp_event);
-	$temp_event=str_replace("{link}",$item->get_link().'&ctz='.$tz,$temp_event);
-	$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
-	$temp_event=str_replace("{calendarname}",$feed->get('gcname'),$temp_event);
-	$temp_event=str_replace("{calendarcolor}",$feed->get('gccolor'),$temp_event);
-	// Accept and translate HTML
-	$temp_event=str_replace("&lt;","<",$temp_event);
-	$temp_event=str_replace("&gt;",">",$temp_event);
-	$temp_event=str_replace("&quot;","\"",$temp_event);
-
-	echo $temp_event;
+if(!empty($error)){
+	echo $error;
+	return;
 }
 
-echo $params->get( 'textafter' );
+if (!$gcalendar_item) {
+	echo $params->get("no_event", "No events found.");
+	return;
+}
+
+$targetDate = $gcalendar_item->get_start_date();
+$now = false;
+if ($targetDate < time()) {
+	$targetDate = $gcalendar_item->get_end_date();
+	$now = true;
+}
+
+$layout = $params->get(($now) ? 'output_now' : 'output');
+$class = ($now) ? "countdown now" : "countdown";
+$mapREs = array();
+$mapValues = array();
+
+if (preg_match_all('/{{([^}]+)}}/', $layout, $mapREs)) {
+	foreach ($mapREs[1] as $mapRE) {
+		array_push($mapValues, call_user_func(array($gcalendar_item, 'get_' . $mapRE)));
+	}
+	
+	$layout = str_replace($mapREs[0], $mapValues, $layout);
+}
+
+$objid = "countdown-" . $module->id;
+
+GCalendarUtil::loadJQuery();
+$document->addScript(JURI::base(). 'modules/mod_gcalendar_next/tmpl/jquery.countdown.js');
+$document->addStyleSheet(JURI::base(). 'modules/mod_gcalendar_next/tmpl/jquery.countdown.css');
+
 ?>
+
+<div class="gcalendar_next">
+
+<script type="text/javascript">
+jQuery(function() {
+	var targetDate; 
+	targetDate = new Date("<?php print date("D,d M Y H:i:s", $targetDate);?>"); 
+	jQuery('#<?php print $objid; ?>').countdown({until: targetDate, 
+				       description: '<?php print $gcalendar_item->get_title();?>', 
+ 				       layout: '<?php print $layout; ?>', 
+				       <?php print $params->get('style_parameters', "format: 'dHMS'"); ?>});
+});
+</script>
+	<div id="<?php print $objid; ?>" class="<?php print $class; ?>">you have javascript disabled</div>
+</div>
