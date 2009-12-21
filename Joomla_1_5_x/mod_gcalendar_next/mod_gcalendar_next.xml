@@ -30,10 +30,6 @@
 	</languages>
 	<params addpath="/administrator/components/com_gcalendar/elements">
 		<param name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars" />
-		<param name="style" type="list" default="default" label="Style" description="Select the style for displaying the next event.">
-			<option value="default">Use default</option>
-			<option value="countdown">Countdown Timer</option>
-		</param>
 		<param name="style_parameters" type="text" size="80" default="" label="Style Parameters" description="Key value pairs to pass into the style."/>
 		<param name="moduleclass_sfx" type="text" size="80" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
@@ -51,7 +47,7 @@
 		<param name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found." rows="5" cols="50">
 			<content>&lt;div class="gcalendar_next"&gt;No event found.&lt;/div&gt;</content>
 		</param>
-		<param name="find" type="text" size="40" default="" label="Event Search" description="Find events whose title/description contain this string. Standard Google search expressions are allowed (e.g. \"find only me\", \"-dont_find_me\", find this that)"/>
+		<param name="find" type="text" size="40" default="" label="Event Search" description="Find events whose title/description contain this string. Standard Google search expressions are allowed (e.g. find only me, -dont_find_me, find this that)"/>
 		<param name="title_filter" type="text" size="40" default=".*" label="Event Title Filter" description="Show only events with titles that match this regular expression"/>
 		<param name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative)"/>
 		<param name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative)"/>
