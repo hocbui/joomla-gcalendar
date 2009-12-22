@@ -65,7 +65,7 @@
 		<delete dir="${build}/upgrade_1_5/plg_gcalendar_search" />
 
 		<!-- create the next plugin upgrade folder -->
-		<copy todir="${build}/upgrade_1_5/plg_gcalendar_next/plugins/search">
+		<copy todir="${build}/upgrade_1_5/plg_gcalendar_next/plugins/content">
 			<fileset dir="${basedir}/../Joomla_1_5_x/plg_gcalendar_next" />
 		</copy>
 		<zip destfile="${build}/upgrade_1_5/plg_gcalendar_next_${gcalendarVersion}.zip">
