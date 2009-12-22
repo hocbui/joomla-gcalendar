@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>GCalendar Upcoming Events</name>
+	<author>G4J Project</author>
+	<creationDate>Dec 2009</creationDate>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorEmail>info@g4j.laoneo.net
+	</authorEmail>
+	<authorUrl>g4j.laoneo.net</authorUrl>
+	<version>2.1.5</version>
+	<description>This module shows the upcoming events from a google
+		calendar.</description>
+	<files>
+		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php
+		</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<filename>tmpl/default.php</filename>
+		<filename>tmpl/index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar_upcoming.ini
+		</language>
+		<language tag="de-DE">languages/de-DE.mod_gcalendar_upcoming.ini
+		</language>
+	</languages>
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default=""
+			label="Select Calendars" description="The calendars" />
+		<param name="dateFormat" type="text" size="80" default="%d.%m.%Y"
+			label="Date format"
+			description="The format of the date for an event (see http://www.php.net/strftime for details)." />
+		<param name="timeFormat" type="text" size="80" default="%H:%M"
+			label="Time format"
+			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
+		<param name="max" type="text" size="2" default="5" label="Max events"
+			description="The maximal count of events should be displayed." />
+		<param name="order" type="radio" default="1" label="Sort Order"
+			description="The order strategy of the events.">
+			<option value="1">Start Time</option>
+			<option value="0">Last Modified</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="moduleclass_sfx" type="text" size="80" default=""
+			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	<params group="advanced">
+		<param name="textbefore" type="textarea" default=""
+			label="Content before events" description="This text will be displayed before the event list."
+			rows="3" cols="50" />
+		<param name="output" type="textarea2" default="" label="Event output"
+			description="Here you can customize the appearance of the event."
+			rows="5" cols="50">
+			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate}
+				{endtime}&lt;br/&gt;&lt;a
+				href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
+			<description>
+				Here you can modify the event output. The following
+				attributes of an event are provided:&lt;br&gt;
+				{title},
+				{description},
+				{startdate}, {starttime}, {dateseparator}, {enddate},
+				{endtime}
+				{where}, {backlink}, {link}, {maplink}, {calendarname},
+				{calendarcolor}
+			</description>
+		</param>
+		<param name="textafter" type="textarea" default=""
+			label="Content after events" description="This text will be displayed after the event list."
+			rows="3" cols="50" />
+		<param name="cache" type="list" default="1" label="Caching"
+			description="Select whether to cache the content of this module.">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time"
+			description="The time before the module is recached in sec." />
+	</params>
+</install>

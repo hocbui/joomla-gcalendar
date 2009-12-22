@@ -1,0 +1,18 @@
+div.event_content {
+	margin: 0 auto;
+	background: #F3F3F3;
+}
+
+#content_table {
+	padding: 10px;
+	width: 100%;
+}
+
+#content_table td {
+	vertical-align: top;
+}
+
+.event_content_key {
+	font-weight: bold;
+	width: 30px;
+}
