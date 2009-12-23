@@ -303,6 +303,7 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	var $gc_start_date;
 	var $gc_end_date;
 	var $gc_day_type;
+	var $gc_transparency;
 
 	/**
 	 * Returns the id of the event.
@@ -353,10 +354,23 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	 */
 	function get_status(){
 		if(!$this->gc_status){
-			$gd_where = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'eventStatus');
+			$gd_status = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'eventStatus');
 			$this->gc_status = substr( $gd_status[0]['attribs']['']['value'], -8);
 		}
 		return $this->gc_status;
+	}
+
+	/**
+	 * Returns the transparency of the event.
+	 *
+	 * @return the transparency of the event
+	 */
+	function get_transparency(){
+		if(!$this->gc_transparency){
+			$gd_transparency = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'transparency');
+			$this->gc_transparency =  str_replace(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM."#event.","",$gd_transparency[0]['attribs']['']['value']);
+		}
+		return $this->gc_transparency;
 	}
 
 	/**
