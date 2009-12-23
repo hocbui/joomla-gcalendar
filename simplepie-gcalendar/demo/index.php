@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 0.5.0 $
+ * @version $Revision: 0.6.0 $
  */
 
 require_once ('simplepie.inc');
