@@ -35,21 +35,6 @@
 				<option value="mm/dd/yy">Month/Day/Year</option>
 				<option value="yy/mm/dd">Year/Month/Day</option>
 			</param>
-			<param name="toolTipText" type="textarea2" default="" label="Event tooltip"
-			description="Here you can customize the appearance of the event tooltip."
-			rows="5" cols="50">
-			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;{description}&lt;/p&gt;</content>
-			<description>
-				Here you can modify the event tooltip. The following
-				attributes of an event are provided:&lt;br&gt;
-				{title},
-				{description},
-				{startdate}, {starttime}, {dateseparator}, {enddate},
-				{endtime}
-				{where}, {backlink}, {link}, {maplink}, {calendarname},
-				{calendarcolor}
-			</description>
-		</param>
 			<param name="textbefore" type="textarea" default=""
 				label="Content before calendar" description="This text will be displayed before the google calendar."
 				rows="5" cols="50" />
