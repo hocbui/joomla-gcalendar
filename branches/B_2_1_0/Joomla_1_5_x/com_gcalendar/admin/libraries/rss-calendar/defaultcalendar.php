@@ -26,7 +26,6 @@ require_once ('calendarrenderer.php');
 
 class DefaultCalendar{
 
-	var $id = '';
 	var $feedFetcher;
 	var $defaultView = 'month';
 	var $forceView = null;
@@ -109,7 +108,7 @@ class DefaultCalendar{
 			$document->addScriptDeclaration($calCode);
 		}
 
-		echo "<div class=\"gcalendar".$this->id."\">\n";
+		echo "<div class=\"gcalendar\">\n";
 		if($this->showSelectionList){
 			$this->printCalendarSelectionList();
 		}
@@ -288,7 +287,7 @@ class DefaultCalendar{
 		$calendars = '';
 		$itemid = null;
 		if(!empty($calids)){
-			$calendars = '&gcids='.implode(',',$calids);
+			$calendars = '&amp;gcids='.implode(',',$calids);
 			$itemid = GCalendarUtil::getItemId($calids[0]);
 			foreach ($calids as $cal) {
 				$id = GCalendarUtil::getItemId($cal);
@@ -299,12 +298,12 @@ class DefaultCalendar{
 			}
 		}
 		if($itemid !=null){
-			return $calendars.'&Itemid='.$itemid;
+			return $calendars.'&amp;Itemid='.$itemid;
 		}else{
 			$menu=JSite::getMenu();
 			$activemenu=$menu->getActive();
 			if($activemenu != null)
-			return $calendars.'&Itemid='.$activemenu->id;
+			return $calendars.'&amp;Itemid='.$activemenu->id;
 			return $calendars;
 		}
 	}

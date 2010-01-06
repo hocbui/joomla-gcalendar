@@ -27,6 +27,7 @@ class GCalendar extends DefaultCalendar{
 
 	function GCalendar($model){
 		$this->DefaultCalendar($model);
+		$this->id = 'com';
 	}
 
 	function printToolBar(){
@@ -73,7 +74,7 @@ class GCalendar extends DefaultCalendar{
 		$calCode .= "if(d == null) d = new Date();\n";
 		$calCode .= "window.location = '".html_entity_decode(JRoute::_($mainFilename."&gcalendarview=".$view))."&day='+d.getDate()+'&month='+(d.getMonth()+1)+'&year='+d.getFullYear();\n";
 		$calCode .= "};\n";
-		$document->addScriptDeclaration($calCode);
+		$document->addScriptDeclaration(str_replace("&", "&amp;", $calCode));
 
 		GCalendarUtil::loadJQuery();
 		$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
@@ -137,12 +138,12 @@ class GCalendar extends DefaultCalendar{
 		echo "<td width=\"20px\"/>\n";
 		$today = getdate();
 		echo " <td valign=\"middle\">\n";
-		echo "<button onClick=\"jumpToDate(null)\" title=\"".JText::_('TOOLBAR_JUMP').JText::_('TOOLBAR_TODAY')."\">".JText::_('TOOLBAR_TODAY')."</button>\n";
+		echo "<button onclick=\"jumpToDate(null)\" title=\"".JText::_('TOOLBAR_JUMP').JText::_('TOOLBAR_TODAY')."\">".JText::_('TOOLBAR_TODAY')."</button>\n";
 		echo "</td>\n";
 		echo " <td valign=\"middle\"><input class=\"Item\"	type=\"text\" name=\"gcdate\" id=\"gcdate\" \n";
 		echo "size=\"10\" maxlength=\"10\" title=\"".JText::_('TOOLBAR_SELECT_DATE')."\" /></td>";
 		echo " <td valign=\"middle\">\n";
-		echo "<button onClick=\"jumpToDate(jQuery.datepicker.parseDate('".$this->dateFormat."', document.getElementById('gcdate').value))\" title=\"".JText::_('TOOLBAR_JUMP')."\">".JText::_('TOOLBAR_GO')."</button>\n";
+		echo "<button onclick=\"jumpToDate(jQuery.datepicker.parseDate('".$this->dateFormat."', document.getElementById('gcdate').value))\" title=\"".JText::_('TOOLBAR_JUMP')."\">".JText::_('TOOLBAR_GO')."</button>\n";
 		echo "</td>\n";
 		echo "<td width=\"20px\"/>\n";
 

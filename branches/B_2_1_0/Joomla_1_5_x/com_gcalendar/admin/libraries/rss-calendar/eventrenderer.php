@@ -40,7 +40,7 @@ class EventRenderer {
 		JHTML::_('behavior.modal');
 		$document =& JFactory::getDocument();
 		$document->addScript(JURI::base().'components/com_gcalendar/hiddenviews/event/tmpl/default.js');
-		echo "<a class=\"gcalendar_daylink modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&tmpl=component&view=event&eventID='.$spItem->get_id().'&start='.$spItem->get_start_date().'&end='.$spItem->get_end_date().'&gcid='.$feed->get('gcid')).'&Itemid='.$Itemid."\" ";
+		echo "<a class=\"gcalendar_daylink modal\" href=\"".JRoute::_('index.php?option=com_gcalendar&amp;tmpl=component&amp;view=event&amp;eventID='.$spItem->get_id().'&amp;start='.$spItem->get_start_date().'&amp;end='.$spItem->get_end_date().'&amp;gcid='.$feed->get('gcid')).'&amp;Itemid='.$Itemid."\" ";
 		echo " title=\"";
 		echo EventRenderer::summary($spItem);
 		echo "\" >";

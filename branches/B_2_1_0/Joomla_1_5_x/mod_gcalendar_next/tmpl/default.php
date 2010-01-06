@@ -14,7 +14,7 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Eric Horne
- * @copyright 2009 Eric Horne 
+ * @copyright 2009 Eric Horne
  * @version $Revision: 2.1.5 $
  */
 
@@ -47,7 +47,7 @@ if (preg_match_all('/{{([^}]+)}}/', $layout, $mapREs)) {
 	foreach ($mapREs[1] as $mapRE) {
 		array_push($mapValues, call_user_func(array($gcalendar_item, 'get_' . $mapRE)));
 	}
-	
+
 	$layout = str_replace($mapREs[0], $mapValues, $layout);
 }
 
@@ -57,19 +57,21 @@ GCalendarUtil::loadJQuery();
 $document->addScript(JURI::base(). 'modules/mod_gcalendar_next/tmpl/jquery.countdown.js');
 $document->addStyleSheet(JURI::base(). 'modules/mod_gcalendar_next/tmpl/jquery.countdown.css');
 
+echo "<div class=\"gcalendar_next\">\n";
+
+$document =& JFactory::getDocument();
+$calCode = "// <![CDATA[ \n";
+$calCode .= "	jQuery(function() {\n";
+$calCode .= "	var targetDate; \n";
+$calCode .= "	targetDate = new Date(\"".date("D,d M Y H:i:s", $targetDate)."\");\n";
+$calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
+$calCode .= "				       description: '".$gcalendar_item->get_title()."', \n";
+$calCode .= " 				       layout: '".$layout."', \n";
+$calCode .= "				       ".$params->get('style_parameters', "format: 'dHMS'")."});\n";
+$calCode .= "});\n";
+$calCode .= "// ]]>\n";
+$document->addScriptDeclaration($calCode);
+
+echo "<div id=\"".$objid."\" class=\"".$class."\">you have javascript disabled</div>\n";
+echo "</div>\n";
 ?>
-
-<div class="gcalendar_next">
-
-<script type="text/javascript">
-jQuery(function() {
-	var targetDate; 
-	targetDate = new Date("<?php print date("D,d M Y H:i:s", $targetDate);?>"); 
-	jQuery('#<?php print $objid; ?>').countdown({until: targetDate, 
-				       description: '<?php print $gcalendar_item->get_title();?>', 
- 				       layout: '<?php print $layout; ?>', 
-				       <?php print $params->get('style_parameters', "format: 'dHMS'"); ?>});
-});
-</script>
-	<div id="<?php print $objid; ?>" class="<?php print $class; ?>">you have javascript disabled</div>
-</div>
