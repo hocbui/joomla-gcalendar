@@ -115,7 +115,7 @@ class ModCalendar extends DefaultCalendar{
 
 	function createLink($year, $month, $day, $calids){
 		$calids = $this->getIdString($calids);
-		return JRoute::_("index.php?option=com_gcalendar&view=day&year=".$year."&month=".$month."&day=".$day.$calids);
+		return JRoute::_("index.php?option=com_gcalendar&amp;view=day&amp;year=".$year."&amp;month=".$month."&amp;day=".$day.$calids);
 	}
 }
 ?>
