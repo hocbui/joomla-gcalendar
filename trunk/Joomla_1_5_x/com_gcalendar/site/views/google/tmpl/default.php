@@ -53,9 +53,9 @@ $variables .= '&amp;showTz='.$params->get( 'tz' );
 $variables .= '&amp;mode='.$params->get( 'view' );
 $variables .= '&amp;wkst='.$params->get( 'weekstart' );
 $variables .= '&amp;bgcolor=%23'.$params->get( 'bgcolor' );
-$variables .= '&hl='.GCalendarUtil::getFrLanguage();
+$variables .= '&amp;hl='.GCalendarUtil::getFrLanguage();
 $tz = $params->get('timezone');
-if(!empty($tz))$tz='&ctz='.$tz;
+if(!empty($tz))$tz='&amp;ctz='.$tz;
 $variables .= $tz;
 $variables .= '&amp;height='.$params->get( 'height' );
 
@@ -96,7 +96,7 @@ foreach($this->calendars as $calendar) {
 	$checked = '';
 	if(empty($calendarids) || in_array($calendar->id, $calendarids)){
 		$variables .= $value;
-		$checked = 'checked';
+		$checked = 'checked="checked"';
 	}
 
 	$calendar_list .="<tr>\n";

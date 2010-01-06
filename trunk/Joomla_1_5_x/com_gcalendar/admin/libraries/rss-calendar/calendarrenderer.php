@@ -76,7 +76,7 @@ class CalendarRenderer {
 
 		$startWeekDay = ((int)$gcal->getWeekStart())-1;
 		$daysOffset = (strftime("%w", mktime(0, 0, 0, $month, 1, $year))+(7-$startWeekDay))%7;
-		echo "<table id=\"gc_month_table".$gcal->id."\" class=\"gcalendarcal CalMonth\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
+		echo "<table class=\"gcalendarcal CalMonth\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
 		// print days of the week at the top
 		$dateObject = JFactory::getDate();
 		for ($i=0; $i<7; $i++) {
