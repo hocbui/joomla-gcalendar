@@ -26,6 +26,7 @@ require_once ('calendarrenderer.php');
 
 class DefaultCalendar{
 
+	var $id = '';
 	var $feedFetcher;
 	var $defaultView = 'month';
 	var $forceView = null;
@@ -109,7 +110,7 @@ class DefaultCalendar{
 			$document->addScriptDeclaration($calCode);
 		}
 
-		echo "<div class=\"gcalendar\">\n";
+		echo "<div class=\"gcalendar".$this->id."\">\n";
 		if($this->showSelectionList){
 			$this->printCalendarSelectionList();
 		}

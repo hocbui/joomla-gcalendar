@@ -27,7 +27,6 @@ class GCalendar extends DefaultCalendar{
 
 	function GCalendar($model){
 		$this->DefaultCalendar($model);
-		$this->id = 'com';
 	}
 
 	function printToolBar(){
