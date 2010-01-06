@@ -1,6 +1,7 @@
 div.event_content {
 	margin: 0 auto;
 	background: #F3F3F3;
+	width: 100%;
 }
 
 #content_table {
