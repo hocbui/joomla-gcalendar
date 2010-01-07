@@ -61,7 +61,7 @@ echo "<div class=\"gcalendar_next\">\n";
 
 $document =& JFactory::getDocument();
 $calCode = "// <![CDATA[ \n";
-$calCode .= "	jQuery(function() {\n";
+$calCode .= "	jQuery(document).ready(function() {\n";
 $calCode .= "	var targetDate; \n";
 $calCode .= "	targetDate = new Date(\"".date("D,d M Y H:i:s", $targetDate)."\");\n";
 $calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
