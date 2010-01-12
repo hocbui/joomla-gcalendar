@@ -77,6 +77,7 @@ defined('_JEXEC') or die('Restricted access');
 				$feed->set_feed_url($url);
 				$feed->init();
 				$feed->handle_content_type();
+				$data = $feed->get_items();
 
 				if ($feed->error()){
 					$desc = "The following Simplepie error occurred when reading calendar ".$result->name.":<br>".$feed->error();
@@ -86,11 +87,16 @@ defined('_JEXEC') or die('Restricted access');
 					$solution .= "<li>Run the <a href=\"components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php\">simplepie compatibility test</a> and check if your system does meet the minimum requirements of simplepie.</li>";
 					$solution .= "<li><b>If the problem still exists check the forum at <a href=\"http://g4j.laoneo.net\">g4j.laoneo.net</a>.</b></li>";
 					$status = 'failure';
+				}else if(empty($data)){
+					$solution = 'Create events in the calendar.';
+					$status = 'warning';
+					$desc = 'Simplepie could check the events without any problems from calendar '.$result->name.'. But the result was empty.';
 				}else{
 					$solution = '';
 					$status = 'ok';
 					$desc = 'Simplepie could read the events without any problems from calendar '.$result->name.'.';
 				}
+				$desc .= $desc.'<br><a href="'.$feed->feed_url.'" target="_blank">Here</a> is the url of the generated google calendar feed.';
 				$tmp[] = array('name'=>$result->name.' Check', 'description'=>$desc, 'status'=>$status, 'solution'=>$solution);
 			}
 		}
