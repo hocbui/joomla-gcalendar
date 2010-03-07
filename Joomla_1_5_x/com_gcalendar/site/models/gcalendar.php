@@ -45,37 +45,36 @@ class GCalendarModelGCalendar extends JModel {
 		if($this->cached_data == null){
 			$params = $this->getState('parameters.menu');
 			$calendarids = null;
-			if($params != null)
-			$calendarids=$params->get('calendarids');
-
-			$this->cached_data = GCalendarDBUtil::getAllCalendars();
+			if($params != null){
+				$calendarids=$params->get('calendarids');
+				$this->cached_data = GCalendarDBUtil::getCalendars($calendarids);
+			} else {
+				$this->cached_data = GCalendarDBUtil::getAllCalendars();
+			}
 		}
 		return $this->cached_data;
 	}
 
-	function getGoogleCalendarFeeds($startDate, $endDate, $projection = null) {
+	function getGoogleCalendarFeeds() {
+		global $Itemid;
+		$startDate = JRequest::getVar('start', null);
+		$endDate = JRequest::getVar('end', null);
 		GCalendarUtil::ensureSPIsLoaded();
-		$results = $this->getDBCalendars();
+		$results = GCalendarDBUtil::getCalendars(JRequest::getVar('gcid', null));
 		if(empty($results))
 		return null;
 
-		$params = $this->getState('parameters.menu');
+		$menus	= &JSite::getMenu();
+		$params = $menus->getParams($Itemid);
 		$useCache = false;
 		$calendarids = array();
 		if($params != null){
 			$useCache = $params->get('cache', 'no') == 'yes';
-			$tmp = $params->get('calendarids');
-			if(is_array($tmp))
-			$calendarids = $tmp;
-			else if(!empty($tmp))
-			$calendarids[] = $tmp;
 		}
 
 		$calendars = array();
 		foreach ($results as $result) {
 			if(empty($result->calendar_id))
-			continue;
-			if(!empty($calendarids) && !in_array($result->id, $calendarids))
 			continue;
 
 			$feed = new SimplePie_GCalendar();
@@ -104,7 +103,6 @@ class GCalendarModelGCalendar extends JModel {
 					$feed->set_cache_duration($cache_time);
 				}
 			}
-			$feed->set_projection($projection);
 			$feed->set_start_date($startDate);
 			$feed->set_end_date($endDate);
 			$feed->set_max_events(100);

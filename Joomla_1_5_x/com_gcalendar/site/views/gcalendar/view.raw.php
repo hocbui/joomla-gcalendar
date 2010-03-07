@@ -30,7 +30,7 @@ class GCalendarViewGCalendar extends JView
 	{
 		global $mainframe;
 		
-		$calendars = $this->get( 'DBCalendars' );
+		$calendars = $this->get( 'GoogleCalendarFeeds' );
 		if(!is_array($calendars))
 		$calendars = array();
 		$this->assignRef( 'calendars',	$calendars );
@@ -38,7 +38,7 @@ class GCalendarViewGCalendar extends JView
 		$params = &$mainframe->getParams();
 		$this->assignRef('params'  , $params);
 
-		parent::display($tpl);
+		parent::display('json');
 	}
 }
 ?>

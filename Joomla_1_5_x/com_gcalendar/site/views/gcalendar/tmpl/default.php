@@ -19,25 +19,56 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+global $Itemid;
+JHTML::_('behavior.mootools');
+JHTML::_('behavior.modal');
+GCalendarUtil::loadJQuery();
+$document = &JFactory::getDocument();
+$document->addScript(JURI::base(). 'administrator/components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
+$document->addScript(JURI::base(). 'administrator/components/com_gcalendar/libraries/fullcalendar/gcal.js');
+$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 
-require_once ('calendar/gcalendar.php');
+$calsSources = "eventSources: [\n";
+foreach($this->calendars as $calendar) {
+	$cssClass = "gcal-event_gccal_".$calendar->id;
+	$calsSources .= "'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&format=raw&gcid='.$calendar->id.'&Itemid='.$Itemid)."',\n";
+	$color = GCalendarUtil::getFadedColor($calendar->color);
+	$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
+}
+$calsSources = rtrim($calsSources, ',\n');
+$calsSources .= "    ],\n";
 
-$params = $this->params;
-echo "<div class=\"contentpane".$params->get('pageclass_sfx')."\">\n";
+$calCode = "window.addEvent(\"domready\", function(){\n";
+$calCode .= "jQuery('#calendar').fullCalendar({\n";
+$calCode .= "       header: {\n";
+$calCode .= "				left: 'prev,next today',\n";
+$calCode .= "				center: 'title',\n";
+$calCode .= "				right: 'month,agendaWeek,agendaDay'\n";
+$calCode .= "		},\n";
+$calCode .= "		editable: false,firstDay: 1,\n";
+$calCode .= $calsSources;
+$calCode .= "		eventRender: function(event, element) {\n";
+$calCode .= "			element.find('a').addClass('modal');\n";
+$calCode .= "		},\n";
+$calCode .= "		eventClick: function(event) {\n";
+//$calCode .= "		    if (event.url) {return false;}\n";
+$calCode .= "		},\n";
+$calCode .= "       dayClick: function(date, allDay, jsEvent, view) {\n";
+$calCode .= "           jQuery('#calendar').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');\n";
+$calCode .= "       },\n";
+$calCode .= "		loading: function(bool) {\n";
+$calCode .= "			if (bool) {\n";
+$calCode .= "				jQuery('#loading').show();\n";
+$calCode .= "			}else{\n";
+$calCode .= "				jQuery('#loading').hide();\n";
+$calCode .= "			}\n";
+$calCode .= "		}\n";
+$calCode .= "	});\n";
+$calCode .= "});\n";
+$document->addScriptDeclaration($calCode);
 
-echo $params->get( 'textbefore' );
+echo "<div id='loading' style='display:none'>loading...</div>";
+echo "<div id='calendar'></div>";
 
-$model = &$this->getModel();
-$calendar = new GCalendar($model);
-$calendar->weekStart = $params->get('weekstart');
-$calendar->showSelectionList = $params->get('show_selection') == 'yes';
-$calendar->dateFormat = $params->get('dateformat');
-$calendar->columnInWeekViewEqual = $params->get('columnInWeekViewEqual') == 'yes';
-$calendar->defaultView = $params->get('defaultView');
-$calendar->toolTipText = $params->get('toolTipText');
-$calendar->display();
-
-echo $params->get( 'textafter' );
-echo "</div>\n";
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
 ?>
