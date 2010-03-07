@@ -96,8 +96,13 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 			break;
 	}
 
-	//Make any URLs used in the description also clickable
-	$desc = preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $item->get_description());
+	if (substr_count($temp_event, '"{description}"')){
+		// If description is in html attribute
+		$desc = htmlspecialchars(str_replace('"',"'",$item->get_description()));
+	}else{
+		//Make any URLs used in the description also clickable
+		$desc = preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $item->get_description());
+	}
 
 	$temp_event=str_replace("{title}",$item->get_title(),$temp_event);
 	$temp_event=str_replace("{description}",$desc,$temp_event);
@@ -108,9 +113,7 @@ for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++)
 	$temp_event=str_replace("{calendarname}",$feed->get('gcname'),$temp_event);
 	$temp_event=str_replace("{calendarcolor}",$feed->get('gccolor'),$temp_event);
 	// Accept and translate HTML
-	$temp_event=str_replace("&lt;","<",$temp_event);
-	$temp_event=str_replace("&gt;",">",$temp_event);
-	$temp_event=str_replace("&quot;","\"",$temp_event);
+	$temp_event = html_entity_decode($temp_event);
 
 	echo $temp_event;
 }
