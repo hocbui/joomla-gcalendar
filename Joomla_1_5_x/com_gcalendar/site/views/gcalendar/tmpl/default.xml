@@ -25,9 +25,13 @@
 			</param>
 			<param name="weekstart" type="list" default="2" label="Week starts on"
 				description="The starting day of the week in the calendar.">
-				<option value="1">Sunday</option>
-				<option value="2">Monday</option>
-				<option value="7">Saturday</option>
+				<option value="0">Sunday</option>
+				<option value="1">Monday</option>
+				<option value="2">Tuesday</option>
+				<option value="3">Wednesday</option>
+				<option value="4">Thursday</option>
+				<option value="5">Friday</option>
+				<option value="6">Saturday</option>
 			</param>
 			<param name="dateformat" type="list" default="dd/mm/yy" label="Date format"
 				description="The format of the date field.">
@@ -63,13 +67,6 @@
 				description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
 		</params>
 		<advanced>
-			<param name="columnInWeekViewEqual" type="list" default="no"
-				label="Show Columns Equal" description="A flag to set the column width on equal size or not.">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
-			</param>
-			<param name="@spacer" type="spacer" default="" label=""
-				description="" />
 			<param name="cache" type="radio" default="no" label="Cache"
 				description="Is cacheing enabled.">
 				<option value="no">No</option>
