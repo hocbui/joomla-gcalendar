@@ -26,7 +26,7 @@ foreach ($this->calendars as $calendar){
 	foreach ($items as $event) {
 		$data[] = array(
 			'id' => $event->get_id(),
-			'title' => $event->get_title(),
+			'title' => htmlspecialchars_decode($event->get_title()),
 			'start' => $event->get_start_date(),
 			'end' => $event->get_end_date(),
 			'url' => JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid')).'&Itemid='.$Itemid,
