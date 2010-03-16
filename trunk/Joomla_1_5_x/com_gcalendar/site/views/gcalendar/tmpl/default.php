@@ -80,6 +80,7 @@ $daysShort .= "]";
 $daysMin .= "]";
 $monthsLong .= "]";
 $monthsShort .= "]";
+//$year = 
 
 $calCode = "window.addEvent(\"domready\", function(){\n";
 $calCode .= "jQuery('#calendar').fullCalendar({\n";
@@ -88,7 +89,7 @@ $calCode .= "				left: 'prev,next today',\n";
 $calCode .= "				center: 'title',\n";
 $calCode .= "				right: 'month,agendaWeek,agendaDay'\n";
 $calCode .= "		},\n";
-//$calCode .= "		var year = "..",\n";
+//$calCode .= "		var year = ".$year.",\n";
 //$calCode .= "		var month = ,\n";
 //$calCode .= "		var day = ,\n";
 $calCode .= "		editable: false, theme: false,\n";
@@ -118,7 +119,7 @@ $calCode .= "		    day:      '".JText::_( 'VIEW_DAY' )."'\n";
 $calCode .= "		},\n";
 $calCode .= $calsSources;
 $calCode .= "		viewDisplay: function(view) {\n";
-$calCode .= "		        alert('The new title of the view is ' + view.title);\n";
+$calCode .= "		        window.location.hash = 'allon';\n";
 $calCode .= "		    },\n";
 $calCode .= "		eventRender: function(event, element) {\n";
 $calCode .= "			element.find('a').addClass('modal');\n";
