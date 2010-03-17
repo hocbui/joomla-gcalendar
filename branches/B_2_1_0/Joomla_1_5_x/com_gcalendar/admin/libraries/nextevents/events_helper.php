@@ -15,7 +15,7 @@
  *
  * @author Eric Horne
  * @copyright 2007-2009 Eric Horne
- * @version $Revision: 2.1.5 $
+ * @version $Revision: 2.1.6 $
  */
 
 defined('_JEXEC') or die('Restricted access');
