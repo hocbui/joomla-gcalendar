@@ -2,7 +2,7 @@
 <install version="1.5" type="plugin" group="search">
 	<name>Search - GCalendar</name>
 	<author>G4J Project</author>
-	<creationDate>Oct 2009</creationDate>
+	<creationDate>Mar 2010</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
@@ -10,7 +10,7 @@
 	<authorEmail>info@g4j.laoneo.net
 	</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
-	<version>2.1.5</version>
+	<version>2.1.6</version>
 	<description>Allows Searching of events in the calendars
 		specified in the GCalendar component.</description>
 	<files>
