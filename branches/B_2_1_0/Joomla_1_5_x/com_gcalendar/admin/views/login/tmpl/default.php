@@ -33,7 +33,7 @@ $params = &JComponentHelper::getParams( 'com_gcalendar' );
 $domain = $params->get('google_apps_domain');
 
 $u = JFactory::getURI();
-$next = JRoute::_( $u->toString().'?option=com_gcalendar&task='.JRequest::getVar('nextTask'));
+$next = JRoute::_( $u->toString().'?option=com_gcalendar&task='.JRequest::getCmd('nextTask'));
 $scope = 'http://www.google.com/calendar/feeds/';
 $session = true;
 $secure = false;
