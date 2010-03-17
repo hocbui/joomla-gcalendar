@@ -119,6 +119,7 @@ defined('_JEXEC') or die('Restricted access');
 			if(curl_errno($ch)){
 				$desc = 'Curl could not retrieve remote content from www.google.com. The following error occured:'.curl_error($ch);
 				$solution = 'Please contact your web hoster and check if their firewall blocks curl http calls to google.com.';
+				$status = 'failure';
 			}else{
 				$desc = 'Curl could sucessfully retrieve remote content from www.google.com.';
 			}
@@ -161,7 +162,7 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		return array('name'=>'GCalendar View Cache Dir Check', 'description'=>$desc, 'status'=>$status, 'solution'=>$solution);
 	}
-	
+
 	function checkTimezones() {
 		$defaultTZ = ini_get('date.timezone');
 		if(function_exists('date_default_timezone_get'))
@@ -179,4 +180,4 @@ defined('_JEXEC') or die('Restricted access');
 		}
 		return array('name'=>'Timezone Check', 'description'=>$desc, 'status'=>$status, 'solution'=>$solution);
 	}
-?>
+	?>
