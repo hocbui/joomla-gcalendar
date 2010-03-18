@@ -30,9 +30,9 @@ $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/li
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
 $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
+$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/util/jquery.ba-hashchange.min.js');
 $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15; }");
 $params = $this->params;
-
 
 $calsSources = "       eventSources: [\n";
 foreach($this->calendars as $calendar) {
@@ -80,18 +80,17 @@ $daysShort .= "]";
 $daysMin .= "]";
 $monthsLong .= "]";
 $monthsShort .= "]";
-//$year = 
 
 $calCode = "window.addEvent(\"domready\", function(){\n";
-$calCode .= "jQuery('#calendar').fullCalendar({\n";
+$calCode .= "   jQuery('#calendar').fullCalendar({\n";
 $calCode .= "       header: {\n";
 $calCode .= "				left: 'prev,next today',\n";
 $calCode .= "				center: 'title',\n";
 $calCode .= "				right: 'month,agendaWeek,agendaDay'\n";
 $calCode .= "		},\n";
-//$calCode .= "		var year = ".$year.",\n";
-//$calCode .= "		var month = ,\n";
-//$calCode .= "		var day = ,\n";
+//$calCode .= "		year: tmpYear,\n";
+//$calCode .= "		month: tmpMonth,\n";
+//$calCode .= "		day: tmpDay,\n";
 $calCode .= "		editable: false, theme: false,\n";
 $calCode .= "		titleFormat: { \n";
 $calCode .= "		        month: 'MMMM yyyy',\n";
@@ -119,7 +118,8 @@ $calCode .= "		    day:      '".JText::_( 'VIEW_DAY' )."'\n";
 $calCode .= "		},\n";
 $calCode .= $calsSources;
 $calCode .= "		viewDisplay: function(view) {\n";
-$calCode .= "		        window.location.hash = 'allon';\n";
+$calCode .= "		        var d = jQuery('#calendar').fullCalendar('getDate');\n";
+$calCode .= "		        window.location.hash = 'year='+d.getFullYear()+'&month='+(d.getMonth()+1)+'&day='+d.getDate()+'&view='+view.name;\n";
 $calCode .= "		    },\n";
 $calCode .= "		eventRender: function(event, element) {\n";
 $calCode .= "			element.find('a').addClass('modal');\n";
@@ -162,6 +162,24 @@ $calCode .= "				var d = jQuery('#date_picker').datepicker('getDate');\n";
 $calCode .= "				jQuery('#calendar').fullCalendar('gotoDate', d);\n";
 $calCode .= "			}\n";
 $calCode .= "		});\n";
+$calCode .= "		jQuery(window).bind( 'hashchange', function(){\n";
+$calCode .= "		    var date = new Date();\n";
+$calCode .= "		    var tmpYear = date.getFullYear();\n";
+$calCode .= "		    var tmpMonth = date.getMonth();\n";
+$calCode .= "		    var tmpDay = date.getDate();\n";
+$calCode .= "		    var tmpView = 'month';\n";
+$calCode .= "		    var vars = window.location.hash.split( \"&\" );\n";
+$calCode .= "		    for ( var i = 0; i < vars.length; i++ ){\n";
+$calCode .= "		        if(vars[i].match(\"^year\"))tmpYear = vars[i].substring(6);\n";
+$calCode .= "		        if(vars[i].match(\"^month\"))tmpMonth = (vars[i].substring(7)-1);\n";
+$calCode .= "		        if(vars[i].match(\"^day\"))tmpDay = vars[i].substring(4);\n";
+$calCode .= "		        if(vars[i].match(\"^view\"))tmpView = vars[i].substring(6);\n";
+$calCode .= "		    }\n";
+$calCode .= "		    date = new Date(tmpYear, tmpMonth, tmpDay), d = jQuery('#calendar').fullCalendar('getDate');\n";
+$calCode .= "		    if(date.getFullYear() == d.getFullYear()&&date.getMonth() == d.getMonth()&&date.getDate() == d.getDate()) return;\n";
+$calCode .= "		    jQuery('#calendar').fullCalendar('gotoDate', date).fullCalendar('changeView', tmpView);\n";
+$calCode .= "		});\n";
+$calCode .= "		jQuery(window).trigger( 'hashchange' );\n";
 $calCode .= "});\n";
 $document->addScriptDeclaration($calCode);
 
