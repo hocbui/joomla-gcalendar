@@ -21,7 +21,7 @@
 jimport( 'joomla.application.component.view');
 
 /**
- * HTML View class for the GCalendar Component
+ * Raw View class for the GCalendar Component
  *
  */
 class GCalendarViewGCalendar extends JView
@@ -35,7 +35,11 @@ class GCalendarViewGCalendar extends JView
 		$calendars = array();
 		$this->assignRef( 'calendars',	$calendars );
 
-		$params = &$mainframe->getParams();
+		$linkID = GCalendarUtil::getItemId(JRequest::getInt('gcid', 0));
+		$menus	= &JSite::getMenu();
+		$params = $menus->getParams($linkID);
+		if(empty($params))
+		$params = new JParameter('');
 		$this->assignRef('params'  , $params);
 
 		parent::display('json');
