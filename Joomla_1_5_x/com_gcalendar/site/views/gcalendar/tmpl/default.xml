@@ -47,9 +47,17 @@
 				description="The format of the time in the day view." size="50" />
 			<param name="axisformat" type="text" default="HH:mm" label="Axis format"
 				description="The format of the axis in the day and week view." size="50" />
+			<param name="@spacer" type="spacer" default="" label=""
+				description="" />
+			<param name="tooltipDateFormat" type="text" size="50" default="%d.%m.%Y"
+				label="Tooltip Date format"
+				description="The format of the date for an event (see http://www.php.net/strftime for details)." />
+			<param name="tooltipTimeFormat" type="text" size="50" default="%H:%M"
+				label="Tooltip Time format"
+				description="The format of the time for an event (see http://www.php.net/strftime for details)." />
 			<param name="toolTipText" type="textarea2" default="" label="Event tooltip"
-			description="Here you can customize the appearance of the event tooltip."
-			rows="5" cols="50">
+				description="Here you can customize the appearance of the event tooltip."
+				rows="5" cols="50">
 			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;{description}&lt;/p&gt;</content>
 			<description>
 				Here you can modify the event tooltip. The following

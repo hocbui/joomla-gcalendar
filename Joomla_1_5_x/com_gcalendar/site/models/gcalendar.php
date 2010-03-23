@@ -56,16 +56,16 @@ class GCalendarModelGCalendar extends JModel {
 	}
 
 	function getGoogleCalendarFeeds() {
-		global $Itemid;
 		$startDate = JRequest::getVar('start', null);
 		$endDate = JRequest::getVar('end', null);
 		GCalendarUtil::ensureSPIsLoaded();
-		$results = GCalendarDBUtil::getCalendars(JRequest::getVar('gcid', null));
+		$results = GCalendarDBUtil::getCalendars(JRequest::getInt('gcid', 0));
 		if(empty($results))
 		return null;
 
+		$linkID = GCalendarUtil::getItemId(JRequest::getInt('gcid', 0));
 		$menus	= &JSite::getMenu();
-		$params = $menus->getParams($Itemid);
+		$params = $menus->getParams($linkID);
 		$useCache = false;
 		$calendarids = array();
 		if($params != null){

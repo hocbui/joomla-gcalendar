@@ -21,7 +21,7 @@
 defined('_JEXEC') or die('Restricted access');
 global $Itemid;
 JHTML::_('behavior.mootools');
-JHTML::_('behavior.modal');
+//JHTML::_('behavior.modal');
 GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
 $document->addScript(JURI::base(). 'administrator/components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
@@ -31,6 +31,7 @@ $document->addScript(JURI::base().'administrator/components/com_gcalendar/librar
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
 $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/util/jquery.ba-hashchange.min.js');
+$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/util/jquery.qtip-1.0.0-rc3.min.js');
 $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15; }");
 $params = $this->params;
 
@@ -137,7 +138,20 @@ $calCode .= "		        var d = jQuery('#calendar').fullCalendar('getDate');\n";
 $calCode .= "		        window.location.hash = 'year='+d.getFullYear()+'&month='+(d.getMonth()+1)+'&day='+d.getDate()+'&view='+view.name;\n";
 $calCode .= "		    },\n";
 $calCode .= "		eventRender: function(event, element) {\n";
-$calCode .= "			element.find('a').addClass('modal');\n";
+$calCode .= "				jQuery(element).qtip({\n";
+$calCode .= "					content: event.description,\n";
+$calCode .= "					position: {\n";
+$calCode .= "						corner: {\n";
+$calCode .= "							target: 'leftMiddle',\n";
+$calCode .= "							tooltip: 'rightMiddle'\n";
+$calCode .= "						}\n";
+$calCode .= "					},\n";
+$calCode .= "					border: {\n";
+$calCode .= "						radius: 4,\n";
+$calCode .= "						width: 3\n";
+$calCode .= "					},\n";
+$calCode .= "					style: { name: 'cream', tip: 'rightMiddle' }\n";
+$calCode .= "				});\n";
 $calCode .= "		},\n";
 $calCode .= "		eventClick: function(event) {\n";
 //$calCode .= "		    if (event.url) {return false;}\n";
