@@ -33,12 +33,20 @@
 				<option value="5">Friday</option>
 				<option value="6">Saturday</option>
 			</param>
-			<param name="dateformat" type="list" default="dd/mm/yy" label="Date format"
-				description="The format of the date field.">
-				<option value="dd/mm/yy">Day/Month/Year</option>
-				<option value="mm/dd/yy">Month/Day/Year</option>
-				<option value="yy/mm/dd">Year/Month/Day</option>
-			</param>
+			<param name="titleformat_month" type="text" default="MMMM yyyy" label="Title format month"
+				description="The format of the title in the month view." size="50" />
+			<param name="titleformat_week" type="text" default="MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}" label="Title format week"
+				description="The format of the title in the week view." size="50" />
+			<param name="titleformat_day" type="text" default="dddd, MMM d, yyyy" label="Title format day"
+				description="The format of the title in the day view." size="50" />
+			<param name="timeformat_month" type="text" default="HH:mm{ - HH:mm}" label="Time format month"
+				description="The format of the time in the month view." size="50" />
+			<param name="timeformat_week" type="text" default="HH:mm{ - HH:mm}" label="Time format week"
+				description="The format of the time in the week view." size="50" />
+			<param name="timeformat_day" type="text" default="HH:mm{ - HH:mm}" label="Time format day"
+				description="The format of the time in the day view." size="50" />
+			<param name="axisformat" type="text" default="HH:mm" label="Axis format"
+				description="The format of the axis in the day and week view." size="50" />
 			<param name="toolTipText" type="textarea2" default="" label="Event tooltip"
 			description="Here you can customize the appearance of the event tooltip."
 			rows="5" cols="50">
