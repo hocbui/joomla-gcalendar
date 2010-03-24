@@ -27,8 +27,9 @@ $document = &JFactory::getDocument();
 $document->addScript(JURI::base(). 'administrator/components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addScript(JURI::base(). 'administrator/components/com_gcalendar/libraries/fullcalendar/gcal.js');
 $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
-$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.js');
+$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.min.js');
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.datepicker.js');
+$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.dialog.min.js');
 $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/util/jquery.ba-hashchange.min.js');
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/util/jquery.qtip-1.0.0-rc3.min.js');
@@ -40,7 +41,7 @@ foreach($this->calendars as $calendar) {
 	$cssClass = "gcal-event_gccal_".$calendar->id;
 	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&format=raw&gcid='.$calendar->id.'&Itemid='.$Itemid)."',\n";
 	$color = GCalendarUtil::getFadedColor($calendar->color);
-	$document->addStyleDeclaration(".".$cssClass.".".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
+	$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
 }
 $calsSources = ltrim($calsSources, ',\n');
 $calsSources .= "    ],\n";
@@ -154,7 +155,7 @@ $calCode .= "					style: { name: 'cream', tip: 'rightMiddle' }\n";
 $calCode .= "				});\n";
 $calCode .= "		},\n";
 $calCode .= "		eventClick: function(event) {\n";
-//$calCode .= "		    if (event.url) {return false;}\n";
+$calCode .= "		    if (event.url) {jQuery(\"#gcalendar_component\").load(event.url).dialog({modal:true}); return false;}\n";
 $calCode .= "		},\n";
 $calCode .= "       dayClick: function(date, allDay, jsEvent, view) {\n";
 $calCode .= "           jQuery('#gcalendar_component').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');\n";

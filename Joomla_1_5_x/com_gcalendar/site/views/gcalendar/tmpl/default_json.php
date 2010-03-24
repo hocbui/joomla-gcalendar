@@ -96,7 +96,7 @@ foreach ($this->calendars as $calendar){
 		$temp_event=str_replace("{title}",$event->get_title(),$temp_event);
 		$temp_event=str_replace("{description}",$desc,$temp_event);
 		$temp_event=str_replace("{where}",$event->get_location(),$temp_event);
-		$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$feed->get('gcid').$itemID),$temp_event);
+		$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&tmpl=component&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$feed->get('gcid').$itemID),$temp_event);
 		$temp_event=str_replace("{link}",$event->get_link().'&ctz='.$tz,$temp_event);
 		$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($event->get_location()),$temp_event);
 		$temp_event=str_replace("{calendarname}",$feed->get('gcname'),$temp_event);
@@ -109,7 +109,7 @@ foreach ($this->calendars as $calendar){
 			'title' => htmlspecialchars_decode($event->get_title()),
 			'start' => $event->get_start_date(),
 			'end' => $event->get_end_date(),
-			'url' => JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid')).$itemID,
+			'url' => JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=event&tmpl=component&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid')).$itemID,
 			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
 			'allDay' => $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY,
 			'description' => $temp_event
