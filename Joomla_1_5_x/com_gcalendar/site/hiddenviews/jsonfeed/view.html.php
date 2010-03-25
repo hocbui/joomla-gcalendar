@@ -21,15 +21,13 @@
 jimport( 'joomla.application.component.view');
 
 /**
- * Raw View class for the GCalendar Component
+ * HTML View class for the GCalendar Component
  *
  */
-class GCalendarViewModule extends JView
+class GCalendarViewJSONFeed extends JView
 {
 	function display($tpl = null)
 	{
-		$this->assignRef('modTitle', JRequest::getVar('modtitle', null));
-
 		parent::display($tpl);
 	}
 }

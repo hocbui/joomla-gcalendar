@@ -24,12 +24,10 @@ jimport( 'joomla.application.component.view');
  * Raw View class for the GCalendar Component
  *
  */
-class GCalendarViewGCalendar extends JView
+class GCalendarViewJSONFeed extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-		
 		$calendars = $this->get( 'GoogleCalendarFeeds' );
 		if(!is_array($calendars))
 		$calendars = array();
@@ -42,7 +40,7 @@ class GCalendarViewGCalendar extends JView
 		$params = new JParameter('');
 		$this->assignRef('params'  , $params);
 
-		parent::display('json');
+		parent::display($tpl);
 	}
 }
 ?>

@@ -20,14 +20,5 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$calendar->weekStart = $params->get('weekstart');
-$calendar->showSelectionList = false;
-$calendar->dateFormat = 'dd/mm/yy';
-$calendar->cellHeight = 15;
-$calendar->printDayLink = false;
-$calendar->showEventTitle = false;
-$calendar->showToolbar = false;
-$calendar->shortDayNames = true;
-$calendar->forceView ='month';
-$calendar->display();
+
 ?>
