@@ -33,6 +33,11 @@
 				<option value="5">Friday</option>
 				<option value="6">Saturday</option>
 			</param>
+			<param name="show_event_as_popup" type="radio" default="1"
+				label="Show Events As Popup" description="Shows the event details in a modal popup.">
+				<option value="1">Yes</option>
+				<option value="2">No</option>
+			</param>
 			<param name="titleformat_month" type="text" default="MMMM yyyy" label="Title format month"
 				description="The format of the title in the month view." size="50" />
 			<param name="titleformat_week" type="text" default="MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}" label="Title format week"
@@ -49,13 +54,13 @@
 				description="The format of the axis in the day and week view." size="50" />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
-			<param name="tooltipDateFormat" type="text" size="50" default="%d.%m.%Y"
+			<param name="description_date_format" type="text" size="50" default="%d.%m.%Y"
 				label="Tooltip Date format"
 				description="The format of the date for an event (see http://www.php.net/strftime for details)." />
-			<param name="tooltipTimeFormat" type="text" size="50" default="%H:%M"
+			<param name="description_time_format" type="text" size="50" default="%H:%M"
 				label="Tooltip Time format"
 				description="The format of the time for an event (see http://www.php.net/strftime for details)." />
-			<param name="toolTipText" type="textarea2" default="" label="Event tooltip"
+			<param name="description_format" type="textarea2" default="" label="Event tooltip"
 				description="Here you can customize the appearance of the event tooltip."
 				rows="5" cols="50">
 			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;{description}&lt;/p&gt;</content>
