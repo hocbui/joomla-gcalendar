@@ -168,7 +168,7 @@ if($params->get('show_event_as_popup', 1) == 1){
 }
 $calCode .= "		},\n";
 $calCode .= "       dayClick: function(date, allDay, jsEvent, view) {\n";
-$calCode .= "           jQuery('#v').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');\n";
+$calCode .= "           jQuery('#gcalendar_component').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');\n";
 $calCode .= "       },\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
