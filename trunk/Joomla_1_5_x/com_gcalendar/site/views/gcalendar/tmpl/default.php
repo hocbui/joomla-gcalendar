@@ -19,7 +19,6 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-global $Itemid;
 JHTML::_('behavior.mootools');
 GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
@@ -39,8 +38,10 @@ $params = $this->params;
 
 $calsSources = "       eventSources: [\n";
 foreach($this->calendars as $calendar) {
+	$calID = $calendar->id;
+	$linkID = GCalendarUtil::getItemId($calID);
 	$cssClass = "gcal-event_gccal_".$calendar->id;
-	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.$Itemid)."',\n";
+	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID)."',\n";
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
 }
@@ -236,7 +237,9 @@ if($params->get('show_selection', 1) == 1){
 	else if(!empty($tmp))
 	$calendarids[] = $tmp;
 	foreach($this->calendars as $calendar) {
-		$value = JRoute::_(JURI::base().'index.php?option=com_gcalendar&format=raw&gcid='.$calendar->id.'&Itemid='.$Itemid);
+		$calID = $calendar->id;
+		$linkID = GCalendarUtil::getItemId($calID);
+		$value = JRoute::_(JURI::base().'index.php?option=com_gcalendar&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID);
 		$checked = '';
 		if(empty($calendarids) || in_array($calendar->id, $calendarids)){
 			$checked = 'checked="checked"';
