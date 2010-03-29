@@ -24,43 +24,58 @@ $SECSINDAY=86400;
 
 $startDate = JRequest::getVar('start', null);
 $endDate = JRequest::getVar('end', null);
-
+$requestedDayStart = $startDate;
+$requestedDayEnd = $requestedDayStart + $SECSINDAY;
 $days = ($endDate - $startDate)/$SECSINDAY;
-$counter = 0;
-$day = strftime('%d', $startDate);
-$month = strftime('%m', $startDate);
-$year = strftime('%Y', $startDate);
+
 while ($days > 0) {
 	$result = array();
-	$requestedDayStart = mktime(0, 0, 0, $month, $day, $year);
-	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
+	$linkID = '';
+
 	foreach ($this->calendars as $calendar){
 		$items = $calendar->get_items();
 		foreach ($items as $item) {
 			if($requestedDayStart <= $item->get_start_date()
 			&& $item->get_start_date() < $requestedDayEnd){
 				$result[] = $item;
+				$linkID = GCalendarUtil::getItemId($calendar->get('gcid'));
 			}else if($requestedDayStart < $item->get_end_date()
 			&& $item->get_end_date() <= $requestedDayEnd){
 				$result[] = $item;
+				$linkID = GCalendarUtil::getItemId($calendar->get('gcid'));
 			}else if($item->get_start_date() <= $requestedDayStart
 			&& $requestedDayEnd <= $item->get_end_date()){
 				$result[] = $item;
+				$linkID = GCalendarUtil::getItemId($calendar->get('gcid'));
 			}
 		}
 	}
-	$data[] = array(
+	if(!empty($result)){
+		$component	= &JComponentHelper::getComponent('com_gcalendar');
+		$menu = &JSite::getMenu();
+		$item = $menu->getItem($linkID);
+		$url = '';
+		if($item !=null){
+			$backLinkView = $item->query['view'];
+			$day = strftime('%d', $requestedDayStart);
+			$month = strftime('%m', $requestedDayStart);
+			$year = strftime('%Y', $requestedDayStart);
+			$url = JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$linkID.'#year='.$year.'&month='.$month.'&day='.$day.'&view=agendaDay');
+		}
+		$data[] = array(
 			'id' => time(),
-			'title' => count($result).'events',
-			'start' => $event->get_start_date(),
-			'end' => $event->get_end_date(),
-			'url' => JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid')).$itemID,
-			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
-			'allDay' => $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY,
-			'description' => $temp_event
-	);
+			'title' => '',
+			'start' => $requestedDayStart,
+		//			'end' => $requestedDayEnd - 10,
+			'url' => $url,
+			'className' => "gcal-module_event_gccal",
+			'allDay' => true,
+			'description' => sprintf(JText::_('MODULE_TEXT'), count($result))
+		);
+	}
+	$requestedDayStart += $SECSINDAY;
+	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
 	$days--;
-	$day++;
 }
 echo json_encode($data);
 ?>

@@ -24,23 +24,14 @@ GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
 $document->addScript(JURI::base(). 'administrator/components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
-$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/ui.core.min.js');
-$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/jquery-ui-1.7.2.custom.js');
-$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/ui/jquery-ui-1.7.2.custom.css');
-$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/themes/redmond/ui.all.css');
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/util/jquery.qtip-1.0.0-rc3.min.js');
 
-$calsSources = "       eventSources: [\n";
-foreach($calendars as $calendar) {
-	$calID = $calendar->id;
-	$linkID = GCalendarUtil::getItemId($calID);
-	$cssClass = "gcal-event_gccal_".$calendar->id;
-	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID)."',\n";
-	$color = GCalendarUtil::getFadedColor($calendar->color);
-	$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
-}
-$calsSources = ltrim($calsSources, ',\n');
-$calsSources .= "    ],\n";
+$cssClass = "gcal-module_event_gccal";
+$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;}\n.fc-header-center{vertical-align:center !important;}");
+
+$theme = $params->get('theme', '');
+if(!empty($theme))
+$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
 
 $daysLong = "[";
 $daysShort = "[";
@@ -75,16 +66,20 @@ $monthsShort .= "]";
 
 static $moduleID = 0;
 $moduleID++;
-
+$ids = '';
+foreach($calendars as $calendar) {
+	$ids .= $calendar->id.',';
+}
 $calCode = "window.addEvent(\"domready\", function(){\n";
 $calCode .= "   jQuery('#gcalendar_module_".$moduleID."').fullCalendar({\n";
+$calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcid='.$ids)."',\n";
 $calCode .= "       header: {\n";
-$calCode .= "				left: 'prev',\n";
+$calCode .= "				left: 'prev,next ',\n";
 $calCode .= "				center: 'title',\n";
-$calCode .= "				right: 'next'\n";
+$calCode .= "				right: ''\n";
 $calCode .= "		},\n";
 $calCode .= "		defaultView: 'month',\n";
-$calCode .= "		editable: false, theme: false,\n";
+$calCode .= "		editable: false, theme: ".(!empty($theme)?'true':'false').",\n";
 $calCode .= "		titleFormat: { \n";
 $calCode .= "		        month: '".$params->get('titleformat_month', 'MMMM yyyy')."'},\n";
 $calCode .= "		firstDay: ".$params->get('weekstart', 0).",\n";
@@ -102,7 +97,6 @@ $calCode .= "		    prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
 $calCode .= "		    nextYear: '&nbsp;&gt;&gt;&nbsp;',\n"; // >>
 $calCode .= "		    month:    '".JText::_( 'VIEW_MONTH' )."',\n";
 $calCode .= "		},\n";
-$calCode .= $calsSources;
 $calCode .= "		eventRender: function(event, element) {\n";
 $calCode .= "				jQuery(element).qtip({\n";
 $calCode .= "					content: event.description,\n";
@@ -118,20 +112,8 @@ $calCode .= "						width: 3\n";
 $calCode .= "					},\n";
 $calCode .= "					style: { name: 'cream', tip: 'bottomLeft' }\n";
 $calCode .= "				});\n";
+//$calCode .= "				alert(jQuery(element));\n";
 $calCode .= "		},\n";
-$calCode .= "		eventClick: function(event) {\n";
-$calCode .= "		    if (event.url) {\n";
-$calCode .= "		        jQuery('<iframe src=\"'+event.url+'\" />').dialog({\n";
-$calCode .= "		           width: 650,\n";
-$calCode .= "		           height: 500,\n";
-$calCode .= "		           modal: true,\n";
-$calCode .= "		           autoResize: true,\n";
-$calCode .= "		        }).width(630).height(480);\n";
-$calCode .= "		        return false;}\n";
-$calCode .= "		},\n";
-$calCode .= "       dayClick: function(date, allDay, jsEvent, view) {\n";
-$calCode .= "           jQuery('#gcalendar_module_".$moduleID."').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');\n";
-$calCode .= "       },\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
 $calCode .= "				jQuery('#gcalendar_module_".$moduleID."_loading').show();\n";

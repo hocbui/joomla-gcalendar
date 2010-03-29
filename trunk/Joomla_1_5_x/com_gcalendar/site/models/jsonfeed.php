@@ -41,23 +41,23 @@ class GCalendarModelJSONFeed extends JModel {
 		$startDate = JRequest::getVar('start', null);
 		$endDate = JRequest::getVar('end', null);
 		GCalendarUtil::ensureSPIsLoaded();
-		$results = GCalendarDBUtil::getCalendars(JRequest::getInt('gcid', 0));
+		$results = GCalendarDBUtil::getCalendars(JRequest::getVar('gcid', 0));
 		if(empty($results))
 		return null;
-
-		$linkID = GCalendarUtil::getItemId(JRequest::getInt('gcid', 0));
-		$menus	= &JSite::getMenu();
-		$params = $menus->getParams($linkID);
-		$useCache = false;
-		$calendarids = array();
-		if($params != null){
-			$useCache = $params->get('cache', 'no') == 'yes';
-		}
 
 		$calendars = array();
 		foreach ($results as $result) {
 			if(empty($result->calendar_id))
 			continue;
+
+			$linkID = GCalendarUtil::getItemId($result->calendar_id);
+			$menus	= &JSite::getMenu();
+			$params = $menus->getParams($linkID);
+			$useCache = false;
+			$calendarids = array();
+			if($params != null){
+				$useCache = $params->get('cache', 'no') == 'yes';
+			}
 
 			$feed = new SimplePie_GCalendar();
 			$feed->set_show_past_events(FALSE);

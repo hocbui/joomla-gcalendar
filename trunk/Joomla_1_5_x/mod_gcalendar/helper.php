@@ -25,7 +25,7 @@ class ModGCalendarHelper {
 	function getCalendars($params) {
 		$calendarids = null;
 		if($params != null){
-			$calendarids=$params->get('calendarids');
+			$calendarids = $params->get('calendarids');
 			if(empty($calendarids))
 			return GCalendarDBUtil::getAllCalendars();
 			return GCalendarDBUtil::getCalendars($calendarids);
