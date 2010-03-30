@@ -23,6 +23,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once (dirname(__FILE__).DS.'helper.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
 $calendars = ModGCalendarHelper::getCalendars($params);
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar' ) );
