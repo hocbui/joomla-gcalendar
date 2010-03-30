@@ -27,7 +27,7 @@ $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/li
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/util/jquery.qtip-1.0.0-rc3.min.js');
 
 $cssClass = "gcal-module_event_gccal";
-$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;}\n.fc-header-center{vertical-align:center !important;}");
+$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;}\n.fc-header-center{vertical-align: middle !important;}");
 
 $theme = $params->get('theme', '');
 if(!empty($theme))
@@ -79,6 +79,9 @@ $calCode .= "				center: 'title',\n";
 $calCode .= "				right: ''\n";
 $calCode .= "		},\n";
 $calCode .= "		defaultView: 'month',\n";
+$height = $params->get('calendar_height', null);
+if(!empty($height))
+$calCode .= "		contentHeight: ".$height.",\n";
 $calCode .= "		editable: false, theme: ".(!empty($theme)?'true':'false').",\n";
 $calCode .= "		titleFormat: { \n";
 $calCode .= "		        month: '".$params->get('titleformat_month', 'MMMM yyyy')."'},\n";

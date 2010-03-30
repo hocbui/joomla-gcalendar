@@ -35,11 +35,21 @@
 		<param name="calendarids" type="gcalendar" default=""
 			label="Select Calendars" description="The calendars" />
 		<param name="weekstart" type="list" default="2" label="Week starts on"
-			description="">
-			<option value="1">Sunday</option>
-			<option value="2">Monday</option>
-			<option value="7">Saturday</option>
+			description="The starting day of the week in the calendar.">
+			<option value="0">Sunday</option>
+			<option value="1">Monday</option>
+			<option value="2">Tuesday</option>
+			<option value="3">Wednesday</option>
+			<option value="4">Thursday</option>
+			<option value="5">Friday</option>
+			<option value="6">Saturday</option>
 		</param>
+		<param name="titleformat_month" type="text" default="MMMM yyyy" label="Title format month"
+			description="The format of the title in the month view." size="50" />
+		<param name="timeformat_month" type="text" default="HH:mm{ - HH:mm}" label="Time format month"
+			description="The format of the time in the month view." size="50" />
+		<param name="calendar_height" type="text" default="" label="Height"
+			description="The height of the calendar." size="5" />
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
 		<param name="moduleclass_sfx" type="text" size="80" default=""
