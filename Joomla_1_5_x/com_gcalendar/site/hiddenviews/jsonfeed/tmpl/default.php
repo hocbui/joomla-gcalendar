@@ -72,7 +72,6 @@ foreach ($this->calendars as $calendar){
 				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
 				break;
 			case $event->MULTIPLE_WHOLE_DAY:
-				$tmp = JFactory::getDate();
 				$endDate = strftime($dateformat, $event->get_end_date() - $SECSINDAY);
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 				$temp_event=str_replace("{starttime}","",$temp_event);

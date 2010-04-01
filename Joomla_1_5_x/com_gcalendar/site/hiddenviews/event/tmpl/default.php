@@ -42,18 +42,14 @@ if($event == null){
 	echo "no event found";
 }else{
 	// the date formats from http://php.net/strftime
-	$dateformat = '%d.%m.%Y';
-	$timeformat = '%H:%M';
+	$dateformat = GCalendarUtil::getComponentParameter('event_date_format', '%d.%m.%Y');
+	$timeformat = GCalendarUtil::getComponentParameter('event_time_format', '%H:%M');
 
 	// These are the dates we'll display
-	$tmp = JFactory::getDate($event->get_start_date());
-	$startDate = $tmp->toFormat($dateformat);
-	$tmp = JFactory::getDate($event->get_start_date());
-	$startTime = $tmp->toFormat($timeformat);
-	$tmp = JFactory::getDate($event->get_end_date());
-	$endDate = $tmp->toFormat($dateformat);
-	$tmp = JFactory::getDate($event->get_end_date());
-	$endTime = $tmp->toFormat($timeformat);
+	$startDate = strftime($dateformat, $event->get_start_date());
+	$startTime = strftime($timeformat, $event->get_start_date());
+	$endDate = strftime($dateformat, $event->get_end_date());
+	$endTime = strftime($timeformat, $event->get_end_date());
 	$dateSeparator = '-';
 
 	$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
@@ -66,8 +62,7 @@ if($event == null){
 			break;
 		case $event->MULTIPLE_WHOLE_DAY:
 			$SECSINDAY=86400;
-			$tmp = JFactory::getDate($event->get_end_date() - $SECSINDAY);
-			$endDate = $tmp->toFormat($timeformat);
+			$endDate = strftime($timeformat, $event->get_end_date()-$SECSINDAY);
 			$timeString = $startDate.' '.$dateSeparator.' '.$endDate;
 			break;
 		case $event->MULTIPLE_PART_DAY:
