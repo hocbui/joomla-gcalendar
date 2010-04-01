@@ -26,22 +26,24 @@ $startDate = JRequest::getVar('start', null);
 $endDate = JRequest::getVar('end', null);
 $requestedDayStart = $startDate;
 $requestedDayEnd = $requestedDayStart + $SECSINDAY;
-$days = ($endDate - $startDate)/$SECSINDAY;
 
-while ($days > 0) {
+while ($requestedDayStart < $endDate) {
 	$result = array();
-	$linkID = '';
+	$linkIDs = '';
 
 	foreach ($this->calendars as $calendar){
+		$calID = null;
 		$items = $calendar->get_items();
 		foreach ($items as $item) {
 			if(($requestedDayStart <= $item->get_start_date() && $item->get_start_date() < $requestedDayEnd)
 			|| ($requestedDayStart < $item->get_end_date() && $item->get_end_date() <= $requestedDayEnd)
 			|| ($item->get_start_date() <= $requestedDayStart && $requestedDayEnd <= $item->get_end_date())){
 				$result[] = $item;
-				$linkIDs = $calendar->get('gcid').',';
+				$calID = $calendar->get('gcid').',';
 			}
 		}
+		if($calID != null)
+		$linkIDs .= $calID;
 	}
 	if(!empty($result)){
 		$linkIDs = rtrim($linkIDs, ',');
@@ -62,7 +64,6 @@ while ($days > 0) {
 	}
 	$requestedDayStart += $SECSINDAY;
 	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
-	$days--;
 }
 echo json_encode($data);
 ?>
