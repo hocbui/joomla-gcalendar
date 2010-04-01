@@ -33,13 +33,6 @@ class GCalendarViewJSONFeed extends JView
 		$calendars = array();
 		$this->assignRef( 'calendars',	$calendars );
 
-		$linkID = GCalendarUtil::getItemId(JRequest::getInt('gcid', 0));
-		$menus	= &JSite::getMenu();
-		$params = $menus->getParams($linkID);
-		if(empty($params))
-		$params = new JParameter('');
-		$this->assignRef('params'  , $params);
-
 		parent::display($tpl);
 	}
 }

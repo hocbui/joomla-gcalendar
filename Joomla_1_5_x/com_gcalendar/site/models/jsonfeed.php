@@ -38,10 +38,19 @@ class GCalendarModelJSONFeed extends JModel {
 	 * cache is used and configured from the menu parameters.
 	 */
 	function getGoogleCalendarFeeds() {
+		GCalendarUtil::ensureSPIsLoaded();
 		$startDate = JRequest::getVar('start', null);
 		$endDate = JRequest::getVar('end', null);
-		GCalendarUtil::ensureSPIsLoaded();
-		$results = GCalendarDBUtil::getCalendars(JRequest::getVar('gcid', 0));
+		$calendarids = '';
+		if(JRequest::getVar('gcids', null) != null){
+			if(is_array(JRequest::getVar('gcids', null)))
+			$calendarids = JRequest::getVar('gcids', null);
+			else
+			$calendarids = explode(',', JRequest::getVar('gcids', null));
+		}else{
+			$calendarids = JRequest::getVar('gcid', null);
+		}
+		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
 		return null;
 
