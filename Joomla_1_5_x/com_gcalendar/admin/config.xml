@@ -10,5 +10,42 @@
 			<option value="no">No</option>
 			<option value="yes">Yes</option>
 		</param>
+		<param name="@spacer" type="spacer" default="Event output" label=""
+			description="" />
+		<param name="show_calendar_name" type="radio" default="1"
+			label="Show Calendar Name" description="Shows the calendar name">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
+		<param name="show_event_title" type="radio" default="1"
+			label="Show Event Title" description="Shows the event title.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
+		<param name="show_event_date" type="radio" default="1"
+			label="Show Event Date" description="Shows the event date.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
+		<param name="show_event_attendees" type="radio" default="2"
+			label="Show Event Attendees" description="Shows the event attendees.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
+		<param name="show_event_description" type="radio" default="1"
+			label="Show Event Description" description="Shows the event description.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
+		<param name="show_event_location" type="radio" default="1"
+			label="Show Event Location" description="Shows the event location.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
+		<param name="show_event_author" type="radio" default="2"
+			label="Show Event Author" description="Shows the event author.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
 	</params>
 </config>

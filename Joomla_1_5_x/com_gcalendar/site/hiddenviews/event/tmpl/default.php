@@ -86,19 +86,39 @@ if($event == null){
 
 	$feed = $event->get_feed();
 	echo "<div class=\"event_content\"><table id=\"content_table\">\n";
-	echo "<tr><td class=\"event_content_key\">".JText::_( 'CALENDAR_NAME' ).": </td><td>".$feed->get('gcname')."</td></tr>\n";
-	echo "<tr><td class=\"event_content_key\">".JText::_( 'EVENT_TITLE' ).": </td><td>".$event->get_title()."</td></tr>\n";
-	echo "<tr><td class=\"event_content_key\">".JText::_( 'WHEN' ).": </td><td>".$timeString."</td></tr>\n";
-	echo "<tr><td class=\"event_content_key\">".JText::_( 'DESCRIPTION' ).": </td><td>". htmlspecialchars_decode(nl2br(preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1" target="_top">\\1</a>', $event->get_description())))."</td></tr>\n";
-	$loc = $event->get_location();
-	if(!empty($loc)){
-		echo "<tr><td class=\"event_content_key\">".JText::_( 'LOCATION' ).": </td><td>".$loc."</td></tr>\n";
-		echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"no\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&output=embed\"></iframe></td></tr>\n";
+	if(GCalendarUtil::getComponentParameter('show_calendar_name', 1) == 1){
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'CALENDAR_NAME' ).": </td><td>".$feed->get('gcname')."</td></tr>\n";
 	}
-	$authors = $event->get_authors();
-	if(count($authors)>0){
-		$document->addScript(JURI::base().'components/com_gcalendar/hiddenviews/event/tmpl/default.js');
-		echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td style=\"valign:top\">".$authors[0]->get_name()." <a href=\"javascript:sdafgkl437jeeee('".base64_encode(str_replace('@','#',$authors[0]->get_email()))."')\"><img height=\"11\" border=\"0\" width=\"16\" alt=\"email\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/mail.png\"/></a></td></tr>\n";
+	if(GCalendarUtil::getComponentParameter('show_event_title', 1) == 1){
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'EVENT_TITLE' ).": </td><td>".$event->get_title()."</td></tr>\n";
+	}
+	if(GCalendarUtil::getComponentParameter('show_event_date', 1) == 1){
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'WHEN' ).": </td><td>".$timeString."</td></tr>\n";
+	}
+	if(GCalendarUtil::getComponentParameter('show_event_attendees', 2) == 1){
+		$attendeesString = '';
+		foreach ($event->get_attendees() as $a) {
+			$attendeesString .= $a['value']." <a href=\"javascript:sdafgkl437jeeee('".base64_encode(str_replace('@','#',$a['email']))."')\"><img height=\"11\" border=\"0\" width=\"16\" alt=\"email\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/mail.png\"/></a>,";
+		}
+		$attendeesString = rtrim($attendeesString, ',');
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'ATTENDEES' ).": </td><td style=\"valign:top\">".$attendeesString."</td></tr>\n";
+	}
+	if(GCalendarUtil::getComponentParameter('show_event_description', 1) == 1){
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'DESCRIPTION' ).": </td><td>". htmlspecialchars_decode(nl2br(preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1" target="_top">\\1</a>', $event->get_description())))."</td></tr>\n";
+	}
+	if(GCalendarUtil::getComponentParameter('show_event_location', 1) == 1){
+		$loc = $event->get_location();
+		if(!empty($loc)){
+			echo "<tr><td class=\"event_content_key\">".JText::_( 'LOCATION' ).": </td><td>".$loc."</td></tr>\n";
+			echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"no\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&output=embed\"></iframe></td></tr>\n";
+		}
+	}
+	if(GCalendarUtil::getComponentParameter('show_event_author', 2) == 1){
+		$authors = $event->get_authors();
+		if(count($authors)>0){
+			$document->addScript(JURI::base().'components/com_gcalendar/hiddenviews/event/tmpl/default.js');
+			echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td style=\"valign:top\">".$authors[0]->get_name()." <a href=\"javascript:sdafgkl437jeeee('".base64_encode(str_replace('@','#',$authors[0]->get_email()))."')\"><img height=\"11\" border=\"0\" width=\"16\" alt=\"email\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/mail.png\"/></a></td></tr>\n";
+		}
 	}
 	echo "</table></div>\n";
 }

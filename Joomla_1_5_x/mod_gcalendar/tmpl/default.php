@@ -99,7 +99,6 @@ $calCode .= "		    prev:     '&nbsp;&#9668;&nbsp;',\n";  // left triangle
 $calCode .= "		    next:     '&nbsp;&#9658;&nbsp;',\n";  // right triangle
 $calCode .= "		    prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
 $calCode .= "		    nextYear: '&nbsp;&gt;&gt;&nbsp;',\n"; // >>
-$calCode .= "		    month:    '".JText::_( 'VIEW_MONTH' )."',\n";
 $calCode .= "		},\n";
 $calCode .= "		eventRender: function(event, element) {\n";
 $calCode .= "				jQuery(element).qtip({\n";
