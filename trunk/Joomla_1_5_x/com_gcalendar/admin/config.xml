@@ -47,5 +47,12 @@
 			<option value="1">Yes</option>
 			<option value="2">No</option>
 		</param>
+		<param name="event_date_format" type="text" size="80" default="%d.%m.%Y"
+			label="Date format"
+			description="The format of the date for an event (see http://www.php.net/strftime for details)." />
+		<param name="event_time_format" type="text" size="80" default="%H:%M"
+			label="Time format"
+			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
+		
 	</params>
 </config>
