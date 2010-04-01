@@ -30,9 +30,9 @@ class GCalendarDBUtil{
 		$condition = '';
 		if(!empty($calendarIDs)){
 			if(is_array($calendarIDs)) {
-				$condition = 'id IN ( ' . implode( ',', $calendarIDs ) . ')';
+				$condition = 'id IN ( ' . rtrim(implode( ',', $calendarIDs ), ',') . ')';
 			} else {
-				$condition = 'id = '.(int)$calendarIDs;
+				$condition = 'id = '.(int)rtrim($calendarIDs, ',');
 			}
 		}else
 		return GCalendarDBUtil::getAllCalendars();

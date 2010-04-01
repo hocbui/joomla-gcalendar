@@ -35,40 +35,27 @@ while ($days > 0) {
 	foreach ($this->calendars as $calendar){
 		$items = $calendar->get_items();
 		foreach ($items as $item) {
-			if($requestedDayStart <= $item->get_start_date()
-			&& $item->get_start_date() < $requestedDayEnd){
+			if(($requestedDayStart <= $item->get_start_date() && $item->get_start_date() < $requestedDayEnd)
+			|| ($requestedDayStart < $item->get_end_date() && $item->get_end_date() <= $requestedDayEnd)
+			|| ($item->get_start_date() <= $requestedDayStart && $requestedDayEnd <= $item->get_end_date())){
 				$result[] = $item;
-				$linkID = GCalendarUtil::getItemId($calendar->get('gcid'));
-			}else if($requestedDayStart < $item->get_end_date()
-			&& $item->get_end_date() <= $requestedDayEnd){
-				$result[] = $item;
-				$linkID = GCalendarUtil::getItemId($calendar->get('gcid'));
-			}else if($item->get_start_date() <= $requestedDayStart
-			&& $requestedDayEnd <= $item->get_end_date()){
-				$result[] = $item;
-				$linkID = GCalendarUtil::getItemId($calendar->get('gcid'));
+				$linkIDs = $calendar->get('gcid').',';
 			}
 		}
 	}
 	if(!empty($result)){
-		$component	= &JComponentHelper::getComponent('com_gcalendar');
-		$menu = &JSite::getMenu();
-		$item = $menu->getItem($linkID);
-		$url = '';
-		if($item !=null){
-			$backLinkView = $item->query['view'];
-			$day = strftime('%d', $requestedDayStart);
-			$month = strftime('%m', $requestedDayStart);
-			$year = strftime('%Y', $requestedDayStart);
-			$url = JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$linkID.'#year='.$year.'&month='.$month.'&day='.$day.'&view=agendaDay');
-		}
+		$linkIDs = rtrim($linkIDs, ',');
+		$day = strftime('%d', $requestedDayStart);
+		$month = strftime('%m', $requestedDayStart);
+		$year = strftime('%Y', $requestedDayStart);
+		$url = JRoute::_('index.php?option=com_gcalendar&view=day&gcids='.$linkIDs.'#year='.$year.'&month='.$month.'&day='.$day);
 		$data[] = array(
 			'id' => time(),
 			'title' => '',
 			'start' => $requestedDayStart,
 		//			'end' => $requestedDayEnd - 10,
 			'url' => $url,
-			'className' => "gcal-module_event_gccal",
+		//			'className' => "gcal-module_event_gccal",
 			'allDay' => true,
 			'description' => sprintf(JText::_('MODULE_TEXT'), count($result))
 		);

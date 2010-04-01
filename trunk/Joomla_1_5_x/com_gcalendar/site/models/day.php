@@ -31,45 +31,29 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.
  */
 class GCalendarModelDay extends JModel {
 
-	function getGoogleCalendarFeeds($start, $end) {
-		GCalendarUtil::ensureSPIsLoaded();
-		$calendarids = null;
-		$gcids = $this->getState('gcids');
-		if(!empty($gcids))
-		$calendarids = $gcids;
+	var $cached_data = null;
 
-		$results = GCalendarDBUtil::getCalendars($calendarids);
-		if(empty($results))
-		return array();
-
-		$calendars = array();
-		foreach ($results as $result) {
-			if(!empty($result->calendar_id)){
-				$feed = new SimplePie_GCalendar();
-				$feed->set_show_past_events(FALSE);
-				$feed->set_sort_ascending(TRUE);
-				$feed->set_orderby_by_start_date(TRUE);
-				$feed->set_expand_single_events(TRUE);
-				$feed->enable_order_by_date(FALSE);
-				$feed->enable_cache(FALSE);
-				$feed->set_start_date($start);
-				$feed->set_end_date($end);
-				$feed->set_max_events(100);
-				$feed->put('gcid',$result->id);
-				$feed->put('gccolor',$result->color);
-				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
-				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
-
-				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
-				$feed->set_feed_url($url);
-				$feed->init();
-				if ($feed->error()){
-					JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
-				}
-				$feed->handle_content_type();
-				$calendars[] = $feed;
+	/**
+	 * Returns all calendars in the database. The returned
+	 * rows contain an additional attribute selected which is set
+	 * to true when the specific calendar is mentioned in the
+	 * parameters property calendarids.
+	 *
+	 * @return the calendars specified in the database
+	 */
+	function getDBCalendars(){
+		if($this->cached_data == null){
+			$calendarids = '';
+			if(JRequest::getVar('gcids', null) != null){
+				if(is_array(JRequest::getVar('gcids', null)))
+				$calendarids = JRequest::getVar('gcids', null);
+				else
+				$calendarids = explode(',', JRequest::getVar('gcids', null));
+			}else{
+				$calendarids = JRequest::getVar('gcid', null);
 			}
+			$this->cached_data = GCalendarDBUtil::getCalendars($calendarids);
 		}
-		return $calendars;
+		return $this->cached_data;
 	}
 }

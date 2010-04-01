@@ -20,22 +20,26 @@
 
 defined('_JEXEC') or die('Restricted access');
 $data = array();
-$params = $this->params;
-$dateformat = $params->get('description_date_format', '%d.%m.%Y');
-$timeformat = $params->get('description_time_format', '%H:%M');
-$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
 $SECSINDAY=86400;
 
 foreach ($this->calendars as $calendar){
+	$linkID = GCalendarUtil::getItemId($calendar->get('gcid'));
+	$menus	= &JSite::getMenu();
+	$params = $menus->getParams($linkID);
+	if(empty($params))
+	$params = new JParameter('');
+	$dateformat = $params->get('description_date_format', '%d.%m.%Y');
+	$timeformat = $params->get('description_time_format', '%H:%M');
+	$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
+
 	$items = $calendar->get_items();
 	foreach ($items as $event) {
-		$feed = $event->get_feed();
 		$tz = GCalendarUtil::getComponentParameter('timezone');
 		if($tz == ''){
-			$tz = $feed->get_timezone();
+			$tz = $calendar->get_timezone();
 		}
 
-		$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
+		$itemID = GCalendarUtil::getItemId($calendar->get('gcid'));
 		if(!empty($itemID)){
 			$itemID = '&Itemid='.$itemID;
 		}else{
@@ -96,11 +100,11 @@ foreach ($this->calendars as $calendar){
 		$temp_event=str_replace("{title}",$event->get_title(),$temp_event);
 		$temp_event=str_replace("{description}",$desc,$temp_event);
 		$temp_event=str_replace("{where}",$event->get_location(),$temp_event);
-		$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$feed->get('gcid').$itemID),$temp_event);
+		$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid').$itemID),$temp_event);
 		$temp_event=str_replace("{link}",$event->get_link().'&ctz='.$tz,$temp_event);
 		$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($event->get_location()),$temp_event);
-		$temp_event=str_replace("{calendarname}",$feed->get('gcname'),$temp_event);
-		$temp_event=str_replace("{calendarcolor}",$feed->get('gccolor'),$temp_event);
+		$temp_event=str_replace("{calendarname}",$calendar->get('gcname'),$temp_event);
+		$temp_event=str_replace("{calendarcolor}",$calendar->get('gccolor'),$temp_event);
 		// Accept and translate HTML
 		$temp_event = html_entity_decode($temp_event);
 

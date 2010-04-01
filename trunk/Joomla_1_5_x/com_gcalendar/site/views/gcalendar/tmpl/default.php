@@ -39,14 +39,23 @@ $theme = $params->get('theme', '');
 if(!empty($theme))
 $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
 
+$calendarids = array();
+$tmp = $params->get('calendarids');
+if(is_array($tmp))
+$calendarids = $tmp;
+else if(!empty($tmp))
+$calendarids[] = $tmp;
+$allCalendars = GCalendarDBUtil::getAllCalendars();
+
 $calsSources = "       eventSources: [\n";
-foreach($this->calendars as $calendar) {
+foreach($allCalendars as $calendar) {
 	$calID = $calendar->id;
 	$linkID = GCalendarUtil::getItemId($calID);
 	$cssClass = "gcal-event_gccal_".$calendar->id;
-	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID)."',\n";
 	$color = GCalendarUtil::getFadedColor($calendar->color);
-	$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
+	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
+	if(empty($calendarids) || in_array($calendar->id, $calendarids))
+	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID)."',\n";
 }
 $calsSources = ltrim($calsSources, ',\n');
 $calsSources .= "    ],\n";
@@ -109,7 +118,7 @@ $calCode .= "				right: 'month,agendaWeek,agendaDay'\n";
 $calCode .= "		},\n";
 $calCode .= "		year: tmpYear,\n";
 $calCode .= "		month: tmpMonth,\n";
-$calCode .= "		day: tmpDay,\n";
+$calCode .= "		date: tmpDay,\n";
 $calCode .= "		defaultView: tmpView,\n";
 $calCode .= "		editable: false, theme: ".(!empty($theme)?'true':'false').",\n";
 $calCode .= "		titleFormat: { \n";
@@ -141,7 +150,9 @@ $calCode .= "		},\n";
 $calCode .= $calsSources;
 $calCode .= "		viewDisplay: function(view) {\n";
 $calCode .= "		        var d = jQuery('#gcalendar_component').fullCalendar('getDate');\n";
-$calCode .= "		        window.location.hash = 'year='+d.getFullYear()+'&month='+(d.getMonth()+1)+'&day='+d.getDate()+'&view='+view.name;\n";
+$calCode .= "		        var newHash = 'year='+d.getFullYear()+'&month='+(d.getMonth()+1)+'&day='+d.getDate()+'&view='+view.name;\n";
+$calCode .= "		        if(window.location.hash.replace(/&amp;/gi, \"&\") != newHash)\n";
+$calCode .= "		        window.location.hash = newHash;\n";
 $calCode .= "		    },\n";
 $calCode .= "		eventRender: function(event, element) {\n";
 $calCode .= "				jQuery(element).qtip({\n";
@@ -236,16 +247,10 @@ echo $params->get( 'textbefore' );
 if($params->get('show_selection', 1) == 1){
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 	$calendar_list = '<div id="gc_gcalendar_view_list"><table>';
-	$calendarids = array();
-	$tmp = $params->get('calendarids');
-	if(is_array($tmp))
-	$calendarids = $tmp;
-	else if(!empty($tmp))
-	$calendarids[] = $tmp;
-	foreach($this->calendars as $calendar) {
+	foreach($allCalendars as $calendar) {
 		$calID = $calendar->id;
 		$linkID = GCalendarUtil::getItemId($calID);
-		$value = JRoute::_(JURI::base().'index.php?option=com_gcalendar&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID);
+		$value = JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID);
 		$checked = '';
 		if(empty($calendarids) || in_array($calendar->id, $calendarids)){
 			$checked = 'checked="checked"';

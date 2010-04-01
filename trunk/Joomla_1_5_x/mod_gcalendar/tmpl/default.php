@@ -19,6 +19,7 @@
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
 JHTML::_('behavior.mootools');
 GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
@@ -27,7 +28,7 @@ $document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/li
 $document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/jquery/util/jquery.qtip-1.0.0-rc3.min.js');
 
 $cssClass = "gcal-module_event_gccal";
-$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;}\n.fc-header-center{vertical-align: middle !important;}");
+$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_1 .fc-state-default span, #gcalendar_module_1 .ui-state-default{padding:0px !important;}");
 
 $theme = $params->get('theme', '');
 if(!empty($theme))
@@ -72,7 +73,7 @@ foreach($calendars as $calendar) {
 }
 $calCode = "window.addEvent(\"domready\", function(){\n";
 $calCode .= "   jQuery('#gcalendar_module_".$moduleID."').fullCalendar({\n";
-$calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcid='.$ids)."',\n";
+$calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcids='.$ids)."',\n";
 $calCode .= "       header: {\n";
 $calCode .= "				left: 'prev,next ',\n";
 $calCode .= "				center: 'title',\n";

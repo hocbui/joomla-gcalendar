@@ -116,5 +116,6 @@ class GCalendarUtil{
 		}
 		return $parts;
 	}
+
 }
 ?>
