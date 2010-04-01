@@ -304,6 +304,7 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	var $gc_end_date;
 	var $gc_day_type;
 	var $gc_transparency;
+	var $gc_attendees;
 
 	/**
 	 * Returns the id of the event.
@@ -411,6 +412,25 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 		if($format != null)
 		return strftime($format, $this->gc_end_date);
 		return $this->gc_end_date;
+	}
+	
+	/**
+	 * Returns an array of attendees of this event.
+	 * 
+	 * @sse http://code.google.com/apis/gdata/docs/1.0/elements.html#gdWho
+	 * @return an array of attendees
+	 */
+	function get_attendees(){
+		if(!$this->gc_attendees){
+			$gd_attendees = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'who');
+			$this->gc_attendees = array();
+			foreach ($gd_attendees as $attendee){
+				if(strrpos($attendee['attribs']['']['rel'], 'event.attendee')){
+					$this->gc_attendees[] = array('value' => $attendee['attribs']['']['valueString'], 'email' => $attendee['attribs']['']['email']);
+				}
+			}
+		}
+		return $this->gc_attendees;
 	}
 
 	/**

@@ -57,7 +57,7 @@ $timezone = $_GET["tz"];
 	<tr>
 		<td>EMail address:</td>
 		<td colspan="4"><input type="text" name="email" size="50px"
-			value="<?php echo empty($email) ? 'calendar@joomla.org':$email; ?>"></td>
+			value="<?php echo empty($email) && empty($url) ? 'calendar@joomla.org':$email; ?>"></td>
 	</tr>
 	<tr>
 		<td colspan="5">
@@ -129,8 +129,14 @@ $timezone = $_GET["tz"];
 		$startDate = date("d.m.Y H:i", $item->get_start_date());
 		$pubDate = date("d.m.Y H:i", $item->get_publish_date());
 		echo '<p>Published: '.$pubDate."<br/>\n";
-		if( $projection == 'full')
-		echo $startDate.'<br/>';
+		if( $projection == 'full'){
+			echo $startDate.'<br/>';
+			echo 'Attendees: ';
+			foreach ($item->get_attendees() as $a) {
+				echo $a['value'].' <'.$a['email'].'>';
+			}
+			echo '<br/>';
+		}
 		//Make any URLs used in the description also clickable
 		$desc = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,&//=]+)','<a href="\\1">\\1</a>', $item->get_description());
 		echo $item->get_title()."<br/>\n".$desc;
