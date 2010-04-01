@@ -43,9 +43,9 @@ class GCalendarUtil{
 		}
 	}
 
-	function getComponentParameter($key){
+	function getComponentParameter($key, $defaultValue = null){
 		$params   = JComponentHelper::getParams('com_gcalendar');
-		return $params->get($key);
+		return $params->get($key, $defaultValue);
 	}
 
 	function getFrLanguage(){
