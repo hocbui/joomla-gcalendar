@@ -97,6 +97,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 		$feed->enable_cache(FALSE);
 		$feed->set_cache_duration(1);
 		$feed->set_cal_query($text);
+		$feed->set_max_events($limit);
 		$feed->put('gcid',$result->id);
 		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
 		$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
