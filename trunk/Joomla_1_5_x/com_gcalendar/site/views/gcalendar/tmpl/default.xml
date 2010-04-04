@@ -91,12 +91,13 @@
 			<param name="theme" type="text" size="50" default=""
 				label="Theme"
 				description="Define the JQuery theme (install it in the folder administrator/components/com_gcalendar/libraries/jquery/themes)." />
-			<param name="cache" type="radio" default="no" label="Cache"
+			<param name="gccache" type="list" default="1" label="Cache"
 				description="Is cacheing enabled.">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
+				<option value="1">Use global</option>
+				<option value="2">Cache always</option>
+				<option value="0">Cache never</option>
 			</param>
-			<param name="cache_time" type="text" default="3600" label="Cache Time"
+			<param name="gccache_time" type="text" default="3600" label="Cache Time"
 				description="The cache time." />
 		</advanced>
 	</state>

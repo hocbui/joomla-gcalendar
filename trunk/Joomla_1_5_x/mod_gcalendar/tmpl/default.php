@@ -71,9 +71,16 @@ $ids = '';
 foreach($calendars as $calendar) {
 	$ids .= $calendar->id.',';
 }
+
+$cacheTime = -1;
+$conf =& JFactory::getConfig();
+if ($params->get('gccache', 0) == 2 || ($params->get('gccache', 0) == 1 && $conf->getValue( 'config.caching' ))){
+	$cacheTime = $params->get( 'gccache_time', $conf->getValue( 'config.cachetime' ) * 60 );
+}
+
 $calCode = "window.addEvent(\"domready\", function(){\n";
 $calCode .= "   jQuery('#gcalendar_module_".$moduleID."').fullCalendar({\n";
-$calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcids='.$ids)."',\n";
+$calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcids='.$ids.'&ctime='.$cacheTime)."',\n";
 $calCode .= "       header: {\n";
 $calCode .= "				left: 'prev,next ',\n";
 $calCode .= "				center: 'title',\n";

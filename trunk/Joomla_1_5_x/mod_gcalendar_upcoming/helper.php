@@ -44,7 +44,30 @@ class ModGCalendarUpcomingHelper {
 				$feed->set_orderby_by_start_date($sortOrder);
 				$feed->set_expand_single_events(TRUE);
 				$feed->enable_order_by_date(FALSE);
-				$feed->enable_cache(FALSE);
+				
+				$conf =& JFactory::getConfig();
+				if ($params != null && ($params->get('gccache', 0) == 2 || ($params->get('gccache', 0) == 1 && $conf->getValue( 'config.caching' )))){
+					$cacheTime = $params->get( 'gccache_time', $conf->getValue( 'config.cachetime' ) * 60 );
+					// check if cache directory exists and is writeable
+					$cacheDir =  JPATH_BASE.DS.'cache'.DS.'mod_gcalendar_upcoming';
+					JFolder::create($cacheDir, 0755);
+					if ( !is_writable( $cacheDir ) ) {
+						JError::raiseWarning( 500, "Created cache at ".$cacheDir." is not writable, disabling cache.");
+						$cache_exists = false;
+					}else{
+						$cache_exists = true;
+					}
+
+					//check and set caching
+					$feed->enable_cache($cache_exists);
+					if($cache_exists) {
+						$feed->set_cache_location($cacheDir);
+						$feed->set_cache_duration($cacheTime);
+					}
+				} else {
+					$feed->enable_cache(false);
+					$feed->set_cache_duration(-1);
+				}
 				$feed->set_cal_query($filter);
 				$feed->set_max_events($maxEvents);
 				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));

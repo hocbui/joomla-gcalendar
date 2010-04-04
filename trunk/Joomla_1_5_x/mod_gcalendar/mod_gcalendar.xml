@@ -61,7 +61,8 @@
 				description="Define the JQuery theme (install it in the folder administrator/components/com_gcalendar/libraries/jquery/themes)." />
 		<param name="gccache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module.">
 			<option value="1">Use global</option>
-			<option value="0">No caching</option>
+			<option value="2">Cache always</option>
+			<option value="0">Cache never</option>
 		</param>
 		<param name="gccache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached in sec." />
 	</params>
