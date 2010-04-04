@@ -22,15 +22,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $event_display = $params->get('output', '');
 
-$dateformat=$params->get('dateFormat', '%d.%m.%Y');
-$timeformat=$params->get('timeFormat', '%H:%M');
+$dateformat=$params->get('date_format', '%d.%m.%Y');
+$timeformat=$params->get('time_format', '%H:%M');
 
-echo $params->get( 'textbefore' );
+echo $params->get( 'text_before' );
 
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
 	echo GCalendarUtil::renderEvent($item, $event_display, $dateformat, $timeformat);
 }
 
-echo $params->get( 'textafter' );
+echo $params->get( 'text_after' );
 ?>

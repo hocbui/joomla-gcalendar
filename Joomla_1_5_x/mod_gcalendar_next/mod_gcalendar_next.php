@@ -25,7 +25,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once (dirname(__FILE__).DS.'helper.php');
 
-$document =& JFactory::getDocument();
+$params->set('gc_cache_folder', 'mod_gcalendar_next');
+
 $gcalendar_item = ModGCalendarNextHelper::getCalendarItems($params);
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar_next') );
 ?>
