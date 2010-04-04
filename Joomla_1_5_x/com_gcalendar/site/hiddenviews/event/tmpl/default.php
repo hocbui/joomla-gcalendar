@@ -21,6 +21,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+$event = $this->event;
 
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
 if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
@@ -29,15 +30,21 @@ if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 	$item = $menu->getItem($itemID);
 	if($item !=null){
 		$backLinkView = $item->query['view'];
+		$dateHash = '';
+		if($backLinkView == 'gcalendar'){
+			$day = strftime('%d', $event->get_start_date());
+			$month = strftime('%m', $event->get_start_date());
+			$year = strftime('%Y', $event->get_start_date());
+			$dateHash = '#year='.$year.'&month='.$month.'&day='.$day;
+		}
 		echo "<table><tr><td valign=\"middle\">\n";
-		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID)."\">\n";
+		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID.$dateHash)."\">\n";
 		echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/back.png\"/>\n";
 		echo "</a></td><td valign=\"middle\">\n";
-		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
+		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID.$dateHash).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
 		echo "</td></tr></table>\n";
 	}
 }
-$event = $this->event;
 if($event == null){
 	echo "no event found";
 }else{
@@ -71,13 +78,7 @@ if($event == null){
 	}
 
 	$document =& JFactory::getDocument();
-	$document->addScript(JURI::base().'administrator/components/com_gcalendar/libraries/nifty/nifty.js');
-	$document->addStyleSheet(JURI::base().'administrator/components/com_gcalendar/libraries/nifty/niftyCorners.css');
 	$document->addStyleSheet(JURI::base().'components/com_gcalendar/hiddenviews/event/tmpl/default.css');
-	$calCode = "window.addEvent(\"domready\", function(){\n";
-	$calCode .= "Nifty(\"div.event_content\",\"big\");\n";
-	$calCode .= "});";
-	$document->addScriptDeclaration($calCode);
 
 	$feed = $event->get_feed();
 	echo "<div class=\"event_content\"><table id=\"content_table\">\n";

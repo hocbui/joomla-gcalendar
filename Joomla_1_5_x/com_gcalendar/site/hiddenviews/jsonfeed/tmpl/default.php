@@ -55,7 +55,7 @@ foreach ($this->calendars as $calendar){
 		$endTime = strftime($timeformat, $event->get_end_date());
 
 		$temp_event=$event_display;
-
+		$allDayEvent = true;
 		switch($event->get_day_type()){
 			case $event->SINGLE_WHOLE_DAY:
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
@@ -70,6 +70,7 @@ foreach ($this->calendars as $calendar){
 				$temp_event=str_replace("{dateseparator}","-",$temp_event);
 				$temp_event=str_replace("{enddate}","",$temp_event);
 				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
+				$allDayEvent = false;
 				break;
 			case $event->MULTIPLE_WHOLE_DAY:
 				$endDate = strftime($dateformat, $event->get_end_date() - $SECSINDAY);
@@ -85,6 +86,7 @@ foreach ($this->calendars as $calendar){
 				$temp_event=str_replace("{dateseparator}","-",$temp_event);
 				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
 				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
+				$allDayEvent = false;
 				break;
 		}
 
@@ -111,10 +113,10 @@ foreach ($this->calendars as $calendar){
 			'id' => $event->get_id(),
 			'title' => htmlspecialchars_decode($event->get_title()),
 			'start' => $event->get_start_date(),
-			'end' => $event->get_end_date(),
+			'end' => $allDayEvent? $event->get_end_date() - $SECSINDAY:$event->get_end_date(),
 			'url' => JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid')).$itemID,
 			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
-			'allDay' => $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY,
+			'allDay' => $allDayEvent,
 			'description' => $temp_event
 		);
 	}

@@ -36,11 +36,18 @@ if($itemID !=null){
 	$params = $menu->getParams($itemID);
 	$item = $menu->getItem($itemID);
 	$backLinkView = $item->query['view'];
+	$dateHash = '';
+	if($backLinkView == 'gcalendar'){
+		$day = strftime('%d', $event->get_start_date());
+		$month = strftime('%m', $event->get_start_date());
+		$year = strftime('%Y', $event->get_start_date());
+		$dateHash = '#year='.$year.'&month='.$month.'&day='.$day;
+	}
 	echo "<table><tr><td valign=\"middle\">\n";
-	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID)."\">\n";
+	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID.$dateHash)."\">\n";
 	echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/hiddenviews/day/tmpl/back.png\"/>\n";
 	echo "</a></td><td valign=\"middle\">\n";
-	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
+	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID.$dateHash).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
 	echo "</td></tr></table>\n";
 }
 
