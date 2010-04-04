@@ -23,7 +23,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'events_helper.php');
 
 class ModGCalendarNextHelper extends GCalendarEventsHelper {
@@ -33,3 +32,4 @@ class ModGCalendarNextHelper extends GCalendarEventsHelper {
 		return $events[0];
 	}
 }
+?>

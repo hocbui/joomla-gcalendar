@@ -52,10 +52,13 @@
 		<param name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative)"/>
 		<param name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative)"/>
 		<param name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events."/>
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module.">
+		<param name="gc_cache" type="list" default="1" label="Cache"
+			description="Is cacheing enabled.">
 			<option value="1">Use global</option>
-			<option value="0">No caching</option>
+			<option value="2">Cache always</option>
+			<option value="0">Cache never</option>
 		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached in sec." />
+		<param name="gc_cache_time" type="text" default="900" label="Cache Time"
+			description="The time before the module is recached in sec." />
 	</params>
 </install>

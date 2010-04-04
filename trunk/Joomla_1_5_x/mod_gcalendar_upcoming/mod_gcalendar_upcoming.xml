@@ -30,10 +30,10 @@
 	<params addpath="/administrator/components/com_gcalendar/elements">
 		<param name="calendarids" type="gcalendar" default=""
 			label="Select Calendars" description="The calendars" />
-		<param name="dateFormat" type="text" size="80" default="%d.%m.%Y"
+		<param name="date_format" type="text" size="80" default="%d.%m.%Y"
 			label="Date format"
 			description="The format of the date for an event (see http://www.php.net/strftime for details)." />
-		<param name="timeFormat" type="text" size="80" default="%H:%M"
+		<param name="time_format" type="text" size="80" default="%H:%M"
 			label="Time format"
 			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
 		<param name="max" type="text" size="2" default="5" label="Max events"
@@ -43,7 +43,7 @@
 			<option value="1">Start Time</option>
 			<option value="0">Last Modified</option>
 		</param>
-		<param name="filterText" type="text" size="80" default=""
+		<param name="find" type="text" size="80" default=""
 			label="Filter"
 			description="Only events with the text will be shown." />
 		<param name="@spacer" type="spacer" default="" label=""
@@ -52,7 +52,7 @@
 			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 	<params group="advanced">
-		<param name="textbefore" type="textarea" default=""
+		<param name="text_before" type="textarea" default=""
 			label="Content before events" description="This text will be displayed before the event list."
 			rows="3" cols="50" />
 		<param name="output" type="textarea2" default="" label="Event output"
@@ -72,16 +72,19 @@
 				{calendarcolor}
 			</description>
 		</param>
-		<param name="textafter" type="textarea" default=""
+		<param name="text_after" type="textarea" default=""
 			label="Content after events" description="This text will be displayed after the event list."
 			rows="3" cols="50" />
-		<param name="gccache" type="list" default="1" label="Cache"
+		<param name="end_date" type="text" size="80" default=""
+				label="End Date"
+				description="Limit to events that will start before the date, can be relative (must be a valid string which can be passed to strtotime http://php.net/manual/en/function.strtotime.php as reference)." />
+		<param name="gc_cache" type="list" default="1" label="Cache"
 			description="Is cacheing enabled.">
 			<option value="1">Use global</option>
 			<option value="2">Cache always</option>
 			<option value="0">Cache never</option>
 		</param>
-		<param name="gccache_time" type="text" default="900" label="Cache Time"
+		<param name="gc_cache_time" type="text" default="900" label="Cache Time"
 			description="The time before the module is recached in sec." />
 	</params>
 </install>

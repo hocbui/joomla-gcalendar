@@ -24,6 +24,11 @@ require_once (dirname(__FILE__).DS.'helper.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
+$params->set('past_events', 0);
+$params->set('expand_events', 1);
+$params->set('start_date', 'now');
+$params->set('gc_cache_folder', 'mod_gcalendar_upcoming');
+
 $gcalendar_data = ModGCalendarUpcomingHelper::getCalendarItems($params);
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar_upcoming' ) );
 ?>

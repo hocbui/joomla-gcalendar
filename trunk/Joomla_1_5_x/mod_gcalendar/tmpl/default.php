@@ -74,8 +74,8 @@ foreach($calendars as $calendar) {
 
 $cacheTime = -1;
 $conf =& JFactory::getConfig();
-if ($params->get('gccache', 0) == 2 || ($params->get('gccache', 0) == 1 && $conf->getValue( 'config.caching' ))){
-	$cacheTime = $params->get( 'gccache_time', $conf->getValue( 'config.cachetime' ) * 60 );
+if ($params->get('gc_cache', 0) == 2 || ($params->get('gc_cache', 0) == 1 && $conf->getValue( 'config.caching' ))){
+	$cacheTime = $params->get( 'gc_cache_time', $conf->getValue( 'config.cachetime' ) * 60 );
 }
 
 $calCode = "window.addEvent(\"domready\", function(){\n";
