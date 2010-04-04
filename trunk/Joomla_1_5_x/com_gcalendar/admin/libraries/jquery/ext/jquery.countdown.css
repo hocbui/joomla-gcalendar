@@ -1,8 +1,8 @@
-/* jQuery Countdown styles 1.5.4. */
-.hasCountdown {
-	border: 1px solid transparent;
-	background-color: transparent;
-}
+/* jQuery Countdown styles 1.5.7. */
+/* .hasCountdown {
+	border: 1px solid #ccc;
+	background-color: #eee;
+} */
 .countdown_rtl {
 	direction: rtl;
 }
