@@ -39,6 +39,7 @@ class ModGCalendarUpcomingHelper {
 			if(!empty($result->calendar_id)){
 				$sortOrder = $params->get( 'order', 1 )==1;
 				$maxEvents = $params->get( 'max', 5 );
+				$filter = $params->get( 'filterText', '' );
 
 				$feed = new SimplePie_GCalendar();
 				$feed->set_show_past_events(FALSE);
@@ -47,6 +48,7 @@ class ModGCalendarUpcomingHelper {
 				$feed->set_expand_single_events(TRUE);
 				$feed->enable_order_by_date(FALSE);
 				$feed->enable_cache(FALSE);
+				$feed->set_cal_query($filter);
 				$feed->set_max_events($maxEvents);
 				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
 				$feed->set_cal_language(GCalendarUtil::getFrLanguage());

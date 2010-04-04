@@ -43,6 +43,9 @@
 			<option value="1">Start Time</option>
 			<option value="0">Last Modified</option>
 		</param>
+		<param name="filterText" type="text" size="80" default=""
+			label="Filter"
+			description="Only events with the text will be shown." />
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
 		<param name="moduleclass_sfx" type="text" size="80" default=""
