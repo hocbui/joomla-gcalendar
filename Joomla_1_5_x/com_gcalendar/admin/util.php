@@ -89,6 +89,85 @@ class GCalendarUtil{
 		return null;
 	}
 
+	function renderEvent($event, $format, $dateformat, $timeformat){
+		$feed = $event->get_feed();
+		$tz = GCalendarUtil::getComponentParameter('timezone');
+		if($tz == ''){
+			$tz = $feed->get_timezone();
+		}
+
+		$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
+		if(!empty($itemID)){
+			$itemID = '&Itemid='.$itemID;
+		}else{
+			$menu=JSite::getMenu();
+			$activemenu=$menu->getActive();
+			if($activemenu != null)
+			$itemID = '&Itemid='.$activemenu->id;
+		}
+
+		// These are the dates we'll display
+		$startDate = strftime($dateformat, $event->get_start_date());
+		$startTime = strftime($timeformat, $event->get_start_date());
+		$endDate = strftime($dateformat, $event->get_end_date());
+		$endTime = strftime($timeformat, $event->get_end_date());
+
+		$temp_event = $format;
+
+		switch($event->get_day_type()){
+			case $event->SINGLE_WHOLE_DAY:
+				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+				$temp_event=str_replace("{starttime}","",$temp_event);
+				$temp_event=str_replace("{dateseparator}","",$temp_event);
+				$temp_event=str_replace("{enddate}","",$temp_event);
+				$temp_event=str_replace("{endtime}","",$temp_event);
+				break;
+			case $event->SINGLE_PART_DAY:
+				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+				$temp_event=str_replace("{starttime}",$startTime,$temp_event);
+				$temp_event=str_replace("{dateseparator}","-",$temp_event);
+				$temp_event=str_replace("{enddate}","",$temp_event);
+				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
+				break;
+			case $event->MULTIPLE_WHOLE_DAY:
+				$SECSINDAY=86400;
+				$endDate = strftime($timeformat, $event->get_end_date()-$SECSINDAY);
+				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+				$temp_event=str_replace("{starttime}","",$temp_event);
+				$temp_event=str_replace("{dateseparator}","-",$temp_event);
+				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
+				$temp_event=str_replace("{endtime}","",$temp_event);
+				break;
+			case $event->MULTIPLE_PART_DAY:
+				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
+				$temp_event=str_replace("{starttime}",$startTime,$temp_event);
+				$temp_event=str_replace("{dateseparator}","-",$temp_event);
+				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
+				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
+				break;
+		}
+
+		if (substr_count($temp_event, '"{description}"')){
+			// If description is in html attribute
+			$desc = htmlspecialchars(str_replace('"',"'",$event->get_description()));
+		}else{
+			//Make any URLs used in the description also clickable
+			$desc = preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $event->get_description());
+		}
+
+		$temp_event=str_replace("{title}",$event->get_title(),$temp_event);
+		$temp_event=str_replace("{description}",$desc,$temp_event);
+		$temp_event=str_replace("{where}",$event->get_location(),$temp_event);
+		$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$feed->get('gcid').$itemID),$temp_event);
+		$temp_event=str_replace("{link}",$event->get_link().'&ctz='.$tz,$temp_event);
+		$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($event->get_location()),$temp_event);
+		$temp_event=str_replace("{calendarname}",$feed->get('gcname'),$temp_event);
+		$temp_event=str_replace("{calendarcolor}",$feed->get('gccolor'),$temp_event);
+		// Accept and translate HTML
+		$temp_event = html_entity_decode($temp_event);
+		return $temp_event;
+	}
+
 	function getFadedColor($pCol, $pPercentage = 85) {
 		$pPercentage = 100 - $pPercentage;
 		$rgbValues = array_map( 'hexDec', GCalendarUtil::str_split( ltrim($pCol, '#'), 2 ) );
