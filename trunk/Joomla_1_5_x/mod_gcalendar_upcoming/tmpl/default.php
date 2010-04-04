@@ -20,98 +20,16 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$SECSINDAY=86400;
+$event_display = $params->get('output', '');
 
-$event_display=$params->get('output', '');
-
-// Date format you want your details to appear
 $dateformat=$params->get('dateFormat', '%d.%m.%Y');
 $timeformat=$params->get('timeFormat', '%H:%M');
-$calName = $params->get( 'name', NULL );
 
 echo $params->get( 'textbefore' );
 
-// Loop through the array, and display what we wanted.
 for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
 	$item = $gcalendar_data[$i];
-
-	$feed = $item->get_feed();
-	$tz = GCalendarUtil::getComponentParameter('timezone');
-	if($tz == ''){
-		$tz = $feed->get_timezone();
-	}
-
-	$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
-	if(!empty($itemID)){
-		$itemID = '&Itemid='.$itemID;
-	}else{
-		$menu=JSite::getMenu();
-		$activemenu=$menu->getActive();
-		if($activemenu != null)
-		$itemID = '&Itemid='.$activemenu->id;
-	}
-
-	// These are the dates we'll display
-	$startDate = strftime($dateformat, $item->get_start_date());
-	$startTime = strftime($timeformat, $item->get_start_date());
-	$endDate = strftime($dateformat, $item->get_end_date());
-	$endTime = strftime($timeformat, $item->get_end_date());
-
-	$temp_event=$event_display;
-
-	switch($item->get_day_type()){
-		case $item->SINGLE_WHOLE_DAY:
-			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-			$temp_event=str_replace("{starttime}","",$temp_event);
-			$temp_event=str_replace("{dateseparator}","",$temp_event);
-			$temp_event=str_replace("{enddate}","",$temp_event);
-			$temp_event=str_replace("{endtime}","",$temp_event);
-			break;
-		case $item->SINGLE_PART_DAY:
-			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-			$temp_event=str_replace("{starttime}",$startTime,$temp_event);
-			$temp_event=str_replace("{dateseparator}","-",$temp_event);
-			$temp_event=str_replace("{enddate}","",$temp_event);
-			$temp_event=str_replace("{endtime}",$endTime,$temp_event);
-			break;
-		case $item->MULTIPLE_WHOLE_DAY:
-			$SECSINDAY=86400;
-			$endDate = strftime($timeformat, $item->get_end_date()-$SECSINDAY);
-			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-			$temp_event=str_replace("{starttime}","",$temp_event);
-			$temp_event=str_replace("{dateseparator}","-",$temp_event);
-			$temp_event=str_replace("{enddate}",$endDate,$temp_event);
-			$temp_event=str_replace("{endtime}","",$temp_event);
-			break;
-		case $item->MULTIPLE_PART_DAY:
-			$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-			$temp_event=str_replace("{starttime}",$startTime,$temp_event);
-			$temp_event=str_replace("{dateseparator}","-",$temp_event);
-			$temp_event=str_replace("{enddate}",$endDate,$temp_event);
-			$temp_event=str_replace("{endtime}",$endTime,$temp_event);
-			break;
-	}
-
-	if (substr_count($temp_event, '"{description}"')){
-		// If description is in html attribute
-		$desc = htmlspecialchars(str_replace('"',"'",$item->get_description()));
-	}else{
-		//Make any URLs used in the description also clickable
-		$desc = preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $item->get_description());
-	}
-
-	$temp_event=str_replace("{title}",$item->get_title(),$temp_event);
-	$temp_event=str_replace("{description}",$desc,$temp_event);
-	$temp_event=str_replace("{where}",$item->get_location(),$temp_event);
-	$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$item->get_id().'&start='.$item->get_start_date().'&end='.$item->get_end_date().'&gcid='.$feed->get('gcid').$itemID),$temp_event);
-	$temp_event=str_replace("{link}",$item->get_link().'&ctz='.$tz,$temp_event);
-	$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($item->get_location()),$temp_event);
-	$temp_event=str_replace("{calendarname}",$feed->get('gcname'),$temp_event);
-	$temp_event=str_replace("{calendarcolor}",$feed->get('gccolor'),$temp_event);
-	// Accept and translate HTML
-	$temp_event = html_entity_decode($temp_event);
-
-	echo $temp_event;
+	echo GCalendarUtil::renderEvent($item, $event_display, $dateformat, $timeformat);
 }
 
 echo $params->get( 'textafter' );

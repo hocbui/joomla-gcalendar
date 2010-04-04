@@ -34,12 +34,8 @@ foreach ($this->calendars as $calendar){
 
 	$items = $calendar->get_items();
 	foreach ($items as $event) {
-		$tz = GCalendarUtil::getComponentParameter('timezone');
-		if($tz == ''){
-			$tz = $calendar->get_timezone();
-		}
-
-		$itemID = GCalendarUtil::getItemId($calendar->get('gcid'));
+		$allDayEvent = $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY;
+		$itemID = '';
 		if(!empty($itemID)){
 			$itemID = '&Itemid='.$itemID;
 		}else{
@@ -48,67 +44,6 @@ foreach ($this->calendars as $calendar){
 			if($activemenu != null)
 			$itemID = '&Itemid='.$activemenu->id;
 		}
-
-		$startDate = strftime($dateformat, $event->get_start_date());
-		$startTime = strftime($timeformat, $event->get_start_date());
-		$endDate = strftime($dateformat, $event->get_end_date());
-		$endTime = strftime($timeformat, $event->get_end_date());
-
-		$temp_event=$event_display;
-		$allDayEvent = true;
-		switch($event->get_day_type()){
-			case $event->SINGLE_WHOLE_DAY:
-				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-				$temp_event=str_replace("{starttime}","",$temp_event);
-				$temp_event=str_replace("{dateseparator}","",$temp_event);
-				$temp_event=str_replace("{enddate}","",$temp_event);
-				$temp_event=str_replace("{endtime}","",$temp_event);
-				break;
-			case $event->SINGLE_PART_DAY:
-				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-				$temp_event=str_replace("{starttime}",$startTime,$temp_event);
-				$temp_event=str_replace("{dateseparator}","-",$temp_event);
-				$temp_event=str_replace("{enddate}","",$temp_event);
-				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
-				$allDayEvent = false;
-				break;
-			case $event->MULTIPLE_WHOLE_DAY:
-				$endDate = strftime($dateformat, $event->get_end_date() - $SECSINDAY);
-				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-				$temp_event=str_replace("{starttime}","",$temp_event);
-				$temp_event=str_replace("{dateseparator}","-",$temp_event);
-				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
-				$temp_event=str_replace("{endtime}","",$temp_event);
-				break;
-			case $event->MULTIPLE_PART_DAY:
-				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
-				$temp_event=str_replace("{starttime}",$startTime,$temp_event);
-				$temp_event=str_replace("{dateseparator}","-",$temp_event);
-				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
-				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
-				$allDayEvent = false;
-				break;
-		}
-
-		if (substr_count($temp_event, '"{description}"')){
-			// If description is in html attribute
-			$desc = htmlspecialchars(str_replace('"',"'",$event->get_description()));
-		}else{
-			//Make any URLs used in the description also clickable
-			$desc = preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $event->get_description());
-		}
-
-		$temp_event=str_replace("{title}",$event->get_title(),$temp_event);
-		$temp_event=str_replace("{description}",$desc,$temp_event);
-		$temp_event=str_replace("{where}",$event->get_location(),$temp_event);
-		$temp_event=str_replace("{backlink}",JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid').$itemID),$temp_event);
-		$temp_event=str_replace("{link}",$event->get_link().'&ctz='.$tz,$temp_event);
-		$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($event->get_location()),$temp_event);
-		$temp_event=str_replace("{calendarname}",$calendar->get('gcname'),$temp_event);
-		$temp_event=str_replace("{calendarcolor}",$calendar->get('gccolor'),$temp_event);
-		// Accept and translate HTML
-		$temp_event = html_entity_decode($temp_event);
-
 		$data[] = array(
 			'id' => $event->get_id(),
 			'title' => htmlspecialchars_decode($event->get_title()),
@@ -117,7 +52,7 @@ foreach ($this->calendars as $calendar){
 			'url' => JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid')).$itemID,
 			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
 			'allDay' => $allDayEvent,
-			'description' => $temp_event
+			'description' => GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat)
 		);
 	}
 }
