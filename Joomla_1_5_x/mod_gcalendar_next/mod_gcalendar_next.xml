@@ -19,8 +19,6 @@
 		<filename>helper.php</filename>
 		<filename>tmpl/default.php</filename>
 		<filename>tmpl/index.html</filename>
-		<filename>tmpl/jquery.countdown.css</filename>
-		<filename>tmpl/jquery.countdown.js</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_gcalendar_next.ini
