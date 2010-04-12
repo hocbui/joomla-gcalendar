@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.2.0 $
  */
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');

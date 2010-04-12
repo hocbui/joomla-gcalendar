@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2009 Allon Moritz
- * @version $Revision: 2.1.1 $
+ * @version $Revision: 2.2.0 $
  */
 
 // Check to ensure this file is included in Joomla!
@@ -109,6 +109,9 @@ class GCalendarsModelGCalendar extends JModel
 
 		if(strpos($row->calendar_id, '@'))
 		$row->calendar_id = str_replace("@","%40",$row->calendar_id);
+		
+		$row->calendar_id = trim($row->calendar_id);
+		$row->magic_cookie = trim($row->magic_cookie);
 
 		// Store the calendar table to the database
 		if (!$row->store()) {

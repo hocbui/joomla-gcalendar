@@ -2,7 +2,7 @@
 <install type="module" version="1.5.0">
 	<name>GCalendar Next Event</name>
 	<author>G4J Project</author>
-	<creationDate>Oct 2009</creationDate>
+	<creationDate>April 20109</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
@@ -10,7 +10,7 @@
 	<authorEmail>info@g4j.laoneo.net
 	</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
-	<version>2.2.0</version>
+	<version>2.2.0 M1</version>
 	<description>This module shows the next event from a google calendar, displayed via provided html.</description>
 	<files>
 		<filename module="mod_gcalendar_next">mod_gcalendar_next.php
