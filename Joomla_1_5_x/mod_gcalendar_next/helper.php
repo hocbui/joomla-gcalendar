@@ -23,12 +23,12 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'events_helper.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-class ModGCalendarNextHelper extends GCalendarEventsHelper {
+class ModGCalendarNextHelper{
 
 	function getCalendarItems(&$params) {
-		$events = parent::getCalendarItems($params);
+		$events = GCalendarUtil::getCalendarItems($params);
 		return $events[0];
 	}
 }

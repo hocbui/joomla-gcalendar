@@ -24,7 +24,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'nextevents.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
 /**
  * Constructor
@@ -168,8 +168,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	
 
 	function setDataObj() {
-		$gcalnext = new GCalendarNext($this->params);
-		$events = $gcalnext->getCalendarItems();
+		$events = GCalendarUtil::getCalendarItems($this->params);
 		$event = null;
 		if (count($events) > 0) {
 			$event = $events[0];

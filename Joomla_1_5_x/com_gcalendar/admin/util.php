@@ -20,8 +20,16 @@
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
+/**
+ * A util class with some static helper methodes used in GCalendar.
+ *
+ * @author allon
+ */
 class GCalendarUtil{
 
+	/**
+	 * Loads the simplepie Libraries the correct way.
+	 */
 	function ensureSPIsLoaded(){
 		jimport('simplepie.simplepie');
 
@@ -30,6 +38,9 @@ class GCalendarUtil{
 		}
 	}
 
+	/**
+	 * Loads JQuery if the component parameter is set to yes.
+	 */
 	function loadJQuery(){
 		static $jQueryloaded;
 		if($jQueryloaded == null){
@@ -43,11 +54,25 @@ class GCalendarUtil{
 		}
 	}
 
+	/**
+	 * Returns the component parameter for the given key.
+	 *
+	 * @param $key
+	 * @param $defaultValue
+	 * @return the component parameter
+	 */
 	function getComponentParameter($key, $defaultValue = null){
 		$params   = JComponentHelper::getParams('com_gcalendar');
 		return $params->get($key, $defaultValue);
 	}
 
+	/**
+	 * Returns the correct configured frontend language for the
+	 * joomla web site.
+	 * The format is something like de-DE which can be passed to google.
+	 *
+	 * @return the frontend language
+	 */
 	function getFrLanguage(){
 		$conf	=& JFactory::getConfig();
 		return $conf->getValue('config.language');
@@ -55,6 +80,13 @@ class GCalendarUtil{
 		//		return $params->get('site', 'en-GB');
 	}
 
+	/**
+	 *Returns a valid Item ID for the given calendar id. If none is found
+	 *NULL is returned.
+	 *
+	 * @param $cal_id
+	 * @return the item id
+	 */
 	function getItemId($cal_id){
 		$component	= &JComponentHelper::getComponent('com_gcalendar');
 		$menu = &JSite::getMenu();
@@ -89,6 +121,16 @@ class GCalendarUtil{
 		return null;
 	}
 
+	/**
+	 * The simplepie event is rendered for the given formats and
+	 * returned as HTML code.
+	 *
+	 * @param $event
+	 * @param $format
+	 * @param $dateformat
+	 * @param $timeformat
+	 * @return the HTML code of the efent
+	 */
 	function renderEvent($event, $format, $dateformat, $timeformat){
 		$feed = $event->get_feed();
 		$tz = GCalendarUtil::getComponentParameter('timezone');
@@ -168,12 +210,126 @@ class GCalendarUtil{
 		return $temp_event;
 	}
 
-	function getFadedColor($pCol, $pPercentage = 85) {
-		$pPercentage = 100 - $pPercentage;
-		$rgbValues = array_map( 'hexDec', GCalendarUtil::str_split( ltrim($pCol, '#'), 2 ) );
+	function getCalendarItems($params) {
+		GCalendarUtil::ensureSPIsLoaded();
+		$calendarids = $params->get('calendarids');
+		$results = GCalendarDBUtil::getCalendars($calendarids);
+		if(empty($results)){
+			JError::raiseWarning( 500, 'The selected calendar(s) were not found in the database.');
+			return array();
+		}
+		$values = array();
+		foreach ($results as $result) {
+			if(!empty($result->calendar_id)){
+				$sortOrder = $params->get( 'order', 1 )==1;
+				$maxEvents = $params->get('max_events', 10);
+
+				$feed = new SimplePie_GCalendar();
+				$feed->set_show_past_events($params->get('past_events', TRUE));
+				$startDate = $params->get('start_date', '');
+				$endDate = $params->get('end_date', '');
+				if(!empty($startDate) && !empty($endDate)){
+					$feed->set_start_date(strtotime($startDate));
+					$feed->set_end_date(strtotime($endDate));
+				}
+				$feed->set_sort_ascending(TRUE);
+				$feed->set_orderby_by_start_date($sortOrder);
+				$feed->set_expand_single_events($params->get('expand_events', TRUE));
+				$feed->enable_order_by_date(false);
+
+				$conf =& JFactory::getConfig();
+				if ($params != null && ($params->get('gc_cache', 0) == 2 || ($params->get('gc_cache', 0) == 1 && $conf->getValue( 'config.caching' )))){
+					$cacheTime = $params->get( 'gccache_time', $conf->getValue( 'config.cachetime' ) * 60 );
+					// check if cache directory exists and is writeable
+					$cacheDir =  JPATH_BASE.DS.'cache'.DS.$params->get('gc_cache_folder', '');
+					JFolder::create($cacheDir, 0755);
+					if ( !is_writable( $cacheDir ) ) {
+						JError::raiseWarning( 500, "Created cache at ".$cacheDir." is not writable, disabling cache.");
+						$cache_exists = false;
+					}else{
+						$cache_exists = true;
+					}
+
+					//check and set caching
+					$feed->enable_cache($cache_exists);
+					if($cache_exists) {
+						$feed->set_cache_location($cacheDir);
+						$feed->set_cache_duration($cacheTime);
+					}
+				} else {
+					$feed->enable_cache(false);
+					$feed->set_cache_duration(-1);
+				}
+
+				$feed->set_max_events($maxEvents);
+				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
+				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
+				$feed->set_cal_query($params->get('find', ''));
+				$feed->put('gcid',$result->id);
+				$feed->put('gcname',$result->name);
+				$feed->put('gccolor',$result->color);
+				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
+
+				$feed->set_feed_url($url);
+				// Initialize the feed so that we can use it.
+				$feed->init();
+				//				echo $feed->feed_url;
+
+				if ($feed->error()){
+					JError::raiseWarning(500, 'Simplepie detected an error. Please run the <a href=<"administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.', $feed->error());
+				}
+
+				// Make sure the content is being served out to the browser properly.
+				$feed->handle_content_type();
+
+				$values = array_merge($values, $feed->get_items());
+			}
+		}
+
+		// we sort the array based on the event compare function
+		usort($values, array("SimplePie_Item_GCalendar", "compare"));
+
+		$filterText = $params->get('title_filter', '');
+		if(!empty($filterText) && $filterText != '.*'){
+			$values = array_filter($values, array($this, "filter"));
+		}
+
+		$offset = $params->get('offset', 0);
+		$numevents = $params->get('count', $maxEvents);
+
+		$events = array_slice($values, $offset, $numevents);
+
+		//return the feed data structure for the template
+		return $events;
+	}
+
+	function filter($event) {
+		$params = $this->params;
+		$filter = $params->get('title_filter', '.*');
+
+		if (!preg_match('/'.$filter.'/', $event->get_title())) {
+			return false;
+		}
+		if ($event->get_end_date() > time()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the faded color for the given color.
+	 *
+	 * @param $pCol
+	 * @param $pPercentage
+	 * @return the faded color
+	 */
+	function getFadedColor($color, $percentage = 85) {
+		$percentage = 100 - $percentage;
+		$rgbValues = array_map( 'hexDec', GCalendarUtil::str_split( ltrim($color, '#'), 2 ) );
 
 		for ($i = 0, $len = count($rgbValues); $i < $len; $i++) {
-			$rgbValues[$i] = decHex( floor($rgbValues[$i] + (255 - $rgbValues[$i]) * ($pPercentage / 100) ) );
+			$rgbValues[$i] = decHex( floor($rgbValues[$i] + (255 - $rgbValues[$i]) * ($percentage / 100) ) );
 		}
 
 		return '#'.implode('', $rgbValues);
