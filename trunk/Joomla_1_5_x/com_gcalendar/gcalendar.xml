@@ -19,6 +19,7 @@
 		<filename>router.php</filename>
 		<folder>views</folder>
 		<folder>hiddenviews</folder>
+		<folder>libraries</folder>
 		<folder>models</folder>
 	</files>
 	<languages>

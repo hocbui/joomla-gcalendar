@@ -55,8 +55,8 @@ $objid = "countdown-" . $module->id;
 
 GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
-$document->addScript(JURI::base(). 'administrator/components/com_gcalendar/libraries/jquery/ext/jquery.countdown.min.js');
-$document->addStyleSheet(JURI::base(). 'administrator/components/com_gcalendar/libraries/jquery/ext/jquery.countdown.css');
+$document->addScript(JURI::base(). 'components/com_gcalendar/libraries/jquery/ext/jquery.countdown.min.js');
+$document->addStyleSheet(JURI::base(). 'components/com_gcalendar/libraries/jquery/ext/jquery.countdown.css');
 
 echo "<div class=\"gcalendar_next\">\n";
 
