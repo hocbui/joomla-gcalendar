@@ -189,7 +189,7 @@ class SimplePie_GCalendar extends SimplePie {
 	 * and returns a valid google calendar feed url.
 	 */
 	function check_url($url_to_check){
-		$new_url = parse_url($url_to_check);
+		$new_url=parse_url( preg_replace('/#/','%23', $url_to_check));
 		$path = $new_url['path'];
 		$path = substr($path, 0, strrpos($path, '/')+1).$this->projection;
 		$query = '';
@@ -413,10 +413,10 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 		return strftime($format, $this->gc_end_date);
 		return $this->gc_end_date;
 	}
-	
+
 	/**
 	 * Returns an array of attendees of this event.
-	 * 
+	 *
 	 * @sse http://code.google.com/apis/gdata/docs/1.0/elements.html#gdWho
 	 * @return an array of attendees
 	 */
