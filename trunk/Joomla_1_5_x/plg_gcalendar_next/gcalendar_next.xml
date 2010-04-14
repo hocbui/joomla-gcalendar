@@ -74,10 +74,13 @@
 		<param name="only-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +only-part_day)" label="Rangle Format (single day)"/>
 		<param name="multi-whole_day" type="text" size="40" default="%B %d - %%d, %%Y all day" description="Default date range format for a multiple day all day event (strftime format) (plugin: +multi-whole_day)" label="Rangle Format (multiple all day)"/>
 		<param name="multi-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +multi-part_day)" label="Rangle Format (multi day)"/>		
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module.">
+		<param name="gc_cache" type="list" default="1" label="Cache"
+			description="Is cacheing enabled.">
 			<option value="1">Use global</option>
-			<option value="0">No caching</option>
+			<option value="2">Cache always</option>
+			<option value="0">Cache never</option>
 		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached in sec." />
+		<param name="gc_cache_time" type="text" default="900" label="Cache Time"
+			description="The time before the plugin is recached in sec." />
 	</params>
 </install>

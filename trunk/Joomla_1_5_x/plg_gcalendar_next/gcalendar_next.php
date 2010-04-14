@@ -168,7 +168,9 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	
 
 	function setDataObj() {
-		$events = GCalendarUtil::getCalendarItems($this->params);
+		$params = $this->params;
+		$params->set('gc_cache_folder', 'plg_gcalendar_next');
+		$events = GCalendarUtil::getCalendarItems($params);
 		$event = null;
 		if (count($events) > 0) {
 			$event = $events[0];
