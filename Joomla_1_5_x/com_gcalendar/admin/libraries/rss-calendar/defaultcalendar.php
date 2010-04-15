@@ -223,7 +223,7 @@ class DefaultCalendar{
 					$m1 = substr($infoS["month"], 0, 3);
 					$m2 = substr($infoF["month"], 0, 3);
 
-					$title = $infoS["year"] . ' '.$m1.' '. $infoS["mday"] . ' - '.$m1.' ' . $infoF["mday"];
+					$title = $infoS["year"] . ' '.$m1.' '. $infoS["mday"] . ' - '.$m2.' ' . $infoF["mday"];
 				} else {
 					$title = $infoS["year"] . " " . $infoS["month"] . " ". $infoS["mday"] . " - " . $infoF["mday"];
 				}
