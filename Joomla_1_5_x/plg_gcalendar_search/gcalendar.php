@@ -82,6 +82,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	$limit = $pluginParams->def( 'search_limit', 50 );
 
 	$calendarids = $pluginParams->get( 'calendarids', NULL );
+	$pastevents = $pluginParams->get( 'pastevents', 1 ) == 1;
 	$results = GCalendarDBUtil::getCalendars($calendarids);
 	if(empty($results))
 	return array();
@@ -89,7 +90,7 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	$events = array();
 	foreach ($results as $result) {
 		$feed = new SimplePie_GCalendar();
-		$feed->set_show_past_events(TRUE);
+		$feed->set_show_past_events($pastevents);
 		$feed->set_sort_ascending($orderasc);
 		$feed->set_orderby_by_start_date(TRUE);
 		$feed->set_expand_single_events(TRUE);

@@ -22,5 +22,10 @@
 			description="The calendars, if none is selected it searches in all calendars." />
 		<param name="search_limit" type="text" size="5" default="50"
 			label="Search Limit" description="Number of Search items to return" />
+		<param name="pastevents" type="radio" default="1" label="Include Past Events"
+			description="If past event should be included into the search result.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 </install>
