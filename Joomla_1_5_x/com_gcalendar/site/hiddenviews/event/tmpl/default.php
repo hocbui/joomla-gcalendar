@@ -72,7 +72,7 @@ if($event == null){
 			break;
 		case $event->MULTIPLE_WHOLE_DAY:
 			$SECSINDAY=86400;
-			$endDate = strftime($timeformat, $event->get_end_date()-$SECSINDAY);
+			$endDate = strftime($dateformat, $event->get_end_date()-$SECSINDAY);
 			$timeString = $startDate.' '.$dateSeparator.' '.$endDate;
 			$copyDateTimeFormat = '%Y%m%d';
 			break;
