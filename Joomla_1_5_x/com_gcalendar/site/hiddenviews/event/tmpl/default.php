@@ -60,20 +60,25 @@ if($event == null){
 	$dateSeparator = '-';
 
 	$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
+	$copyDateTimeFormat = '%Y%m%d';
 	switch($event->get_day_type()){
 		case $event->SINGLE_WHOLE_DAY:
 			$timeString = $startDate;
+			$copyDateTimeFormat = '%Y%m%d';
 			break;
 		case $event->SINGLE_PART_DAY:
 			$timeString = $startDate.' '.$startTime.' '.$dateSeparator.' '.$endTime;
+			$copyDateTimeFormat = '%Y%m%dT%H%M%S';
 			break;
 		case $event->MULTIPLE_WHOLE_DAY:
 			$SECSINDAY=86400;
 			$endDate = strftime($timeformat, $event->get_end_date()-$SECSINDAY);
 			$timeString = $startDate.' '.$dateSeparator.' '.$endDate;
+			$copyDateTimeFormat = '%Y%m%d';
 			break;
 		case $event->MULTIPLE_PART_DAY:
 			$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
+			$copyDateTimeFormat = '%Y%m%dT%H%M%S';
 			break;
 	}
 
@@ -115,6 +120,16 @@ if($event == null){
 			$document->addScript(JURI::base().'components/com_gcalendar/hiddenviews/event/tmpl/default.js');
 			echo "<tr><td class=\"event_content_key\">".JText::_( 'AUTHOR' ).": </td><td style=\"valign:top\">".$authors[0]->get_name()." <a href=\"javascript:sdafgkl437jeeee('".base64_encode(str_replace('@','#',$authors[0]->get_email()))."')\"><img height=\"11\" border=\"0\" width=\"16\" alt=\"email\" src=\"components/com_gcalendar/hiddenviews/event/tmpl/mail.png\"/></a></td></tr>\n";
 		}
+	}
+
+	if(GCalendarUtil::getComponentParameter('show_event_copy_info', 1) == 1){
+		$urlText = 'action=TEMPLATE&text='.urlencode($event->get_title());
+		$urlText .= '&dates='.strftime($copyDateTimeFormat, $event->get_start_date()).'%2F'.strftime($copyDateTimeFormat, $event->get_end_date());
+		$urlText .= '&location='.urlencode($event->get_location());
+		$urlText .= '&details='.urlencode($event->get_description());
+		$urlText .= '&hl='.GCalendarUtil::getFrLanguage().'&ctz='.GCalendarUtil::getComponentParameter('timezone');
+		$urlText .= '&sf=true&output=xml';
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'COPY' ).": </td><td><a target=\"_blank\" href=\"http://www.google.com/calendar/render?".$urlText."\">".JText::_( 'COPY_TO_MY_CALENDAR' )."</a></td></tr>\n";
 	}
 	echo "</table></div>\n";
 }
