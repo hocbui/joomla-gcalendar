@@ -36,6 +36,8 @@ $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15; }");
 $params = $this->params;
 
 $theme = $params->get('theme', '');
+if(JRequest::getVar('theme', null) != null)
+$theme = JRequest::getVar('theme', null);
 if(!empty($theme))
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
 

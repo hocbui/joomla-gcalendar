@@ -31,6 +31,8 @@ $cssClass = "gcal-module_event_gccal";
 $document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_1 .fc-state-default span, #gcalendar_module_1 .ui-state-default{padding:0px !important;}");
 
 $theme = $params->get('theme', '');
+if(JRequest::getVar('theme', null) != null)
+$theme = JRequest::getVar('theme', null);
 if(!empty($theme))
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
 
