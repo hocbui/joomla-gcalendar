@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 ?>
-
+<a href="http://www.google.com/calendar" target="_blank"><b>Go to google calendar administration site!!</b></a><hr/>
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
 <table class="adminlist">

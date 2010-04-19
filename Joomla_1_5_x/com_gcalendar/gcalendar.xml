@@ -41,7 +41,6 @@
 		<menu>GCalendar</menu>
 		<submenu>
 			<menu task="gcalendars">GCalendars</menu>
-			<menu view="google">Google Calendar</menu>
 			<menu view="tools">Tools</menu>
 			<menu view="support">Support</menu>
 		</submenu>
