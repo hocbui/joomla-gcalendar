@@ -14,7 +14,7 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * @author Allon Moritz
- * @copyright 2007-2009 Allon Moritz
+ * @copyright 2007-2010 Allon Moritz
  * @version $Revision: 2.2.0 $
  */
 
