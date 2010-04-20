@@ -7,8 +7,8 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="gcalendarRoot" location="${gcalendarRoot}" />
-	<property name="gcalendarVersion" value="2_2_0M1" />
+	<property name="gcalendarRoot" location="${basedir}/../GC_Joomla_1_5_x" />
+	<property name="gcalendarVersion" value="2_2_0RC2" />
 	<property name="gcalendarUpgradeStartPoint" value="2_1_0M1" />
 	<property name="includeUpgrade" value="false" />
 
