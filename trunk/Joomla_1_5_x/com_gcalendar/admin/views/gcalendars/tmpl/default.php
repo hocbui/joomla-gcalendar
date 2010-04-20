@@ -14,7 +14,7 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Allon Moritz
- * @copyright 2007-2009 Allon Moritz
+ * @copyright 2007-2010 Allon Moritz
  * @version $Revision: 2.2.0 $
  */
 
@@ -84,5 +84,5 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
 <div align="center"><br>
 <img src="components/com_gcalendar/images/gcalendar.gif" width="156"
 	height="30"><br>
-&copy;&nbsp;&nbsp;2009 <a href="http://g4j.laoneo.net"
+&copy;&nbsp;&nbsp;2010 <a href="http://g4j.laoneo.net"
 	target="_blank">allon moritz</a></div>
