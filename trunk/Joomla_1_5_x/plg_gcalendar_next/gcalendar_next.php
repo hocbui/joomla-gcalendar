@@ -46,8 +46,6 @@ class plgContentgcalendar_next extends JPlugin {
        	}
 
 	function onPrepareContent( &$article, &$params ) {
-		global $mainframe;
-
 		if (JRequest::getCmd('option') != 'com_content') return;
 		if (!$article->text) return;
 
@@ -171,6 +169,12 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		$params = $this->params;
 		$params->set('gc_cache_folder', 'plg_gcalendar_next');
 		$events = GCalendarUtil::getCalendarItems($params);
+		if(!empty($events)){
+			foreach ($events as $key => $event){
+				if($event->get_end_date() > time())
+				unset($events[$key]);
+			}
+		}
 		$event = null;
 		if (count($events) > 0) {
 			$event = $events[0];

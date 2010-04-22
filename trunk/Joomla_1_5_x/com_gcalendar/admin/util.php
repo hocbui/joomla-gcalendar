@@ -291,7 +291,10 @@ class GCalendarUtil{
 
 		$filterText = $params->get('title_filter', '');
 		if(!empty($filterText) && $filterText != '.*'){
-			$values = array_filter($values, array($this, "filter"));
+			foreach ($values as $key => $event){
+				if (!preg_match('/'.$filterText.'/', $event->get_title()))
+				unset($values[$key]);
+			}
 		}
 
 		$offset = $params->get('offset', 0);
@@ -301,20 +304,6 @@ class GCalendarUtil{
 
 		//return the feed data structure for the template
 		return $events;
-	}
-
-	function filter($event) {
-		$params = $this->params;
-		$filter = $params->get('title_filter', '.*');
-
-		if (!preg_match('/'.$filter.'/', $event->get_title())) {
-			return false;
-		}
-		if ($event->get_end_date() > time()) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
