@@ -51,13 +51,11 @@ $allCalendars = GCalendarDBUtil::getAllCalendars();
 
 $calsSources = "       eventSources: [\n";
 foreach($allCalendars as $calendar) {
-	$calID = $calendar->id;
-	$linkID = GCalendarUtil::getItemId($calID);
 	$cssClass = "gcal-event_gccal_".$calendar->id;
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: ".$color."; color: white;}");
 	if(empty($calendarids) || in_array($calendar->id, $calendarids))
-	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID)."',\n";
+	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
 }
 $calsSources = ltrim($calsSources, ',\n');
 $calsSources .= "    ],\n";
@@ -250,9 +248,7 @@ if($params->get('show_selection', 1) == 1){
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 	$calendar_list = '<div id="gc_gcalendar_view_list"><table>';
 	foreach($allCalendars as $calendar) {
-		$calID = $calendar->id;
-		$linkID = GCalendarUtil::getItemId($calID);
-		$value = JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.$linkID);
+		$value = JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id);
 		$checked = '';
 		if(empty($calendarids) || in_array($calendar->id, $calendarids)){
 			$checked = 'checked="checked"';
