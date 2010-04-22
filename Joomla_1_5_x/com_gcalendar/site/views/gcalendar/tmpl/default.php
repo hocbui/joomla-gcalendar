@@ -97,7 +97,7 @@ $daysMin .= "]";
 $monthsLong .= "]";
 $monthsShort .= "]";
 
-$calCode = "window.addEvent(\"domready\", function(){\n";
+$calCode = "jQuery(document).ready(function(){\n";
 $calCode .= "	var today = new Date();\n";
 $calCode .= "	var tmpYear = today.getFullYear();\n";
 $calCode .= "	var tmpMonth = today.getMonth();\n";

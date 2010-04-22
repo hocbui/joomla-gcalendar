@@ -80,7 +80,7 @@ if ($params->get('gc_cache', 0) == 2 || ($params->get('gc_cache', 0) == 1 && $co
 	$cacheTime = $params->get( 'gc_cache_time', $conf->getValue( 'config.cachetime' ) * 60 );
 }
 
-$calCode = "window.addEvent(\"domready\", function(){\n";
+$calCode = "jQuery(document).ready(function(){\n";
 $calCode .= "   jQuery('#gcalendar_module_".$moduleID."').fullCalendar({\n";
 $calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcids='.$ids.'&ctime='.$cacheTime)."',\n";
 $calCode .= "       header: {\n";
