@@ -29,6 +29,7 @@ class ModGCalendarNextHelper{
 
 	function getCalendarItems(&$params) {
 		$events = GCalendarUtil::getCalendarItems($params);
+		if(empty($events))return null;
 		return $events[0];
 	}
 }
