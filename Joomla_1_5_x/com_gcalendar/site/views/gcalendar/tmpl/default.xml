@@ -90,7 +90,7 @@
 		<advanced>
 			<param name="theme" type="text" size="50" default=""
 				label="Theme"
-				description="Define the JQuery theme (install it in the folder components/com_gcalendar/libraries/jquery/themes)." />
+				description="Define the jQuery theme (install it in the folder components/com_gcalendar/libraries/jquery/themes)." />
 			<param name="gccache" type="list" default="1" label="Cache"
 				description="Is cacheing enabled.">
 				<option value="1">Use global</option>
