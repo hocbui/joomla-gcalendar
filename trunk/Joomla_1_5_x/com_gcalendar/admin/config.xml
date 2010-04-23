@@ -5,7 +5,7 @@
 			label="Google Apps Domain" description="The Google Apps domain to get the calendar data from." />
 		<param name="timezone" type="googletimezones" default=""
 			label="Time Zone" description="The global timezone for GCalendar." />
-		<param name="loadJQuery" type="radio" default="yes" label="Load JQuery"
+		<param name="loadJQuery" type="radio" default="yes" label="Load jQuery"
 			description="jQuery is required by this component The only reason not to load it is if it has already been loaded manually or by another module.">
 			<option value="no">No</option>
 			<option value="yes">Yes</option>
