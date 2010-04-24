@@ -49,7 +49,7 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
 		<td><?php echo $row->id; ?></td>
 		<td><?php echo $checked; ?></td>
 		<td><a href="<?php echo $link; ?>"><?php echo $row->name; ?></a></td>
-		<td width="40px"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($row->color);?>;width: 100%;height: 100%;"/></td>
+		<td width="40px"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($row->color);?>;width: 100%;height: 100%;"></div></td>
 		<td>
 		<table>
 			<tr>
