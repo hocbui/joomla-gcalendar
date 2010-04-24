@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2010 Allon Moritz
- * @version $Revision: 2.2.0 $
+ * @since 2.2.0
  */
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');

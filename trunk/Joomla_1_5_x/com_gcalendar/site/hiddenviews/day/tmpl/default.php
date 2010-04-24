@@ -15,7 +15,7 @@
  *
  * @author Allon Moritz
  * @copyright 2007-2010 Allon Moritz
- * @version $Revision: 2.2.0 $
+ * @since 2.2.0
  */
 
 defined('_JEXEC') or die('Restricted access');
