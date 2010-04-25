@@ -24,7 +24,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'nextevents.php');
 
 /**
  * Constructor
@@ -35,7 +35,6 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
  *
  * @param plgContentEmbedReadMore $subject The object to observe
  * @param plgContentEmbedReadMore $params  The object that holds the plugin parameters
- * @since 1.5
  */
 
 class plgContentgcalendar_next extends JPlugin {
@@ -166,15 +165,8 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	
 
 	function setDataObj() {
-		$params = $this->params;
-		$params->set('gc_cache_folder', 'plg_gcalendar_next');
-		$events = GCalendarUtil::getCalendarItems($params);
-		if(!empty($events)){
-			foreach ($events as $key => $event){
-				if($event->get_end_date() > time())
-				unset($events[$key]);
-			}
-		}
+		$gcalnext = new GCalendarNext($this->params);
+		$events = $gcalnext->getCalendarItems();
 		$event = null;
 		if (count($events) > 0) {
 			$event = $events[0];
