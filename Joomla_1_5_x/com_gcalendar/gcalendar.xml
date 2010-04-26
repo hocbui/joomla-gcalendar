@@ -20,6 +20,7 @@
 		<folder>hiddenviews</folder>
 		<folder>libraries</folder>
 		<folder>models</folder>
+		<folder>images</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">site/languages/en-GB.com_gcalendar.ini</language>

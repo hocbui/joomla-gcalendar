@@ -80,7 +80,8 @@ if ($params->get('gc_cache', 0) == 2 || ($params->get('gc_cache', 0) == 1 && $co
 	$cacheTime = $params->get( 'gc_cache_time', $conf->getValue( 'config.cachetime' ) * 60 );
 }
 
-$calCode = "jQuery(document).ready(function(){\n";
+$calCode = "// <![CDATA[ \n";
+$calCode .= "jQuery(document).ready(function(){\n";
 $calCode .= "   jQuery('#gcalendar_module_".$moduleID."').fullCalendar({\n";
 $calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcids='.$ids.'&ctime='.$cacheTime)."',\n";
 $calCode .= "       header: {\n";
@@ -135,8 +136,9 @@ $calCode .= "			}\n";
 $calCode .= "		}\n";
 $calCode .= "	});\n";
 $calCode .= "});\n";
+$calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
-echo "<div id='gcalendar_module_".$moduleID."_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "modules/mod_gcalendar/tmpl/ajax-loader.gif\" /></div>";
+echo "<div id='gcalendar_module_".$moduleID."_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "modules/mod_gcalendar/tmpl/ajax-loader.gif\"  alt=\"loader\" /></div>";
 echo "<div id='gcalendar_module_".$moduleID."'></div><div id='gcalendar_module_".$moduleID."_popup' style=\"visibility:hidden\" ></div>";
 ?>
