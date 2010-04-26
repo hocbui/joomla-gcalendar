@@ -14,22 +14,17 @@
  *
  * @category  Zend
  * @package   Zend_Uri
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Uri.php 12037 2008-10-20 18:54:44Z shahar $
+ * @version   $Id: Uri.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
-
-/**
- * @see Zend_Loader
- */
-require_once 'Zend/Loader.php';
 
 /**
  * Abstract class for all Zend_Uri handlers
  *
  * @category  Zend
  * @package   Zend_Uri
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Uri
@@ -49,7 +44,7 @@ abstract class Zend_Uri
     static protected $_config = array(
         'allow_unwise' => false
     );
-    
+
     /**
      * Return a string representation of this URI.
      *
@@ -128,7 +123,10 @@ abstract class Zend_Uri
                 break;
         }
 
-        Zend_Loader::loadClass($className);
+        if (!class_exists($className)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($className);
+        }
         $schemeHandler = new $className($scheme, $schemeSpecific);
 
         return $schemeHandler;
@@ -151,15 +149,21 @@ abstract class Zend_Uri
     /**
      * Set global configuration options
      *
-     * @param array $config
+     * @param Zend_Config|array $config
      */
-    static public function setConfig(array $config)
+    static public function setConfig($config)
     {
+        if ($config instanceof Zend_Config) {
+            $config = $config->toArray();
+        } elseif (!is_array($config)) {
+            throw new Zend_Uri_Exception("Config must be an array or an instance of Zend_Config.");
+        }
+
         foreach ($config as $k => $v) {
             self::$_config[$k] = $v;
         }
     }
-    
+
     /**
      * Zend_Uri and its subclasses cannot be instantiated directly.
      * Use Zend_Uri::factory() to return a new Zend_Uri object.
