@@ -4,20 +4,20 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GCalendar is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * This code was based on Allon Moritz great work in the companion
- * upcoming module. 
- * 
+ * upcoming module.
+ *
  * @author Eric Horne
- * @copyright 2009-2010 Eric Horne 
+ * @copyright 2009-2010 Eric Horne
  * @since 2.2.0
  */
 
@@ -42,7 +42,7 @@ class plgContentgcalendar_next extends JPlugin {
 
 	function plgContentgcalendar_next(&$subject, $params) {
 		parent::__construct($subject, $params);
-       	}
+	}
 
 	function onPrepareContent( &$article, &$params ) {
 		if (JRequest::getCmd('option') != 'com_content') return;
@@ -97,14 +97,14 @@ class PluginKeywordsHelper {
 				$this->fmtParams[$key] = $value;
 			}
 		}
-		
+
 		$this->dataobj = $this->setDataObj();
 	}
 
 	function setDataObj() {
 		return "";
 	}
-	
+
 	function dataobj() {
 		return $this->dataobj;
 	}
@@ -129,7 +129,7 @@ class PluginKeywordsHelper {
 }
 
 class GCalendarKeywordsHelper extends PluginKeywordsHelper {
-	
+
 	function replace() {
 		$start = $this->dataobj->get_start_date();
 		$end = $this->dataobj->get_end_date();
@@ -139,41 +139,43 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		$plgText = preg_replace($this->argre, "", $this->plgText);
 		$plgText = preg_replace('/\s+/', "", $plgText);
 		$text = '';
-		
+
 		if ($plgText) {
 			$this->params->set('output', $this->plgText);
 		}
-		
-			if ($end <= $now) { // AND it hasn't ended		
-				if ($start >= $now) { // If it has started
-					$text = $this->params->get('output_now');
-				}
-				elseif ($start_soon >= $now) {
-					$text = $this->params->get('output_start_soon', 'starting soon');
-				}
-				elseif ($end_soon >= $now ) {
-					$text = $this->params->get('output_end_soon', 'ending soon');
-				}
+
+		if ($end <= $now) { // AND it hasn't ended
+			if ($start >= $now) { // If it has started
+				$text = $this->params->get('output_now');
 			}
+			elseif ($start_soon >= $now) {
+				$text = $this->params->get('output_start_soon', 'starting soon');
+			}
+			elseif ($end_soon >= $now ) {
+				$text = $this->params->get('output_end_soon', 'ending soon');
+			}
+		}
 
 		if ($text == "" or $text == null) {
 			$text = $this->params->get('output');
 		}
-		
+
 		return preg_replace_callback($this->argre, array($this, 'replaceSingle'), $text);
 	}
-	
+
 
 	function setDataObj() {
-		$gcalnext = new GCalendarNext($this->params);
+		$params = $this->params;
+		$params->set('gc_cache_folder', 'plg_gcalendar_next');
+		$gcalnext = new GCalendarNext($params);
 		$events = $gcalnext->getCalendarItems();
 		$event = null;
 		if (count($events) > 0) {
 			$event = $events[0];
-		}	
-		return $event;	
+		}
+		return $event;
 	}
-	
+
 	function event() {
 		return $this->dataobj();
 	}
@@ -218,21 +220,21 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		}
 		else {
 			switch($event->get_day_type()) {
-			case $event->SINGLE_WHOLE_DAY:
-				$fmt = $this->params->get("only-whole_day", "%A, %B %d, %Y all day");
-				break;
-			case $event->SINGLE_PART_DAY:
-				$fmt = $this->params->get("only-part_day", "%A, %B %d, %Y %I:%M%P until %%I:%%M%%P");
-				break;
-			case $event->MULTIPLE_WHOLE_DAY:
-				$fmt = $this->params->get("multi-whole_day", "%B %d - %%d, %%Y all day");
-				break;
-			case $event->MULTIPLE_PART_DAY:
-				$fmt = $this->params->get("multi-part_day", "%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P");
-				break;			
+				case $event->SINGLE_WHOLE_DAY:
+					$fmt = $this->params->get("only-whole_day", "%A, %B %d, %Y all day");
+					break;
+				case $event->SINGLE_PART_DAY:
+					$fmt = $this->params->get("only-part_day", "%A, %B %d, %Y %I:%M%P until %%I:%%M%%P");
+					break;
+				case $event->MULTIPLE_WHOLE_DAY:
+					$fmt = $this->params->get("multi-whole_day", "%B %d - %%d, %%Y all day");
+					break;
+				case $event->MULTIPLE_PART_DAY:
+					$fmt = $this->params->get("multi-part_day", "%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P");
+					break;
 			}
 		}
-		
+
 		$str = $this->start($fmt);
 		$str = $this->finish($str);
 
@@ -266,7 +268,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if (strpos($param, '%s') !== FALSE) {
 			$seconds = intval($interval);
 			$param = str_replace('%s', $seconds, $param);
-		}		
+		}
 
 		return $param;
 	}
