@@ -63,9 +63,12 @@ if(!empty($theme))
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
 
 $calsSources = "       eventSources: [\n";
-foreach($this->calendars as $calendar) {
+for($i = 0; $i < count($this->calendars);$i++) {
+	$calendar = $this->calendars[$i];
 	$cssClass = "gcal-event_gccal_".$calendar->id;
-	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
+	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."'";
+	if($i<count($this->calendars)-1)
+		$calsSources .= ",\n";
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
 }
