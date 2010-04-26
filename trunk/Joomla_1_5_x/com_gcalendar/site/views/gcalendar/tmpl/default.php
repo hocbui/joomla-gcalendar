@@ -99,8 +99,8 @@ $daysShort .= "]";
 $daysMin .= "]";
 $monthsLong .= "]";
 $monthsShort .= "]";
-
-$calCode = "jQuery(document).ready(function(){\n";
+$calCode = "// <![CDATA[ \n";
+$calCode .= "jQuery(document).ready(function(){\n";
 $calCode .= "	var today = new Date();\n";
 $calCode .= "	var tmpYear = today.getFullYear();\n";
 $calCode .= "	var tmpMonth = today.getMonth();\n";
@@ -247,6 +247,7 @@ $calCode .= "		    if(view.name != tmpView)\n";
 $calCode .= "		        jQuery('#gcalendar_component').fullCalendar('changeView', tmpView);\n";
 $calCode .= "		});\n";
 $calCode .= "});\n";
+$calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
 echo $params->get( 'textbefore' );
@@ -254,7 +255,7 @@ if($params->get('show_selection', 1) == 1){
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 	$calendar_list = '<div id="gc_gcalendar_view_list"><table>';
 	foreach($allCalendars as $calendar) {
-		$value = JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id);
+		$value = htmlentities(JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id));
 		$checked = '';
 		if(empty($calendarids) || in_array($calendar->id, $calendarids)){
 			$checked = 'checked="checked"';
@@ -268,11 +269,11 @@ if($params->get('show_selection', 1) == 1){
 	echo $calendar_list;
 	echo "<div align=\"center\" style=\"text-align:center\">\n";
 	echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
-	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".JURI::base()."components/com_gcalendar/views/gcalendar/tmpl/down.png\" alt=\"".JText::_('CALENDAR_LIST')."\" title=\"".JText::_('CALENDAR_LIST')."\"/>\n";
+	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".JURI::base()."components/com_gcalendar/images/down.png\" alt=\"".JText::_('CALENDAR_LIST')."\" title=\"".JText::_('CALENDAR_LIST')."\"/>\n";
 	echo "</a></div>\n";
 }
 
-echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "components/com_gcalendar/views/gcalendar/tmpl/ajax-loader.gif\" /></div>";
+echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "components/com_gcalendar/images/ajax-loader.gif\"  alt=\"loader\" /></div>";
 echo "<div id='gcalendar_component'></div><div id='gcalendar_component_popup' style=\"visibility:hidden\" ></div>";
 echo $params->get( 'textafter' );
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";

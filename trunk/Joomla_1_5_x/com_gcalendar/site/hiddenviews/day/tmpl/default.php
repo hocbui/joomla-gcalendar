@@ -38,7 +38,7 @@ if($itemID !=null){
 	$backLinkView = $item->query['view'];
 	echo "<table><tr><td valign=\"middle\">\n";
 	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID)."\">\n";
-	echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/hiddenviews/day/tmpl/back.png\"/>\n";
+	echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/images/back.png\"/>\n";
 	echo "</a></td><td valign=\"middle\">\n";
 	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
 	echo "</td></tr></table>\n";
@@ -103,7 +103,8 @@ $daysMin .= "]";
 $monthsLong .= "]";
 $monthsShort .= "]";
 
-$calCode = "window.addEvent(\"domready\", function(){\n";
+$calCode = "// <![CDATA[ \n";
+$calCode .= "jQuery(document).ready(function(){\n";
 $calCode .= "	var today = new Date();\n";
 $calCode .= "	var tmpYear = today.getFullYear();\n";
 $calCode .= "	var tmpMonth = today.getMonth();\n";
@@ -188,9 +189,10 @@ $calCode .= "		    if(date.getFullYear() != d.getFullYear() || date.getMonth() !
 $calCode .= "		        jQuery('#gcalendar_component_day').fullCalendar('gotoDate', date);\n";
 $calCode .= "		});\n";
 $calCode .= "});\n";
+$calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
-echo "<div id='gcalendar_component_day_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "components/com_gcalendar/hiddenviews/day/tmpl/ajax-loader.gif\" /></div>";
+echo "<div id='gcalendar_component_day_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "components/com_gcalendar/images/ajax-loader.gif\" alt=\"loader\" /></div>";
 echo "<div id='gcalendar_component_day'></div>";
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
 ?>
