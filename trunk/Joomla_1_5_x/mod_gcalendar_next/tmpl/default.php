@@ -66,7 +66,7 @@ $calCode .= "	jQuery(document).ready(function() {\n";
 $calCode .= "	var targetDate; \n";
 $calCode .= "	targetDate = new Date(\"".date("D,d M Y H:i:s", $targetDate)."\");\n";
 $calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
-$calCode .= "				       description: '".$gcalendar_item->get_title()."', \n";
+$calCode .= "				       description: '".str_replace('\'', '\\\'', $gcalendar_item->get_title())."', \n";
 $calCode .= " 				       layout: '".$layout."', \n";
 $calCode .= "				       ".$params->get('style_parameters', "format: 'dHMS'")."});\n";
 $calCode .= "});\n";
