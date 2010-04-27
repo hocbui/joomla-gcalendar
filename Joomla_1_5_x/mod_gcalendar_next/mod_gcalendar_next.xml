@@ -39,6 +39,10 @@
 				Here you can modify the event output. This will depend on the style you chose.
 			</description>
 		</param>
+		<param name="past_events" type="list" default="1" label="Display current events" description="Define whether the module should display events that are occurring now (as opposed to occurring solely in the future.)">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>		
 		<param name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now." rows="5" cols="50">
 			<content>&lt;span class="countdown_row"&gt;&lt;span class="countdown_descr&gt;Right now: {desc}&lt;/span&gt;&lt;br/&gt;&lt;span class="countdown_descr_sub&gt;&lt;/span&gt;Join us at [&lt;a href="http://maps.google.com/?q={{location}}" target="_blank"&gt;map&lt;/a&gt;]&lt;/span&gt;</content>
 		</param>
