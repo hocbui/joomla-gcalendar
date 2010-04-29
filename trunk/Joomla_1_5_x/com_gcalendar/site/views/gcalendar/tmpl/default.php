@@ -49,7 +49,7 @@ else if(!empty($tmp))
 $calendarids[] = $tmp;
 $allCalendars = GCalendarDBUtil::getAllCalendars();
 
-$calsSources = "       eventSources: [\n";
+$calsSources = "                eventSources: [\n";
 for($i = 0; $i < count($allCalendars);$i++) {
 	$calendar = $allCalendars[$i];
 	$cssClass = "gcal-event_gccal_".$calendar->id;
