@@ -103,7 +103,7 @@ class GCalendarNext {
 				//				echo $feed->feed_url;
 
 				if ($feed->error()){
-					JError::raiseWarning(500, 'Simplepie detected an error. Please run the <a href=<"administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.', $feed->error());
+					JError::raiseWarning(500, 'Simplepie detected an error. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.', $feed->error());
 				}
 
 				// Make sure the content is being served out to the browser properly.
