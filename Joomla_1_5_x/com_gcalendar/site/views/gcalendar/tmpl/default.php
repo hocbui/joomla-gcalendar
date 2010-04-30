@@ -50,17 +50,15 @@ $calendarids[] = $tmp;
 $allCalendars = GCalendarDBUtil::getAllCalendars();
 
 $calsSources = "                eventSources: [\n";
-for($i = 0; $i < count($allCalendars);$i++) {
-	$calendar = $allCalendars[$i];
+foreach($allCalendars as $calendar) {
 	$cssClass = "gcal-event_gccal_".$calendar->id;
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: ".$color."; color: white;}");
 	if(empty($calendarids) || in_array($calendar->id, $calendarids)){
-		$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."'";
-		if($i<count($allCalendars)-1)
-		$calsSources .= ",\n";
+		$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
 	}
 }
+$calsSources = trim($calsSources, ",\n");
 $calsSources .= "    ],\n";
 
 $defaultView = 'month';

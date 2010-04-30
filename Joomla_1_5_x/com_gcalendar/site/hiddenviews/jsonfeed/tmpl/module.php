@@ -46,7 +46,7 @@ while ($requestedDayStart < $endDate) {
 		$linkIDs .= $calID;
 	}
 	if(!empty($result)){
-		$linkIDs = rtrim($linkIDs, ',');
+		$linkIDs = trim($linkIDs, ",");
 		$day = strftime('%d', $requestedDayStart);
 		$month = strftime('%m', $requestedDayStart);
 		$year = strftime('%Y', $requestedDayStart);
