@@ -30,7 +30,7 @@ $requestedDayEnd = $requestedDayStart + $SECSINDAY;
 while ($requestedDayStart < $endDate) {
 	$result = array();
 	$linkIDs = '';
-
+	$description = '';
 	foreach ($this->calendars as $calendar){
 		$calID = null;
 		$items = $calendar->get_items();
@@ -40,6 +40,7 @@ while ($requestedDayStart < $endDate) {
 			|| ($item->get_start_date() <= $requestedDayStart && $requestedDayEnd <= $item->get_end_date())){
 				$result[] = $item;
 				$calID = $calendar->get('gcid').',';
+				$description .= '<li><font color="#'.$calendar->get('gccolor').'">'.htmlspecialchars_decode($item->get_title()).'</font></li>';
 			}
 		}
 		if($calID != null)
@@ -59,7 +60,7 @@ while ($requestedDayStart < $endDate) {
 			'url' => $url,
 		//			'className' => "gcal-module_event_gccal",
 			'allDay' => true,
-			'description' => sprintf(JText::_('MODULE_TEXT'), count($result))
+			'description' => sprintf(JText::_('MODULE_TEXT'), count($result)).'<ul>'.$description.'</ul>'
 		);
 	}
 	$requestedDayStart += $SECSINDAY;
