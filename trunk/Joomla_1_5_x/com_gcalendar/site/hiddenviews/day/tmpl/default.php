@@ -23,24 +23,17 @@ defined('_JEXEC') or die('Restricted access');
 $params = new JParameter('');
 $itemID = null;
 foreach($this->calendars as $calendar) {
-	$id = GCalendarUtil::getItemId($calendar->id);
-	if($itemID != null && $id != $itemID){
-		$itemID = null;
-		break;
-	}
-	$itemID = $id;
+	$itemID = GCalendarUtil::getItemId($calendar->id);
 }
-if($itemID !=null){
+if(!empty($itemID)){
 	$component	= &JComponentHelper::getComponent('com_gcalendar');
 	$menu = &JSite::getMenu();
 	$params = $menu->getParams($itemID);
-	$item = $menu->getItem($itemID);
-	$backLinkView = $item->query['view'];
 	echo "<table><tr><td valign=\"middle\">\n";
-	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID)."\">\n";
+	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID)."\">\n";
 	echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/images/back.png\"/>\n";
 	echo "</a></td><td valign=\"middle\">\n";
-	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
+	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
 	echo "</td></tr></table>\n";
 }
 
@@ -63,16 +56,13 @@ if(!empty($theme))
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
 
 $calsSources = "       eventSources: [\n";
-for($i = 0; $i < count($this->calendars);$i++) {
-	$calendar = $this->calendars[$i];
+foreach($this->calendars as $calendar) {
 	$cssClass = "gcal-event_gccal_".$calendar->id;
-	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."'";
-	if($i<count($this->calendars)-1)
-		$calsSources .= ",\n";
+	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #FFFFFF; color: white;}");
 }
-$calsSources = ltrim($calsSources, ',\n');
+$calsSources = trim($calsSources, ",\n");
 $calsSources .= "    ],\n";
 
 $daysLong = "[";

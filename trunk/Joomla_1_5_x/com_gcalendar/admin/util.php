@@ -81,8 +81,8 @@ class GCalendarUtil{
 	}
 
 	/**
-	 *Returns a valid Item ID for the given calendar id. If none is found
-	 *NULL is returned.
+	 * Returns a valid Item ID for the given calendar id. If none is found
+	 * NULL is returned.
 	 *
 	 * @param $cal_id
 	 * @return the item id

@@ -38,10 +38,10 @@ if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 			$dateHash = '#year='.$year.'&month='.$month.'&day='.$day;
 		}
 		echo "<table><tr><td valign=\"middle\">\n";
-		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID.$dateHash)."\">\n";
+		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID.$dateHash)."\">\n";
 		echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/images/back.png\"/>\n";
 		echo "</a></td><td valign=\"middle\">\n";
-		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&view='.$backLinkView.'&Itemid='.$itemID.$dateHash).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
+		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID.$dateHash).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
 		echo "</td></tr></table>\n";
 	}
 }
