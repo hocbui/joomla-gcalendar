@@ -43,6 +43,9 @@ foreach ($this->calendars as $calendar){
 			if($activemenu != null)
 			$itemID = '&Itemid='.$activemenu->id;
 		}
+		$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
+		if(strlen($description) > 200)
+		$description = substr($description, 0, 196).' ...';
 		$data[] = array(
 			'id' => $event->get_id(),
 			'title' => htmlspecialchars_decode($event->get_title()),
@@ -51,7 +54,7 @@ foreach ($this->calendars as $calendar){
 			'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid').$itemID),
 			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
 			'allDay' => $allDayEvent,
-			'description' => GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat)
+			'description' => $description
 		);
 	}
 }
