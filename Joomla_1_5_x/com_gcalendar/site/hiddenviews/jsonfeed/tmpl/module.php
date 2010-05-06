@@ -24,9 +24,9 @@ $SECSINDAY=86400;
 
 $startDate = JRequest::getVar('start', null);
 $endDate = JRequest::getVar('end', null);
-$tz = 0;
-if(!empty(JRequest::getVar('browserTimezone', null)))
-$tz = JRequest::getVar('browserTimezone', null) * -1;
+//$tz = 0;
+//if(!empty(JRequest::getVar('browserTimezone', null)))
+//$tz = JRequest::getVar('browserTimezone', null) * -1;
 //$requestedDayStart = $startDate + (2*60) - $tz;
 $requestedDayStart = $startDate;
 $requestedDayEnd = $requestedDayStart + $SECSINDAY;
