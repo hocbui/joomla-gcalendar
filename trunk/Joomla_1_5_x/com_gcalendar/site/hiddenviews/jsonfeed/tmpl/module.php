@@ -22,13 +22,26 @@ defined('_JEXEC') or die('Restricted access');
 $data = array();
 $SECSINDAY=86400;
 
-$startDate = JRequest::getVar('start', null);
-$endDate = JRequest::getVar('end', null);
-//$tz = 0;
-//if(!empty(JRequest::getVar('browserTimezone', null)))
-//$tz = JRequest::getVar('browserTimezone', null) * -1;
-//$requestedDayStart = $startDate + (2*60) - $tz;
-$requestedDayStart = $startDate;
+$startDate = JRequest::getInt('start', null);
+$endDate = JRequest::getInt('end', null);
+$browserTz = JRequest::getInt('browserTimezone', null);
+if(!empty($browserTz))
+$browserTz = $browserTz * -1;
+else
+$browserTz = 0;
+
+static $tzs;
+if($tzs == null){
+	$tzs = parse_ini_file(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'hiddenviews'.DS.'jsonfeed'.DS.'tmpl'.DS.'timezones.ini');
+}
+$tz = GCalendarUtil::getComponentParameter('timezone');
+$offset = '00:00';
+if(!empty($tz)){
+	$offset = $tzs[$tz];
+}
+
+$min = (((int)substr($offset, 1, 3)+date('I', $startDate))*60)+substr($offset,3);
+$requestedDayStart = $startDate + $browserTz - (substr($offset, 0, 1) == '-' ? -1*$min:$min);
 $requestedDayEnd = $requestedDayStart + $SECSINDAY;
 
 while ($requestedDayStart < $endDate) {
@@ -56,16 +69,17 @@ while ($requestedDayStart < $endDate) {
 		$month = strftime('%m', $requestedDayStart);
 		$year = strftime('%Y', $requestedDayStart);
 		$url = JRoute::_('index.php?option=com_gcalendar&view=day&gcids='.$linkIDs.'#year='.$year.'&month='.$month.'&day='.$day);
+
 		$data[] = array(
 			'id' => time(),
 			'title' => '',
-			'start' => $requestedDayStart,
+			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
 		//			'end' => $requestedDayEnd - 10,
 			'url' => $url,
 		//			'className' => "gcal-module_event_gccal",
 			'allDay' => true,
 			'description' => sprintf(JText::_('MODULE_TEXT'), count($result)).'<ul>'.$description.'</ul>'
-		);
+			);
 	}
 	$requestedDayStart += $SECSINDAY;
 	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
