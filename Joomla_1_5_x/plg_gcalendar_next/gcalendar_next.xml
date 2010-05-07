@@ -3,13 +3,13 @@
 <name>Content - GCalendar Next Event</name>
 <author>G4J Project</author>
 <authorEmail>info@g4j.laoneo.net</authorEmail>
-<creationDate>April 2010</creationDate>
+<creationDate>May 2010</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
 	<authorUrl>g4j.laoneo.net</authorUrl>
-	<version>2.2.0</version>
+	<version>2.2.1</version>
 <description><![CDATA[Embeds a date from a Google Calendar event into content.
 <p>Example Usage: {gcalnext [$title$] starts on [$start$] and ends at [$finish %I:%M%P]$} would print "My event starts on Novemeber 3, 2009 @ 2:30pm and ends at 3:30pm"</p>
 <p>Keywords are surrounded by [$ and $]. Anything not contained within a keyword marker is taken literally. Use the following keywords. All formatting is in strftime format.</p>
