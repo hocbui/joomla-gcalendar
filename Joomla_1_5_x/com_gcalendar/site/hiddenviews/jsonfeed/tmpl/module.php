@@ -30,18 +30,8 @@ $browserTz = $browserTz * -1;
 else
 $browserTz = 0;
 
-static $tzs;
-if($tzs == null){
-	$tzs = parse_ini_file(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'hiddenviews'.DS.'jsonfeed'.DS.'tmpl'.DS.'timezones.ini');
-}
-$tz = GCalendarUtil::getComponentParameter('timezone');
-$offset = '00:00';
-if(!empty($tz)){
-	$offset = $tzs[$tz];
-}
-
-$min = (((int)substr($offset, 1, 3)+date('I', $startDate))*60)+substr($offset,3);
-$requestedDayStart = $startDate + $browserTz - (substr($offset, 0, 1) == '-' ? -1*$min:$min);
+$gcalendarOffset = GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
+$requestedDayStart = $startDate + $browserTz - $gcalendarOffset;
 $requestedDayEnd = $requestedDayStart + $SECSINDAY;
 
 while ($requestedDayStart < $endDate) {
