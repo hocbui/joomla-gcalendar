@@ -41,6 +41,17 @@ class GCalendarModelJSONFeed extends JModel {
 		GCalendarUtil::ensureSPIsLoaded();
 		$startDate = JRequest::getVar('start', null);
 		$endDate = JRequest::getVar('end', null);
+
+		$browserTz = JRequest::getInt('browserTimezone', null);
+		if(!empty($browserTz))
+		$browserTz = $browserTz * -1;
+		else
+		$browserTz = 0;
+
+		$gcalendarOffset = GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
+		$startDate = $startDate + $browserTz - $gcalendarOffset;
+		$endDate = $endDate + $browserTz - $gcalendarOffset;
+
 		$calendarids = '';
 		if(JRequest::getVar('gcids', null) != null){
 			if(is_array(JRequest::getVar('gcids', null)))
@@ -140,4 +151,21 @@ class GCalendarModelJSONFeed extends JModel {
 
 		return $calendars;
 	}
+	
+	function getGCalendarTZOffset($date) {
+		static $tzs;
+		if($tzs == null){
+			$tzs = parse_ini_file(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'models'.DS.'timezones.ini');
+		}
+		$tz = GCalendarUtil::getComponentParameter('timezone');
+		$offset = '00:00';
+		if(!empty($tz)){
+			$offset = $tzs[$tz];
+		}
+
+		$gcalendarOffset = (((int)substr($offset, 1, 3)+date('I', $date))*60)+substr($offset,3);
+		$gcalendarOffset = substr($offset, 0, 1) == '-' ? -1 * $gcalendarOffset : $gcalendarOffset;
+		return $gcalendarOffset;
+	}
+	
 }
