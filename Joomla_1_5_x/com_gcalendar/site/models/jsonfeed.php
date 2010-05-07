@@ -44,7 +44,7 @@ class GCalendarModelJSONFeed extends JModel {
 
 		$browserTz = JRequest::getInt('browserTimezone', null);
 		if(!empty($browserTz))
-		$browserTz = $browserTz * -1;
+		$browserTz = $browserTz * -60;
 		else
 		$browserTz = 0;
 
@@ -151,8 +151,15 @@ class GCalendarModelJSONFeed extends JModel {
 
 		return $calendars;
 	}
-	
-	function getGCalendarTZOffset($date) {
+
+	/**
+	 * Returns the GCalendar timezone offset in seconds. The given
+	 * date is used to be DST compatible.
+	 * 
+	 * @param $date
+	 * @return offset in seconds
+	 */
+	function getGCalendarTZOffset($date = null) {
 		static $tzs;
 		if($tzs == null){
 			$tzs = parse_ini_file(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'models'.DS.'timezones.ini');
@@ -162,10 +169,11 @@ class GCalendarModelJSONFeed extends JModel {
 		if(!empty($tz)){
 			$offset = $tzs[$tz];
 		}
+		if($date == null) $date = time();
 
 		$gcalendarOffset = (((int)substr($offset, 1, 3)+date('I', $date))*60)+substr($offset,3);
 		$gcalendarOffset = substr($offset, 0, 1) == '-' ? -1 * $gcalendarOffset : $gcalendarOffset;
-		return $gcalendarOffset;
+		return $gcalendarOffset * 60;
 	}
-	
+
 }

@@ -26,7 +26,7 @@ $startDate = JRequest::getInt('start', null);
 $endDate = JRequest::getInt('end', null);
 $browserTz = JRequest::getInt('browserTimezone', null);
 if(!empty($browserTz))
-$browserTz = $browserTz * -1;
+$browserTz = $browserTz * -60;
 else
 $browserTz = 0;
 
