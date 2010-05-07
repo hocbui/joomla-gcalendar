@@ -46,11 +46,10 @@ class GCalendarNext {
 			return array();
 		}
 		$values = array();
+		$sortOrder = $params->get( 'order', 1 )==1;
+		$maxEvents = $params->get('max_events', 10);
 		foreach ($results as $result) {
 			if(!empty($result->calendar_id)){
-				$sortOrder = $params->get( 'order', 1 )==1;
-				$maxEvents = $params->get('max_events', 10);
-
 				$feed = new SimplePie_GCalendar();
 				$feed->set_show_past_events($params->get('past_events', TRUE));
 				$startDate = $params->get('start_date', '');

@@ -36,7 +36,7 @@
 		<param name="time_format" type="text" size="80" default="%H:%M"
 			label="Time format"
 			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
-		<param name="max" type="text" size="2" default="5" label="Max events"
+		<param name="max_events" type="text" size="2" default="5" label="Max events"
 			description="The maximal count of events should be displayed." />
 		<param name="order" type="radio" default="1" label="Sort Order"
 			description="The order strategy of the events.">
