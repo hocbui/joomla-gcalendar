@@ -27,8 +27,7 @@ $timeformat=$params->get('time_format', '%H:%M');
 
 echo $params->get( 'text_before' );
 
-for ($i = 0; $i < sizeof($gcalendar_data) && $i <$params->get( 'max', 5 ); $i++){
-	$item = $gcalendar_data[$i];
+foreach( $gcalendar_data as $item){
 	echo GCalendarUtil::renderEvent($item, $event_display, $dateformat, $timeformat);
 }
 
