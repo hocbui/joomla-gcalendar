@@ -8,9 +8,9 @@
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
 	<property name="gcalendarRoot" location="${basedir}/../GC_Joomla_1_5_x" />
-	<property name="gcalendarVersion" value="2_2_0" />
-	<property name="gcalendarUpgradeStartPoint" value="2_1_0M1" />
-	<property name="includeUpgrade" value="false" />
+	<property name="gcalendarVersion" value="2_2_1" />
+	<property name="gcalendarUpgradeStartPoint" value="2_2_0" />
+	<property name="includeUpgrade" value="true" />
 
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -68,7 +68,7 @@
 		<delete dir="${build}/upgrade_1_5/plg_gcalendar_search" />
 
 		<!-- create the next plugin upgrade folder -->
-		<copy todir="${build}/upgrade_1_5/plg_gcalendar_next/plugins/search">
+		<copy todir="${build}/upgrade_1_5/plg_gcalendar_next/plugins/content">
 			<fileset dir="${gcalendarRoot}/plg_gcalendar_next" />
 		</copy>
 		<zip destfile="${build}/upgrade_1_5/plg_gcalendar_next_${gcalendarVersion}.zip">
