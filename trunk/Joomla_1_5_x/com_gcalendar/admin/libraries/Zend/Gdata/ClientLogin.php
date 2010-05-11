@@ -78,7 +78,7 @@ class Zend_Gdata_ClientLogin
      * @throws Zend_Gdata_App_CaptchaRequiredException
      * @return Zend_Gdata_HttpClient
      */
-    public static function getHttpClient($email, $password, $service = 'xapi',
+    public static function getHttpClient($email, $password, $service = 'cl',
         $client = null,
         $source = self::DEFAULT_SOURCE,
         $loginToken = null,
@@ -106,7 +106,7 @@ class Zend_Gdata_ClientLogin
         $client->setUri($loginUri);
         $useragent = $source . ' Zend_Framework_Gdata/' . Zend_Version::VERSION;
         $client->setConfig(array(
-                'maxredirects'    => 0,
+                'maxredirects'    => 2,
                 'strictredirects' => true,
                 'useragent' => $useragent
             )
