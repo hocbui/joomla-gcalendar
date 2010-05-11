@@ -59,11 +59,11 @@ class GCalendarsController extends JController
 
 	function isLoggedIn(){
 		global $_SESSION, $_GET;
-		if (!isset($_SESSION['sessionToken']) && !isset($_GET['token'])) {
+		if (!isset($_SESSION['sessionToken']) && !isset($_GET['token'])
+		 && !isset($_SESSION['authToken']) && !isset($_GET['authtoken']) ) {
 			return FALSE;
-		} else {
-			return TRUE;
 		}
+		return TRUE;
 	}
 
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params addpath="/administrator/components/com_gcalendar/elements">
 		<param name="google_apps_domain" type="text" default="" size="100"
@@ -58,5 +58,11 @@
 		<param name="event_time_format" type="text" size="80" default="%H:%M"
 			label="Time format"
 			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
+		<param name="google_login" type="text" size="80" default="myaccount@gmail.com"  
+			label="Login Google"
+			description="Account used to retrieve magic cookies and upload data to your Google Calendar." /> 
+		<param name="google_pass" type="password" size="50" default=""  
+			label="Password"
+			description="Password for this account" />
 	</params>
 </config>
