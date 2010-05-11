@@ -28,7 +28,7 @@ class GCalendarViewGoogle extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = &JFactory::getApplication();
 
 		$calendars = $this->get( 'DBCalendars' );
 		if(!is_array($calendars))
