@@ -641,7 +641,7 @@ class Zend_Gdata_App
         // Set the params for the new request to be performed
         $this->_httpClient->setHeaders($headers);
         $this->_httpClient->setUri($url);
-        $this->_httpClient->setConfig(array('maxredirects' => 0));
+        $this->_httpClient->setConfig(array('maxredirects' => 2));
 
         // Set the proper adapter if we are handling a streaming upload
         $usingMimeStream = false;
