@@ -28,7 +28,7 @@ class GCalendarViewDay extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = &JFactory::getApplication();
 
 		$params = &$mainframe->getParams();
 		$this->assignRef('params'  , $params);

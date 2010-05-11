@@ -29,7 +29,7 @@ $items		= $menu->getItems('componentid', $component->id);
 
 $model = & $this->getModel();
 if (is_array($items)){
-	global $mainframe;
+	$mainframe = &JFactory::getApplication();
 	$pathway	= &$mainframe->getPathway();
 	foreach($items as $item) {
 		$paramsItem	=& $menu->getParams($item->id);
