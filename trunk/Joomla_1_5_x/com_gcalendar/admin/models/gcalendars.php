@@ -55,6 +55,12 @@ class GCalendarsModelGCalendars extends JModel
 
 		global $mainframe, $option;
 
+		if (empty($mainframe)) {
+			//Joomla 1.6 compatibility
+			$mainframe = &JFactory::getApplication();
+			$option = $mainframe->scope;
+		}
+		
 		// Get pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
