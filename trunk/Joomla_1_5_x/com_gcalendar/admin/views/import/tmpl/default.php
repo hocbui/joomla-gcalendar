@@ -28,22 +28,9 @@ if(!is_array($this->online_items)){
 <tr class="<?php echo "row$k"; ?>">
 	<td><?php echo $checked; ?></td>
 	<td><?php echo $row->name; ?></td>
-	<td>
-	<table>
-		<tr>
-			<td><b><?php echo JText::_( 'Calendar ID' ); ?>:</b></td>
-			<td><?php echo $row->calendar_id; ?></td>
-		</tr>
-		<!-- tr>
-		<td><b><?php echo JText::_( 'Magic Cookie' ); ?>:</b></td>
-		<td><?php echo $row->magic_cookie; ?></td>
-		</tr -->
-		<tr>
-			<td><b><?php echo JText::_( 'Color' ); ?>:</b></td>
-			<td><?php echo $row->color; ?></td>
-		</tr>
-	</table>
-	</td>
+	<td><?php echo urldecode($row->calendar_id); ?></td>
+	<td><?php echo '#'.$row->color; ?></td>
+	<td><?php echo $row->magic_cookie; ?></td>
 </tr>
 		<?php
 	}
@@ -57,6 +44,8 @@ if(!is_array($this->online_items)){
 				onclick="checkAll(<?php echo count( $this->online_items ); ?>);" /></th>
 			<th><?php echo JText::_( 'CALENDAR_NAME' ); ?></th>
 			<th align="left"><?php echo JText::_( 'CALENDAR_DETAILS' ); ?></th>
+			<th><?php echo JText::_( 'Color' ); ?></th>
+			<th align="left"><?php echo JText::_( 'Magic Cookie' ); ?></th>
 		</tr>
 	</thead>
 	<?php
@@ -81,7 +70,7 @@ if(!is_array($this->online_items)){
 		$k = 1 - $k;
 	}
 	if(!empty($containing_items)){
-		echo '<tr><td colspan="3"><b>'.JText::_( 'Allready added calendars:' ).'</b></td></tr>';
+		echo '<tr><td colspan="5"><b>'.JText::_( 'Already added calendars:' ).'</b></td></tr>';
 		$k = 0;
 		for ($i=0, $n=count($containing_items); $i < $n; $i++)
 		{

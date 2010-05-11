@@ -76,6 +76,11 @@ class GCalendarsModelImport extends JModel
 			$_SESSION['sessionToken'] =
 			Zend_Gdata_AuthSub::getAuthSubSessionToken($_GET['token'], $client);
 		}
+		if(empty($_SESSION['sessionToken']) && isset($_GET['authtoken'])){
+			$client->setClientLoginToken($_GET['authtoken']);
+			$_SESSION['sessionAuthToken'] = $_GET['authtoken'];
+			return $client;
+		}
 		if(empty($_SESSION['sessionToken']))return null;
 		$client->setAuthSubToken($_SESSION['sessionToken']);
 		return $client;
@@ -87,13 +92,18 @@ class GCalendarsModelImport extends JModel
 	 */
 	function getOnlineData() {
 		$this->loadZendClasses();
-		$client = $this->getAuthSubHttpClient();
 
+		$client = $this->getAuthSubHttpClient();
 		if (!$client) {
 			$this->_data = array();
 		}else{
 			$gdataCal = new Zend_Gdata_Calendar($client);
 			$calFeed = $gdataCal->getCalendarListFeed();
+			
+			if (isset($_SESSION['gcal_magics'])) {
+				$gcal_magics = unserialize($_SESSION['gcal_magics']);
+			}
+			
 			$tmp = array();
 			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
 			foreach ($calFeed as $calendar) {
@@ -102,15 +112,18 @@ class GCalendarsModelImport extends JModel
 				$cal_id = substr($calendar->id->text,strripos($calendar->id->text,'/')+1);
 				$table_instance->calendar_id = $cal_id;
 				$table_instance->name = $calendar->title->text;
-
 				if(strpos($calendar->color->value, '#') === 0)
 				$color = str_replace("#","",$calendar->color->value);
 				$table_instance->color = $color;
+				
+				if ($gcal_magics && isset($gcal_magics[$cal_id]))
+					$table_instance->magic_cookie = $gcal_magics[$cal_id];
+					
 				$tmp[] = $table_instance;
 			}
 			$this->_data = $tmp;
 		}
-
+		
 		return $this->_data;
 	}
 
@@ -142,7 +155,13 @@ class GCalendarsModelImport extends JModel
 				$row->calendar_id = strtok($cid, ',');
 				$row->color = strtok(',');
 				$row->name = strtok(',');
-
+				
+				if (isset($_SESSION['gcal_magics'])) {
+					$gcal_magics = unserialize($_SESSION['gcal_magics']);
+					if ($gcal_magics && isset($gcal_magics[$row->calendar_id]))
+						$row->magic_cookie = $gcal_magics[$row->calendar_id];
+				}
+				
 				// Make sure the calendar record is valid
 				if (!$row->check()) {
 					JError::raiseWarning( 500, $row->getError() );
@@ -168,6 +187,7 @@ class GCalendarsModelImport extends JModel
 		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 		Zend_Loader::loadClass('Zend_Gdata_HttpClient');
 		Zend_Loader::loadClass('Zend_Gdata_Calendar');
+		Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
 	}
 }
 ?>
