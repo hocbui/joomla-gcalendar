@@ -72,6 +72,20 @@ class GCalendarsModelImport extends JModel
 	{
 		global $_SESSION, $_GET;
 		$client = new Zend_Gdata_HttpClient();
+		
+		//use curl if ssl protocol is not a registered transport protocol (need extension php_openssl)
+		if (!in_array('ssl',stream_get_transports()) && function_exists('curl_init')  )
+		$client->setConfig(array(
+                'strictredirects' => true,
+                'adapter' => 'Zend_Http_Client_Adapter_Curl',
+                'curloptions' => array(
+                	CURLOPT_FOLLOWLOCATION => true,
+                	CURLOPT_MAXREDIRS => 2,
+                	CURLOPT_SSL_VERIFYPEER => false,
+                )
+            )
+        );
+
 		if (!isset($_SESSION['sessionToken']) && isset($_GET['token'])) {
 			$_SESSION['sessionToken'] =
 			Zend_Gdata_AuthSub::getAuthSubSessionToken($_GET['token'], $client);
@@ -179,7 +193,7 @@ class GCalendarsModelImport extends JModel
 	}
 
 	function loadZendClasses() {
-		global $mainframe;
+		$mainframe = &JFactory::getApplication();
 		$absolute_path = $mainframe->getCfg( 'absolute_path' );
 		ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT . DS . 'libraries');
 

@@ -20,7 +20,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-global $mainframe;
+$mainframe = &JFactory::getApplication();
 $absolute_path = $mainframe->getCfg( 'absolute_path' );
 ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT . DS . 'libraries');
 
@@ -57,6 +57,8 @@ if (empty($pass) || strstr($next,'authtoken')) {
 $service = Zend_Gdata_Calendar::AUTH_SERVICE_NAME;
 
 $client = new Zend_Gdata_HttpClient();
+
+if (!in_array('ssl',stream_get_transports()) && function_exists('curl_init')  )
 $client->setConfig(array(
         'strictredirects' => true,
         'adapter' => 'Zend_Http_Client_Adapter_Curl',
@@ -64,9 +66,8 @@ $client->setConfig(array(
         	CURLOPT_FOLLOWLOCATION => true,
         	CURLOPT_MAXREDIRS => 2,
         	CURLOPT_SSL_VERIFYPEER => false,
-        	CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt',
-        ),
-        'useragent' => $useragent
+        	CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt'
+        )
     )
 );
 
