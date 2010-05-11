@@ -213,8 +213,8 @@ class GCalendarUtil{
 	/**
 	 * Returns the faded color for the given color.
 	 *
-	 * @param $pCol
-	 * @param $pPercentage
+	 * @param $color
+	 * @param $percentage
 	 * @return the faded color
 	 */
 	function getFadedColor($color, $percentage = 85) {

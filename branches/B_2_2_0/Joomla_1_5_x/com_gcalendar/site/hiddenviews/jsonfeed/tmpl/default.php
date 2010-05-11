@@ -23,9 +23,9 @@ $data = array();
 $SECSINDAY=86400;
 
 foreach ($this->calendars as $calendar){
-	$linkID = GCalendarUtil::getItemId($calendar->get('gcid'));
+	$itemID = GCalendarUtil::getItemId($calendar->get('gcid'));
 	$menus	= &JSite::getMenu();
-	$params = $menus->getParams($linkID);
+	$params = $menus->getParams($itemID);
 	if(empty($params))
 	$params = new JParameter('');
 	$dateformat = $params->get('description_date_format', '%d.%m.%Y');
@@ -35,7 +35,6 @@ foreach ($this->calendars as $calendar){
 	$items = $calendar->get_items();
 	foreach ($items as $event) {
 		$allDayEvent = $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY;
-		$itemID = '';
 		if(!empty($itemID)){
 			$itemID = '&Itemid='.$itemID;
 		}else{
@@ -44,17 +43,21 @@ foreach ($this->calendars as $calendar){
 			if($activemenu != null)
 			$itemID = '&Itemid='.$activemenu->id;
 		}
+		$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
+		if(strlen($description) > 200)
+		$description = substr($description, 0, 196).' ...';
 		$data[] = array(
 			'id' => $event->get_id(),
 			'title' => htmlspecialchars_decode($event->get_title()),
-			'start' => $event->get_start_date(),
-			'end' => $allDayEvent? $event->get_end_date() - $SECSINDAY:$event->get_end_date(),
-			'url' => JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid')).$itemID,
+			'start' => strftime('%Y-%m-%dT%H:%M:%S', $event->get_start_date()),
+			'end' => strftime('%Y-%m-%dT%H:%M:%S',$allDayEvent? $event->get_end_date() - $SECSINDAY:$event->get_end_date()),
+			'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid').$itemID),
 			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
 			'allDay' => $allDayEvent,
-			'description' => GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat)
+			'description' => $description
 		);
 	}
 }
-echo json_encode($data);
+
+echo utf8_decode(json_encode($data));
 ?>
