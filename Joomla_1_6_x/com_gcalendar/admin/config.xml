@@ -1,124 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component"
-		label="COM_WEBLINKS_COMPONENT_LABEL"
-		description="COM_WEBLINKS_COMPONENT_DESC"
-	>
-
-		<field name="show_comp_description" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_LABEL"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
+	<fieldset name="component" addpath="/administrator/components/com_gcalendar/elements">
+		<field name="google_apps_domain" type="text" default="" size="100"
+			label="Google Apps Domain" description="The Google Apps domain to get the calendar data from." />
+		<field name="timezone" type="googletimezones" default=""
+			label="Time Zone" description="The global timezone for GCalendar." />
+		<field name="loadJQuery" type="radio" default="yes" label="Load jQuery"
+			description="jQuery is required by this component The only reason not to load it is if it has already been loaded manually or by another module.">
+			<option value="no">No</option>
+			<option value="yes">Yes</option>
 		</field>
-
-		<field name="comp_description" type="textarea"
-			cols="50"
-			description="COM_WEBLINKS_FIELD_CONFIG_INTRO_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_INTRO_LABEL"
-			rows="3"
-		/>
-
-		<field name="spacer1" type="spacer"
-			hr="true"
-		/>
-
-		<field name="show_link_hits" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC"
-			label="JGLOBAL_HITS"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
+		<field name="@spacer" type="spacer" default="Event output" label=""
+			description="" />
+		<field name="show_calendar_name" type="radio" default="1"
+			label="Show Calendar Name" description="Shows the calendar name">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
 		</field>
-
-		<field name="show_link_description" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_LABEL"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
+		<field name="show_event_title" type="radio" default="1"
+			label="Show Event Title" description="Shows the event title.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
 		</field>
-
-		<field name="show_other_cats" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_OTHERCATS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_OTHERCATS_LABEL"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
+		<field name="show_event_date" type="radio" default="1"
+			label="Show Event Date" description="Shows the event date.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
 		</field>
-
-		<field name="show_headings" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_LABEL"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
+		<field name="show_event_attendees" type="radio" default="2"
+			label="Show Event Attendees" description="Shows the event attendees.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
 		</field>
-
-		<field name="show_numbers" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_LABEL"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
+		<field name="show_event_description" type="radio" default="1"
+			label="Show Event Description" description="Shows the event description.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
 		</field>
-
-		<field name="show_report" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWREPORT_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_SHOWREPORT_LABEL"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
+		<field name="show_event_location" type="radio" default="1"
+			label="Show Event Location" description="Shows the event location.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
 		</field>
-
-		<field name="count_clicks" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_COUNTCLICKS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_COUNTCLICKS_LABEL"
-		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+		<field name="show_event_author" type="radio" default="2"
+			label="Show Event Author" description="Shows the event author.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
 		</field>
-
-		<field name="spacer2" type="spacer"
-			hr="true"
-		/>
-
-		<field name="target" type="list"
-			default="0"
-			description="COM_WEBLINKS_FIELD_TARGET_DESC"
-			label="COM_WEBLINKS_FIELD_TARGET_LABEL"
-		>
-			<option value="0">PARENT_WINDOW_WITH_BROWSER_NAVIGATION</option>
-			<option value="1">NEW_WINDOW_WITH_BROWSER_NAVIGATION</option>
-			<option value="2">NEW_WINDOW_WITHOUT_BROWSER_NAVIGATION</option>
+		<field name="show_event_copy_info" type="radio" default="1"
+			label="Show Event Copy Info" description="Shows the copy to my calendar option.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
 		</field>
-
-		<field name="link_icons" type="media"
-			default=""
-			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC"
-			directory=""
-			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
-		/>
-	</fieldset>
-
-	<fieldset name="permissions"
-		description="JCONFIG_PERMISSIONS_DESC"
-		label="JCONFIG_PERMISSIONS_LABEL"
-	>
-
-		<field name="rules" type="rules"
-			component="com_weblinks"
-			filter="rules"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			section="component" />
+		<field name="event_date_format" type="text" size="80" default="%d.%m.%Y"
+			label="Date format"
+			description="The format of the date for an event (see http://www.php.net/strftime for details)." />
+		<field name="event_time_format" type="text" size="80" default="%H:%M"
+			label="Time format"
+			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
+		<field name="google_login" type="text" size="80" default="myaccount@gmail.com"  
+			label="Login Google"
+			description="Account used to retrieve magic cookies and upload data to your Google Calendar." /> 
+		<field name="google_pass" type="password" size="50" default=""  
+			label="Password"
+			description="Password for this account" />
 	</fieldset>
 </config>
