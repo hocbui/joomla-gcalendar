@@ -26,6 +26,15 @@ jimport('joomla.application.component.controller');
  */
 class GCalendarController extends JController
 {
+	
+	//Joomla 1.6 member $basePath is different (1.5 is $_basePath)
+	function __construct( $config = array() )
+	{
+		parent::__construct($config);
+		if (empty($this->basePath))		
+			$this->basePath = $this->_basePath;
+	}
+
 	/**
 	 * Method to display the view
 	 *
@@ -48,11 +57,12 @@ class GCalendarController extends JController
 			$viewName	= JRequest::getCmd( 'view', $hiddenView );
 			$viewLayout	= JRequest::getCmd( 'layout', 'default' );
 				
-			$this->addViewPath($this->_basePath.DS.'hiddenviews');
-			$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
-			$view->addTemplatePath($this->_basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
+			$this->addViewPath($this->basePath.DS.'hiddenviews');
+			$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->basePath));
+			$view->addTemplatePath($this->basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
 		}
 		parent::display();
 	}
+	
 }
 ?>

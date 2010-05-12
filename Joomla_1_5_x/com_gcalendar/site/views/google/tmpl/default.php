@@ -50,14 +50,14 @@ $variables .= '&amp;showPrint='.$params->get( 'print' );
 $variables .= '&amp;showTabs='.$params->get( 'tabs' );
 $variables .= '&amp;showCalendars=0';
 $variables .= '&amp;showTz='.$params->get( 'tz' );
-$variables .= '&amp;mode='.$params->get( 'view' );
-$variables .= '&amp;wkst='.$params->get( 'weekstart' );
-$variables .= '&amp;bgcolor=%23'.$params->get( 'bgcolor' );
+$variables .= '&amp;mode='.$params->get( 'view', 'MONTH');
+$variables .= '&amp;wkst='.$params->get( 'weekstart', 2);
+$variables .= '&amp;bgcolor=%23'.$params->get( 'bgcolor', 'FFFFFF' );
 $variables .= '&amp;hl='.GCalendarUtil::getFrLanguage();
 $tz = $params->get('timezone');
 if(!empty($tz))$tz='&amp;ctz='.$tz;
 $variables .= $tz;
-$variables .= '&amp;height='.$params->get( 'height' );
+$variables .= '&amp;height='.$params->get( 'height', 500);
 
 $domain = 'http://www.google.com/calendar/embed';
 $google_apps_domain = $params->get('google_apps_domain');
@@ -123,8 +123,8 @@ if ($params->get('use_custom_css')) {
 echo $params->get( 'textbefore' );
 
 ?> <iframe id="gcalendar_frame" src="<?php echo $calendar_url; ?>"
-	width="<?php echo $params->get( 'width' ); ?>"
-	height="<?php echo $params->get( 'height' ); ?>" align="top"
+	width="<?php echo $params->get( 'width', 500); ?>"
+	height="<?php echo $params->get( 'height', 500); ?>" align="top"
 	frameborder="0"
 	class="gcalendar<?php echo $params->get( 'pageclass_sfx' ); ?>"> <?php echo JText::_( 'NO_IFRAMES' ); ?>
 </iframe></div>
