@@ -74,16 +74,21 @@ $monthsLong = "[";
 $monthsShort = "[";
 
 //Joomla 1.6 compatibility, JDate::dayToString is protected
-JFactory::getDate();
-class JDateGCal extends JDate {
-	function _dayToString($i, $short) {
-		return parent::dayToString($i, $short);
-	}
-	function _monthToString($i, $short) {
-		return parent::monthToString($i, $short);
-	}
-};
-$dateObject = new JDateGCal;
+global $version;
+if ($version->RELEASE >= '1.6') {
+	JFactory::getDate();
+	class JDateGCal extends JDate {
+		function _dayToString($i, $short) {
+			return parent::dayToString($i, $short);
+		}
+		function _monthToString($i, $short) {
+			return parent::monthToString($i, $short);
+		}
+	};
+	$dateObject = new JDateGCal;
+} else
+$dateObject = JFactory::getDate();
+
 for ($i=0; $i<7; $i++) {
 	$daysLong .= "'".$dateObject->_dayToString($i, false)."'";
 	$daysShort .= "'".$dateObject->_dayToString($i, true)."'";
