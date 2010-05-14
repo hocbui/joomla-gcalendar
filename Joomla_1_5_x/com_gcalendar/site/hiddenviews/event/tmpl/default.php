@@ -104,15 +104,15 @@ if($event == null){
 		$attendeesString = rtrim($attendeesString, ',');
 		echo "<tr><td class=\"event_content_key\">".JText::_( 'ATTENDEES' ).": </td><td style=\"valign:top\">".$attendeesString."</td></tr>\n";
 	}
-	if(GCalendarUtil::getComponentParameter('show_event_description', 1) == 1){
-		echo "<tr><td class=\"event_content_key\">".JText::_( 'DESCRIPTION' ).": </td><td>". htmlspecialchars_decode(nl2br(preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1" target="_top">\\1</a>', $event->get_description())))."</td></tr>\n";
-	}
 	if(GCalendarUtil::getComponentParameter('show_event_location', 1) == 1){
 		$loc = $event->get_location();
 		if(!empty($loc)){
 			echo "<tr><td class=\"event_content_key\">".JText::_( 'LOCATION' ).": </td><td>".$loc."</td></tr>\n";
 			echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&amp;output=embed\"></iframe></td></tr>\n";
 		}
+	}
+	if(GCalendarUtil::getComponentParameter('show_event_description', 1) == 1 && $event->get_description() != '') {
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'DESCRIPTION' ).": </td><td>". htmlspecialchars_decode(nl2br(preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1" target="_top">\\1</a>', $event->get_description())))."</td></tr>\n";
 	}
 	if(GCalendarUtil::getComponentParameter('show_event_author', 2) == 1){
 		$authors = $event->get_authors();
