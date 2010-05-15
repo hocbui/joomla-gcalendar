@@ -38,6 +38,11 @@
 				<option value="1">Yes</option>
 				<option value="2">No</option>
 			</param>
+			<param name="weekend" type="radio" default="1" 
+                label="Show weekend events" description="Shows or hides saturday and sunday (weekend), allowing a 'wider' view of weekdays."> 
+                <option value="1">Yes</option> 
+                <option value="0">No</option> 
+            </param> 
 			<param name="titleformat_month" type="text" default="MMMM yyyy" label="Title format month"
 				description="The format of the title in the month view." size="50" />
 			<param name="titleformat_week" type="text" default="MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}" label="Title format week"

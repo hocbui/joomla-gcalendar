@@ -121,6 +121,7 @@ $calCode .= "		month: tmpMonth,\n";
 $calCode .= "		date: tmpDay,\n";
 $calCode .= "		defaultView: tmpView,\n";
 $calCode .= "		editable: false, theme: ".(!empty($theme)?'true':'false').",\n";
+$calCode .= "       weekends: ".($params->get('weekend', 1)==1?'true':'false').",\n"; 
 $calCode .= "		titleFormat: { \n";
 $calCode .= "			month: '".$params->get('titleformat_month', 'MMMM yyyy')."',\n";
 $calCode .= "			week: \"".$params->get('titleformat_week', "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}")."\",\n";
