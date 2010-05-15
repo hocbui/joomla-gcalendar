@@ -59,5 +59,5 @@ foreach ($this->calendars as $calendar){
 	}
 }
 
-echo utf8_decode(json_encode($data));
+echo json_encode($data);
 ?>
