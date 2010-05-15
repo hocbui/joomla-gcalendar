@@ -30,7 +30,7 @@ $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery
 //$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/ui.datepicker.min.js');
 //$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/ui.dialog.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.ba-hashchange.min.js');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0-rc3.min.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.min.js');
 $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15; }");
 
 $params = $this->params;
