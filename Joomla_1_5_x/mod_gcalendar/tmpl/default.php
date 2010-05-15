@@ -41,21 +41,19 @@ $daysShort = "[";
 $daysMin = "[";
 $monthsLong = "[";
 $monthsShort = "[";
-$dateObject = JFactory::getDate();
 for ($i=0; $i<7; $i++) {
-	$daysLong .= "'".$dateObject->_dayToString($i, false)."'";
-	$daysShort .= "'".$dateObject->_dayToString($i, true)."'";
-	$daysMin .= "'".substr($dateObject->_dayToString($i, true), 0, 2)."'";
+	$daysLong .= "'".GCalendarUtil::dayToString($i, false)."'";
+	$daysShort .= "'".GCalendarUtil::dayToString($i, true)."'";
+	$daysMin .= "'".substr(GCalendarUtil::dayToString($i, true), 0, 2)."'";
 	if($i < 6){
 		$daysLong .= ",";
 		$daysShort .= ",";
 		$daysMin .= ",";
 	}
 }
-
 for ($i=1; $i<=12; $i++) {
-	$monthsLong .= "'".$dateObject->_monthToString($i, false)."'";
-	$monthsShort .= "'".$dateObject->_monthToString($i, true)."'";
+	$monthsLong .= "'".GCalendarUtil::monthToString($i, false)."'";
+	$monthsShort .= "'".GCalendarUtil::monthToString($i, true)."'";
 	if($i < 12){
 		$monthsLong .= ",";
 		$monthsShort .= ",";
