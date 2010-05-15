@@ -25,7 +25,7 @@ GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0-rc3.min.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.min.js');
 
 $cssClass = "gcal-module_event_gccal";
 $document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_1 .fc-state-default span, #gcalendar_module_1 .ui-state-default{padding:0px !important;}");
