@@ -175,8 +175,9 @@ $calCode .= "		        if(window.location.hash.replace(/&amp;/gi, \"&\") != newH
 $calCode .= "		        window.location.hash = newHash;\n";
 $calCode .= "		    },\n";
 $calCode .= "		eventRender: function(event, element) {\n";
+$calCode .= "				if (event.description)\n";
 $calCode .= "				jQuery(element).qtip({\n";
-$calCode .= "					content: (event.description ? event.description : ''),\n";
+$calCode .= "					content: event.description,\n";
 $calCode .= "					position: {\n";
 $calCode .= "						corner: {\n";
 $calCode .= "							target: 'topLeft',\n";
