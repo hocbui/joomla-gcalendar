@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 /**
  * GCalendar is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ while ($requestedDayStart < $endDate) {
 
 		$data[] = array(
 			'id' => time(),
-			'title' => '&nbsp;', //space only works in IE, empty only in Chrome... sighh 
+			'title' => utf8_encode(chr(160)), //space only works in IE, empty only in Chrome... sighh 
 			'color' => '#'.$calendar->get('gccolor'),
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
 			'url' => $url,
@@ -75,7 +75,6 @@ while ($requestedDayStart < $endDate) {
 	$requestedDayStart += $SECSINDAY;
 	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
 }
-$data = json_encode($data);
-$data = str_replace('&nbsp;',' ',$data); // it's a nbsp (file is encoded as utf8)
-echo $data;
+echo json_encode($data);
+
 ?>
