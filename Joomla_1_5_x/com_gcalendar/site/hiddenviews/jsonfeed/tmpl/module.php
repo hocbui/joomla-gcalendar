@@ -62,7 +62,7 @@ while ($requestedDayStart < $endDate) {
 
 		$data[] = array(
 			'id' => time(),
-			'title' => ' ',
+			'title' => '.', //space only works in IE, empty only in Chrome... sighh 
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
 			'url' => $url,
 			'allDay' => true,
