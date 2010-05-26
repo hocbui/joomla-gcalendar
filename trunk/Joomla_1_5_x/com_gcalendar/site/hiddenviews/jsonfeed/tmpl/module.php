@@ -62,7 +62,8 @@ while ($requestedDayStart < $endDate) {
 
 		$data[] = array(
 			'id' => time(),
-			'title' => '.', //space only works in IE, empty only in Chrome... sighh 
+			'title' => '&nbsp;', //space only works in IE, empty only in Chrome... sighh 
+			'color' => '#'.$calendar->get('gccolor'),
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
 			'url' => $url,
 			'allDay' => true,
@@ -74,5 +75,7 @@ while ($requestedDayStart < $endDate) {
 	$requestedDayStart += $SECSINDAY;
 	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
 }
-echo json_encode($data);
+$data = json_encode($data);
+$data = str_replace('&nbsp;',' ',$data); // it's a nbsp (file is encoded as utf8)
+echo $data;
 ?>
