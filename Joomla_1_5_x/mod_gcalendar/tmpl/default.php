@@ -109,6 +109,7 @@ $calCode .= "		    prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
 $calCode .= "		    nextYear: '&nbsp;&gt;&gt;&nbsp;'\n"; // >>
 $calCode .= "		},\n";
 $calCode .= "		eventRender: function(event, element) {\n";
+$calCode .= "			if (event.description)\n";
 $calCode .= "				jQuery(element).qtip({\n";
 $calCode .= "					content: event.description,\n";
 $calCode .= "					position: {\n";
