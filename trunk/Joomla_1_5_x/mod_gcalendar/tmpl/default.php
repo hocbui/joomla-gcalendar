@@ -71,6 +71,7 @@ $ids = '';
 foreach($calendars as $calendar) {
 	$ids .= $calendar->id.',';
 }
+$ids = rtrim($ids,',');
 
 $cacheTime = -1;
 $conf =& JFactory::getConfig();
@@ -88,6 +89,7 @@ $calCode .= "				center: 'title',\n";
 $calCode .= "				right: ''\n";
 $calCode .= "		},\n";
 $calCode .= "		defaultView: 'month',\n";
+
 $height = $params->get('calendar_height', null);
 if(!empty($height))
 $calCode .= "		contentHeight: ".$height.",\n";
@@ -125,7 +127,6 @@ $calCode .= "							width: 1\n";
 $calCode .= "						}\n";
 $calCode .= "					}\n";
 $calCode .= "				});\n";
-//$calCode .= "				alert(jQuery(element));\n";
 $calCode .= "		},\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
