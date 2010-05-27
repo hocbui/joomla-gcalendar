@@ -63,7 +63,6 @@ while ($requestedDayStart < $endDate) {
 		$data[] = array(
 			'id' => time(),
 			'title' => utf8_encode(chr(160)), //space only works in IE, empty only in Chrome... sighh 
-			'color' => '#'.$calendar->get('gccolor'),
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
 			'url' => $url,
 			'allDay' => true,
