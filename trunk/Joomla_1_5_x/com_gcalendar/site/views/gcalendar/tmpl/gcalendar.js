@@ -6,7 +6,7 @@ jQuery(document).ready(function(){
 		e = new Event(e);
 		gcSlide.toggle();
 
-		var oldImage = window.document.getElementById('gc_gcalendar_view_toggle_status').src;
+		var oldImage = jQuery('#gc_gcalendar_view_toggle_status').attr('src');
 		var gcalImage = oldImage;
 		var path = oldImage.substring(0, oldImage.lastIndexOf('/'));
 
@@ -15,7 +15,7 @@ jQuery(document).ready(function(){
 		else
 			var gcalImage = path + '/up.png';
 
-		window.document.getElementById('gc_gcalendar_view_toggle_status').src = gcalImage;
+		jQuery('#gc_gcalendar_view_toggle_status').attr('src', gcalImage);
 
 		e.stop();
 
