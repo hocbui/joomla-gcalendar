@@ -61,7 +61,7 @@ class plgContentgcalendar_next extends JPlugin {
 		$helper = new GCalendarKeywordsHelper($this->params, $embedded_str);
 
 		if (!$helper->event()) {
-			return $this->params->get('no_event');
+			return $helper->params->get('no_event');
 		}
 
 		return $helper->replace();
@@ -296,7 +296,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	function description($param) {
 		$event = $this->event();
 		$desc = $event->get_description();
-		return preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1">\\1</a>', $desc);
+		return preg_replace("¤(((f|ht)tps?://)[^\"\'\>\s]+)¤",'<a href="\\1" target="_blank">\\1</a>', $desc);
 	}
 
 	function backlink($param) {

@@ -61,9 +61,8 @@ class GCalendarsController extends JController
 		global $_SESSION, $_GET;
 		if (!isset($_SESSION['sessionToken']) && !isset($_GET['token'])) {
 			return FALSE;
-		} else {
-			return TRUE;
 		}
+		return TRUE;
 	}
 
 }

@@ -49,7 +49,7 @@ else if(!empty($tmp))
 $calendarids[] = $tmp;
 $allCalendars = GCalendarDBUtil::getAllCalendars();
 
-$calsSources = "                eventSources: [\n";
+$calsSources = "		eventSources: [\n";
 foreach($allCalendars as $calendar) {
 	$cssClass = "gcal-event_gccal_".$calendar->id;
 	$color = GCalendarUtil::getFadedColor($calendar->color);
@@ -59,7 +59,7 @@ foreach($allCalendars as $calendar) {
 	}
 }
 $calsSources = trim($calsSources, ",\n");
-$calsSources .= "    ],\n";
+$calsSources .= "	],\n";
 
 $defaultView = 'month';
 if($params->get('defaultView', 'month') == 'week')
@@ -72,21 +72,19 @@ $daysShort = "[";
 $daysMin = "[";
 $monthsLong = "[";
 $monthsShort = "[";
-$dateObject = JFactory::getDate();
 for ($i=0; $i<7; $i++) {
-	$daysLong .= "'".$dateObject->_dayToString($i, false)."'";
-	$daysShort .= "'".$dateObject->_dayToString($i, true)."'";
-	$daysMin .= "'".substr($dateObject->_dayToString($i, true), 0, 2)."'";
+	$daysLong .= "'".GCalendarUtil::dayToString($i, false)."'";
+	$daysShort .= "'".GCalendarUtil::dayToString($i, true)."'";
+	$daysMin .= "'".substr(GCalendarUtil::dayToString($i, true), 0, 2)."'";
 	if($i < 6){
 		$daysLong .= ",";
 		$daysShort .= ",";
 		$daysMin .= ",";
 	}
 }
-
 for ($i=1; $i<=12; $i++) {
-	$monthsLong .= "'".$dateObject->_monthToString($i, false)."'";
-	$monthsShort .= "'".$dateObject->_monthToString($i, true)."'";
+	$monthsLong .= "'".GCalendarUtil::monthToString($i, false)."'";
+	$monthsShort .= "'".GCalendarUtil::monthToString($i, true)."'";
 	if($i < 12){
 		$monthsLong .= ",";
 		$monthsShort .= ",";
@@ -97,6 +95,7 @@ $daysShort .= "]";
 $daysMin .= "]";
 $monthsLong .= "]";
 $monthsShort .= "]";
+
 $calCode = "// <![CDATA[ \n";
 $calCode .= "jQuery(document).ready(function(){\n";
 $calCode .= "	var today = new Date();\n";
@@ -111,11 +110,11 @@ $calCode .= "		if(vars[i].match(\"^month\"))tmpMonth = vars[i].substring(6)-1;\n
 $calCode .= "		if(vars[i].match(\"^day\"))tmpDay = vars[i].substring(4);\n";
 $calCode .= "		if(vars[i].match(\"^view\"))tmpView = vars[i].substring(5);\n";
 $calCode .= "	}\n";
-$calCode .= "   jQuery('#gcalendar_component').fullCalendar({\n";
-$calCode .= "       header: {\n";
-$calCode .= "				left: 'prev,next today',\n";
-$calCode .= "				center: 'title',\n";
-$calCode .= "				right: 'month,agendaWeek,agendaDay'\n";
+$calCode .= "	jQuery('#gcalendar_component').fullCalendar({\n";
+$calCode .= "		header: {\n";
+$calCode .= "			left: 'prev,next today',\n";
+$calCode .= "			center: 'title',\n";
+$calCode .= "			right: 'month,agendaWeek,agendaDay'\n";
 $calCode .= "		},\n";
 $calCode .= "		year: tmpYear,\n";
 $calCode .= "		month: tmpMonth,\n";
@@ -124,9 +123,9 @@ $calCode .= "		defaultView: tmpView,\n";
 $calCode .= "		editable: false, theme: ".(!empty($theme)?'true':'false').",\n";
 $calCode .= "       weekends: ".($params->get('weekend', 1)==1?'true':'false').",\n";
 $calCode .= "		titleFormat: { \n";
-$calCode .= "		        month: '".$params->get('titleformat_month', 'MMMM yyyy')."',\n";
-$calCode .= "		        week: \"".$params->get('titleformat_week', "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}")."\",\n";
-$calCode .= "		        day: '".$params->get('titleformat_day', 'dddd, MMM d, yyyy')."'},\n";
+$calCode .= "			month: '".$params->get('titleformat_month', 'MMMM yyyy')."',\n";
+$calCode .= "			week: \"".$params->get('titleformat_week', "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}")."\",\n";
+$calCode .= "			day: '".$params->get('titleformat_day', 'dddd, MMM d, yyyy')."'},\n";
 $calCode .= "		firstDay: ".$params->get('weekstart', 0).",\n";
 $calCode .= "		firstHour: ".$params->get('first_hour', 6).",\n";
 $calCode .= "		maxTime: ".$params->get('max_time', 24).",\n";
@@ -136,30 +135,31 @@ $calCode .= "		monthNamesShort: ".$monthsShort.",\n";
 $calCode .= "		dayNames: ".$daysLong.",\n";
 $calCode .= "		dayNamesShort: ".$daysShort.",\n";
 $calCode .= "		timeFormat: { \n";
-$calCode .= "		        month: '".$params->get('timeformat_month', 'HH:mm')."',\n";
-$calCode .= "		        week: \"".$params->get('timeformat_week', "HH:mm{ - HH:mm}")."\",\n";
-$calCode .= "		        day: '".$params->get('timeformat_day', 'HH:mm{ - HH:mm}')."'},\n";
-$calCode .= "		columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
-$calCode .= "		axisFormat: '".$params->get('axisformat', 'HH:mm')."',\n";
-$calCode .= "		allDayText: '".JText::_( 'CALENDAR_VIEW_ALL_DAY' )."',\n";
-$calCode .= "		buttonText: {\n";
-$calCode .= "		    prev:     '&nbsp;&#9668;&nbsp;',\n";  // left triangle
-$calCode .= "		    next:     '&nbsp;&#9658;&nbsp;',\n";  // right triangle
-$calCode .= "		    prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
-$calCode .= "		    nextYear: '&nbsp;&gt;&gt;&nbsp;',\n"; // >>
-$calCode .= "		    today:    '".JText::_( 'TOOLBAR_TODAY' )."',\n";
-$calCode .= "		    month:    '".JText::_( 'VIEW_MONTH' )."',\n";
-$calCode .= "		    week:     '".JText::_( 'VIEW_WEEK' )."',\n";
-$calCode .= "		    day:      '".JText::_( 'VIEW_DAY' )."'\n";
+$calCode .= "			month: '".$params->get('timeformat_month', 'HH:mm')."',\n";
+$calCode .= "			week: \"".$params->get('timeformat_week', "HH:mm{ - HH:mm}")."\",\n";
+$calCode .= "			day: '".$params->get('timeformat_day', 'HH:mm{ - HH:mm}')."'},\n";
+$calCode .= "			columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
+$calCode .= "			axisFormat: '".$params->get('axisformat', 'HH:mm')."',\n";
+$calCode .= "			allDayText: '".JText::_( 'CALENDAR_VIEW_ALL_DAY' )."',\n";
+$calCode .= "			buttonText: {\n";
+$calCode .= "			prev:     '&nbsp;&#9668;&nbsp;',\n";  // left triangle
+$calCode .= "			next:     '&nbsp;&#9658;&nbsp;',\n";  // right triangle
+$calCode .= "			prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
+$calCode .= "			nextYear: '&nbsp;&gt;&gt;&nbsp;',\n"; // >>
+$calCode .= "			today:    '".JText::_( 'TOOLBAR_TODAY' )."',\n";
+$calCode .= "			month:    '".JText::_( 'VIEW_MONTH' )."',\n";
+$calCode .= "			week:     '".JText::_( 'VIEW_WEEK' )."',\n";
+$calCode .= "			day:      '".JText::_( 'VIEW_DAY' )."'\n";
 $calCode .= "		},\n";
 $calCode .= $calsSources;
 $calCode .= "		viewDisplay: function(view) {\n";
-$calCode .= "		        var d = jQuery('#gcalendar_component').fullCalendar('getDate');\n";
-$calCode .= "		        var newHash = 'year='+d.getFullYear()+'&month='+(d.getMonth()+1)+'&day='+d.getDate()+'&view='+view.name;\n";
-$calCode .= "		        if(window.location.hash.replace(/&amp;/gi, \"&\") != newHash)\n";
-$calCode .= "		        window.location.hash = newHash;\n";
-$calCode .= "		    },\n";
+$calCode .= "			var d = jQuery('#gcalendar_component').fullCalendar('getDate');\n";
+$calCode .= "			var newHash = 'year='+d.getFullYear()+'&month='+(d.getMonth()+1)+'&day='+d.getDate()+'&view='+view.name;\n";
+$calCode .= "			if(window.location.hash.replace(/&amp;/gi, \"&\") != newHash)\n";
+$calCode .= "			window.location.hash = newHash;\n";
+$calCode .= "		},\n";
 $calCode .= "		eventRender: function(event, element) {\n";
+$calCode .= "			if (event.description)\n";
 $calCode .= "				jQuery(element).qtip({\n";
 $calCode .= "					content: (event.description ? event.description : ''),\n";
 $calCode .= "					position: {\n";
@@ -189,9 +189,9 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$calCode .= "		        return false;}\n";
 }
 $calCode .= "		},\n";
-$calCode .= "       dayClick: function(date, allDay, jsEvent, view) {\n";
-$calCode .= "           jQuery('#gcalendar_component').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');\n";
-$calCode .= "       },\n";
+$calCode .= "		dayClick: function(date, allDay, jsEvent, view) {\n";
+$calCode .= "			jQuery('#gcalendar_component').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');\n";
+$calCode .= "		},\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
 $calCode .= "				jQuery('#gcalendar_component_loading').show();\n";
@@ -201,52 +201,52 @@ $calCode .= "			}\n";
 $calCode .= "		}\n";
 $calCode .= "	});\n";
 $class = !empty($theme)?'ui':'fc';
-$calCode .= "	var custom_buttons = 	'<td style=\"padding-left:10px\">'+\n";
-$calCode .= "									'<div class=\"".$class."-state-default ".$class."-corner-left ".$class."-corner-right ".$class."-state-enabled\">'+\n";
-$calCode .= "										'<input type=\"hidden\" id=\"gcalendar_component_date_picker\" value=\"\">'+\n";
-$calCode .= "										'<a onClick=\"jQuery(\'#gcalendar_component_date_picker\').datepicker(\'show\');\"><span>".JText::_('SHOW_DATEPICKER')."'+\n";
-$calCode .= "										'</span></a>'+\n";
-$calCode .= "									'</div>'+\n";
-$calCode .= "								'</td>';\n";
-$calCode .= "		jQuery('div.fc-button-today').parent('td').after(custom_buttons);\n";
-$calCode .= "		jQuery(\"#gcalendar_component_date_picker\").datepicker({\n";
-$calCode .= "			dateFormat: 'dd-mm-yy',\n";
-$calCode .= "			changeYear: true, \n";
-//$calCode .= "			showOn: 'button',\n";
-//$calCode .= "			buttonImage: 'images/datepicker.png',\n";
-//$calCode .= "			buttonImageOnly: true,     \n";
-$calCode .= "			dayNames: ".$daysLong.",\n";
-$calCode .= "			dayNamesShort: ".$daysShort.",\n";
-$calCode .= "			dayNamesMin: ".$daysMin.",\n";
-$calCode .= "			monthNames: ".$monthsLong.",\n";
-$calCode .= "			monthNamesShort: ".$monthsShort.",\n";
-$calCode .= "			onSelect: function(dateText, inst) {\n";
-$calCode .= "				var d = jQuery('#gcalendar_component_date_picker').datepicker('getDate');\n";
-$calCode .= "		        var view = jQuery('#gcalendar_component').fullCalendar('getView').name;\n";
-$calCode .= "		        jQuery('#gcalendar_component').fullCalendar('gotoDate', d);\n";
-$calCode .= "			}\n";
-$calCode .= "		});\n";
-$calCode .= "		jQuery(window).bind( 'hashchange', function(){\n";
-$calCode .= "		    var today = new Date();\n";
-$calCode .= "		    var tmpYear = today.getFullYear();\n";
-$calCode .= "		    var tmpMonth = today.getMonth();\n";
-$calCode .= "		    var tmpDay = today.getDate();\n";
-$calCode .= "		    var tmpView = '".$defaultView."';\n";
-$calCode .= "		    var vars = window.location.hash.replace(/&amp;/gi, \"&\").split(\"&\");\n";
-$calCode .= "		    for ( var i = 0; i < vars.length; i++ ){\n";
-$calCode .= "		        if(vars[i].match(\"^#year\"))tmpYear = vars[i].substring(6);\n";
-$calCode .= "		        if(vars[i].match(\"^month\"))tmpMonth = vars[i].substring(6)-1;\n";
-$calCode .= "		        if(vars[i].match(\"^day\"))tmpDay = vars[i].substring(4);\n";
-$calCode .= "		        if(vars[i].match(\"^view\"))tmpView = vars[i].substring(5);\n";
-$calCode .= "		    }\n";
-$calCode .= "		    var date = new Date(tmpYear, tmpMonth, tmpDay,0,0,0);\n";
-$calCode .= "		    var d = jQuery('#gcalendar_component').fullCalendar('getDate');\n";
-$calCode .= "		    var view = jQuery('#gcalendar_component').fullCalendar('getView');\n";
-$calCode .= "		    if(date.getFullYear() != d.getFullYear() || date.getMonth() != d.getMonth() || date.getDate() != d.getDate())\n";
-$calCode .= "		        jQuery('#gcalendar_component').fullCalendar('gotoDate', date);\n";
-$calCode .= "		    if(view.name != tmpView)\n";
-$calCode .= "		        jQuery('#gcalendar_component').fullCalendar('changeView', tmpView);\n";
-$calCode .= "		});\n";
+$calCode .= "	var custom_buttons ='<td style=\"padding-left:10px\">'+\n";
+$calCode .= "			'<div class=\"".$class."-state-default ".$class."-corner-left ".$class."-corner-right ".$class."-state-enabled\">'+\n";
+$calCode .= "			'<input type=\"hidden\" id=\"gcalendar_component_date_picker\" value=\"\">'+\n";
+$calCode .= "			'<a onClick=\"jQuery(\'#gcalendar_component_date_picker\').datepicker(\'show\');\"><span>".JText::_('SHOW_DATEPICKER')."'+\n";
+$calCode .= "			'</span></a>'+\n";
+$calCode .= "			'</div>'+\n";
+$calCode .= "			'</td>';\n";
+$calCode .= "	jQuery('div.fc-button-today').parent('td').after(custom_buttons);\n";
+$calCode .= "	jQuery(\"#gcalendar_component_date_picker\").datepicker({\n";
+$calCode .= "		dateFormat: 'dd-mm-yy',\n";
+$calCode .= "		changeYear: true, \n";
+//$calCode .= "		showOn: 'button',\n";
+//$calCode .= "		buttonImage: 'images/datepicker.png',\n";
+//$calCode .= "		buttonImageOnly: true,     \n";
+$calCode .= "		dayNames: ".$daysLong.",\n";
+$calCode .= "		dayNamesShort: ".$daysShort.",\n";
+$calCode .= "		dayNamesMin: ".$daysMin.",\n";
+$calCode .= "		monthNames: ".$monthsLong.",\n";
+$calCode .= "		monthNamesShort: ".$monthsShort.",\n";
+$calCode .= "		onSelect: function(dateText, inst) {\n";
+$calCode .= "			var d = jQuery('#gcalendar_component_date_picker').datepicker('getDate');\n";
+$calCode .= "			var view = jQuery('#gcalendar_component').fullCalendar('getView').name;\n";
+$calCode .= "			jQuery('#gcalendar_component').fullCalendar('gotoDate', d);\n";
+$calCode .= "		}\n";
+$calCode .= "	});\n";
+$calCode .= "	jQuery(window).bind( 'hashchange', function(){\n";
+$calCode .= "		var today = new Date();\n";
+$calCode .= "		var tmpYear = today.getFullYear();\n";
+$calCode .= "		var tmpMonth = today.getMonth();\n";
+$calCode .= "		var tmpDay = today.getDate();\n";
+$calCode .= "		var tmpView = '".$defaultView."';\n";
+$calCode .= "		var vars = window.location.hash.replace(/&amp;/gi, \"&\").split(\"&\");\n";
+$calCode .= "		for ( var i = 0; i < vars.length; i++ ){\n";
+$calCode .= "			if(vars[i].match(\"^#year\"))tmpYear = vars[i].substring(6);\n";
+$calCode .= "			if(vars[i].match(\"^month\"))tmpMonth = vars[i].substring(6)-1;\n";
+$calCode .= "			if(vars[i].match(\"^day\"))tmpDay = vars[i].substring(4);\n";
+$calCode .= "			if(vars[i].match(\"^view\"))tmpView = vars[i].substring(5);\n";
+$calCode .= "		}\n";
+$calCode .= "		var date = new Date(tmpYear, tmpMonth, tmpDay,0,0,0);\n";
+$calCode .= "		var d = jQuery('#gcalendar_component').fullCalendar('getDate');\n";
+$calCode .= "		var view = jQuery('#gcalendar_component').fullCalendar('getView');\n";
+$calCode .= "		if(date.getFullYear() != d.getFullYear() || date.getMonth() != d.getMonth() || date.getDate() != d.getDate())\n";
+$calCode .= "			jQuery('#gcalendar_component').fullCalendar('gotoDate', date);\n";
+$calCode .= "		if(view.name != tmpView)\n";
+$calCode .= "			jQuery('#gcalendar_component').fullCalendar('changeView', tmpView);\n";
+$calCode .= "	});\n";
 $calCode .= "});\n";
 $calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);

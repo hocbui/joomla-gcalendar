@@ -55,36 +55,34 @@ $theme = $params->get('theme', '');
 if(!empty($theme))
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
 
-$calsSources = "       eventSources: [\n";
+$calsSources = "		eventSources: [\n";
 foreach($this->calendars as $calendar) {
 	$cssClass = "gcal-event_gccal_".$calendar->id;
-	$calsSources .= "				'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
+	$calsSources .= "			'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #".$calendar->color."; color: white;}");
 }
 $calsSources = trim($calsSources, ",\n");
-$calsSources .= "    ],\n";
+$calsSources .= "		],\n";
 
 $daysLong = "[";
 $daysShort = "[";
 $daysMin = "[";
 $monthsLong = "[";
 $monthsShort = "[";
-$dateObject = JFactory::getDate();
 for ($i=0; $i<7; $i++) {
-	$daysLong .= "'".$dateObject->_dayToString($i, false)."'";
-	$daysShort .= "'".$dateObject->_dayToString($i, true)."'";
-	$daysMin .= "'".substr($dateObject->_dayToString($i, true), 0, 2)."'";
+	$daysLong .= "'".GCalendarUtil::dayToString($i, false)."'";
+	$daysShort .= "'".GCalendarUtil::dayToString($i, true)."'";
+	$daysMin .= "'".substr(GCalendarUtil::dayToString($i, true), 0, 2)."'";
 	if($i < 6){
 		$daysLong .= ",";
 		$daysShort .= ",";
 		$daysMin .= ",";
 	}
 }
-
 for ($i=1; $i<=12; $i++) {
-	$monthsLong .= "'".$dateObject->_monthToString($i, false)."'";
-	$monthsShort .= "'".$dateObject->_monthToString($i, true)."'";
+	$monthsLong .= "'".GCalendarUtil::monthToString($i, false)."'";
+	$monthsShort .= "'".GCalendarUtil::monthToString($i, true)."'";
 	if($i < 12){
 		$monthsLong .= ",";
 		$monthsShort .= ",";
@@ -130,12 +128,13 @@ $calCode .= "		axisFormat: '".$params->get('axisformat', 'HH:mm')."',\n";
 $calCode .= "		allDayText: '".JText::_( 'CALENDAR_VIEW_ALL_DAY' )."',\n";
 $calCode .= $calsSources;
 $calCode .= "		eventRender: function(event, element) {\n";
+$calCode .= "			if (event.description)\n";
 $calCode .= "				jQuery(element).qtip({\n";
 $calCode .= "					content: event.description,\n";
 $calCode .= "					position: {\n";
 $calCode .= "						corner: {\n";
 $calCode .= "							target: 'topLeft',\n";
-$calCode .= "							tooltip: 'bottomLefte'\n";
+$calCode .= "							tooltip: 'bottomLeft'\n";
 $calCode .= "						}\n";
 $calCode .= "					},\n";
 $calCode .= "					border: {\n";
@@ -152,7 +151,7 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$calCode .= "		           width: 650,\n";
 	$calCode .= "		           height: 500,\n";
 	$calCode .= "		           modal: true,\n";
-	$calCode .= "		           autoResize: true,\n";
+	$calCode .= "		           autoResize: true\n";
 	$calCode .= "		        }).width(630).height(480);\n";
 	$calCode .= "		        return false;}\n";
 }
