@@ -27,8 +27,13 @@ $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalen
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0-rc3.min.js');
 
-$cssClass = "gcal-module_event_gccal";
-$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_1 .fc-state-default span, #gcalendar_module_1 .ui-state-default{padding:0px !important;}");
+static $moduleID = 0;
+$moduleID++;
+$color = $params->get('event_color', '135CAE');
+$fadedColor = GCalendarUtil::getFadedColor($color);
+$cssClass = "gcal-module_event_gccal_".$moduleID;
+$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$fadedColor." !important; border-color: #".$color."; color: ".$fadedColor.";} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_".$moduleID." .fc-state-default span, #gcalendar_module_".$moduleID." .ui-state-default{padding:0px !important;}");
+//$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$fadedColor." !important; border-color: #".$color."; color: white;}");
 
 $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
@@ -65,8 +70,6 @@ $daysMin .= "]";
 $monthsLong .= "]";
 $monthsShort .= "]";
 
-static $moduleID = 0;
-$moduleID++;
 $ids = '';
 foreach($calendars as $calendar) {
 	$ids .= $calendar->id.',';
@@ -82,7 +85,7 @@ if ($params->get('gc_cache', 0) == 2 || ($params->get('gc_cache', 0) == 1 && $co
 $calCode = "// <![CDATA[ \n";
 $calCode .= "jQuery(document).ready(function(){\n";
 $calCode .= "   jQuery('#gcalendar_module_".$moduleID."').fullCalendar({\n";
-$calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcids='.$ids.'&ctime='.$cacheTime)."',\n";
+$calCode .= "		events: '".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&moduleid='.$moduleID.'&gcids='.$ids.'&ctime='.$cacheTime)."',\n";
 $calCode .= "       header: {\n";
 $calCode .= "				left: 'prev,next ',\n";
 $calCode .= "				center: 'title',\n";
