@@ -44,9 +44,9 @@ $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery
 $calendarids = array();
 $tmp = $params->get('calendarids');
 if(is_array($tmp))
-$calendarids = $tmp;
+	$calendarids = $tmp;
 else if(!empty($tmp))
-$calendarids[] = $tmp;
+	$calendarids[] = $tmp;
 $allCalendars = GCalendarDBUtil::getAllCalendars();
 
 $calsSources = "		eventSources: [\n";
@@ -161,7 +161,7 @@ $calCode .= "		},\n";
 $calCode .= "		eventRender: function(event, element) {\n";
 $calCode .= "			if (event.description)\n";
 $calCode .= "				jQuery(element).qtip({\n";
-$calCode .= "					content: (event.description ? event.description : ''),\n";
+$calCode .= "					content: event.description,\n";
 $calCode .= "					position: {\n";
 $calCode .= "						corner: {\n";
 $calCode .= "							target: 'topLeft',\n";
@@ -178,14 +178,16 @@ $calCode .= "				});\n";
 $calCode .= "		},\n";
 $calCode .= "		eventClick: function(event) {\n";
 if($params->get('show_event_as_popup', 1) == 1){
+	$popupWidth = $params->get('popup_width', 650);
+	$popupHeight = $params->get('popup_height', 500);
 	$calCode .= "		    if (event.url) {\n";
 	$calCode .= "		        jQuery('<iframe src=\"'+event.url+'&tmpl=component\" />').dialog({\n";
-	$calCode .= "		           width: 650,\n";
-	$calCode .= "		           height: 500,\n";
+	$calCode .= "		           width: ".$popupWidth.",\n";
+	$calCode .= "		           height: ".$popupHeight.",\n";
 	$calCode .= "		           modal: true,\n";
 	$calCode .= "		           autoResize: true,\n";
 	$calCode .= "		           title: event.title\n";
-	$calCode .= "		        }).width(630).height(480);\n";
+	$calCode .= "		        }).width(".($popupWidth-20).").height(".($popupHeight-20).");\n";
 	$calCode .= "		        return false;}\n";
 }
 $calCode .= "		},\n";
