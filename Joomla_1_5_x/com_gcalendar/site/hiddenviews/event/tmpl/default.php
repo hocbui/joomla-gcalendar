@@ -111,8 +111,11 @@ if($event == null){
 			echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&amp;output=embed\"></iframe></td></tr>\n";
 		}
 	}
-	if(GCalendarUtil::getComponentParameter('show_event_description', 1) == 1 && $event->get_description() != '') {
-		echo "<tr><td class=\"event_content_key\">".JText::_( 'DESCRIPTION' ).": </td><td>". htmlspecialchars_decode(nl2br(preg_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_\+.~#?,//=&;]+)','<a href="\\1" target="_top">\\1</a>', $event->get_description())))."</td></tr>\n";
+	$desc = $event->get_description();
+	$desc = preg_replace('¤(src|href)="http://¤i','\\1="',$desc);
+	if(GCalendarUtil::getComponentParameter('show_event_description', 1) == 1 && !empty($desc)) {
+		echo "<tr><td class=\"event_content_key\">".JText::_( 'DESCRIPTION' ).": </td><td>". 
+			htmlspecialchars_decode(nl2br(preg_replace("¤(((f|ht)tp:\/\/)[^\"\'\>\s]+)¤",'<a href="\\1" target="_blank">\\1</a>', $desc)))."</td></tr>\n";
 	}
 	if(GCalendarUtil::getComponentParameter('show_event_author', 2) == 1){
 		$authors = $event->get_authors();
