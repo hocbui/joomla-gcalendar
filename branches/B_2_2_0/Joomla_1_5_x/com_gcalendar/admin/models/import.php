@@ -160,7 +160,7 @@ class GCalendarsModelImport extends JModel
 	}
 
 	function loadZendClasses() {
-		global $mainframe;
+		$mainframe = &JFactory::getApplication();
 		$absolute_path = $mainframe->getCfg( 'absolute_path' );
 		ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT . DS . 'libraries');
 

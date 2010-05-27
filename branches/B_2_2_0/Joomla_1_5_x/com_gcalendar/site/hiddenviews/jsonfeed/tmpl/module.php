@@ -62,12 +62,12 @@ while ($requestedDayStart < $endDate) {
 
 		$data[] = array(
 			'id' => time(),
-			'title' => '',
+			'title' => utf8_encode(chr(160)), //space only works in IE, empty only in Chrome... sighh 
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
-		//			'end' => $requestedDayEnd - 10,
 			'url' => $url,
-		//			'className' => "gcal-module_event_gccal",
 			'allDay' => true,
+//			'end' => $requestedDayEnd - 10,
+//			'className' => "gcal-module_event_gccal",
 			'description' => sprintf(JText::_('MODULE_TEXT'), count($result)).'<ul>'.$description.'</ul>'
 			);
 	}

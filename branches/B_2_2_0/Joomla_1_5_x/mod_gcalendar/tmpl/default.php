@@ -41,21 +41,19 @@ $daysShort = "[";
 $daysMin = "[";
 $monthsLong = "[";
 $monthsShort = "[";
-$dateObject = JFactory::getDate();
 for ($i=0; $i<7; $i++) {
-	$daysLong .= "'".$dateObject->_dayToString($i, false)."'";
-	$daysShort .= "'".$dateObject->_dayToString($i, true)."'";
-	$daysMin .= "'".substr($dateObject->_dayToString($i, true), 0, 2)."'";
+	$daysLong .= "'".GCalendarUtil::dayToString($i, false)."'";
+	$daysShort .= "'".GCalendarUtil::dayToString($i, true)."'";
+	$daysMin .= "'".substr(GCalendarUtil::dayToString($i, true), 0, 2)."'";
 	if($i < 6){
 		$daysLong .= ",";
 		$daysShort .= ",";
 		$daysMin .= ",";
 	}
 }
-
 for ($i=1; $i<=12; $i++) {
-	$monthsLong .= "'".$dateObject->_monthToString($i, false)."'";
-	$monthsShort .= "'".$dateObject->_monthToString($i, true)."'";
+	$monthsLong .= "'".GCalendarUtil::monthToString($i, false)."'";
+	$monthsShort .= "'".GCalendarUtil::monthToString($i, true)."'";
 	if($i < 12){
 		$monthsLong .= ",";
 		$monthsShort .= ",";
@@ -73,6 +71,7 @@ $ids = '';
 foreach($calendars as $calendar) {
 	$ids .= $calendar->id.',';
 }
+$ids = rtrim($ids,',');
 
 $cacheTime = -1;
 $conf =& JFactory::getConfig();
@@ -90,6 +89,7 @@ $calCode .= "				center: 'title',\n";
 $calCode .= "				right: ''\n";
 $calCode .= "		},\n";
 $calCode .= "		defaultView: 'month',\n";
+
 $height = $params->get('calendar_height', null);
 if(!empty($height))
 $calCode .= "		contentHeight: ".$height.",\n";
@@ -111,6 +111,7 @@ $calCode .= "		    prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
 $calCode .= "		    nextYear: '&nbsp;&gt;&gt;&nbsp;'\n"; // >>
 $calCode .= "		},\n";
 $calCode .= "		eventRender: function(event, element) {\n";
+$calCode .= "			if (event.description)\n";
 $calCode .= "				jQuery(element).qtip({\n";
 $calCode .= "					content: event.description,\n";
 $calCode .= "					position: {\n";
@@ -126,7 +127,6 @@ $calCode .= "							width: 1\n";
 $calCode .= "						}\n";
 $calCode .= "					}\n";
 $calCode .= "				});\n";
-//$calCode .= "				alert(jQuery(element));\n";
 $calCode .= "		},\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
