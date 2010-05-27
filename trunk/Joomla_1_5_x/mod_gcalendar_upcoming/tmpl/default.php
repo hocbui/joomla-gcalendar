@@ -28,7 +28,24 @@ $timeformat=$params->get('time_format', '%H:%M');
 echo $params->get( 'text_before' );
 if(!empty($gcalendar_data)){
 	foreach( $gcalendar_data as $item){
+		// APRIL 2010 MOD - CALENDAR IMAGES by Tyson Moore
+		if($params->get('images', 'no') == 'yes') {
+			$tmp = JFactory::getDate($item->get_start_date());
+			$startDate = $tmp->toFormat($dateformat);
+			$month = $tmp->toFormat('%m');
+			$month_text = strtoupper($tmp->toFormat('%h'));
+			$day = $tmp->toFormat('%e');
+			$monthdiv = '<div style="float: left; margin-right: 6px; width: 42px; height: 42px; background-image: url(\'modules/mod_gcalendar_upcoming/tmpl/images/calendar-icon.gif\');"><div style="background-color: #' . $params->get('calimage_background') . '; width: 32px; height: 10px; margin-top: 6px; margin-left: 5px;"></div><div style="padding:2px; font-weight: bold; font-size: 10px; color: #' . $params->get('calimage_month') . '; text-align: center; position: relative; margin-top: -15px; margin-bottom: -4px;">' . $month_text . '</div>';
+			$daydiv = '<div style="font-weight: bold; font-size: 1.3em; color: #' . $params->get('calimage_day') . '; width: 42px; text-align: center;">' . $day . '</div>';
+			echo $monthdiv;
+			echo $daydiv;
+			echo '</div>';
+		}
+		//END MOD
 		echo GCalendarUtil::renderEvent($item, $event_display, $dateformat, $timeformat);
+		if($params->get('images', 'no') == 'yes') {
+			echo '<p style="clear: both;"/>';
+		}
 	}
 }
 echo $params->get( 'text_after' );
