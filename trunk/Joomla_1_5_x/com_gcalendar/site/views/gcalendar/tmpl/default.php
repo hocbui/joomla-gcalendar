@@ -178,15 +178,17 @@ $calCode .= "				});\n";
 $calCode .= "		},\n";
 $calCode .= "		eventClick: function(event) {\n";
 if($params->get('show_event_as_popup', 1) == 1){
-	$calCode .= "			if (event.url) {\n";
-	$calCode .= "				jQuery('<iframe src=\"'+event.url+'&tmpl=component\" />').dialog({\n";
-	$calCode .= "					width: 650,\n";
-	$calCode .= "					height: 500,\n";
-	$calCode .= "					modal: true,\n";
-	$calCode .= "					autoResize: true,\n";
-	$calCode .= "					title: event.title\n";
-	$calCode .= "				}).width(630).height(480);\n";
-	$calCode .= "				return false;}\n";
+	$popupWidth = $params->get('popup_width', 650);
+	$popupHeight = $params->get('popup_height', 500);
+	$calCode .= "		    if (event.url) {\n";
+	$calCode .= "		        jQuery('<iframe src=\"'+event.url+'&tmpl=component\" />').dialog({\n";
+	$calCode .= "		           width: ".$popupWidth.",\n";
+	$calCode .= "		           height: ".$popupHeight.",\n";
+	$calCode .= "		           modal: true,\n";
+	$calCode .= "		           autoResize: true,\n";
+	$calCode .= "		           title: event.title\n";
+	$calCode .= "		        }).width(".($popupWidth-20).").height(".($popupHeight-20).");\n";
+	$calCode .= "		        return false;}\n";
 }
 $calCode .= "		},\n";
 $calCode .= "		dayClick: function(date, allDay, jsEvent, view) {\n";

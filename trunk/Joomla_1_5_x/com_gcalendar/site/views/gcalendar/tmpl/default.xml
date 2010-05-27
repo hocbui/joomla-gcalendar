@@ -33,11 +33,6 @@
 				<option value="5">Friday</option>
 				<option value="6">Saturday</option>
 			</param>
-			<param name="show_event_as_popup" type="radio" default="1"
-				label="Show Events As Popup" description="Shows the event details in a modal popup.">
-				<option value="1">Yes</option>
-				<option value="2">No</option>
-			</param>
 			<param name="weekend" type="radio" default="1" 
                 label="Show weekend events" description="Shows or hides saturday and sunday (weekend), allowing a 'wider' view of weekdays."> 
                 <option value="1">Yes</option> 
@@ -79,13 +74,22 @@
 				{where}, {backlink}, {link}, {maplink}, {calendarname},
 				{calendarcolor}
 			</description>
-		</param>
+			</param>
 			<param name="textbefore" type="textarea" default=""
 				label="Content before calendar" description="This text will be displayed before the google calendar."
 				rows="5" cols="50" />
 			<param name="textafter" type="textarea" default=""
 				label="Content after calendar" description="This text will be displayed after the google calendar."
 				rows="5" cols="50" />
+			<param name="show_event_as_popup" type="radio" default="1"
+				label="Show Events As Popup" description="Shows the event details in a modal popup.">
+				<option value="1">Yes</option>
+				<option value="2">No</option>
+			</param>
+			<param name="popup_width" type="text" default="650" size="5" label="Popu Width"
+				description="If the event is shown as popup the width can be defined here." />
+			<param name="popup_height" type="text" default="500" size="5" label="Popu Height"
+				description="If the event is shown as popup the height can be defined here." />
 			<param name="@spacer" type="spacer" default="" label=""
 				description="" />
 			<param name="pageclass_sfx" type="text" size="20" default=""
