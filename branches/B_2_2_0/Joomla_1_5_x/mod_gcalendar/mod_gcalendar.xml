@@ -47,6 +47,8 @@
 			description="The format of the time in the month view." size="50" />
 		<param name="calendar_height" type="text" default="" label="Height"
 			description="The height of the calendar." size="5" />
+		<param name="event_color" type="color" default="135CAE" label="Event Color"
+				description="The color of the days with events." size="6" />
 		<param name="@spacer" type="spacer" default="" label=""
 			description="" />
 		<param name="moduleclass_sfx" type="text" size="80" default=""

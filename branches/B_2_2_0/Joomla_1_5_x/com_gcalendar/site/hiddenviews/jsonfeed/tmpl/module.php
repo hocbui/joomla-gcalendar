@@ -25,6 +25,7 @@ $SECSINDAY=86400;
 $startDate = JRequest::getInt('start', null);
 $endDate = JRequest::getInt('end', null);
 $browserTz = JRequest::getInt('browserTimezone', null);
+$moduleId = JRequest::getInt('moduleid', 0);
 if(!empty($browserTz))
 $browserTz = $browserTz * -60;
 else
@@ -67,7 +68,7 @@ while ($requestedDayStart < $endDate) {
 			'url' => $url,
 			'allDay' => true,
 //			'end' => $requestedDayEnd - 10,
-//			'className' => "gcal-module_event_gccal",
+			'className' => "gcal-module_event_gccal_".$moduleId,
 			'description' => sprintf(JText::_('MODULE_TEXT'), count($result)).'<ul>'.$description.'</ul>'
 			);
 	}
