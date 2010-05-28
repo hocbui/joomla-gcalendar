@@ -91,7 +91,7 @@
 		<mkdir dir="${dist}" />
 		<zip destfile="${dist}/gcalendar_upgrade_${gcalendarUpgradeStartPoint}_to_${gcalendarVersion}_J15x.zip">
 			<zipfileset dir="${build}/upgrade_1_5" />
-			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
+			<zipfileset dir="${basedir}" includes="ReadFirstJ15xUpgrade.txt" />
 			<zipfileset dir="${basedir}" includes="license.txt" />
 		</zip>
 	</target>
