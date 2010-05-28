@@ -295,8 +295,8 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 
 	function description($param) {
 		$event = $this->event();
-		$desc = $event->get_description();
-		return preg_replace("¤(((f|ht)tps?://)[^\"\'\>\s]+)¤",'<a href="\\1" target="_blank">\\1</a>', $desc);
+		$desc = preg_replace("@(src|href)=\"https?://@i",'\\1="',$event->get_description());
+		return preg_replace("@(((f|ht)tps?://)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $desc);
 	}
 
 	function backlink($param) {
