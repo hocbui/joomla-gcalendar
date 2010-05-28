@@ -2,7 +2,7 @@
 <install type="module" version="1.5.0">
 	<name>GCalendar Next Event</name>
 	<author>G4J Project</author>
-	<creationDate>April 20109</creationDate>
+	<creationDate>May 2010</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
@@ -17,8 +17,7 @@
 		</filename>
 		<filename>index.html</filename>
 		<filename>helper.php</filename>
-		<filename>tmpl/default.php</filename>
-		<filename>tmpl/index.html</filename>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_gcalendar_next.ini
