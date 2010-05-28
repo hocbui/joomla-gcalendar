@@ -33,13 +33,12 @@ $color = $params->get('event_color', '135CAE');
 $fadedColor = GCalendarUtil::getFadedColor($color);
 $cssClass = "gcal-module_event_gccal_".$moduleID;
 $document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$fadedColor." !important; border-color: #".$color."; color: ".$fadedColor.";} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_".$moduleID." .fc-state-default span, #gcalendar_module_".$moduleID." .ui-state-default{padding:0px !important;}");
-//$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$fadedColor." !important; border-color: #".$color."; color: white;}");
 
 $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
 $theme = JRequest::getVar('theme', null);
 if(!empty($theme))
-$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui-1.7.3.custom.css');
 
 $daysLong = "[";
 $daysShort = "[";
