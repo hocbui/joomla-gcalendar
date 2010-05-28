@@ -194,8 +194,8 @@ class GCalendarUtil{
 			$desc = htmlspecialchars(str_replace('"',"'",$event->get_description()));
 		}else{
 			//Make any URLs used in the description also clickable
-			$desc = preg_replace('¤(src|href)="http://¤i','\\1="',$desc);
-			$desc = preg_replace("¤(((f|ht)tps?://)[^\"\'\>\s]+)¤",'<a href="\\1" target="_blank">\\1</a>', $event->get_description());
+			$desc = preg_replace("@(src|href)=\"https?\://@i",'\\1="',$event->get_description());
+			$desc = preg_replace("@(((f|ht)tps?://)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $desc);
 			//or "¤(((f|ht)tp:\/\/)[\-a-zA-Z0-9@:%_\+\.~#\?,\/=&;]+)¤"
 		}
 
