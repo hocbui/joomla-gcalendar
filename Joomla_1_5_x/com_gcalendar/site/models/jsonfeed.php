@@ -42,15 +42,9 @@ class GCalendarModelJSONFeed extends JModel {
 		$startDate = JRequest::getVar('start', null);
 		$endDate = JRequest::getVar('end', null);
 
-		$browserTz = JRequest::getInt('browserTimezone', null);
-		if(!empty($browserTz))
-		$browserTz = $browserTz * -60;
-		else
-		$browserTz = 0;
-
 		$gcalendarOffset = GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
-		$startDate = $startDate + $browserTz - $gcalendarOffset;
-		$endDate = $endDate + $browserTz - $gcalendarOffset;
+		$startDate = $startDate - $gcalendarOffset;
+		$endDate = $endDate - $gcalendarOffset;
 
 		$calendarids = '';
 		if(JRequest::getVar('gcids', null) != null){
@@ -171,7 +165,12 @@ class GCalendarModelJSONFeed extends JModel {
 		}
 		if($date == null) $date = time();
 
-		$gcalendarOffset = (((int)substr($offset, 1, 3)+date('I', $date))*60)+substr($offset,3);
+		$dst = 0;
+		if(class_exists('DateTimeZone')){
+			$gtz = new DateTimeZone($tz);
+			$dst = $gtz->getOffset(new DateTime('2007-03-11 1:00')) != $gtz->getOffset(new DateTime(strftime('%Y-%m-%d %H:%M', $date))) ? 1 : 0;
+		}
+		$gcalendarOffset = (((int)substr($offset, 1, 3) - $dst)*60)+substr($offset,3);
 		$gcalendarOffset = substr($offset, 0, 1) == '-' ? -1 * $gcalendarOffset : $gcalendarOffset;
 		return $gcalendarOffset * 60;
 	}
