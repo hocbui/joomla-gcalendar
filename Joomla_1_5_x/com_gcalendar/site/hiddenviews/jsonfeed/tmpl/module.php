@@ -20,19 +20,14 @@
 
 defined('_JEXEC') or die('Restricted access');
 $data = array();
-$SECSINDAY=86400;
+$SECSINDAY = 86400;
 
 $startDate = JRequest::getInt('start', null);
 $endDate = JRequest::getInt('end', null);
-$browserTz = JRequest::getInt('browserTimezone', null);
 $moduleId = JRequest::getInt('moduleid', 0);
-if(!empty($browserTz))
-$browserTz = $browserTz * -60;
-else
-$browserTz = 0;
 
 $gcalendarOffset = GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
-$requestedDayStart = $startDate + $browserTz - $gcalendarOffset;
+$requestedDayStart = $startDate;
 $requestedDayEnd = $requestedDayStart + $SECSINDAY;
 
 while ($requestedDayStart < $endDate) {
