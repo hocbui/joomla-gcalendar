@@ -42,9 +42,16 @@ class GCalendarModelJSONFeed extends JModel {
 		$startDate = JRequest::getVar('start', null);
 		$endDate = JRequest::getVar('end', null);
 
+		$browserTz = JRequest::getInt('browserTimezone', null);
+		if(!empty($browserTz))
+		$browserTz = $browserTz * 60;
+		else
+		$browserTz = 0;
+
 		$gcalendarOffset = GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
-		$startDate = $startDate - $gcalendarOffset;
-		$endDate = $endDate - $gcalendarOffset;
+		$serverOffset = date('Z');
+		$startDate = $startDate - $browserTz - $serverOffset - $gcalendarOffset;
+		$endDate = $endDate - $browserTz - $serverOffset - $gcalendarOffset;
 
 		$calendarids = '';
 		if(JRequest::getVar('gcids', null) != null){
