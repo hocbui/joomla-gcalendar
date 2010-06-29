@@ -24,10 +24,15 @@ $SECSINDAY = 86400;
 
 $startDate = JRequest::getInt('start', null);
 $endDate = JRequest::getInt('end', null);
+$browserTz = JRequest::getInt('browserTimezone', null);
 $moduleId = JRequest::getInt('moduleid', 0);
+if(!empty($browserTz))
+$browserTz = $browserTz * 60;
+else
+$browserTz = 0;
 
 $gcalendarOffset = GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
-$requestedDayStart = $startDate;
+$requestedDayStart = $startDate - $browserTz - date('Z');
 $requestedDayEnd = $requestedDayStart + $SECSINDAY;
 
 while ($requestedDayStart < $endDate) {
