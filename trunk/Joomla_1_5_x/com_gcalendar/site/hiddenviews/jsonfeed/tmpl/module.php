@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * GCalendar is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,9 +31,14 @@ $browserTz = $browserTz * 60;
 else
 $browserTz = 0;
 
-$gcalendarOffset = GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
-$requestedDayStart = $startDate - $browserTz - date('Z');
+$serverTz = ini_get('date.timezone');
+if(function_exists('date_default_timezone_get'))
+$serverTz = date_default_timezone_get();
+
+$requestedDayStart = $startDate - $browserTz - date('Z', $startDate);
 $requestedDayEnd = $requestedDayStart + $SECSINDAY;
+$wasDSTStart = GCalendarModelJSONFeed::isDST($requestedDayStart, $serverTz);
+$wasDSTEnd = GCalendarModelJSONFeed::isDST($requestedDayEnd, $serverTz);
 
 while ($requestedDayStart < $endDate) {
 	$result = array();
@@ -43,9 +48,8 @@ while ($requestedDayStart < $endDate) {
 		$calID = null;
 		$items = $calendar->get_items();
 		foreach ($items as $item) {
-			if(($requestedDayStart <= $item->get_start_date() && $item->get_start_date() < $requestedDayEnd)
-			|| ($requestedDayStart < $item->get_end_date() && $item->get_end_date() <= $requestedDayEnd)
-			|| ($item->get_start_date() <= $requestedDayStart && $requestedDayEnd <= $item->get_end_date())){
+			if($requestedDayStart  < $item->get_end_date()
+			&& $item->get_start_date() < $requestedDayEnd){
 				$result[] = $item;
 				$calID = $calendar->get('gcid').',';
 				$description .= '<li><font color="#'.$calendar->get('gccolor').'">'.htmlspecialchars_decode($item->get_title()).'</font></li>';
@@ -67,14 +71,35 @@ while ($requestedDayStart < $endDate) {
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
 			'url' => $url,
 			'allDay' => true,
-//			'end' => $requestedDayEnd - 10,
+		//			'end' => $requestedDayEnd - 10,
 			'className' => "gcal-module_event_gccal_".$moduleId,
 			'description' => sprintf(JText::_('MODULE_TEXT'), count($result)).'<ul>'.$description.'</ul>'
 			);
 	}
+
 	$requestedDayStart += $SECSINDAY;
+	$isDST = GCalendarModelJSONFeed::isDST($requestedDayStart, $serverTz);
+	$dstAdjustment = 0;
+	if($wasDSTStart && !$isDST){
+		$dstAdjustment = 3600;
+		$wasDSTStart = $isDST;
+	} else if(!$wasDSTStart && $isDST){
+		$dstAdjustment = -3600;
+		$wasDSTStart = $isDST;
+	}
+	$requestedDayStart += $dstAdjustment;
+
 	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
+	$isDST = GCalendarModelJSONFeed::isDST($requestedDayEnd, $serverTz);
+	$dstAdjustment = 0;
+	if($wasDSTEnd && !$isDST){
+		$dstAdjustment = 3600;
+		$wasDSTEnd = $isDST;
+	} else if(!$wasDSTEnd && $isDST){
+		$dstAdjustment = -3600;
+		$wasDSTEnd = $isDST;
+	}
+	$requestedDayEnd += $dstAdjustment;
 }
 echo json_encode($data);
-
 ?>

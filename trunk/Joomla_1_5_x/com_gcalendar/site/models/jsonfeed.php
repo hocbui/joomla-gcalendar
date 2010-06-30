@@ -48,10 +48,9 @@ class GCalendarModelJSONFeed extends JModel {
 		else
 		$browserTz = 0;
 
-		$gcalendarOffset = GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
-		$serverOffset = date('Z');
-		$startDate = $startDate - $browserTz - $serverOffset - $gcalendarOffset;
-		$endDate = $endDate - $browserTz - $serverOffset - $gcalendarOffset;
+		$serverOffset = date('Z', $startDate);
+		$startDate = $startDate - $browserTz - $serverOffset - GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
+		$endDate = $endDate - $browserTz - $serverOffset - GCalendarModelJSONFeed::getGCalendarTZOffset($endDate);
 
 		$calendarids = '';
 		if(JRequest::getVar('gcids', null) != null){
@@ -142,7 +141,7 @@ class GCalendarModelJSONFeed extends JModel {
 
 			$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
 			$feed->set_feed_url($url);
-			$feed->init();
+			$feed->init();//echo $feed->feed_url;
 			if ($feed->error()){
 				JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
 			}
@@ -156,7 +155,7 @@ class GCalendarModelJSONFeed extends JModel {
 	/**
 	 * Returns the GCalendar timezone offset in seconds. The given
 	 * date is used to be DST compatible.
-	 * 
+	 *
 	 * @param $date
 	 * @return offset in seconds
 	 */
@@ -172,14 +171,27 @@ class GCalendarModelJSONFeed extends JModel {
 		}
 		if($date == null) $date = time();
 
-		$dst = 0;
-		if(class_exists('DateTimeZone')){
-			$gtz = new DateTimeZone($tz);
-			$dst = $gtz->getOffset(new DateTime('2007-03-11 1:00')) != $gtz->getOffset(new DateTime(strftime('%Y-%m-%d %H:%M', $date))) ? 1 : 0;
-		}
+		$dst = GCalendarModelJSONFeed::isDST($date) ? 1 : 0;
 		$gcalendarOffset = (((int)substr($offset, 1, 3) - $dst)*60)+substr($offset,3);
 		$gcalendarOffset = substr($offset, 0, 1) == '-' ? -1 * $gcalendarOffset : $gcalendarOffset;
 		return $gcalendarOffset * 60;
+	}
+
+	/**
+	 * Checks if the DST applyes to the timezone of GCalendar for the given date.
+	 *
+	 * @param $date unix timestamp
+	 * @param $tz the timezone
+	 * @return if is DST
+	 */
+	function isDST($date, $tz = null){
+		if(empty($tz))
+		$tz = GCalendarUtil::getComponentParameter('timezone');
+		if(class_exists('DateTimeZone')){
+			$gtz = new DateTimeZone($tz);
+			return $gtz->getOffset(new DateTime('2007-01-01 01:00')) != $gtz->getOffset(new DateTime(strftime('%Y-%m-%d %H:%M', $date))) ? true : false;
+		}
+		return false;
 	}
 
 }
