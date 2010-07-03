@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="content">
+<name>Content - GCalendar Next Event</name>
+<author>G4J Project</author>
+<authorEmail>info@g4j.laoneo.net</authorEmail>
+<creationDate>July 2010</creationDate>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorUrl>g4j.laoneo.net</authorUrl>
+	<version>2.2.3</version>
+<description><![CDATA[Embeds a date from a Google Calendar event into content.
+<p>Example Usage: {gcalnext [$title$] starts on [$start$] and ends at [$finish %I:%M%P]$} would print "My event starts on Novemeber 3, 2009 @ 2:30pm and ends at 3:30pm"</p>
+<p>Keywords are surrounded by [$ and $]. Anything not contained within a keyword marker is taken literally. Use the following keywords. All formatting is in strftime format.</p>
+<ul>
+	<li>startdate fmt-- print the starting date of the event in fmt format.</li>
+<li>finishdate fmt -- print the finishing date of the event in fmt format.</li>
+<li>range -- displays a compact range for start and finish (e.g. Nov 2, 1970 2:30pm - 3:30pm or Nov 2-5, 1970)</li>
+<li>title -- Title of the event</li>
+<li>description -- Description from the event's description</li>
+<li>backlink -- url to the GCalendar entry (internal link)</li>
+<li>link -- url to the Google Calendar entry (external link)</li>
+<li>maplink -- anchor containing the location and a link to Google Maps for the location</li>
+<li>maphref -- just the url to the Google Maps</li>
+<li>location -- text location from the event</li>
+<li>where -- same as location </li>
+<li>calendarname -- name of the calendar</li>
+<li>calendarcolor -- hex representation of the calendar's assigned color</li>
+</ul>
+<p>Parameters affecting the operation of the plugin are also allowed. They are specified just like keywords, except they start with a plus (+) sign. Any of the parameters you can specify here as defaults are also parameters that may be specified in the plugin. Check each parameter for the name to use.</p>
+<p>Example: {gcalnext [$+calendarid 2|1|4|6$][$+event_filter .*Birthday.*$][$title$] is on [$start date %B, %D, %Y$]} might print Erics Birthday is on Nov 05, 2009.</p>
+<p>Example: {gcalnext [$+calendarid 2$][$+event_filter .*Birthday.*$][$+output [\$title$\] is on [\$start date %B, %D, %Y$\] $]} would produce the same output. Note the escaped parameters in output.</p>
+
+]]></description>
+
+<files>
+	<filename plugin="gcalendar_next">gcalendar_next.php</filename>
+</files>
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars (plugin: +gcalendarids)" />>
+		<param name="class" type="text" size="80" default="" label="Plugin Class Suffix" description="CSS for the dates inserted. (plugin: +class)" />
+		<param name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event. (plugin: +output)" rows="5" cols="50">
+			<content>[$ startdate $] at [$ maplink $]</content>
+			<description>
+				Here you can modify the default event output. Use strftime formatting for dates. Valid functions are embedded in [$ cmd args ... $], everything outside of that is taken literally. Valid functions are: start, finish, location (text location), maphref (url to google maps), maplink (anchor link to google maps with the location embedded as the link) and title. 
+			</description>
+		</param>
+		<param name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now. (plugin: +output_now)" rows="5" cols="50">
+			<content>[$ title %] is happening right now here: [$ maplink $]</content>
+		</param>
+		<param name="start_soon" type="text" size="40" default="-4 hours" label="Start soon trigger" description="Triggers starting soon text (relative to the current event's start time) (plugin: +start_soon)"/>
+		<param name="end_soon" type="text" size="40" default="-1 hour" label="End soon trigger" description="Triggers ending soon text (relative to the current event's end time) (plugin: +end_soon)"/>		
+		<param name="output_start_soon" type="textarea2" default="" label="Event starts soon output" description="Here you can customize the appearance of an event that is about to start. Leave blank to use standard output (plugin: +output_start_soon)" rows="5" cols="50">
+			<content>[$ title $] is starting soon.</content>
+		</param>
+		<param name="output_end_soon" type="textarea2" default="" label="Event ends soon output" description="Here you can customize the appearance of an event that is about to end. Leave blank to use standard output. (plugin: +output_end_soon)" rows="5" cols="50">
+			<content>[$ title $] is coming to an end.</content>
+		</param>
+		
+		<param name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found. (plugin: +no_event)" rows="5" cols="50">
+			<content>No scheduled events could be found.</content>
+		</param>
+	</params>
+	<params group="advanced">
+		<param name="offset" type="text" size="10" default="0" label="Event Order Offset" description="Show the event X number of events after the immediate next event. (plugin: +offset)"/>
+		<param name="find" type="text" size="40" default="" label="Event Search" description="Find events whose text/description match. Use standard Google query tricks (&amp;quot;exact search&amp;quot;, &amp;quot;-not_this_word&amp;quot;, this that other) (plugin: +find)"/>		
+		<param name="title_filter" type="text" size="40" default=".*" label="Event Title Filter" description="Show only events with titles that match this regular expression. (plugin: +title_filter)"/>
+		<param name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative) (plugin: +start_date)"/>
+		<param name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative) (plugin: +end_date)"/>
+		<param name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events to choose the next one. (plugin: +max_events)"/>
+		<param name="dateformat" type="text" size="40" default="%B %d, %Y @ %I:%M%P" label="Default date format" description="Use this strftime format as the default way to display  a date (plugin: +dateformat)"/>
+		<param name="only-whole_day" type="text" size="40" default="%A, %B %d, %Y all day" description="Default date range format for a single all day event (strftime format). (plugin: +only-whole_day)" label="Rangle Format (single all day)"/>
+		<param name="only-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +only-part_day)" label="Rangle Format (single day)"/>
+		<param name="multi-whole_day" type="text" size="40" default="%B %d - %%d, %%Y all day" description="Default date range format for a multiple day all day event (strftime format) (plugin: +multi-whole_day)" label="Rangle Format (multiple all day)"/>
+		<param name="multi-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +multi-part_day)" label="Rangle Format (multi day)"/>		
+		<param name="gc_cache" type="list" default="1" label="Cache"
+			description="Is cacheing enabled.">
+			<option value="1">Use global</option>
+			<option value="2">Cache always</option>
+			<option value="0">Cache never</option>
+		</param>
+		<param name="gc_cache_time" type="text" default="900" label="Cache Time"
+			description="The time before the plugin is recached in sec." />
+	</params>
+</install>
