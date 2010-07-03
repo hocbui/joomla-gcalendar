@@ -2,7 +2,7 @@
 <install version="1.5" type="plugin" group="search">
 	<name>Search - GCalendar</name>
 	<author>G4J Project</author>
-	<creationDate>June 2010</creationDate>
+	<creationDate>July 2010</creationDate>
 	<copyright>This module is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
