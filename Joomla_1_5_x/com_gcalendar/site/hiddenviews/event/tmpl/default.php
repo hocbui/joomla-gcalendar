@@ -133,6 +133,11 @@ if($event == null){
 		$urlText .= '&amp;sf=true&amp;output=xml';
 		echo "<tr><td class=\"event_content_key\">".JText::_( 'COPY' ).": </td><td><a target=\"_blank\" href=\"http://www.google.com/calendar/render?".$urlText."\">".JText::_( 'COPY_TO_MY_CALENDAR' )."</a></td></tr>\n";
 	}
+	echo "<tr><td colspan=\"2\">\n";
+	$dispatcher =& JDispatcher::getInstance();
+	JPluginHelper::importPlugin('gcalendar'); 
+	$dispatcher->trigger('onGCEventLoaded', array($event));
+	echo "</td></tr>\n";
 	echo "</table></div>\n";
 }
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
