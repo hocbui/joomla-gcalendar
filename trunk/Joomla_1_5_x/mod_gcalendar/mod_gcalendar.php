@@ -26,6 +26,8 @@ require_once (dirname(__FILE__).DS.'helper.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
+$moduleID = ModGCalendarHelper::getModuleId();
+
 $calendars = ModGCalendarHelper::getCalendars($params);
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar' ) );
 ?>

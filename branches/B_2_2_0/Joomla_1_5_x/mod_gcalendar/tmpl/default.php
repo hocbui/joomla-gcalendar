@@ -27,8 +27,6 @@ $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalen
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0-rc3.min.js');
 
-static $moduleID = 0;
-$moduleID++;
 $color = $params->get('event_color', '135CAE');
 $fadedColor = GCalendarUtil::getFadedColor($color);
 $cssClass = "gcal-module_event_gccal_".$moduleID;

@@ -33,5 +33,10 @@ class ModGCalendarHelper {
 			return GCalendarDBUtil::getAllCalendars();
 		}
 	}
+
+	function getModuleId(){
+		static $moduleID= 0;
+		return $moduleID++;
+	}
 }
 ?>
