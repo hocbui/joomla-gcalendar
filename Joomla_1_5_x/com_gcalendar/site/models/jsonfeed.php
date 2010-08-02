@@ -187,7 +187,7 @@ class GCalendarModelJSONFeed extends JModel {
 	function isDST($date, $tz = null){
 		if(empty($tz))
 		$tz = GCalendarUtil::getComponentParameter('timezone');
-		if(class_exists('DateTimeZone')){
+		if(class_exists('DateTimeZone') && !empty($tz)){
 			$gtz = new DateTimeZone($tz);
 			return $gtz->getOffset(new DateTime('2007-01-01 01:00')) != $gtz->getOffset(new DateTime(strftime('%Y-%m-%d %H:%M', $date))) ? true : false;
 		}
