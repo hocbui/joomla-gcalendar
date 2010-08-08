@@ -57,6 +57,8 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	if ($text == '') {
 		return array();
 	}
+	if($phrase == 'exact')
+	$text = "\"".$text."\"";
 
 	switch ( $ordering )
 	{
