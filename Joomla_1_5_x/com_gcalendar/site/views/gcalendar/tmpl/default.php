@@ -280,4 +280,18 @@ echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img s
 echo "<div id='gcalendar_component'></div><div id='gcalendar_component_popup' style=\"visibility:hidden\" ></div>";
 echo $params->get( 'textafter' );
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
+
+//hide buttons and tune CSS for printable format
+if (@ $_GET['tmpl'] == 'component')
+echo '
+<style type="text/css">
+body { zoom:100%; width:1200px; margin-top:-30px;}
+.fc-header-left, .fc-header-right { display:none; }
+table.fc-header   { margin:0; }
+.fc-header-title  { margin:0 5px; }
+
+/*CSS3 for the future*/
+@page {size: A4 landscape;}
+</style>
+';
 ?>
