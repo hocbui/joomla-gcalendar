@@ -32,9 +32,9 @@ foreach ($this->calendars as $calendar){
 	$timeformat = $params->get('description_time_format', '%H:%M');
 	$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
 
-	if(!empty($itemID)){
+	if(!empty($itemID)) {
 		$itemID = '&Itemid='.$itemID;
-	}else{
+	} else {
 		$menu=JSite::getMenu();
 		$activemenu=$menu->getActive();
 		if($activemenu != null)
@@ -45,8 +45,8 @@ foreach ($this->calendars as $calendar){
 	foreach ($items as $event) {
 		$allDayEvent = $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY;
 		$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
-		if(strlen($description) > 200)
-		$description = substr($description, 0, 196).' ...';
+		if(strlen($description) > 2000)
+		$description = substr($description, 0, 1996).' ...';
 		$data[] = array(
 			'id' => $event->get_id(),
 			'title' => htmlspecialchars_decode($event->get_title()),
@@ -60,5 +60,6 @@ foreach ($this->calendars as $calendar){
 	}
 }
 
+@header('Content-Type: application/json; Charset: utf-8');
 echo json_encode($data);
 ?>
