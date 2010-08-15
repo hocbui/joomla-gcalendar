@@ -60,6 +60,6 @@ foreach ($this->calendars as $calendar){
 	}
 }
 
-@header('Content-Type: application/json; Charset: utf-8');
+@header('Content-Type: application/json');
 echo json_encode($data);
 ?>
