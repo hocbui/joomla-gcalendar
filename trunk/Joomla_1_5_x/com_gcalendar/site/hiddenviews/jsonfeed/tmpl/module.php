@@ -36,7 +36,7 @@ if(function_exists('date_default_timezone_get'))
 $serverTz = date_default_timezone_get();
 
 $requestedDayStart = $startDate - $browserTz - date('Z', $startDate);
-$requestedDayEnd = $requestedDayStart + $SECSINDAY - 1;
+$requestedDayEnd = $requestedDayStart + $SECSINDAY;
 $wasDSTStart = GCalendarModelJSONFeed::isDST($requestedDayStart, $serverTz);
 $wasDSTEnd = GCalendarModelJSONFeed::isDST($requestedDayEnd, $serverTz);
 
@@ -89,7 +89,7 @@ while ($requestedDayStart < $endDate) {
 	}
 	$requestedDayStart += $dstAdjustment;
 
-	$requestedDayEnd = $requestedDayStart + $SECSINDAY - 1;
+	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
 	$isDST = GCalendarModelJSONFeed::isDST($requestedDayEnd, $serverTz);
 	$dstAdjustment = 0;
 	if($wasDSTEnd && !$isDST){
