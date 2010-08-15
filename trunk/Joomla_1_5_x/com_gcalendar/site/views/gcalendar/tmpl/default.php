@@ -293,5 +293,15 @@ table.fc-header   { margin:0; }
 /*CSS3 for the future*/
 @page {size: A4 landscape;}
 </style>
+'; else echo '
+<script type="text/javascript">
+function print_view() {
+	var loc=document.location.href.replace(/\?/,"\?tmpl=component\&");
+	if (loc==document.location.href)
+		loc=document.location.href.replace(/#/,"\?tmpl=component#");
+	document.location.href=loc;
+}
+</script>
+<br/><a id="printlink" href="#" onclick="print_view();return false;">Print friendly version</a>
 ';
 ?>
