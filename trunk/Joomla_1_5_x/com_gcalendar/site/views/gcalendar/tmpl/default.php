@@ -285,7 +285,7 @@ echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\">
 if (@ $_GET['tmpl'] == 'component')
 echo '
 <style type="text/css">
-body { zoom:100%; width:1200px; margin-top:-30px;}
+body { zoom:100%; width:1200px; margin-top:0px;}
 .fc-header-left, .fc-header-right { display:none; }
 table.fc-header   { margin:0; }
 .fc-header-title  { margin:0 5px; }
@@ -302,6 +302,6 @@ function print_view() {
 	document.location.href=loc;
 }
 </script>
-<br/><a id="printlink" href="#" onclick="print_view();return false;">Print friendly version</a>
+<a id="printlink" href="#" onclick="print_view();return false;">Print friendly version</a>
 ';
 ?>
