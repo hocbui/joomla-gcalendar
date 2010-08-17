@@ -210,6 +210,12 @@ $calCode .= "			'<a onClick=\"jQuery(\'#gcalendar_component_date_picker\').datep
 $calCode .= "			'</span></a>'+\n";
 $calCode .= "			'</div>'+\n";
 $calCode .= "			'</td>';\n";
+$calCode .= "		custom_buttons +='<td style=\"padding-left:10px\">'+\n";
+$calCode .= "			'<div class=\"".$class."-state-default ".$class."-corner-left ".$class."-corner-right ".$class."-state-enabled\">'+\n";
+$calCode .= "			'<a onClick=\"print_view();\"><span class=\"ui-icon ui-icon-print\">Print'+\n";
+$calCode .= "			'</span></a>'+\n";
+$calCode .= "			'</div>'+\n";
+$calCode .= "			'</td>';\n";
 $calCode .= "	jQuery('div.fc-button-today').parent('td').after(custom_buttons);\n";
 $calCode .= "	jQuery(\"#gcalendar_component_date_picker\").datepicker({\n";
 $calCode .= "		dateFormat: 'dd-mm-yy',\n";
@@ -302,6 +308,6 @@ function print_view() {
 	document.location.href=loc;
 }
 </script>
-<a id="printlink" href="#" onclick="print_view();return false;">Print friendly version</a>
+<!--<a id="printlink" href="#" onclick="print_view();return false;">Print friendly version</a>-->
 ';
 ?>
