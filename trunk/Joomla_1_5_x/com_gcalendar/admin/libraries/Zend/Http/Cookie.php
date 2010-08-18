@@ -17,7 +17,7 @@
  * @package    Zend_Http
  * @subpackage Cookie
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Cookie.php 21020 2010-02-11 17:27:23Z shahar $
+ * @version    $Id: Cookie.php 21018 2010-02-11 14:25:24Z shahar $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
