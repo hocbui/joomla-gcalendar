@@ -44,7 +44,7 @@ $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalen
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui-1.7.3.custom.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.ba-hashchange.min.js');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.min.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0.min.js');
 $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15; }");
 
 $theme = $params->get('theme', '');
