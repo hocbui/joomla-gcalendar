@@ -58,7 +58,7 @@ $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery
 $calsSources = "		eventSources: [\n";
 foreach($this->calendars as $calendar) {
 	$cssClass = "gcal-event_gccal_".$calendar->id;
-	$calsSources .= "			'".JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
+	$calsSources .= "			'".JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #".$calendar->color."; color: white;}");
 }
