@@ -31,10 +31,8 @@ if(!empty($gcalendar_data)){
 		// APRIL 2010 MOD - CALENDAR IMAGES by Tyson Moore
 		if($params->get('images', 'no') != 'no') {
 			$tmp = JFactory::getDate($item->get_start_date());
-			$startDate = $tmp->toFormat($dateformat);
-			$month = $tmp->toFormat('%m');
-			$month_text = strtoupper($tmp->toFormat('%h'));
-			$day = $tmp->toFormat('%e');
+			$month_text = strtoupper(GCalendarUtil::monthToString($tmp->toFormat('%m'), true));
+			$day = $tmp->toFormat('%d');
 			$feed = $item->get_feed();
 			$colorImageBackground = $params->get('images', 'yes') == 'custom' ? '#'.$params->get('calimage_background') : GCalendarUtil::getFadedColor($feed->get('gccolor'), 80);
 			$colorMonth = $params->get('images', 'yes') == 'custom' ? $params->get('calimage_month') : 'FFFFFF';
