@@ -71,7 +71,7 @@ while ($requestedDayStart < $endDate) {
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
 			'url' => $url,
 			'allDay' => true,
-		//			'end' => $requestedDayEnd - 10,
+//			'end' => $requestedDayEnd - 10,
 			'className' => "gcal-module_event_gccal_".$moduleId,
 			'description' => sprintf(JText::_('MODULE_TEXT'), count($result)).'<ul>'.$description.'</ul>'
 			);
