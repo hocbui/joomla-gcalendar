@@ -20,6 +20,9 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+$document = &JFactory::getDocument();
+$document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/default.css');
+
 $event_display = $params->get('output', '');
 
 $dateformat=$params->get('date_format', '%d.%m.%Y');
@@ -27,6 +30,9 @@ $timeformat=$params->get('time_format', '%H:%M');
 
 echo $params->get( 'text_before' );
 if(!empty($gcalendar_data)){
+	if($params->get('images', 'no') != 'no') {
+		echo '<p style="clear: both;"/>';
+	}
 	foreach( $gcalendar_data as $item){
 		// APRIL 2010 MOD - CALENDAR IMAGES by Tyson Moore
 		if($params->get('images', 'no') != 'no') {
@@ -37,9 +43,10 @@ if(!empty($gcalendar_data)){
 			$colorImageBackground = $params->get('images', 'yes') == 'custom' ? '#'.$params->get('calimage_background') : GCalendarUtil::getFadedColor($feed->get('gccolor'), 80);
 			$colorMonth = $params->get('images', 'yes') == 'custom' ? $params->get('calimage_month') : 'FFFFFF';
 			$colorDay = $params->get('images', 'yes') == 'custom' ? $params->get('calimage_day') : $feed->get('gccolor');
-			echo '<div style="float: left; margin-right: 6px; width: 42px; height: 42px; background-image: url(\'modules/mod_gcalendar_upcoming/tmpl/images/calendar-icon.gif\');">';
-			echo '<div style="background-color: ' . $colorImageBackground . '; width: 32px; height: 10px; margin-top: 6px; margin-left: 5px;"></div><div style="padding:2px; font-weight: bold; font-size: 10px; color: #' . $colorMonth . '; text-align: center; position: relative; margin-top: -15px; margin-bottom: -4px;">' . $month_text . '</div>';
-			echo '<div style="font-weight: bold; font-size: 1.3em; color: #' . $colorDay . '; width: 42px; text-align: center;">' . $day . '</div>';
+			echo '<div id="gc_up_mod_img">';
+			echo '<div id="gc_up_mod_month_background" style="background-color: ' . $colorImageBackground . ';"></div>';
+			echo '<div id="gc_up_mod_month_text" style="color: #' . $colorMonth . ';">' . $month_text . '</div>';
+			echo '<div id="gc_up_mod_day" style="color: #' . $colorDay . ';">' . $day . '</div>';
 			echo '</div>';
 		}
 		//END MOD
