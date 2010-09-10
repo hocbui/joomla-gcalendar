@@ -27,14 +27,16 @@ $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalen
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.min.js');
 
-$cssClass = "gcal-module_event_gccal";
-$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: #CCC9C9 !important; border-color: #FFFFFF; color: white;} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_1 .fc-state-default span, #gcalendar_module_1 .ui-state-default{padding:0px !important;}");
+$color = $params->get('event_color', '135CAE');
+$fadedColor = GCalendarUtil::getFadedColor($color);
+$cssClass = "gcal-module_event_gccal_".$moduleID;
+$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$fadedColor." !important; border-color: #".$color."; color: ".$fadedColor.";} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_".$moduleID." .fc-state-default span, #gcalendar_module_".$moduleID." .ui-state-default{padding:0px !important;}");
 
 $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
 $theme = JRequest::getVar('theme', null);
 if(!empty($theme))
-$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui-1.7.3.custom.css');
 
 $daysLong = "[";
 $daysShort = "[";

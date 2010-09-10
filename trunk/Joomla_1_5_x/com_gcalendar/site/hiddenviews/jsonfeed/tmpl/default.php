@@ -45,8 +45,8 @@ foreach ($this->calendars as $calendar){
 	foreach ($items as $event) {
 		$allDayEvent = $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY;
 		$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
-		if(strlen($description) > 2000)
-		$description = substr($description, 0, 1996).' ...';
+		if(strlen($description) > 200)
+		$description = substr($description, 0, 196).' ...';
 		$data[] = array(
 			'id' => $event->get_id(),
 			'title' => htmlspecialchars_decode($event->get_title()),
@@ -60,6 +60,5 @@ foreach ($this->calendars as $calendar){
 	}
 }
 
-@header('Content-Type: application/json');
 echo json_encode($data);
 ?>

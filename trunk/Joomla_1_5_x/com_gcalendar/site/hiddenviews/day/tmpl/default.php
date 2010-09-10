@@ -43,17 +43,17 @@ $document = &JFactory::getDocument();
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui-1.7.3.custom.min.js');
-$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui-1.7.3.custom.css');
-//$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/ui.core.min.js');
-//$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/ui.datepicker.min.js');
-//$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/ui.dialog.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.ba-hashchange.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.min.js');
 $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15; }");
 
 $theme = $params->get('theme', '');
+if(JRequest::getVar('theme', null) != null)
+$theme = JRequest::getVar('theme', null);
 if(!empty($theme))
-$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/ui.all.css');
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui-1.7.3.custom.css');
+else
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/ui-lightness/jquery-ui-1.7.3.custom.css');
 
 $calsSources = "		eventSources: [\n";
 foreach($this->calendars as $calendar) {
