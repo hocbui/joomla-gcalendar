@@ -32,6 +32,11 @@ require_once 'Zend/Gdata/App/Feed.php';
 require_once 'Zend/Http/Client.php';
 
 /**
+ * Zend_Uri_Http
+ */
+require_once 'Zend/Uri/Http.php';
+
+/**
  * Zend_Version
  */
 require_once 'Zend/Version.php';
@@ -640,6 +645,7 @@ class Zend_Gdata_App
 
         // Set the params for the new request to be performed
         $this->_httpClient->setHeaders($headers);
+
         $uri = Zend_Uri_Http::fromString($url);
         preg_match("/^(.*?)(\?.*)?$/", $url, $matches);
         $this->_httpClient->setUri($matches[1]);
