@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" method="upgrade" client="site">
+	<name>GCalendar Overview</name>
+	<author>G4J Project</author>
+	<creationDate>Sept 2010</creationDate>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorEmail>info@g4j.laoneo.net</authorEmail>
+	<authorUrl>g4j.laoneo.net</authorUrl>
+	<version>2.3.0</version>
+	<description>This module shows the google calendar at a module
+		position.</description>
+	<files>
+		<filename module="mod_gcalendar">mod_gcalendar.php
+		</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar.ini
+		</language>
+		<language tag="de-DE">languages/de-DE.mod_gcalendar.ini
+		</language>
+		<language tag="fr-FR">languages/fr-FR.mod_gcalendar.ini
+		</language>
+	</languages>
+	<config>
+		<fields name="params">
+		<fieldset name="basic" label="Module Parameters" description="Configure Module" addpath="/administrator/components/com_gcalendar/elements">
+			<field name="calendarids" type="gcalendar" default=""
+				label="Select Calendars" description="The calendars" />
+			<field name="weekstart" type="list" default="1" label="Week starts on"
+				description="The starting day of the week in the calendar.">
+				<option value="0">Sunday</option>
+				<option value="1">Monday</option>
+				<option value="2">Tuesday</option>
+				<option value="3">Wednesday</option>
+				<option value="4">Thursday</option>
+				<option value="5">Friday</option>
+				<option value="6">Saturday</option>
+			</field>
+			<field name="titleformat_month" type="text" default="MMMM yyyy" label="Title format month"
+				description="The format of the title in the month view." size="50" />
+			<field name="timeformat_month" type="text" default="HH:mm{ - HH:mm}" label="Time format month"
+				description="The format of the time in the month view." size="50" />
+			<field name="calendar_height" type="text" default="" label="Height"
+				description="The height of the calendar." size="5" />
+			<field name="event_color" type="color" default="135CAE" label="Event Color"
+					description="The color of the days with events." size="6" />
+			<field name="@spacer" type="spacer" default="" label=""
+				description="" />
+			<field name="moduleclass_sfx" type="text" size="80" default=""
+				label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		</fieldset>
+		<fieldset name="advanced" label="Advanced" description="Configure Advanced Parameters" >
+			<field name="theme" type="text" size="50" default=""
+					label="Theme"
+					description="Define the JQuery theme (install it in the folder components/com_gcalendar/libraries/jquery/themes)." />
+			<field name="gc_cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module.">
+				<option value="1">Use global</option>
+				<option value="2">Cache always</option>
+				<option value="0">Cache never</option>
+			</field>
+			<field name="gc_cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached in sec." />
+		</fieldset>
+		</fields>
+	</config>
+</extension>
