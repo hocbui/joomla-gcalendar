@@ -210,7 +210,7 @@ $calCode .= "			'</div>'+\n";
 $calCode .= "			'</td>';\n";
 $calCode .= "		custom_buttons +='<td style=\"padding-left:10px\">'+\n";
 $calCode .= "			'<div class=\"".$class."-state-default ".$class."-corner-left ".$class."-corner-right ".$class."-state-enabled\">'+\n";
-$calCode .= "			'<a onClick=\"print_view();\"><span class=\"".$class."-icon ".$class."-icon-print\">Print'+\n";
+$calCode .= "			'<a onClick=\"print_view();\"><span class=\"".$class."-icon ".$class."-icon-print\">".JText::_('TOOLBAR_PRINT')."'+\n";
 $calCode .= "			'</span></a>'+\n";
 $calCode .= "			'</div>'+\n";
 $calCode .= "			'</td>';\n";
