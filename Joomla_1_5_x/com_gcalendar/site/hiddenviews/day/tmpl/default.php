@@ -20,7 +20,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$params = new JParameter('');
+$params = $this->params;
 $itemID = null;
 foreach($this->calendars as $calendar) {
 	$itemID = GCalendarUtil::getItemId($calendar->id);
