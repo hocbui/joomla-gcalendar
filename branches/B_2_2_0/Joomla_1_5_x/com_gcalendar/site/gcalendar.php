@@ -24,14 +24,8 @@ defined('_JEXEC') or die('Restricted access');
 // Require the base controller
 require_once (JPATH_COMPONENT.DS.'controller.php');
 
-// Require specific controller if requested
-if($controller = JRequest::getCmd('controller')) {
-	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
-}
-
 // Create the controller
-$classname	= 'GCalendarController'.$controller;
-$controller = new $classname( );
+$controller = new GCalendarController( );
 
 // Perform the Request task
 $controller->execute( JRequest::getCmd('task'));
