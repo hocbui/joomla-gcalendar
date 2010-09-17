@@ -185,7 +185,7 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$calCode .= "		           modal: true,\n";
 	$calCode .= "		           autoResize: true,\n";
 	$calCode .= "		           title: event.title\n";
-	$calCode .= "		        }).width(".($popupWidth-20).").height(".($popupHeight-20).");\n";
+	$calCode .= "		        }).outerWidth(".($popupWidth-20).").outerHeight(".($popupHeight-20).");\n";
 	$calCode .= "		        return false;}\n";
 }
 $calCode .= "		},\n";
