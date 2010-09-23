@@ -14,11 +14,20 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Sun Sep 19 16:11:23 2010 +0200
+ * Date: Thu Sep 23 07:00:01 2010 +0200
  *
  */
  
 (function($, undefined) {
+
+var msie9 = false;
+
+//IE9 dnd fix (jQuery UI Mouse (<= 1.8.5) doesnt support IE9)
+if ($.ui && $.browser.msie && parseInt($.browser.version,10) >= 9) {
+	msie9 = true;
+	var mm=$.ui.mouse.prototype._mouseMove;
+	$.ui.mouse.prototype._mouseMove=function(b){b.button=1;mm.apply(this,[b]);}
+}
 
 
 var defaults = {
@@ -2218,6 +2227,8 @@ function AgendaView(element, calendar, viewName) {
 		slotTopCache = {};
 		
 		setOuterHeight(body,height - getHeight(head));
+		if (msie9)
+			setOuterHeight(body,height - getHeight(head) - 1);
 		
 		slotHeight = getHeight(body.find('tr:first div')) + 1;
 		
@@ -2225,6 +2236,12 @@ function AgendaView(element, calendar, viewName) {
 			top: head.find('tr').outerHeight(),
 			height: height
 		});
+
+		// if the table ends up shorter than the allotted view, shrink the view to fit the table
+		var tableHeight=getHeight(body.find('table:first'));
+		if (tableHeight<getHeight(body)) {
+			body.height(tableHeight);
+		}
 		
 		if (dateChanged) {
 			resetScroll();
@@ -2253,14 +2270,24 @@ function AgendaView(element, calendar, viewName) {
 		axisTHs.each(function() {
 			axisWidth = Math.max(axisWidth, $(this).outerWidth());
 		});
-		setOuterWidth(axisTHs, axisWidth);
+		if (!msie9)
+			setOuterWidth(axisTHs,axisWidth);
 		
 		// column width
 		colWidth = Math.floor((clientWidth - axisWidth) / colCnt);
-		setOuterWidth(stripeTDs.slice(0, -1), colWidth);
 		setOuterWidth(topTDs.slice(1, -2), colWidth);
-		setOuterWidth(topTDs.slice(-2, -1), clientWidth - axisWidth - colWidth*(colCnt-1));
-		
+		setOuterWidth(stripeTDs.slice(0, -1), colWidth);
+		if (msie9) //no border on first day
+			stripeTDs.first().outerWidth(colWidth - 1);
+
+		var scrollbar=body[0].scrollHeight!=body[0].clientHeight;
+		if (scrollbar) {
+			setOuterWidth(topTDs.slice(-2, -1), clientWidth - axisWidth - colWidth*(colCnt-1));
+		} else {
+			topTDs.slice(-1).hide();
+			$('tr.fc-all-day th').slice(-1).hide();
+		}
+
 		bg.css({
 			left: axisWidth,
 			width: clientWidth - axisWidth
@@ -3649,7 +3676,7 @@ function DayEventRenderer() {
 				i++;
 			}
 			rowDivs[rowI] = allDayTR(rowI).find('td:first div.fc-day-content > div'); // optimal selector?
-			setOuterHeight(rowDivs[rowI],top + levelHeight);
+			rowDivs[rowI].height(top + levelHeight);
 		}
 	
 		// calculate row tops
@@ -4492,17 +4519,13 @@ function setMinHeight(element, h) {
 
 
 function getHeight(e) {
-	if ($.browser.msie && $.browser.version == '9.0') {
-		return e.innerHeight();
-	}
+	if (msie9) return e.innerHeight();
 	return e.height();
 }
 
 
 function getWidth(e) {
-	if ($.browser.msie && $.browser.version == '9.0') {
-		return e.innerWidth();
-	} 
+	if (msie9) return e.innerWidth();
 	return e.width();
 }
 
