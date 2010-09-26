@@ -303,7 +303,8 @@ function print_view() {
 	var loc=document.location.href.replace(/\?/,"\?tmpl=component\&");
 	if (loc==document.location.href)
 		loc=document.location.href.replace(/#/,"\?tmpl=component#");
-	document.location.href=loc;
+	var printWindow = window.open(loc);
+	printWindow.focus();
 }
 </script>
 <!--<a id="printlink" href="#" onclick="print_view();return false;">Print friendly version</a>-->
