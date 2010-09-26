@@ -185,7 +185,7 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$calCode .= "		           modal: true,\n";
 	$calCode .= "		           autoResize: true,\n";
 	$calCode .= "		           title: event.title\n";
-	$calCode .= "		        }).width(".($popupWidth-20).").height(".($popupHeight-20).");\n";
+	$calCode .= "		        }).outerWidth(".($popupWidth-20).").outerHeight(".($popupHeight-20).");\n";
 	$calCode .= "		        return false;}\n";
 }
 $calCode .= "		},\n";
@@ -205,6 +205,12 @@ $calCode .= "	var custom_buttons ='<td style=\"padding-left:10px\">'+\n";
 $calCode .= "			'<div class=\"".$class."-state-default ".$class."-corner-left ".$class."-corner-right ".$class."-state-enabled\">'+\n";
 $calCode .= "			'<input type=\"hidden\" id=\"gcalendar_component_date_picker\" value=\"\">'+\n";
 $calCode .= "			'<a onClick=\"jQuery(\'#gcalendar_component_date_picker\').datepicker(\'show\');\"><span>".JText::_('SHOW_DATEPICKER')."'+\n";
+$calCode .= "			'</span></a>'+\n";
+$calCode .= "			'</div>'+\n";
+$calCode .= "			'</td>';\n";
+$calCode .= "		custom_buttons +='<td style=\"padding-left:10px\">'+\n";
+$calCode .= "			'<div class=\"".$class."-state-default ".$class."-corner-left ".$class."-corner-right ".$class."-state-enabled\">'+\n";
+$calCode .= "			'<a onClick=\"print_view();\"><span class=\"".$class."-icon ".$class."-icon-print\">".JText::_('TOOLBAR_PRINT')."'+\n";
 $calCode .= "			'</span></a>'+\n";
 $calCode .= "			'</div>'+\n";
 $calCode .= "			'</td>';\n";
@@ -278,4 +284,28 @@ echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img s
 echo "<div id='gcalendar_component'></div><div id='gcalendar_component_popup' style=\"visibility:hidden\" ></div>";
 echo $params->get( 'textafter' );
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
+
+//hide buttons and tune CSS for printable format
+if (@ $_GET['tmpl'] == 'component')
+echo '
+<style type="text/css">
+body { zoom:100%; width:1200px; margin-top:0px;}
+.fc-header-left, .fc-header-right { display:none; }
+table.fc-header   { margin:0; }
+.fc-header-title  { margin:0 5px; }
+
+/*CSS3 for the future*/
+@page {size: A4 landscape;}
+</style>
+'; else echo '
+<script type="text/javascript">
+function print_view() {
+	var loc=document.location.href.replace(/\?/,"\?tmpl=component\&");
+	if (loc==document.location.href)
+		loc=document.location.href.replace(/#/,"\?tmpl=component#");
+	document.location.href=loc;
+}
+</script>
+<!--<a id="printlink" href="#" onclick="print_view();return false;">Print friendly version</a>-->
+';
 ?>
