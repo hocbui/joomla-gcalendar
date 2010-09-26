@@ -31,7 +31,9 @@ class GCalendarUtil{
 	 * Loads the simplepie Libraries the correct way.
 	 */
 	function ensureSPIsLoaded(){
-		jimport('simplepie.simplepie');
+		if(!class_exists('SimplePie')){
+			jimport('simplepie.simplepie');
+		}
 
 		if(!class_exists('SimplePie_GCalendar')){
 			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
@@ -246,7 +248,7 @@ class GCalendarUtil{
 		}
 		return $parts;
 	}
-	
+
 	/**
 	 * Translates day of week number to a string.
 	 * Joomla 1.6 compatibility, JDate::dayToString is protected
