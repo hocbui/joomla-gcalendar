@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params addpath="/administrator/components/com_gcalendar/elements">
 		<param name="google_apps_domain" type="text" default="" size="100"
