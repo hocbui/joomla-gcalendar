@@ -262,7 +262,7 @@ if($params->get('show_selection', 1) == 1){
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 	$calendar_list = '<div id="gc_gcalendar_view_list"><table>';
 	foreach($allCalendars as $calendar) {
-		$value = htmlentities(JRoute::_(JURI::base().'index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id));
+		$value = JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id);
 		$checked = '';
 		if(empty($calendarids) || in_array($calendar->id, $calendarids)){
 			$checked = 'checked="checked"';
