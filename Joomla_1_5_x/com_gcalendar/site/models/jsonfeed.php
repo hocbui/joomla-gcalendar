@@ -132,7 +132,7 @@ class GCalendarModelJSONFeed extends JModel {
 			$feed->enable_order_by_date(FALSE);
 			$feed->set_start_date($startDate);
 			$feed->set_end_date($endDate);
-			$feed->set_max_events(100);
+			$feed->set_max_events(1000);
 			$feed->put('gcid',$result->id);
 			$feed->put('gccolor',$result->color);
 			$feed->put('gcname',$result->name);
