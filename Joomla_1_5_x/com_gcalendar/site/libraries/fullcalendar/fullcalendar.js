@@ -14,7 +14,7 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Thu Sep 23 07:00:01 2010 +0200
+ * Date: Tue Sep 28 21:56:34 2010 +0200
  *
  */
  
@@ -48,6 +48,7 @@ var defaults = {
 	//disableResizing: false,
 	
 	allDayDefault: true,
+	ignoreTimezone: true,
 	
 	// event ajax
 	lazyFetching: true,
@@ -119,7 +120,6 @@ var rtlDefaults = {
 		next: 'circle-triangle-w'
 	}
 };
-
 
 
 
@@ -782,6 +782,9 @@ function Header(calendar, options) {
 										}
 									)
 									.appendTo($("<td/>").appendTo(tr));
+								if (button.disableSelection) {
+									button.closest('td').disableSelection();
+								}
 								if (prevButton) {
 									prevButton.addClass(tm + '-no-right');
 								}else{
@@ -845,6 +848,7 @@ function EventManager(options, eventSources) {
 	t.isFetchNeeded = isFetchNeeded;
 	t.addEventSource = addEventSource;
 	t.addEventSourceFast = addEventSourceFast;
+	t.clearEventSources = clearEventSources;
 	t.removeEventSource = removeEventSource;
 	t.updateEvent = updateEvent;
 	t.renderEvent = renderEvent;
@@ -865,7 +869,7 @@ function EventManager(options, eventSources) {
 	var events = [];
 	var loadingLevel = 0;
 	
-	
+	var loadingSrc = {};
 	
 	/* Sources
 	-----------------------------------------------------------------------------*/
@@ -884,18 +888,25 @@ function EventManager(options, eventSources) {
 		fetchEventSource(source, rerenderEvents);
 	}
 
+	function clearEventSources() {
+		var sticky = [];
+		events = eventSources = [];
+		eventSources = sticky.concat(eventSources);
+		rerenderEvents();
+	}
+
 	function removeEventSource(source) {
-		var sticky = (typeof eventSources[0] == 'object') ? eventSources.slice(0,1) : [];
-		if (!source) events = eventSources = [];
-		else {
-			eventSources = $.grep(eventSources, function(src) {
-				return src != source;
-			});
-			// remove all client events from that source
-			events = $.grep(events, function(e) {
-				return e.source != source;
-			});
-		}
+		var sticky = [];
+		eventSources = $.grep(eventSources, function(src) {
+			if (typeof src === 'object' && source !== src) {
+				sticky = sticky.concat(src);
+			}
+			return src != source;
+		});
+		// remove all client events from that source
+		events = $.grep(events, function(e) {
+			return e.source != source;
+		});
 		eventSources = sticky.concat(eventSources);
 		rerenderEvents();
 	}
@@ -943,11 +954,20 @@ function EventManager(options, eventSources) {
 						}
 					}
 			},
-			reportEventsAndPop = function(a) {
-				reportEvents(a);
+			reportEventsAndPop = function(a,st,obj) {
+				if (loadingSrc[obj.src] > 0) {
+					loadingSrc[obj.src] = 0;
+					reportEvents(a);
+				}
 				popLoading();
+			},
+			ajaxBeforeFetch = function(obj) {
+				//attach source to xmlhttp request
+				obj.src = src;
 			};
 		if (typeof src == 'string') {
+			loadingSrc[src] = 1;
+			pushLoading();
 			var params = {};
 			params[options.startParam] = Math.round(eventStart.getTime() / 1000);
 			params[options.endParam] = Math.round(eventEnd.getTime() / 1000);
@@ -955,14 +975,16 @@ function EventManager(options, eventSources) {
 			if (options.cacheParam) {
 				params[options.cacheParam] = (new Date()).getTime(); // TODO: deprecate cacheParam
 			}
-			pushLoading();
 			// TODO: respect cache param in ajaxSetup
 			$.ajax({
 				url: src,
+				global: false,
+				type: options.requestMethod || 'GET',
 				dataType: 'json',
 				data: params,
 				cache: options.cacheParam || false, // don't let jquery prevent caching if cacheParam is being used
-				success: reportEventsAndPop
+				success: reportEventsAndPop,
+				beforeSend: ajaxBeforeFetch
 			});
 		}
 		else if ($.isFunction(src)) {
@@ -1018,6 +1040,9 @@ function EventManager(options, eventSources) {
 				e.editable = event.editable;
 				e.resizable = event.resizable;
 				e.color = event.color;
+				e.bgColor = event.bgColor;
+				e.borderColor = event.borderColor;
+				
 				normalizeEvent(e);
 			}
 		}
@@ -1112,8 +1137,8 @@ function EventManager(options, eventSources) {
 			}
 			delete event.date;
 		}
-		event._start = cloneDate(event.start = parseDate(event.start));
-		event.end = parseDate(event.end);
+		event._start = cloneDate(event.start = parseDate(event.start, options.ignoreTimezone));
+		event.end = parseDate(event.end, options.ignoreTimezone);
 		if (event.end && event.end <= event.start) {
 			event.end = null;
 		}
@@ -1451,19 +1476,14 @@ function BasicView(element, calendar, viewName) {
 					}
 				}
 				if (+d == +today) {
-					td.removeClass('fc-not-today')
-						.removeClass('fc-before-today')
-						.addClass('fc-today')
-						.addClass(tm + '-state-highlight');
+					td.removeClass('fc-not-today fc-before-today')
+					  .addClass(tm + '-state-highlight fc-today');
 				}else if (+d < +today) {
-					td.addClass('fc-before-today')
-						.addClass('fc-not-today')
-						.removeClass(tm + '-state-highlight');
+					td.addClass('fc-not-today fc-before-today')
+					  .removeClass(tm + '-state-highlight fc-today');
 				}else{
 					td.addClass('fc-not-today')
-						.removeClass('fc-before-today')
-						.removeClass('fc-today')
-						.removeClass(tm + '-state-highlight');
+					  .removeClass(tm + '-state-highlight fc-today fc-before-today');
 				}
 				td.find('div.fc-day-number').text(d.getDate());
 				addDays(d, 1);
@@ -2188,22 +2208,14 @@ function AgendaView(element, calendar, viewName) {
 			bg.find('td').each(function(i, td) {
 				td.className = td.className.replace(/^fc-\w+(?= )/, 'fc-' + dayIDs[d.getDay()]);
 				if (+d == +today) {
-					$(td)
-						.removeClass('fc-not-today')
-						.removeClass('fc-before-today')
-						.addClass('fc-today')
-						.addClass(tm + '-state-highlight');
+					$(td).removeClass('fc-not-today fc-before-today')
+					     .addClass(tm + '-state-highlight fc-today');
 				}else if (+d < +today) {
-					$(td)
-						.addClass('fc-before-today')
-						.addClass('fc-not-today')
-						.removeClass(tm + '-state-highlight');
+					$(td).addClass('fc-not-today fc-before-today')
+					     .removeClass(tm + '-state-highlight fc-today');
 				}else{
-					$(td)
-						.addClass('fc-not-today')
-						.removeClass('fc-today')
-						.removeClass('fc-before-today')
-						.removeClass(tm + '-state-highlight');
+					$(td).addClass('fc-not-today')
+					     .removeClass(tm + '-state-highlight fc-today fc-before-today');
 				}
 				addDays(d, dis);
 				if (nwe) {
@@ -2226,22 +2238,12 @@ function AgendaView(element, calendar, viewName) {
 		viewHeight = height;
 		slotTopCache = {};
 		
-		setOuterHeight(body,height - getHeight(head));
-		if (msie9)
-			setOuterHeight(body,height - getHeight(head) - 1);
+		var bodyHeight = height - getHeight(head);
+		bodyHeight = Math.min(bodyHeight, getHeight(bodyTable)); // shrink to fit table
+		setOuterHeight(body, bodyHeight);
+		if (msie9) setOuterHeight(body,height - getHeight(head) - 1);
 		
 		slotHeight = getHeight(body.find('tr:first div')) + 1;
-		
-		bg.css({
-			top: head.find('tr').outerHeight(),
-			height: height
-		});
-
-		// if the table ends up shorter than the allotted view, shrink the view to fit the table
-		var tableHeight=getHeight(body.find('table:first'));
-		if (tableHeight<getHeight(body)) {
-			body.height(tableHeight);
-		}
 		
 		if (dateChanged) {
 			resetScroll();
@@ -2255,42 +2257,54 @@ function AgendaView(element, calendar, viewName) {
 		colContentPositions.clear();
 		
 		setOuterWidth(body,width);
-		bodyTable.width('');
+		body.width(width).css('overflow', 'auto');
 		
 		var topTDs = head.find('tr:first th'),
+			allDayLastTH = head.find('tr.fc-all-day th:last'),
 			stripeTDs = bg.find('td'),
 			clientWidth = body[0].clientWidth;
 			
 		setOuterWidth(bodyTable,clientWidth);
+
+		clientWidth = body[0].clientWidth; // in ie6, sometimes previous clientWidth was wrongly reported
+		bodyTable.width(clientWidth);
 		
 		// time-axis width
 		axisWidth = 0;
 		var axisTHs = head.find('tr:lt(2) th:first').add(body.find('tr:first th'));
-		axisTHs.width('');
+		axisTHs.width(1);
 		axisTHs.each(function() {
 			axisWidth = Math.max(axisWidth, $(this).outerWidth());
 		});
-		if (!msie9)
-			setOuterWidth(axisTHs,axisWidth);
+
+		//if (!msie9)
+		setOuterWidth(axisTHs,axisWidth);
 		
-		// column width
+		// column width, except for last column
 		colWidth = Math.floor((clientWidth - axisWidth) / colCnt);
 		setOuterWidth(topTDs.slice(1, -2), colWidth);
 		setOuterWidth(stripeTDs.slice(0, -1), colWidth);
-		if (msie9) //no border on first day
-			stripeTDs.first().outerWidth(colWidth - 1);
 
-		var scrollbar=body[0].scrollHeight!=body[0].clientHeight;
-		if (scrollbar) {
+		//if (msie9) //no border on first day (to recheck with different themes)
+		//	stripeTDs.first().outerWidth(colWidth - 1);
+
+		// column width for last column
+		if (width != clientWidth) { // has scrollbar			
 			setOuterWidth(topTDs.slice(-2, -1), clientWidth - axisWidth - colWidth*(colCnt-1));
-		} else {
+			topTDs.slice(-1).show();
+			allDayLastTH.show();
+		}else{
+			body.css('overflow', 'hidden');
+			topTDs.slice(-2, -1).width('');
 			topTDs.slice(-1).hide();
-			$('tr.fc-all-day th').slice(-1).hide();
+			allDayLastTH.hide();
 		}
 
 		bg.css({
+			top: head.find('tr').height(),
 			left: axisWidth,
-			width: clientWidth - axisWidth
+			width: clientWidth - axisWidth,
+			height: viewHeight
 		});
 	}
 	
@@ -2974,10 +2988,17 @@ function AgendaEventRenderer() {
 	
 	
 	function slotSegHtml(event, seg, className) {
-		var color;
+		var color='';
 		if (event.color) {
-			color = ";background-color:" + event.color + ";border-color:" + event.color;
+			color += "color:" + event.color + ";";
 		}
+		if (event.bgColor) {
+			color += "background-color:" + event.bgColor + ";";
+		}
+		if (event.borderColor) {
+			color += "border-color:" + event.borderColor + ";";
+		}
+		
 		return "<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;top:" + seg.top + "px;left:" + seg.left + "px'>" +
 			"<a" + (event.url ? " href='" + htmlEscape(event.url) + "'" : '') + (color ? " style='" + color + "'" : '') + ">" +
 				"<span class='fc-event-bg'></span>" +
@@ -3580,9 +3601,15 @@ function DayEventRenderer() {
 				left = seg.isStart ? colContentLeft(dayOfWeekCol(seg.start.getDay())) : minLeft;
 				right = seg.isEnd ? colContentRight(dayOfWeekCol(seg.end.getDay()-1)) : maxLeft;
 			}
-			var color;
+			var color='';
 			if (event.color) {
-				color = ";background-color:" + event.color + ";border-color:" + event.color;
+				color = "color:" + event.color + ";";
+			}
+			if (event.bgColor) {
+				color += "background-color:" + event.bgColor + ";";
+			}
+			if (event.borderColor) {
+				color += "border-color:" + event.borderColor + ";";
 			}
 			html +=
 				"<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;left:"+left+"px'>" +
@@ -4122,7 +4149,7 @@ function setYMD(date, y, m, d) {
 -----------------------------------------------------------------------------*/
 
 
-function parseDate(s) {
+function parseDate(s, ignoreTimezone) {
 	if (typeof s == 'object') { // already a Date object
 		return s;
 	}
@@ -4133,7 +4160,10 @@ function parseDate(s) {
 		if (s.match(/^\d+$/)) { // a UNIX timestamp
 			return new Date(parseInt(s) * 1000);
 		}
-		return parseISO8601(s, true) || (s ? new Date(s) : null);
+		if (ignoreTimezone === undefined) {
+			ignoreTimezone = true;
+		}
+		return parseISO8601(s, ignoreTimezone) || (s ? new Date(s) : null);
 	}
 	// TODO: never return invalid dates (like from new Date(<string>)), return null instead
 	return null;
@@ -4147,39 +4177,59 @@ function parseISO8601(s, ignoreTimezone) {
 	if (!m) {
 		return null;
 	}
-	var date = new Date(m[1], 0, 1),
-		check = new Date(m[1], 0, 1, 9, 0),
-		offset = 0;
-	if (m[3]) {
-		date.setMonth(m[3] - 1);
-		check.setMonth(m[3] - 1);
-	}
-	if (m[5]) {
-		date.setDate(m[5]);
-		check.setDate(m[5]);
-	}
-	fixDate(date, check);
-	if (m[7]) {
-		date.setHours(m[7]);
-	}
-	if (m[8]) {
-		date.setMinutes(m[8]);
-	}
-	if (m[10]) {
-		date.setSeconds(m[10]);
-	}
-	if (m[12]) {
-		date.setMilliseconds(Number("0." + m[12]) * 1000);
-	}
-	fixDate(date, check);
-	if (!ignoreTimezone) {
+	var date = new Date(m[1], 0, 1);
+	if (ignoreTimezone) {
+		var check = new Date(m[1], 0, 1, 9, 0);
+		if (m[3]) {
+			date.setMonth(m[3] - 1);
+			check.setMonth(m[3] - 1);
+		}
+		if (m[5]) {
+			date.setDate(m[5]);
+			check.setDate(m[5]);
+		}
+		fixDate(date, check);
+		if (m[7]) {
+			date.setHours(m[7]);
+		}
+		if (m[8]) {
+			date.setMinutes(m[8]);
+		}
+		if (m[10]) {
+			date.setSeconds(m[10]);
+		}
+		if (m[12]) {
+			date.setMilliseconds(Number("0." + m[12]) * 1000);
+		}
+		fixDate(date, check);
+	}else{
+		var offset = 0;
+		date.setUTCFullYear(m[1]);
+		if (m[3]) {
+			date.setUTCMonth(m[3] - 1);
+		}
+		if (m[5]) {
+			date.setUTCDate(m[5]);
+		}
+		if (m[7]) {
+			date.setUTCHours(m[7]);
+		}
+		if (m[8]) {
+			date.setUTCMinutes(m[8]);
+		}
+		if (m[10]) {
+			date.setUTCSeconds(m[10]);
+		}
+		if (m[12]) {
+			date.setUTCMilliseconds(Number("0." + m[12]) * 1000);
+		}
 		if (m[14]) {
 			offset = Number(m[16]) * 60 + Number(m[17]);
 			offset *= m[15] == '-' ? 1 : -1;
 		}
-		offset -= date.getTimezoneOffset();
+		date = new Date(+date + (offset * 60 * 1000));
 	}
-	return new Date(+date + (offset * 60 * 1000));
+	return date;
 }
 
 
