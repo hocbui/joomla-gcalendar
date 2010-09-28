@@ -42,9 +42,9 @@ $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery
 $calendarids = array();
 $tmp = $params->get('calendarids');
 if(is_array($tmp))
-	$calendarids = $tmp;
+$calendarids = $tmp;
 else if(!empty($tmp))
-	$calendarids[] = $tmp;
+$calendarids[] = $tmp;
 $allCalendars = GCalendarDBUtil::getAllCalendars();
 
 $calsSources = "		eventSources: [\n";
@@ -53,7 +53,8 @@ foreach($allCalendars as $calendar) {
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #".$calendar->color."; color: white;}");
 	if(empty($calendarids) || in_array($calendar->id, $calendarids)){
-		$calsSources .= "				'".JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id)."',\n";
+		$value = html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id));
+		$calsSources .= "				'".$value."',\n";
 	}
 }
 $calsSources = trim($calsSources, ",\n");
@@ -185,7 +186,7 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$calCode .= "		           modal: true,\n";
 	$calCode .= "		           autoResize: true,\n";
 	$calCode .= "		           title: event.title\n";
-	$calCode .= "		        }).outerWidth(".($popupWidth-20).").outerHeight(".($popupHeight-20).");\n";
+	$calCode .= "		        }).width(".($popupWidth-20).").height(".($popupHeight-20).");\n";
 	$calCode .= "		        return false;}\n";
 }
 $calCode .= "		},\n";
@@ -208,12 +209,6 @@ $calCode .= "			'<a onClick=\"jQuery(\'#gcalendar_component_date_picker\').datep
 $calCode .= "			'</span></a>'+\n";
 $calCode .= "			'</div>'+\n";
 $calCode .= "			'</td>';\n";
-//$calCode .= "		custom_buttons +='<td style=\"padding-left:10px\">'+\n";
-//$calCode .= "			'<div class=\"".$class."-state-default ".$class."-corner-left ".$class."-corner-right ".$class."-state-enabled\">'+\n";
-//$calCode .= "			'<a onClick=\"print_view();\"><span class=\"".$class."-icon ".$class."-icon-print\">".JText::_('TOOLBAR_PRINT')."'+\n";
-//$calCode .= "			'</span></a>'+\n";
-//$calCode .= "			'</div>'+\n";
-//$calCode .= "			'</td>';\n";
 $calCode .= "	jQuery('div.fc-button-today').parent('td').after(custom_buttons);\n";
 $calCode .= "	jQuery(\"#gcalendar_component_date_picker\").datepicker({\n";
 $calCode .= "		dateFormat: 'dd-mm-yy',\n";
@@ -262,7 +257,7 @@ if($params->get('show_selection', 1) == 1){
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 	$calendar_list = '<div id="gc_gcalendar_view_list"><table>';
 	foreach($allCalendars as $calendar) {
-		$value = JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id);
+		$value = html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id));
 		$checked = '';
 		if(empty($calendarids) || in_array($calendar->id, $calendarids)){
 			$checked = 'checked="checked"';
@@ -284,29 +279,4 @@ echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img s
 echo "<div id='gcalendar_component'></div><div id='gcalendar_component_popup' style=\"visibility:hidden\" ></div>";
 echo $params->get( 'textafter' );
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
-
-//hide buttons and tune CSS for printable format
-if (@ $_GET['tmpl'] == 'component')
-echo '
-<style type="text/css">
-body { zoom:100%; width:1200px; margin-top:0px;}
-.fc-header-left, .fc-header-right { display:none; }
-table.fc-header   { margin:0; }
-.fc-header-title  { margin:0 5px; }
-
-/*CSS3 for the future*/
-@page {size: A4 landscape;}
-</style>
-'; else echo '
-<script type="text/javascript">
-function print_view() {
-	var loc=document.location.href.replace(/\?/,"\?tmpl=component\&");
-	if (loc==document.location.href)
-		loc=document.location.href.replace(/#/,"\?tmpl=component#");
-	var printWindow = window.open(loc);
-	printWindow.focus();
-}
-</script>
-<!--<a id="printlink" href="#" onclick="print_view();return false;">Print friendly version</a>-->
-';
 ?>
