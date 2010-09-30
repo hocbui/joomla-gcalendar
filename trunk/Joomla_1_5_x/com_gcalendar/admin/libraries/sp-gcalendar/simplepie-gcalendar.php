@@ -35,7 +35,7 @@ class SimplePie_Locator_GCalendar extends SimplePie_Locator {
 		parent::SimplePie_Locator($file,$timeout,$useragent,$file_class,$max_checked_feeds,$content_type_sniffer_class);
 
 		if ($file->status_code == 403 && strpos($file->url,"public/full") !== false) {
-			$url = str_replace("public/full","public/basic",$file->url);
+			$url = str_replace("public/full","public/free-busy",$file->url);
 			$file = new $file_class($url,$timeout,5,null,$useragent,false);
 		}
 	}
