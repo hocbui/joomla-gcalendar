@@ -27,6 +27,22 @@ if (!defined('SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_FEED')) {
 }
 
 /**
+	Extends class to trap HTTP status code (403: forbidden)
+ */
+class SimplePie_Locator_GCalendar extends SimplePie_Locator {
+	
+	function SimplePie_Locator_GCalendar(&$file, $timeout = 10, $useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer') {
+		parent::SimplePie_Locator($file,$timeout,$useragent,$file_class,$max_checked_feeds,$content_type_sniffer_class);
+
+		if ($file->status_code == 403 && strpos($file->url,"public/full") !== false) {
+			$url = str_replace("public/full","public/basic",$file->url);
+			$file = new $file_class($url,$timeout,5,null,$useragent,false);
+		}
+	}
+	
+}
+
+/**
  * SimplePie_GCalendar is the SimplePie extension which provides some
  * helper methods.
  *
@@ -181,6 +197,9 @@ class SimplePie_GCalendar extends SimplePie {
 		}
 		$this->set_feed_url($new_url);
 
+		//trap HTTP error code
+		$this->set_locator_class('SimplePie_Locator_GCalendar');
+
 		parent::init();
 	}
 
@@ -279,7 +298,7 @@ class SimplePie_GCalendar extends SimplePie {
 		if($magic_cookie != null)
 		$type = 'private-'.$magic_cookie;
 
-		return 'http://www.google.com/calendar/feeds/'.$email_address.'/'.$type.'/full';
+		return 'http://www.google.com/calendar/feeds/'.$email_address.'/'.$type.'/'.$this->projection;
 	}
 }
 
@@ -305,6 +324,7 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	var $gc_day_type;
 	var $gc_transparency;
 	var $gc_attendees;
+	var $gc_comments_feed;
 
 	/**
 	 * Returns the id of the event.
@@ -412,6 +432,26 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 		if($format != null)
 		return strftime($format, $this->gc_end_date);
 		return $this->gc_end_date;
+	}
+
+	/**
+	 * Returns comments url.
+	 *
+	 * @sse http://code.google.com/apis/gdata/docs/2.0/elements.html#gdComments
+	 * @return an array of attendees
+	 */
+	function get_comments(){
+		if(!$this->gc_comments_feed){
+			$comments = $this->get_item_tags(SIMPLEPIE_NAMESPACE_GOOGLE_CALENDAR_ITEM, 'comments');
+			$url = "";
+			if (!empty($comments)) {
+				$feedLink = array_pop($comments[0]['child']);
+				if (!empty($feedLink))
+					$url = $feedLink['feedLink'][0]['attribs']['']['href'];
+			}
+			$this->gc_comments_feed = $url;
+		}
+		return $this->gc_comments_feed;
 	}
 
 	/**
