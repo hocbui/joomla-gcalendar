@@ -14,7 +14,7 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Wed Sep 29 18:57:53 2010 +0200
+ * Date: Thu Oct 14 12:48:53 2010 +0200
  *
  */
  
@@ -863,11 +863,12 @@ function EventManager(options, eventSources) {
 
 	
 	// locals
+	var fetchID = 0;
 	var eventStart, eventEnd;
 	var events = [];
 	var loadingLevel = 0;
 	
-	var loadingSrc = {};
+	
 	
 	/* Sources
 	-----------------------------------------------------------------------------*/
@@ -917,66 +918,50 @@ function EventManager(options, eventSources) {
 	
 	// Fetch from ALL sources. Clear 'events' array and populate
 	function fetchEvents(callback) {
-		var view = getView();
 		events = [];
-		eventStart = cloneDate(view.visStart);
-		eventEnd = cloneDate(view.visEnd);
-		var queued = eventSources.length,
-			sourceDone = function() {
+		fetchEventSources(eventSources, callback);
+	}
+	
+	
+	// appends to the events array
+	function fetchEventSources(sources, callback) {
+		var savedID = ++fetchID;
+		var queued = sources.length;
+		var view = getView();
+		eventStart = cloneDate(view.visStart); // we don't need to make local copies b/c
+		eventEnd = cloneDate(view.visEnd);     //   eventStart/eventEnd is only assigned/manipulated here
+		function sourceDone(source, sourceEvents) {
+			if (savedID == fetchID && eventStart >= view.visStart && eventEnd <= view.visEnd) {
+				// same fetchEventSources call, and still in correct date range
+				if ($.inArray(source, eventSources) != -1) { // source hasn't been removed since we started
+					for (var i=0; i<sourceEvents.length; i++) {
+						normalizeEvent(sourceEvents[i]);
+						sourceEvents[i].source = source;
+					}
+					events = events.concat(sourceEvents);
+				}
 				if (!--queued) {
 					if (callback) {
 						callback(events);
 					}
 				}
-			}, i=0;
-		for (; i<eventSources.length; i++) {
-			fetchEventSource(eventSources[i], sourceDone);
+			}
+		}
+		for (var i=0; i<sources.length; i++) {
+			_fetchEventSource(sources[i], sourceDone);
 		}
 	}
 	
 	
-	// Fetch from a particular source. Append to the 'events' array
-	function fetchEventSource(src, callback) {
-		var prevView = getView(),
-			prevDate = getDate(),
-			reportEvents = function(a,src) {
-				//if (prevView == getView() && +prevDate == +getDate() && // protects from fast switching
-				if ($.inArray(src, eventSources) != -1) {               // makes sure source hasn't been removed
-						for (var i=0; i<a.length; i++) {
-							normalizeEvent(a[i]);
-							a[i].source = src;
-						}
-						events = events.concat(a);
-						if (callback) {
-							callback(a);
-						}
-					}
-			},
-			reportEventsAndPop = function(a,st,obj) {
-				if (obj && obj.src && loadingSrc[obj.src]) {
-					loadingSrc[obj.src] = 0;
-					reportEvents(a,obj.src);
-				} else if (!obj) {
-					//function
-					reportEvents(a,src);
-					popLoading();
-				}
-			},
-			ajaxBeforeFetch = function(obj) {
-				//prevent double requests
-				if (loadingSrc[src] > 1)
-					return false;
-				//attach source to xmlhttp request
-				obj.src = src;
-				pushLoading();
-			},
-			ajaxAfterFetch = function(obj) {
-				if (obj.src)
-					loadingSrc[obj.src] = 0;
-				popLoading();
-			};
+	function _fetchEventSource(src, callback) {
+		function reportEvents(a) {
+			callback(src, a);
+		}
+		function reportEventsAndPop(a) {
+			reportEvents(a);
+			popLoading();
+		}
 		if (typeof src == 'string') {
-			loadingSrc[src] = 1 + (loadingSrc[src]||0);
 			var params = {};
 			params[options.startParam] = Math.round(eventStart.getTime() / 1000);
 			params[options.endParam] = Math.round(eventEnd.getTime() / 1000);
@@ -984,6 +969,7 @@ function EventManager(options, eventSources) {
 			if (options.cacheParam) {
 				params[options.cacheParam] = (new Date()).getTime(); // TODO: deprecate cacheParam
 			}
+			pushLoading();
 			// TODO: respect cache param in ajaxSetup
 			$.ajax({
 				url: src,
@@ -992,9 +978,7 @@ function EventManager(options, eventSources) {
 				dataType: 'json',
 				data: params,
 				cache: options.cacheParam || false, // don't let jquery prevent caching if cacheParam is being used
-				success: reportEventsAndPop,
-				beforeSend: ajaxBeforeFetch,
-				complete: ajaxAfterFetch
+				success: reportEventsAndPop
 			});
 		}
 		else if ($.isFunction(src)) {
@@ -1002,8 +986,13 @@ function EventManager(options, eventSources) {
 			src(cloneDate(eventStart), cloneDate(eventEnd), reportEventsAndPop);
 		}
 		else if (src) {
-			reportEvents(src,src); // src is an array (sticky events)
+			reportEvents(src); // src is an array (sticky events)
 		}
+	}
+	
+	
+	function fetchEventSource(src, callback) {
+		fetchEventSources([src], callback);
 	}
 	
 	
@@ -1016,6 +1005,8 @@ function EventManager(options, eventSources) {
 		var view = getView();
 		return !eventStart || view.visStart < eventStart || view.visEnd > eventEnd;
 	}
+	
+	
 	
 	/* Manipulation
 	-----------------------------------------------------------------------------*/
@@ -1046,6 +1037,7 @@ function EventManager(options, eventSources) {
 				e.allDay = event.allDay;
 				e.className = event.className;
 				e.editable = event.editable;
+				
 				e.resizable = event.resizable;
 				e.color = event.color;
 				e.bgColor = event.bgColor;
@@ -2978,8 +2970,9 @@ function AgendaEventRenderer() {
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
 			if (eventElement = seg.element) {
-				eventElement[0].style.width = seg.outerWidth - seg.hsides + 'px';
-				eventElement[0].style.height = (height = seg.outerHeight - seg.vsides) + 'px';
+				eventElement[0].style.width = Math.max(0, seg.outerWidth - seg.hsides) + 'px';
+				height = Math.max(0, seg.outerHeight - seg.vsides);
+				eventElement[0].style.height = height + 'px';
 				event = seg.event;
 				if (seg.titleTop !== undefined && height - seg.titleTop < 10) {
 					// not enough room for title, put it in the time header
@@ -3682,7 +3675,7 @@ function DayEventRenderer() {
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
 			if (eventElement = seg.element) {
-				eventElement[0].style.width = seg.outerWidth - seg.hsides + 'px';
+				eventElement[0].style.width = Math.max(0, seg.outerWidth - seg.hsides) + 'px';
 			}
 		}
 	
@@ -4560,14 +4553,14 @@ function lazySegBind(container, segs, bindHandlers) {
 
 function setOuterWidth(element, width, includeMargins) {
 	element.each(function(i, _element) {
-		_element.style.width = width - hsides(_element, includeMargins) + 'px';
+		_element.style.width = Math.max(0, width - hsides(_element, includeMargins)) + 'px';
 	});
 }
 
 
 function setOuterHeight(element, height, includeMargins) {
 	element.each(function(i, _element) {
-		_element.style.height = height - vsides(_element, includeMargins) + 'px';
+		_element.style.height = Math.max(0, height - vsides(_element, includeMargins)) + 'px';
 	});
 }
 
