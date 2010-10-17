@@ -49,7 +49,7 @@ class GCalendarUtil{
 			$param   = GCalendarUtil::getComponentParameter('loadJQuery');
 			if($param == 'yes' || empty($param)){
 				$document =& JFactory::getDocument();
-				$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/jquery-1.4.2.min.js');
+				$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/jquery-1.4.3.min.js');
 				$document->addScriptDeclaration("jQuery.noConflict();");
 			}
 			$jQueryloaded = 'loaded';

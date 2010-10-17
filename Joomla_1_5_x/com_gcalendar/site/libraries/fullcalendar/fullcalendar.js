@@ -14,20 +14,11 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Thu Oct 14 12:48:53 2010 +0200
+ * Date: Sat Oct 16 17:10:03 2010 -0700
  *
  */
  
 (function($, undefined) {
-
-var msie9 = false;
-
-//IE9 dnd fix (jQuery UI Mouse (<= 1.8.5) doesnt support IE9)
-if ($.ui && $.browser.msie && parseInt($.browser.version,10) >= 9) {
-	msie9 = true;
-	var mm=$.ui.mouse.prototype._mouseMove;
-	$.ui.mouse.prototype._mouseMove=function(b){b.button=1;mm.apply(this,[b]);}
-}
 
 
 var defaults = {
@@ -123,8 +114,17 @@ var rtlDefaults = {
 
 
 
-var fc = $.fullCalendar = {};
+var fc = $.fullCalendar = { version: "1.4.8-IE9" };
 var fcViews = fc.views = {};
+
+
+//IE9 dnd fix (jQuery UI Mouse (<= 1.8.5) doesnt support IE9)
+var msie9 = false;
+if ($.ui && $.browser.msie && parseInt($.browser.version,10) >= 9) {
+	msie9 = true;
+	var mm=$.ui.mouse.prototype._mouseMove;
+	$.ui.mouse.prototype._mouseMove=function(b){b.button=1;mm.apply(this,[b]);}
+}
 
 
 $.fn.fullCalendar = function(options) {
@@ -927,11 +927,15 @@ function EventManager(options, eventSources) {
 	function fetchEventSources(sources, callback) {
 		var savedID = ++fetchID;
 		var queued = sources.length;
-		var view = getView();
-		eventStart = cloneDate(view.visStart); // we don't need to make local copies b/c
-		eventEnd = cloneDate(view.visEnd);     //   eventStart/eventEnd is only assigned/manipulated here
+		var origView = getView();
+		eventStart = cloneDate(origView.visStart); // we don't need to make local copies b/c
+		eventEnd = cloneDate(origView.visEnd);     //   eventStart/eventEnd is only assigned/manipulated here
 		function sourceDone(source, sourceEvents) {
-			if (savedID == fetchID && eventStart >= view.visStart && eventEnd <= view.visEnd) {
+			var currentView = getView();
+			if (origView != currentView) {
+				origView.eventsDirty = true; // sort of a hack
+			}
+			if (savedID == fetchID && eventStart <= currentView.visStart && eventEnd >= currentView.visEnd) {
 				// same fetchEventSources call, and still in correct date range
 				if ($.inArray(source, eventSources) != -1) { // source hasn't been removed since we started
 					for (var i=0; i<sourceEvents.length; i++) {
@@ -2114,7 +2118,7 @@ function AgendaView(element, calendar, viewName) {
 				"<table style='width:100%'>" +
 				"<tr class='fc-first" + (opt('allDaySlot') ? '' : ' fc-last') + "'>" +
 				"<th class='fc-leftmost " +
-					tm + "-state-default'>&nbsp;</th>";
+					tm + "-state-default'>" + (opt('weekNumbers') ? formatDate(t.visStart, 'w') : '&nbsp;') + "</th>";
 			for (i=0; i<colCnt; i++) {
 				s += "<th class='fc-" +
 					dayIDs[d.getDay()] + ' ' + // needs to be first
@@ -2192,6 +2196,10 @@ function AgendaView(element, calendar, viewName) {
 		}else{ // skeleton already built, just modify it
 		
 			clearEvents();
+			
+			if (opt('weekNumbers')) {
+				head.find('tr:first th:first').text( formatDate(t.visStart, 'w') );
+			}
 			
 			// redo column header text and class
 			head.find('tr:first th').slice(1, -1).each(function(i, th) {
@@ -2634,7 +2642,7 @@ function AgendaView(element, calendar, viewName) {
 	
 	
 	function slotSelectionMousedown(ev) {
-		if (opt('selectable')) {
+		if (ev.which == 1 && opt('selectable')) { // ev.which==1 means left mouse button
 			unselect(ev);
 			var _mousedownElement = this;
 			var dates;
@@ -3863,7 +3871,7 @@ function SelectionManager() {
 		var cellDate = t.cellDate;
 		var cellIsAllDay = t.cellIsAllDay;
 		var hoverListener = t.getHoverListener();
-		if (opt('selectable')) {
+		if (ev.which == 1 && opt('selectable')) { // which==1 means left mouse button
 			unselect(ev);
 			var _mousedownElement = this;
 			var dates;
@@ -4182,7 +4190,7 @@ function setYMD(date, y, m, d) {
 -----------------------------------------------------------------------------*/
 
 
-function parseDate(s, ignoreTimezone) {
+function parseDate(s, ignoreTimezone) { // ignoreTimezone defaults to true
 	if (typeof s == 'object') { // already a Date object
 		return s;
 	}
@@ -4203,7 +4211,7 @@ function parseDate(s, ignoreTimezone) {
 }
 
 
-function parseISO8601(s, ignoreTimezone) {
+function parseISO8601(s, ignoreTimezone) { // ignoreTimezone defaults to false
 	// derived from http://delete.me.uk/2005/03/iso8601.html
 	// TODO: for a know glitch/feature, read tests/issue_206_parseDate_dst.html
 	var m = s.match(/^([0-9]{4})(-([0-9]{2})(-([0-9]{2})([T ]([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?$/);
@@ -4211,7 +4219,7 @@ function parseISO8601(s, ignoreTimezone) {
 		return null;
 	}
 	var date = new Date(m[1], 0, 1);
-	if (ignoreTimezone) {
+	if (ignoreTimezone || !m[14]) {
 		var check = new Date(m[1], 0, 1, 9, 0);
 		if (m[3]) {
 			date.setMonth(m[3] - 1);
@@ -4236,30 +4244,19 @@ function parseISO8601(s, ignoreTimezone) {
 		}
 		fixDate(date, check);
 	}else{
-		var offset = 0;
-		date.setUTCFullYear(m[1]);
-		if (m[3]) {
-			date.setUTCMonth(m[3] - 1);
-		}
-		if (m[5]) {
-			date.setUTCDate(m[5]);
-		}
-		if (m[7]) {
-			date.setUTCHours(m[7]);
-		}
-		if (m[8]) {
-			date.setUTCMinutes(m[8]);
-		}
-		if (m[10]) {
-			date.setUTCSeconds(m[10]);
-		}
-		if (m[12]) {
-			date.setUTCMilliseconds(Number("0." + m[12]) * 1000);
-		}
-		if (m[14]) {
-			offset = Number(m[16]) * 60 + Number(m[17]);
-			offset *= m[15] == '-' ? 1 : -1;
-		}
+		date.setUTCFullYear(
+			m[1],
+			m[3] ? m[3] - 1 : 0,
+			m[5] || 1
+		);
+		date.setUTCHours(
+			m[7] || 0,
+			m[8] || 0,
+			m[10] || 0,
+			m[12] ? Number("0." + m[12]) * 1000 : 0
+		);
+		var offset = Number(m[16]) * 60 + Number(m[17]);
+		offset *= m[15] == '-' ? 1 : -1;
 		date = new Date(+date + (offset * 60 * 1000));
 	}
 	return date;
@@ -4406,9 +4403,25 @@ var dateFormatters = {
 			return 'th';
 		}
 		return ['st', 'nd', 'rd'][date%10-1] || 'th';
-	}
+	},
+	w	: function(d,options)	{ return d.getWeek(options).toString(); }
 };
 
+if (Date.prototype.getWeek === undefined) {
+
+	Date.prototype.getWeek = function(opt) {
+		opt = opt || defaults;
+		
+		//1st week of year always contains 4th Jan or 28 Dec (ISO )
+		var jan4 = new Date(this.getFullYear(),0,4);
+
+		//ISO weeks numbers begins on monday, so rotate sunday to 6
+		var fDay = (jan4.getDay() - 1 + 7) % 7;
+
+		return Math.ceil( (((this - jan4) / 86400000) + (fDay+1) ) / 7 ) || 53;
+	}
+
+}
 
 
 
@@ -4563,6 +4576,9 @@ function setOuterHeight(element, height, includeMargins) {
 		_element.style.height = Math.max(0, height - vsides(_element, includeMargins)) + 'px';
 	});
 }
+
+
+// TODO: curCSS has been deprecated
 
 
 function hsides(_element, includeMargins) {
