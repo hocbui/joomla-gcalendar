@@ -26,6 +26,7 @@
 		<language tag="en-GB">site/languages/en-GB.com_gcalendar.ini</language>
 		<language tag="de-DE">site/languages/de-DE.com_gcalendar.ini</language>
 		<language tag="fr-FR">site/languages/fr-FR.com_gcalendar.ini</language>
+		<language tag="es-ES">site/languages/es-ES.com_gcalendar.ini</language>
 	</languages>
 	<install>
 		<sql>
