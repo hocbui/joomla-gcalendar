@@ -1,13 +1,16 @@
 /*
- * FullCalendar v1.4.7 Stylesheet
+ * FullCalendar v1.4.8-IE9 Stylesheet
  *
  * Feel free to edit this file to customize the look of FullCalendar.
  * When upgrading to newer versions, please upgrade this file as well,
  * porting over any customizations afterwards.
  *
- * Date: Thu Jul 15 23:59:45 2010 +0200
+ * Date: Mon Oct 25 02:35:06 2010 +0200
  *
  */
+ 
+ 
+/* TODO: make font sizes look the same in all doctypes */
 
 
 .fc,
@@ -215,7 +218,7 @@ table.fc-header {
 	background: #ffc;
 	}
 	
-.fc-content .fc-not-today {
+.fc-content .fc-not-today { /* override jq-ui highlight (TODO: ui-widget-content) */
 	background: none;
 	}
 	
@@ -236,6 +239,8 @@ table.fc-header {
 	
 	
 	
+
+
 /* Global Event Styles
 ------------------------------------------------------------------------*/
 
@@ -362,6 +367,7 @@ table.fc-header {
 	}
 	
 	
+	
 
 /* Month View, Basic Week View, Basic Day View
 ------------------------------------------------------------------------*/
@@ -422,6 +428,11 @@ table.fc-header {
 	float: right;
 	}
 	
+/* week numbers */
+	
+.fc .fc-grid th.fc-weeknumber {
+	border-top-width: 1px;
+}
 /* Agenda Week View, Agenda Day View
 ------------------------------------------------------------------------*/
 
@@ -495,6 +506,12 @@ table.fc-header {
 	
 .fc-agenda .fc-day-content {
 	padding: 2px 2px 0; /* distance between events and day edges */
+	}
+	
+/* vertical background columns */
+
+.fc .fc-agenda-bg .ui-state-highlight {
+	background-image: none; /* tall column, don't want repeating background image */
 	}
 	
 
