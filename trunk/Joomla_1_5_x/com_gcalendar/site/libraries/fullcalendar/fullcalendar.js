@@ -14,7 +14,7 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Sat Oct 16 17:10:03 2010 -0700
+ * Date: Mon Oct 25 02:35:06 2010 +0200
  *
  */
  
@@ -1349,7 +1349,7 @@ function BasicView(element, calendar, viewName) {
 	
 	
 	// locals
-	var rtl, dis, dit;
+	var rtl, dis, dit, wkn;
 	var firstDay;
 	var nwe;
 	var rowCnt, colCnt;
@@ -1374,13 +1374,16 @@ function BasicView(element, calendar, viewName) {
 	
 		rowCnt = r;
 		colCnt = c;
+		wkn = 0 + opt('weekNumbers');
 		rtl = opt('isRTL');
 		if (rtl) {
 			dis = -1;
 			dit = colCnt - 1;
+			if (wkn) dit++;
 		}else{
 			dis = 1;
 			dit = 0;
+			if (wkn) dit--;
 		}
 		firstDay = opt('firstDay');
 		nwe = opt('weekends') ? 0 : 1;
@@ -1396,6 +1399,9 @@ function BasicView(element, calendar, viewName) {
 			var table = $("<table/>").appendTo(element);
 			
 			s = "<thead><tr>";
+			if (wkn) {
+				s += "<th width='25px' class='fc-axis fc-leftmost " + tm + "-state-default'>&nbsp;</th>";
+			}
 			for (i=0; i<colCnt; i++) {
 				s += "<th class='fc-" +
 					dayIDs[d.getDay()] + ' ' + // needs to be first
@@ -1413,10 +1419,13 @@ function BasicView(element, calendar, viewName) {
 			d = cloneDate(t.visStart);
 			for (i=0; i<rowCnt; i++) {
 				s += "<tr class='fc-week" + i + "'>";
+				if (wkn) {
+					s += "<th class='fc-axis " + tm + "-state-default " + tm + "-border-top fc-leftmost fc-weeknumber'>"+d.getWeek()+"</th>";
+				}
 				for (j=0; j<colCnt; j++) {
 					s += "<td class='fc-" +
 						dayIDs[d.getDay()] + ' ' + // needs to be first
-						tm + '-state-default fc-day' + (i*colCnt+j) +
+						tm + '-state-default fc-new fc-day' + (i*colCnt+j) +
 						(j==dit ? ' fc-leftmost' : '') +
 						(rowCnt>1 && d.getMonth() != month ? ' fc-other-month' : '') +
 						(+d == +today ?
@@ -1433,7 +1442,7 @@ function BasicView(element, calendar, viewName) {
 				s += "</tr>";
 			}
 			tbody = $(s + "</tbody>").appendTo(table);
-			dayBind(tbody.find('td'));
+			dayBind(tbody.find('td.fc-new').removeClass('fc-new'));
 			
 			daySegmentContainer = $("<div style='position:absolute;z-index:8;top:0;left:0'/>").appendTo(element);
 		
@@ -1449,6 +1458,9 @@ function BasicView(element, calendar, viewName) {
 				s = '';
 				for (i=prevRowCnt; i<rowCnt; i++) {
 					s += "<tr class='fc-week" + i + "'>";
+					if (wkn) {
+						s += "<th class='fc-axis " + tm + "-state-default " + tm + "-border-top fc-leftmost fc-weeknumber'>"+d.getWeek()+"</th>";
+					}
 					for (j=0; j<colCnt; j++) {
 						s += "<td class='fc-" +
 							dayIDs[d.getDay()] + ' ' + // needs to be first
@@ -1472,6 +1484,8 @@ function BasicView(element, calendar, viewName) {
 			d = cloneDate(t.visStart);
 			tbody.find('td').each(function() {
 				var td = $(this);
+				if (wkn && d.getDay() == 3)
+					td.closest('tr').find('th').text(d.getWeek());
 				if (rowCnt > 1) {
 					if (d.getMonth() == month) {
 						td.removeClass('fc-other-month');
@@ -1531,6 +1545,8 @@ function BasicView(element, calendar, viewName) {
 		var leftTDs = tbody.find('tr td:first-child'),
 			tbodyHeight = viewHeight - thead.outerHeight(),
 			rowHeight1, rowHeight2;
+		if (wkn)
+			leftTDs = tbody.find('tr th:first-child');
 		if (opt('weekMode') == 'variable') {
 			rowHeight1 = rowHeight2 = Math.floor(tbodyHeight / (rowCnt==1 ? 2 : 6));
 		}else{
@@ -1557,10 +1573,9 @@ function BasicView(element, calendar, viewName) {
 	function setWidth(width) {
 		viewWidth = width;
 		colContentPositions.clear();
-		colWidth = Math.floor(viewWidth / colCnt);
-		setOuterWidth(thead.find('th').slice(0, -1), colWidth);
+		colWidth = Math.floor((viewWidth-25) / colCnt);
+		setOuterWidth(thead.find('th').slice(wkn, -1), colWidth);
 	}
-	
 	
 	
 	/* Day clicking and binding
@@ -1733,7 +1748,7 @@ function BasicView(element, calendar, viewName) {
 	
 	
 	function cellDate(cell) {
-		return addDays(cloneDate(t.visStart), cell.row*7 + cell.col*dis+dit);
+		return addDays(cloneDate(t.visStart), cell.row*7 + cell.col*dis+dit+wkn);
 		// TODO: what about weekends in middle of week?
 	}
 	
@@ -4404,25 +4419,44 @@ var dateFormatters = {
 		}
 		return ['st', 'nd', 'rd'][date%10-1] || 'th';
 	},
-	w	: function(d,options)	{ return d.getWeek(options).toString(); }
+	w	: function(d)	{ return d.getWeek(); }
 };
 
 if (Date.prototype.getWeek === undefined) {
 
-	Date.prototype.getWeek = function(opt) {
-		opt = opt || defaults;
+	Date.prototype.getWeek = function() {
+		//By tanguy.pruvot at gmail.com (2010)
+
+		//first week of year always contains 4th Jan, or 28 Dec (ISO)
+		var jan4  = new Date(this.getFullYear(),0,4);
+
+		//ISO weeks numbers begins on monday, so rotate monday:sunday to 0:6
+		var jan4Day = (jan4.getDay() - 1 + 7) % 7;
+
+		var week = Math.floor( (((this - jan4) / 86400000) + jan4Day ) / 7 )+1;
+
+		//special cases
+		var thisDay = (this.getDay() - 1 + 7) % 7;
+		if (this.getMonth()==11 && this.getDate() >= 28) {
+			
+			jan4  = new Date(this.getFullYear()+1,0,4);
+			jan4Day = (jan4.getDay() - 1 + 7) % 7;
+			
+			if (thisDay < jan4Day) return 1;
+			
+			var prevWeek = new Date(this.valueOf()-(86400000*7));
+			return prevWeek.getWeek() + 1;
+		}
 		
-		//1st week of year always contains 4th Jan or 28 Dec (ISO )
-		var jan4 = new Date(this.getFullYear(),0,4);
+		if (week == 0 && thisDay > 3 && this.getMonth()==0) {
+			var prevWeek = new Date(this.valueOf()-(86400000*7));
+			return prevWeek.getWeek() + 1;
+		}
 
-		//ISO weeks numbers begins on monday, so rotate sunday to 6
-		var fDay = (jan4.getDay() - 1 + 7) % 7;
-
-		return Math.ceil( (((this - jan4) / 86400000) + (fDay+1) ) / 7 ) || 53;
+		return week;
 	}
 
 }
-
 
 
 /* Event Date Math

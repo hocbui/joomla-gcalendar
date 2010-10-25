@@ -129,6 +129,7 @@ $calCode .= "		firstDay: ".$params->get('weekstart', 0).",\n";
 $calCode .= "		firstHour: ".$params->get('first_hour', 6).",\n";
 $calCode .= "		maxTime: ".$params->get('max_time', 24).",\n";
 $calCode .= "		minTime: ".$params->get('min_time', 0).",\n";
+$calCode .= "		weekNumbers: ".($params->get('weeknumbers', 1)==1?'true':'false').",\n";
 $calCode .= "		monthNames: ".$monthsLong.",\n";
 $calCode .= "		monthNamesShort: ".$monthsShort.",\n";
 $calCode .= "		dayNames: ".$daysLong.",\n";
