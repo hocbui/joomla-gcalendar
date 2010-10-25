@@ -14,7 +14,7 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Mon Oct 25 02:35:06 2010 +0200
+ * Date: Mon Oct 25 03:22:46 2010 +0200
  *
  */
  
@@ -1573,8 +1573,13 @@ function BasicView(element, calendar, viewName) {
 	function setWidth(width) {
 		viewWidth = width;
 		colContentPositions.clear();
-		colWidth = Math.floor((viewWidth-25) / colCnt);
-		setOuterWidth(thead.find('th').slice(wkn, -1), colWidth);
+		if (wkn) {
+			colWidth = Math.floor((viewWidth-25) / colCnt);
+			setOuterWidth(thead.find('th').slice(1, -1), colWidth);
+		} else {
+			colWidth = Math.floor(viewWidth / colCnt);
+			setOuterWidth(thead.find('th').slice(0, -1), colWidth);
+		}
 	}
 	
 	
