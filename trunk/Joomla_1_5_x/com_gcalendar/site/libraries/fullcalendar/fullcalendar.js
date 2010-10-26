@@ -1,6 +1,6 @@
 /**
  * @preserve
- * FullCalendar v1.4.8-IE9
+ * FullCalendar v1.4.9-gcalendar
  * http://arshaw.com/fullcalendar/
  *
  * with some adaptations for joomla gcalendar component
@@ -14,7 +14,7 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Mon Oct 25 03:22:46 2010 +0200
+ * Date: Tue Oct 26 20:41:38 2010 +0200
  *
  */
  
@@ -114,7 +114,7 @@ var rtlDefaults = {
 
 
 
-var fc = $.fullCalendar = { version: "1.4.8-IE9" };
+var fc = $.fullCalendar = { version: "1.4.9-gcalendar" };
 var fcViews = fc.views = {};
 
 
@@ -198,10 +198,12 @@ function Calendar(element, options, eventSources) {
 	t.options = options;
 	t.render = render;
 	t.destroy = destroy;
+	t.refetchEvents = refetchEvents;
+	t.reportEvents = reportEvents;
+	t.reportEventChange = reportEventChange;
 	t.changeView = changeView;
 	t.select = select;
 	t.unselect = unselect;
-	t.rerenderEvents = rerenderEvents; // todo: seems liks an EventManager thing
 	t.prev = prev;
 	t.next = next;
 	t.prevYear = prevYear;
@@ -219,9 +221,8 @@ function Calendar(element, options, eventSources) {
 	
 	// imports
 	EventManager.call(t, options, eventSources);
-	var fetchEvents = t.fetchEvents;
 	var isFetchNeeded = t.isFetchNeeded;
-	var clientEvents = t.clientEvents;
+	var fetchEvents = t.fetchEvents;
 	
 	
 	// locals
@@ -238,6 +239,7 @@ function Calendar(element, options, eventSources) {
 	var resizeUID = 0;
 	var ignoreWindowResize = 0;
 	var date = new Date();
+	var events = [];
 	
 	
 	
@@ -253,8 +255,8 @@ function Calendar(element, options, eventSources) {
 			initialRender();
 		}else{
 			calcSize();
-			sizesDirty();
-			eventsDirty();
+			markSizesDirty();
+			markEventsDirty();
 			renderView(inc);
 		}
 	}
@@ -330,10 +332,6 @@ function Calendar(element, options, eventSources) {
 			var newViewElement;
 				
 			if (oldView) {
-				if (oldView.eventsChanged) {
-					eventsDirty();
-					oldView.eventDirty = oldView.eventsChanged = false;
-				}
 				(oldView.beforeHide || noop)(); // called before changing min-height. if called after, scroll state is reset (in Opera)
 				setMinHeight(content, getHeight(content));
 				oldView.element.hide();
@@ -386,29 +384,28 @@ function Calendar(element, options, eventSources) {
 				calcSize();
 			}
 			
+			var forceEventRender = false;
 			if (!currentView.start || inc || date < currentView.start || date >= currentView.end) {
+				// view must render an entire new date range (and refetch/render events)
 				currentView.render(date, inc || 0); // responsible for clearing events
 				setSize(true);
-				if (!options.lazyFetching || isFetchNeeded()) {
-					fetchAndRenderEvents();
-				}else{
-					currentView.renderEvents(clientEvents()); // don't refetch
-				}
+				forceEventRender = true;
 			}
-			else if (currentView.sizeDirty || currentView.eventsDirty || !options.lazyFetching) {
+			else if (currentView.sizeDirty) {
+				// view must resize (and rerender events)
 				currentView.clearEvents();
-				if (currentView.sizeDirty) {
-					setSize();
-				}
-				if (!options.lazyFetching || isFetchNeeded()) {
-					fetchAndRenderEvents();
-				}else{
-					currentView.renderEvents(clientEvents()); // don't refetch
-				}
+				setSize();
+				forceEventRender = true;
 			}
-			elementOuterWidth = element.outerWidth();
+			else if (currentView.eventsDirty) {
+				currentView.clearEvents();
+				forceEventRender = true;
+			}
 			currentView.sizeDirty = false;
 			currentView.eventsDirty = false;
+			updateEvents(forceEventRender);
+			
+			elementOuterWidth = element.outerWidth();
 			
 			header.updateTitle(currentView.title);
 			var today = new Date();
@@ -427,6 +424,25 @@ function Calendar(element, options, eventSources) {
 	
 	/* Resizing
 	-----------------------------------------------------------------------------*/
+	
+	
+	function updateSize() {
+		markSizesDirty();
+		if (elementVisible()) {
+			calcSize();
+			setSize();
+			unselect();
+			currentView.renderEvents(events);
+			currentView.sizeDirty = false;
+		}
+	}
+	
+	
+	function markSizesDirty() {
+		$.each(viewInstances, function(i, inst) {
+			inst.sizeDirty = true;
+		});
+	}
 	
 	
 	function calcSize() {
@@ -462,7 +478,7 @@ function Calendar(element, options, eventSources) {
 					if (uid == resizeUID && !ignoreWindowResize && elementVisible()) {
 						if (elementOuterWidth != (elementOuterWidth = element.outerWidth())) {
 							ignoreWindowResize++; // in case the windowResize callback changes the height
-							sizeChanged();
+							updateSize();
 							currentView.trigger('windowResize', _element);
 							ignoreWindowResize--;
 						}
@@ -476,55 +492,54 @@ function Calendar(element, options, eventSources) {
 	}
 	
 	
-	// called when we know the element size has changed
-	function sizeChanged() {
-		sizesDirty();
-		if (elementVisible()) {
-			calcSize();
-			setSize();
-			unselect();
-			currentView.rerenderEvents();
-			currentView.sizeDirty = false;
+	
+	/* Event Fetching/Rendering
+	-----------------------------------------------------------------------------*/
+	
+	
+	// fetches events if necessary, rerenders events if necessary (or if forced)
+	function updateEvents(forceRender) {
+		if (!options.lazyFetching || isFetchNeeded(currentView.visStart, currentView.visEnd)) {
+			refetchEvents();
+		}
+		else if (forceRender) {
+			rerenderEvents();
 		}
 	}
 	
 	
-	// marks other views' sizes as dirty
-	function sizesDirty() {
-		$.each(viewInstances, function(i, inst) {
-			inst.sizeDirty = true;
-		});
+	function refetchEvents() {
+		fetchEvents(currentView.visStart, currentView.visEnd); // will call reportEvents
 	}
 	
 	
+	// called when event data arrives
+	function reportEvents(_events) {
+		events = _events;
+		rerenderEvents();
+	}
 	
-	/* Event Rendering
-	-----------------------------------------------------------------------------*/
+	
+	// called when a single event's data has been changed
+	function reportEventChange(eventID) {
+		rerenderEvents(eventID);
+	}
 	
 	
-	// called when any event objects have been added/removed/changed, rerenders
-	function rerenderEvents() {
-		eventsDirty();
+	// attempts to rerenderEvents
+	function rerenderEvents(modifiedEventID) {
+		markEventsDirty();
 		if (elementVisible()) {
 			currentView.clearEvents();
-			currentView.renderEvents(clientEvents());
+			currentView.renderEvents(events, modifiedEventID);
 			currentView.eventsDirty = false;
 		}
 	}
 	
 	
-	// marks every views' events as dirty
-	function eventsDirty() {
+	function markEventsDirty() {
 		$.each(viewInstances, function(i, inst) {
 			inst.eventsDirty = true;
-		});
-	}
-	
-	
-	// for convenience
-	function fetchAndRenderEvents() {
-		fetchEvents(function(events) {
-			currentView.renderEvents(events); // maintain `this` in view
 		});
 	}
 	
@@ -624,7 +639,7 @@ function Calendar(element, options, eventSources) {
 		}
 		if (name == 'height' || name == 'contentHeight' || name == 'aspectRatio') {
 			options[name] = value;
-			sizeChanged();
+			updateSize();
 		}
 	}
 	
@@ -836,14 +851,13 @@ function Header(calendar, options) {
 
 var eventGUID = 1;
 
-function EventManager(options, eventSources) {
+function EventManager(options, sources) {
 	var t = this;
 	
 	
 	// exports
-	t.fetchEvents = fetchEvents;
-	t.refetchEvents = refetchEvents;
 	t.isFetchNeeded = isFetchNeeded;
+	t.fetchEvents = fetchEvents;
 	t.addEventSource = addEventSource;
 	t.addEventSourceFast = addEventSourceFast;
 	t.clearEventSources = clearEventSources;
@@ -856,17 +870,92 @@ function EventManager(options, eventSources) {
 	
 	
 	// imports
-	var getDate = t.getDate;
-	var getView = t.getView;
 	var trigger = t.trigger;
-	var rerenderEvents = t.rerenderEvents;
-
+	var getView = t.getView;
+	var reportEvents = t.reportEvents;
+	
 	
 	// locals
-	var fetchID = 0;
-	var eventStart, eventEnd;
-	var events = [];
+	var rangeStart, rangeEnd;
+	var currentFetchID = 0;
+	var pendingSourceCnt = 0;
 	var loadingLevel = 0;
+	var dynamicEventSource = [];
+	var cache = [];
+	
+	
+	
+	/* Fetching
+	-----------------------------------------------------------------------------*/
+	function isFetchNeeded(start, end) {
+		return !rangeStart || start < rangeStart || end > rangeEnd;
+	}
+	
+	function fetchEvents(start, end) {
+		rangeStart = start;
+		rangeEnd = end;
+		currentFetchID++;
+		cache = [];
+		pendingSourceCnt = sources.length;
+		for (var i=0; i<sources.length; i++) {
+			fetchEventSource(sources[i], currentFetchID);
+		}
+	}
+	
+	
+	function fetchEventSource(source, fetchID) {
+		_fetchEventSource(source, function(events) {
+			if (fetchID == currentFetchID) {
+				for (var i=0; i<events.length; i++) {
+					normalizeEvent(events[i]);
+					events[i].source = source;
+				}
+				cache = cache.concat(events);
+				pendingSourceCnt--;
+				if (!pendingSourceCnt) {
+					reportEvents(cache);
+				}
+			}
+		});
+	}
+	
+	
+	function _fetchEventSource(source, callback) {
+		if (typeof source == 'string') {
+			var params = {};
+			params[options.startParam] = Math.round(rangeStart.getTime() / 1000);
+			params[options.endParam] = Math.round(rangeEnd.getTime() / 1000);
+			params['browserTimezone'] = rangeStart.getTimezoneOffset();
+
+			if (options.cacheParam) {
+				params[options.cacheParam] = (new Date()).getTime(); // TODO: deprecate cacheParam
+			}
+			pushLoading();
+			// TODO: respect cache param in ajaxSetup
+			$.ajax({
+				global: false,
+				type: options.requestMethod || 'GET',
+				url: source,
+				dataType: 'json',
+				data: params,
+				cache: options.cacheParam || false, // don't let jquery prevent caching if cacheParam is being used
+				success: function(events) {
+					popLoading();
+					callback(events);
+				}
+			});
+		}
+		else if ($.isFunction(source)) {
+			pushLoading();
+			source(cloneDate(rangeStart), cloneDate(rangeEnd), function(events) {
+				popLoading();
+				callback(events);
+			});
+		}
+		else if (source) {
+			callback(source); // src is an array (sticky events)
+		}
+	}
 	
 	
 	
@@ -874,142 +963,48 @@ function EventManager(options, eventSources) {
 	-----------------------------------------------------------------------------*/
 	
 	
-	eventSources.unshift([]); // first event source reserved for 'sticky' events
-
-	//to add some, then refetchEvents()
-	function addEventSourceFast(source) {
-		if (eventSources.indexOf(source) < 0)
-			eventSources.push(source);
-	}
+	sources.push(dynamicEventSource);
+	
 
 	function addEventSource(source) {
-		addEventSourceFast(source);
-		fetchEventSource(source, rerenderEvents);
+		sources.push(source);
+		pendingSourceCnt++;
+		fetchEventSource(source, currentFetchID); // will eventually call reportEvents
 	}
-
-	function clearEventSources() {
-		var sticky = [];
-		events = eventSources = [];
-		eventSources = sticky.concat(eventSources);
-		rerenderEvents();
-	}
+	
 
 	function removeEventSource(source) {
 		var sticky = [];
-		eventSources = $.grep(eventSources, function(src) {
+		sources = $.grep(sources, function(src) {
 			if (typeof src === 'object' && source !== src) {
 				sticky = sticky.concat(src);
 			}
 			return src != source;
 		});
 		// remove all client events from that source
-		events = $.grep(events, function(e) {
+		cache = $.grep(cache, function(e) {
 			return e.source != source;
 		});
-		eventSources = sticky.concat(eventSources);
-		rerenderEvents();
-	}
-
-
-
-	/* Fetching
-	-----------------------------------------------------------------------------*/
-	
-	
-	// Fetch from ALL sources. Clear 'events' array and populate
-	function fetchEvents(callback) {
-		events = [];
-		fetchEventSources(eventSources, callback);
+		sources = sticky.concat(sources);
+		reportEvents(cache);
 	}
 	
 	
-	// appends to the events array
-	function fetchEventSources(sources, callback) {
-		var savedID = ++fetchID;
-		var queued = sources.length;
-		var origView = getView();
-		eventStart = cloneDate(origView.visStart); // we don't need to make local copies b/c
-		eventEnd = cloneDate(origView.visEnd);     //   eventStart/eventEnd is only assigned/manipulated here
-		function sourceDone(source, sourceEvents) {
-			var currentView = getView();
-			if (origView != currentView) {
-				origView.eventsDirty = true; // sort of a hack
-			}
-			if (savedID == fetchID && eventStart <= currentView.visStart && eventEnd >= currentView.visEnd) {
-				// same fetchEventSources call, and still in correct date range
-				if ($.inArray(source, eventSources) != -1) { // source hasn't been removed since we started
-					for (var i=0; i<sourceEvents.length; i++) {
-						normalizeEvent(sourceEvents[i]);
-						sourceEvents[i].source = source;
-					}
-					events = events.concat(sourceEvents);
-				}
-				if (!--queued) {
-					if (callback) {
-						callback(events);
-					}
-				}
-			}
-		}
-		for (var i=0; i<sources.length; i++) {
-			_fetchEventSource(sources[i], sourceDone);
+	//to add some, then refetchEvents()
+	function addEventSourceFast(source) {
+		if (sources.indexOf(source) < 0) {
+			sources.push(source);
+			pendingSourceCnt++;
 		}
 	}
 	
 	
-	function _fetchEventSource(src, callback) {
-		function reportEvents(a) {
-			callback(src, a);
-		}
-		function reportEventsAndPop(a) {
-			reportEvents(a);
-			popLoading();
-		}
-		if (typeof src == 'string') {
-			var params = {};
-			params[options.startParam] = Math.round(eventStart.getTime() / 1000);
-			params[options.endParam] = Math.round(eventEnd.getTime() / 1000);
-			params['browserTimezone'] = eventStart.getTimezoneOffset();
-			if (options.cacheParam) {
-				params[options.cacheParam] = (new Date()).getTime(); // TODO: deprecate cacheParam
-			}
-			pushLoading();
-			// TODO: respect cache param in ajaxSetup
-			$.ajax({
-				url: src,
-				global: false,
-				type: options.requestMethod || 'GET',
-				dataType: 'json',
-				data: params,
-				cache: options.cacheParam || false, // don't let jquery prevent caching if cacheParam is being used
-				success: reportEventsAndPop
-			});
-		}
-		else if ($.isFunction(src)) {
-			pushLoading();
-			src(cloneDate(eventStart), cloneDate(eventEnd), reportEventsAndPop);
-		}
-		else if (src) {
-			reportEvents(src); // src is an array (sticky events)
-		}
+	function clearEventSources() {
+		var sticky = [];
+		cache = sources = [];
+		sources = sticky.concat(sources);
+		reportEvents(cache);
 	}
-	
-	
-	function fetchEventSource(src, callback) {
-		fetchEventSources([src], callback);
-	}
-	
-	
-	function refetchEvents() {
-		fetchEvents(rerenderEvents);
-	}
-	
-	
-	function isFetchNeeded() {
-		var view = getView();
-		return !eventStart || view.visStart < eventStart || view.visEnd > eventEnd;
-	}
-	
 	
 	
 	/* Manipulation
@@ -1017,14 +1012,14 @@ function EventManager(options, eventSources) {
 	
 	
 	function updateEvent(event) { // update an existing event
-		var i, len = events.length, e,
-			defaultEventEnd = getView().defaultEventEnd,
+		var i, len = cache.length, e,
+			defaultEventEnd = getView().defaultEventEnd, // getView???
 			startDelta = event.start - event._start,
 			endDelta = event.end ?
 				(event.end - (event._end || defaultEventEnd(event))) // event._end would be null if event.end
-				: 0;                                                      // was null and event was just resized
+				: 0;                                                 // was null and event was just resized
 		for (i=0; i<len; i++) {
-			e = events[i];
+			e = cache[i];
 			if (e._id == event._id && e != event) {
 				e.start = new Date(+e.start + startDelta);
 				if (event.end) {
@@ -1051,29 +1046,30 @@ function EventManager(options, eventSources) {
 			}
 		}
 		normalizeEvent(event);
-		rerenderEvents();
+		reportEvents(cache);
 	}
 	
 	
-	function renderEvent(event, stick) { // render a new event
+	function renderEvent(event, stick) {
 		normalizeEvent(event);
 		if (!event.source) {
 			if (stick) {
-				(event.source = eventSources[0]).push(event);
+				dynamicEventSource.push(event);
+				event.source = dynamicEventSource;
 			}
-			events.push(event);
+			cache.push(event);
 		}
-		rerenderEvents();
+		reportEvents(cache);
 	}
 	
 	
 	function removeEvents(filter) {
 		if (!filter) { // remove all
-			events = [];
+			cache = [];
 			// clear all array sources
-			for (var i=0; i<eventSources.length; i++) {
-				if (typeof eventSources[i] == 'object') {
-					eventSources[i] = [];
+			for (var i=0; i<sources.length; i++) {
+				if (typeof sources[i] == 'object') {
+					sources[i] = [];
 				}
 			}
 		}else{
@@ -1083,29 +1079,29 @@ function EventManager(options, eventSources) {
 					return e._id == id;
 				};
 			}
-			events = $.grep(events, filter, true);
+			cache = $.grep(cache, filter, true);
 			// remove events from array sources
-			for (var i=0; i<eventSources.length; i++) {
-				if (typeof eventSources[i] == 'object') {
-					eventSources[i] = $.grep(eventSources[i], filter, true);
+			for (var i=0; i<sources.length; i++) {
+				if (typeof sources[i] == 'object') {
+					sources[i] = $.grep(sources[i], filter, true);
 				}
 			}
 		}
-		rerenderEvents();
+		reportEvents(cache);
 	}
 	
 	
 	function clientEvents(filter) {
 		if ($.isFunction(filter)) {
-			return $.grep(events, filter);
+			return $.grep(cache, filter);
 		}
 		else if (filter) { // an event ID
 			filter += '';
-			return $.grep(events, function(e) {
+			return $.grep(cache, function(e) {
 				return e._id == filter;
 			});
 		}
-		return events; // else, return all
+		return cache; // else, return all
 	}
 	
 	
@@ -1420,7 +1416,9 @@ function BasicView(element, calendar, viewName) {
 			for (i=0; i<rowCnt; i++) {
 				s += "<tr class='fc-week" + i + "'>";
 				if (wkn) {
-					s += "<th class='fc-axis " + tm + "-state-default " + tm + "-border-top fc-leftmost fc-weeknumber'>"+d.getWeek()+"</th>";
+					var monday = cloneDate(d); //skip first day (could be sunday)
+					addDays(monday, 1);
+					s += "<th class='fc-axis " + tm + "-state-default fc-leftmost fc-weeknumber'>"+monday.getWeek()+"</th>";
 				}
 				for (j=0; j<colCnt; j++) {
 					s += "<td class='fc-" +
@@ -1459,7 +1457,9 @@ function BasicView(element, calendar, viewName) {
 				for (i=prevRowCnt; i<rowCnt; i++) {
 					s += "<tr class='fc-week" + i + "'>";
 					if (wkn) {
-						s += "<th class='fc-axis " + tm + "-state-default " + tm + "-border-top fc-leftmost fc-weeknumber'>"+d.getWeek()+"</th>";
+						var monday = cloneDate(d); //skip first day (could be sunday)
+						addDays(monday, 1);
+						s += "<th class='fc-axis " + tm + "-state-default fc-leftmost fc-weeknumber'>"+monday.getWeek()+"</th>";
 					}
 					for (j=0; j<colCnt; j++) {
 						s += "<td class='fc-" +
@@ -1484,7 +1484,7 @@ function BasicView(element, calendar, viewName) {
 			d = cloneDate(t.visStart);
 			tbody.find('td').each(function() {
 				var td = $(this);
-				if (wkn && d.getDay() == 3)
+				if (wkn && d.getDay() == 1)
 					td.closest('tr').find('th').text(d.getWeek());
 				if (rowCnt > 1) {
 					if (d.getMonth() == month) {
@@ -1779,7 +1779,6 @@ function BasicEventRenderer() {
 	
 	// exports
 	t.renderEvents = renderEvents;
-	t.rerenderEvents = rerenderEvents;
 	t.clearEvents = clearEvents;
 	t.bindDaySeg = bindDaySeg;
 	
@@ -1789,7 +1788,7 @@ function BasicEventRenderer() {
 	var opt = t.opt;
 	var trigger = t.trigger;
 	var reportEvents = t.reportEvents;
-	var clearEventData = t.clearEventData;
+	var reportEventClear = t.reportEventClear;
 	var eventElementHandlers = t.eventElementHandlers;
 	var showEvents = t.showEvents;
 	var hideEvents = t.hideEvents;
@@ -1804,29 +1803,19 @@ function BasicEventRenderer() {
 	var resizableDayEvent = t.resizableDayEvent;
 	
 	
-	// locals
-	var cachedEvents=[];
-	
-	
 	
 	/* Rendering
 	--------------------------------------------------------------------*/
 	
 	
-	function renderEvents(events) {
-		reportEvents(cachedEvents = events);
-		renderDaySegs(compileSegs(events));
-	}
-	
-	
-	function rerenderEvents(modifiedEventId) {
-		clearEvents();
-		renderDaySegs(compileSegs(cachedEvents), modifiedEventId);
+	function renderEvents(events, modifiedEventId) {
+		reportEvents(events);
+		renderDaySegs(compileSegs(events), modifiedEventId);
 	}
 	
 	
 	function clearEvents() {
-		clearEventData();
+		reportEventClear();
 		getDaySegmentContainer().empty();
 	}
 	
@@ -2734,7 +2723,6 @@ function AgendaEventRenderer() {
 	
 	// exports
 	t.renderEvents = renderEvents;
-	t.rerenderEvents = rerenderEvents;
 	t.clearEvents = clearEvents;
 	t.slotSegHtml = slotSegHtml;
 	t.bindDaySeg = bindDaySeg;
@@ -2746,7 +2734,7 @@ function AgendaEventRenderer() {
 	var trigger = t.trigger;
 	var eventEnd = t.eventEnd;
 	var reportEvents = t.reportEvents;
-	var clearEventData = t.clearEventData;
+	var reportEventClear = t.reportEventClear;
 	var eventElementHandlers = t.eventElementHandlers;
 	var setHeight = t.setHeight;
 	var getDaySegmentContainer = t.getDaySegmentContainer;
@@ -2779,12 +2767,9 @@ function AgendaEventRenderer() {
 	/* Rendering
 	----------------------------------------------------------------------------*/
 	
-	
-	var cachedEvents = [];
-	
 
 	function renderEvents(events, modifiedEventId) {
-		reportEvents(cachedEvents = events);
+		reportEvents(events);
 		var i, len=events.length,
 			dayEvents=[],
 			slotEvents=[];
@@ -2803,14 +2788,8 @@ function AgendaEventRenderer() {
 	}
 	
 	
-	function rerenderEvents(modifiedEventId) {
-		clearEvents();
-		renderEvents(cachedEvents, modifiedEventId);
-	}
-	
-	
 	function clearEvents() {
-		clearEventData();
+		reportEventClear();
 		getDaySegmentContainer().empty();
 		getSlotSegmentContainer().empty();
 	}
@@ -3347,9 +3326,9 @@ function View(element, calendar, viewName) {
 	t.opt = opt;
 	t.trigger = trigger;
 	t.reportEvents = reportEvents;
-	t.clearEventData = clearEventData;
 	t.eventEnd = eventEnd;
 	t.reportEventElement = reportEventElement;
+	t.reportEventClear = reportEventClear;
 	t.eventElementHandlers = eventElementHandlers;
 	t.showEvents = showEvents;
 	t.hideEvents = hideEvents;
@@ -3358,13 +3337,12 @@ function View(element, calendar, viewName) {
 	// t.title
 	// t.start, t.end
 	// t.visStart, t.visEnd
-	// t.eventsChanged // todo: maybe report to calendar instead
 	
 	
 	// imports
 	var defaultEventEnd = t.defaultEventEnd;
 	var normalizeEvent = calendar.normalizeEvent; // in EventManager
-	var rerenderEvents = calendar.rerenderEvents;
+	var reportEventChange = calendar.reportEventChange;
 	
 	
 	// locals
@@ -3412,12 +3390,6 @@ function View(element, calendar, viewName) {
 	}
 	
 	
-	function clearEventData() { // todo: rename to clearReportedEvents or something
-		eventElements = [];
-		eventElementsByID = {};
-	}
-	
-	
 	// returns a Date object for an event's end
 	function eventEnd(event) {
 		return event.end ? cloneDate(event.end) : defaultEventEnd(event);
@@ -3437,6 +3409,12 @@ function View(element, calendar, viewName) {
 		}else{
 			eventElementsByID[event._id] = [element];
 		}
+	}
+	
+	
+	function reportEventClear() {
+		eventElements = [];
+		eventElementsByID = {};
 	}
 	
 	
@@ -3492,26 +3470,43 @@ function View(element, calendar, viewName) {
 		var oldAllDay = event.allDay;
 		var eventId = event._id;
 		moveEvents(eventsByID[eventId], dayDelta, minuteDelta, allDay);
-		trigger('eventDrop', e, event, dayDelta, minuteDelta, allDay, function() {
-			// TODO: investigate cases where this inverse technique might not work
-			moveEvents(eventsByID[eventId], -dayDelta, -minuteDelta, oldAllDay);
-			rerenderEvents();
-		}, ev, ui);
-		t.eventsChanged = true;
-		rerenderEvents(eventId);
+		trigger(
+			'eventDrop',
+			e,
+			event,
+			dayDelta,
+			minuteDelta,
+			allDay,
+			function() {
+				// TODO: investigate cases where this inverse technique might not work
+				moveEvents(eventsByID[eventId], -dayDelta, -minuteDelta, oldAllDay);
+				reportEventChange(eventId);
+			},
+			ev,
+			ui
+		);
+		reportEventChange(eventId);
 	}
 	
 	
 	function eventResize(e, event, dayDelta, minuteDelta, ev, ui) {
 		var eventId = event._id;
 		elongateEvents(eventsByID[eventId], dayDelta, minuteDelta);
-		trigger('eventResize', e, event, dayDelta, minuteDelta, function() {
-			// TODO: investigate cases where this inverse technique might not work
-			elongateEvents(eventsByID[eventId], -dayDelta, -minuteDelta);
-			rerenderEvents();
-		}, ev, ui);
-		t.eventsChanged = true;
-		rerenderEvents(eventId);
+		trigger(
+			'eventResize',
+			e,
+			event,
+			dayDelta,
+			minuteDelta,
+			function() {
+				// TODO: investigate cases where this inverse technique might not work
+				elongateEvents(eventsByID[eventId], -dayDelta, -minuteDelta);
+				reportEventChange(eventId);
+			},
+			ev,
+			ui
+		);
+		reportEventChange(eventId);
 	}
 	
 	
@@ -4433,18 +4428,19 @@ if (Date.prototype.getWeek === undefined) {
 		//By tanguy.pruvot at gmail.com (2010)
 
 		//first week of year always contains 4th Jan, or 28 Dec (ISO)
-		var jan4  = new Date(this.getFullYear(),0,4);
+		var jan4  = new Date(this.getFullYear(),0,4 ,this.getHours());
 
 		//ISO weeks numbers begins on monday, so rotate monday:sunday to 0:6
 		var jan4Day = (jan4.getDay() - 1 + 7) % 7;
 
-		var week = Math.floor( (((this - jan4) / 86400000) + jan4Day ) / 7 )+1;
+		var days = Math.round((this - jan4) / 86400000);
+		var week = Math.floor((days + jan4Day ) / 7)+1;
 
 		//special cases
 		var thisDay = (this.getDay() - 1 + 7) % 7;
 		if (this.getMonth()==11 && this.getDate() >= 28) {
 			
-			jan4  = new Date(this.getFullYear()+1,0,4);
+			jan4  = new Date(this.getFullYear()+1,0,4 ,this.getHours());
 			jan4Day = (jan4.getDay() - 1 + 7) % 7;
 			
 			if (thisDay < jan4Day) return 1;
