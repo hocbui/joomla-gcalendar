@@ -297,8 +297,9 @@ class SimplePie_GCalendar extends SimplePie {
 		$type = 'public';
 		if($magic_cookie != null)
 		$type = 'private-'.$magic_cookie;
-
-		return 'http://www.google.com/calendar/feeds/'.$email_address.'/'.$type.'/'.$this->projection;
+		
+		$projection = 'full';
+		return 'http://www.google.com/calendar/feeds/'.$email_address.'/'.$type.'/'.$projection;
 	}
 }
 
