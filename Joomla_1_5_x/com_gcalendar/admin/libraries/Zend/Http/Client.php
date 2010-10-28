@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 22537 2010-07-08 11:53:51Z shahar $
+ * @version    $Id: Client.php 23073 2010-10-10 20:06:44Z padraic $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -119,6 +119,7 @@ class Zend_Http_Client
         'strict'          => true,
         'output_stream'   => false,
         'encodecookies'   => true,
+        'rfc3986_strict'  => false
     );
 
     /**
@@ -950,6 +951,9 @@ class Zend_Http_Client
                        $query .= '&';
                    }
                 $query .= http_build_query($this->paramsGet, null, '&');
+                if ($this->config['rfc3986_strict']) {
+                    $query = str_replace('+', '%20', $query);
+                }
 
                 $uri->setQuery($query);
             }

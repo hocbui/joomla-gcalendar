@@ -646,7 +646,7 @@ class Zend_Gdata_App
         $this->_httpClient->setUri($matches[1]);
         $queryArray = $uri->getQueryAsArray();
         foreach ($queryArray as $name => $value) {
-          $this->_httpClient->setParameterGet($name, $value);
+            $this->_httpClient->setParameterGet($name, $value);
         }
 
 
