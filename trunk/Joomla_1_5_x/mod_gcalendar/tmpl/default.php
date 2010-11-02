@@ -36,7 +36,7 @@ $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
 $theme = JRequest::getVar('theme', null);
 if(!empty($theme))
-$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui-1.8.5.custom.css');
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui-1.8.6.custom.css');
 
 $daysLong = "[";
 $daysShort = "[";
