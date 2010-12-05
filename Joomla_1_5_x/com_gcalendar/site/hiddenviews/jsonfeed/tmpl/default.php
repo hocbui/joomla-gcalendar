@@ -21,33 +21,33 @@
 defined('_JEXEC') or die('Restricted access');
 $data = array();
 $SECSINDAY=86400;
+if(!empty($this->calendars)){
+	foreach ($this->calendars as $calendar){
+		$itemID = GCalendarUtil::getItemId($calendar->get('gcid'));
+		$menus	= &JSite::getMenu();
+		$params = $menus->getParams($itemID);
+		if(empty($params))
+		$params = new JParameter('');
+		$dateformat = $params->get('description_date_format', '%d.%m.%Y');
+		$timeformat = $params->get('description_time_format', '%H:%M');
+		$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
 
-foreach ($this->calendars as $calendar){
-	$itemID = GCalendarUtil::getItemId($calendar->get('gcid'));
-	$menus	= &JSite::getMenu();
-	$params = $menus->getParams($itemID);
-	if(empty($params))
-	$params = new JParameter('');
-	$dateformat = $params->get('description_date_format', '%d.%m.%Y');
-	$timeformat = $params->get('description_time_format', '%H:%M');
-	$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
+		if(!empty($itemID)) {
+			$itemID = '&Itemid='.$itemID;
+		} else {
+			$menu=JSite::getMenu();
+			$activemenu=$menu->getActive();
+			if($activemenu != null)
+			$itemID = '&Itemid='.$activemenu->id;
+		}
 
-	if(!empty($itemID)) {
-		$itemID = '&Itemid='.$itemID;
-	} else {
-		$menu=JSite::getMenu();
-		$activemenu=$menu->getActive();
-		if($activemenu != null)
-		$itemID = '&Itemid='.$activemenu->id;
-	}
-
-	$items = $calendar->get_items();
-	foreach ($items as $event) {
-		$allDayEvent = $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY;
-		$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
-		if(strlen($description) > 200)
-		$description = substr($description, 0, 196).' ...';
-		$data[] = array(
+		$items = $calendar->get_items();
+		foreach ($items as $event) {
+			$allDayEvent = $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY;
+			$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
+			if(strlen($description) > 200)
+			$description = substr($description, 0, 196).' ...';
+			$data[] = array(
 			'id' => $event->get_id(),
 			'title' => htmlspecialchars_decode($event->get_title()),
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $event->get_start_date()),
@@ -56,9 +56,9 @@ foreach ($this->calendars as $calendar){
 			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
 			'allDay' => $allDayEvent,
 			'description' => $description
-		);
+			);
+		}
 	}
 }
-
 echo json_encode($data);
 ?>
