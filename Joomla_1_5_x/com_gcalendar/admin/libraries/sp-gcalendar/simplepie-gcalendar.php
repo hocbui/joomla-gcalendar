@@ -447,7 +447,7 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 			$SECSINDAY=86400;
 
 			if (($this->get_start_date()+ $SECSINDAY) <= $this->get_end_date()) {
-				if (($this->get_start_date()+ $SECSINDAY) == $this->get_end_date()) {
+				if (($this->get_start_date()+ $SECSINDAY) == $this->get_end_date() && (date('g:i a',$this->get_start_date())=='12:00 am')) {
 					$this->gc_day_type =  $this->SINGLE_WHOLE_DAY;
 				} else {
 					if ((date('g:i a',$this->get_start_date())=='12:00 am')&&(date('g:i a',$this->get_end_date())=='12:00 am')){
