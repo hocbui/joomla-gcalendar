@@ -44,19 +44,21 @@ while ($requestedDayStart < $endDate) {
 	$result = array();
 	$linkIDs = '';
 	$description = '';
-	foreach ($this->calendars as $calendar){
-		$calID = null;
-		$items = $calendar->get_items();
-		foreach ($items as $item) {
-			if($requestedDayStart  < $item->get_end_date()
-			&& $item->get_start_date() < $requestedDayEnd){
-				$result[] = $item;
-				$calID = $calendar->get('gcid').',';
-				$description .= '<li><font color="#'.$calendar->get('gccolor').'">'.htmlspecialchars_decode($item->get_title()).'</font></li>';
+	if(!empty($this->calendars)){
+		foreach ($this->calendars as $calendar){
+			$calID = null;
+			$items = $calendar->get_items();
+			foreach ($items as $item) {
+				if($requestedDayStart  < $item->get_end_date()
+				&& $item->get_start_date() < $requestedDayEnd){
+					$result[] = $item;
+					$calID = $calendar->get('gcid').',';
+					$description .= '<li><font color="#'.$calendar->get('gccolor').'">'.htmlspecialchars_decode($item->get_title()).'</font></li>';
+				}
 			}
+			if($calID != null)
+			$linkIDs .= $calID;
 		}
-		if($calID != null)
-		$linkIDs .= $calID;
 	}
 	if(!empty($result)){
 		$linkIDs = trim($linkIDs, ",");
@@ -71,7 +73,7 @@ while ($requestedDayStart < $endDate) {
 			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
 			'url' => $url,
 			'allDay' => true,
-//			'end' => $requestedDayEnd - 10,
+		//			'end' => $requestedDayEnd - 10,
 			'className' => "gcal-module_event_gccal_".$moduleId,
 			'description' => sprintf(JText::_('MODULE_TEXT'), count($result)).'<ul>'.$description.'</ul>'
 			);
