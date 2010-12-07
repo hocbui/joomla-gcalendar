@@ -82,7 +82,7 @@ if ($params->get('gc_cache', 0) == 2 || ($params->get('gc_cache', 0) == 1 && $co
 $calCode = "// <![CDATA[ \n";
 $calCode .= "jQuery(document).ready(function(){\n";
 $calCode .= "   jQuery('#gcalendar_module_".$moduleID."').fullCalendar({\n";
-$calCode .= "		events: '".JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&moduleid='.$moduleID.'&gcids='.$ids.'&ctime='.$cacheTime)."',\n";
+$calCode .= "		events: '".html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&moduleid='.$moduleID.'&gcids='.$ids.'&ctime='.$cacheTime))."',\n";
 $calCode .= "       header: {\n";
 $calCode .= "				left: 'prev,next ',\n";
 $calCode .= "				center: 'title',\n";
