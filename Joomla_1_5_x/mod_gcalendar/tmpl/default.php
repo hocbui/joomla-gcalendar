@@ -23,6 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 JHTML::_('behavior.mootools');
 GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui-1.8.7.custom.min.js');
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0.min.js');
@@ -36,7 +37,7 @@ $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
 $theme = JRequest::getVar('theme', null);
 if(!empty($theme))
-$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui-1.8.6.custom.css');
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui.custom.css');
 
 $daysLong = "[";
 $daysShort = "[";
