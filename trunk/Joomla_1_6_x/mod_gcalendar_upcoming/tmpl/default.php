@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/default.css');
 
-$event_display = $params->get('output', '');print_r($params);die;
+$event_display = $params->get('output', '');
 
 $dateformat=$params->get('date_format', '%d.%m.%Y');
 $timeformat=$params->get('time_format', '%H:%M');
