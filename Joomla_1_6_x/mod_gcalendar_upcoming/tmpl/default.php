@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/default.css');
 
-$event_display = $params->get('output', '');
+$event_display = $params->get('output', '');print_r($params);die;
 
 $dateformat=$params->get('date_format', '%d.%m.%Y');
 $timeformat=$params->get('time_format', '%H:%M');
@@ -50,6 +50,7 @@ if(!empty($gcalendar_data)){
 			echo '</div>';
 		}
 		//END MOD
+//		echo '<pre>'.$event_display.'</pre>';
 		echo GCalendarUtil::renderEvent($item, $event_display, $dateformat, $timeformat);
 		if($params->get('images', 'no') != 'no') {
 			echo '<p style="clear: both;"/>';

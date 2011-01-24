@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<extension type="module" version="1.6.0" method="upgrade" client="site">
 	<name>GCalendar Next Event</name>
 	<author>G4J Project</author>
 	<creationDate>Sep 2010</creationDate>
@@ -66,4 +66,4 @@
 			</fieldset>
 		</fields>
 	</config>
-</install>
+</extension>

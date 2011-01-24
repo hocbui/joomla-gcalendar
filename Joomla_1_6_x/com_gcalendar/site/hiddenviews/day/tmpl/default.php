@@ -19,6 +19,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+jimport('joomla.html.parameter');
 
 $params = new JParameter('');
 $itemID = null;

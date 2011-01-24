@@ -223,30 +223,13 @@ class GCalendarUtil{
 	 */
 	function getFadedColor($color, $percentage = 85) {
 		$percentage = 100 - $percentage;
-		$rgbValues = array_map( 'hexDec', GCalendarUtil::str_split( ltrim($color, '#'), 2 ) );
+		$rgbValues = array_map( 'hexDec', str_split( ltrim($color, '#'), 2 ) );
 
 		for ($i = 0, $len = count($rgbValues); $i < $len; $i++) {
 			$rgbValues[$i] = decHex( floor($rgbValues[$i] + (255 - $rgbValues[$i]) * ($percentage / 100) ) );
 		}
 
 		return '#'.implode('', $rgbValues);
-	}
-
-	/**
-	 * The php string split method for beeing php 4 compatible.
-	 *
-	 */
-	function str_split($string,$string_length=1) {
-		if(strlen($string)>$string_length || !$string_length) {
-			do {
-				$c = strlen($string);
-				$parts[] = substr($string,0,$string_length);
-				$string = substr($string,$string_length);
-			} while($string !== false);
-		} else {
-			$parts = array($string);
-		}
-		return $parts;
 	}
 
 	/**

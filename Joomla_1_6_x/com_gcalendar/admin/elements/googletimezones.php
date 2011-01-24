@@ -17,27 +17,14 @@
  * @copyright 2007-2010 Allon Moritz
  * @since 2.2.0
  */
-// Check to ensure this file is included in Joomla!
+
 defined('_JEXEC') or die( 'Restricted access' );
 
-/**
- *
- * @package 	GCalendar
- * @subpackage	Parameter
- * @since		1.5
- */
-
-class JElementGoogletimezones extends JElement
+class JFormFieldGoogletimezones extends JFormFieldList
 {
-	/**
-	 * Element name
-	 *
-	 * @access	protected
-	 * @var		string
-	 */
-	var	$_name = 'Googletimezones';
+	protected $type  = 'Googletimezones';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	function getOptions()
 	{
 		$timezones = array (
 		JHTML::_('select.option','', JText::_('')),
@@ -469,7 +456,7 @@ class JElementGoogletimezones extends JElement
 			}
 		}
 		*/
-		return JHTML::_('select.genericlist',  $timezones, $control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name );
+		return $timezones;
 	}
 }
 ?>

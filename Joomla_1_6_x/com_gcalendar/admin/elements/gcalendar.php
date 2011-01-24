@@ -17,69 +17,25 @@
  * @copyright 2007-2010 Allon Moritz
  * @since 2.2.0
  */
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-/**
- *
- * @package 	GCalendar
- * @subpackage	Parameter
- * @since		1.5
- */
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 
-class JElementGCalendar extends JElement
+class JFormFieldGCalendar extends JFormFieldList
 {
-	/**
-	 * Element name
-	 *
-	 * @access	protected
-	 * @var		string
-	 */
-	var	$_name = 'GCalendar';
+	protected $type = 'GCalendar';
+	protected $forceMultiple = true;
 
-	function fetchElement($name, $value, &$node, $control_name)
+	protected function getOptions()
 	{
-		$db = &JFactory::getDBO();
-
-		$section	= $node->attributes('section');
-		$class		= $node->attributes('class');
-		if (!$class) {
-			$class = "inputbox";
+		$accounts = GCalendarDBUtil::getAllCalendars();
+		$options = array();
+		foreach($accounts as $account)
+		{
+			$options[] = JHtml::_('select.option', $account->id, $account->name);
 		}
-
-		if (!isset ($section)) {
-			// alias for section
-			$section = $node->attributes('scope');
-			if (!isset ($section)) {
-				$section = 'content';
-			}
-		}
-
-		$query = 'SELECT id, name, calendar_id FROM #__gcalendar';
-		$db->setQuery($query);
-		$options = $db->loadObjectList();
-		$result = '<select name="'.$control_name.'['.$name.'][]" id="'.$name.'" class="'.$class.'" multiple="multiple">';
-		
-		foreach( $options as $option ) {
-			$display_name = $option->name;
-			if(is_array( $value) ) {
-				if( in_array( $option->id, $value ) ) {
-					$result .= '<option selected="true" value="'.$option->id.'" >'.$display_name.'</option>';
-				} else {
-					$result .= '<option value="'.$option->id.'" >'.$display_name.'</option>';
-				}
-			} elseif ( $value ) {
-				if( $value == $option->id ) {
-					$result .= '<option selected="true" value="'.$option->id.'" >'.$display_name.'</option>';
-				} else {
-					$result .= '<option value="'.$option->id.'" >'.$display_name.'</option>';
-				}
-			} elseif ( !( $value ) ) {
-				$result .= '<option value="'.$option->id.'" >'.$display_name.'</option>';
-			}
-		}
-		$result .= '</select>';
-		return $result;
-		
+		$options = array_merge(parent::getOptions(), $options);
+		return $options;
 	}
 }
+?>

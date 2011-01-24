@@ -36,7 +36,7 @@ class GCalendarsController extends JController
 		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_SUPPORT'), 'index.php?option=com_gcalendar&view=support', $submenu == 'support');
 
 		$document = JFactory::getDocument();
-		$document->addStyleDeclaration('.icon-48-analytics {background-image: url(../media/com_gcalendar/images/48-calendar.png);background-repeat: no-repeat;}');
+		$document->addStyleDeclaration('.icon-48-calendar {background-image: url(../media/com_gcalendar/images/48-calendar.png);background-repeat: no-repeat;}');
 	}
 
 	function import(){

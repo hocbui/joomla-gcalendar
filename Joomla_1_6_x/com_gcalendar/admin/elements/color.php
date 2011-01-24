@@ -18,31 +18,24 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-/**
- *
- * @package 	GCalendar
- * @subpackage	Parameter
- * @since		1.5
- */
-
-class JElementColor extends JElement
+class JFormFieldColor extends JFormFieldText
 {
-	/**
-	 * Element name
-	 *
-	 * @access	protected
-	 * @var		string
-	 */
-	var	$_name = 'Color';
+	protected $type = 'Color';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function getInput()
 	{
 		$document = &JFactory::getDocument();
 		$document->addScript(JURI::base(). 'components/com_gcalendar/libraries/jscolor/jscolor.js' );
-		return '<input class="color" value="'.$value.'" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'"/>';
-		
+		return parent::getInput();
+	}
+
+	public function setup(& $element, $value, $group = null)
+	{
+		$return= parent::setup($element, $value, $group);
+		$this->element['class'] = $this->element['class'].' color';
+		return $return;
 	}
 }
+?>
