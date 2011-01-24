@@ -26,23 +26,17 @@ jimport('joomla.application.component.controller');
  */
 class GCalendarsController extends JController
 {
-	/**
-	 * constructor (registers additional tasks to methods)
-	 * @return void
-	 */
-	function __construct(){
-		parent::__construct();
-	}
 
-
-	/**
-	 * Method to display the view
-	 *
-	 * @access	public
-	 */
 	function display()
 	{
 		parent::display();
+
+		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_GCALENDARS'), 'index.php?option=com_gcalendar', $submenu == 'gcalendars');
+		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_TOOLS'), 'index.php?option=com_gcalendar&view=tools', $submenu == 'tools');
+		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_SUPPORT'), 'index.php?option=com_gcalendar&view=support', $submenu == 'support');
+
+		$document = JFactory::getDocument();
+		$document->addStyleDeclaration('.icon-48-analytics {background-image: url(../media/com_gcalendar/images/48-calendar.png);background-repeat: no-repeat;}');
 	}
 
 	function import(){
@@ -54,13 +48,13 @@ class GCalendarsController extends JController
 		}
 		JRequest::setVar('hidemainmenu', 0);
 
-		parent::display();
+		$this->display();
 	}
 
 	function isLoggedIn(){
 		global $_SESSION, $_GET;
 		if (!isset($_SESSION['sessionToken']) && !isset($_GET['token'])
-		 && !isset($_SESSION['authToken']) && !isset($_GET['authtoken']) ) {
+		&& !isset($_SESSION['authToken']) && !isset($_GET['authtoken']) ) {
 			return FALSE;
 		}
 		return TRUE;

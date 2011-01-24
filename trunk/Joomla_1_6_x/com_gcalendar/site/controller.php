@@ -20,26 +20,8 @@
 
 jimport('joomla.application.component.controller');
 
-/**
- * GCalendar Component Controller
- *
- */
 class GCalendarController extends JController
 {
-	
-	//Joomla 1.6 member $basePath is different (1.5 is $_basePath)
-	function __construct( $config = array() )
-	{
-		parent::__construct($config);
-		if (empty($this->basePath))		
-			$this->basePath = $this->_basePath;
-	}
-
-	/**
-	 * Method to display the view
-	 *
-	 * @access	public
-	 */
 	function display()
 	{
 		$hiddenView = null;
@@ -65,6 +47,5 @@ class GCalendarController extends JController
 		}
 		parent::display();
 	}
-	
 }
 ?>
