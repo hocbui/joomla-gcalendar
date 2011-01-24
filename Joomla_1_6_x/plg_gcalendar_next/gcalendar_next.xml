@@ -37,50 +37,54 @@
 <files>
 	<filename plugin="gcalendar_next">gcalendar_next.php</filename>
 </files>
-	<params addpath="/administrator/components/com_gcalendar/elements">
-		<param name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars (plugin: +gcalendarids)" />>
-		<param name="class" type="text" size="80" default="" label="Plugin Class Suffix" description="CSS for the dates inserted. (plugin: +class)" />
-		<param name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event. (plugin: +output)" rows="5" cols="50">
-			<content>[$ startdate $] at [$ maplink $]</content>
-			<description>
-				Here you can modify the default event output. Use strftime formatting for dates. Valid functions are embedded in [$ cmd args ... $], everything outside of that is taken literally. Valid functions are: start, finish, location (text location), maphref (url to google maps), maplink (anchor link to google maps with the location embedded as the link) and title. 
-			</description>
-		</param>
-		<param name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now. (plugin: +output_now)" rows="5" cols="50">
-			<content>[$ title %] is happening right now here: [$ maplink $]</content>
-		</param>
-		<param name="start_soon" type="text" size="40" default="-4 hours" label="Start soon trigger" description="Triggers starting soon text (relative to the current event's start time) (plugin: +start_soon)"/>
-		<param name="end_soon" type="text" size="40" default="-1 hour" label="End soon trigger" description="Triggers ending soon text (relative to the current event's end time) (plugin: +end_soon)"/>		
-		<param name="output_start_soon" type="textarea2" default="" label="Event starts soon output" description="Here you can customize the appearance of an event that is about to start. Leave blank to use standard output (plugin: +output_start_soon)" rows="5" cols="50">
-			<content>[$ title $] is starting soon.</content>
-		</param>
-		<param name="output_end_soon" type="textarea2" default="" label="Event ends soon output" description="Here you can customize the appearance of an event that is about to end. Leave blank to use standard output. (plugin: +output_end_soon)" rows="5" cols="50">
-			<content>[$ title $] is coming to an end.</content>
-		</param>
-		
-		<param name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found. (plugin: +no_event)" rows="5" cols="50">
-			<content>No scheduled events could be found.</content>
-		</param>
-	</params>
-	<params group="advanced">
-		<param name="offset" type="text" size="10" default="0" label="Event Order Offset" description="Show the event X number of events after the immediate next event. (plugin: +offset)"/>
-		<param name="find" type="text" size="40" default="" label="Event Search" description="Find events whose text/description match. Use standard Google query tricks (&amp;quot;exact search&amp;quot;, &amp;quot;-not_this_word&amp;quot;, this that other) (plugin: +find)"/>		
-		<param name="title_filter" type="text" size="40" default=".*" label="Event Title Filter" description="Show only events with titles that match this regular expression. (plugin: +title_filter)"/>
-		<param name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative) (plugin: +start_date)"/>
-		<param name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative) (plugin: +end_date)"/>
-		<param name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events to choose the next one. (plugin: +max_events)"/>
-		<param name="dateformat" type="text" size="40" default="%B %d, %Y @ %I:%M%P" label="Default date format" description="Use this strftime format as the default way to display  a date (plugin: +dateformat)"/>
-		<param name="only-whole_day" type="text" size="40" default="%A, %B %d, %Y all day" description="Default date range format for a single all day event (strftime format). (plugin: +only-whole_day)" label="Rangle Format (single all day)"/>
-		<param name="only-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +only-part_day)" label="Rangle Format (single day)"/>
-		<param name="multi-whole_day" type="text" size="40" default="%B %d - %%d, %%Y all day" description="Default date range format for a multiple day all day event (strftime format) (plugin: +multi-whole_day)" label="Rangle Format (multiple all day)"/>
-		<param name="multi-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +multi-part_day)" label="Rangle Format (multi day)"/>		
-		<param name="gc_cache" type="list" default="1" label="Cache"
-			description="Is cacheing enabled.">
-			<option value="1">Use global</option>
-			<option value="2">Cache always</option>
-			<option value="0">Cache never</option>
-		</param>
-		<param name="gc_cache_time" type="text" default="900" label="Cache Time"
-			description="The time before the plugin is recached in sec." />
-	</params>
+	<config>
+		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/elements">
+			<fieldset name="basic">
+				<field name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars (plugin: +gcalendarids)" />>
+				<field name="class" type="text" size="80" default="" label="Plugin Class Suffix" description="CSS for the dates inserted. (plugin: +class)" />
+				<field name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event. (plugin: +output)" rows="5" cols="50">
+					<content>[$ startdate $] at [$ maplink $]</content>
+					<description>
+						Here you can modify the default event output. Use strftime formatting for dates. Valid functions are embedded in [$ cmd args ... $], everything outside of that is taken literally. Valid functions are: start, finish, location (text location), maphref (url to google maps), maplink (anchor link to google maps with the location embedded as the link) and title. 
+					</description>
+				</field>
+				<field name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now. (plugin: +output_now)" rows="5" cols="50">
+					<content>[$ title %] is happening right now here: [$ maplink $]</content>
+				</field>
+				<field name="start_soon" type="text" size="40" default="-4 hours" label="Start soon trigger" description="Triggers starting soon text (relative to the current event's start time) (plugin: +start_soon)"/>
+				<field name="end_soon" type="text" size="40" default="-1 hour" label="End soon trigger" description="Triggers ending soon text (relative to the current event's end time) (plugin: +end_soon)"/>		
+				<field name="output_start_soon" type="textarea2" default="" label="Event starts soon output" description="Here you can customize the appearance of an event that is about to start. Leave blank to use standard output (plugin: +output_start_soon)" rows="5" cols="50">
+					<content>[$ title $] is starting soon.</content>
+				</field>
+				<field name="output_end_soon" type="textarea2" default="" label="Event ends soon output" description="Here you can customize the appearance of an event that is about to end. Leave blank to use standard output. (plugin: +output_end_soon)" rows="5" cols="50">
+					<content>[$ title $] is coming to an end.</content>
+				</field>
+				
+				<field name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found. (plugin: +no_event)" rows="5" cols="50">
+					<content>No scheduled events could be found.</content>
+				</field>
+			</fieldset>
+			<fieldset name="advanced" label="Advanced Plugin Parameters">
+				<field name="offset" type="text" size="10" default="0" label="Event Order Offset" description="Show the event X number of events after the immediate next event. (plugin: +offset)"/>
+				<field name="find" type="text" size="40" default="" label="Event Search" description="Find events whose text/description match. Use standard Google query tricks (&amp;quot;exact search&amp;quot;, &amp;quot;-not_this_word&amp;quot;, this that other) (plugin: +find)"/>		
+				<field name="title_filter" type="text" size="40" default=".*" label="Event Title Filter" description="Show only events with titles that match this regular expression. (plugin: +title_filter)"/>
+				<field name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative) (plugin: +start_date)"/>
+				<field name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative) (plugin: +end_date)"/>
+				<field name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events to choose the next one. (plugin: +max_events)"/>
+				<field name="dateformat" type="text" size="40" default="%B %d, %Y @ %I:%M%P" label="Default date format" description="Use this strftime format as the default way to display  a date (plugin: +dateformat)"/>
+				<field name="only-whole_day" type="text" size="40" default="%A, %B %d, %Y all day" description="Default date range format for a single all day event (strftime format). (plugin: +only-whole_day)" label="Rangle Format (single all day)"/>
+				<field name="only-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +only-part_day)" label="Rangle Format (single day)"/>
+				<field name="multi-whole_day" type="text" size="40" default="%B %d - %%d, %%Y all day" description="Default date range format for a multiple day all day event (strftime format) (plugin: +multi-whole_day)" label="Rangle Format (multiple all day)"/>
+				<field name="multi-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +multi-part_day)" label="Rangle Format (multi day)"/>		
+				<field name="gc_cache" type="list" default="1" label="Cache"
+					description="Is cacheing enabled.">
+					<option value="1">Use global</option>
+					<option value="2">Cache always</option>
+					<option value="0">Cache never</option>
+				</field>
+				<field name="gc_cache_time" type="text" default="900" label="Cache Time"
+					description="The time before the plugin is recached in sec." />
+			</fieldset>
+		</fields>
+	</config>
 </install>

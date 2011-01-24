@@ -47,21 +47,18 @@
 		<files folder="admin">
 			<!-- Site Main File Copy Section -->
 			<filename>index.html</filename>
-			<filename>admin.gcalendar.php</filename>
+			<filename>gcalendar.php</filename>
 			<filename>controller.php</filename>
-			<filename>install.sql</filename>
-			<filename>uninstall.sql</filename>
 			<filename>util.php</filename>
 			<filename>dbutil.php</filename>
 			<filename>config.xml</filename>
 			<folder>controllers</folder>
 			<folder>models</folder>
 			<folder>views</folder>
-			<folder>images</folder>
 			<folder>tables</folder>
-			<folder>css</folder>
 			<folder>elements</folder>
 			<folder>libraries</folder>
+			<folder>sql</folder>
 		</files>
 		<languages>
 			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language>
