@@ -20,13 +20,7 @@
 
 class GCalendarDBUtil{
 
-	/**
-	 * Returns the database entries as objects with the column fields as
-	 * variable (according to the joomla table framework).
-	 *
-	 * @param $calendarIDs the calendar ID's to find
-	 */
-	function getCalendars($calendarIDs) {
+	public static function getCalendars($calendarIDs) {
 		$condition = '';
 		if(!empty($calendarIDs)){
 			if(is_array($calendarIDs)) {
@@ -44,17 +38,11 @@ class GCalendarDBUtil{
 		return $results;
 	}
 
-	/**
-	 * Returns all database entries as objects with the column fields as
-	 * variable (according to the joomla table framework).
-	 *
-	 */
-	function getAllCalendars() {
+	public static function getAllCalendars() {
 		$db =& JFactory::getDBO();
 		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar";
 		$db->setQuery( $query );
 		return $db->loadObjectList();
 	}
 }
-
 ?>

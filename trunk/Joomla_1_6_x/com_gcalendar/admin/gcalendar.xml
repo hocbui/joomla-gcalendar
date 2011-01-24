@@ -20,8 +20,9 @@
 		<folder>hiddenviews</folder>
 		<folder>libraries</folder>
 		<folder>models</folder>
+		<folder>language</folder>
 	</files>
-	<media destination="com_ganalytics" folder="media">
+	<media destination="com_gcalendar" folder="media">
 		<filename>index.html</filename>
 		<folder>images</folder>
 	</media>

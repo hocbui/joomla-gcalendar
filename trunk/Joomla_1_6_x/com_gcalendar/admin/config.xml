@@ -58,11 +58,5 @@
 		<field name="event_time_format" type="text" size="80" default="%H:%M"
 			label="Time format"
 			description="The format of the time for an event (see http://www.php.net/strftime for details)." />
-		<field name="google_login" type="text" size="80" default="myaccount@gmail.com"  
-			label="Login Google"
-			description="Account used to retrieve magic cookies and upload data to your Google Calendar." /> 
-		<field name="google_pass" type="password" size="50" default=""  
-			label="Password"
-			description="Password for this account" />
 	</fieldset>
 </config>

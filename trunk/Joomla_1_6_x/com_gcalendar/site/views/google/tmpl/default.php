@@ -108,10 +108,11 @@ if($params->get('show_selection')==1){
 	JHTML::_('behavior.mootools');
 	$document = &JFactory::getDocument();
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/google/tmpl/gcalendar.js' );
+	$document->addStyleSheet(JURI::base().'components/com_gcalendar/views/google/tmpl/gcalendar.css');
 	echo $calendar_list;
 	echo "<div align=\"center\" style=\"text-align:center\">\n";
 	echo "<a id=\"gc_google_view_toggle\" name=\"gc_google_view_toggle\" href=\"#\">\n";
-	echo "<img id=\"gc_google_view_toggle_status\" name=\"gc_google_view_toggle_status\" src=\"".JURI::base()."components/com_gcalendar/images/down.png\" alt=\"".JText::_('CALENDAR_LIST')."\" title=\"".JText::_('CALENDAR_LIST')."\"/>\n";
+	echo "<img id=\"gc_google_view_toggle_status\" name=\"gc_google_view_toggle_status\" src=\"".JURI::base()."media/com_gcalendar/images/down.png\" alt=\"".JText::_('CALENDAR_LIST')."\" title=\"".JText::_('CALENDAR_LIST')."\"/>\n";
 	echo "</a></div>\n";
 }
 $calendar_url="";

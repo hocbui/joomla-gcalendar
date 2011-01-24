@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.5" type="plugin" group="content">
+<extension version="1.6" type="plugin" group="content">
 <name>Content - GCalendar Next Event</name>
 <author>G4J Project</author>
 <authorEmail>info@g4j.laoneo.net</authorEmail>
@@ -87,4 +87,4 @@
 			</fieldset>
 		</fields>
 	</config>
-</install>
+</extension>

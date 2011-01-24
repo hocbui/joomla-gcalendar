@@ -27,7 +27,8 @@ $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullca
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui-1.8.7.custom.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.ba-hashchange.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0.min.js');
-$document->addStyleDeclaration("#ui-datepicker-div { z-index: 15; }");
+$document->addStyleDeclaration("#ui-datepicker-div { z-index: 15 important!; }");
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css');
 
 $params = $this->params;
 
@@ -266,7 +267,7 @@ $document->addScriptDeclaration($calCode);
 echo $params->get( 'textbefore' );
 if($params->get('show_selection', 1) == 1){
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
-	$calendar_list = '<div id="gc_gcalendar_view_list"><table>';
+	$calendar_list = '<div id="gc_gcalendar_view_list"><table class="gcalendar-table">';
 	foreach($allCalendars as $calendar) {
 		$value = html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id));
 		$checked = '';
@@ -282,11 +283,11 @@ if($params->get('show_selection', 1) == 1){
 	echo $calendar_list;
 	echo "<div align=\"center\" style=\"text-align:center\">\n";
 	echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
-	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".JURI::base()."components/com_gcalendar/images/down.png\" alt=\"".JText::_('CALENDAR_LIST')."\" title=\"".JText::_('CALENDAR_LIST')."\"/>\n";
+	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".JURI::base()."media/com_gcalendar/images/down.png\" alt=\"".JText::_('CALENDAR_LIST')."\" title=\"".JText::_('CALENDAR_LIST')."\"/>\n";
 	echo "</a></div>\n";
 }
 
-echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "components/com_gcalendar/images/ajax-loader.gif\"  alt=\"loader\" /></div>";
+echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "media/com_gcalendar/images/ajax-loader.gif\"  alt=\"loader\" /></div>";
 echo "<div id='gcalendar_component'></div><div id='gcalendar_component_popup' style=\"visibility:hidden\" ></div>";
 echo $params->get( 'textafter' );
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
