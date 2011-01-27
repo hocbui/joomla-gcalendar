@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 JHTML::_('behavior.mootools');
 GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui-1.8.7.custom.min.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0.min.js');
