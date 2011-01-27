@@ -53,31 +53,31 @@ $calendar = $this->gcalendar;
 
 <table class="admintable" width="100%">
 	<tr>
-		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'CALENDAR_NAME' ); ?>:
+		<td align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'CALENDAR_NAME' ); ?>:
 		</label></td>
 		<td><input class="text_area" type="text" name="name" id="name"
 			size="100%" maxlength="250" value="<?php echo $calendar->name;?>" /></td>
 	</tr>
 	<tr>
-		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Calendar ID' ); ?>:
+		<td align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Calendar ID' ); ?>:
 		</label></td>
 		<td><input class="text_area" type="text" name="calendar_id"
 			id="calendar_id" size="100%"
 			value="<?php echo $calendar->calendar_id;?>" /></td>
 	</tr>
 	<tr>
-		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Magic Cookie' ); ?>:
+		<td align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Magic Cookie' ); ?>:
 		</label></td>
 		<td><input class="text_area" type="text" name="magic_cookie"
 			id="magic_cookie" size="100%"
 			value="<?php echo $calendar->magic_cookie;?>" /></td>
 	</tr>
 	<tr>
-		<td width="100%" align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Color' ); ?>:
+		<td align="right" class="key"><label for="gcalendar"> <?php echo JText::_( 'Color' ); ?>:
 		</label></td>
-		<td><input class="text_area" type="text" name="color" id="color" readonly
+		<td><p><input class="text_area" type="text" name="color" id="color" readonly
 			size="100%" value="<?php echo $calendar->color;?>" style="background-color: <?php echo GCalendarUtil::getFadedColor($calendar->color);?>;" />
-		<table>
+		<br><table>
 			<tbody>
 			<?php
 			for ($i = 0; $i < count($googleColors); $i++) {
@@ -91,7 +91,7 @@ $calendar = $this->gcalendar;
 			}
 			?>
 			</tbody>
-		</table>
+		</table></p>
 		</td>
 	</tr>
 </table>
