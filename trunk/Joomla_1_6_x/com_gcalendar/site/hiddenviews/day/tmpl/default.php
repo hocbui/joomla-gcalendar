@@ -185,7 +185,7 @@ $calCode .= "});\n";
 $calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
-echo "<div id='gcalendar_component_day_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "components/com_gcalendar/images/ajax-loader.gif\" alt=\"loader\" /></div>";
+echo "<div id='gcalendar_component_day_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "media/com_gcalendar/images/ajax-loader.gif\" alt=\"loader\" /></div>";
 echo "<div id='gcalendar_component_day'></div>";
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
 ?>

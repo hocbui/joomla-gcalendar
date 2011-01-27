@@ -2,7 +2,7 @@
 <extension type="module" version="1.6.0" method="upgrade" client="site">
 	<name>GCalendar Overview</name>
 	<author>G4J Project</author>
-	<creationDate>Sept 2010</creationDate>
+	<creationDate>Jan 2011</creationDate>
 	<copyright>This extension is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
