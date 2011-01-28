@@ -185,7 +185,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if ($format == "") {
 			$format = $this->params->get("dateformat", "%B %d, %Y @ %I:%M%P");
 		}
-		return GCalendarUtil::strftime($format, $time);
+		return GCalendarUtil::formatDate($format, $time);
 	}
 
 	function startdate($param) {

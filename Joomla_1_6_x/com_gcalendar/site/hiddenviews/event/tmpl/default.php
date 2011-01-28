@@ -52,10 +52,10 @@ if($event == null){
 	$timeformat = GCalendarUtil::getComponentParameter('event_time_format', 'H:i');
 
 	// These are the dates we'll display
-	$startDate = GCalendarUtil::strftime($dateformat, $event->get_start_date());
-	$startTime = GCalendarUtil::strftime($timeformat, $event->get_start_date());
-	$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date());
-	$endTime = GCalendarUtil::strftime($timeformat, $event->get_end_date());
+	$startDate = GCalendarUtil::formatDate($dateformat, $event->get_start_date());
+	$startTime = GCalendarUtil::formatDate($timeformat, $event->get_start_date());
+	$endDate = GCalendarUtil::formatDate($dateformat, $event->get_end_date());
+	$endTime = GCalendarUtil::formatDate($timeformat, $event->get_end_date());
 	$dateSeparator = '-';
 
 	$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
@@ -71,7 +71,7 @@ if($event == null){
 			break;
 		case $event->MULTIPLE_WHOLE_DAY:
 			$SECSINDAY=86400;
-			$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date()-$SECSINDAY);
+			$endDate = GCalendarUtil::formatDate($dateformat, $event->get_end_date()-$SECSINDAY);
 			$timeString = $startDate.' '.$dateSeparator.' '.$endDate;
 			$copyDateTimeFormat = '%Y%m%d';
 			break;
@@ -125,7 +125,7 @@ if($event == null){
 
 	if(GCalendarUtil::getComponentParameter('show_event_copy_info', 1) == 1){
 		$urlText = 'action=TEMPLATE&amp;text='.urlencode($event->get_title());
-		$urlText .= '&amp;dates='.GCalendarUtil::strftime($copyDateTimeFormat, $event->get_start_date()).'%2F'.GCalendarUtil::strftime($copyDateTimeFormat, $event->get_end_date());
+		$urlText .= '&amp;dates='.GCalendarUtil::formatDate($copyDateTimeFormat, $event->get_start_date()).'%2F'.GCalendarUtil::formatDate($copyDateTimeFormat, $event->get_end_date());
 		$urlText .= '&amp;location='.urlencode($event->get_location());
 		$urlText .= '&amp;details='.urlencode($event->get_description());
 		$urlText .= '&amp;hl='.GCalendarUtil::getFrLanguage().'&amp;ctz='.GCalendarUtil::getComponentParameter('timezone');
