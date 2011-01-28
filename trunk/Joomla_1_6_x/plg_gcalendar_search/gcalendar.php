@@ -123,13 +123,13 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	foreach($events as $event){
 		$feed = $event->get_feed();
 
-		// the date formats from http://php.net/strftime
+		// the date formats from http://php.net/date
 		$dateformat = 'd.m.Y';
 		$timeformat = 'H:i';
 
 		// These are the dates we'll display
-		$startDate = GCalendarUtil::strftime($dateformat, $event->get_start_date());
-		$startTime = GCalendarUtil::strftime($timeformat, $event->get_start_date());
+		$startDate = GCalendarUtil::formatDate($dateformat, $event->get_start_date());
+		$startTime = GCalendarUtil::formatDate($timeformat, $event->get_start_date());
 
 		$timeString = $startTime.' '.$startDate;
 		switch($event->get_day_type()){

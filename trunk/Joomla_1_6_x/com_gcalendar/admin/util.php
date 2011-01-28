@@ -151,10 +151,10 @@ class GCalendarUtil{
 		}
 
 		// These are the dates we'll display
-		$startDate = GCalendarUtil::strftime($dateformat, $event->get_start_date());
-		$startTime = GCalendarUtil::strftime($timeformat, $event->get_start_date());
-		$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date());
-		$endTime = GCalendarUtil::strftime($timeformat, $event->get_end_date());
+		$startDate = GCalendarUtil::formatDate($dateformat, $event->get_start_date());
+		$startTime = GCalendarUtil::formatDate($timeformat, $event->get_start_date());
+		$endDate = GCalendarUtil::formatDate($dateformat, $event->get_end_date());
+		$endTime = GCalendarUtil::formatDate($timeformat, $event->get_end_date());
 
 		$temp_event = $format;
 
@@ -175,7 +175,7 @@ class GCalendarUtil{
 				break;
 			case $event->MULTIPLE_WHOLE_DAY:
 				$SECSINDAY=86400;
-				$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date()-$SECSINDAY);
+				$endDate = GCalendarUtil::formatDate($dateformat, $event->get_end_date()-$SECSINDAY);
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 				$temp_event=str_replace("{starttime}","",$temp_event);
 				$temp_event=str_replace("{dateseparator}","-",$temp_event);
@@ -279,8 +279,8 @@ class GCalendarUtil{
 		}
 	}
 
-	public static function strftime($dateFormat,$date){
-		return strftime(JFactory::getDate($date)->format($dateFormat));
+	public static function formatDate($dateFormat,$date){
+		return JFactory::getDate($date)->format($dateFormat);
 	}
 }
 ?>
