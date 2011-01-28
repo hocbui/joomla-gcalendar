@@ -28,8 +28,8 @@ if(!empty($this->calendars)){
 		$params = $menus->getParams($itemID);
 		if(empty($params))
 		$params = new JParameter('');
-		$dateformat = $params->get('description_date_format', '%d.%m.%Y');
-		$timeformat = $params->get('description_time_format', '%H:%M');
+		$dateformat = $params->get('description_date_format', 'd.m.Y');
+		$timeformat = $params->get('description_time_format', 'H:i');
 		$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
 
 		if(!empty($itemID)) {

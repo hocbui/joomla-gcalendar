@@ -25,8 +25,8 @@ $document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/defau
 
 $event_display = $params->get('output', '');
 
-$dateformat=$params->get('date_format', '%d.%m.%Y');
-$timeformat=$params->get('time_format', '%H:%M');
+$dateformat=$params->get('date_format', 'd.m.Y');
+$timeformat=$params->get('time_format', 'H:i');
 
 echo $params->get( 'text_before' );
 if(!empty($gcalendar_data)){

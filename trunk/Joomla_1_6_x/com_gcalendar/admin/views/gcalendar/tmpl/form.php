@@ -20,8 +20,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-
 $googleColors = array(
 'A32929'
 ,'B1365F'

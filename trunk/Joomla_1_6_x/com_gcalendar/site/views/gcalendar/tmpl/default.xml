@@ -53,12 +53,12 @@
 				description="The format of the axis in the day and week view." size="50" />
 			<field name="@spacer" type="spacer" default="" label=""
 				description="" />
-			<field name="description_date_format" type="text" size="50" default="%d.%m.%Y"
+			<field name="description_date_format" type="text" size="50" default="d.m.Y"
 				label="Tooltip Date format"
-				description="The format of the date for an event (see http://www.php.net/strftime for details)." />
-			<field name="description_time_format" type="text" size="50" default="%H:%M"
+				description="The format of the date for an event (see http://www.php.net/date for details)." />
+			<field name="description_time_format" type="text" size="50" default="H:i"
 				label="Tooltip Time format"
-				description="The format of the time for an event (see http://www.php.net/strftime for details)." />
+				description="The format of the time for an event (see http://www.php.net/date for details)." />
 			<field name="description_format" type="textarea2" default="" label="Event tooltip"
 				description="Here you can customize the appearance of the event tooltip."
 				rows="5" cols="50">

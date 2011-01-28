@@ -21,8 +21,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-
 $component	= &JComponentHelper::getComponent('com_gcalendar');
 $menu = &JSite::getMenu();
 $items		= $menu->getItems('componentid', $component->id);

@@ -48,7 +48,6 @@ function &plgSearchGCalendarAreas() {
  */
 function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-	require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 	GCalendarUtil::ensureSPIsLoaded();
 
 	$user	=& JFactory::getUser();
@@ -125,12 +124,12 @@ function plgSearchGCalendar( $text, $phrase='', $ordering='', $areas=null ){
 		$feed = $event->get_feed();
 
 		// the date formats from http://php.net/strftime
-		$dateformat = '%d.%m.%Y';
-		$timeformat = '%H:%M';
+		$dateformat = 'd.m.Y';
+		$timeformat = 'H:i';
 
 		// These are the dates we'll display
-		$startDate = strftime($dateformat, $event->get_start_date());
-		$startTime = strftime($timeformat, $event->get_start_date());
+		$startDate = GCalendarUtil::strftime($dateformat, $event->get_start_date());
+		$startTime = GCalendarUtil::strftime($timeformat, $event->get_start_date());
 
 		$timeString = $startTime.' '.$startDate;
 		switch($event->get_day_type()){

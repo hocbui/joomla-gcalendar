@@ -23,13 +23,6 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
-
-/**
- * GCalendar Model
- *
- */
 class GCalendarModelGoogle extends JModel {
 
 	var $cached_data = null;
