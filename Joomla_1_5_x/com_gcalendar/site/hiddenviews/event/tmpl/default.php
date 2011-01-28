@@ -53,10 +53,10 @@ if($event == null){
 	$timeformat = GCalendarUtil::getComponentParameter('event_time_format', '%H:%M');
 
 	// These are the dates we'll display
-	$startDate = strftime($dateformat, $event->get_start_date());
-	$startTime = strftime($timeformat, $event->get_start_date());
-	$endDate = strftime($dateformat, $event->get_end_date());
-	$endTime = strftime($timeformat, $event->get_end_date());
+	$startDate = GCalendarUtil::strftime($dateformat, $event->get_start_date());
+	$startTime = GCalendarUtil::strftime($timeformat, $event->get_start_date());
+	$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date());
+	$endTime = GCalendarUtil::strftime($timeformat, $event->get_end_date());
 	$dateSeparator = '-';
 
 	$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;

@@ -151,10 +151,10 @@ class GCalendarUtil{
 		}
 
 		// These are the dates we'll display
-		$startDate = strftime($dateformat, $event->get_start_date());
-		$startTime = strftime($timeformat, $event->get_start_date());
-		$endDate = strftime($dateformat, $event->get_end_date());
-		$endTime = strftime($timeformat, $event->get_end_date());
+		$startDate = self::strftime($dateformat, $event->get_start_date());
+		$startTime = self::strftime($timeformat, $event->get_start_date());
+		$endDate = self::strftime($dateformat, $event->get_end_date());
+		$endTime = self::strftime($timeformat, $event->get_end_date());
 
 		$temp_event = $format;
 
@@ -294,6 +294,10 @@ class GCalendarUtil{
 			case 11: return $abbr ? JText::_('NOVEMBER_SHORT')	: JText::_('NOVEMBER');
 			case 12: return $abbr ? JText::_('DECEMBER_SHORT')	: JText::_('DECEMBER');
 		}
+	}
+
+	function strftime($dateFormat,$date){
+		return JFactory::getDate()->_strftime($dateFormat, $date);
 	}
 }
 ?>
