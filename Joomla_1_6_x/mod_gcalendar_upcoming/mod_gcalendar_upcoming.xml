@@ -31,12 +31,12 @@
 			<fieldset name="basic" label="Module Parameters">
 				<field name="calendarids" type="gcalendar" default=""
 					label="Select Calendars" description="The calendars" />
-				<field name="date_format" type="text" size="80" default="%d.%m.%Y"
+				<field name="date_format" type="text" size="80" default="d.m.Y"
 					label="Date format"
-					description="The format of the date for an event (see http://www.php.net/strftime for details)." />
-				<field name="time_format" type="text" size="80" default="%H:%M"
+					description="The format of the date for an event (see http://www.php.net/date for details)." />
+				<field name="time_format" type="text" size="80" default="H:i"
 					label="Time format"
-					description="The format of the time for an event (see http://www.php.net/strftime for details)." />
+					description="The format of the time for an event (see http://www.php.net/date for details)." />
 				<field name="max_events" type="text" size="2" default="5" label="Max events"
 					description="The maximal count of events should be displayed." />
 				<field name="order" type="radio" default="1" label="Sort Order"

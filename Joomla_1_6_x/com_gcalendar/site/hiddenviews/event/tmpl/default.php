@@ -20,7 +20,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 $event = $this->event;
 
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
@@ -49,14 +48,14 @@ if($event == null){
 	echo "no event found";
 }else{
 	// the date formats from http://php.net/strftime
-	$dateformat = GCalendarUtil::getComponentParameter('event_date_format', '%d.%m.%Y');
-	$timeformat = GCalendarUtil::getComponentParameter('event_time_format', '%H:%M');
+	$dateformat = GCalendarUtil::getComponentParameter('event_date_format', 'd.m.Y');
+	$timeformat = GCalendarUtil::getComponentParameter('event_time_format', 'H:i');
 
 	// These are the dates we'll display
-	$startDate = strftime($dateformat, $event->get_start_date());
-	$startTime = strftime($timeformat, $event->get_start_date());
-	$endDate = strftime($dateformat, $event->get_end_date());
-	$endTime = strftime($timeformat, $event->get_end_date());
+	$startDate = GCalendarUtil::strftime($dateformat, $event->get_start_date());
+	$startTime = GCalendarUtil::strftime($timeformat, $event->get_start_date());
+	$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date());
+	$endTime = GCalendarUtil::strftime($timeformat, $event->get_end_date());
 	$dateSeparator = '-';
 
 	$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
@@ -72,7 +71,7 @@ if($event == null){
 			break;
 		case $event->MULTIPLE_WHOLE_DAY:
 			$SECSINDAY=86400;
-			$endDate = strftime($dateformat, $event->get_end_date()-$SECSINDAY);
+			$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date()-$SECSINDAY);
 			$timeString = $startDate.' '.$dateSeparator.' '.$endDate;
 			$copyDateTimeFormat = '%Y%m%d';
 			break;
@@ -126,7 +125,7 @@ if($event == null){
 
 	if(GCalendarUtil::getComponentParameter('show_event_copy_info', 1) == 1){
 		$urlText = 'action=TEMPLATE&amp;text='.urlencode($event->get_title());
-		$urlText .= '&amp;dates='.strftime($copyDateTimeFormat, $event->get_start_date()).'%2F'.strftime($copyDateTimeFormat, $event->get_end_date());
+		$urlText .= '&amp;dates='.GCalendarUtil::strftime($copyDateTimeFormat, $event->get_start_date()).'%2F'.GCalendarUtil::strftime($copyDateTimeFormat, $event->get_end_date());
 		$urlText .= '&amp;location='.urlencode($event->get_location());
 		$urlText .= '&amp;details='.urlencode($event->get_description());
 		$urlText .= '&amp;hl='.GCalendarUtil::getFrLanguage().'&amp;ctz='.GCalendarUtil::getComponentParameter('timezone');

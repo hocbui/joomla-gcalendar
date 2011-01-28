@@ -30,7 +30,7 @@ class GCalendarUtil{
 	/**
 	 * Loads the simplepie Libraries the correct way.
 	 */
-	function ensureSPIsLoaded(){
+	public static function ensureSPIsLoaded(){
 		if(!class_exists('SimplePie')){
 			jimport('simplepie.simplepie');
 		}
@@ -43,7 +43,7 @@ class GCalendarUtil{
 	/**
 	 * Loads JQuery if the component parameter is set to yes.
 	 */
-	function loadJQuery(){
+	public static function loadJQuery(){
 		static $jQueryloaded;
 		if($jQueryloaded == null){
 			$param   = GCalendarUtil::getComponentParameter('loadJQuery');
@@ -63,7 +63,7 @@ class GCalendarUtil{
 	 * @param $defaultValue
 	 * @return the component parameter
 	 */
-	function getComponentParameter($key, $defaultValue = null){
+	public static function getComponentParameter($key, $defaultValue = null){
 		$params   = JComponentHelper::getParams('com_gcalendar');
 		return $params->get($key, $defaultValue);
 	}
@@ -75,7 +75,7 @@ class GCalendarUtil{
 	 *
 	 * @return the frontend language
 	 */
-	function getFrLanguage(){
+	public static function getFrLanguage(){
 		$conf	=& JFactory::getConfig();
 		return $conf->getValue('config.language');
 		//		$params   = JComponentHelper::getParams('com_languages');
@@ -89,7 +89,7 @@ class GCalendarUtil{
 	 * @param $cal_id
 	 * @return the item id
 	 */
-	function getItemId($cal_id){
+	public static function getItemId($cal_id){
 		$component	= &JComponentHelper::getComponent('com_gcalendar');
 		$menu = &JSite::getMenu();
 		$items		= $menu->getItems('componentid', $component->id);
@@ -133,7 +133,7 @@ class GCalendarUtil{
 	 * @param $timeformat
 	 * @return the HTML code of the efent
 	 */
-	function renderEvent($event, $format, $dateformat, $timeformat){
+	public static function renderEvent($event, $format, $dateformat, $timeformat){
 		$feed = $event->get_feed();
 		$tz = GCalendarUtil::getComponentParameter('timezone');
 		if($tz == ''){
@@ -151,10 +151,10 @@ class GCalendarUtil{
 		}
 
 		// These are the dates we'll display
-		$startDate = strftime($dateformat, $event->get_start_date());
-		$startTime = strftime($timeformat, $event->get_start_date());
-		$endDate = strftime($dateformat, $event->get_end_date());
-		$endTime = strftime($timeformat, $event->get_end_date());
+		$startDate = GCalendarUtil::strftime($dateformat, $event->get_start_date());
+		$startTime = GCalendarUtil::strftime($timeformat, $event->get_start_date());
+		$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date());
+		$endTime = GCalendarUtil::strftime($timeformat, $event->get_end_date());
 
 		$temp_event = $format;
 
@@ -175,7 +175,7 @@ class GCalendarUtil{
 				break;
 			case $event->MULTIPLE_WHOLE_DAY:
 				$SECSINDAY=86400;
-				$endDate = strftime($dateformat, $event->get_end_date()-$SECSINDAY);
+				$endDate = GCalendarUtil::strftime($dateformat, $event->get_end_date()-$SECSINDAY);
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 				$temp_event=str_replace("{starttime}","",$temp_event);
 				$temp_event=str_replace("{dateseparator}","-",$temp_event);
@@ -221,7 +221,7 @@ class GCalendarUtil{
 	 * @param $percentage
 	 * @return the faded color
 	 */
-	function getFadedColor($color, $percentage = 85) {
+	public static function getFadedColor($color, $percentage = 85) {
 		$percentage = 100 - $percentage;
 		$rgbValues = array_map( 'hexDec', str_split( ltrim($color, '#'), 2 ) );
 
@@ -240,7 +240,7 @@ class GCalendarUtil{
 	 * @param	boolean	Return the abreviated day string?
 	 * @return	string	The day of the week.
 	 */
-	function dayToString($day, $abbr = false)
+	public static function dayToString($day, $abbr = false)
 	{
 		switch ($day) {
 			case 0: return $abbr ? JText::_('SUN') : JText::_('SUNDAY');
@@ -261,7 +261,7 @@ class GCalendarUtil{
 	 * @param	boolean	Return the abreviated month string?
 	 * @return	string	The month of the year.
 	 */
-	function monthToString($month, $abbr = false)
+	public static function monthToString($month, $abbr = false)
 	{
 		switch ($month) {
 			case 1:  return $abbr ? JText::_('JANUARY_SHORT')	: JText::_('JANUARY');
@@ -277,6 +277,10 @@ class GCalendarUtil{
 			case 11: return $abbr ? JText::_('NOVEMBER_SHORT')	: JText::_('NOVEMBER');
 			case 12: return $abbr ? JText::_('DECEMBER_SHORT')	: JText::_('DECEMBER');
 		}
+	}
+
+	public static function strftime($dateFormat,$date){
+		return strftime(JFactory::getDate($date)->format($dateFormat));
 	}
 }
 ?>
