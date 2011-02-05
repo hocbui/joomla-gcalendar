@@ -114,6 +114,7 @@ defined('_JEXEC') or die('Restricted access');
 			curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt ($ch,CURLOPT_VERBOSE,false);
 			curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			$page=curl_exec($ch);
 			// $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			if(curl_errno($ch)){
