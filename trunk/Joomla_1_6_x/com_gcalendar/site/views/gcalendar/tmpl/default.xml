@@ -61,25 +61,25 @@
 				description="The format of the time for an event (see http://www.php.net/date for details)." />
 			<field name="description_format" type="textarea2" default="" label="Event tooltip"
 				description="Here you can customize the appearance of the event tooltip."
-				rows="5" cols="50">
-			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;{description}&lt;/p&gt;</content>
-			<description>
-				Here you can modify the event tooltip. The following
-				attributes of an event are provided:&lt;br&gt;
-				{title},
-				{description},
-				{startdate}, {starttime}, {dateseparator}, {enddate},
-				{endtime}
-				{where}, {backlink}, {link}, {maplink}, {calendarname},
-				{calendarcolor}
-			</description>
+				rows="5" cols="50" filter="raw">
+				<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;{description}&lt;/p&gt;</content>
+				<description>
+					Here you can modify the event tooltip. The following
+					attributes of an event are provided:&lt;br&gt;
+					{title},
+					{description},
+					{startdate}, {starttime}, {dateseparator}, {enddate},
+					{endtime}
+					{where}, {backlink}, {link}, {maplink}, {calendarname},
+					{calendarcolor}
+				</description>
 			</field>
 			<field name="textbefore" type="textarea" default=""
 				label="Content before calendar" description="This text will be displayed before the google calendar."
-				rows="5" cols="50" />
+				rows="5" cols="50" filter="raw"/>
 			<field name="textafter" type="textarea" default=""
 				label="Content after calendar" description="This text will be displayed after the google calendar."
-				rows="5" cols="50" />
+				rows="5" cols="50" filter="raw"/>
 			<field name="show_event_as_popup" type="radio" default="1"
 				label="Show Events As Popup" description="Shows the event details in a modal popup.">
 				<option value="1">Yes</option>

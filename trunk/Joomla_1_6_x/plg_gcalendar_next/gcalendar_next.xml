@@ -42,25 +42,25 @@
 			<fieldset name="basic">
 				<field name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars (plugin: +gcalendarids)" />>
 				<field name="class" type="text" size="80" default="" label="Plugin Class Suffix" description="CSS for the dates inserted. (plugin: +class)" />
-				<field name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event. (plugin: +output)" rows="5" cols="50">
+				<field name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event. (plugin: +output)" rows="5" cols="50" filter="raw">
 					<content>[$ startdate $] at [$ maplink $]</content>
 					<description>
 						Here you can modify the default event output. Use strftime formatting for dates. Valid functions are embedded in [$ cmd args ... $], everything outside of that is taken literally. Valid functions are: start, finish, location (text location), maphref (url to google maps), maplink (anchor link to google maps with the location embedded as the link) and title. 
 					</description>
 				</field>
-				<field name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now. (plugin: +output_now)" rows="5" cols="50">
+				<field name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now. (plugin: +output_now)" rows="5" cols="50" filter="raw">
 					<content>[$ title %] is happening right now here: [$ maplink $]</content>
 				</field>
 				<field name="start_soon" type="text" size="40" default="-4 hours" label="Start soon trigger" description="Triggers starting soon text (relative to the current event's start time) (plugin: +start_soon)"/>
 				<field name="end_soon" type="text" size="40" default="-1 hour" label="End soon trigger" description="Triggers ending soon text (relative to the current event's end time) (plugin: +end_soon)"/>		
-				<field name="output_start_soon" type="textarea2" default="" label="Event starts soon output" description="Here you can customize the appearance of an event that is about to start. Leave blank to use standard output (plugin: +output_start_soon)" rows="5" cols="50">
+				<field name="output_start_soon" type="textarea2" default="" label="Event starts soon output" description="Here you can customize the appearance of an event that is about to start. Leave blank to use standard output (plugin: +output_start_soon)" rows="5" cols="50" filter="raw">
 					<content>[$ title $] is starting soon.</content>
 				</field>
-				<field name="output_end_soon" type="textarea2" default="" label="Event ends soon output" description="Here you can customize the appearance of an event that is about to end. Leave blank to use standard output. (plugin: +output_end_soon)" rows="5" cols="50">
+				<field name="output_end_soon" type="textarea2" default="" label="Event ends soon output" description="Here you can customize the appearance of an event that is about to end. Leave blank to use standard output. (plugin: +output_end_soon)" rows="5" cols="50" filter="raw">
 					<content>[$ title $] is coming to an end.</content>
 				</field>
 				
-				<field name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found. (plugin: +no_event)" rows="5" cols="50">
+				<field name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found. (plugin: +no_event)" rows="5" cols="50" filter="raw">
 					<content>No scheduled events could be found.</content>
 				</field>
 			</fieldset>
