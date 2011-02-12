@@ -34,7 +34,7 @@
 			</fieldset>
 			<fieldset name="advanced" label="Advanced Module Parameters">
 				<field name="offset" type="text" size="10" default="0" label="Event Order Offset" description="Show the event X number of events after the immediate next event"/>
-				<field name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event." rows="5" cols="50">
+				<field name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event." rows="5" cols="50" filter="raw">
 					<content>&lt;span class="countdown_row"&gt;{y&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{yn}&lt;/span&gt;&lt;br/&gt;{yl}&lt;/span&gt;{y&gt;}{o&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{on}&lt;/span&gt;&lt;br/&gt;{ol}&lt;/span&gt;{o&gt;}{w&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{wn}&lt;/span&gt;&lt;br/&gt;{wl}&lt;/span&gt;{w&gt;}{d&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{dn}&lt;/span&gt;&lt;br/&gt;{dl}&lt;/span&gt;{d&gt;}{h&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{hn}&lt;/span&gt;&lt;br/&gt;{hl}&lt;/span&gt;{h&gt;}{m&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{mn}&lt;/span&gt;&lt;br/&gt;{ml}&lt;/span&gt;{m&gt;}{s&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{sn}&lt;/span&gt;&lt;br/&gt;{sl}&lt;/span&gt;{s&gt;}&lt;div style="clear:both;"&gt;&lt;span class="countdown_descr"&gt;{desc}&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;</content>
 					<description>
 						Here you can modify the event output. This will depend on the style you chose.
@@ -44,10 +44,10 @@
 					<option value="1">Yes</option>
 					<option value="0">No</option>
 				</field>		
-				<field name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now." rows="5" cols="50">
+				<field name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now." rows="5" cols="50" filter="raw">
 					<content>&lt;span class="countdown_row"&gt;&lt;span class="countdown_descr&gt;Right now: {desc}&lt;/span&gt;&lt;br/&gt;&lt;span class="countdown_descr_sub&gt;&lt;/span&gt;Join us at [&lt;a href="http://maps.google.com/?q={{location}}" target="_blank"&gt;map&lt;/a&gt;]&lt;/span&gt;</content>
 				</field>
-				<field name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found." rows="5" cols="50">
+				<field name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found." rows="5" cols="50" filter="raw">
 					<content>&lt;div class="gcalendar_next"&gt;No event found.&lt;/div&gt;</content>
 				</field>
 				<field name="find" type="text" size="40" default="" label="Event Search" description="Find events whose title/description contain this string. Standard Google search expressions are allowed (e.g. find only me, -dont_find_me, find this that)"/>

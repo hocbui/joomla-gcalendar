@@ -65,10 +65,10 @@
 			<fieldset name="advanced" label="Advanced Module Parameters">
 				<field name="text_before" type="textarea" default=""
 					label="Content before events" description="This text will be displayed before the event list."
-					rows="3" cols="50" />
+					rows="3" cols="50" filter="raw"/>
 				<field name="output" type="textarea2" default="" label="Event output"
 					description="Here you can customize the appearance of the event."
-					rows="5" cols="50">
+					rows="5" cols="50" filter="raw">
 					<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate}
 						{endtime}&lt;br/&gt;&lt;a
 						href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
@@ -85,7 +85,7 @@
 				</field>
 				<field name="text_after" type="textarea" default=""
 					label="Content after events" description="This text will be displayed after the event list."
-					rows="3" cols="50" />
+					rows="3" cols="50"  filter="raw"/>
 				<field name="end_date" type="text" size="80" default=""
 						label="End Date"
 						description="Limit to events that will start before the date, can be relative (must be a valid string which can be passed to strtotime http://php.net/manual/en/function.strtotime.php as reference)." />

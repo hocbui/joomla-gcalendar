@@ -37,7 +37,7 @@ class JFormFieldTextarea2 extends JFormFieldTextarea
 
 	public function setup(& $element, $value, $group = null)
 	{
-		if(isset($element->content)){
+		if(isset($element->content) && empty($value)){
 			$value = $element->content;
 		}
 		return parent::setup($element,$value,$group);
