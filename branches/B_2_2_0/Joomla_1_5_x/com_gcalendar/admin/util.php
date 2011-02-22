@@ -175,7 +175,7 @@ class GCalendarUtil{
 				break;
 			case $event->MULTIPLE_WHOLE_DAY:
 				$SECSINDAY=86400;
-				$endDate = strftime($dateformat, $event->get_end_date()-$SECSINDAY);
+				$endDate = self::strftime($dateformat, $event->get_end_date()-$SECSINDAY);
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 				$temp_event=str_replace("{starttime}","",$temp_event);
 				$temp_event=str_replace("{dateseparator}","-",$temp_event);
