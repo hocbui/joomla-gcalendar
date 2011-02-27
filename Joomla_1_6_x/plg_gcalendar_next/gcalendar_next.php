@@ -23,6 +23,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
+jimport( 'joomla.html.parameter' )
 
 require_once (JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'nextevents.php');
 
@@ -44,7 +45,7 @@ class plgContentgcalendar_next extends JPlugin {
 		parent::__construct($subject, $params);
 	}
 
-	function onPrepareContent( &$article, &$params ) {
+	function onContentPrepare($context, &$article, &$params, $page = 0 ) {
 		if (JRequest::getCmd('option') != 'com_content') return;
 		if (!$article->text) return;
 
