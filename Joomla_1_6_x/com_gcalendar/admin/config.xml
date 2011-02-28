@@ -59,4 +59,19 @@
 			label="Time format"
 			description="The format of the time for an event (see http://www.php.net/date for details)." />
 	</fieldset>
+	<fieldset
+                name="permissions"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                description="JCONFIG_PERMISSIONS_DESC">
+         <field
+                 name="rules"
+                 type="rules"
+                 label="JCONFIG_PERMISSIONS_LABEL"
+                 class="inputbox"
+                 validate="rules"
+                 filter="rules"
+                 component="com_gcalendar"
+                 section="component"
+         />
+        </fieldset>
 </config>

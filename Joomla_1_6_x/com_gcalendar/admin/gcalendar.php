@@ -21,6 +21,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_gcalendar')){
+	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+}
+
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
 require_once (JPATH_COMPONENT.DS.'controller.php');
