@@ -23,7 +23,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
-jimport( 'joomla.html.parameter' )
+jimport( 'joomla.html.parameter' );
 
 require_once (JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'nextevents.php');
 
@@ -186,7 +186,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if ($format == "") {
 			$format = $this->params->get("dateformat", "%B %d, %Y @ %I:%M%P");
 		}
-		return GCalendarUtil::formatDate($format, $time);
+		return strftime($format, $time);
 	}
 
 	function startdate($param) {
@@ -306,7 +306,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		$gcid = $feed->get('gcid');
 		$itemID = GCalendarUtil::getItemID($gcid);
 		if (!empty($itemID)) $itemID = '&Itemid='.$itemID;
-		return JRoute::_('index.php?option=com_gcalendar&view=event()&event()ID='.$event->get_id().'&gcid='.$gcid.$itemID);
+		return JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$gcid.$itemID);
 	}
 
 	function link($param) {
