@@ -54,7 +54,7 @@ if(!is_array($this->online_items)){
 	for ($i=0, $n=count( $this->online_items ); $i < $n; $i++)
 	{
 		$row = &$this->online_items[$i];
-		$checked 	= JHTML::_('grid.id',   $i, $row->calendar_id.','.$row->color.','.$row->name );
+		$checked 	= JHTML::_('grid.id',   $i, $row->calendar_id.','.$row->color.','.$row->name.','.$row->magic_cookie );
 		$is_included = FALSE;
 		if($this->db_items){
 			foreach($this->db_items as $db_item){

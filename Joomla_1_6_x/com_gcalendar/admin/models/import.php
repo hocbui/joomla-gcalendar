@@ -72,23 +72,24 @@ class GCalendarsModelImport extends JModel
 	{
 		global $_SESSION, $_GET;
 		$client = new Zend_Gdata_HttpClient();
-		
+
 		//use curl if ssl protocol is not a registered transport protocol (need extension php_openssl)
 		if (!in_array('ssl',stream_get_transports()) && function_exists('curl_init')  )
 		$client->setConfig(array(
                 'strictredirects' => true,
                 'adapter' => 'Zend_Http_Client_Adapter_Curl',
                 'curloptions' => array(
-                	CURLOPT_FOLLOWLOCATION => true,
-                	CURLOPT_MAXREDIRS => 2,
-                	CURLOPT_SSL_VERIFYPEER => false,
-                )
-            )
-        );
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_MAXREDIRS => 2,
+		CURLOPT_SSL_VERIFYPEER => false,
+		CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt'
+		)
+		)
+		);
 
-		if (!isset($_SESSION['sessionToken']) && isset($_GET['token'])) {
+		if (!isset($_SESSION['sessionToken']) && JRequest::getVar('token', null) != null) {
 			$_SESSION['sessionToken'] =
-			Zend_Gdata_AuthSub::getAuthSubSessionToken($_GET['token'], $client);
+			Zend_Gdata_AuthSub::getAuthSubSessionToken(JRequest::getVar('token', null), $client);
 		}
 		if(empty($_SESSION['sessionToken']) && isset($_GET['authtoken'])){
 			$client->setClientLoginToken($_GET['authtoken']);
@@ -111,13 +112,78 @@ class GCalendarsModelImport extends JModel
 		if (!$client) {
 			$this->_data = array();
 		}else{
+			$user = JRequest::getVar('user', null);
+			$pass = JRequest::getVar('pass', null);
+			if(!empty($user)){
+				$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Calendar::AUTH_SERVICE_NAME, $client);
+
+				//ClientLogin Auth Token
+				$AuthToken = $client->getClientLoginToken();
+
+				$extraHeaders=array('Authorization: GoogleLogin auth=' . $AuthToken);
+
+				$client->resetParameters(true);
+				$client->setMethod('GET');
+				$client->setCookieJar(true);
+				$client->setHeaders($extraHeaders);
+				$client->setUri("http://www.google.com/calendar/render");
+				$response = $client->request();
+
+				$redirUri = $client->getLastRequest();
+				$gsid = strstr($redirUri,"?gsessionid");
+				$gsid = substr($gsid,0,strpos($gsid," "));
+
+				$cookies = $client->getCookieJar();
+				$secid = $cookies->getCookie("http://www.google.com/calendar/","secid")->getValue();
+
+				// GRAB dtid calendar identifiers (only available in /render)
+				preg_match_all("#([0-9a-zA-Z_]+)\/color#",$response,$matches);
+				$dtid=array();
+				foreach($matches[1] as $caldtid) {
+					$dtid[] = $caldtid;
+				}
+
+				$uri = "http://www.google.com/calendar/caldetails".$gsid;
+				$postdata = "init=true&secid=".$secid.'&dtid='.implode('&dtid=',$dtid);
+
+				$client->setUri($uri);
+				$client->setMethod('POST');
+				$client->setRawData($postdata);
+
+				$response = $client->request();
+
+				$response = strstr($response,"while(1);");
+				$response = substr($response,strlen("while(1);"));
+				$response = str_replace("'",'"',$response);
+				$response = str_replace("\\47","'",$response);
+				$response = preg_replace("#\\\\([0-9a-f]{2})[^0-9a-f]#","",$response);
+				//$response = str_replace("\\74","",$response);
+				//$response = str_replace("\\76","",$response);
+				//$response = utf8_decode($response);
+				$tCalendars = json_decode($response); //DOESNT WORKS IF SPECIAL \xx CHARS, need \uuuu transformation
+
+				if($tCalendars == null){
+					$tCalendars = array();
+				}
+				
+				$gcal_magics = array();
+				foreach ($tCalendars as $c) {
+					//$c[5] -> Title
+					//$c[6] -> "Europe/Paris"
+					//$c[7] -> Location
+					//$c[8] -> Description
+					//$c[15] -> "FR" (country)
+					//$c[19] -> "(GMT+01:00) Paris"
+					$dtid  = $c[1];
+					$mcook = $c[10];
+					$url   = $c[14];
+					$gcal_magics[urlencode($url)] = $mcook;
+				}
+			}
+
 			$gdataCal = new Zend_Gdata_Calendar($client);
 			$calFeed = $gdataCal->getCalendarListFeed();
-			
-			if (isset($_SESSION['gcal_magics'])) {
-				$gcal_magics = unserialize($_SESSION['gcal_magics']);
-			}
-			
+
 			$tmp = array();
 			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
 			foreach ($calFeed as $calendar) {
@@ -129,15 +195,15 @@ class GCalendarsModelImport extends JModel
 				if(strpos($calendar->color->value, '#') === 0)
 				$color = str_replace("#","",$calendar->color->value);
 				$table_instance->color = $color;
-				
-				if ($gcal_magics && isset($gcal_magics[$cal_id]))
+
+				if ($gcal_magics && isset($gcal_magics[$cal_id])){
 					$table_instance->magic_cookie = $gcal_magics[$cal_id];
-					
+				}
 				$tmp[] = $table_instance;
 			}
 			$this->_data = $tmp;
 		}
-		
+
 		return $this->_data;
 	}
 
@@ -169,13 +235,11 @@ class GCalendarsModelImport extends JModel
 				$row->calendar_id = strtok($cid, ',');
 				$row->color = strtok(',');
 				$row->name = strtok(',');
-				
-				if (isset($_SESSION['gcal_magics'])) {
-					$gcal_magics = unserialize($_SESSION['gcal_magics']);
-					if ($gcal_magics && isset($gcal_magics[$row->calendar_id]))
-						$row->magic_cookie = $gcal_magics[$row->calendar_id];
+				$row->magic_cookie = strtok(',');
+				if($row->magic_cookie === false){
+					$row->magic_cookie = null;
 				}
-				
+
 				// Make sure the calendar record is valid
 				if (!$row->check()) {
 					JError::raiseWarning( 500, $row->getError() );

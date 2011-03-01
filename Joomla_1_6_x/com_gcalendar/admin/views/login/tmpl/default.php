@@ -42,5 +42,19 @@ if(!empty($domain))
 $hd = '&hd='.$domain;
 $authSubUrl = Zend_Gdata_AuthSub::getAuthSubTokenUri($next, $scope, $secure,
 $session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI);
-echo "<a href=\"".$authSubUrl.$hd."\">Please Login to access the calendar data.</a>";
 ?>
+<p>If the imported calendars are not be shared with the public, use the <b>standard authentication</b> 
+otherwise use the <b>google safe authentication</b>.</p>
+<fieldset><legend>Google safe authentication</legend>
+<a href="<?php echo $authSubUrl.$hd;?>">Please Login to access the calendar data.</a>
+</fieldset>
+<hr/>
+<fieldset><legend>Standard authentication</legend>
+<form action="<?php echo JRoute::_( $u->toString().'?option=com_gcalendar&view=import');?>" method="post">
+	<table>
+	<tr><td>Username:</td><td><input type="text" name="user" size="100"/></td></tr>
+	<tr><td>Password:</td><td><input type="password"name="pass" size="100"/></td></tr>
+	<tr><td><input type="submit" value="Login"/></td><td></td></tr>
+	</table>
+</form>
+</fieldset>
