@@ -53,9 +53,30 @@ class GCalendarsController extends JController
 	}
 
 	function isLoggedIn(){
-		global $_SESSION, $_GET;
-		if (!isset($_SESSION['sessionToken']) && !isset($_GET['token'])
-		&& !isset($_SESSION['authToken']) && !isset($_GET['authtoken']) ) {
+		$user = JRequest::getVar('user', null);
+		$pass = JRequest::getVar('pass', null);
+		if(!empty($user)){
+			$client = new Zend_Gdata_HttpClient();
+
+			if (!in_array('ssl',stream_get_transports()) && function_exists('curl_init')  )
+			$client->setConfig(array(
+        'strictredirects' => true,
+        'adapter' => 'Zend_Http_Client_Adapter_Curl',
+        'curloptions' => array(
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_MAXREDIRS => 2,
+			CURLOPT_SSL_VERIFYPEER => false,
+			CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt'
+			)
+			)
+			);
+
+			$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Calendar::AUTH_SERVICE_NAME, $client);
+
+			JRequest::setVar('authtoken', $client->getClientLoginToken());
+		}
+
+		if (JRequest::getVar('token', null) == null && JRequest::getVar('authtoken', null) == null) {
 			return FALSE;
 		}
 		return TRUE;
