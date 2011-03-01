@@ -17,7 +17,7 @@
  * upcoming module. 
  * 
  * @author Eric Horne
- * @copyright 2009-2010 Eric Horne 
+ * @copyright 2009-2011 Eric Horne 
  * @since 2.2.0
  */
 

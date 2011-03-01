@@ -14,7 +14,7 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Eric Horne
- * @copyright 2007-2010 Eric Horne
+ * @copyright 2007-2011 Eric Horne
  * @since 2.2.0
  */
 
