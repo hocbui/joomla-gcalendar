@@ -50,6 +50,8 @@
  *   19 December 2009 - Removed MyGoogleCal references
  *                      Updated Dojo version
  *                      Archived additional .js and .css files
+ *   13 November 2010 - Changed Google Calendar protocol to https
+ *                      Switched back to jQuery
  *                      
  *   
  * ACKNOWLEDGMENTS:
@@ -103,6 +105,15 @@
  * in the URL field at http://mabblog.com/cssoptimizer/uncompress.html.
  * That site will automatically format the CSS so that it's easier to edit.
  */
+$cachefile = 'cache/'.basename($_SERVER['SCRIPT_NAME']);
+$cachetime = 120 * 60; // 2 hours
+// Serve from the cache if it is younger than $cachetime
+if (file_exists($cachefile) && (time() - $cachetime < filemtime($cachefile))) {
+    include($cachefile);
+    echo "<!-- Cached ".date('jS F Y H:i', filemtime($cachefile))." -->";
+    exit;
+}
+ob_start(); // start the output buffer
 $stylesheet = 'restylegc.css';
 
 /*******************************************************************************
@@ -112,7 +123,7 @@ $stylesheet = 'restylegc.css';
 // URL for the calendar
 $url = "";
 if(count($_GET) > 0) {
-  $url = "http://www.google.com/calendar/embed?" . $_SERVER['QUERY_STRING'];
+  $url = "https://www.google.com/calendar/embed?" . $_SERVER['QUERY_STRING'];
 }
 
 // Request the calendar
@@ -120,6 +131,7 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 $buffer = curl_exec($ch);
 curl_close($ch);
 
@@ -140,20 +152,20 @@ $buffer = preg_replace($pattern, $replacement, $buffer);
 // Use DHTML to modify the DOM after the calendar loads
 $pattern = '/(<\/head>)/';
 $replacement = <<<RGC
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.4.0/dojo/dojo.xd.js"></script>
 <script type="text/javascript">
 function restylegc() {
     // remove inline style from body so background-color can be set using the stylesheet
-    dojo.removeAttr(dojo.body(),'style');
+    $('body').removeAttr('style');
 
     // iterate over each bubble and remove the width property from the style attribute
     // so that the width can be set using the stylesheet
-    dojo.query('.bubble').forEach(function(node){
-        dojo.attr(node, {style:{'width': ''}});
+    $('.bubble').each(function(){ 
+        style = $(this).attr('style').replace(/width: \d+px;?/i, ''); 
+        $(this).attr('style', style); 
     });
 
-    // see Dojo documentation for other ways to edit DOM
-    // http://dojotoolkit.org/
+    // see jQuery documentation for other ways to edit DOM
+    // http://docs.jquery.com/
 }
 </script>
 </head>
@@ -162,4 +174,9 @@ $buffer = preg_replace($pattern, $replacement, $buffer);
 
 // display the calendar
 print $buffer;
+
+$fp = fopen($cachefile, 'w'); // open the cache file for writing
+fwrite($fp, ob_get_contents()); // save the contents of output buffer to the file
+fclose($fp); // close the file
+ob_end_flush(); // Send the output to the browser
 ?>
