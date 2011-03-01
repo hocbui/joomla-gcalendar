@@ -14,7 +14,7 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Allon Moritz
- * @copyright 2007-2010 Allon Moritz
+ * @copyright 2007-2011 Allon Moritz
  * @since 2.2.0
  */
 
@@ -80,7 +80,7 @@ defined('_JEXEC') or die('Restricted access');
 	value="gcalendar" /></form>
 
 <div align="center"><br>
-<img src="components/com_gcalendar/images/gcalendar.gif" width="156"
+<img src="media/com_gcalendar/images/gcalendar.gif" width="156"
 	height="30"><br>
-&copy;&nbsp;&nbsp;2010 <a href="http://g4j.laoneo.net"
+&copy;&nbsp;&nbsp;2011 <a href="http://g4j.laoneo.net"
 	target="_blank">allon moritz</a></div>
