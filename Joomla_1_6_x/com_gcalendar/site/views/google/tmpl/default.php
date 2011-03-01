@@ -115,6 +115,7 @@ if($params->get('show_selection')==1){
 }
 $calendar_url="";
 if ($params->get('use_custom_css')) {
+	GCalendarUtil::loadJQuery();
 	$calendar_url= JURI::base().'components/com_gcalendar/libraries/restylegc/restylegc.php'.$variables;
 } else {
 	$calendar_url=$domain.$variables;
