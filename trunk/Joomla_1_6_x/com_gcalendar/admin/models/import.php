@@ -76,22 +76,21 @@ class GCalendarsModelImport extends JModel
 		//use curl if ssl protocol is not a registered transport protocol (need extension php_openssl)
 		if (!in_array('ssl',stream_get_transports()) && function_exists('curl_init')  )
 		$client->setConfig(array(
-                'strictredirects' => true,
-                'adapter' => 'Zend_Http_Client_Adapter_Curl',
-                'curloptions' => array(
-		CURLOPT_FOLLOWLOCATION => true,
-		CURLOPT_MAXREDIRS => 2,
-		CURLOPT_SSL_VERIFYPEER => false,
-		CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt'
-		)
-		)
-		);
+			'strictredirects' => true,
+			'adapter' => 'Zend_Http_Client_Adapter_Curl',
+			'curloptions' => array(
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_MAXREDIRS => 2,
+				CURLOPT_SSL_VERIFYPEER => false,
+				CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt'
+			)
+		));
 
-		if (!isset($_SESSION['sessionToken']) && JRequest::getVar('token', null) != null) {
+		if (!isset($_SESSION['sessionToken']) && isset($_GET['token']) ) {
 			$_SESSION['sessionToken'] =
 			Zend_Gdata_AuthSub::getAuthSubSessionToken(JRequest::getVar('token', null), $client);
 		}
-		if(empty($_SESSION['sessionToken']) && isset($_GET['authtoken'])){
+		if(empty($_SESSION['sessionToken']) && isset($_GET['authtoken'])) {
 			$client->setClientLoginToken($_GET['authtoken']);
 			$_SESSION['sessionAuthToken'] = $_GET['authtoken'];
 			return $client;
@@ -150,7 +149,14 @@ class GCalendarsModelImport extends JModel
 				$client->setMethod('POST');
 				$client->setRawData($postdata);
 
-				$response = $client->request();
+				try {
+					$response = $client->request();
+				}
+				catch (Exception $e)
+				{
+					var_dump($e);
+					die();
+				}
 
 				$response = strstr($response,"while(1);");
 				$response = substr($response,strlen("while(1);"));
