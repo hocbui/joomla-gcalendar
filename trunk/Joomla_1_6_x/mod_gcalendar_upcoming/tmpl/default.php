@@ -14,7 +14,7 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Allon Moritz
- * @copyright 2007-2010 Allon Moritz
+ * @copyright 2007-2011 Allon Moritz
  * @since 2.2.0
  */
 
@@ -34,7 +34,7 @@ if(!empty($gcalendar_data)){
 		echo '<p style="clear: both;"/>';
 	}
 	foreach( $gcalendar_data as $item){
-		// APRIL 2010 MOD - CALENDAR IMAGES by Tyson Moore
+		// APRIL 2011 MOD - CALENDAR IMAGES by Tyson Moore
 		if($params->get('images', 'no') != 'no') {
 			$tmp = JFactory::getDate($item->get_start_date());
 			$month_text = strtoupper(GCalendarUtil::monthToString($tmp->toFormat('%m'), true));

@@ -14,7 +14,7 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Allon Moritz
- * @copyright 2007-2010 Allon Moritz
+ * @copyright 2007-2011 Allon Moritz
  * @since 2.2.0
  */
 defined('_JEXEC') or die( 'Restricted access' );
