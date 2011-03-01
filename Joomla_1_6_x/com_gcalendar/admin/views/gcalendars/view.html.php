@@ -36,18 +36,40 @@ class GCalendarsViewGCalendars extends JView
 	function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
-		JToolBarHelper::preferences('com_gcalendar', 550);
-		JToolBarHelper::custom('import', 'upload.png', 'upload.png', 'import', false);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
+
+		$canDo = GCalendarUtil::getActions();
+		if ($canDo->get('core.create'))
+		{
+			JToolBarHelper::addNewX();
+			JToolBarHelper::custom('import', 'upload.png', 'upload.png', 'import', false);
+		}
+		if ($canDo->get('core.edit'))
+		{
+			JToolBarHelper::editListX();
+		}
+		if ($canDo->get('core.delete'))
+		{
+			JToolBarHelper::deleteList();
+		}
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::preferences('com_gcalendar', 550);
+			JToolBarHelper::divider();
+		}
 
 		$items = & $this->get( 'Data');
 		$pagination =& $this->get('Pagination');
-		
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode('<br />', $errors));
+			return false;
+		}
+
 		$this->assignRef('items', $items);
 		$this->assignRef('pagination', $pagination);
-		
+
 		parent::display($tpl);
 	}
 }

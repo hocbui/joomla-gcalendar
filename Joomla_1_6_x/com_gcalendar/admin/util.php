@@ -282,5 +282,25 @@ class GCalendarUtil{
 	public static function formatDate($dateFormat,$date){
 		return JFactory::getDate($date)->format($dateFormat);
 	}
+
+	public static function getActions($calendarId = 0){
+		$user  = JFactory::getUser();
+		$result  = new JObject;
+
+		if (empty($calendarId)) {
+			$assetName = 'com_gcalendar';
+		}
+		else {
+			$assetName = 'com_helloworld.calendar.'.(int) $calendarId;
+		}
+
+		$actions = array('core.admin', 'core.manage', 'core.create', 'core.edit', 'core.delete');
+
+		foreach ($actions as $action) {
+			$result->set($action, $user->authorise($action, $assetName));
+		}
+
+		return $result;
+	}
 }
 ?>
