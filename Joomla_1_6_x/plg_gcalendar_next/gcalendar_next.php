@@ -189,6 +189,22 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		return strftime($format, $time);
 	}
 
+	function datecalc($param, $time) {
+		list($formula, $fmt) = explode(',', $param, 2) + Array("", "");
+		return $this->date($fmt, strtotime($formula, $time));
+	}
+
+
+	function startoffset($param) {
+		$event = $this->event();
+		return $this->datecalc($param, $event->get_start_date());
+	}
+
+	function finishoffset($param, $fmt) {
+		$event = $this->event();
+		return $this->datecalc($param, $event->get_finish_date());
+	}	
+
 	function startdate($param) {
 		return $this->start($param);
 	}
