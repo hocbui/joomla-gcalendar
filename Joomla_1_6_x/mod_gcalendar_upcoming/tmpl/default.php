@@ -43,10 +43,10 @@ if(!empty($gcalendar_data)){
 			$colorImageBackground = $params->get('images', 'yes') == 'custom' ? '#'.$params->get('calimage_background') : GCalendarUtil::getFadedColor($feed->get('gccolor'), 80);
 			$colorMonth = $params->get('images', 'yes') == 'custom' ? $params->get('calimage_month') : 'FFFFFF';
 			$colorDay = $params->get('images', 'yes') == 'custom' ? $params->get('calimage_day') : $feed->get('gccolor');
-			echo '<div id="gc_up_mod_img">';
-			echo '<div id="gc_up_mod_month_background" style="background-color: ' . $colorImageBackground . ';"></div>';
-			echo '<div id="gc_up_mod_month_text" style="color: #' . $colorMonth . ';">' . $month_text . '</div>';
-			echo '<div id="gc_up_mod_day" style="color: #' . $colorDay . ';">' . $day . '</div>';
+			echo '<div class="gc_up_mod_img">';
+			echo '<div class="gc_up_mod_month_background" style="background-color: ' . $colorImageBackground . ';"></div>';
+			echo '<div class="gc_up_mod_month_text" style="color: #' . $colorMonth . ';">' . $month_text . '</div>';
+			echo '<div class="gc_up_mod_day" style="color: #' . $colorDay . ';">' . $day . '</div>';
 			echo '</div>';
 		}
 		//END MOD
