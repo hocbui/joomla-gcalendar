@@ -48,7 +48,7 @@ otherwise use the <b>google safe authentication</b>.</p>
 <fieldset><legend>Google safe authentication</legend>
 <a href="<?php echo $authSubUrl.$hd;?>">Please Login to access the calendar data.</a>
 </fieldset>
-<hr/>
+<!-- hr/>
 <fieldset><legend>Standard authentication</legend>
 <form action="<?php echo JRoute::_( $u->toString().'?option=com_gcalendar&view=import');?>" method="post">
 	<table>
@@ -57,4 +57,4 @@ otherwise use the <b>google safe authentication</b>.</p>
 	<tr><td><input type="submit" value="Login"/></td><td></td></tr>
 	</table>
 </form>
-</fieldset>
+</fieldset -->
