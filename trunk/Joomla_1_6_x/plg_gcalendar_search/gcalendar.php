@@ -21,6 +21,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+$mainframe = &JFactory::getApplication();
 $mainframe->registerEvent( 'onSearch', 'plgSearchGCalendar' );
 $mainframe->registerEvent( 'onSearchAreas', 'plgSearchGCalendarAreas' );
 
@@ -41,7 +42,7 @@ function &plgSearchGCalendarAreas() {
  *
  * The sql must return the following fields that are used in a common display
  * routine: href, title, section, created, text, browsernav
- * @param string Target search string
+ * @param string Target search stringjoomla.org
  * @param string mathcing option, exact|any|all
  * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if the search it to be restricted to areas, null if search all
