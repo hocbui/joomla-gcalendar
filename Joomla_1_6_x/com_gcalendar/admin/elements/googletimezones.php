@@ -20,6 +20,11 @@
 
 defined('_JEXEC') or die( 'Restricted access' );
 
+jimport('joomla.html.html');
+jimport('joomla.form.formfield');
+jimport('joomla.form.helper');
+JFormHelper::loadFieldClass('list');
+
 class JFormFieldGoogletimezones extends JFormFieldList
 {
 	protected $type  = 'Googletimezones';
