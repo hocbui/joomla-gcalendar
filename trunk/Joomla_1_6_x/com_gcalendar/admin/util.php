@@ -92,7 +92,7 @@ class GCalendarUtil{
 	public static function getItemId($cal_id){
 		$component	= &JComponentHelper::getComponent('com_gcalendar');
 		$menu = &JSite::getMenu();
-		$items		= $menu->getItems('componentid', $component->id);
+		$items		= $menu->getItems('component_id', $component->id);
 
 		if (is_array($items)){
 			foreach($items as $item) {
