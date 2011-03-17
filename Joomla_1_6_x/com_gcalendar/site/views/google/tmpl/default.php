@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $component	= &JComponentHelper::getComponent('com_gcalendar');
 $menu = &JSite::getMenu();
-$items		= $menu->getItems('componentid', $component->id);
+$items		= $menu->getItems('component_id', $component->id);
 
 $model = & $this->getModel();
 if (is_array($items)){
