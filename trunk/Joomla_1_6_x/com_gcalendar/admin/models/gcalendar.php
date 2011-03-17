@@ -21,130 +21,45 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * GCalendar Model
  *
  */
-class GCalendarsModelGCalendar extends JModel
+class GCalendarsModelGCalendar extends JModelAdmin
 {
-	/**
-	 * Constructor that retrieves the ID from the request
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	function __construct()
+	protected function allowEdit($data = array(), $key = 'id')
 	{
-		parent::__construct();
-
-		$array = JRequest::getVar('cid',  0, '', 'array');
-		$this->setId((int)$array[0]);
+		// Check specific edit permission then general edit permission.
+		return JFactory::getUser()->authorise('core.edit', 'com_gcalendar.calendar.'.((int) isset($data[$key]) ? $data[$key] : 0)) or parent::allowEdit($data, $key);
 	}
 
-	/**
-	 * Method to set the calendar identifier
-	 *
-	 * @access	public
-	 * @param	int Calendar identifier
-	 * @return	void
-	 */
-	function setId($id)
+	public function getTable($type = 'GCalendar', $prefix = 'GCalendarTable', $config = array()) 
 	{
-		// Set id and wipe data
-		$this->_id		= $id;
-		$this->_data	= null;
+		return JTable::getInstance($type, $prefix, $config);
 	}
-
-
-	/**
-	 * Method to get a calendar
-	 * @return object with data
-	 */
-	function getData()
+	
+	public function getForm($data = array(), $loadData = true) 
 	{
-		// Load the data
-		if (empty( $this->_data )) {
-			$query = " SELECT * FROM #__gcalendar WHERE id = ".$this->_id;
-			$this->_db->setQuery( $query );
-			$this->_data = $this->_db->loadObject();
-		}
-		if (!$this->_data) {
-			$this->_data = new stdClass();
-			$this->_data->id = 0;
-			$this->_data->name = null;
-			$this->_data->calendar_id = null;
-			$this->_data->magic_cookie = null;
-			$this->_data->color = 'A32929';
-		}
-		return $this->_data;
-	}
-
-	/**
-	 * Method to store a record
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function store()	{
-		$row =& $this->getTable();
-
-		$data = JRequest::get( 'post' );
-
-		// Bind the form fields to the calendar table
-		if (!$row->bind($data)) {
-			JError::raiseWarning( 500, $row->getError() );
+		// Get the form.
+		$form = $this->loadForm('com_gcalendar.gcalendar', 'gcalendar', array('control' => 'jform', 'load_data' => $loadData));
+		if (empty($form)) 
+		{
 			return false;
 		}
-
-		// Make sure the calendar record is valid
-		if (!$row->check()) {
-			JError::raiseWarning( 500, $row->getError() );
-			return false;
-		}
-
-		if(strpos($row->color, '#') === 0)
-		$row->color = str_replace("#","",$row->color);
-
-		if(strpos($row->calendar_id, '@'))
-		$row->calendar_id = str_replace("@","%40",$row->calendar_id);
-		
-		$row->calendar_id = trim($row->calendar_id);
-		$row->magic_cookie = trim($row->magic_cookie);
-
-		// Store the calendar table to the database
-		if (!$row->store()) {
-			JError::raiseWarning( 500, $row->getError() );
-			return false;
-		}
-
-		return true;
+		return $form;
 	}
-
-	/**
-	 * Method to delete record(s)
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function delete()
+	
+	protected function loadFormData() 
 	{
-		$cids = JRequest::getVar( 'cid', array(0), 'post', 'array' );
-
-		$row =& $this->getTable();
-
-		if (count( $cids ))		{
-			foreach($cids as $cid) {
-				if (!$row->delete( $cid )) {
-					JError::raiseWarning( 500, $row->getError() );
-					return false;
-				}
-			}
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_gcalendar.edit.gcalendar.data', array());
+		if (empty($data)) 
+		{
+			$data = $this->getItem();
 		}
-		return true;
+		return $data;
 	}
-		
-
 }
 ?>
