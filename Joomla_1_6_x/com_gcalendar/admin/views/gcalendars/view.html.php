@@ -40,16 +40,16 @@ class GCalendarsViewGCalendars extends JView
 		$canDo = GCalendarUtil::getActions();
 		if ($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNewX();
+			JToolBarHelper::addNew('gcalendar.add', 'JTOOLBAR_NEW');
 			JToolBarHelper::custom('import', 'upload.png', 'upload.png', 'import', false);
 		}
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::editListX();
+			JToolBarHelper::editList('gcalendar.edit', 'JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList();
+			JToolBarHelper::deleteList('', 'gcalendar.delete', 'JTOOLBAR_DELETE');
 		}
 		if ($canDo->get('core.admin'))
 		{
