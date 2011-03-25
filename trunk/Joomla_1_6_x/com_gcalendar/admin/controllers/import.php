@@ -18,29 +18,12 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-/**
- * GCalendar Controller
- *
- */
-class GCalendarControllerImport extends GCalendarsController
+class GCalendarControllerImport extends JController
 {
-	/**
-	 * constructor (registers additional tasks to methods)
-	 * @return void
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
 
-	/**
-	 * save a record (and redirect to main page)
-	 * @return void
-	 */
-	function add()
+	function save()
 	{
 		$model = $this->getModel('Import');
 
@@ -50,15 +33,10 @@ class GCalendarControllerImport extends GCalendarsController
 			$msg = JText::_( 'Error saving calendar' );
 		}
 
-		// Check the table in so it can be edited.... we are done with it anyway
 		$link = 'index.php?option=com_gcalendar';
 		$this->setRedirect($link, $msg);
 	}
 
-	/**
-	 * cancel editing a record
-	 * @return void
-	 */
 	function cancel()
 	{
 		$msg = JText::_( 'Operation cancelled' );

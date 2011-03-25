@@ -18,27 +18,23 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
-/**
- * GCalendars View
- *
- */
 class GCalendarViewImport extends JView
 {
-	/**
-	 * GCalendars view display method
-	 * @return void
-	 **/
+	
 	function display($tpl = null)
 	{
 		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
-		JToolBarHelper::custom('add', 'new.png', 'new.png', 'add', false);
-		JToolBarHelper::cancel();
-
+		
+		$canDo = GCalendarUtil::getActions();
+		if ($canDo->get('core.create')){
+			JToolBarHelper::custom('import.save', 'new.png', 'new.png', 'add', false);
+		}
+		JToolBarHelper::cancel('gcalendar.cancel', 'JTOOLBAR_CANCEL');
+		
 		$items = $this->get( 'OnlineData');
 		$this->assignRef('online_items', $items);
 		$dbitems = $this->get( 'DBData');

@@ -79,11 +79,11 @@ class GCalendarModelImport extends JModel
 			'strictredirects' => true,
 			'adapter' => 'Zend_Http_Client_Adapter_Curl',
 			'curloptions' => array(
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_MAXREDIRS => 2,
-				CURLOPT_SSL_VERIFYPEER => false,
-				CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt'
-			)
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_MAXREDIRS => 2,
+		CURLOPT_SSL_VERIFYPEER => false,
+		CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt'
+		)
 		));
 
 		if (!isset($_SESSION['sessionToken']) && isset($_GET['token']) ) {
@@ -107,86 +107,85 @@ class GCalendarModelImport extends JModel
 	function getOnlineData() {
 		$this->loadZendClasses();
 
+		$gcal_magics = array();
 		$client = $this->getAuthSubHttpClient();
-		if (!$client) {
-			$this->_data = array();
-		}else{
-			$user = JRequest::getVar('user', null);
-			$pass = JRequest::getVar('pass', null);
-			if(!empty($user)){
-				$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Calendar::AUTH_SERVICE_NAME, $client);
+		$user = JRequest::getVar('user', null);
+		$pass = JRequest::getVar('pass', null);
+		if($client == null && !empty($user)){
+			$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Calendar::AUTH_SERVICE_NAME, $client);
 
-				//ClientLogin Auth Token
-				$AuthToken = $client->getClientLoginToken();
+			//ClientLogin Auth Token
+			$AuthToken = $client->getClientLoginToken();
 
-				$extraHeaders=array('Authorization: GoogleLogin auth=' . $AuthToken);
+			$extraHeaders=array('Authorization: GoogleLogin auth=' . $AuthToken);
 
-				$client->resetParameters(true);
-				$client->setMethod('GET');
-				$client->setCookieJar(true);
-				$client->setHeaders($extraHeaders);
-				$client->setUri("http://www.google.com/calendar/render");
-				$response = $client->request();
+			$client->resetParameters(true);
+			$client->setMethod('GET');
+			$client->setCookieJar(true);
+			$client->setHeaders($extraHeaders);
+			$client->setUri("http://www.google.com/calendar/render");
+			$response = $client->request();
 
-				$redirUri = $client->getLastRequest();
-				$gsid = strstr($redirUri,"?gsessionid");
-				$gsid = substr($gsid,0,strpos($gsid," "));
+			$redirUri = $client->getLastRequest();
+			$gsid = strstr($redirUri,"?gsessionid");
+			$gsid = substr($gsid,0,strpos($gsid," "));
 
-				$cookies = $client->getCookieJar();
-				$secid = $cookies->getCookie("http://www.google.com/calendar/","secid")->getValue();
+			$cookies = $client->getCookieJar();
+			$secid = $cookies->getCookie("http://www.google.com/calendar/","secid")->getValue();
 
-				// GRAB dtid calendar identifiers (only available in /render)
-				preg_match_all("#([0-9a-zA-Z_]+)\/color#",$response,$matches);
-				$dtid=array();
-				foreach($matches[1] as $caldtid) {
-					$dtid[] = $caldtid;
-				}
-
-				$uri = "http://www.google.com/calendar/caldetails".$gsid;
-				$postdata = "init=true&secid=".$secid.'&dtid='.implode('&dtid=',$dtid);
-
-				$client->setUri($uri);
-				$client->setMethod('POST');
-				$client->setRawData($postdata);
-
-				try {
-					$response = $client->request();
-				}
-				catch (Exception $e)
-				{
-					var_dump($e);
-					die();
-				}
-
-				$response = strstr($response,"while(1);");
-				$response = substr($response,strlen("while(1);"));
-				$response = str_replace("'",'"',$response);
-				$response = str_replace("\\47","'",$response);
-				$response = preg_replace("#\\\\([0-9a-f]{2})[^0-9a-f]#","",$response);
-				//$response = str_replace("\\74","",$response);
-				//$response = str_replace("\\76","",$response);
-				//$response = utf8_decode($response);
-				$tCalendars = json_decode($response); //DOESNT WORKS IF SPECIAL \xx CHARS, need \uuuu transformation
-
-				if($tCalendars == null){
-					$tCalendars = array();
-				}
-				
-				$gcal_magics = array();
-				foreach ($tCalendars as $c) {
-					//$c[5] -> Title
-					//$c[6] -> "Europe/Paris"
-					//$c[7] -> Location
-					//$c[8] -> Description
-					//$c[15] -> "FR" (country)
-					//$c[19] -> "(GMT+01:00) Paris"
-					$dtid  = $c[1];
-					$mcook = $c[10];
-					$url   = $c[14];
-					$gcal_magics[urlencode($url)] = $mcook;
-				}
+			// GRAB dtid calendar identifiers (only available in /render)
+			preg_match_all("#([0-9a-zA-Z_]+)\/color#",$response,$matches);
+			$dtid=array();
+			for($i=0;$i<(count($matches[1])-14);$i++) {
+				$dtid[] = $matches[1][$i];
 			}
 
+			$uri = "https://www.google.com/calendar/caldetails".$gsid;
+			$postdata = "init=true&secid=".$secid.'&dtid='.implode('&dtid=',$dtid);
+
+			$client->setUri($uri);
+			$client->setMethod('POST');
+			$client->setRawData($postdata);
+
+			try {
+				$response = $client->request();
+			}
+			catch (Exception $e)
+			{
+				JError::raiseWarning( 500, $e->getMessage() );
+				return;
+			}
+
+			$response = strstr($response,"while(1);");
+			$response = substr($response,strlen("while(1);"));
+			$response = str_replace("'",'"',$response);
+			$response = str_replace("\\47","'",$response);
+			$response = preg_replace("#\\\\([0-9a-f]{2})[^0-9a-f]#","",$response);
+			//$response = str_replace("\\74","",$response);
+			//$response = str_replace("\\76","",$response);
+			//$response = utf8_decode($response);
+			$tCalendars = json_decode($response); //DOESNT WORKS IF SPECIAL \xx CHARS, need \uuuu transformation
+
+			if($tCalendars == null){
+				$tCalendars = array();
+			}
+
+			foreach ($tCalendars as $c) {
+				//$c[5] -> Title
+				//$c[6] -> "Europe/Paris"
+				//$c[7] -> Location
+				//$c[8] -> Description
+				//$c[15] -> "FR" (country)
+				//$c[19] -> "(GMT+01:00) Paris"
+				$dtid  = $c[1];
+				$mcook = $c[10];
+				$url   = $c[14];
+				$gcal_magics[urlencode($url)] = $mcook;
+			}
+		}
+		if ($client == null) {
+			$this->_data = array();
+		}else{
 			$gdataCal = new Zend_Gdata_Calendar($client);
 			$calFeed = $gdataCal->getCalendarListFeed();
 
