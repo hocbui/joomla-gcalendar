@@ -25,7 +25,7 @@ defined('_JEXEC') or die();
  * GCalendar Controller
  *
  */
-class GCalendarsControllerImport extends GCalendarsController
+class GCalendarControllerImport extends GCalendarsController
 {
 	/**
 	 * constructor (registers additional tasks to methods)

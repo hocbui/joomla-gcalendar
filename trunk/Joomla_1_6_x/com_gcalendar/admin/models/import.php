@@ -27,7 +27,7 @@ jimport('joomla.application.component.model');
  * GCalendar Model
  *
  */
-class GCalendarsModelImport extends JModel
+class GCalendarModelImport extends JModel
 {
 	/**
 	 * Constructor that retrieves the ID from the request

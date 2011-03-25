@@ -27,7 +27,7 @@ jimport( 'joomla.application.component.view' );
  * GCalendar View
  *
  */
-class GCalendarsViewGCalendar extends JView
+class GCalendarViewGCalendar extends JView
 {
 	/**
 	 * display method of GCalendar view
@@ -57,38 +57,31 @@ class GCalendarsViewGCalendar extends JView
 
 		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
 		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ).': <small><small>[ ' . $text.' ]</small></small>' ,'calendar');
-		//		JToolBarHelper::save();
-		//		if ($isNew)  {
-		//			JToolBarHelper::cancel();
-		//		} else {
-		//			// for existing items the button is renamed `close`
-		//			JToolBarHelper::cancel( 'cancel', 'Close' );
-		//		}
 
 		JRequest::setVar('hidemainmenu', true);
 		$canDo = GCalendarUtil::getActions($gcalendar->id);
 		if ($isNew){
 			if ($canDo->get('core.create')){
-				JToolBarHelper::apply('apply', 'JTOOLBAR_APPLY');
-				JToolBarHelper::save('save', 'JTOOLBAR_SAVE');
-				JToolBarHelper::custom('save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+				JToolBarHelper::apply('gcalendar.apply', 'JTOOLBAR_APPLY');
+				JToolBarHelper::save('gcalendar.save', 'JTOOLBAR_SAVE');
+				JToolBarHelper::custom('gcalendar.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 			}
-			JToolBarHelper::cancel('cancel', 'JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('gcalendar.cancel', 'JTOOLBAR_CANCEL');
 		}else{
 			if ($canDo->get('core.edit')){
 				// We can save the new record
-				JToolBarHelper::apply('apply', 'JTOOLBAR_APPLY');
-				JToolBarHelper::save('save', 'JTOOLBAR_SAVE');
+				JToolBarHelper::apply('gcalendar.apply', 'JTOOLBAR_APPLY');
+				JToolBarHelper::save('gcalendar.save', 'JTOOLBAR_SAVE');
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create')){
-					JToolBarHelper::custom('save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+					JToolBarHelper::custom('gcalendar.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 				}
 			}
 			if ($canDo->get('core.create')){
-				JToolBarHelper::custom('save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+				JToolBarHelper::custom('gcalendar.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 			}
-			JToolBarHelper::cancel('cancel', 'JTOOLBAR_CLOSE');
+			JToolBarHelper::cancel('gcalendar.cancel', 'JTOOLBAR_CLOSE');
 		}
 		
 		parent::display($tpl);

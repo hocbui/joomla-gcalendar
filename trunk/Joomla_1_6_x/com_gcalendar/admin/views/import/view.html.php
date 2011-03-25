@@ -27,7 +27,7 @@ jimport( 'joomla.application.component.view' );
  * GCalendars View
  *
  */
-class GCalendarsViewImport extends JView
+class GCalendarViewImport extends JView
 {
 	/**
 	 * GCalendars view display method

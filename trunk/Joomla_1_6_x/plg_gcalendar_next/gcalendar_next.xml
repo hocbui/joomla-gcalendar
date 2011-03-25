@@ -38,7 +38,7 @@
 	<filename plugin="gcalendar_next">gcalendar_next.php</filename>
 </files>
 	<config>
-		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/elements">
+		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 			<fieldset name="basic">
 				<field name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars (plugin: +gcalendarids)" />>
 				<field name="class" type="text" size="80" default="" label="Plugin Class Suffix" description="CSS for the dates inserted. (plugin: +class)" />

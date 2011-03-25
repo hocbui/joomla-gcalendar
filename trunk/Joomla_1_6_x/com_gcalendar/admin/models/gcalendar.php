@@ -27,7 +27,7 @@ jimport('joomla.application.component.modeladmin');
  * GCalendar Model
  *
  */
-class GCalendarsModelGCalendar extends JModelAdmin
+class GCalendarModelGCalendar extends JModelAdmin
 {
 	protected function allowEdit($data = array(), $key = 'id')
 	{

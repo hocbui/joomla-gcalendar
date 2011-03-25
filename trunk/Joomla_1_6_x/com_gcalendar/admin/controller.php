@@ -24,11 +24,12 @@ jimport('joomla.application.component.controller');
  * GCalendar Component Controller
  *
  */
-class GCalendarsController extends JController
+class GCalendarController extends JController
 {
 
 	function display()
 	{
+		JRequest::setVar('view', JRequest::getCmd('view', 'GCalendars'));
 		parent::display();
 		$view = JRequest::getVar('view', 'gcalendars');
 

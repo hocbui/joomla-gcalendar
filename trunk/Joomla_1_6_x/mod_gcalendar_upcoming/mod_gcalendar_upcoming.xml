@@ -27,7 +27,7 @@
 		</language>
 	</languages>
 	<config>
-		<fields name="params"  addfieldpath="/administrator/components/com_gcalendar/elements">
+		<fields name="params"  addfieldpath="/administrator/components/com_gcalendar/models/fields">
 			<fieldset name="basic" label="Module Parameters">
 				<field name="calendarids" type="gcalendar" default=""
 					label="Select Calendars" description="The calendars" />

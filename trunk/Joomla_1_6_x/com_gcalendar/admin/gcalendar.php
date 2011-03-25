@@ -44,14 +44,9 @@ if($controller = JRequest::getWord('controller')) {
 	}
 }
 
-// Create the controller
-$classname	= 'GCalendarsController'.$controller;
-$controller = new $classname( );
+jimport('joomla.application.component.controller');
 
-// Perform the Request task
-$controller->execute( JRequest::getCmd('task'));
-
-// Redirect if set by the controller
+$controller = JController::getInstance('GCalendar');
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();
-
 ?>

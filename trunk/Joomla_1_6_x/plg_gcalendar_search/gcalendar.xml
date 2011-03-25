@@ -17,7 +17,7 @@
 		<filename plugin="gcalendar">gcalendar.php</filename>
 	</files>
 	<config>
-		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/elements">
+		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 			<fieldset name="basic">
 				<field name="calendarids" type="gcalendar" default=""
 					label="Select Calendars"

@@ -27,7 +27,7 @@ jimport( 'joomla.application.component.view' );
  * GCalendars View
  *
  */
-class GCalendarsViewGCalendars extends JView
+class GCalendarViewGCalendars extends JView
 {
 	/**
 	 * GCalendars view display method
@@ -49,7 +49,7 @@ class GCalendarsViewGCalendars extends JView
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'gcalendar.delete', 'JTOOLBAR_DELETE');
+			JToolBarHelper::deleteList('', 'gcalendars.delete', 'JTOOLBAR_DELETE');
 		}
 		if ($canDo->get('core.admin'))
 		{
