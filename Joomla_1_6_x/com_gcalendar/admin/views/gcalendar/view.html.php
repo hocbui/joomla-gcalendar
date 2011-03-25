@@ -53,7 +53,7 @@ class GCalendarViewGCalendar extends JView
 		$this->script = $script;
 
 		//get the calendar
-		$isNew		= $gcalendar->id < 1;
+		$isNew = $gcalendar->id < 1;
 
 		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
 		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ).': <small><small>[ ' . $text.' ]</small></small>' ,'calendar');

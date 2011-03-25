@@ -18,15 +18,10 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport('joomla.application.component.modeladmin');
 
-/**
- * GCalendar Model
- *
- */
 class GCalendarModelGCalendar extends JModelAdmin
 {
 	protected function allowEdit($data = array(), $key = 'id')

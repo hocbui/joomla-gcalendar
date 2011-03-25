@@ -81,15 +81,13 @@ if(!is_array($this->online_items)){
 	}
 	?>
 </table>
+	<input type="hidden" name="option" value="com_gcalendar" /> 
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </div>
+</form>
+<?php } ?>
 
-<input type="hidden" name="option" value="com_gcalendar" /> <input
-	type="hidden" name="task" value="" /> <input type="hidden"
-	name="boxchecked" value="0" /> <input type="hidden" name="controller"
-	value="import" /></form>
-	<?php
-}
-?>
 <div align="center"><br>
 <img src="media/com_gcalendar/images/gcalendar.gif" width="156"
 	height="30"><br>

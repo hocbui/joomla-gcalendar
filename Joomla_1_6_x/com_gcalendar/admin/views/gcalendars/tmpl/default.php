@@ -40,7 +40,7 @@ defined('_JEXEC') or die('Restricted access');
 	{
 		$row = &$this->items[$i];
 		$checked 	= JHTML::_('grid.id',   $i, $row->id );
-		$link 		= JRoute::_( 'index.php?option=com_gcalendar&controller=gcalendar&task=edit&cid[]='. $row->id );
+		$link 		= JRoute::_( 'index.php?option=com_gcalendar&task=gcalendar.edit&id='. $row->id );
 
 		?>
 	<tr class="<?php echo "row$k"; ?>">
