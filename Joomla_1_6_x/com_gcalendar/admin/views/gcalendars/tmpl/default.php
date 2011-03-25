@@ -73,11 +73,13 @@ defined('_JEXEC') or die('Restricted access');
 
 </table>
 </div>
-
-<input type="hidden" name="option" value="com_gcalendar" /> <input
-	type="hidden" name="task" value="" /> <input type="hidden"
-	name="boxchecked" value="0" /> <input type="hidden" name="controller"
-	value="gcalendar" /></form>
+<div>
+<input type="hidden" name="option" value="com_gcalendar" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="boxchecked" value="0" /> 
+<?php echo JHtml::_('form.token'); ?>
+</div>
+</form>
 
 <div align="center"><br>
 <img src="media/com_gcalendar/images/gcalendar.gif" width="156"

@@ -22,11 +22,7 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.database.table');
 
-/**
- * GCalendar Table class
- *
- */
-class TableGCalendar extends JTable
+class GCalendarTableGCalendar extends JTable
 {
 	/**
 	 * Constructor

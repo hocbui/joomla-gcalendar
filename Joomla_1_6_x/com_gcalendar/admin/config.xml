@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component" addfieldpath="/administrator/components/com_gcalendar/elements">
+	<fieldset name="component" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 		<field name="google_apps_domain" type="text" default="" size="100"
 			label="Google Apps Domain" description="The Google Apps domain to get the calendar data from." />
 		<field name="timezone" type="googletimezones" default=""

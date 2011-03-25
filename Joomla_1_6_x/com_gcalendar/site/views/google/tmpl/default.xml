@@ -5,7 +5,7 @@
 			<![CDATA[GCALENDAR LINK DESC]]>
 		</message>
 	</layout>
-	<fields name="params" addfieldpath="/administrator/components/com_gcalendar/elements">
+	<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 		<fieldset name="basic"
 			label="Basic">
 			<field name="calendarids" type="gcalendar" default=""

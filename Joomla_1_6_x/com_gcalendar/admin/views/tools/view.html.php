@@ -23,7 +23,7 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
-class GCalendarsViewTools extends JView
+class GCalendarViewTools extends JView
 {
 	/**
 	 * GCalendars view display method
