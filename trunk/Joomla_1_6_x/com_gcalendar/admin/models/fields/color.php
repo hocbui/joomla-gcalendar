@@ -20,7 +20,7 @@
 
 defined('_JEXEC') or die( 'Restricted access' );
 
-class JFormFieldColor extends JFormField
+class JFormFieldColor extends JFormFieldText
 {
 	protected $type = 'Color';
 
