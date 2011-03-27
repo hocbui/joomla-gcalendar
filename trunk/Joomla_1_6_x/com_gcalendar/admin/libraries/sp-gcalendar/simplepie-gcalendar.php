@@ -444,9 +444,16 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	 */
 	function get_day_type(){
 		if(!$this->gc_day_type){
-			$SECSINDAY=86400;
-
+			$SECSINDAY = 86400;
+			
+			$oldTz = null;
+			$feed_timezone = $this->feed->get_timezone();
+			if(!empty($feed_timezone) && function_exists('date_default_timezone_get')){
+				$oldTz = date_default_timezone_get();
+				date_default_timezone_set($feed_timezone);
+			}
 			if (($this->get_start_date()+ $SECSINDAY) <= $this->get_end_date()) {
+
 				if (($this->get_start_date()+ $SECSINDAY) == $this->get_end_date() && (date('g:i a',$this->get_start_date())=='12:00 am')) {
 					$this->gc_day_type =  $this->SINGLE_WHOLE_DAY;
 				} else {
@@ -456,8 +463,13 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 						$this->gc_day_type =  $this->MULTIPLE_PART_DAY;
 					}
 				}
-			}else
-			$this->gc_day_type = $this->SINGLE_PART_DAY;
+
+			}else{
+				$this->gc_day_type = $this->SINGLE_PART_DAY;
+			}
+			if($oldTz != null){
+				date_default_timezone_set($oldTz);
+			}
 		}
 		return $this->gc_day_type;
 	}
