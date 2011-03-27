@@ -471,8 +471,11 @@ class SimplePie_Item_GCalendar extends SimplePie_Item {
 	function tstamptotime($iso_date) {
 		// converts ISODATE to unix date
 		// 1984-09-01T14:21:31Z
+		$tz = date_default_timezone_get();
+		date_default_timezone_set($this->feed->get_timezone());
 		sscanf($iso_date,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
 		$newtstamp = mktime($hour,$min,$sec,$month,$day,$year);
+		date_default_timezone_set($tz);
 		return $newtstamp;
 	}
 
