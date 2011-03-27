@@ -280,7 +280,12 @@ class GCalendarUtil{
 	}
 
 	public static function formatDate($dateFormat,$date){
-		return JFactory::getDate($date)->format($dateFormat);
+		$dateObj = JFactory::getDate($date);
+		
+		$tz = new DateTimeZone(GCalendarUtil::getComponentParameter('timezone'));
+		$dateObj->setTimezone($tz);
+		
+		return $dateObj->format($dateFormat, true);
 	}
 
 	public static function getActions($calendarId = 0){
@@ -291,7 +296,7 @@ class GCalendarUtil{
 			$assetName = 'com_gcalendar';
 		}
 		else {
-			$assetName = 'com_helloworld.calendar.'.(int) $calendarId;
+			$assetName = 'com_gcalendar.calendar.'.(int) $calendarId;
 		}
 
 		$actions = array('core.admin', 'core.manage', 'core.create', 'core.edit', 'core.delete');
