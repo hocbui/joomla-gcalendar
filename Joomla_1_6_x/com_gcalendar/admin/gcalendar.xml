@@ -9,7 +9,7 @@
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
-	<version>2.3.0 M2</version>
+	<version>2.3.0 M3</version>
 	<description>Google calendar integrated in joomla.</description>
 	<files folder="site">
 		<filename>index.html</filename>
@@ -57,7 +57,6 @@
 			<folder>models</folder>
 			<folder>views</folder>
 			<folder>tables</folder>
-			<folder>elements</folder>
 			<folder>libraries</folder>
 			<folder>sql</folder>
 		</files>

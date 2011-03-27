@@ -281,10 +281,12 @@ class GCalendarUtil{
 
 	public static function formatDate($dateFormat,$date){
 		$dateObj = JFactory::getDate($date);
-		
-		$tz = new DateTimeZone(GCalendarUtil::getComponentParameter('timezone'));
-		$dateObj->setTimezone($tz);
-		
+
+		$gcTz = GCalendarUtil::getComponentParameter('timezone');
+		if(!empty($gcTz)){
+			$tz = new DateTimeZone($gcTz);
+			$dateObj->setTimezone($tz);
+		}
 		return $dateObj->format($dateFormat, true);
 	}
 

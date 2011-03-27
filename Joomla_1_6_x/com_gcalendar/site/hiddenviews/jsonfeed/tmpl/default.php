@@ -50,8 +50,8 @@ if(!empty($this->calendars)){
 			$data[] = array(
 			'id' => $event->get_id(),
 			'title' => htmlspecialchars_decode($event->get_title()),
-			'start' => strftime('%Y-%m-%dT%H:%M:%S', $event->get_start_date()),
-			'end' => strftime('%Y-%m-%dT%H:%M:%S',$allDayEvent? $event->get_end_date() - $SECSINDAY:$event->get_end_date()),
+			'start' => GCalendarUtil::formatDate('Y-m-d\TH:i:s', $event->get_start_date()),
+			'end' => GCalendarUtil::formatDate('Y-m-d\TH:i:s',$allDayEvent? $event->get_end_date() - $SECSINDAY:$event->get_end_date()),
 			'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid').$itemID),
 			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
 			'allDay' => $allDayEvent,
