@@ -30,9 +30,9 @@ if(!empty($itemID)){
 	$component	= &JComponentHelper::getComponent('com_gcalendar');
 	$menu = &JSite::getMenu();
 	$params = $menu->getParams($itemID);
-	echo "<table><tr><td valign=\"middle\">\n";
+	echo "<table class=\"gcalendar-table\"><tr><td valign=\"middle\">\n";
 	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID)."\">\n";
-	echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/images/back.png\"/>\n";
+	echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"media/com_gcalendar/images/back.png\"/>\n";
 	echo "</a></td><td valign=\"middle\">\n";
 	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
 	echo "</td></tr></table>\n";
@@ -41,6 +41,7 @@ if(!empty($itemID)){
 JHTML::_('behavior.mootools');
 GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
+$document->addStyleSheet(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css' );
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');

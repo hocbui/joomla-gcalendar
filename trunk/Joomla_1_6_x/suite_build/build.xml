@@ -132,7 +132,7 @@
 
 		<!-- create gcalendar component -->
 		<zip destfile="${build}/${gcalendar}/com_gcalendar.zip">
-			<zipfileset dir="${basedir}/../com_gcalendar" prefix="com_gcalendar" excludes="**/gcalendar.xml" />
+			<zipfileset dir="${basedir}/../com_gcalendar" prefix="com_gcalendar" excludes="admin/gcalendar.xml" />
 			<zipfileset dir="${basedir}/../com_gcalendar/admin" includes="gcalendar.xml" fullpath="com_gcalendar/gcalendar.xml" />
 		</zip>
 
