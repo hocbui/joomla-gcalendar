@@ -36,9 +36,13 @@ if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
 			$year = strftime('%Y', $event->get_start_date());
 			$dateHash = '#year='.$year.'&month='.$month.'&day='.$day;
 		}
-		echo "<table><tr><td valign=\"middle\">\n";
+		
+		$document = &JFactory::getDocument();
+		$document->addStyleSheet(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css' );
+		
+		echo "<table class=\"gcalendar-table\"><tr><td valign=\"middle\">\n";
 		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID.$dateHash)."\">\n";
-		echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"components/com_gcalendar/images/back.png\"/>\n";
+		echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"media/com_gcalendar/images/back.png\"/>\n";
 		echo "</a></td><td valign=\"middle\">\n";
 		echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID.$dateHash).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
 		echo "</td></tr></table>\n";
