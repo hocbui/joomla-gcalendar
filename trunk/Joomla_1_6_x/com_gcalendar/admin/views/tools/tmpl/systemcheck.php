@@ -35,7 +35,7 @@ defined('_JEXEC') or die('Restricted access');
 	$data[] = checkRemoteConnection();
 	$data[] = checkPhpVersion();
 	$data[] = checkCacheForGCalendarView();
-	$data[] = checkTimezones();
+//	$data[] = checkTimezones();
 	$tmp = checkDB();
 	$data = array_merge($data, $tmp);
 	foreach ($data as $test) {
