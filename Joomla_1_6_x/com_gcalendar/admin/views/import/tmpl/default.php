@@ -89,7 +89,7 @@ if(!is_array($this->online_items)){
 <?php } ?>
 
 <div align="center"><br>
-<img src="media/com_gcalendar/images/gcalendar.gif" width="156"
+<img src="../media/com_gcalendar/images/gcalendar.gif" width="156"
 	height="30"><br>
 &copy;&nbsp;&nbsp;2011 <a href="http://g4j.laoneo.net"
 	target="_blank">allon moritz</a></div>
