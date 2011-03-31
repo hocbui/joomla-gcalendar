@@ -28,22 +28,11 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_gcalendar')){
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-require_once (JPATH_COMPONENT.DS.'controller.php');
-
 //if(!class_exists('Zend_Loader')){
 //	require_once JPATH_COMPONENT.DS.'libraries/Zend/Loader.php';
 //}
 
-// Require specific controller if requested
-if($controller = JRequest::getWord('controller')) {
-	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
-	if (file_exists($path)) {
-		require_once $path;
-	} else {
-		$controller = '';
-	}
-}
-
+require_once (JPATH_COMPONENT.DS.'controller.php');
 jimport('joomla.application.component.controller');
 
 $controller = JController::getInstance('GCalendar');
