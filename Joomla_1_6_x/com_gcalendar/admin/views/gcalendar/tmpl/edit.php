@@ -20,7 +20,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-
 $calendar = $this->gcalendar;
 
 defined('_JEXEC') or die('Restricted access');
