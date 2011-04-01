@@ -50,7 +50,6 @@ class GCalendarViewGCalendar extends JView
 		// Assign the Data
 		$this->form = $form;
 		$this->gcalendar = $gcalendar;
-		$this->script = $script;
 
 		//get the calendar
 		$isNew = $gcalendar->id < 1;
