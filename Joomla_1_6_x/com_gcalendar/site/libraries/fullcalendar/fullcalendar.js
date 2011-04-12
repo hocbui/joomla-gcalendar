@@ -1,6 +1,6 @@
 /**
  * @preserve
- * FullCalendar v1.4.10-gcalendar
+ * FullCalendar v1.4.11-gcalendar
  * http://arshaw.com/fullcalendar/
  *
  * with some adaptations for joomla gcalendar component
@@ -14,7 +14,7 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Tue Apr 12 15:58:42 2011 +0200
+ * Date: Tue Apr 12 21:38:18 2011 +0200
  *
  */
  
@@ -114,7 +114,7 @@ var rtlDefaults = {
 
 
 
-var fc = $.fullCalendar = { version: "1.4.10-gcalendar" };
+var fc = $.fullCalendar = { version: "1.4.11-gcalendar" };
 var fcViews = fc.views = {};
 
 
@@ -201,6 +201,7 @@ function Calendar(element, options, eventSources) {
 	t.refetchEvents = refetchEvents;
 	t.reportEvents = reportEvents;
 	t.reportEventChange = reportEventChange;
+	t.rerenderEvents = rerenderEvents;
 	t.changeView = changeView;
 	t.select = select;
 	t.unselect = unselect;
@@ -1375,7 +1376,7 @@ function BasicView(element, calendar, viewName) {
 	
 		rowCnt = r;
 		colCnt = c;
-		wkn = 0 + opt('weekNumbers');
+		wkn = opt('weekNumbers') ? 1 : 0;
 		rtl = opt('isRTL');
 		if (rtl) {
 			dis = -1;
@@ -3077,6 +3078,7 @@ function AgendaEventRenderer() {
 	function draggableDayEvent(event, eventElement, isStart) {
 		if (!opt('disableDragging') && eventElement.draggable) {
 			var origWidth;
+			var revert;
 			var allDay=true;
 			var dayDelta;
 			var dis = opt('isRTL') ? -1 : 1;
@@ -3093,9 +3095,9 @@ function AgendaEventRenderer() {
 					hideEvents(event, eventElement);
 					origWidth = getWidth(eventElement);
 					hoverListener.start(function(cell, origCell, rowDelta, colDelta) {
-						eventElement.draggable('option', 'revert', !cell || !rowDelta && !colDelta);
 						clearOverlays();
 						if (cell) {
+							revert = false;
 							dayDelta = colDelta * dis;
 							if (!cell.row) {
 								// on full-days
@@ -3106,28 +3108,43 @@ function AgendaEventRenderer() {
 								resetElement();
 							}else{
 								// mouse is over bottom slots
-								if (isStart && allDay) {
-									// convert event to temporary slot-event
-									setOuterWidth(eventElement,colWidth - 10);
-									setOuterHeight(
-										eventElement, // don't use entire width
-										slotHeight * Math.round(
-											(event.end ? ((event.end - event.start) / MINUTE_MS) : opt('defaultEventMinutes'))
-											/ opt('slotMinutes')
-										)
-									);
-									eventElement.draggable('option', 'grid', [colWidth, 1]);
-									allDay = false;
+								if (isStart) {
+									if (allDay) {
+										// convert event to temporary slot-event
+										setOuterWidth(eventElement,colWidth - 10); // don't use entire width
+										setOuterHeight(
+											eventElement,
+											slotHeight * Math.round(
+												(event.end ? ((event.end - event.start) / MINUTE_MS) : opt('defaultEventMinutes'))
+												/ opt('slotMinutes')
+											)
+										);
+										eventElement.draggable('option', 'grid', [colWidth, 1]);
+										allDay = false;
+									}
+								}else{
+									revert = true;
 								}
 							}
+							revert = revert || (allDay && !dayDelta);
+						}else{
+							revert = true;
 						}
+						eventElement.draggable('option', 'revert', revert);
 					}, ev, 'drag');
 				},
 				stop: function(ev, ui) {
-					var cell = hoverListener.stop();
+					hoverListener.stop();
 					clearOverlays();
 					trigger('eventDragStop', eventElement, event, ev, ui);
-					if (cell && (!allDay || dayDelta)) {
+					if (revert) {
+						// hasn't moved or is out of bounds (draggable has already reverted)
+						resetElement();
+						if ($.browser.msie) {
+							eventElement.css('filter', ''); // clear IE opacity side-effects
+						}
+						showEvents(event, eventElement);
+					}else{
 						// changed!
 						eventElement.find('a').removeAttr('href'); // prevents safari from visiting the link
 						var minuteDelta = 0;
@@ -3138,13 +3155,6 @@ function AgendaEventRenderer() {
 								- (event.start.getHours() * 60 + event.start.getMinutes());
 						}
 						eventDrop(this, event, dayDelta, minuteDelta, allDay, ev, ui);
-					}else{
-						// hasn't moved or is out of bounds (draggable has already reverted)
-						resetElement();
-						if ($.browser.msie) {
-							eventElement.css('filter', ''); // clear IE opacity side-effects
-						}
-						showEvents(event, eventElement);
 					}
 				}
 			});
