@@ -27,6 +27,8 @@ jimport( 'joomla.html.parameter' );
 
 require_once (JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'nextevents.php');
 
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+
 /**
  * Constructor
  *
@@ -186,7 +188,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if ($format == "") {
 			$format = $this->params->get("dateformat", "%B %d, %Y @ %I:%M%P");
 		}
-		return strftime($format, $time);
+		return GCalendarUtil::formatDate($format, $time, true);
 	}
 
 	function datecalc($param, $time) {
