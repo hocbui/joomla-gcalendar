@@ -11,7 +11,7 @@
 	<authorUrl>g4j.laoneo.net</authorUrl>
 	<version>2.3.0 M3</version>
 <description><![CDATA[Embeds a date from a Google Calendar event into content.
-<p>Example Usage: {gcalnext [$title$] starts on [$start$] and ends at [$finish %I:%M%P]$} would print "My event starts on Novemeber 3, 2009 @ 2:30pm and ends at 3:30pm"</p>
+	<p>Example Usage: {gcalnext}[$title$] starts on [$start$] and ends at [$finish g:ia$]{/gcalnext} would print "My event starts on Novemeber 3, 2009 @ 2:30pm and ends at 3:30pm"</p>
 <p>Keywords are surrounded by [$ and $]. Anything not contained within a keyword marker is taken literally. Use the following keywords. All formatting is in strftime format.</p>
 <ul>
 	<li>startdate fmt-- print the starting date of the event in fmt format.</li>
@@ -25,6 +25,11 @@
 <li>maphref -- just the url to the Google Maps</li>
 <li>location -- text location from the event</li>
 <li>where -- same as location </li>
+<li>lasts -- Describes the length of time scheduled for the event in days (%d), hours (%h), minutes (%m) and seconds (%s). (e.g. [$lasts %h hoursi and %m minutes $] prints 2 hours and 30 minutes for a 2 and a half hour event.</li>
+<li>startsin --  Time left until the event starts (same format as lasts).</li>
+<li>endsin --  Time left until the event is over (same format as lasts).</li>
+<li>finishoffset -- Adjusted finish by specified amount of time. (Pick up at [$ finishoffset -1 hour $] -- see PHP strtotime() for adjustment syntax.)</li>
+<li>startoffset -- Adjusted start by specified amount of time.  (Prices go up at [$ startoffset +30 minutes $] -- see PHP strtotime() for adjustment syntax.) </li>
 <li>calendarname -- name of the calendar</li>
 <li>calendarcolor -- hex representation of the calendar's assigned color</li>
 </ul>
@@ -45,11 +50,11 @@
 				<field name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event. (plugin: +output)" rows="5" cols="50" filter="raw">
 					<content>[$ startdate $] at [$ maplink $]</content>
 					<description>
-						Here you can modify the default event output. Use strftime formatting for dates. Valid functions are embedded in [$ cmd args ... $], everything outside of that is taken literally. Valid functions are: start, finish, location (text location), maphref (url to google maps), maplink (anchor link to google maps with the location embedded as the link) and title. 
+						Here you can modify the default event output. Use PHP date() function formatting for dates. Valid functions are embedded in [$ cmd args ... $], everything outside of that is taken literally. Valid functions are: start, finish, location (text location), maphref (url to google maps), maplink (anchor link to google maps with the location embedded as the link) and title. 
 					</description>
 				</field>
 				<field name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now. (plugin: +output_now)" rows="5" cols="50" filter="raw">
-					<content>[$ title %] is happening right now here: [$ maplink $]</content>
+					<content>[$ title $] is happening right now here: [$ maplink $]</content>
 				</field>
 				<field name="start_soon" type="text" size="40" default="-4 hours" label="Start soon trigger" description="Triggers starting soon text (relative to the current event's start time) (plugin: +start_soon)"/>
 				<field name="end_soon" type="text" size="40" default="-1 hour" label="End soon trigger" description="Triggers ending soon text (relative to the current event's end time) (plugin: +end_soon)"/>		
@@ -71,11 +76,11 @@
 				<field name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative) (plugin: +start_date)"/>
 				<field name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative) (plugin: +end_date)"/>
 				<field name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events to choose the next one. (plugin: +max_events)"/>
-				<field name="dateformat" type="text" size="40" default="%B %d, %Y @ %I:%M%P" label="Default date format" description="Use this strftime format as the default way to display  a date (plugin: +dateformat)"/>
-				<field name="only-whole_day" type="text" size="40" default="%A, %B %d, %Y all day" description="Default date range format for a single all day event (strftime format). (plugin: +only-whole_day)" label="Rangle Format (single all day)"/>
-				<field name="only-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +only-part_day)" label="Rangle Format (single day)"/>
-				<field name="multi-whole_day" type="text" size="40" default="%B %d - %%d, %%Y all day" description="Default date range format for a multiple day all day event (strftime format) (plugin: +multi-whole_day)" label="Rangle Format (multiple all day)"/>
-				<field name="multi-part_day" type="text" size="40" default="%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P" description="Default date range format for a single day event (strftime format) (plugin: +multi-part_day)" label="Rangle Format (multi day)"/>		
+				<field name="dateformat" type="text" size="40" default="F d, Y @ g:ia" label="Default date format" description="Use this strftime format as the default way to display  a date (plugin: +dateformat)"/>
+				<field name="only-whole_day" type="text" size="40" default="[$start l, F d, Y$] all day" description="Default date range format for a single all day event (strftime format). (plugin: +only-whole_day)" label="Rangle Format (single all day)"/>
+				<field name="only-part_day" type="text" size="40" default="[$start l, F d, Y g:ia$] until [$finish g:ia $]" description="Default date range format for a single day event (strftime format) (plugin: +only-part_day)" label="Rangle Format (single day)"/>
+				<field name="multi-whole_day" type="text" size="40" default="[$start l, F d - d, Y$] all day" description="Default date range format for a multiple day all day event (strftime format) (plugin: +multi-whole_day)" label="Rangle Format (multiple all day)"/>
+				<field name="multi-part_day" type="text" size="40" default="[$start l, F d, Y g:ia$] until [$finish l, F d, Y g:ia $]" description="Default date range format for a single day event (strftime format) (plugin: +multi-part_day)" label="Rangle Format (multi day)"/>		
 				<field name="gc_cache" type="list" default="1" label="Cache"
 					description="Is cacheing enabled.">
 					<option value="1">Use global</option>
