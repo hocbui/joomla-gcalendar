@@ -51,7 +51,7 @@ class plgContentgcalendar_next extends JPlugin {
 		if (JRequest::getCmd('option') != 'com_content') return;
 		if (!$article->text) return;
 
-		$text = preg_replace_callback('/{gcalnext\s+(.*?)\s*}/', array($this, 'embedEvent'), $article->text);
+		$text = preg_replace_callback('/{gcalnext\s+(.*?)\s*?}(.*?){\/gcalnext}/', array($this, 'embedEvent'), $article->text);
 
 		if ($text) {
 			$article->text = $text;
@@ -59,92 +59,24 @@ class plgContentgcalendar_next extends JPlugin {
 	}
 
 	function embedEvent($gcalnext) {
-		$embedded_str = $gcalnext[1];
+		$param_str = $gcalnext[1];
+		$fmt_str = $gcalnext[2];
 
-		$helper = new GCalendarKeywordsHelper($this->params, $embedded_str);
+		$helper = new GCalendarKeywordsHelper($this->params, $param_str, $fmt_str);
 
 		if (!$helper->event()) {
 			return $helper->params->get('no_event');
 		}
 
-		return $helper->replace();
-	}
-}
-
-class PluginKeywordsHelper {
-
-	var $params;
-	var $argre;
-	var $plgText;
-	var $dataobj;
-	var $plgParams = Array();
-	var $fmtParams = Array();
-
-	function PluginKeywordsHelper($params, $plgText, $argre = '/(?:\[\$)\s*(.*?)\s*(?:\$\])/') {
-		$this->params = new JParameter($params->toString("INI")); // Prevents bleedover to other instances
-		$this->plgText = $plgText;
-		$this->argre = $argre;
-
-		$matches = Array();
-		preg_match_all($this->argre, $this->plgText, $matches);
-
-		foreach ($matches[1] as $match) {
-			list($key, $value) = explode(' ', $match, 2) + Array("", "");
-			$value = str_replace("\\",'',$value);
-			if  (strpos($key, '+') === 0) {
-				$key = substr($key, 1);
-				$this->params->set($key, $value);
-				$this->plgParams[$key] = $value;
-			}
-			else {
-				$this->fmtParams[$key] = $value;
-			}
-		}
-
-		$this->dataobj = $this->setDataObj();
-	}
-
-	function setDataObj() {
-		return "";
-	}
-
-	function dataobj() {
-		return $this->dataobj;
-	}
-
-	function plgText() {
-		return $plgText;
-	}
-
-	function replace() {
-		return preg_replace_callback($this->argre, array($this, 'replaceSingle'), $this->plgText);
-	}
-
-	function replaceSingle($val) {
-		list($func, $arg) = explode(' ', $val[1], 2) + Array("", "");
-
-		if (is_callable(array($this, $func))) {
-			return call_user_func(array($this, $func), $arg);
-		}
-
-		return "";
-	}
-}
-
-class GCalendarKeywordsHelper extends PluginKeywordsHelper {
-
-	function replace() {
-		$start = $this->dataobj->get_start_date();
-		$end = $this->dataobj->get_end_date();
+		$start = $helper->event()->get_start_date();
+		$end = $helper->event()->get_end_date();
 		$now = time();
 		$start_soon = date($this->params->get('start_soon', '-4 hours'), $start);
 		$end_soon = date($this->params->get('end_soon', '-2 hours'), $end);
-		$plgText = preg_replace($this->argre, "", $this->plgText);
-		$plgText = preg_replace('/\s+/', "", $plgText);
 		$text = '';
 
-		if ($plgText) {
-			$this->params->set('output', $this->plgText);
+		if ($fmt_str) {
+			$this->params->set('output', $fmt_str);
 		}
 
 		if ($end <= $now) { // AND it hasn't ended
@@ -163,9 +95,65 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 			$text = $this->params->get('output');
 		}
 
-		return preg_replace_callback($this->argre, array($this, 'replaceSingle'), $text);
+		return $helper->replace($text);
+	}
+}
+
+class PluginKeywordsHelper {
+
+	var $params;
+	var $argre;
+	var $txtParam;
+	var $txtFmt;
+	var $dataobj;
+	var $plgParams = Array();
+
+	function PluginKeywordsHelper($params, $txtParam, $txtFmt, $argre = '/(?:\[\$)\s*(.*?)\s*(?:\$\])/') {
+		$this->params = new JParameter($params->toString("INI")); // Prevents bleedover to other instances
+		$this->txtParam = $txtParam;
+		$this->txtFmt = $txtFmt;
+		$this->argre = $argre;
+
+		$matches = Array();
+		preg_match_all($this->argre, $this->txtParam, $matches);
+		foreach ($matches[1] as $match) {
+			list($key, $value) = explode(' ', $match, 2) + Array("", "");
+			$value = str_replace("\\",'',$value);
+			$this->params->set($key, $value);
+			$this->plgParams[$key] = $value;
+		}
+
+		$this->dataobj = $this->setDataObj();
 	}
 
+	function setDataObj() {
+		return "";
+	}
+
+	function dataobj() {
+		return $this->dataobj;
+	}
+
+	function plgText() {
+		return $plgText;
+	}
+
+	function replace($txt) {
+		return preg_replace_callback($this->argre, array($this, 'replaceSingle'), $txt);
+	}
+
+	function replaceSingle($val) {
+		list($func, $arg) = explode(' ', $val[1], 2) + Array("", "");
+
+		if (is_callable(array($this, $func))) {
+			return call_user_func(array($this, $func), $arg);
+		}
+
+		return $val;
+	}
+}
+
+class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 
 	function setDataObj() {
 		$params = $this->params;
@@ -186,9 +174,9 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 
 	function date($format, $time) {
 		if ($format == "") {
-			$format = $this->params->get("dateformat", "%B %d, %Y @ %I:%M%P");
+			$format = $this->params->get("dateformat", "F d, Y @ g:ia");
 		}
-		return GCalendarUtil::formatDate($format, $time, true);
+		return GCalendarUtil::formatDate($format, $time);
 	}
 
 	function datecalc($param, $time) {
@@ -240,24 +228,21 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		else {
 			switch($event->get_day_type()) {
 				case $event->SINGLE_WHOLE_DAY:
-					$fmt = $this->params->get("only-whole_day", "%A, %B %d, %Y all day");
+					$fmt = $this->params->get("only-whole_day", '[$start l, F d, Y$] all day');
 					break;
 				case $event->SINGLE_PART_DAY:
-					$fmt = $this->params->get("only-part_day", "%A, %B %d, %Y %I:%M%P until %%I:%%M%%P");
+					$fmt = $this->params->get("only-part_day", '[$start l, F d, Y g:ia$] until [$finish g:ia $]');
 					break;
 				case $event->MULTIPLE_WHOLE_DAY:
-					$fmt = $this->params->get("multi-whole_day", "%B %d - %%d, %%Y all day");
+					$fmt = $this->params->get("multi-whole_day", '[$start l, F d - d, Y$] all day');
 					break;
 				case $event->MULTIPLE_PART_DAY:
-					$fmt = $this->params->get("multi-part_day", "%A, %B %d, %Y %I:%M%P until %%A, %%B %%d, %%Y %%I:%%M%%P");
+					$fmt = $this->params->get("multi-part_day", '[$start l, F d, Y g:ia$] until [$finish l, F d, Y g:ia $]');
 					break;
 			}
 		}
 
-		$str = $this->start($fmt);
-		$str = $this->finish($str);
-
-		return $str;
+		return $this->replace($fmt);
 	}
 
 	function duration($param, $interval) {
@@ -266,10 +251,10 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		$minutes = 0;
 		$seconds = 0;
 
-		if (strpos($param, '%d') !== FALSE) {
+		if (strpos($param, 'd') !== FALSE) {
 			$days = intval($interval / (24 * 3600));
 			$interval = $interval - ($days * 24 * 3600);
-			$param = str_replace('%d', $days, $param);
+			$param = str_replace('d', $days, $param);
 		}
 
 		if (strpos($param, '%h') !== FALSE) {
