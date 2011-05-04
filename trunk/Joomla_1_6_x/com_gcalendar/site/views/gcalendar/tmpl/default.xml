@@ -1,119 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="GCalendar">
+	<layout title="COM_GCALENDAR_GCALENDAR_VIEW_DEFAULT_TITLE">
 		<message>
-			<![CDATA[GCALENDAR LINK DESC]]>
+			<![CDATA[COM_GCALENDAR_GCALENDAR_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 	<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 		<fieldset name="basic"
-			label="Basic">
+			label="COM_GCALENDAR_VIEW_FIELDS_BASIC_LABEL">
 			<field name="calendarids" type="gcalendar" default=""
-				label="Select Calendars" description="The calendars" />
+				label="COM_GCALENDAR_VIEW_FIELD_SELECT_CALENDARS_LABEL" description="COM_GCALENDAR_VIEW_FIELD_SELECT_CALENDARS_DESC" />
 			<field name="show_selection" type="radio" default="1"
-				label="Show Calendars" description="Shows the calendar list.">
-				<option value="1">Yes</option>
-				<option value="2">No</option>
+				label="COM_GCALENDAR_VIEW_FIELD_SHOW_CALENDARS_LABEL" description="COM_GCALENDAR_VIEW_FIELD_SHOW_CALENDARS_DESC">
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
+				<option value="2">COM_GCALENDAR_FIELD_NO</option>
 			</field>
 			<field name="defaultView" type="list" default="month"
-				label="The default view"
-				description="The view which is shown when clicking the first time on a link.">
-				<option value="month">Month</option>
-				<option value="week">Week</option>
-				<option value="day">Day</option>
+				label="COM_GCALENDAR_VIEW_FIELD_DEFAULT_VIEW_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_DEFAULT_VIEW_DESC">
+				<option value="month">COM_GCALENDAR_VIEW_FIELD_DEFAULT_VIEW_MONTH</option>
+				<option value="week">COM_GCALENDAR_VIEW_FIELD_DEFAULT_VIEW_WEEK</option>
+				<option value="day">COM_GCALENDAR_VIEW_FIELD_DEFAULT_VIEW_DAY</option>
 			</field>
-			<field name="weekstart" type="list" default="1" label="Week starts on"
-				description="The starting day of the week in the calendar.">
-				<option value="0">Sunday</option>
-				<option value="1">Monday</option>
-				<option value="2">Tuesday</option>
-				<option value="3">Wednesday</option>
-				<option value="4">Thursday</option>
-				<option value="5">Friday</option>
-				<option value="6">Saturday</option>
+			<field name="weekstart" type="list" default="1" label="COM_GCALENDAR_VIEW_FIELD_WEEK_START_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_WEEK_START_DESC">
+				<option value="0">COM_GCALENDAR_VIEW_FIELD_WEEK_START_SUNDAY</option>
+				<option value="1">COM_GCALENDAR_VIEW_FIELD_WEEK_START_MONDAY</option>
+				<option value="2">COM_GCALENDAR_VIEW_FIELD_WEEK_START_TUESDAY</option>
+				<option value="3">COM_GCALENDAR_VIEW_FIELD_WEEK_START_WEDNESDAY</option>
+				<option value="4">COM_GCALENDAR_VIEW_FIELD_WEEK_START_THURSDAY</option>
+				<option value="5">COM_GCALENDAR_VIEW_FIELD_WEEK_START_FRIDAY</option>
+				<option value="6">COM_GCALENDAR_VIEW_FIELD_WEEK_START_SATURDAY</option>
 			</field>
 			<field name="weekend" type="radio" default="1" 
-                label="Show weekend events" description="Shows or hides saturday and sunday (weekend), allowing a 'wider' view of weekdays."> 
-                <option value="1">Yes</option> 
-                <option value="0">No</option> 
+                label="COM_GCALENDAR_VIEW_FIELD_SHOW_WEEKEND_LABEL" description="COM_GCALENDAR_VIEW_FIELD_SHOW_WEEKEND_DESC"> 
+                <option value="1">COM_GCALENDAR_FIELD_YES</option> 
+                <option value="0">COM_GCALENDAR_FIELD_NO</option> 
             </field> 
-			<field name="titleformat_month" type="text" default="MMMM yyyy" label="Title format month"
-				description="The format of the title in the month view." size="50" />
-			<field name="titleformat_week" type="text" default="MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}" label="Title format week"
-				description="The format of the title in the week view." size="50" />
-			<field name="titleformat_day" type="text" default="dddd, MMM d, yyyy" label="Title format day"
-				description="The format of the title in the day view." size="50" />
-			<field name="timeformat_month" type="text" default="HH:mm{ - HH:mm}" label="Time format month"
-				description="The format of the time in the month view." size="50" />
-			<field name="timeformat_week" type="text" default="HH:mm{ - HH:mm}" label="Time format week"
-				description="The format of the time in the week view." size="50" />
-			<field name="timeformat_day" type="text" default="HH:mm{ - HH:mm}" label="Time format day"
-				description="The format of the time in the day view." size="50" />
-			<field name="axisformat" type="text" default="HH:mm" label="Axis format"
-				description="The format of the axis in the day and week view." size="50" />
+			<field name="titleformat_month" type="text" default="MMMM yyyy" label="COM_GCALENDAR_VIEW_FIELD_TITLE_FORMAT_MONTH_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_TITLE_FORMAT_MONTH_DESC" size="50" />
+			<field name="titleformat_week" type="text" default="MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}" label="COM_GCALENDAR_VIEW_FIELD_TITLE_FORMAT_WEEK_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_TITLE_FORMAT_WEEK_DESC" size="50" />
+			<field name="titleformat_day" type="text" default="dddd, MMM d, yyyy" label="COM_GCALENDAR_VIEW_FIELD_TITLE_FORMAT_DAY_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_TITLE_FORMAT_DAY_DESC" size="50" />
+			<field name="timeformat_month" type="text" default="HH:mm{ - HH:mm}" label="COM_GCALENDAR_VIEW_FIELD_TIME_FORMAT_MONTH_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_TIME_FORMAT_MONTH_DESC" size="50" />
+			<field name="timeformat_week" type="text" default="HH:mm{ - HH:mm}" label="COM_GCALENDAR_VIEW_FIELD_TIME_FORMAT_WEEK_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_TIME_FORMAT_WEEK_DESC" size="50" />
+			<field name="timeformat_day" type="text" default="HH:mm{ - HH:mm}" label="COM_GCALENDAR_VIEW_FIELD_TIME_FORMAT_DAY_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_TIME_FORMAT_DAY_DESC" size="50" />
+			<field name="axisformat" type="text" default="HH:mm" label="COM_GCALENDAR_VIEW_FIELD_AXIS_FORMAT_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_AXIS_FORMAT_DESC" size="50" />
 			<field name="@spacer" type="spacer" default="" label=""
 				description="" />
 			<field name="description_date_format" type="text" size="50" default="d.m.Y"
-				label="Tooltip Date format"
-				description="The format of the date for an event (see http://www.php.net/date for details)." />
+				label="COM_GCALENDAR_VIEW_FIELD_DESC_DATE_FORMAT_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_DESC_DATE_FORMAT_DESC" />
 			<field name="description_time_format" type="text" size="50" default="H:i"
-				label="Tooltip Time format"
-				description="The format of the time for an event (see http://www.php.net/date for details)." />
-			<field name="description_format" type="textarea2" default="" label="Event tooltip"
-				description="Here you can customize the appearance of the event tooltip."
+				label="COM_GCALENDAR_VIEW_FIELD_DESC_TIME_FORMAT_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_DESC_TIME_FORMAT_DESC" />
+			<field name="description_format" type="textarea2" default="" label="COM_GCALENDAR_VIEW_FIELD_DESC_FORMAT_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_DESC_FORMAT_DESC"
 				rows="5" cols="50" filter="raw">
 				<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;{description}&lt;/p&gt;</content>
 				<description>
-					Here you can modify the event tooltip. The following
-					attributes of an event are provided:&lt;br&gt;
-					{title},
-					{description},
-					{startdate}, {starttime}, {dateseparator}, {enddate},
-					{endtime}
-					{where}, {backlink}, {link}, {maplink}, {calendarname},
-					{calendarcolor}
+					COM_GCALENDAR_VIEW_FIELD_DESC_FORMAT_LONG_DESC
 				</description>
 			</field>
 			<field name="textbefore" type="textarea" default=""
-				label="Content before calendar" description="This text will be displayed before the google calendar."
+				label="COM_GCALENDAR_VIEW_FIELD_TEXT_BEFORE_LABEL" description="COM_GCALENDAR_VIEW_FIELD_TEXT_BEFORE_DESC"
 				rows="5" cols="50" filter="raw"/>
 			<field name="textafter" type="textarea" default=""
-				label="Content after calendar" description="This text will be displayed after the google calendar."
+				label="COM_GCALENDAR_VIEW_FIELD_TEXT_AFTER_LABEL" description="COM_GCALENDAR_VIEW_FIELD_TEXT_AFTER_DESC"
 				rows="5" cols="50" filter="raw"/>
 			<field name="show_event_as_popup" type="radio" default="1"
-				label="Show Events As Popup" description="Shows the event details in a modal popup.">
-				<option value="1">Yes</option>
-				<option value="2">No</option>
+				label="COM_GCALENDAR_VIEW_FIELD_SHOW_POPUP_LABEL" description="COM_GCALENDAR_VIEW_FIELD_SHOW_POPUP_DESC">
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
+				<option value="2">COM_GCALENDAR_FIELD_NO</option>
 			</field>
-			<field name="popup_width" type="text" default="650" size="5" label="Popu Width"
-				description="If the event is shown as popup the width can be defined here." />
-			<field name="popup_height" type="text" default="500" size="5" label="Popu Height"
-				description="If the event is shown as popup the height can be defined here." />
-			<field name="@spacer" type="spacer" default="" label=""
-				description="" />
-			<field name="pageclass_sfx" type="text" size="20" default=""
-				label="Page Class Suffix"
-				description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
+			<field name="popup_width" type="text" default="650" size="5" label="COM_GCALENDAR_VIEW_FIELD_POPUP_WIDTH_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_POPUP_WIDTH_DESC" />
+			<field name="popup_height" type="text" default="500" size="5" label="COM_GCALENDAR_VIEW_FIELD_POPUP_HEIGHT_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_POPUP_HEIGHT_DESC" />
 		</fieldset>
 		<fieldset name="advanced"
-			label="Advanced">
+			label="COM_GCALENDAR_VIEW_FIELDS_ADVANCED_LABEL">
 			<field name="theme" type="text" size="50" default=""
-				label="Theme"
-				description="Define the jQuery theme (install it in the folder components/com_gcalendar/libraries/jquery/themes)." />
-			<field name="first_hour" type="text" default="6" label="First Hour"
-				description="The first hour that will be visible in the scroll pane. Values must be from 0-23, where 0=midnight, 1=1am, etc." size="10" />
-			<field name="min_time" type="text" default="0" label="Min Time"
-				description="The first hour/time that will be displayed, even when the scrollbars have been scrolled all the way up. This can be a number like 5 (which means 5am), a string like '5:30' (which means 5:30am) or a string like '5:30am'." size="10" />
-			<field name="max_time" type="text" default="24" label="Max Time"
-				description="The last hour/time (exclusively) that will be displayed, even when the scrollbars have been scrolled all the way down. This can be a number like 22 (which means 10pm), a string like '22:30' (which means 10:30pm) or a string like '10:30pm'." size="10" />
-			<field name="gccache" type="list" default="1" label="Cache"
-				description="Is cacheing enabled.">
-				<option value="1">Use global</option>
-				<option value="2">Cache always</option>
-				<option value="0">Cache never</option>
+				label="COM_GCALENDAR_VIEW_FIELD_THEME_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_THEME_DESC" />
+			<field name="first_hour" type="text" default="6" label="COM_GCALENDAR_VIEW_FIELD_FIRST_HOUR_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_FIRST_HOUR_DESC" size="10" />
+			<field name="min_time" type="text" default="0" label="COM_GCALENDAR_VIEW_FIELD_MIN_TIME_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_MIN_TIME_DESC" size="10" />
+			<field name="max_time" type="text" default="24" label="COM_GCALENDAR_VIEW_FIELD_MAX_TIME_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_MAX_TIME_DESC" size="10" />
+			<field name="gccache" type="list" default="1" label="COM_GCALENDAR_VIEW_FIELD_CACHE_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_CACHE_DESC">
+				<option value="1">COM_GCALENDAR_VIEW_FIELD_CACHE_GLOBAL</option>
+				<option value="2">COM_GCALENDAR_VIEW_FIELD_CACHE_ALWAYS</option>
+				<option value="0">COM_GCALENDAR_VIEW_FIELD_CACHE_NEVER</option>
 			</field>
-			<field name="gccache_time" type="text" default="3600" label="Cache Time"
-				description="The cache time." />
+			<field name="gccache_time" type="text" default="3600" label="COM_GCALENDAR_VIEW_FIELD_CACHE_TIME_LABEL"
+				description="COM_GCALENDAR_VIEW_FIELD_CACHE_TIME_DESC" />
 		</fieldset>
 	</fields>
 </metadata>
