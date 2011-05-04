@@ -24,10 +24,10 @@ defined('_JEXEC') or die('Restricted access');
 <table class="adminlist">
 	<thead>
 		<tr>
-			<th>Status</th>
-			<th width="40">Name</th>
-			<th>Description</th>
-			<th>Solution</th>
+			<th><?php echo JText::_('COM_GCALENDAR_VIEW_TOOLS_ACTION_SYSTEM_CHECK_COLUMN_STATUS');?></th>
+			<th width="40"><?php echo JText::_('COM_GCALENDAR_VIEW_TOOLS_ACTION_SYSTEM_CHECK_COLUMN_NAME');?></th>
+			<th><?php echo JText::_('COM_GCALENDAR_VIEW_TOOLS_ACTION_SYSTEM_CHECK_COLUMN_DESCRIPTION');?></th>
+			<th><?php echo JText::_('COM_GCALENDAR_VIEW_TOOLS_ACTION_SYSTEM_CHECK_COLUMN_SOLUTION');?></th>
 		</tr>
 	</thead>
 	<?php

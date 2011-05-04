@@ -27,11 +27,11 @@ class GCalendarViewImport extends JView
 	
 	function display($tpl = null)
 	{
-		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
+		JToolBarHelper::title(JText::_( 'COM_GCALENDAR_MANAGER_GCALENDAR' ), 'calendar');
 		
 		$canDo = GCalendarUtil::getActions();
 		if ($canDo->get('core.create')){
-			JToolBarHelper::custom('import.save', 'new.png', 'new.png', 'add', false);
+			JToolBarHelper::custom('import.save', 'new.png', 'new.png', 'COM_GCALENDAR_VIEW_IMPORT_BUTTON_ADD', false);
 		}
 		JToolBarHelper::cancel('gcalendar.cancel', 'JTOOLBAR_CANCEL');
 		

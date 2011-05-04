@@ -10,7 +10,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
 	<version>2.3.0 M3</version>
-	<description>Google calendar integrated in joomla.</description>
+	<description>COM_GCALENDAR_XML_DESCRIPTION</description>
 	<files folder="site">
 		<filename>index.html</filename>
 		<filename>gcalendar.php</filename>
@@ -62,6 +62,7 @@
 		</files>
 		<languages>
 			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language>
+			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.sys.ini</language>
 			<language tag="de-DE">admin/languages/de-DE.com_gcalendar.ini</language>
 		</languages>
 	</administration>

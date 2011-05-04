@@ -29,7 +29,7 @@ JHtml::_('behavior.tooltip');
 <form action="<?php echo JRoute::_('index.php?option=com_gcalendar&layout=edit&id='.(int) $calendar->id); ?>" method="post" name="adminForm" id="gcalendar-form">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_( 'COM_GCALENDAR_GCALENDAR_DETAILS' ); ?></legend>
+			<legend><?php echo JText::_( 'COM_GCALENDAR_VIEW_GCALENDAR_DETAILS' ); ?></legend>
 			<ul class="adminformlist">
 <?php foreach($this->form->getFieldset('details') as $field){ ?>
 				<li><?php echo $field->label;echo $field->input;?></li>

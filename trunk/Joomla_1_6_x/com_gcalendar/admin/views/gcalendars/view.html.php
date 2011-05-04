@@ -35,13 +35,13 @@ class GCalendarViewGCalendars extends JView
 	 **/
 	function display($tpl = null)
 	{
-		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
+		JToolBarHelper::title(   JText::_( 'COM_GCALENDAR_MANAGER_GCALENDAR' ),  'calendar');
 
 		$canDo = GCalendarUtil::getActions();
 		if ($canDo->get('core.create'))
 		{
 			JToolBarHelper::addNew('gcalendar.add', 'JTOOLBAR_NEW');
-			JToolBarHelper::custom('import', 'upload.png', 'upload.png', 'import', false);
+			JToolBarHelper::custom('import', 'upload.png', 'upload.png', 'COM_GCALENDAR_VIEW_GCALENDARS_BUTTON_IMPORT', false);
 		}
 		if ($canDo->get('core.edit'))
 		{
@@ -67,8 +67,8 @@ class GCalendarViewGCalendars extends JView
 			return false;
 		}
 
-		$this->assignRef('items', $items);
-		$this->assignRef('pagination', $pagination);
+		$this->items = $items;
+		$this->pagination = $pagination;
 
 		parent::display($tpl);
 	}
