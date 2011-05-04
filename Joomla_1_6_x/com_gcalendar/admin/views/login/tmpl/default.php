@@ -43,15 +43,15 @@ $hd = '&hd='.$domain;
 $authSubUrl = Zend_Gdata_AuthSub::getAuthSubTokenUri($next, $scope, $secure,
 $session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI);
 ?>
-<fieldset><legend>Google safe authentication</legend>
-<a href="<?php echo $authSubUrl.$hd;?>">Please Login to access the calendar data.</a>
+<fieldset><legend><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_SAFE_LABEL');?></legend>
+<a href="<?php echo $authSubUrl.$hd;?>"><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_SAFE_DESC');?></a>
 </fieldset>
 <hr/>
-<fieldset><legend>Standard authentication</legend>
+<fieldset><legend><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_LABEL');?></legend>
 <form action="<?php echo JRoute::_( $u->toString().'?option=com_gcalendar&view=import');?>" method="post">
 	<table>
-	<tr><td>Username:</td><td><input type="text" name="user" size="100"/></td></tr>
-	<tr><td>Password:</td><td><input type="password"name="pass" size="100"/></td></tr>
+	<tr><td><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_FIELD_NAME');?>:</td><td><input type="text" name="user" size="100"/></td></tr>
+	<tr><td><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_FIELD_PASSWORD');?>:</td><td><input type="password"name="pass" size="100"/></td></tr>
 	<tr><td><input type="submit" value="Login"/></td><td></td></tr>
 	</table>
 </form>

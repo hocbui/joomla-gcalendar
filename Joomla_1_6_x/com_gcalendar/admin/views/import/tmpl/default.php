@@ -42,10 +42,10 @@ if(!is_array($this->online_items)){
 		<tr>
 			<th width="20"><input type="checkbox" name="toggle" value=""
 				onclick="checkAll(<?php echo count( $this->online_items ); ?>);" /></th>
-			<th><?php echo JText::_( 'CALENDAR_NAME' ); ?></th>
-			<th align="left"><?php echo JText::_( 'CALENDAR_DETAILS' ); ?></th>
-			<th><?php echo JText::_( 'Color' ); ?></th>
-			<th align="left"><?php echo JText::_( 'Magic Cookie' ); ?></th>
+			<th><?php echo JText::_( 'COM_GCALENDAR_FIELD_NAME_LABEL' ); ?></th>
+			<th align="left"><?php echo JText::_( 'COM_GCALENDAR_VIEW_IMPORT_COLUMN_DETAILS' ); ?></th>
+			<th><?php echo JText::_( 'COM_GCALENDAR_FIELD_COLOR_LABEL' ); ?></th>
+			<th align="left"><?php echo JText::_( 'COM_GCALENDAR_FIELD_MAGIC_COOKIE_LABEL' ); ?></th>
 		</tr>
 	</thead>
 	<?php
@@ -70,7 +70,7 @@ if(!is_array($this->online_items)){
 		$k = 1 - $k;
 	}
 	if(!empty($containing_items)){
-		echo '<tr><td colspan="5"><b>'.JText::_( 'Already added calendars:' ).'</b></td></tr>';
+		echo '<tr><td colspan="5"><b>'.JText::_( 'COM_GCALENDAR_VIEW_IMPORT_LABEL_ALREADY_ADDED' ).'</b></td></tr>';
 		$k = 0;
 		for ($i=0, $n=count($containing_items); $i < $n; $i++)
 		{
@@ -88,8 +88,6 @@ if(!is_array($this->online_items)){
 </form>
 <?php } ?>
 
-<div align="center"><br>
-<img src="../media/com_gcalendar/images/gcalendar.gif" width="156"
-	height="30"><br>
+<div align="center">
 &copy;&nbsp;&nbsp;2011 <a href="http://g4j.laoneo.net"
 	target="_blank">allon moritz</a></div>

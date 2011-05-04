@@ -18,25 +18,18 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
-/**
- * GCalendars View
- *
- */
 class GCalendarViewSupport extends JView
 {
-	/**
-	 * GCalendars view display method
-	 * @return void
-	 **/
+
 	function display($tpl = null)
 	{
-		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ),  'calendar');
+		JToolBarHelper::title(JText::_('COM_GCALENDAR_MANAGER_GCALENDAR'), 'calendar');
 		JToolBarHelper::preferences('com_gcalendar', 550);
 		parent::display($tpl);
 	}
 }
+?>

@@ -54,8 +54,7 @@ class GCalendarViewGCalendar extends JView
 		//get the calendar
 		$isNew = $gcalendar->id < 1;
 
-		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
-		JToolBarHelper::title(   JText::_( 'GCALENDAR_MANAGER' ).': <small><small>[ ' . $text.' ]</small></small>' ,'calendar');
+		JToolBarHelper::title(JText::_( 'COM_GCALENDAR_MANAGER_GCALENDAR' ), 'calendar');
 
 		JRequest::setVar('hidemainmenu', true);
 		$canDo = GCalendarUtil::getActions($gcalendar->id);
