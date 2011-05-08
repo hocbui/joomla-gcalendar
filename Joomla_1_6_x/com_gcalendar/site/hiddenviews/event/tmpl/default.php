@@ -137,9 +137,11 @@ if($event == null){
 		echo "<tr><td class=\"event_content_key\">".JText::_( 'COPY' ).": </td><td><a target=\"_blank\" href=\"http://www.google.com/calendar/render?".$urlText."\">".JText::_( 'COPY_TO_MY_CALENDAR' )."</a></td></tr>\n";
 	}
 	echo "<tr><td colspan=\"2\">\n";
-	$dispatcher =& JDispatcher::getInstance();
+	
+	$dispatcher = JDispatcher::getInstance();
 	JPluginHelper::importPlugin('gcalendar'); 
 	$dispatcher->trigger('onGCEventLoaded', array($event));
+	
 	echo "</td></tr>\n";
 	echo "</table></div>\n";
 }
