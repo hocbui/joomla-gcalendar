@@ -57,7 +57,7 @@ class GCalendarViewGCalendars extends JView
 			JToolBarHelper::divider();
 		}
 
-		$items = & $this->get( 'Data');
+		$items = & $this->get( 'Items');
 		$pagination =& $this->get('Pagination');
 
 		// Check for errors.

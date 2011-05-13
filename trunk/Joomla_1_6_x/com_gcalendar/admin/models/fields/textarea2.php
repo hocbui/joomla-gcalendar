@@ -30,7 +30,7 @@ class JFormFieldTextarea2 extends JFormFieldTextarea
 		$buffer = parent::getInput();
 		if(isset($this->element->description)){
 			$buffer .= '<label></label>';
-			$buffer .= '<div style="float:left;">'.$this->element->description.'</div>';
+			$buffer .= '<div style="float:left;">'.JText::_($this->element->description).'</div>';
 		}
 		return $buffer;
 	}

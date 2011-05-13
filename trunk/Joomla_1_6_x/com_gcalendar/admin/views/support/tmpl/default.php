@@ -27,5 +27,5 @@ height="700"
 scrolling="auto"
 align="top"
 frameborder="0">
-<?php echo JText::_( 'NO_IFRAMES' ); ?>
+<?php echo JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_NO_IFRAMES' ); ?>
 </iframe>
