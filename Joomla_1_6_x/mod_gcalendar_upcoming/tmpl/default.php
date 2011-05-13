@@ -36,7 +36,7 @@ if(!empty($gcalendar_data)){
 	foreach( $gcalendar_data as $item){
 		// APRIL 2011 MOD - CALENDAR IMAGES by Tyson Moore
 		if($params->get('images', 'no') != 'no') {
-			$month_text = strtoupper(GCalendarUtil::formatDate('m', $item->get_start_date()));
+			$month_text = strtoupper(GCalendarUtil::formatDate('M', $item->get_start_date()));
 			$day = GCalendarUtil::formatDate('d', $item->get_start_date());
 			$feed = $item->get_feed();
 			$colorImageBackground = $params->get('images', 'yes') == 'custom' ? '#'.$params->get('calimage_background') : GCalendarUtil::getFadedColor($feed->get('gccolor'), 80);
