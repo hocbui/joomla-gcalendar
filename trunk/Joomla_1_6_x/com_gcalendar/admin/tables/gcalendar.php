@@ -41,22 +41,6 @@ class GCalendarTableGCalendar extends JTable
 		return parent::bind($array, $ignore);
 	}
 
-	public function load($pk = null, $reset = true) 
-	{
-		if (parent::load($pk, $reset)) 
-		{
-			// Convert the params field to a registry.
-			$params = new JRegistry;
-			$params->loadJSON($this->params);
-			$this->params = $params;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
