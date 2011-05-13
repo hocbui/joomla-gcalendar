@@ -141,13 +141,13 @@ $calCode .= "			week: \"".$params->get('timeformat_week', "HH:mm{ - HH:mm}")."\"
 $calCode .= "			day: '".$params->get('timeformat_day', 'HH:mm{ - HH:mm}')."'},\n";
 $calCode .= "			columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
 $calCode .= "			axisFormat: '".$params->get('axisformat', 'HH:mm')."',\n";
-$calCode .= "			allDayText: '".JText::_( 'CALENDAR_VIEW_ALL_DAY' )."',\n";
+$calCode .= "			allDayText: '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_ALL_DAY' )."',\n";
 $calCode .= "			buttonText: {\n";
 $calCode .= "			prev:     '&nbsp;&#9668;&nbsp;',\n";  // left triangle
 $calCode .= "			next:     '&nbsp;&#9658;&nbsp;',\n";  // right triangle
 $calCode .= "			prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
 $calCode .= "			nextYear: '&nbsp;&gt;&gt;&nbsp;',\n"; // >>
-$calCode .= "			today:    '".JText::_( 'TOOLBAR_TODAY' )."',\n";
+$calCode .= "			today:    '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_TOOLBAR_TODAY' )."',\n";
 $calCode .= "			month:    '".JText::_( 'VIEW_MONTH' )."',\n";
 $calCode .= "			week:     '".JText::_( 'VIEW_WEEK' )."',\n";
 $calCode .= "			day:      '".JText::_( 'VIEW_DAY' )."'\n";
@@ -207,13 +207,13 @@ $class = empty($theme)?'fc':'ui';
 $calCode .= "	var custom_buttons ='<td style=\"padding-left:10px\">'+\n";
 $calCode .= "			'<div class=\"fc-button-datepicker ".$class."-state-default ".$class."-corner-left ".$class."-corner-right\">'+\n";
 $calCode .= "			'<input type=\"hidden\" id=\"gcalendar_component_date_picker\" value=\"\">'+\n";
-$calCode .= "			'<a onClick=\"jQuery(\'#gcalendar_component_date_picker\').datepicker(\'show\');\"><span>".JText::_('SHOW_DATEPICKER')."'+\n";
+$calCode .= "			'<a onClick=\"jQuery(\'#gcalendar_component_date_picker\').datepicker(\'show\');\"><span>".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_SHOW_DATEPICKER')."'+\n";
 $calCode .= "			'</span></a>'+\n";
 $calCode .= "			'</div>'+\n";
 $calCode .= "			'</td>';\n";
 $calCode .= "		custom_buttons +='<td style=\"padding-left:10px\">'+\n";
 $calCode .= "			'<div class=\"fc-button-print ".$class."-state-default ".$class."-corner-left ".$class."-corner-right\">'+\n";
-$calCode .= "			'<a onClick=\"print_view();\"><span class=\"".$class."-icon ".$class."-icon-print\">".JText::_('TOOLBAR_PRINT')."'+\n";
+$calCode .= "			'<a onClick=\"print_view();\"><span class=\"".$class."-icon ".$class."-icon-print\">".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TOOLBAR_PRINT')."'+\n";
 $calCode .= "			'</span></a>'+\n";
 $calCode .= "			'</div>'+\n";
 $calCode .= "			'</td>';\n";

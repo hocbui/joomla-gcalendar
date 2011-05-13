@@ -33,7 +33,7 @@ $params = &JComponentHelper::getParams( 'com_gcalendar' );
 $domain = $params->get('google_apps_domain');
 
 $u = JFactory::getURI();
-$next = JRoute::_( $u->toString().'?option=com_gcalendar&task='.JRequest::getCmd('nextTask'));
+$next = JRoute::_( $u->toString().'&task='.JRequest::getCmd('nextTask'));
 $scope = 'http://www.google.com/calendar/feeds/';
 $session = true;
 $secure = false;
@@ -48,7 +48,7 @@ $session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI);
 </fieldset>
 <hr/>
 <fieldset><legend><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_LABEL');?></legend>
-<form action="<?php echo JRoute::_( $u->toString().'?option=com_gcalendar&view=import');?>" method="post">
+<form action="<?php echo JRoute::_( $u->toString().'&view=import');?>" method="post">
 	<table>
 	<tr><td><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_FIELD_NAME');?>:</td><td><input type="text" name="user" size="100"/></td></tr>
 	<tr><td><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_FIELD_PASSWORD');?>:</td><td><input type="password"name="pass" size="100"/></td></tr>

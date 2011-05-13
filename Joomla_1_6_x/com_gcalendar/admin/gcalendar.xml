@@ -63,7 +63,6 @@
 		<languages>
 			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language>
 			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.sys.ini</language>
-			<language tag="de-DE">admin/languages/de-DE.com_gcalendar.ini</language>
 		</languages>
 	</administration>
 </install>

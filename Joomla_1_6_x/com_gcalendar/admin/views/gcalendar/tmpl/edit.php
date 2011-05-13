@@ -43,8 +43,6 @@ JHtml::_('behavior.tooltip');
 	</div>
 </form>
 
-<div align="center"><br clear="both">
-<img src="../media/com_gcalendar/images/gcalendar.gif" width="156"
-	height="30"><br>
+<div align="center" style="clear: both">
 &copy;&nbsp;&nbsp;2011 <a href="http://g4j.laoneo.net"
 	target="_blank">allon moritz</a></div>

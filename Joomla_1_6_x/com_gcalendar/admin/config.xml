@@ -39,7 +39,7 @@
 			<option value="2">COM_GCALENDAR_FIELD_NO</option>
 		</field>
 		<field name="show_event_location" type="radio" default="1"
-			label="" description="">
+			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_LOCATION_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_LOCATION_DESC">
 			<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			<option value="2">COM_GCALENDAR_FIELD_NO</option>
 		</field>

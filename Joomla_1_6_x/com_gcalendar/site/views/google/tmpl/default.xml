@@ -1,89 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Google">
+	<layout title="COM_GCALENDAR_GOOGLE_VIEW_DEFAULT_TITLE">
 		<message>
-			<![CDATA[GCALENDAR LINK DESC]]>
+			<![CDATA[COM_GCALENDAR_GOOGLE_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 	<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 		<fieldset name="basic"
-			label="Basic">
+			label="COM_GCALENDAR_VIEW_FIELDS_BASIC_LABEL">
 			<field name="calendarids" type="gcalendar" default=""
-				label="Select Calendars" description="The calendars" />
+				label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_SELECT_CALENDARS_LABEL" description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_SELECT_CALENDARS_DESC" />
 			<field name="show_selection" type="radio" default="1"
-				label="Show Calendars" description="Shows the calendar selection list.">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+				label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_SHOW_CALENDARS_LABEL" description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_SHOW_CALENDARS_DESC">
+				<option value="0">COM_GCALENDAR_FIELD_NO</option>
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			</field>
-			<field name="title" type="radio" default="1" label="Title"
-				description="">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+			<field name="title" type="radio" default="1" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TITLE_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TITLE_DESC">
+				<option value="0">COM_GCALENDAR_FIELD_NO</option>
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			</field>
-			<field name="navigation" type="radio" default="1" label="Navigation"
-				description="">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+			<field name="navigation" type="radio" default="1" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_NAVIGATION_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_NAVIGATION_DESC">
+				<option value="0">COM_GCALENDAR_FIELD_NO</option>
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			</field>
-			<field name="date" type="radio" default="1" label="Date"
-				description="">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+			<field name="date" type="radio" default="1" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_DATE_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_DATE_DESC">
+				<option value="0">COM_GCALENDAR_FIELD_NO</option>
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			</field>
-			<field name="print" type="radio" default="1" label="Print icon"
-				description="">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+			<field name="print" type="radio" default="1" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_PRINT_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_PRINT_DESC">
+				<option value="0">COM_GCALENDAR_FIELD_NO</option>
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			</field>
-			<field name="tabs" type="radio" default="1" label="Tabs"
-				description="">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+			<field name="tabs" type="radio" default="1" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TABS_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TABS_DESC">
+				<option value="0">COM_GCALENDAR_FIELD_NO</option>
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			</field>
-			<field name="tz" type="radio" default="1" label="Time zone"
-				description="">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+			<field name="tz" type="radio" default="1" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TIMEZONE_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TIMEZONE_DESC">
+				<option value="0">COM_GCALENDAR_FIELD_NO</option>
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			</field>
-			<field name="width" type="text" size="5" default="100%" label="Width"
-				description="PARAMWIDTH" />
-			<field name="height" type="text" size="5" default="500" label="Height"
-				description="PARAMHEIGHT" />
-			<field name="view" type="radio" default="MONTH" label="Start view"
-				description="">
-				<option value="WEEK">Week</option>
-				<option value="MONTH">Month</option>
-				<option value="AGENDA">Agenda</option>
+			<field name="width" type="text" size="5" default="100%" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_WIDTH_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_WIDTH_DESC" />
+			<field name="height" type="text" size="5" default="500" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_HEIGHT_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_HEIGHT_DESC" />
+			<field name="view" type="radio" default="MONTH" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_DEFAULT_VIEW_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_DEFAULT_VIEW_DESC">
+				<option value="WEEK">COM_GCALENDAR_VIEW_GOOGLE_FIELD_DEFAULT_VIEW_WEEK</option>
+				<option value="MONTH">COM_GCALENDAR_VIEW_GOOGLE_FIELD_DEFAULT_VIEW_MONTH</option>
+				<option value="AGENDA">COM_GCALENDAR_VIEW_GOOGLE_FIELD_DEFAULT_VIEW_AGENDA</option>
 			</field>
-			<field name="weekstart" type="list" default="2" label="Week starts on"
-				description="">
-				<option value="1">Sunday</option>
-				<option value="2">Monday</option>
-				<option value="7">Saturday</option>
+			<field name="weekstart" type="list" default="2" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_WEEK_START_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_WEEK_START_DESC">
+				<option value="1">COM_GCALENDAR_VIEW_GOOGLE_FIELD_WEEK_START_SUNDAY</option>
+				<option value="2">COM_GCALENDAR_VIEW_GOOGLE_FIELD_WEEK_START_MONDAY</option>
+				<option value="7">COM_GCALENDAR_VIEW_GOOGLE_FIELD_WEEK_START_SATURDAY</option>
 			</field>
-			<field name="bgcolor" type="color" default="FFFFFF" label="Background color"
-				description="" size="10" />
+			<field name="bgcolor" type="color" default="FFFFFF" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_BACKGROUND_COLOR_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_BACKGROUND_COLOR_DESC" size="10" />
 			<field name="@spacer" type="spacer" default="" label=""
 				description="" />
 			<field name="textbefore" type="textarea" default=""
-				label="Content before calendar" description="This text will be displayed before the google calendar."
+				label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TEXT_BEFORE_LABEL" description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TEXT_BEFORE_DESC"
 				rows="5" cols="50" filter="raw"/>
 			<field name="textafter" type="textarea" default=""
-				label="Content after calendar" description="This text will be displayed after the google calendar."
+				label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TEXT_AFTER_LABEL" description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TEXT_AFTER_DESC"
 				rows="5" cols="50" filter="raw"/>
-			<field name="@spacer" type="spacer" default="" label=""
-				description="" />
-			<field name="pageclass_sfx" type="text" size="20" default=""
-				label="Page Class Suffix"
-				description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
 		</fieldset>
 		<fieldset name="advanced"
-			label="Advanced">
+			label="COM_GCALENDAR_VIEW_FIELDS_ADVANCED_LABEL">
 			<field name="use_custom_css" type="radio" default="0"
-				label="Use Custom CSS"
-				description="Use custom css in the googlecal folder. Check the documentation at g4j.laoneo.net for more information">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+				label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_CUSTOM_CSS_LABEL"
+				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_CUSTOM_CSS_DESC">
+				<option value="0">COM_GCALENDAR_FIELD_NO</option>
+				<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			</field>
 		</fieldset>
 	</fields>

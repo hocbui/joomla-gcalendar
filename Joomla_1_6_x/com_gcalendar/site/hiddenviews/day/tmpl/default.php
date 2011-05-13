@@ -34,7 +34,7 @@ if(!empty($itemID)){
 	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID)."\">\n";
 	echo "<img id=\"prevBtn_img\" height=\"16\" border=\"0\" width=\"16\" alt=\"backlink\" src=\"media/com_gcalendar/images/back.png\"/>\n";
 	echo "</a></td><td valign=\"middle\">\n";
-	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID).'">'.JText::_( 'CALENDAR_BACK_LINK' )."</a>\n";
+	echo '<a href="'.JRoute::_('index.php?option=com_gcalendar&Itemid='.$itemID).'">'.JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_BACK_LINK' )."</a>\n";
 	echo "</td></tr></table>\n";
 }
 
@@ -127,7 +127,7 @@ $calCode .= "		dayNamesShort: ".$daysShort.",\n";
 $calCode .= "		timeFormat: { day: '".$params->get('timeformat_day', 'HH:mm{ - HH:mm}')."'},\n";
 $calCode .= "		columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
 $calCode .= "		axisFormat: '".$params->get('axisformat', 'HH:mm')."',\n";
-$calCode .= "		allDayText: '".JText::_( 'CALENDAR_VIEW_ALL_DAY' )."',\n";
+$calCode .= "		allDayText: '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_ALL_DAY' )."',\n";
 $calCode .= $calsSources;
 $calCode .= "		eventRender: function(event, element) {\n";
 $calCode .= "			if (event.description)\n";

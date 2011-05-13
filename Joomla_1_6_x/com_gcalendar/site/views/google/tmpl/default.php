@@ -126,7 +126,7 @@ echo $params->get( 'textbefore' );
 	width="<?php echo $params->get( 'width', 500); ?>"
 	height="<?php echo $params->get( 'height', 500); ?>" align="top"
 	frameborder="0"
-	class="gcalendar<?php echo $params->get( 'pageclass_sfx' ); ?>"> <?php echo JText::_( 'NO_IFRAMES' ); ?>
+	class="gcalendar<?php echo $params->get( 'pageclass_sfx' ); ?>"> <?php echo JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_NO_IFRAMES' ); ?>
 </iframe></div>
 
 <?php
