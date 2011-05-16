@@ -190,7 +190,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		return $this->datecalc($param, $event->get_start_date());
 	}
 
-	function finishoffset($param, $fmt) {
+	function finishoffset($param) {
 		$event = $this->event();
 		return $this->datecalc($param, $event->get_end_date());
 	}	
