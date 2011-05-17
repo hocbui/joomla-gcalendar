@@ -9,9 +9,8 @@
 		GNU/GPL</license>
 	<authorEmail>info@g4j.laoneo.net</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
-	<version>2.3.0 M3</version>
-	<description>This module shows the google calendar at a module
-		position.</description>
+	<version>2.3.0</version>
+	<description>MOG_GCALENDAR_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_gcalendar">mod_gcalendar.php
 		</filename>
@@ -21,46 +20,46 @@
 	</files>
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_gcalendar.ini</language>
-		<language tag="de-DE">languages/de-DE.mod_gcalendar.ini</language>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params"  addfieldpath="/administrator/components/com_gcalendar/models/fields">
-		<fieldset name="basic" label="Module Parameters">
+		<fieldset name="basic">
 			<field name="calendarids" type="gcalendar" default=""
-				label="Select Calendars" description="The calendars" />
-			<field name="weekstart" type="list" default="1" label="Week starts on"
-				description="The starting day of the week in the calendar.">
-				<option value="0">Sunday</option>
-				<option value="1">Monday</option>
-				<option value="2">Tuesday</option>
-				<option value="3">Wednesday</option>
-				<option value="4">Thursday</option>
-				<option value="5">Friday</option>
-				<option value="6">Saturday</option>
+				label="MOG_GCALENDAR_FIELD_CALENDAR_IDS_LABEL" description="MOG_GCALENDAR_FIELD_CALENDAR_IDS_DESC" />
+			<field name="weekstart" type="list" default="1" label="MOG_GCALENDAR_FIELD_WEEK_START_LABEL"
+				description="MOG_GCALENDAR_FIELD_WEEK_START_DESC">
+				<option value="0">MOG_GCALENDAR_FIELD_WEEK_START_SUNDAY</option>
+				<option value="1">MOG_GCALENDAR_FIELD_WEEK_START_MONDAY</option>
+				<option value="2">MOG_GCALENDAR_FIELD_WEEK_START_TUESDAY</option>
+				<option value="3">MOG_GCALENDAR_FIELD_WEEK_START_WEDNESDAY</option>
+				<option value="4">MOG_GCALENDAR_FIELD_WEEK_START_THURSDAY</option>
+				<option value="5">MOG_GCALENDAR_FIELD_WEEK_START_FRIDAY</option>
+				<option value="6">MOG_GCALENDAR_FIELD_WEEK_START_SATURDAY</option>
 			</field>
-			<field name="titleformat_month" type="text" default="MMMM yyyy" label="Title format month"
-				description="The format of the title in the month view." size="50" />
-			<field name="timeformat_month" type="text" default="HH:mm{ - HH:mm}" label="Time format month"
-				description="The format of the time in the month view." size="50" />
-			<field name="calendar_height" type="text" default="" label="Height"
-				description="The height of the calendar." size="5" />
-			<field name="event_color" type="color" default="135CAE" label="Event Color"
-					description="The color of the days with events." size="6" />
+			<field name="titleformat_month" type="text" default="MMMM yyyy" label="MOG_GCALENDAR_FIELD_TITLE_FORMAT_MONTH_LABEL"
+				description="MOG_GCALENDAR_FIELD_TITLE_FORMAT_MONTH_DESC" size="50" />
+			<field name="timeformat_month" type="text" default="HH:mm{ - HH:mm}" label="MOG_GCALENDAR_FIELD_TIME_FORMAT_MONTH_LABEL"
+				description="MOG_GCALENDAR_FIELD_TIME_FORMAT_MONTH_DESC" size="50" />
+			<field name="calendar_height" type="text" default="" label="MOG_GCALENDAR_FIELD_CALENDAR_HEIGHT_LABEL"
+				description="MOG_GCALENDAR_FIELD_CALENDAR_HEIGHT_DESC" size="5" />
+			<field name="event_color" type="color" default="135CAE" label="MOG_GCALENDAR_FIELD_CALENDAR_COLOR_LABEL"
+					description="MOG_GCALENDAR_FIELD_CALENDAR_COLOR_DESC" size="6" />
 			<field name="@spacer" type="spacer" default="" label=""
 				description="" />
-			<field name="moduleclass_sfx" type="text" size="80" default=""
-				label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+			<field name="moduleclass_sfx" type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 		</fieldset>
-		<fieldset name="advanced" label="Advanced Module Parameters">
+		<fieldset name="advanced">
 			<field name="theme" type="text" size="50" default=""
-					label="Theme"
-					description="Define the JQuery theme (install it in the folder components/com_gcalendar/libraries/jquery/themes)." />
-			<field name="gc_cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module.">
-				<option value="1">Use global</option>
-				<option value="2">Cache always</option>
-				<option value="0">Cache never</option>
+					label="MOG_GCALENDAR_FIELD_CALENDAR_THEME_LABEL"
+					description="MOG_GCALENDAR_FIELD_CALENDAR_THEME_DESC" />
+			<field name="gc_cache" type="list" default="1" label="MOG_GCALENDAR_FIELD_CACHE_LABEL" description="MOG_GCALENDAR_FIELD_CACHE_DESC">
+				<option value="1">MOG_GCALENDAR_FIELD_CACHE_GLOBAL</option>
+				<option value="2">MOG_GCALENDAR_FIELD_CACHE_ALWAYS</option>
+				<option value="0">MOG_GCALENDAR_FIELD_CACHE_NEVER</option>
 			</field>
-			<field name="gc_cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached in sec." />
+			<field name="gc_cache_time" type="text" default="900" label="MOG_GCALENDAR_FIELD_CACHE_TIME_LABEL" description="MOG_GCALENDAR_FIELD_CACHE_TIME_DESC" />
 		</fieldset>
 		</fields>
 	</config>

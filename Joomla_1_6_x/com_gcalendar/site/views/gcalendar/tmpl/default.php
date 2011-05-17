@@ -148,9 +148,9 @@ $calCode .= "			next:     '&nbsp;&#9658;&nbsp;',\n";  // right triangle
 $calCode .= "			prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
 $calCode .= "			nextYear: '&nbsp;&gt;&gt;&nbsp;',\n"; // >>
 $calCode .= "			today:    '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_TOOLBAR_TODAY' )."',\n";
-$calCode .= "			month:    '".JText::_( 'VIEW_MONTH' )."',\n";
-$calCode .= "			week:     '".JText::_( 'VIEW_WEEK' )."',\n";
-$calCode .= "			day:      '".JText::_( 'VIEW_DAY' )."'\n";
+$calCode .= "			month:    '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_VIEW_MONTH' )."',\n";
+$calCode .= "			week:     '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_VIEW_WEEK' )."',\n";
+$calCode .= "			day:      '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_VIEW_DAY' )."'\n";
 $calCode .= "		},\n";
 $calCode .= $calsSources;
 $calCode .= "		viewDisplay: function(view) {\n";
@@ -283,7 +283,7 @@ if($params->get('show_selection', 1) == 1){
 	echo $calendar_list;
 	echo "<div align=\"center\" style=\"text-align:center\">\n";
 	echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
-	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".JURI::base()."media/com_gcalendar/images/down.png\" alt=\"".JText::_('CALENDAR_LIST')."\" title=\"".JText::_('CALENDAR_LIST')."\"/>\n";
+	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".JURI::base()."media/com_gcalendar/images/down.png\" alt=\"".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_LIST')."\" title=\"".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_LIST')."\"/>\n";
 	echo "</a></div>\n";
 }
 
