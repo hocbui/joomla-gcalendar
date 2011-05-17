@@ -144,7 +144,7 @@ class plgSearchGCalendar extends JPlugin
 			$row->href = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$feed->get('gcid').$itemID);
 			$row->title = $timeString.' '.$event->get_title();
 			$row->text = $event->get_description();
-			$row->section = JText::_('GCalendar');
+			$row->section = JText::_('PLG_SEARCH_GCALENDAR_OUTPUT_CATEGORY');
 			$row->category = $feed->get('gcid');
 			$row->created = $event->get_start_date();
 			$row->browsernav = '';

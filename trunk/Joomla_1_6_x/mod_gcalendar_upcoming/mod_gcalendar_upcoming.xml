@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="1.6.0" method="upgrade" client="site">
+<extension type="module" version="1.6.0" method="upgrade"
+	client="site">
 	<name>GCalendar Upcoming Events</name>
 	<author>G4J Project</author>
 	<creationDate>Mar 2011</creationDate>
@@ -10,9 +11,8 @@
 	<authorEmail>info@g4j.laoneo.net
 	</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
-	<version>2.3.0 M3</version>
-	<description>This module shows the upcoming events from a google
-		calendar.</description>
+	<version>2.3.0</version>
+	<description>MOG_GCALENDAR_UPCOMING_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php
 		</filename>
@@ -23,80 +23,81 @@
 	<languages>
 		<language tag="en-GB">languages/en-GB.mod_gcalendar_upcoming.ini
 		</language>
-		<language tag="de-DE">languages/de-DE.mod_gcalendar_upcoming.ini
+		<language tag="en-GB">languages/en-GB.mod_gcalendar_upcoming.sys.ini
 		</language>
 	</languages>
 	<config>
-		<fields name="params"  addfieldpath="/administrator/components/com_gcalendar/models/fields">
-			<fieldset name="basic" label="Module Parameters">
+		<fields name="params"
+			addfieldpath="/administrator/components/com_gcalendar/models/fields">
+			<fieldset name="basic">
 				<field name="calendarids" type="gcalendar" default=""
-					label="Select Calendars" description="The calendars" />
+					label="MOG_GCALENDAR_UPCOMING_FIELD_CALENDAR_IDS_LABEL"
+					description="MOG_GCALENDAR_UPCOMING_FIELD_CALENDAR_IDS_DESC" />
 				<field name="date_format" type="text" size="80" default="d.m.Y"
-					label="Date format"
-					description="The format of the date for an event (see http://www.php.net/date for details)." />
+					label="MOG_GCALENDAR_UPCOMING_FIELD_DATE_FORMAT_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_DATE_FORMAT_DESC" />
 				<field name="time_format" type="text" size="80" default="H:i"
-					label="Time format"
-					description="The format of the time for an event (see http://www.php.net/date for details)." />
-				<field name="max_events" type="text" size="2" default="5" label="Max events"
-					description="The maximal count of events should be displayed." />
-				<field name="order" type="radio" default="1" label="Sort Order"
-					description="The order strategy of the events.">
-					<option value="1">Start Time</option>
-					<option value="0">Last Modified</option>
+					label="MOG_GCALENDAR_UPCOMING_FIELD_TIME_FORMAT_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_TIME_FORMAT_DESC" />
+				<field name="max_events" type="text" size="2" default="5"
+					label="MOG_GCALENDAR_UPCOMING_FIELD_MAX_EVENTS_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_MAX_EVENTS_DESC" />
+				<field name="order" type="radio" default="1"
+					label="MOG_GCALENDAR_UPCOMING_FIELD_ORDER_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_ORDER_DESC">
+					<option value="1">MOG_GCALENDAR_UPCOMING_FIELD_ORDER_TIME
+					</option>
+					<option value="0">MOG_GCALENDAR_UPCOMING_FIELD_ORDER_LAST_MODIFIED
+					</option>
 				</field>
 				<field name="find" type="text" size="80" default=""
-					label="Filter"
-					description="Only events with the text will be shown." />
+					label="MOG_GCALENDAR_UPCOMING_FIELD_FILTER_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_FILTER_DESC" />
 				<field name="@spacer" type="spacer" default="" label=""
 					description="" />
-				<field name="images" type="list" default="yes" label="Include Calendar Images" description="Choose Yes to display calendar images next to upcoming events. If Custom is selected the colors from below are set instead of the calendar colors.">
-					<option value="yes">Yes</option>
-					<option value="custom">Custom</option>
-					<option value="no">No</option>
+				<field name="images" type="list" default="yes"
+					label="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_DESC">
+					<option value="yes">MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_YES
+					</option>
+					<option value="custom">MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_CUSTOM
+					</option>
+					<option value="no">MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_NO
+					</option>
 				</field>
-				<field name="calimage_background" type="color" size="7" default="729FCC" label="Month Background Color" description="Enter a color to be displayed behind the Month text of the calendar image. This setting only applies if Include Calendar Images is set to Custom!!"> </field>
-				<field name="calimage_month" type="color" size="7" default="FFFFFF" label="Month Text Color" description="Enter a text color for the Month text on the calendar image. This setting only applies if Include Calendar Images is set to Custom!!" />
-				<field name="calimage_day" type="color" size="7" default="7CADDE" label="Day Text Color" description="Enter a text color for the Day text on the calendar image. This setting only applies if Include Calendar Images is set to Custom!!" />
+				<field name="calimage_background" type="color" size="7"
+					default="729FCC" label="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_BACKGROUND_LABEL"
+					description="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_BACKGROUND_DESC" />
+				<field name="calimage_month" type="color" size="7" default="FFFFFF"
+					label="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_MONTH_LABEL"
+					description="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_MONTH_DESC" />
+				<field name="calimage_day" type="color" size="7" default="7CADDE"
+					label="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_DAY_LABEL" description="" />
 				<field name="@spacer" type="spacer" default="" label=""
 					description="" />
-				<field name="moduleclass_sfx" type="text" size="80" default=""
-					label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+				<field name="moduleclass_sfx" type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 			</fieldset>
-			<fieldset name="advanced" label="Advanced Module Parameters">
+			<fieldset name="advanced">
 				<field name="text_before" type="textarea" default=""
-					label="Content before events" description="This text will be displayed before the event list."
-					rows="3" cols="50" filter="raw"/>
-				<field name="output" type="textarea2" default="" label="Event output"
-					description="Here you can customize the appearance of the event."
+					label="MOG_GCALENDAR_UPCOMING_FIELD_TEXT_BEFORE_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_TEXT_BEFORE_DESC"
+					rows="3" cols="50" filter="raw" />
+				<field name="output" type="textarea2" default=""
+					label="MOG_GCALENDAR_UPCOMING_FIELD_OUTPUT_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_OUTPUT_DESC"
 					rows="5" cols="50" filter="raw">
-					<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate}
-						{endtime}&lt;br/&gt;&lt;a
-						href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
+					<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;&lt;a href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
 					<description>
-						Here you can modify the event output. The following
-						attributes of an event are provided:&lt;br&gt;
-						{title},
-						{description},
-						{startdate}, {starttime}, {dateseparator}, {enddate},
-						{endtime}
-						{where}, {backlink}, {link}, {maplink}, {calendarname},
-						{calendarcolor}
+						MOG_GCALENDAR_UPCOMING_FIELD_OUTPUT_LONG_DESC
 					</description>
 				</field>
 				<field name="text_after" type="textarea" default=""
-					label="Content after events" description="This text will be displayed after the event list."
-					rows="3" cols="50"  filter="raw"/>
+					label="MOG_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_DESC"
+					rows="3" cols="50" filter="raw" />
 				<field name="end_date" type="text" size="80" default=""
-						label="End Date"
-						description="Limit to events that will start before the date, can be relative (must be a valid string which can be passed to strtotime http://php.net/manual/en/function.strtotime.php as reference)." />
-				<field name="gc_cache" type="list" default="1" label="Cache"
-					description="Is cacheing enabled.">
-					<option value="1">Use global</option>
-					<option value="2">Cache always</option>
-					<option value="0">Cache never</option>
+					label="MOG_GCALENDAR_UPCOMING_FIELD_END_DATE_LABEL"
+					description="MOG_GCALENDAR_UPCOMING_FIELD_END_DATE_DESC" />
+				<field name="gc_cache" type="list" default="1" label="MOG_GCALENDAR_UPCOMING_FIELD_CACHE_LABEL"
+					description="MOG_GCALENDAR_UPCOMING_FIELD_CACHE_DESC">
+					<option value="1">MOG_GCALENDAR_UPCOMING_FIELD_CACHE_GLOBAL</option>
+					<option value="2">MOG_GCALENDAR_UPCOMING_FIELD_CACHE_ALWAYS</option>
+					<option value="0">MOG_GCALENDAR_UPCOMING_FIELD_CACHE_NEVER</option>
 				</field>
-				<field name="gc_cache_time" type="text" default="900" label="Cache Time"
-					description="The time before the module is recached in sec." />
+				<field name="gc_cache_time" type="text" default="900" label="MOG_GCALENDAR_UPCOMING_FIELD_CACHE_TIME_LABEL"
+					description="MOG_GCALENDAR_UPCOMING_FIELD_CACHE_TIME_DESC" />
 			</fieldset>
 		</fields>
 	</config>
