@@ -63,25 +63,25 @@ if($event == null){
 	$dateSeparator = '-';
 
 	$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
-	$copyDateTimeFormat = '%Y%m%d';
+	$copyDateTimeFormat = 'Ymd';
 	switch($event->get_day_type()){
 		case $event->SINGLE_WHOLE_DAY:
 			$timeString = $startDate;
-			$copyDateTimeFormat = '%Y%m%d';
+			$copyDateTimeFormat = 'Ymd';
 			break;
 		case $event->SINGLE_PART_DAY:
 			$timeString = $startDate.' '.$startTime.' '.$dateSeparator.' '.$endTime;
-			$copyDateTimeFormat = '%Y%m%dT%H%M%S';
+			$copyDateTimeFormat = 'Ymd\THis';
 			break;
 		case $event->MULTIPLE_WHOLE_DAY:
 			$SECSINDAY=86400;
 			$endDate = GCalendarUtil::formatDate($dateformat, $event->get_end_date()-$SECSINDAY);
 			$timeString = $startDate.' '.$dateSeparator.' '.$endDate;
-			$copyDateTimeFormat = '%Y%m%d';
+			$copyDateTimeFormat = 'Ymd';
 			break;
 		case $event->MULTIPLE_PART_DAY:
 			$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
-			$copyDateTimeFormat = '%Y%m%dT%H%M%S';
+			$copyDateTimeFormat = 'Ymd\THis';
 			break;
 	}
 
