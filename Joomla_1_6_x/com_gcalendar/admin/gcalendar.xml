@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.6.0">
-	<name>GCalendar</name>
+<install type="component" version="1.6.0" method="upgrade">
+	<name>COM_GCALENDAR</name>
 	<creationDate>Mar 2011</creationDate>
 	<author>G4J Project</author>
 	<authorEmail>info@g4j.laoneo.net</authorEmail>
@@ -39,11 +39,11 @@
 		</sql>
 	</uninstall>
 	<administration>
-		<menu>GCalendar</menu>
+		<menu>COM_GCALENDAR</menu>
 		<submenu>
-			<menu task="gcalendars">GCalendars</menu>
-			<menu view="tools">Tools</menu>
-			<menu view="support">Support</menu>
+			<menu task="gcalendars">COM_GCALENDAR_SUBMENU_GCALENDARS</menu>
+			<menu view="tools">COM_GCALENDAR_SUBMENU_TOOLS</menu>
+			<menu view="support">COM_GCALENDAR_SUBMENU_SUPPORT</menu>
 		</submenu>
 		<files folder="admin">
 			<!-- Site Main File Copy Section -->
