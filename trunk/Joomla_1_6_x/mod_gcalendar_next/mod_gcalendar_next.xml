@@ -20,49 +20,45 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">languages/en-GB.mod_gcalendar_next.ini
-		</language>
-		<language tag="de-DE">languages/de-DE.mod_gcalendar_next.ini
-		</language>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar_next.ini </language>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar_next.sys.ini </language>
+		<language tag="de-DE">languages/de-DE.mod_gcalendar_next.ini </language>
 	</languages>
 	<config>
 		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
-			<fieldset name="basic" label="Module Parameters">
-				<field name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars" />
-				<field name="style_parameters" type="text" size="80" default="" label="Style Parameters" description="Key value pairs to pass into the style."/>
-				<field name="moduleclass_sfx" type="text" size="80" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+			<fieldset name="basic">
+				<field name="calendarids" type="gcalendar" default="" label="MOG_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_DESC" />
+				<field name="style_parameters" type="text" size="80" default="" label="MOG_GCALENDAR_NEXT_FIELD_STYLE_PARAMETERS_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_STYLE_PARAMETERS_DESC"/>
+				<field name="moduleclass_sfx" type="text" size="80" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 			</fieldset>
-			<fieldset name="advanced" label="Advanced Module Parameters">
-				<field name="offset" type="text" size="10" default="0" label="Event Order Offset" description="Show the event X number of events after the immediate next event"/>
-				<field name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event." rows="5" cols="50" filter="raw">
-					<content>&lt;span class="countdown_row"&gt;{y&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{yn}&lt;/span&gt;&lt;br/&gt;{yl}&lt;/span&gt;{y&gt;}{o&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{on}&lt;/span&gt;&lt;br/&gt;{ol}&lt;/span&gt;{o&gt;}{w&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{wn}&lt;/span&gt;&lt;br/&gt;{wl}&lt;/span&gt;{w&gt;}{d&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{dn}&lt;/span&gt;&lt;br/&gt;{dl}&lt;/span&gt;{d&gt;}{h&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{hn}&lt;/span&gt;&lt;br/&gt;{hl}&lt;/span&gt;{h&gt;}{m&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{mn}&lt;/span&gt;&lt;br/&gt;{ml}&lt;/span&gt;{m&gt;}{s&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{sn}&lt;/span&gt;&lt;br/&gt;{sl}&lt;/span&gt;{s&gt;}&lt;div style="clear:both;"&gt;&lt;span class="countdown_descr"&gt;{desc}&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;</content>
-					<description>
-						Here you can modify the event output. This will depend on the style you chose.
-					</description>
+			<fieldset name="advanced">
+				<field name="offset" type="text" size="10" default="0" label="MOG_GCALENDAR_NEXT_FIELD_OFFSET_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_OFFSET_DESC"/>
+				<field name="output" type="textarea2" default="" label="MOG_GCALENDAR_NEXT_FIELD_OUTPUT_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_OUTPUT_DESC" rows="5" cols="50" filter="raw">
+					<content><![CDATA[<span class=";countdown_row";>{y<}<span class=";countdown_section";><span class=";countdown_amount";>{yn}</span><br/>{yl}</span>{y>}{o<}<span class=";countdown_section";><span class=";countdown_amount";>{on}</span><br/>{ol}</span>{o>}{w<}<span class=";countdown_section";><span class=";countdown_amount";>{wn}</span><br/>{wl}</span>{w>}{d<}<span class=";countdown_section";><span class=";countdown_amount";>{dn}</span><br/>{dl}</span>{d>}{h<}<span class=";countdown_section";><span class=";countdown_amount";>{hn}</span><br/>{hl}</span>{h>}{m<}<span class=";countdown_section";><span class=";countdown_amount";>{mn}</span><br/>{ml}</span>{m>}{s<}<span class=";countdown_section";><span class=";countdown_amount";>{sn}</span><br/>{sl}</span>{s>}<div style=";clear:both;";><span class=";countdown_descr";>{desc}</span></div></span>]]></content>
 				</field>
-				<field name="past_events" type="list" default="1" label="Display current events" description="Define whether the module should display events that are occurring now (as opposed to occurring solely in the future.)">
-					<option value="1">Yes</option>
-					<option value="0">No</option>
+				<field name="past_events" type="list" default="1" label="MOG_GCALENDAR_NEXT_FIELD_PAST_EVENTS_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_PAST_EVENTS_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>		
-				<field name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now." rows="5" cols="50" filter="raw">
-					<content>&lt;span class="countdown_row"&gt;&lt;span class="countdown_descr&gt;Right now: {desc}&lt;/span&gt;&lt;br/&gt;&lt;span class="countdown_descr_sub&gt;&lt;/span&gt;Join us at [&lt;a href="http://maps.google.com/?q={{location}}" target="_blank"&gt;map&lt;/a&gt;]&lt;/span&gt;</content>
+				<field name="output_now" type="textarea2" default="" label="MOG_GCALENDAR_NEXT_FIELD_OUTPUT_NOW_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_OUTPUT_NOW_DESC" rows="5" cols="50" filter="raw">
+					<content><![CDATA[<span class="countdown_row"><span class="countdown_descr>Right now: {desc}</span><br/><span class="countdown_descr_sub"></span>Join us at [<a href="http://maps.google.com/?q={{location}}" target="_blank">map</a>]</span>]]></content>
 				</field>
-				<field name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found." rows="5" cols="50" filter="raw">
-					<content>&lt;div class="gcalendar_next"&gt;No event found.&lt;/div&gt;</content>
+				<field name="no_event" type="textarea2" default="" label="MOG_GCALENDAR_NEXT_FIELD_NO_EVENT_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_NO_EVENT_DESC" rows="5" cols="50" filter="raw">
+					<content><![CDATA[<div class="gcalendar_next">No event found.</div>]]></content>
 				</field>
-				<field name="find" type="text" size="40" default="" label="Event Search" description="Find events whose title/description contain this string. Standard Google search expressions are allowed (e.g. find only me, -dont_find_me, find this that)"/>
-				<field name="title_filter" type="text" size="40" default=".*" label="Event Title Filter" description="Show only events with titles that match this regular expression"/>
-				<field name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative)"/>
-				<field name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative)"/>
-				<field name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events."/>
-				<field name="gc_cache" type="list" default="1" label="Cache"
-					description="Is cacheing enabled.">
-					<option value="1">Use global</option>
-					<option value="2">Cache always</option>
-					<option value="0">Cache never</option>
+				<field name="find" type="text" size="40" default="" label="MOG_GCALENDAR_NEXT_FIELD_FIND_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_FIND_DESC"/>
+				<field name="title_filter" type="text" size="40" default=".*" label="MOG_GCALENDAR_NEXT_FIELD_TITLE_FILTER_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_TITLE_FILTER_DESC"/>
+				<field name="start_date" type="text" size="40" default="-1 day" label="MOG_GCALENDAR_NEXT_FIELD_START_DATE_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_START_DATE_DESC"/>
+				<field name="end_date" type="text" size="40" default="+1 year" label="MOG_GCALENDAR_NEXT_FIELD_END_DATE_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_END_DATE_DESC"/>
+				<field name="max_events" type="text" size="10" default="10" label="MOG_GCALENDAR_NEXT_FIELD_MAX_EVENTS_LABEL" description="MOG_GCALENDAR_NEXT_FIELD_MAX_EVENTS_DESC"/>
+				<field name="gc_cache" type="list" default="1" label="MOG_GCALENDAR_NEXT_FIELD_CACHE_LABEL"
+					description="MOG_GCALENDAR_NEXT_FIELD_CACHE_DESC">
+					<option value="1">MOG_GCALENDAR_NEXT_FIELD_CACHE_GLOBAL</option>
+					<option value="2">MOG_GCALENDAR_NEXT_FIELD_CACHE_ALWAYS</option>
+					<option value="0">MOG_GCALENDAR_NEXT_FIELD_CACHE_NEVER</option>
 				</field>
-				<field name="gc_cache_time" type="text" default="900" label="Cache Time"
-					description="The time before the module is recached in sec." />
+				<field name="gc_cache_time" type="text" default="900" label="MOG_GCALENDAR_NEXT_FIELD_CACHE_TIME_LABEL"
+					description="MOG_GCALENDAR_NEXT_FIELD_CACHE_TIME_DESC" />				
 			</fieldset>
 		</fields>
 	</config>

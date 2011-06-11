@@ -73,6 +73,6 @@ $calCode .= "});\n";
 $calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
-echo "<div id=\"".$objid."\" class=\"".$class."\">you have javascript disabled</div>\n";
+echo "<div id=\"".$objid."\" class=\"".$class."\">". JText::_("MOG_GCALENDAR_NEXT_JSERR") . "</div>\n";
 echo "</div>\n";
 ?>
