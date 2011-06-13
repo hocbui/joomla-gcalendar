@@ -84,11 +84,10 @@ class plgContentgcalendar_next extends JPlugin {
 				$text = $this->params->get('output_now');
 			}
 			elseif ($start_soon >= $now) {
-				$text = $this->params->get('output_start_soon', 'starting soon');
+				$text = $this->params->get('output_start_soon', JText::_('starting soon'));
 			}
 			elseif ($end_soon >= $now ) {
-				$text = $this->params->get('output_end_soon', 'ending soon');
-			}
+				$text = $this->params->get('output_end_soon', JText::_('ending soon')); }
 		}
 
 		if ($text == "" or $text == null) {
@@ -174,7 +173,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 
 	function date($format, $time) {
 		if ($format == "") {
-			$format = $this->params->get("dateformat", "F d, Y @ g:ia");
+			$format = $this->params->get("dateformat", JText::_("DATEFORMAT"));
 		}
 		return GCalendarUtil::formatDate($format, $time);
 	}
@@ -228,16 +227,16 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		else {
 			switch($event->get_day_type()) {
 				case $event->SINGLE_WHOLE_DAY:
-					$fmt = $this->params->get("only-whole_day", '[$start l, F d, Y$] all day');
+					$fmt = $this->params->get("only-whole_day", JText::_('SINGLE_WHOLE_DAY'));
 					break;
 				case $event->SINGLE_PART_DAY:
-					$fmt = $this->params->get("only-part_day", '[$start l, F d, Y g:ia$] until [$finish g:ia $]');
+					$fmt = $this->params->get("only-part_day", JText::_('SINGLE_PART_DAY'));
 					break;
 				case $event->MULTIPLE_WHOLE_DAY:
-					$fmt = $this->params->get("multi-whole_day", '[$start l, F d - d, Y$] all day');
+					$fmt = $this->params->get("multi-whole_day", JText::_('MULTI_WHOLE_DAY'));
 					break;
 				case $event->MULTIPLE_PART_DAY:
-					$fmt = $this->params->get("multi-part_day", '[$start l, F d, Y g:ia$] until [$finish l, F d, Y g:ia $]');
+					$fmt = $this->params->get("multi-part_day", JText::_('MULTI_PART_DAY'));
 					break;
 			}
 		}
