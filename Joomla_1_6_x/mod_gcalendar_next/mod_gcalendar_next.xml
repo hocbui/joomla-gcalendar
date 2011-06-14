@@ -11,7 +11,7 @@
 	</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
 	<version>2.3.0</version>
-	<description>This module shows the next event from a google calendar, displayed via provided html.</description>
+	<description>MOG_GCALENDAR_NEXT_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_gcalendar_next">mod_gcalendar_next.php
 		</filename>
@@ -23,6 +23,7 @@
 		<language tag="en-GB">languages/en-GB.mod_gcalendar_next.ini </language>
 		<language tag="en-GB">languages/en-GB.mod_gcalendar_next.sys.ini </language>
 		<language tag="de-DE">languages/de-DE.mod_gcalendar_next.ini </language>
+		<language tag="de-DE">languages/de-DE.mod_gcalendar_next.sys.ini </language>
 	</languages>
 	<config>
 		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
