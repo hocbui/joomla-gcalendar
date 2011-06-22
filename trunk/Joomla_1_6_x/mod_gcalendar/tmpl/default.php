@@ -32,7 +32,7 @@ $document->addStyleSheet(JURI::base().'modules/mod_gcalendar/tmpl/gcalendar.css'
 $color = $params->get('event_color', '135CAE');
 $fadedColor = GCalendarUtil::getFadedColor($color);
 $cssClass = "gcal-module_event_gccal_".$moduleID;
-$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." span{background-color: ".$fadedColor." !important; border-color: #".$color."; color: ".$fadedColor.";} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_".$moduleID." .fc-state-default span, #gcalendar_module_".$moduleID." .ui-state-default{padding:0px !important;}");
+$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." div{background-color: ".$fadedColor." !important; border-color: #".$color."; color: ".$fadedColor.";} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_".$moduleID." .fc-state-default span, #gcalendar_module_".$moduleID." .ui-state-default{padding:0px !important;}");
 
 $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
