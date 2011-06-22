@@ -52,7 +52,7 @@ $calsSources = "		eventSources: [\n";
 foreach($allCalendars as $calendar) {
 	$cssClass = "gcal-event_gccal_".$calendar->id;
 	$color = GCalendarUtil::getFadedColor($calendar->color);
-	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." span{background-color: ".$color." !important; border-color: #".$calendar->color."; color: white;}");
+	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." div{background-color: ".$color." !important; border-color: #".$calendar->color."; color: white;}");
 	if(empty($calendarids) || in_array($calendar->id, $calendarids)){
 		$value = html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id));
 		$calsSources .= "				'".$value."',\n";
@@ -217,7 +217,7 @@ $calCode .= "			'<a onClick=\"print_view();\"><span class=\"".$class."-icon ".$c
 $calCode .= "			'</span></a>'+\n";
 $calCode .= "			'</div>'+\n";
 $calCode .= "			'</td>';\n";
-$calCode .= "	jQuery('div.fc-button-today').parent('td').after(custom_buttons);\n";
+$calCode .= "	jQuery('span.fc-button-today').parent('td').after(custom_buttons);\n";
 $calCode .= "	if (jQuery('table').disableSelection) jQuery('div.fc-button-today').closest('table.fc-header').disableSelection();\n";
 $calCode .= "	jQuery('div.fc-button-datepicker, div.fc-button-print')\n";
 $calCode .= "		.mousedown( function(){ $(this).addClass('$class-state-down'); })\n";
