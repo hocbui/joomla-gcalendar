@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" method="upgrade"
 	client="site">
-	<name>GCalendar Upcoming Events</name>
+	<name>MOD_GCALENDAR_UPCOMING</name>
 	<author>G4J Project</author>
 	<creationDate>Mar 2011</creationDate>
 	<copyright>This extension is released under the GNU/GPL License.
@@ -12,7 +12,7 @@
 	</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
 	<version>2.3.0</version>
-	<description>MOG_GCALENDAR_UPCOMING_XML_DESCRIPTION</description>
+	<description>MOD_GCALENDAR_UPCOMING_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_gcalendar_upcoming">mod_gcalendar_upcoming.php
 		</filename>
@@ -31,42 +31,42 @@
 			addfieldpath="/administrator/components/com_gcalendar/models/fields">
 			<fieldset name="basic">
 				<field name="calendarids" type="gcalendar" default=""
-					label="MOG_GCALENDAR_UPCOMING_FIELD_CALENDAR_IDS_LABEL"
-					description="MOG_GCALENDAR_UPCOMING_FIELD_CALENDAR_IDS_DESC" />
+					label="MOD_GCALENDAR_UPCOMING_FIELD_CALENDAR_IDS_LABEL"
+					description="MOD_GCALENDAR_UPCOMING_FIELD_CALENDAR_IDS_DESC" />
 				<field name="date_format" type="text" size="80" default="d.m.Y"
-					label="MOG_GCALENDAR_UPCOMING_FIELD_DATE_FORMAT_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_DATE_FORMAT_DESC" />
+					label="MOD_GCALENDAR_UPCOMING_FIELD_DATE_FORMAT_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_DATE_FORMAT_DESC" />
 				<field name="time_format" type="text" size="80" default="H:i"
-					label="MOG_GCALENDAR_UPCOMING_FIELD_TIME_FORMAT_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_TIME_FORMAT_DESC" />
+					label="MOD_GCALENDAR_UPCOMING_FIELD_TIME_FORMAT_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_TIME_FORMAT_DESC" />
 				<field name="max_events" type="text" size="2" default="5"
-					label="MOG_GCALENDAR_UPCOMING_FIELD_MAX_EVENTS_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_MAX_EVENTS_DESC" />
+					label="MOD_GCALENDAR_UPCOMING_FIELD_MAX_EVENTS_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_MAX_EVENTS_DESC" />
 				<field name="order" type="radio" default="1"
-					label="MOG_GCALENDAR_UPCOMING_FIELD_ORDER_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_ORDER_DESC">
-					<option value="1">MOG_GCALENDAR_UPCOMING_FIELD_ORDER_TIME
+					label="MOD_GCALENDAR_UPCOMING_FIELD_ORDER_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_ORDER_DESC">
+					<option value="1">MOD_GCALENDAR_UPCOMING_FIELD_ORDER_TIME
 					</option>
-					<option value="0">MOG_GCALENDAR_UPCOMING_FIELD_ORDER_LAST_MODIFIED
+					<option value="0">MOD_GCALENDAR_UPCOMING_FIELD_ORDER_LAST_MODIFIED
 					</option>
 				</field>
 				<field name="find" type="text" size="80" default=""
-					label="MOG_GCALENDAR_UPCOMING_FIELD_FILTER_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_FILTER_DESC" />
+					label="MOD_GCALENDAR_UPCOMING_FIELD_FILTER_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_FILTER_DESC" />
 				<field name="@spacer" type="spacer" default="" label=""
 					description="" />
 				<field name="images" type="list" default="yes"
-					label="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_DESC">
-					<option value="yes">MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_YES
+					label="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_DESC">
+					<option value="yes">MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_YES
 					</option>
-					<option value="custom">MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_CUSTOM
+					<option value="custom">MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_CUSTOM
 					</option>
-					<option value="no">MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_NO
+					<option value="no">MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_NO
 					</option>
 				</field>
 				<field name="calimage_background" type="color" size="7"
-					default="729FCC" label="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_BACKGROUND_LABEL"
-					description="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_BACKGROUND_DESC" />
+					default="729FCC" label="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_BACKGROUND_LABEL"
+					description="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_BACKGROUND_DESC" />
 				<field name="calimage_month" type="color" size="7" default="FFFFFF"
-					label="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_MONTH_LABEL"
-					description="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_MONTH_DESC" />
+					label="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_MONTH_LABEL"
+					description="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_MONTH_DESC" />
 				<field name="calimage_day" type="color" size="7" default="7CADDE"
-					label="MOG_GCALENDAR_UPCOMING_FIELD_IMAGES_DAY_LABEL" description="" />
+					label="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_DAY_LABEL" description="" />
 				<field name="@spacer" type="spacer" default="" label=""
 					description="" />
 				<field name="moduleclass_sfx" type="text"
@@ -74,30 +74,30 @@
 			</fieldset>
 			<fieldset name="advanced">
 				<field name="text_before" type="textarea" default=""
-					label="MOG_GCALENDAR_UPCOMING_FIELD_TEXT_BEFORE_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_TEXT_BEFORE_DESC"
+					label="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_BEFORE_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_BEFORE_DESC"
 					rows="3" cols="50" filter="raw" />
 				<field name="output" type="textarea2" default=""
-					label="MOG_GCALENDAR_UPCOMING_FIELD_OUTPUT_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_OUTPUT_DESC"
+					label="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_DESC"
 					rows="5" cols="50" filter="raw">
 					<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;&lt;a href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
 					<description>
-						MOG_GCALENDAR_UPCOMING_FIELD_OUTPUT_LONG_DESC
+						MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_LONG_DESC
 					</description>
 				</field>
 				<field name="text_after" type="textarea" default=""
-					label="MOG_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_LABEL" description="MOG_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_DESC"
+					label="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_DESC"
 					rows="3" cols="50" filter="raw" />
 				<field name="end_date" type="text" size="80" default=""
-					label="MOG_GCALENDAR_UPCOMING_FIELD_END_DATE_LABEL"
-					description="MOG_GCALENDAR_UPCOMING_FIELD_END_DATE_DESC" />
-				<field name="gc_cache" type="list" default="1" label="MOG_GCALENDAR_UPCOMING_FIELD_CACHE_LABEL"
-					description="MOG_GCALENDAR_UPCOMING_FIELD_CACHE_DESC">
-					<option value="1">MOG_GCALENDAR_UPCOMING_FIELD_CACHE_GLOBAL</option>
-					<option value="2">MOG_GCALENDAR_UPCOMING_FIELD_CACHE_ALWAYS</option>
-					<option value="0">MOG_GCALENDAR_UPCOMING_FIELD_CACHE_NEVER</option>
+					label="MOD_GCALENDAR_UPCOMING_FIELD_END_DATE_LABEL"
+					description="MOD_GCALENDAR_UPCOMING_FIELD_END_DATE_DESC" />
+				<field name="gc_cache" type="list" default="1" label="MOD_GCALENDAR_UPCOMING_FIELD_CACHE_LABEL"
+					description="MOD_GCALENDAR_UPCOMING_FIELD_CACHE_DESC">
+					<option value="1">MOD_GCALENDAR_UPCOMING_FIELD_CACHE_GLOBAL</option>
+					<option value="2">MOD_GCALENDAR_UPCOMING_FIELD_CACHE_ALWAYS</option>
+					<option value="0">MOD_GCALENDAR_UPCOMING_FIELD_CACHE_NEVER</option>
 				</field>
-				<field name="gc_cache_time" type="text" default="900" label="MOG_GCALENDAR_UPCOMING_FIELD_CACHE_TIME_LABEL"
-					description="MOG_GCALENDAR_UPCOMING_FIELD_CACHE_TIME_DESC" />
+				<field name="gc_cache_time" type="text" default="900" label="MOD_GCALENDAR_UPCOMING_FIELD_CACHE_TIME_LABEL"
+					description="MOD_GCALENDAR_UPCOMING_FIELD_CACHE_TIME_DESC" />
 			</fieldset>
 		</fields>
 	</config>
