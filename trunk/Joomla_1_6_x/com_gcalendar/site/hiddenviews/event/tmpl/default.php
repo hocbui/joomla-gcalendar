@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 $event = $this->event;
 
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
-if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component'){
+if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component' && $event != null){
 	$component	= &JComponentHelper::getComponent('com_gcalendar');
 	$menu = &JSite::getMenu();
 	$item = $menu->getItem($itemID);
