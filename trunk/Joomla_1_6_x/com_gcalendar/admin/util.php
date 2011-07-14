@@ -51,6 +51,7 @@ class GCalendarUtil{
 				$document =& JFactory::getDocument();
 				$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/jquery.min.js');
 				$document->addScriptDeclaration("jQuery.noConflict();");
+				JFactory::getApplication()->set('jquery', true);
 			}
 			$jQueryloaded = 'loaded';
 		}
