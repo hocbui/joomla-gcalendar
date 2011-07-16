@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.6.0" method="upgrade">
 	<name>COM_GCALENDAR</name>
-	<creationDate>Mar 2011</creationDate>
+	<creationDate>July 2011</creationDate>
 	<author>G4J Project</author>
 	<authorEmail>info@g4j.laoneo.net</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
