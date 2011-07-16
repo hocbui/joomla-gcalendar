@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.5" type="plugin" group="search">
+<install version="1.5" type="plugin" group="search" method="upgrade">
 	<name>Search - GCalendar</name>
 	<author>G4J Project</author>
 	<creationDate>July 2011</creationDate>
