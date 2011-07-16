@@ -1,0 +1,22 @@
+Hello
+This is the upgrade package for a joomla 1.6.x environment. 
+
+***** PREREQUISITS *****
+- joomla 1.6.x
+- google analytics account
+- mysql >= 5.0.0 
+- PHP >= 5.2.0
+
+***** UPGRADE *****
+You must have installed a previous version of the GCalendar extensions (component, modules, 
+plugins).
+Extract the extensions zip file to your joomla root folder. E.g. if you want to
+upgrade mod_gcalendar version 2.1.0 RC2 to this version extract the content of the zip file
+mod_gcalendar.zip to your joomla root. 
+
+***** DOCUMENTATION *****
+Check http://g4j.laoneo.net for the documentation, forum and current issues. 
+
+
+Have fun
+the g4j team

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="search">
+	<name>Search - GCalendar</name>
+	<author>G4J Project</author>
+	<creationDate>Mar 2011</creationDate>
+	<copyright>This extension is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorEmail>info@g4j.laoneo.net
+	</authorEmail>
+	<authorUrl>g4j.laoneo.net</authorUrl>
+	<version>2.3.0 M3</version>
+	<description>Allows Searching of events in the calendars
+		specified in the GCalendar component.</description>
+	<files>
+		<filename plugin="gcalendar">gcalendar.php</filename>
+	</files>
+	<config>
+		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
+			<fieldset name="basic">
+				<field name="calendarids" type="gcalendar" default=""
+					label="Select Calendars"
+					description="The calendars, if none is selected it searches in all calendars." />
+				<field name="search_limit" type="text" size="5" default="50"
+					label="Search Limit" description="Number of Search items to return" />
+				<field name="pastevents" type="radio" default="1" label="Include Past Events"
+					description="If past event should be included into the search result.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
