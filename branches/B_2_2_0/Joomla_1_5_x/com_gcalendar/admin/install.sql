@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS `#__gcalendar`;
+-- DROP TABLE IF EXISTS `#__gcalendar`;
 
 CREATE TABLE IF NOT EXISTS `#__gcalendar` (
   `id` int(11) NOT NULL auto_increment,

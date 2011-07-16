@@ -7,9 +7,13 @@ calendar into a joomla based web site.
 To install extract the component, your desired modules and the plugins and install them 
 with the joomla installer.
 
+***** Upgrade *****
+To upgrade from previous GCalendar versions extract the component, your allready installed
+modules and the plugins and install them with the joomla installer.
+
 ***** DOCUMENTATION *****
 Check http://g4j.laoneo.net for the documentation, forum and current issues. 
 
 
 Have fun
-the gcalendar team
+the G4J team
