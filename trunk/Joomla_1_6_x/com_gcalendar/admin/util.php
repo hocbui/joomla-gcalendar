@@ -47,12 +47,12 @@ class GCalendarUtil{
 		static $jQueryloaded;
 		if($jQueryloaded == null){
 			$param   = GCalendarUtil::getComponentParameter('loadJQuery');
-			if($param == 'yes' || empty($param)){
+			if(!JFactory::getApplication()->get('jquery', false) && ($param == 'yes' || empty($param))){
 				$document =& JFactory::getDocument();
 				$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/jquery.min.js');
-				$document->addScriptDeclaration("jQuery.noConflict();");
 				JFactory::getApplication()->set('jquery', true);
 			}
+			$document->addScriptDeclaration("jQuery.noConflict();");
 			$jQueryloaded = 'loaded';
 		}
 	}
