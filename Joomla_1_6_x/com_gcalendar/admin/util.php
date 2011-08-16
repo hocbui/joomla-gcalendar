@@ -235,7 +235,6 @@ class GCalendarUtil{
 
 	/**
 	 * Translates day of week number to a string.
-	 * Joomla 1.6 compatibility, JDate::dayToString is protected
 	 *
 	 * @param	integer	The numeric day of the week.
 	 * @param	boolean	Return the abreviated day string?
@@ -243,20 +242,35 @@ class GCalendarUtil{
 	 */
 	public static function dayToString($day, $abbr = false)
 	{
+		$name = '';
 		switch ($day) {
-			case 0: return $abbr ? JText::_('SUN') : JText::_('SUNDAY');
-			case 1: return $abbr ? JText::_('MON') : JText::_('MONDAY');
-			case 2: return $abbr ? JText::_('TUE') : JText::_('TUESDAY');
-			case 3: return $abbr ? JText::_('WED') : JText::_('WEDNESDAY');
-			case 4: return $abbr ? JText::_('THU') : JText::_('THURSDAY');
-			case 5: return $abbr ? JText::_('FRI') : JText::_('FRIDAY');
-			case 6: return $abbr ? JText::_('SAT') : JText::_('SATURDAY');
+			case 0: 
+				$name = $abbr ? JText::_('SUN') : JText::_('SUNDAY');
+				break;
+			case 1: 
+				$name = $abbr ? JText::_('MON') : JText::_('MONDAY');
+				break;
+			case 2: 
+				$name = $abbr ? JText::_('TUE') : JText::_('TUESDAY');
+				break;
+			case 3: 
+				$name = $abbr ? JText::_('WED') : JText::_('WEDNESDAY');
+				break;
+			case 4: 
+				$name = $abbr ? JText::_('THU') : JText::_('THURSDAY');
+				break;
+			case 5: 
+				$name = $abbr ? JText::_('FRI') : JText::_('FRIDAY');
+				break;
+			case 6: 
+				$name = $abbr ? JText::_('SAT') : JText::_('SATURDAY');
+				break;
 		}
+		return addslashes($name);
 	}
 
 	/**
 	 * Translates month number to a string.
-	 * Joomla 1.6 compatibility, JDate::monthToString is protected
 	 *
 	 * @param	integer	The numeric month of the year.
 	 * @param	boolean	Return the abreviated month string?
@@ -264,20 +278,46 @@ class GCalendarUtil{
 	 */
 	public static function monthToString($month, $abbr = false)
 	{
+		$name = '';
 		switch ($month) {
-			case 1:  return $abbr ? JText::_('JANUARY_SHORT')	: JText::_('JANUARY');
-			case 2:  return $abbr ? JText::_('FEBRUARY_SHORT')	: JText::_('FEBRUARY');
-			case 3:  return $abbr ? JText::_('MARCH_SHORT')		: JText::_('MARCH');
-			case 4:  return $abbr ? JText::_('APRIL_SHORT')		: JText::_('APRIL');
-			case 5:  return $abbr ? JText::_('MAY_SHORT')		: JText::_('MAY');
-			case 6:  return $abbr ? JText::_('JUNE_SHORT')		: JText::_('JUNE');
-			case 7:  return $abbr ? JText::_('JULY_SHORT')		: JText::_('JULY');
-			case 8:  return $abbr ? JText::_('AUGUST_SHORT')	: JText::_('AUGUST');
-			case 9:  return $abbr ? JText::_('SEPTEMBER_SHORT')	: JText::_('SEPTEMBER');
-			case 10: return $abbr ? JText::_('OCTOBER_SHORT')	: JText::_('OCTOBER');
-			case 11: return $abbr ? JText::_('NOVEMBER_SHORT')	: JText::_('NOVEMBER');
-			case 12: return $abbr ? JText::_('DECEMBER_SHORT')	: JText::_('DECEMBER');
+			case 1:  
+				$name = $abbr ? JText::_('JANUARY_SHORT')	: JText::_('JANUARY');
+				break;
+			case 2:  
+				$name = $abbr ? JText::_('FEBRUARY_SHORT')	: JText::_('FEBRUARY');
+				break;
+			case 3:  
+				$name = $abbr ? JText::_('MARCH_SHORT')		: JText::_('MARCH');
+				break;
+			case 4:  
+				$name = $abbr ? JText::_('APRIL_SHORT')		: JText::_('APRIL');
+				break;
+			case 5:  
+				$name = $abbr ? JText::_('MAY_SHORT')		: JText::_('MAY');
+				break;
+			case 6:  
+				$name = $abbr ? JText::_('JUNE_SHORT')		: JText::_('JUNE');
+				break;
+			case 7:  
+				$name = $abbr ? JText::_('JULY_SHORT')		: JText::_('JULY');
+				break;
+			case 8:  
+				$name = $abbr ? JText::_('AUGUST_SHORT')	: JText::_('AUGUST');
+				break;
+			case 9:  
+				$name = $abbr ? JText::_('SEPTEMBER_SHORT')	: JText::_('SEPTEMBER');
+				break;
+			case 10: 
+				$name = $abbr ? JText::_('OCTOBER_SHORT')	: JText::_('OCTOBER');
+				break;
+			case 11: 
+				$name = $abbr ? JText::_('NOVEMBER_SHORT')	: JText::_('NOVEMBER');
+				break;
+			case 12: 
+				$name = $abbr ? JText::_('DECEMBER_SHORT')	: JText::_('DECEMBER');
+				break;
 		}
+		return addslashes($name);
 	}
 
 	public static function formatDate($dateFormat,$date,$strf = false){
