@@ -87,6 +87,9 @@
 				<field name="text_after" type="textarea" default=""
 					label="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_DESC"
 					rows="3" cols="50" filter="raw" />
+				<field name="start_date" type="text" size="80" default=""
+					label="MOD_GCALENDAR_UPCOMING_FIELD_START_DATE_LABEL"
+					description="MOD_GCALENDAR_UPCOMING_FIELD_START_DATE_DESC" />
 				<field name="end_date" type="text" size="80" default=""
 					label="MOD_GCALENDAR_UPCOMING_FIELD_END_DATE_LABEL"
 					description="MOD_GCALENDAR_UPCOMING_FIELD_END_DATE_DESC" />

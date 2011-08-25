@@ -53,8 +53,10 @@ class GCalendarNext {
 				$feed->set_show_past_events($params->get('past_events', TRUE));
 				$startDate = $params->get('start_date', '');
 				$endDate = $params->get('end_date', '');
-				if(!empty($startDate) && !empty($endDate)){
+				if(!empty($startDate)){
 					$feed->set_start_date(strtotime($startDate));
+				}
+				if( !empty($endDate)){
 					$feed->set_end_date(strtotime($endDate));
 				}
 				$feed->set_sort_ascending(TRUE);
