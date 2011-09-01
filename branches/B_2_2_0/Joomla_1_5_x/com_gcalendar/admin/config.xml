@@ -37,6 +37,11 @@
 			<option value="1">Yes</option>
 			<option value="2">No</option>
 		</param>
+		<param name="show_event_description_format" type="radio" default="1"
+			label="Format description" description="Does some event formating like link creation, etc.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
 		<param name="show_event_location" type="radio" default="1"
 			label="Show Event Location" description="Shows the event location.">
 			<option value="1">Yes</option>
