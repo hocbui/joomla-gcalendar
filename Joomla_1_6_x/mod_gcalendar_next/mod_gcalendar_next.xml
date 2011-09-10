@@ -42,7 +42,7 @@
 					<option value="0">JNO</option>
 				</field>		
 				<field name="output_now" type="textarea2" default="" label="MOD_GCALENDAR_NEXT_FIELD_OUTPUT_NOW_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_OUTPUT_NOW_DESC" rows="5" cols="50" filter="raw">
-					<content><![CDATA[<span class="countdown_row"><span class="countdown_descr>Right now: {desc}</span><br/><span class="countdown_descr_sub"></span>Join us at [<a href="http://maps.google.com/?q={{location}}" target="_blank">map</a>]</span>]]></content>
+					<content><![CDATA[<span class="countdown_row"><span class="countdown_descr">Right now: {desc}</span><br/><span class="countdown_descr_sub"></span>Join us at [<a href="http://maps.google.com/?q={{location}}" target="_blank">map</a>]</span>]]></content>
 				</field>
 				<field name="no_event" type="textarea2" default="" label="MOD_GCALENDAR_NEXT_FIELD_NO_EVENT_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_NO_EVENT_DESC" rows="5" cols="50" filter="raw">
 					<content><![CDATA[<div class="gcalendar_next">No event found.</div>]]></content>

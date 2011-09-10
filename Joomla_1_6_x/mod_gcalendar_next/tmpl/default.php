@@ -34,12 +34,15 @@ if (!$gcalendar_item) {
 $targetDate = $gcalendar_item->get_start_date();
 $now = false;
 if ($targetDate < time()) {
-	$targetDate = $gcalendar_item->get_end_date();
+	# Countdown to end of event, not currently implemented
+	#$targetDate = $gcalendar_item->get_end_date(); 
 	$now = true;
 }
 
-$layout = $params->get(($now) ? 'output_now' : 'output');
-$class = ($now) ? "countdown now" : "countdown";
+$layout = $params->get('output');
+$expiryText = $params->get('output_now');
+$class = "countdown";
+$class .= ($now) ? "now" : "";
 $mapREs = array();
 $mapValues = array();
 
@@ -67,7 +70,8 @@ $calCode .= "	var targetDate; \n";
 $calCode .= "	targetDate = new Date(\"".GCalendarUtil::formatDate("D,d M Y H:i:s", $targetDate)."\");\n";
 $calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
 $calCode .= "				       description: '".str_replace('\'', '\\\'', $gcalendar_item->get_title())."', \n";
-$calCode .= " 				       layout: '".$layout."', \n";
+$calCode .= " 				       layout: '".str_replace('\'', '\\\'',$layout)."', \n";
+$calCode .= "				       alwaysExpire: true, expiryText: '".str_replace('\'', '\\\'',$expiryText)."', \n";
 $calCode .= "				       ".$params->get('style_parameters', "format: 'dHMS'")."});\n";
 $calCode .= "});\n";
 $calCode .= "// ]]>\n";
