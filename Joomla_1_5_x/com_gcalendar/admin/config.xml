@@ -10,6 +10,11 @@
 			<option value="no">No</option>
 			<option value="yes">Yes</option>
 		</param>
+		<param name="event_description_format" type="radio" default="1"
+			label="Format description" description="Does some event formating like link creation, etc.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</param>
 		<param name="@spacer" type="spacer" default="Event output" label=""
 			description="" />
 		<param name="show_calendar_name" type="radio" default="1"
@@ -34,11 +39,6 @@
 		</param>
 		<param name="show_event_description" type="radio" default="1"
 			label="Show Event Description" description="Shows the event description.">
-			<option value="1">Yes</option>
-			<option value="2">No</option>
-		</param>
-		<param name="show_event_description_format" type="radio" default="1"
-			label="Format description" description="Does some event formating like link creation, etc.">
 			<option value="1">Yes</option>
 			<option value="2">No</option>
 		</param>
