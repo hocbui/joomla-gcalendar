@@ -116,7 +116,7 @@ if($event == null){
 	}
 	$desc = preg_replace("@(src|href)=\"https?://@i",'\\1="',$event->get_description());
 	if(GCalendarUtil::getComponentParameter('show_event_description', 1) == 1 && !empty($desc)) {
-		if(GCalendarUtil::getComponentParameter('show_event_description_format', 1) == 2) {
+		if(GCalendarUtil::getComponentParameter('event_description_format', 1) == 2) {
 			echo html_entity_decode($event->get_description());
 		}else{
 			echo "<tr><td class=\"event_content_key\">".JText::_( 'COM_GCALENDAR_EVENT_VIEW_DESCRIPTION' ).": </td><td>". 
