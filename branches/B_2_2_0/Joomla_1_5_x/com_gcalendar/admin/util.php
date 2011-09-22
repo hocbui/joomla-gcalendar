@@ -192,9 +192,8 @@ class GCalendarUtil{
 				break;
 		}
 
-		if (substr_count($temp_event, '"{description}"')){
-			// If description is in html attribute
-			$desc = htmlspecialchars(str_replace('"',"'",$event->get_description()));
+		if(GCalendarUtil::getComponentParameter('event_description_format', 1) == 2) {
+			$desc = html_entity_decode($event->get_description());
 		}else{
 			//Make any URLs used in the description also clickable
 			$desc = preg_replace("@(src|href)=\"https?\://@i",'\\1="',$event->get_description());
