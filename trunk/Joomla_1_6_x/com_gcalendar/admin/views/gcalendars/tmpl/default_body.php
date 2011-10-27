@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo $item->name; ?>
 			</a>
 		</td>
-		<td width="40px"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($item->color);?>;width: 100%;height: 100%;"></div></td>
+		<td width="40px"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($item->color);?>;width: 40px;height: 40px;"></div></td>
 		<td>
 		<table>
 			<tr>
