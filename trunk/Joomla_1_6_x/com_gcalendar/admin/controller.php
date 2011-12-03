@@ -29,14 +29,14 @@ class GCalendarController extends JController
 
 	function display()
 	{
-		JRequest::setVar('view', JRequest::getCmd('view', 'GCalendars'));
+		JRequest::setVar('view', JRequest::getCmd('view', 'cpanel'));
 		parent::display();
-		$view = JRequest::getVar('view', 'gcalendars');
+		$view = JRequest::getVar('view', 'cpanel');
 
-		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_GCALENDARS'), 'index.php?option=com_gcalendar', $view == 'gcalendars');
+		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_CPANEL'), 'index.php?option=com_gcalendar&view=cpanel', $view == 'cpanel');
+		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_GCALENDARS'), 'index.php?option=com_gcalendar&view=gcalendars', $view == 'gcalendars');
 		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_TOOLS'), 'index.php?option=com_gcalendar&view=tools', $view == 'tools');
 		JSubMenuHelper::addEntry(JText::_('COM_GCALENDAR_SUBMENU_SUPPORT'), 'index.php?option=com_gcalendar&view=support', $view == 'support');
-
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('.icon-48-calendar {background-image: url(../media/com_gcalendar/images/48-calendar.png);background-repeat: no-repeat;}');
 	}

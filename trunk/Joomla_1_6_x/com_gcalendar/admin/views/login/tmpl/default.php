@@ -56,3 +56,6 @@ $session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI);
 	</table>
 </form>
 </fieldset>
+<div align="center" style="clear: both">
+	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+</div>
