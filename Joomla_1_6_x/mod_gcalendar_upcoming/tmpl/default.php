@@ -24,6 +24,7 @@ $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/default.css');
 
 $event_display = $params->get('output', '');
+$group_format=trim($params->get('output_grouping', '')); // 12 Nov 2011 Grouping mod by Bernie Sumption
 
 $dateformat=$params->get('date_format', 'd.m.Y');
 $timeformat=$params->get('time_format', 'H:i');
@@ -33,7 +34,16 @@ if(!empty($gcalendar_data)){
 	if($params->get('images', 'no') != 'no') {
 		echo '<p style="clear: both;"/>';
 	}
+	$lastHeading = ''; // 12 Nov 2011 Grouping mod by Bernie Sumption
 	foreach( $gcalendar_data as $item){
+		// 12 Nov 2011 Grouping mod by Bernie Sumption
+		$groupHeading = GCalendarUtil::formatDate($group_format, $item->get_start_date());
+		if ($groupHeading != $lastHeading) {
+			$lastHeading = $groupHeading;
+			echo str_replace("{header}", $groupHeading, $params->get('output_grouping_content', '<p style="clear: both;"><strong>{header}</strong></p>'));
+		}
+		// End mod
+		
 		// APRIL 2011 MOD - CALENDAR IMAGES by Tyson Moore
 		if($params->get('images', 'no') != 'no') {
 			$month_text = strtoupper(GCalendarUtil::formatDate('M', $item->get_start_date()));
@@ -49,7 +59,6 @@ if(!empty($gcalendar_data)){
 			echo '</div>';
 		}
 		//END MOD
-//		echo '<pre>'.$event_display.'</pre>';
 		echo GCalendarUtil::renderEvent($item, $event_display, $dateformat, $timeformat);
 		if($params->get('images', 'no') != 'no') {
 			echo '<p style="clear: both;"/>';

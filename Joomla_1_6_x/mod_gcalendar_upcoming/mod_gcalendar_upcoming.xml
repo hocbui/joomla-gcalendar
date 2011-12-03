@@ -86,6 +86,16 @@
 						MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_LONG_DESC
 					</description>
 				</field>
+				<!-- 12 Nov 2011 Grouping mod by Bernie Sumption -->
+				<field name="output_grouping" type="text" size="80" default=""
+					label="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_DESC">
+				</field>
+				<!-- End mod -->
+				<field name="output_grouping_content" type="textarea2" default=""
+					label="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_CONTENT_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_CONTENT_DESC"
+					rows="5" cols="50" filter="raw">
+					<content>&lt;p style="clear: both;"&gt;&lt;strong&gt;{header}&lt;/strong&gt;&lt;/p&gt;</content>
+				</field>
 				<field name="text_after" type="textarea" default=""
 					label="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_DESC"
 					rows="3" cols="50" filter="raw" />
