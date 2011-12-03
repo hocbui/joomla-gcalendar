@@ -139,6 +139,15 @@ if($event == null){
 		$urlText .= '&amp;hl='.GCalendarUtil::getFrLanguage().'&amp;ctz='.GCalendarUtil::getComponentParameter('timezone');
 		$urlText .= '&amp;sf=true&amp;output=xml';
 		echo "<tr><td class=\"event_content_key\">".JText::_( 'COM_GCALENDAR_EVENT_VIEW_COPY' ).": </td><td><a target=\"_blank\" href=\"http://www.google.com/calendar/render?".$urlText."\">".JText::_( 'COM_GCALENDAR_EVENT_VIEW_COPY_TO_MY_CALENDAR' )."</a></td></tr>\n";
+	
+		/** Modified Code for ical file */
+        $ical_timeString_start =  $startTime.' '.$startDate;
+        $ical_timeString_start = strtotime($ical_timeString_start);
+        $ical_timeString_end =  $endTime.' '.$endDate;
+        $ical_timeString_end = strtotime($ical_timeString_end);
+        $loc = $event->get_location();
+        echo "<tr><td class=\"event_content_key\"></td><td><a href=\"".JRoute::_("index.php?option=com_gcalendar&view=ical&format=raw&start=".$ical_timeString_start."&end=".$ical_timeString_end."&title=".$event->get_title()."&location=".$loc)."\">".JText::_('COM_GCALENDAR_EVENT_VIEW_COPY_TO_MY_CALENDAR_ICS')."</a></td></tr>";
+        /** End Modified Code */
 	}
 	echo "<tr><td colspan=\"2\">\n";
 	
