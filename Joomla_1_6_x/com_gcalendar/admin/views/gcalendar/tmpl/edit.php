@@ -44,5 +44,5 @@ JHtml::_('behavior.tooltip');
 </form>
 
 <div align="center" style="clear: both">
-&copy;&nbsp;&nbsp;2011 <a href="http://g4j.laoneo.net"
-	target="_blank">allon moritz</a></div>
+	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+</div>

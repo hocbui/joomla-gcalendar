@@ -88,6 +88,6 @@ if(!is_array($this->online_items)){
 </form>
 <?php } ?>
 
-<div align="center">
-&copy;&nbsp;&nbsp;2011 <a href="http://g4j.laoneo.net"
-	target="_blank">allon moritz</a></div>
+<div align="center" style="clear: both">
+	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+</div>
