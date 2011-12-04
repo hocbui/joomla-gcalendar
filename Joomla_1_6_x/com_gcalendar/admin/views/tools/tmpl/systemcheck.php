@@ -52,7 +52,7 @@ defined('_JEXEC') or die('Restricted access');
 	?>
 </table>
 <div align="center" style="clear: both">
-	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
 </div>
 	<?php
 	function checkDB() {

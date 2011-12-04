@@ -44,5 +44,5 @@ JHtml::_('behavior.tooltip');
 </form>
 
 <div align="center" style="clear: both">
-	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
 </div>

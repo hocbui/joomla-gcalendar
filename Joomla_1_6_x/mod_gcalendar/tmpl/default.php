@@ -97,14 +97,14 @@ if(!empty($height))
 $calCode .= "		contentHeight: ".$height.",\n";
 $calCode .= "		editable: false, theme: ".(!empty($theme)?'true':'false').",\n";
 $calCode .= "		titleFormat: { \n";
-$calCode .= "		        month: '".$params->get('titleformat_month', 'MMMM yyyy')."'},\n";
+$calCode .= "		        month: '".Fullcalendar::convertFromPHPDate($params->get('titleformat_month', 'F Y'))."'},\n";
 $calCode .= "		firstDay: ".$params->get('weekstart', 0).",\n";
 $calCode .= "		monthNames: ".$monthsLong.",\n";
 $calCode .= "		monthNamesShort: ".$monthsShort.",\n";
 $calCode .= "		dayNames: ".$daysLong.",\n";
 $calCode .= "		dayNamesShort: ".$daysShort.",\n";
 $calCode .= "		timeFormat: { \n";
-$calCode .= "		        month: '".$params->get('timeformat_month', 'HH:mm')."'},\n";
+$calCode .= "		        month: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_month', 'H:i'))."'},\n";
 $calCode .= "		columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
 $calCode .= "		buttonText: {\n";
 $calCode .= "		    prev:     '&nbsp;&#9668;&nbsp;',\n";  // left triangle

@@ -23,6 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'fullcalendar'.DS.'fullcalendar.php');
 
 require_once (dirname(__FILE__).DS.'helper.php');
 

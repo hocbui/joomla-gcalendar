@@ -46,5 +46,5 @@ At <a href="http://g4j.laoneo.net" target="_blank">g4j.laoneo.net</a> you will f
 the project as well as a forum to post questions.
 </p>
 <div align="center" style="clear: both">
-	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
 </div>
