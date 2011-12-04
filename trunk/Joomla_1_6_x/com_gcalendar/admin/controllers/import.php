@@ -33,14 +33,14 @@ class GCalendarControllerImport extends JController
 			$msg = JText::_( 'Error saving calendar' );
 		}
 
-		$link = 'index.php?option=com_gcalendar';
+		$link = 'index.php?option=com_gcalendar&view=gcalendars';
 		$this->setRedirect($link, $msg);
 	}
 
 	function cancel()
 	{
 		$msg = JText::_( 'Operation cancelled' );
-		$this->setRedirect( 'index.php?option=com_gcalendar', $msg );
+		$this->setRedirect( 'index.php?option=com_gcalendar&view=gcalendars', $msg );
 	}
 }
 ?>
