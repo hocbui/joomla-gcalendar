@@ -27,5 +27,5 @@ $url = JRoute::_( $u->toString().'?option=com_gcalendar&view=tools&layout=');
 <li><a href="<?php echo $url; ?>systemcheck"><?php ECHO JText::_('COM_GCALENDAR_VIEW_TOOLS_ACTION_SYSTEM_CHECK');?></a></li>
 </ul>
 <div align="center" style="clear: both">
-	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
 </div>

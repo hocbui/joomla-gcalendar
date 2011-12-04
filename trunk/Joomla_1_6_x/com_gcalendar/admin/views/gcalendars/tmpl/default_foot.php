@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php echo $this->pagination->getListFooter(); ?>
 		<br/><br/>
 		<div align="center" style="clear: both">
-			<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+			<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
 		</div>
 	</td>
 </tr>

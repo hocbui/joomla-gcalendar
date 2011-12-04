@@ -19,11 +19,8 @@
  */
 
 jimport( 'joomla.application.component.view');
+require_once (JPATH_COMPONENT.DS.'libraries'.DS.'fullcalendar'.DS.'fullcalendar.php');
 
-/**
- * HTML View class for the GCalendar Component
- *
- */
 class GCalendarViewDay extends JView
 {
 	function display($tpl = null)

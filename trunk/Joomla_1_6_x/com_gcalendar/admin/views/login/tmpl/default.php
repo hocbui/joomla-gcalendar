@@ -57,5 +57,5 @@ $session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI);
 </form>
 </fieldset>
 <div align="center" style="clear: both">
-	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
 </div>

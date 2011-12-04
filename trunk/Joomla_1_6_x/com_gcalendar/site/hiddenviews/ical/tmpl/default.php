@@ -3,21 +3,18 @@
 error_reporting(0);
 @ini_set(‘display_errors’, 0);
 include_once(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'ical'.DS.'class.iCal.inc.php');
+
 $days = (array) array (2,3);
 $organizer = (array) array('ORGANIZER', 'ORgANIZER EMAIL ADRESS');
 $categories = array('','');
 $attendees = (array) array();
-
 $fb_times = (array) array();
-
 $alarm = (array) array();
+
 $loc = JRequest::getVar('location');
 $loc = utf8_decode($loc);
-
 $ext_start = JRequest::getInt('start');
-
 $ext_end = JRequest::getInt('end');
-
 $title = JRequest::getVar('title');
 $title = utf8_decode($title);
 

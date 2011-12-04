@@ -16,12 +16,12 @@ defined('_JEXEC') or die('Restricted Access');
 		<td>
 		<table>
 			<tr>
-				<td><b><?php echo JText::_( 'COM_GCALENDAR_FIELD_CALENDAR_ID_LABEL' ); ?>:</b></td>
-				<td><?php echo $item->calendar_id; ?></td>
+				<td style="border: 0;"><b><?php echo JText::_( 'COM_GCALENDAR_FIELD_CALENDAR_ID_LABEL' ); ?>:</b></td>
+				<td style="border: 0;"><?php echo $item->calendar_id; ?></td>
 			</tr>
 			<tr>
-				<td><b><?php echo JText::_( 'COM_GCALENDAR_FIELD_MAGIC_COOKIE_LABEL' ); ?>:</b></td>
-				<td><?php echo $item->magic_cookie; ?></td>
+				<td style="border: 0;"><b><?php echo JText::_( 'COM_GCALENDAR_FIELD_MAGIC_COOKIE_LABEL' ); ?>:</b></td>
+				<td style="border: 0;"><?php echo $item->magic_cookie; ?></td>
 			</tr>
 		</table>
 		</td>

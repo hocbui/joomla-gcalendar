@@ -35,6 +35,13 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
 require_once (JPATH_COMPONENT.DS.'controller.php');
 jimport('joomla.application.component.controller');
 
+$path = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'gcalendar.xml';
+if(file_exists($path)){
+	$manifest = simplexml_load_file($path);
+	JRequest::setVar('GCALENDAR_VERSION', $manifest->version);
+}else{
+	JRequest::setVar('GCALENDAR_VERSION', '');
+}
 $controller = JController::getInstance('GCalendar');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

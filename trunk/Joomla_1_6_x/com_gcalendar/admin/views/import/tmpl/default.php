@@ -89,5 +89,5 @@ if(!is_array($this->online_items)){
 <?php } ?>
 
 <div align="center" style="clear: both">
-	<?php echo JText::_('COM_GCALENDAR_FOOTER');?>
+	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
 </div>
