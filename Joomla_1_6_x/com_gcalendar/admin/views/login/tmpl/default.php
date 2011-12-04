@@ -22,9 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $mainframe = &JFactory::getApplication();
 $absolute_path = $mainframe->getCfg( 'absolute_path' );
-ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT . DS . 'libraries');
 
-require_once('Zend' . DS . 'Loader.php');
 Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 Zend_Loader::loadClass('Zend_Gdata_HttpClient');
 Zend_Loader::loadClass('Zend_Gdata_Calendar');
@@ -33,7 +31,11 @@ $params = &JComponentHelper::getParams( 'com_gcalendar' );
 $domain = $params->get('google_apps_domain');
 
 $u = JFactory::getURI();
-$next = JRoute::_( $u->toString().'&task='.JRequest::getCmd('nextTask'));
+$next = $u->toString();
+if(strpos($next, '&task='.JRequest::getCmd('nextTask')) === false){
+	$next .= '&task='.JRequest::getCmd('nextTask');
+}
+$next = JRoute::_($next);
 $scope = 'http://www.google.com/calendar/feeds/';
 $session = true;
 $secure = false;
