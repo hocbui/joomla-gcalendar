@@ -10,7 +10,7 @@
 		GNU/GPL</license>
 	<authorEmail>info@g4j.laoneo.net</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
-	<version>2.4.0</version>
+	<version>2.4.1</version>
 	<files>
 		<file id="com_gcalendar" type="component">com_gcalendar.zip</file>
 		<file id="mod_gcalendar" type="module" client="site">mod_gcalendar.zip</file>
