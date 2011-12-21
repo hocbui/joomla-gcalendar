@@ -30,7 +30,7 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
 
 ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT . DS . 'libraries');
 if(!class_exists('Zend_Loader')){
-	require_once JPATH_COMPONENT.DS.'libraries/Zend/Loader.php';
+	require_once 'Zend/Loader.php';
 }
 
 require_once (JPATH_COMPONENT.DS.'controller.php');

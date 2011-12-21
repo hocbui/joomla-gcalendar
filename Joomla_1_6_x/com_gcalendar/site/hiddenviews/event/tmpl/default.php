@@ -111,7 +111,7 @@ if($event == null){
 		$loc = $event->get_location();
 		if(!empty($loc)){
 			echo "<tr><td class=\"event_content_key\">".JText::_( 'COM_GCALENDAR_EVENT_VIEW_LOCATION' ).": </td><td>".$loc."</td></tr>\n";
-			echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&amp;hl=".GCalendarUtil::getFrLanguage()."&amp;output=embed\"></iframe></td></tr>\n";
+			echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&hl=".GCalendarUtil::getFrLanguage()."&output=embed\"></iframe></td></tr>\n";
 		}
 	}
 	$desc = preg_replace("@(src|href)=\"https?://@i",'\\1="',$event->get_description());
