@@ -20,6 +20,9 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+$dispatcher = JDispatcher::getInstance();
+JPluginHelper::importPlugin('gcalendar'); 
+
 $event = $this->event;
 
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
@@ -90,6 +93,11 @@ if($event == null){
 
 	$feed = $event->get_feed();
 	echo "<div class=\"event_content\"><table id=\"content_table\">\n";
+	
+	echo "<tr><td colspan=\"2\">\n";
+	$dispatcher->trigger('onGCEventLoadedBefore', array($event));
+	echo "</td></tr>\n";
+	
 	if(GCalendarUtil::getComponentParameter('show_calendar_name', 1) == 1){
 		echo "<tr><td class=\"event_content_key\">".JText::_( 'COM_GCALENDAR_EVENT_VIEW_CALENDAR_NAME' ).": </td><td>".$feed->get('gcname')."</td></tr>\n";
 	}
@@ -150,12 +158,9 @@ if($event == null){
         /** End Modified Code */
 	}
 	echo "<tr><td colspan=\"2\">\n";
-	
-	$dispatcher = JDispatcher::getInstance();
-	JPluginHelper::importPlugin('gcalendar'); 
-	$dispatcher->trigger('onGCEventLoaded', array($event));
-	
+	$dispatcher->trigger('onGCEventLoadedAfter', array($event));
 	echo "</td></tr>\n";
+	
 	echo "</table></div>\n";
 }
 echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
