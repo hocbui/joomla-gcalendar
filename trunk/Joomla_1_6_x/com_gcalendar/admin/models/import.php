@@ -105,7 +105,7 @@ class GCalendarModelImport extends JModel
 	 * @return object with data
 	 */
 	function getOnlineData() {
-		$this->loadZendClasses();
+		GCalendarUtil::loadZendClasses();
 
 		$gcal_magics = array();
 		$client = $this->getAuthSubHttpClient();
@@ -259,18 +259,6 @@ class GCalendarModelImport extends JModel
 			}
 		}
 		return true;
-	}
-
-	function loadZendClasses() {
-		$mainframe = &JFactory::getApplication();
-		$absolute_path = $mainframe->getCfg( 'absolute_path' );
-		ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT . DS . 'libraries');
-
-		require_once('Zend' . DS . 'Loader.php');
-		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-		Zend_Loader::loadClass('Zend_Gdata_HttpClient');
-		Zend_Loader::loadClass('Zend_Gdata_Calendar');
-		Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
 	}
 }
 ?>
