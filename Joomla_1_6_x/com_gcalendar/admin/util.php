@@ -242,25 +242,25 @@ class GCalendarUtil{
 	{
 		$name = '';
 		switch ($day) {
-			case 0: 
+			case 0:
 				$name = $abbr ? JText::_('SUN') : JText::_('SUNDAY');
 				break;
-			case 1: 
+			case 1:
 				$name = $abbr ? JText::_('MON') : JText::_('MONDAY');
 				break;
-			case 2: 
+			case 2:
 				$name = $abbr ? JText::_('TUE') : JText::_('TUESDAY');
 				break;
-			case 3: 
+			case 3:
 				$name = $abbr ? JText::_('WED') : JText::_('WEDNESDAY');
 				break;
-			case 4: 
+			case 4:
 				$name = $abbr ? JText::_('THU') : JText::_('THURSDAY');
 				break;
-			case 5: 
+			case 5:
 				$name = $abbr ? JText::_('FRI') : JText::_('FRIDAY');
 				break;
-			case 6: 
+			case 6:
 				$name = $abbr ? JText::_('SAT') : JText::_('SATURDAY');
 				break;
 		}
@@ -278,40 +278,40 @@ class GCalendarUtil{
 	{
 		$name = '';
 		switch ($month) {
-			case 1:  
+			case 1:
 				$name = $abbr ? JText::_('JANUARY_SHORT')	: JText::_('JANUARY');
 				break;
-			case 2:  
+			case 2:
 				$name = $abbr ? JText::_('FEBRUARY_SHORT')	: JText::_('FEBRUARY');
 				break;
-			case 3:  
+			case 3:
 				$name = $abbr ? JText::_('MARCH_SHORT')		: JText::_('MARCH');
 				break;
-			case 4:  
+			case 4:
 				$name = $abbr ? JText::_('APRIL_SHORT')		: JText::_('APRIL');
 				break;
-			case 5:  
+			case 5:
 				$name = $abbr ? JText::_('MAY_SHORT')		: JText::_('MAY');
 				break;
-			case 6:  
+			case 6:
 				$name = $abbr ? JText::_('JUNE_SHORT')		: JText::_('JUNE');
 				break;
-			case 7:  
+			case 7:
 				$name = $abbr ? JText::_('JULY_SHORT')		: JText::_('JULY');
 				break;
-			case 8:  
+			case 8:
 				$name = $abbr ? JText::_('AUGUST_SHORT')	: JText::_('AUGUST');
 				break;
-			case 9:  
+			case 9:
 				$name = $abbr ? JText::_('SEPTEMBER_SHORT')	: JText::_('SEPTEMBER');
 				break;
-			case 10: 
+			case 10:
 				$name = $abbr ? JText::_('OCTOBER_SHORT')	: JText::_('OCTOBER');
 				break;
-			case 11: 
+			case 11:
 				$name = $abbr ? JText::_('NOVEMBER_SHORT')	: JText::_('NOVEMBER');
 				break;
-			case 12: 
+			case 12:
 				$name = $abbr ? JText::_('DECEMBER_SHORT')	: JText::_('DECEMBER');
 				break;
 		}
@@ -351,6 +351,18 @@ class GCalendarUtil{
 		}
 
 		return $result;
+	}
+
+	public static function loadZendClasses() {
+		$mainframe = &JFactory::getApplication();
+		$absolute_path = $mainframe->getCfg( 'absolute_path' );
+		ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . 'com_gcalendar' . DS . 'libraries');
+
+		require_once('Zend' . DS . 'Loader.php');
+		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
+		Zend_Loader::loadClass('Zend_Gdata_HttpClient');
+		Zend_Loader::loadClass('Zend_Gdata_Calendar');
+		Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
 	}
 }
 ?>
