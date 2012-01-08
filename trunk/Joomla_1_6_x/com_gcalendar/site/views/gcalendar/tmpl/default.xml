@@ -36,7 +36,10 @@
                 label="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_SHOW_WEEKEND_LABEL" description="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_SHOW_WEEKEND_DESC"> 
                 <option value="1">COM_GCALENDAR_FIELD_YES</option> 
                 <option value="0">COM_GCALENDAR_FIELD_NO</option> 
-            </field> 
+            </field>
+            <field name="calendar_height" type="text" size="50" default="0"
+				label="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CALENDAR_LABEL"
+				description="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CALENDAR_DESC" />
 			<field name="titleformat_month" type="text" default="F Y" label="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_TITLE_FORMAT_MONTH_LABEL"
 				description="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_TITLE_FORMAT_MONTH_DESC" size="50" />
 			<field name="titleformat_week" type="text" default="M j[ Y]{ '&#8212;'[ M] j o}" label="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_TITLE_FORMAT_WEEK_LABEL"

@@ -197,7 +197,7 @@ class GCalendarUtil{
 			//Make any URLs used in the description also clickable
 			$desc = preg_replace("@(src|href)=\"https?\://@i",'\\1="',$event->get_description());
 			$desc = preg_replace("@(((f|ht)tps?://)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $desc);
-			//or "¤(((f|ht)tp:\/\/)[\-a-zA-Z0-9@:%_\+\.~#\?,\/=&;]+)¤"
+			//or "ï¿½(((f|ht)tp:\/\/)[\-a-zA-Z0-9@:%_\+\.~#\?,\/=&;]+)ï¿½"
 		}
 
 		$temp_event=str_replace("{title}",$event->get_title(),$temp_event);
@@ -354,15 +354,19 @@ class GCalendarUtil{
 	}
 
 	public static function loadZendClasses() {
-		$mainframe = &JFactory::getApplication();
-		$absolute_path = $mainframe->getCfg( 'absolute_path' );
-		ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . 'com_gcalendar' . DS . 'libraries');
+		static $zendLoaded;
+		if($zendLoaded == null){
+			$mainframe = &JFactory::getApplication();
+			$absolute_path = $mainframe->getCfg( 'absolute_path' );
+			ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_gcalendar' . DS . 'libraries');
 
-		require_once('Zend' . DS . 'Loader.php');
-		Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-		Zend_Loader::loadClass('Zend_Gdata_HttpClient');
-		Zend_Loader::loadClass('Zend_Gdata_Calendar');
-		Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
+			require_once('Zend' . DS . 'Loader.php');
+			Zend_Loader::loadClass('Zend_Gdata_AuthSub');
+			Zend_Loader::loadClass('Zend_Gdata_HttpClient');
+			Zend_Loader::loadClass('Zend_Gdata_Calendar');
+			Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
+			$zendLoaded = true;
+		}
 	}
 }
 ?>
