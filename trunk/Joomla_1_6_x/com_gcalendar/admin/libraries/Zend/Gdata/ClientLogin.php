@@ -16,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gdata
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ClientLogin.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: ClientLogin.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -39,7 +39,7 @@ require_once 'Zend/Version.php';
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gdata
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_ClientLogin
@@ -78,7 +78,7 @@ class Zend_Gdata_ClientLogin
      * @throws Zend_Gdata_App_CaptchaRequiredException
      * @return Zend_Gdata_HttpClient
      */
-    public static function getHttpClient($email, $password, $service = 'cl',
+    public static function getHttpClient($email, $password, $service = 'xapi',
         $client = null,
         $source = self::DEFAULT_SOURCE,
         $loginToken = null,
@@ -106,7 +106,7 @@ class Zend_Gdata_ClientLogin
         $client->setUri($loginUri);
         $useragent = $source . ' Zend_Framework_Gdata/' . Zend_Version::VERSION;
         $client->setConfig(array(
-                'maxredirects'    => 2,
+                'maxredirects'    => 0,
                 'strictredirects' => true,
                 'useragent' => $useragent
             )
