@@ -62,84 +62,8 @@ class GCalendarModelJSONFeed extends JModel {
 		foreach ($results as $result) {
 			if(empty($result->calendar_id))
 			continue;
-
-			$feed = new SimplePie_GCalendar();
-
-			if(JRequest::getCmd('layout', null) == 'module'){
-				$cacheTime = JRequest::getInt('ctime', -1);
-				if($cacheTime > -1){
-					// check if cache directory exists and is writeable
-					$cacheDir =  JPATH_BASE.DS.'cache'.DS.'mod_gcalendar';
-					$cache_exists = true;
-					JFolder::create($cacheDir, 0755);
-					if ( !is_writable( $cacheDir ) ) {
-						JError::raiseWarning( 500, "Created cache at ".$cacheDir." is not writable, disabling cache.");
-						$cache_exists = false;
-					}else{
-						$cache_exists = true;
-					}
-
-					$feed->enable_cache($cache_exists);
-					if($cache_exists) {
-						$feed->set_cache_location($cacheDir);
-						$feed->set_cache_duration($cacheTime);
-					}
-				} else {
-					$feed->enable_cache(false);
-					$feed->set_cache_duration(-1);
-				}
-			} else{
-				$linkID = GCalendarUtil::getItemId($result->id);
-				$menus	= &JSite::getMenu();
-				$params = $menus->getParams($linkID);
-
-				$conf =& JFactory::getConfig();
-				if ($params != null && ($params->get('gccache', 0) == 2 || ($params->get('gccache', 0) == 1 && $conf->getValue( 'config.caching' )))){
-					$cacheTime = $params->get( 'gccache_time', $conf->getValue( 'config.cachetime' ) * 60 );
-					// check if cache directory exists and is writeable
-					$cacheDir =  JPATH_BASE.DS.'cache'.DS.'com_gcalendar';
-					JFolder::create($cacheDir, 0755);
-					if ( !is_writable( $cacheDir ) ) {
-						JError::raiseWarning( 500, "Created cache at ".$cacheDir." is not writable, disabling cache.");
-						$cache_exists = false;
-					}else{
-						$cache_exists = true;
-					}
-
-					//check and set caching
-					$feed->enable_cache($cache_exists);
-					if($cache_exists) {
-						$feed->set_cache_location($cacheDir);
-						$feed->set_cache_duration($cacheTime);
-					}
-				} else {
-					$feed->enable_cache(false);
-					$feed->set_cache_duration(-1);
-				}
-			}
-
-			$feed->set_show_past_events(FALSE);
-			$feed->set_sort_ascending(TRUE);
-			$feed->set_orderby_by_start_date(TRUE);
-			$feed->set_expand_single_events(TRUE);
-			$feed->enable_order_by_date(FALSE);
-			$feed->set_start_date($startDate);
-			$feed->set_end_date($endDate);
-			$feed->set_max_events(1000);
-			$feed->put('gcid',$result->id);
-			$feed->put('gccolor',$result->color);
-			$feed->put('gcname',$result->name);
-			$feed->set_cal_language(GCalendarUtil::getFrLanguage());
-			$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
-
-			$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
-			$feed->set_feed_url($url);
-			$feed->init();//echo $feed->feed_url;
-			if ($feed->error()){
-				JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
-			}
-			$feed->handle_content_type();
-			$calendars[] = $feed;
+			
+			$calendars[] = GCalendarZendHelper::getEvents($result, $startDate, $endDate, 1000);
 		}
 
 		return $calendars;

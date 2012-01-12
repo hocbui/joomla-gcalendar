@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access');
 	$data = array();
 	$data[] = checkRemoteConnection();
 	$data[] = checkPhpVersion();
-	$data[] = checkCacheForGCalendarView();
+// 	$data[] = checkCacheForGCalendarView();
 //	$data[] = checkTimezones();
 	$tmp = checkDB();
 	$data = array_merge($data, $tmp);
@@ -65,31 +65,22 @@ defined('_JEXEC') or die('Restricted access');
 			$tmp[] = array('name'=>'DB Entries Check', 'description'=>'No DB data found.', 'status'=>'ok', 'solution'=>'');
 		}else{
 			foreach ($results as $result) {
-				$feed = new SimplePie_GCalendar();
-				$feed->set_show_past_events(FALSE);
-				$feed->set_sort_ascending(TRUE);
-				$feed->set_orderby_by_start_date(TRUE);
-				$feed->set_expand_single_events(TRUE);
-				$feed->enable_order_by_date(FALSE);
-				$feed->enable_cache(FALSE);
-				$feed->set_cal_language(GCalendarUtil::getFrLanguage());
-				$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
+				$events = GCalendarZendHelper::getEvents($result, null, null, 5);
 
-				$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
-				$feed->set_feed_url($url);
-				$feed->init();
-				$feed->handle_content_type();
-				$data = $feed->get_items();
-
-				if ($feed->error()){
-					$desc = "The following Simplepie error occurred when reading calendar ".$result->name.":<br>".$feed->error();
+				if ($events == null){
+					$message = array_shift(JFactory::getApplication()->getMessageQueue());
+					if(key_exists('message', $message)){
+						$message = $message['message'];
+					} else {
+						$message = print_r($message, true);
+					}
+					$desc = "An error occurred when reading calendar ".$result->name.":<br>".$message;
 					$solution = "<ul><li>If the error is the same as in the connection test use the solution described there.</li>";
 					$solution .= "<li>Please check your shared settings of the calendar and the events, ";
 					$solution .= "if you do not share your calendar with the public the <a href=\"http://code.google.com/apis/calendar/docs/2.0/developers_guide_protocol.html#AuthMagicCookie\">magic cookie</a> field must be set.</li>";
-					$solution .= "<li>Run the <a href=\"components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php\">simplepie compatibility test</a> and check if your system does meet the minimum requirements of simplepie.</li>";
 					$solution .= "<li><b>If the problem still exists check the forum at <a href=\"http://g4j.laoneo.net\">g4j.laoneo.net</a>.</b></li>";
 					$status = 'failure';
-				}else if(empty($data)){
+				}else if(empty($events)){
 					$solution = 'Create events in the calendar.';
 					$status = 'warning';
 					$desc = 'Simplepie could check the events without any problems from calendar '.$result->name.'. But the result was empty.';
@@ -98,7 +89,7 @@ defined('_JEXEC') or die('Restricted access');
 					$status = 'ok';
 					$desc = 'Simplepie could read the events without any problems from calendar '.$result->name.'.';
 				}
-				$desc .= $desc.'<br><a href="'.$feed->feed_url.'" target="_blank">Here</a> is the url of the generated google calendar feed.';
+// 				$desc .= $desc.'<br><a href="'.$feed->feed_url.'" target="_blank">Here</a> is the url of the generated google calendar feed.';
 				$tmp[] = array('name'=>$result->name.' Check', 'description'=>$desc, 'status'=>$status, 'solution'=>$solution);
 			}
 		}
