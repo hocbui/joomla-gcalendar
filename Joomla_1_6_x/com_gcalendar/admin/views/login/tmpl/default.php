@@ -19,38 +19,9 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-
-$mainframe = &JFactory::getApplication();
-$absolute_path = $mainframe->getCfg( 'absolute_path' );
-
-Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-Zend_Loader::loadClass('Zend_Gdata_HttpClient');
-Zend_Loader::loadClass('Zend_Gdata_Calendar');
-
-$params = &JComponentHelper::getParams( 'com_gcalendar' );
-$domain = $params->get('google_apps_domain');
-
-$u = JFactory::getURI();
-$next = $u->toString();
-if(strpos($next, '&task='.JRequest::getCmd('nextTask')) === false){
-	$next .= '&task='.JRequest::getCmd('nextTask');
-}
-$next = JRoute::_($next);
-$scope = 'http://www.google.com/calendar/feeds/';
-$session = true;
-$secure = false;
-$hd = '';
-if(!empty($domain))
-$hd = '&hd='.$domain;
-$authSubUrl = Zend_Gdata_AuthSub::getAuthSubTokenUri($next, $scope, $secure,
-$session,Zend_Gdata_AuthSub::AUTHSUB_REQUEST_URI);
 ?>
-<fieldset><legend><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_SAFE_LABEL');?></legend>
-<a href="<?php echo $authSubUrl.$hd;?>"><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_SAFE_DESC');?></a>
-</fieldset>
-<hr/>
 <fieldset><legend><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_LABEL');?></legend>
-<form action="<?php echo JRoute::_( $u->toString().'&view=import');?>" method="post">
+<form action="<?php echo JRoute::_( JFactory::getURI()->toString().'&view=import');?>" method="post">
 	<table>
 	<tr><td><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_FIELD_NAME');?>:</td><td><input type="text" name="user" size="100"/></td></tr>
 	<tr><td><?php echo JText::_('COM_GCALENDAR_VIEW_LOGIN_AUTH_DEFAULT_FIELD_PASSWORD');?>:</td><td><input type="password"name="pass" size="100"/></td></tr>

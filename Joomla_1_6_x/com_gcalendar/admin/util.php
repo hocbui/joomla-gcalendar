@@ -134,14 +134,14 @@ class GCalendarUtil{
 	 * @param $timeformat
 	 * @return the HTML code of the efent
 	 */
-	public static function renderEvent($event, $format, $dateformat, $timeformat){
-		$feed = $event->get_feed();
+	public static function renderEvent(GCalendar_Entry $event, $format, $dateformat, $timeformat){
+		$feed = $event->getFeed();
 		$tz = GCalendarUtil::getComponentParameter('timezone');
 		if($tz == ''){
-			$tz = $feed->get_timezone();
+			$tz = $feed->getTimezone();
 		}
 
-		$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
+		$itemID = GCalendarUtil::getItemId($feed->getParam('gcid'));
 		if(!empty($itemID)){
 			$itemID = '&Itemid='.$itemID;
 		}else{
@@ -152,38 +152,38 @@ class GCalendarUtil{
 		}
 
 		// These are the dates we'll display
-		$startDate = GCalendarUtil::formatDate($dateformat, $event->get_start_date());
-		$startTime = GCalendarUtil::formatDate($timeformat, $event->get_start_date());
-		$endDate = GCalendarUtil::formatDate($dateformat, $event->get_end_date());
-		$endTime = GCalendarUtil::formatDate($timeformat, $event->get_end_date());
+		$startDate = GCalendarUtil::formatDate($dateformat, $event->getStartDate());
+		$startTime = GCalendarUtil::formatDate($timeformat, $event->getStartDate());
+		$endDate = GCalendarUtil::formatDate($dateformat, $event->getEndDate());
+		$endTime = GCalendarUtil::formatDate($timeformat, $event->getEndDate());
 
 		$temp_event = $format;
 
-		switch($event->get_day_type()){
-			case $event->SINGLE_WHOLE_DAY:
+		switch($event->getDayType()){
+			case GCalendar_Entry::SINGLE_WHOLE_DAY:
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 				$temp_event=str_replace("{starttime}","",$temp_event);
 				$temp_event=str_replace("{dateseparator}","",$temp_event);
 				$temp_event=str_replace("{enddate}","",$temp_event);
 				$temp_event=str_replace("{endtime}","",$temp_event);
 				break;
-			case $event->SINGLE_PART_DAY:
+			case GCalendar_Entry::SINGLE_PART_DAY:
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 				$temp_event=str_replace("{starttime}",$startTime,$temp_event);
 				$temp_event=str_replace("{dateseparator}","-",$temp_event);
 				$temp_event=str_replace("{enddate}","",$temp_event);
 				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
 				break;
-			case $event->MULTIPLE_WHOLE_DAY:
+			case GCalendar_Entry::MULTIPLE_WHOLE_DAY:
 				$SECSINDAY=86400;
-				$endDate = GCalendarUtil::formatDate($dateformat, $event->get_end_date()-$SECSINDAY);
+				$endDate = GCalendarUtil::formatDate($dateformat, $event->getEndDate()-$SECSINDAY);
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 				$temp_event=str_replace("{starttime}","",$temp_event);
 				$temp_event=str_replace("{dateseparator}","-",$temp_event);
 				$temp_event=str_replace("{enddate}",$endDate,$temp_event);
 				$temp_event=str_replace("{endtime}","",$temp_event);
 				break;
-			case $event->MULTIPLE_PART_DAY:
+			case GCalendar_Entry::MULTIPLE_PART_DAY:
 				$temp_event=str_replace("{startdate}",$startDate,$temp_event);
 				$temp_event=str_replace("{starttime}",$startTime,$temp_event);
 				$temp_event=str_replace("{dateseparator}","-",$temp_event);
@@ -192,22 +192,22 @@ class GCalendarUtil{
 				break;
 		}
 		if(GCalendarUtil::getComponentParameter('event_description_format', 1) == 2) {
-			$desc = html_entity_decode($event->get_description());
+			$desc = html_entity_decode($event->getContent());
 		}else{
 			//Make any URLs used in the description also clickable
-			$desc = preg_replace("@(src|href)=\"https?\://@i",'\\1="',$event->get_description());
+			$desc = preg_replace("@(src|href)=\"https?\://@i",'\\1="',$event->getContent());
 			$desc = preg_replace("@(((f|ht)tps?://)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $desc);
 			//or "�(((f|ht)tp:\/\/)[\-a-zA-Z0-9@:%_\+\.~#\?,\/=&;]+)�"
 		}
 
-		$temp_event=str_replace("{title}",$event->get_title(),$temp_event);
+		$temp_event=str_replace("{title}",$event->getTitle(),$temp_event);
 		$temp_event=str_replace("{description}",$desc,$temp_event);
-		$temp_event=str_replace("{where}",$event->get_location(),$temp_event);
-		$temp_event=str_replace("{backlink}",htmlentities(JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$feed->get('gcid').$itemID)),$temp_event);
-		$temp_event=str_replace("{link}",$event->get_link().'&ctz='.$tz,$temp_event);
-		$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($event->get_location()),$temp_event);
-		$temp_event=str_replace("{calendarname}",$feed->get('gcname'),$temp_event);
-		$temp_event=str_replace("{calendarcolor}",$feed->get('gccolor'),$temp_event);
+		$temp_event=str_replace("{where}",$event->getLocation(),$temp_event);
+		$temp_event=str_replace("{backlink}",htmlentities(JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getId().'&gcid='.$feed->getParam('gcid').$itemID)),$temp_event);
+		$temp_event=str_replace("{link}",$event->getLink().'&ctz='.$tz,$temp_event);
+		$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($event->getLocation()),$temp_event);
+		$temp_event=str_replace("{calendarname}",$feed->getParam('gcname'),$temp_event);
+		$temp_event=str_replace("{calendarcolor}",$feed->getParam('gccolor'),$temp_event);
 		// Accept and translate HTML
 		$temp_event = html_entity_decode($temp_event);
 		return $temp_event;
@@ -351,22 +351,6 @@ class GCalendarUtil{
 		}
 
 		return $result;
-	}
-
-	public static function loadZendClasses() {
-		static $zendLoaded;
-		if($zendLoaded == null){
-			$mainframe = &JFactory::getApplication();
-			$absolute_path = $mainframe->getCfg( 'absolute_path' );
-			ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_gcalendar' . DS . 'libraries');
-
-			require_once('Zend' . DS . 'Loader.php');
-			Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-			Zend_Loader::loadClass('Zend_Gdata_HttpClient');
-			Zend_Loader::loadClass('Zend_Gdata_Calendar');
-			Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
-			$zendLoaded = true;
-		}
 	}
 }
 ?>

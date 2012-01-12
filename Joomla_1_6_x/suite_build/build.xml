@@ -7,7 +7,7 @@
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
 	<property name="gcalendarRoot" location="${basedir}/../GC_Joomla_1_6_x" />
-	<property name="gcalendarVersion" value="2_4_1" />
+	<property name="gcalendarVersion" value="2_5_0" />
 
 	<target name="init">
 		<!-- Create the time stamp -->

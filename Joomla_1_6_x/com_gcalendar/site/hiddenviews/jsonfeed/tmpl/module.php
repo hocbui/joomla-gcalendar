@@ -47,13 +47,12 @@ while ($requestedDayStart < $endDate) {
 	if(!empty($this->calendars)){
 		foreach ($this->calendars as $calendar){
 			$calID = null;
-			$items = $calendar->get_items();
-			foreach ($items as $item) {
-				if($requestedDayStart  < $item->get_end_date()
-				&& $item->get_start_date() < $requestedDayEnd){
+			foreach ($calendar as $item) {
+				if($requestedDayStart  < $item->getEnddate()
+				&& $item->getStartDate() < $requestedDayEnd){
 					$result[] = $item;
-					$calID = $calendar->get('gcid').',';
-					$description .= '<li><font color="#'.$calendar->get('gccolor').'">'.htmlspecialchars_decode($item->get_title()).'</font></li>';
+					$calID = $calendar->getParam('gcid').',';
+					$description .= '<li><font color="#'.$calendar->getParam('gccolor').'">'.htmlspecialchars_decode($item->getTitle()).'</font></li>';
 				}
 			}
 			if($calID != null)

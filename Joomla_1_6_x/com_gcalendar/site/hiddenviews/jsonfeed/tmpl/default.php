@@ -23,7 +23,7 @@ $data = array();
 $SECSINDAY=86400;
 if(!empty($this->calendars)){
 	foreach ($this->calendars as $calendar){
-		$itemID = GCalendarUtil::getItemId($calendar->get('gcid'));
+		$itemID = GCalendarUtil::getItemId($calendar->getParam('gcid'));
 		$menus	= &JSite::getMenu();
 		$params = $menus->getParams($itemID);
 		if(empty($params))
@@ -41,19 +41,18 @@ if(!empty($this->calendars)){
 			$itemID = '&Itemid='.$activemenu->id;
 		}
 
-		$items = $calendar->get_items();
-		foreach ($items as $event) {
-			$allDayEvent = $event->get_day_type() == $event->SINGLE_WHOLE_DAY || $event->get_day_type() == $event->MULTIPLE_WHOLE_DAY;
+		foreach ($calendar as $event) {
+			$allDayEvent = $event->getDayType() == GCalendar_Entry::SINGLE_WHOLE_DAY || $event->getDayType() == GCalendar_Entry::MULTIPLE_WHOLE_DAY;
 			$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
 			if(strlen($description) > 200)
 			$description = substr($description, 0, 196).' ...';
 			$data[] = array(
-			'id' => $event->get_id(),
-			'title' => htmlspecialchars_decode($event->get_title()),
-			'start' => GCalendarUtil::formatDate('Y-m-d\TH:i:s', $event->get_start_date()),
-			'end' => GCalendarUtil::formatDate('Y-m-d\TH:i:s',$allDayEvent? $event->get_end_date() - $SECSINDAY:$event->get_end_date()),
-			'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$calendar->get('gcid').$itemID),
-			'className' => "gcal-event_gccal_".$calendar->get('gcid'),
+			'id' => $event->getId(),
+			'title' => htmlspecialchars_decode($event->getTitle()),
+			'start' => GCalendarUtil::formatDate('Y-m-d\TH:i:s', $event->getStartDate()),
+			'end' => GCalendarUtil::formatDate('Y-m-d\TH:i:s',$allDayEvent? $event->getEndDate() - $SECSINDAY:$event->getEndDate()),
+			'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$calendar->getParam('gcid').$itemID),
+			'className' => "gcal-event_gccal_".$calendar->getParam('gcid'),
 			'allDay' => $allDayEvent,
 			'description' => $description
 			);
