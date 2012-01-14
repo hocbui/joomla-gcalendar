@@ -61,8 +61,12 @@ class GCalendarModelJSONFeed extends JModel {
 		foreach ($results as $result) {
 			if(empty($result->calendar_id))
 			continue;
-			
-			$calendars[] = GCalendarZendHelper::getEvents($result, $startDate, $endDate, 1000);
+				
+			$events = GCalendarZendHelper::getEvents($result, $startDate, $endDate, 1000);
+			if($events == null){
+				continue;
+			}
+			$calendars[] = $events;
 		}
 
 		return $calendars;

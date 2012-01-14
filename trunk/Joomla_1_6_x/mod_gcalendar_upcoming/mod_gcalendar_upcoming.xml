@@ -105,14 +105,6 @@
 				<field name="end_date" type="text" size="80" default=""
 					label="MOD_GCALENDAR_UPCOMING_FIELD_END_DATE_LABEL"
 					description="MOD_GCALENDAR_UPCOMING_FIELD_END_DATE_DESC" />
-				<field name="gc_cache" type="list" default="1" label="MOD_GCALENDAR_UPCOMING_FIELD_CACHE_LABEL"
-					description="MOD_GCALENDAR_UPCOMING_FIELD_CACHE_DESC">
-					<option value="1">MOD_GCALENDAR_UPCOMING_FIELD_CACHE_GLOBAL</option>
-					<option value="2">MOD_GCALENDAR_UPCOMING_FIELD_CACHE_ALWAYS</option>
-					<option value="0">MOD_GCALENDAR_UPCOMING_FIELD_CACHE_NEVER</option>
-				</field>
-				<field name="gc_cache_time" type="text" default="900" label="MOD_GCALENDAR_UPCOMING_FIELD_CACHE_TIME_LABEL"
-					description="MOD_GCALENDAR_UPCOMING_FIELD_CACHE_TIME_DESC" />
 			</fieldset>
 		</fields>
 	</config>

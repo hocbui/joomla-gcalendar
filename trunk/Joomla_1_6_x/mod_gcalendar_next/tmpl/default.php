@@ -31,7 +31,7 @@ if (!$gcalendar_item) {
 	return;
 }
 
-$targetDate = $gcalendar_item->get_start_date();
+$targetDate = $gcalendar_item->getStartDate();
 $now = false;
 if ($targetDate < time()) {
 	# Countdown to end of event, not currently implemented
@@ -69,7 +69,7 @@ $calCode .= "	jQuery(document).ready(function() {\n";
 $calCode .= "	var targetDate; \n";
 $calCode .= "	targetDate = new Date(\"".GCalendarUtil::formatDate("D,d M Y H:i:s", $targetDate)."\");\n";
 $calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
-$calCode .= "				       description: '".str_replace('\'', '\\\'', $gcalendar_item->get_title())."', \n";
+$calCode .= "				       description: '".str_replace('\'', '\\\'', $gcalendar_item->getTitle())."', \n";
 $calCode .= " 				       layout: '".str_replace('\'', '\\\'',$layout)."', \n";
 $calCode .= "				       alwaysExpire: true, expiryText: '".str_replace('\'', '\\\'',$expiryText)."', \n";
 $calCode .= "				       ".$params->get('style_parameters', "format: 'dHMS'")."});\n";

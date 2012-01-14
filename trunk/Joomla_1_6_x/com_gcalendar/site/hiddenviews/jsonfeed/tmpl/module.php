@@ -47,12 +47,15 @@ while ($requestedDayStart < $endDate) {
 	if(!empty($this->calendars)){
 		foreach ($this->calendars as $calendar){
 			$calID = null;
+			if(empty($calendar)){
+				continue;
+			}
 			foreach ($calendar as $item) {
-				if($requestedDayStart  < $item->getEnddate()
+				if($requestedDayStart  < $item->getEndDate()
 				&& $item->getStartDate() < $requestedDayEnd){
 					$result[] = $item;
-					$calID = $calendar->getParam('gcid').',';
-					$description .= '<li><font color="#'.$calendar->getParam('gccolor').'">'.htmlspecialchars_decode($item->getTitle()).'</font></li>';
+					$calID = $item->getParam('gcid').',';
+					$description .= '<li><font color="#'.$item->getParam('gccolor').'">'.htmlspecialchars_decode($item->getTitle()).'</font></li>';
 				}
 			}
 			if($calID != null)
@@ -75,7 +78,7 @@ while ($requestedDayStart < $endDate) {
 		//			'end' => $requestedDayEnd - 10,
 			'className' => "gcal-module_event_gccal_".$moduleId,
 			'description' => sprintf(JText::_('COM_GCALENDAR_JSON_VIEW_EVENT_TITLE'), count($result)).'<ul>'.$description.'</ul>'
-			);
+		);
 	}
 
 	$requestedDayStart += $SECSINDAY;

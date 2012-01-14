@@ -20,7 +20,7 @@
 
 class GCalendarZendHelper{
 
-	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000){
+	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = 'starttime'){
 		$cache = & JFactory::getCache('com_gcalendar');
 		$cache->setCaching(GCalendarUtil::getComponentParameter('gc_cache', 1) == '1');
 		if(GCalendarUtil::getComponentParameter('gc_cache', 1) == 2){
@@ -29,7 +29,7 @@ class GCalendarZendHelper{
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
 
-		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max);
+		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy);
 	}
 
 	public static function getEvent($calendar, $eventId){
@@ -44,7 +44,7 @@ class GCalendarZendHelper{
 		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvent' ), $calendar, $eventId);
 	}
 
-	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000){
+	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = 'starttime'){
 		GCalendarZendHelper::loadZendClasses();
 
 		$client = new Zend_Http_Client();
@@ -56,7 +56,7 @@ class GCalendarZendHelper{
 			$query->setVisibility('private-'.$calendar->magic_cookie);
 		}
 		$query->setProjection('full');
-		$query->setOrderBy('starttime');
+		$query->setOrderBy($orderBy);
 		$query->setSortOrder('ascending');
 		$query->setSingleEvents('true');
 		if($startDate != null){

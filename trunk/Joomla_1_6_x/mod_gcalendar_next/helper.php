@@ -23,15 +23,64 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'events_helper.php');
-
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-class ModGCalendarNextHelper extends GCalendarEventsHelper {
+class ModGCalendarNextHelper  {
 
-	function getCalendarItems(&$params) {
-		$events = parent::getCalendarItems($params);
-		return $events[0];
+	public static function getCalendarItems($params	) {
+		GCalendarZendHelper::loadZendClasses();
+		$calendarids = $params->get('calendarids');
+		$results = GCalendarDBUtil::getCalendars($calendarids);
+		if(empty($results)){
+			JError::raiseWarning( 500, 'The selected calendar(s) were not found in the database.');
+			return array();
+		}
+
+		$orderBy = $params->get( 'order', 1 )==1;
+		$maxEvents = $params->get('max_events', 10);
+		$filter = $params->get('find', '');
+		$startDate = $params->get('start_date', null);
+		$endDate = $params->get('end_date', null);
+		if(!empty($startDate)){
+			$startDate = strtotime($startDate);
+		}
+		if( !empty($endDate)){
+			$endDate = strtotime($endDate);
+		}
+		$titleFilter = $params->get('title_filter', '.*');
+
+		$values = array();
+		foreach ($results as $result) {
+			$events = GCalendarZendHelper::getEvents($result, $startDate, $endDate, $maxEvents, $filter, $orderBy);
+			if(!empty($events)){
+				foreach ($events as $event) {
+					if(!($event instanceof GCalendar_Entry)){
+						continue;
+					}
+					$event->setParam('moduleFilter', $titleFilter);
+					$values[] = $event;
+				}
+			}
+		}
+
+		usort($values, array("GCalendar_Entry", "compare"));
+		
+		$events = array_filter($values, array('ModGCalendarNextHelper', "filter"));
+	
+		$offset = $params->get('offset', 0);
+		$numevents = $params->get('count', $maxEvents);
+	
+		return array_shift($values);
+	}
+	
+	private static function filter($event) {
+		if (!preg_match('/'.$event->getParam('moduleFilter').'/', $event->getTitle())) {
+			return false;
+		}
+		if ($event->getEndDate() > time()) {
+			return true;
+		}
+	
+		return false;
 	}
 }
-?>
