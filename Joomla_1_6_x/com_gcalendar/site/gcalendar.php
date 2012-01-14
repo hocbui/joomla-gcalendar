@@ -26,7 +26,7 @@ error_reporting(E_ALL);
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_COMPONENT_ADMINISTRATOR . DS . 'libraries');
+ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components'. DS .'com_gcalendar' . DS . 'libraries');
 if(!class_exists('Zend_Loader')){
 	require_once 'Zend/Loader.php';
 }

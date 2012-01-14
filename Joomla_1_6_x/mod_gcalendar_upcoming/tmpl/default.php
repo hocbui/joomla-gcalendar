@@ -24,10 +24,10 @@ $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/default.css');
 
 $event_display = $params->get('output', '');
-$group_format=trim($params->get('output_grouping', '')); // 12 Nov 2011 Grouping mod by Bernie Sumption
+$group_format = trim($params->get('output_grouping', '')); // 12 Nov 2011 Grouping mod by Bernie Sumption
 
-$dateformat=$params->get('date_format', 'd.m.Y');
-$timeformat=$params->get('time_format', 'H:i');
+$dateformat = $params->get('date_format', 'd.m.Y');
+$timeformat = $params->get('time_format', 'H:i');
 
 echo $params->get( 'text_before' );
 if(!empty($gcalendar_data)){
@@ -37,7 +37,7 @@ if(!empty($gcalendar_data)){
 	$lastHeading = ''; // 12 Nov 2011 Grouping mod by Bernie Sumption
 	foreach( $gcalendar_data as $item){
 		// 12 Nov 2011 Grouping mod by Bernie Sumption
-		$groupHeading = GCalendarUtil::formatDate($group_format, $item->get_start_date());
+		$groupHeading = GCalendarUtil::formatDate($group_format, $item->getStartDate());
 		if ($groupHeading != $lastHeading) {
 			$lastHeading = $groupHeading;
 			echo str_replace("{header}", $groupHeading, $params->get('output_grouping_content', '<p style="clear: both;"><strong>{header}</strong></p>'));
@@ -46,12 +46,11 @@ if(!empty($gcalendar_data)){
 		
 		// APRIL 2011 MOD - CALENDAR IMAGES by Tyson Moore
 		if($params->get('images', 'no') != 'no') {
-			$month_text = strtoupper(GCalendarUtil::formatDate('M', $item->get_start_date()));
-			$day = GCalendarUtil::formatDate('d', $item->get_start_date());
-			$feed = $item->get_feed();
-			$colorImageBackground = $params->get('images', 'yes') == 'custom' ? '#'.$params->get('calimage_background') : GCalendarUtil::getFadedColor($feed->get('gccolor'), 80);
+			$month_text = strtoupper(GCalendarUtil::formatDate('M', $item->getStartDate()));
+			$day = GCalendarUtil::formatDate('d', $item->getStartDate());
+			$colorImageBackground = $params->get('images', 'yes') == 'custom' ? '#'.$params->get('calimage_background') : GCalendarUtil::getFadedColor($item->getParam('gccolor'), 80);
 			$colorMonth = $params->get('images', 'yes') == 'custom' ? $params->get('calimage_month') : 'FFFFFF';
-			$colorDay = $params->get('images', 'yes') == 'custom' ? $params->get('calimage_day') : $feed->get('gccolor');
+			$colorDay = $params->get('images', 'yes') == 'custom' ? $params->get('calimage_day') : $item->getParam('gccolor');
 			echo '<div class="gc_up_mod_img">';
 			echo '<div class="gc_up_mod_month_background" style="background-color: ' . $colorImageBackground . ';"></div>';
 			echo '<div class="gc_up_mod_month_text" style="color: #' . $colorMonth . ';">' . $month_text . '</div>';

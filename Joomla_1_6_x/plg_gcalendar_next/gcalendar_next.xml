@@ -59,14 +59,6 @@
 			<field name="only-part_day" type="text" size="40" default="[$start l, F d, Y g:ia$] until [$finish g:ia $]" description="PLG_GCALENDAR_NEXT_FIELD_ONLY_PART_DAY_DESC" label="PLG_GCALENDAR_NEXT_FIELD_ONLY_PART_DAY_LABEL"/>
 			<field name="multi-whole_day" type="text" size="40" default="[$start l, F d - d, Y$] all day" description="PLG_GCALENDAR_NEXT_FIELD_MULTI_WHOLE_DAY_DESC" label="PLG_GCALENDAR_NEXT_FIELD_MULTI_WHOLE_DAY_LABEL"/>
 			<field name="multi-part_day" type="text" size="40" default="[$start l, F d, Y g:ia$] until [$finish l, F d, Y g:ia $]" description="PLG_GCALENDAR_NEXT_FIELD_MULTI_PART_DAY_DESC" label="PLG_GCALENDAR_NEXT_FIELD_MULTI_PART_DAY_LABEL"/>		
-			<field name="gc_cache" type="list" default="1" label="PLG_GCALENDAR_NEXT_FIELD_CACHE_LABEL"
-				description="PLG_GCALENDAR_NEXT_FIELD_CACHE_DESC">
-				<option value="1">PLG_GCALENDAR_NEXT_FIELD_CACHE_GLOBAL</option>
-				<option value="2">PLG_GCALENDAR_NEXT_FIELD_CACHE_ALWAYS</option>
-				<option value="0">PLG_GCALENDAR_NEXT_FIELD_CACHE_NEVER</option>
-			</field>
-			<field name="gc_cache_time" type="text" default="900" label="PLG_GCALENDAR_NEXT_FIELD_CACHE_TIME_LABEL"
-				description="PLG_GCALENDAR_NEXT_FIELD_CACHE_TIME_DESC" />		
 		</fieldset>
 	</fields>
 </config>

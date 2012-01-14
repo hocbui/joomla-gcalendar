@@ -20,16 +20,14 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components'. DS .'com_gcalendar' . DS . 'libraries');
+if(!class_exists('Zend_Loader')){
+	require_once 'Zend/Loader.php';
+}
+require_once 'GCalendar'.DS.'GCalendarZendHelper.php';
+
 require_once (dirname(__FILE__).DS.'helper.php');
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-
-$params->set('expand_events', 1);
-$startDate = $params->get('start_date', '');
-if(empty($startDate)){
-	$params->set('start_date', 'now');
-	$params->set('past_events', 0);
-}
-$params->set('gc_cache_folder', 'mod_gcalendar_upcoming');
 
 $gcalendar_data = ModGCalendarUpcomingHelper::getCalendarItems($params);
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar_upcoming' ) );

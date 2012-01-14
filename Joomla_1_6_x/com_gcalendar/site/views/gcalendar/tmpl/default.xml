@@ -97,14 +97,6 @@
 				description="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_MIN_TIME_DESC" size="10" />
 			<field name="max_time" type="text" default="24" label="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_MAX_TIME_LABEL"
 				description="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_MAX_TIME_DESC" size="10" />
-			<field name="gccache" type="list" default="1" label="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CACHE_LABEL"
-				description="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CACHE_DESC">
-				<option value="1">COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CACHE_GLOBAL</option>
-				<option value="2">COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CACHE_ALWAYS</option>
-				<option value="0">COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CACHE_NEVER</option>
-			</field>
-			<field name="gccache_time" type="text" default="3600" label="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CACHE_TIME_LABEL"
-				description="COM_GCALENDAR_VIEW_GCALENDAR_FIELD_CACHE_TIME_DESC" />
 		</fieldset>
 	</fields>
 </metadata>
