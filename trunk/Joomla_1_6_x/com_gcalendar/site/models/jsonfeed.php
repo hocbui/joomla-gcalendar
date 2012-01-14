@@ -31,7 +31,6 @@ class GCalendarModelJSONFeed extends JModel {
 	 * cache is used and configured from the menu parameters.
 	 */
 	function getGoogleCalendarFeeds() {
-		GCalendarUtil::ensureSPIsLoaded();
 		$startDate = JRequest::getVar('start', null);
 		$endDate = JRequest::getVar('end', null);
 

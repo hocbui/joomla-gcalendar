@@ -30,21 +30,25 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	private $endDate = null;
 	private $location = null;
 	private $gcalId = null;
-	private $feed = null;
+	private $params = array();
 
-	public function getFeed(){
-		return $this->feed;
+	public function setParam($key, $value){
+		$this->params[$key] = $value;
 	}
 
-	public function setFeed(GCalendar_Feed $feed){
-		$this->feed = $feed;
+	public function getParam($key){
+		return $this->params[$key];
 	}
 
 	public function getGCalId(){
 		if($this->gcalId == null){
 			$from = strrpos($this->getId(), '/')+1;
 			$to = strrpos($this->getId(), '_');
-			$this->gcalId = substr($this->getId(), $from, $to - $from);
+			if($to === false){
+				$this->gcalId = substr($this->getId(), $from);
+			} else {
+				$this->gcalId = substr($this->getId(), $from, $to - $from);
+			}
 		}
 		return $this->gcalId;
 	}
@@ -84,6 +88,9 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	public function getStartDate(){
 		if($this->startDate == null){
 			$when = $this->getWhen();
+			if(empty($when)){
+				return null;
+			}
 			if(is_array($when)){
 				$when = reset($when);
 			}
@@ -95,6 +102,9 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	public function getEndDate(){
 		if($this->endDate == null){
 			$when = $this->getWhen();
+			if(empty($when)){
+				return null;
+			}
 			if(is_array($when)){
 				$when = reset($when);
 			}
