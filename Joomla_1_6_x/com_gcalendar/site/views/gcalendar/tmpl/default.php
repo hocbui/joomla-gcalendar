@@ -189,7 +189,7 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$popupWidth = $params->get('popup_width', 650);
 	$popupHeight = $params->get('popup_height', 500);
 	$calCode .= "		eventAfterRender: function(event, element, view) {\n";
-	$calCode .= "		        element.attr('href', element.attr('href')+'&tmpl=component');\n";
+	$calCode .= "		        element.attr('href', element.attr('href') + (element.attr('href').indexOf('?') != -1 ? '&' : '?')+'tmpl=component');\n";
 	$calCode .= "		        element.fancybox({\n";
 	$calCode .= "		           width: ".$popupWidth.",\n";
 	$calCode .= "		           height: ".$popupHeight.",\n";

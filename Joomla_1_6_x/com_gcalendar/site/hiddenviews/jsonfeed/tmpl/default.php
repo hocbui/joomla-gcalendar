@@ -23,25 +23,27 @@ $data = array();
 $SECSINDAY=86400;
 if(!empty($this->calendars)){
 	foreach ($this->calendars as $calendar){
-		$itemID = GCalendarUtil::getItemId($calendar->getParam('gcid'));
-		$menus	= &JSite::getMenu();
-		$params = $menus->getParams($itemID);
-		if(empty($params))
-		$params = new JParameter('');
-		$dateformat = $params->get('description_date_format', 'd.m.Y');
-		$timeformat = $params->get('description_time_format', 'H:i');
-		$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
-
-		if(!empty($itemID)) {
-			$itemID = '&Itemid='.$itemID;
-		} else {
-			$menu=JSite::getMenu();
-			$activemenu=$menu->getActive();
-			if($activemenu != null)
-			$itemID = '&Itemid='.$activemenu->id;
-		}
-
+		$itemID = null;
 		foreach ($calendar as $event) {
+			if($itemID == null){
+				$itemID = GCalendarUtil::getItemId($event->getParam('gcid'));
+				$menus	= &JSite::getMenu();
+				$params = $menus->getParams($itemID);
+				if(empty($params))
+				$params = new JParameter('');
+				$dateformat = $params->get('description_date_format', 'd.m.Y');
+				$timeformat = $params->get('description_time_format', 'H:i');
+				$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
+
+				if(!empty($itemID)) {
+					$itemID = '&Itemid='.$itemID;
+				} else {
+					$menu=JSite::getMenu();
+					$activemenu=$menu->getActive();
+					if($activemenu != null)
+					$itemID = '&Itemid='.$activemenu->id;
+				}
+			}
 			$allDayEvent = $event->getDayType() == GCalendar_Entry::SINGLE_WHOLE_DAY || $event->getDayType() == GCalendar_Entry::MULTIPLE_WHOLE_DAY;
 			$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
 			if(strlen($description) > 200)
@@ -51,8 +53,8 @@ if(!empty($this->calendars)){
 			'title' => htmlspecialchars_decode($event->getTitle()),
 			'start' => GCalendarUtil::formatDate('Y-m-d\TH:i:s', $event->getStartDate()),
 			'end' => GCalendarUtil::formatDate('Y-m-d\TH:i:s',$allDayEvent? $event->getEndDate() - $SECSINDAY:$event->getEndDate()),
-			'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$calendar->getParam('gcid').$itemID),
-			'className' => "gcal-event_gccal_".$calendar->getParam('gcid'),
+			'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID),
+			'className' => "gcal-event_gccal_".$event->getParam('gcid'),
 			'allDay' => $allDayEvent,
 			'description' => $description
 			);

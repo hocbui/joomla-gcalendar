@@ -36,40 +36,11 @@ class GCalendarModelEvent extends JModel
 	 */
 	function getGCalendar()
 	{
-		GCalendarUtil::ensureSPIsLoaded();
 		$results = GCalendarDBUtil::getCalendars(JRequest::getVar('gcid', null));
-		if(empty($results) || JRequest::getVar('eventID', null) == null)
-		return null;
-		$result = $results[0];
-
-		$feed = new SimplePie_GCalendar();
-		$feed->set_show_past_events(FALSE);
-		$feed->set_sort_ascending(TRUE);
-		$feed->set_orderby_by_start_date(TRUE);
-		$feed->set_expand_single_events(TRUE);
-		$feed->enable_order_by_date(FALSE);
-		$feed->enable_cache(FALSE);
-		$feed->set_start_date((JRequest::getVar('start', 0)-86400));
-		$feed->set_end_date((JRequest::getVar('end', 0)+86400));
-		$feed->put('gcid',$result->id);
-		$feed->put('gccolor',$result->color);
-		$feed->put('gcname',$result->name);
-		$feed->set_cal_language(GCalendarUtil::getFrLanguage());
-		$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
-
-		$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
-		$feed->set_feed_url($url);
-		$feed->init();
-		if ($feed->error()){
-			JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
+		if(empty($results) || JRequest::getVar('eventID', null) == null){
+			return null;
 		}
-		$feed->handle_content_type();
-		$items = $feed->get_items();
-		foreach ($items as $item) {
-			if($item->get_id() == JRequest::getVar('eventID', null))
-			return $item;
-		}
-		return null;
+
+		return GCalendarZendHelper::getEvent($results[0], JRequest::getVar('eventID', null));
 	}
-
 }

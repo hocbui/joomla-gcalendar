@@ -21,15 +21,5 @@
 class GCalendar_Feed extends Zend_Gdata_Calendar_EventFeed{
 
 	protected $_entryClassName = 'GCalendar_Entry';
-	
-	private $params = array();
-
-	public function setParam($key, $value){
-		$this->params[$key] = $value;
-	}
-
-	public function getParam($key){
-		return $this->params[$key];
-	}
 }
 ?>

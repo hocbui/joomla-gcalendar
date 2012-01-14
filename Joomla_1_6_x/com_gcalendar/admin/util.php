@@ -28,19 +28,6 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.
 class GCalendarUtil{
 
 	/**
-	 * Loads the simplepie Libraries the correct way.
-	 */
-	public static function ensureSPIsLoaded(){
-		if(!class_exists('SimplePie')){
-			jimport('simplepie.simplepie');
-		}
-
-		if(!class_exists('SimplePie_GCalendar')){
-			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'sp-gcalendar'.DS.'simplepie-gcalendar.php');
-		}
-	}
-
-	/**
 	 * Loads JQuery if the component parameter is set to yes.
 	 */
 	public static function loadJQuery(){
@@ -135,13 +122,12 @@ class GCalendarUtil{
 	 * @return the HTML code of the efent
 	 */
 	public static function renderEvent(GCalendar_Entry $event, $format, $dateformat, $timeformat){
-		$feed = $event->getFeed();
 		$tz = GCalendarUtil::getComponentParameter('timezone');
 		if($tz == ''){
-			$tz = $feed->getTimezone();
+			$tz = $event->getTimezone();
 		}
 
-		$itemID = GCalendarUtil::getItemId($feed->getParam('gcid'));
+		$itemID = GCalendarUtil::getItemId($event->getParam('gcid'));
 		if(!empty($itemID)){
 			$itemID = '&Itemid='.$itemID;
 		}else{
@@ -203,11 +189,11 @@ class GCalendarUtil{
 		$temp_event=str_replace("{title}",$event->getTitle(),$temp_event);
 		$temp_event=str_replace("{description}",$desc,$temp_event);
 		$temp_event=str_replace("{where}",$event->getLocation(),$temp_event);
-		$temp_event=str_replace("{backlink}",htmlentities(JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getId().'&gcid='.$feed->getParam('gcid').$itemID)),$temp_event);
+		$temp_event=str_replace("{backlink}",htmlentities(JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getId().'&gcid='.$event->getParam('gcid').$itemID)),$temp_event);
 		$temp_event=str_replace("{link}",$event->getLink().'&ctz='.$tz,$temp_event);
 		$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($event->getLocation()),$temp_event);
-		$temp_event=str_replace("{calendarname}",$feed->getParam('gcname'),$temp_event);
-		$temp_event=str_replace("{calendarcolor}",$feed->getParam('gccolor'),$temp_event);
+		$temp_event=str_replace("{calendarname}",$event->getParam('gcname'),$temp_event);
+		$temp_event=str_replace("{calendarcolor}",$event->getParam('gccolor'),$temp_event);
 		// Accept and translate HTML
 		$temp_event = html_entity_decode($temp_event);
 		return $temp_event;

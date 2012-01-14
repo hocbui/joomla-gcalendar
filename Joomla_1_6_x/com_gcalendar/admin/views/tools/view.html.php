@@ -27,7 +27,6 @@ class GCalendarViewTools extends JView
 	
 	function display($tpl = null)
 	{
-		GCalendarUtil::ensureSPIsLoaded();
 		JToolBarHelper::title(JText::_('COM_GCALENDAR_MANAGER_GCALENDAR'), 'calendar');
 		JToolBarHelper::preferences('com_gcalendar', 550);
 		parent::display($tpl);

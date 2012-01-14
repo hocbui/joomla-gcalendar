@@ -32,9 +32,21 @@ class GCalendarZendHelper{
 		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max);
 	}
 
+	public static function getEvent($calendar, $eventId){
+		$cache = & JFactory::getCache('com_gcalendar');
+		$cache->setCaching(GCalendarUtil::getComponentParameter('gc_cache', 1) == '1');
+		if(GCalendarUtil::getComponentParameter('gc_cache', 1) == 2){
+			$conf =& JFactory::getConfig();
+			$cache->setCaching($conf->getValue( 'config.caching' ));
+		}
+		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
+
+		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvent' ), $calendar, $eventId);
+	}
+
 	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000){
 		GCalendarZendHelper::loadZendClasses();
-		
+
 		$client = new Zend_Http_Client();
 		$service = new Zend_Gdata_Calendar($client);
 
@@ -56,7 +68,7 @@ class GCalendarZendHelper{
 		if($startDate == null && $endDate == null){
 			$query->setFutureEvents('false');
 		}
-		
+
 		$query->setMaxResults($max);
 		$timezone = GCalendarUtil::getComponentParameter('timezone');
 		if(!empty($timezone)){
@@ -65,14 +77,45 @@ class GCalendarZendHelper{
 		$query->setParam('hl', GCalendarUtil::getFrLanguage());
 
 		try {
-			$feed = $service->getFeed($query->getQueryUrl(), 'GCalendar_Feed');
-			$feed->setParam('gcid', $calendar->id);
-			$feed->setParam('gccolor', $calendar->color);
-			$feed->setParam('gcname', $calendar->name);
+			$feed = $service->getFeed($query, 'GCalendar_Feed');
 			foreach ($feed as $event) {
-				$event->setFeed($feed);
+				$event->setParam('gcid', $calendar->id);
+				$event->setParam('gccolor', $calendar->color);
+				$event->setParam('gcname', $calendar->name);
 			}
 			return $feed;
+		} catch (Zend_Gdata_App_Exception $e) {
+			JError::raiseWarning(200, $e->getMessage());
+			return null;
+		}
+	}
+
+	public static function internalGetEvent($calendar, $eventId){
+		GCalendarZendHelper::loadZendClasses();
+
+		$client = new Zend_Http_Client();
+		$service = new Zend_Gdata_Calendar($client);
+
+		$query = $service->newEventQuery();
+		$query->setUser($calendar->calendar_id);
+		if($calendar->magic_cookie != null){
+			$query->setVisibility('private-'.$calendar->magic_cookie);
+		}
+		$query->setProjection('full');
+		$query->setEvent($eventId);
+
+		$timezone = GCalendarUtil::getComponentParameter('timezone');
+		if(!empty($timezone)){
+			$query->setParam('ctz', $timezone);
+		}
+		$query->setParam('hl', GCalendarUtil::getFrLanguage());
+
+		try {
+			$event = $service->getEntry($query, 'GCalendar_Entry');
+			$event->setParam('gcid', $calendar->id);
+			$event->setParam('gccolor', $calendar->color);
+			$event->setParam('gcname', $calendar->name);
+			return $event;
 		} catch (Zend_Gdata_App_Exception $e) {
 			JError::raiseWarning(200, $e->getMessage());
 			return null;
