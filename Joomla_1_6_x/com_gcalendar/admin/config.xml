@@ -62,6 +62,11 @@
 			<option value="1">COM_GCALENDAR_FIELD_YES</option>
 			<option value="2">COM_GCALENDAR_FIELD_NO</option>
 		</field>
+		<field name="show_event_location_map" type="radio" default="1"
+			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_LOCATION_MAP_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_LOCATION_MAP_DESC">
+			<option value="1">COM_GCALENDAR_FIELD_YES</option>
+			<option value="2">COM_GCALENDAR_FIELD_NO</option>
+		</field>
 		<field name="show_event_author" type="radio" default="2"
 			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_AUTHOR_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_AUTHOR_DESC">
 			<option value="1">COM_GCALENDAR_FIELD_YES</option>
