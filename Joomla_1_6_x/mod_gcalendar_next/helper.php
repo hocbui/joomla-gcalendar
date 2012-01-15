@@ -33,7 +33,7 @@ class ModGCalendarNextHelper  {
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results)){
 			JError::raiseWarning( 500, 'The selected calendar(s) were not found in the database.');
-			return array();
+			return null;
 		}
 
 		$orderBy = $params->get( 'order', 1 )==1;

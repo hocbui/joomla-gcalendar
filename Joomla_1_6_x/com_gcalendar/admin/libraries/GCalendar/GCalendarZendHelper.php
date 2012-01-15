@@ -20,7 +20,13 @@
 
 class GCalendarZendHelper{
 
-	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = 'starttime'){
+	const SORT_ORDER_ASC = 'ascending';
+	const SORT_ORDER_DESC = 'descending';
+
+	const ORDER_BY_START_TIME = 'starttime';
+	const ORDER_BY_LAST_MODIFIED = 'lastmodified';
+
+	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
 		$cache = & JFactory::getCache('com_gcalendar');
 		$cache->setCaching(GCalendarUtil::getComponentParameter('gc_cache', 1) == '1');
 		if(GCalendarUtil::getComponentParameter('gc_cache', 1) == 2){
@@ -29,7 +35,7 @@ class GCalendarZendHelper{
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
 
-		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy);
+		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy, $pastEvents, $sortOrder);
 	}
 
 	public static function getEvent($calendar, $eventId){
@@ -44,7 +50,7 @@ class GCalendarZendHelper{
 		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvent' ), $calendar, $eventId);
 	}
 
-	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = 'starttime'){
+	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
 		GCalendarZendHelper::loadZendClasses();
 
 		$client = new Zend_Http_Client();
@@ -57,8 +63,11 @@ class GCalendarZendHelper{
 		}
 		$query->setProjection('full');
 		$query->setOrderBy($orderBy);
-		$query->setSortOrder('ascending');
+		$query->setSortOrder($sortOrder);
 		$query->setSingleEvents('true');
+		if($filter != null){
+			$query->setQuery($filter);
+		}
 		if($startDate != null){
 			$query->setStartMin(strftime('%Y-%m-%dT%H:%M:%S', $startDate));
 		}
@@ -66,7 +75,7 @@ class GCalendarZendHelper{
 			$query->setStartMax(strftime('%Y-%m-%dT%H:%M:%S',$endDate));
 		}
 		if($startDate == null && $endDate == null){
-			$query->setFutureEvents('false');
+			$query->setFutureEvents($pastEvents ? 'false': 'true');
 		}
 
 		$query->setMaxResults($max);

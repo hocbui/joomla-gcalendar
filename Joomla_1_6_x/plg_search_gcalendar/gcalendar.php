@@ -23,6 +23,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.plugin.plugin');
 
+ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components'. DS .'com_gcalendar' . DS . 'libraries');
+if(!class_exists('Zend_Loader')){
+	require_once 'Zend/Loader.php';
+}
+require_once 'GCalendar'.DS.'GCalendarZendHelper.php';
+
 class plgSearchGCalendar extends JPlugin
 {
 	public function __construct(& $subject, $config)
@@ -42,7 +48,6 @@ class plgSearchGCalendar extends JPlugin
 	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-		GCalendarUtil::ensureSPIsLoaded();
 
 		$user	=& JFactory::getUser();
 
@@ -56,12 +61,12 @@ class plgSearchGCalendar extends JPlugin
 		switch ( $ordering )
 		{
 			case 'oldest':
-				$orderasc = TRUE;
+				$orderasc = GCalendarZendHelper::SORT_ORDER_ASC;
 				break;
 
 			case 'newest':
 			default:
-				$orderasc = FALSE;
+				$orderasc = GCalendarZendHelper::SORT_ORDER_DESC;
 		}
 
 		if (is_array($areas)) {
@@ -82,71 +87,53 @@ class plgSearchGCalendar extends JPlugin
 
 		$events = array();
 		foreach ($results as $result) {
-			$feed = new SimplePie_GCalendar();
-			$feed->set_show_past_events($pastevents);
-			$feed->set_sort_ascending($orderasc);
-			$feed->set_orderby_by_start_date(TRUE);
-			$feed->set_expand_single_events(TRUE);
-			$feed->enable_order_by_date(FALSE);
-			$feed->enable_cache(FALSE);
-			$feed->set_cache_duration(1);
-			$feed->set_cal_query($text);
-			$feed->set_max_events($limit);
-			$feed->put('gcid',$result->id);
-			$feed->set_cal_language(GCalendarUtil::getFrLanguage());
-			$feed->set_timezone(GCalendarUtil::getComponentParameter('timezone'));
-
-			$url = SimplePie_GCalendar::create_feed_url($result->calendar_id, $result->magic_cookie);
-			$feed->set_feed_url($url);
-			$feed->init();
-				
-			if ($feed->error()){
-				JError::raiseWarning( 500, 'Simplepie detected an error for the calendar '.$result->calendar_id.'. Please run the <a href="administrator/components/com_gcalendar/libraries/sp-gcalendar/sp_compatibility_test.php">compatibility utility</a>.<br>The following Simplepie error occurred:<br>'.$feed->error());
+			$tmp = GCalendarZendHelper::getEvents($result, null, null, $limit, $text, GCalendarZendHelper::ORDER_BY_START_TIME, $pastevents, $orderasc);
+			foreach ($tmp as $event) {
+				$events[] = $event;
 			}
-
-			$feed->handle_content_type();
-			$events = array_merge($events, $feed->get_items());
 		}
 
-		usort($events, array("SimplePie_Item_GCalendar", "compare"));
+		if($orderasc == GCalendarZendHelper::SORT_ORDER_ASC){
+			usort($events, array("GCalendar_Entry", "compare"));
+		} else {
+			usort($events, array("GCalendar_Entry", "compareDesc"));
+		}
 		array_splice($events, $limit);
 
 		$return = array();
 		foreach($events as $event){
-			$feed = $event->get_feed();
-
 			// the date formats from http://php.net/date
 			$dateformat = 'd.m.Y';
 			$timeformat = 'H:i';
 
 			// These are the dates we'll display
-			$startDate = GCalendarUtil::formatDate($dateformat, $event->get_start_date());
-			$startTime = GCalendarUtil::formatDate($timeformat, $event->get_start_date());
+			$startDate = GCalendarUtil::formatDate($dateformat, $event->getStartDate());
+			$startTime = GCalendarUtil::formatDate($timeformat, $event->getEndDate());
 
 			$timeString = $startTime.' '.$startDate;
-			switch($event->get_day_type()){
-				case $event->SINGLE_WHOLE_DAY:
+			switch($event->getDayType()){
+				case GCalendar_Entry::SINGLE_WHOLE_DAY:
 					$timeString = $startDate;
 					break;
-				case $event->SINGLE_PART_DAY:
+				case GCalendar_Entry::SINGLE_PART_DAY:
 					$timeString = $startTime.' '.$startDate;
 					break;
-				case $event->MULTIPLE_WHOLE_DAY:
+				case GCalendar_Entry::MULTIPLE_WHOLE_DAY:
 					$timeString = $startDate;
 					break;
-				case $event->MULTIPLE_PART_DAY:
+				case GCalendar_Entry::MULTIPLE_PART_DAY:
 					$timeString = $startTime.' '.$startDate;
 					break;
 			}
 
-			$itemID = GCalendarUtil::getItemId($feed->get('gcid'));
+			$itemID = GCalendarUtil::getItemId($event->getParam('gcid'));
 			if(!empty($itemID))$itemID = '&Itemid='.$itemID;
-			$row->href = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$feed->get('gcid').$itemID);
-			$row->title = $timeString.' '.$event->get_title();
-			$row->text = $event->get_description();
+			$row->href = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID);
+			$row->title = $timeString.' '.$event->getTitle();
+			$row->text = $event->getContent();
 			$row->section = JText::_('PLG_SEARCH_GCALENDAR_OUTPUT_CATEGORY');
-			$row->category = $feed->get('gcid');
-			$row->created = $event->get_start_date();
+			$row->category = $event->getParam('gcid');
+			$row->created = $event->getStartDate();
 			$row->browsernav = '';
 			$return[] = $row;
 			$row = null;
