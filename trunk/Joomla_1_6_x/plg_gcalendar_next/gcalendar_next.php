@@ -25,29 +25,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
 jimport( 'joomla.html.parameter' );
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'nextevents'.DS.'nextevents.php');
+ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components'. DS .'com_gcalendar' . DS . 'libraries');
+if(!class_exists('Zend_Loader')){
+	require_once 'Zend/Loader.php';
+}
+require_once 'GCalendar'.DS.'GCalendarZendHelper.php';
 
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
 
-/**
- * Constructor
- *
- * For php4 compatability we must not use the __constructor as a constructor for plugins
- * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
- * This causes problems with cross-referencing necessary for the observer design pattern.
- *
- * @param plgContentEmbedReadMore $subject The object to observe
- * @param plgContentEmbedReadMore $params  The object that holds the plugin parameters
- */
-
 class plgContentgcalendar_next extends JPlugin {
-	var $params;
 
-	function plgContentgcalendar_next(&$subject, $params) {
-		parent::__construct($subject, $params);
-	}
-
-	function onContentPrepare($context, &$article, &$params, $page = 0 ) {
+	public function onContentPrepare($context, &$article, &$params, $page = 0 ) {
 		if (JRequest::getCmd('option') != 'com_content') return;
 		if (!$article->text) return;
 
@@ -58,18 +46,17 @@ class plgContentgcalendar_next extends JPlugin {
 		}
 	}
 
-	function embedEvent($gcalnext) {
+	public function embedEvent($gcalnext) {
 		$param_str = $gcalnext[1];
 		$fmt_str = $gcalnext[2];
 
 		$helper = new GCalendarKeywordsHelper($this->params, $param_str, $fmt_str);
-
 		if (!$helper->event()) {
 			return $helper->params->get('no_event');
 		}
 
-		$start = $helper->event()->get_start_date();
-		$end = $helper->event()->get_end_date();
+		$start = $helper->event()->getStartDate();
+		$end = $helper->event()->getEndDate();
 		$now = time();
 		$start_soon = date($this->params->get('start_soon', '-4 hours'), $start);
 		$end_soon = date($this->params->get('end_soon', '-2 hours'), $end);
@@ -79,15 +66,18 @@ class plgContentgcalendar_next extends JPlugin {
 			$this->params->set('output', $fmt_str);
 		}
 
-		if ($end <= $now) { // AND it hasn't ended
-			if ($start >= $now) { // If it has started
+		if ($end <= $now) {
+			// AND it hasn't ended
+			if ($start >= $now) {
+				// If it has started
 				$text = $this->params->get('output_now');
 			}
 			elseif ($start_soon >= $now) {
 				$text = $this->params->get('output_start_soon', JText::_('PLG_GCALENDAR_NEXT_OUTPUT_STARTING_SOON'));
 			}
 			elseif ($end_soon >= $now ) {
-				$text = $this->params->get('output_end_soon', JText::_('PLG_GCALENDAR_NEXT_OUTPUT_ENDING_SOON')); }
+				$text = $this->params->get('output_end_soon', JText::_('PLG_GCALENDAR_NEXT_OUTPUT_ENDING_SOON'));
+			}
 		}
 
 		if ($text == "" or $text == null) {
@@ -107,7 +97,7 @@ class PluginKeywordsHelper {
 	var $dataobj;
 	var $plgParams = Array();
 
-	function PluginKeywordsHelper($params, $txtParam, $txtFmt, $argre = '/(?:\[\$)\s*(.*?)\s*(?:\$\])/') {
+	public function PluginKeywordsHelper($params, $txtParam, $txtFmt, $argre = '/(?:\[\$)\s*(.*?)\s*(?:\$\])/') {
 		$this->params = new JParameter($params->toString("INI")); // Prevents bleedover to other instances
 		$this->txtParam = $txtParam;
 		$this->txtFmt = $txtFmt;
@@ -125,23 +115,23 @@ class PluginKeywordsHelper {
 		$this->dataobj = $this->setDataObj();
 	}
 
-	function setDataObj() {
+	public function setDataObj() {
 		return "";
 	}
 
-	function dataobj() {
+	public function dataobj() {
 		return $this->dataobj;
 	}
 
-	function plgText() {
+	public function plgText() {
 		return $plgText;
 	}
 
-	function replace($txt) {
+	public function replace($txt) {
 		return preg_replace_callback($this->argre, array($this, 'replaceSingle'), $txt);
 	}
 
-	function replaceSingle($val) {
+	public function replaceSingle($val) {
 		list($func, $arg) = explode(' ', $val[1], 2) + Array("", "");
 
 		if (is_callable(array($this, $func))) {
@@ -154,88 +144,127 @@ class PluginKeywordsHelper {
 
 class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 
-	function setDataObj() {
-		$params = $this->params;
-		$params->set('gc_cache_folder', 'plg_gcalendar_next');
-		$gcalnext = new GCalendarNext($params);
-		$events = $gcalnext->getCalendarItems();
-		$event = null;
-		if (count($events) > 0) {
-			$event = $events[0];
+	public function setDataObj() {
+		GCalendarZendHelper::loadZendClasses();
+		$calendarids = $params->get('calendarids');
+		$results = GCalendarDBUtil::getCalendars($calendarids);
+		if(empty($results)){
+			JError::raiseWarning( 500, 'The selected calendar(s) were not found in the database.');
+			return null;
 		}
-		return $event;
+	
+		$orderBy = $params->get( 'order', 1 )==1;
+		$maxEvents = $params->get('max_events', 10);
+		$filter = $params->get('find', '');
+		$startDate = $params->get('start_date', null);
+		$endDate = $params->get('end_date', null);
+		if(!empty($startDate)){
+			$startDate = strtotime($startDate);
+		}
+		if( !empty($endDate)){
+			$endDate = strtotime($endDate);
+		}
+		$titleFilter = $params->get('title_filter', '.*');
+	
+		$values = array();
+		foreach ($results as $result) {
+			$events = GCalendarZendHelper::getEvents($result, $startDate, $endDate, $maxEvents, $filter, $orderBy);
+			if(!empty($events)){
+				foreach ($events as $event) {
+					if(!($event instanceof GCalendar_Entry)){
+						continue;
+					}
+					$event->setParam('moduleFilter', $titleFilter);
+					$values[] = $event;
+				}
+			}
+		}
+	
+		usort($values, array("GCalendar_Entry", "compare"));
+	
+		$events = array_filter($values, array('GCalendarKeywordsHelper', "filter"));
+	
+		$offset = $params->get('offset', 0);
+		$numevents = $params->get('count', $maxEvents);
+	
+		return array_shift($values);
+	}
+	
+	private static function filter($event) {
+		if (!preg_match('/'.$event->getParam('moduleFilter').'/', $event->getTitle())) {
+			return false;
+		}
+		if ($event->getEndDate() > time()) {
+			return true;
+		}
+	
+		return false;
 	}
 
-	function event() {
+	public function event() {
 		return $this->dataobj();
 	}
 
 
-	function date($format, $time) {
+	public function date($format, $time) {
 		if ($format == "") {
 			$format = $this->params->get("dateformat", 'F d, Y @ g:ia');
 		}
 		return GCalendarUtil::formatDate($format, $time);
 	}
 
-	function datecalc($param, $time) {
+	public function datecalc($param, $time) {
 		list($formula, $fmt) = explode(',', $param, 2) + Array("", "");
 		return $this->date($fmt, strtotime($formula, $time));
 	}
 
 
-	function startoffset($param) {
-		$event = $this->event();
-		return $this->datecalc($param, $event->get_start_date());
+	public function startoffset($param) {
+		return $this->datecalc($param, $this->event()->getStartDate());
 	}
 
-	function finishoffset($param) {
-		$event = $this->event();
-		return $this->datecalc($param, $event->get_end_date());
-	}	
+	public function finishoffset($param) {
+		return $this->datecalc($param, $this->event()->getEndDate());
+	}
 
-	function startdate($param) {
+	public function startdate($param) {
 		return $this->start($param);
 	}
 
-	function start($param) {
-		$event = $this->event();
-		return $this->date($param, $event->get_start_date());
+	public function start($param) {
+		return $this->date($param, $this->event()->getStartDate());
 	}
 
-	function finishdate($param) {
+	public function finishdate($param) {
 		return $this->finish($param);
 	}
 
-	function finish($param) {
-		$event = $this->event();
-		$ftime = $event->get_end_date();
-		$daytype = $event->get_day_type();
-		if ($daytype == $event->MULTIPLE_WHOLE_DAY) {
+	public function finish($param) {
+		$ftime = $this->event()->getEndDate();
+		$daytype = $this->event()->getDayType();
+		if ($daytype == GCalendar_Entry::MULTIPLE_WHOLE_DAY) {
 			$ftime = $ftime - 1; // to account for midnight
 		}
 
 		return $this->date($param, $ftime);
 	}
 
-	function range($param) {
-		$event = $this->event();
-
+	public function range($param) {
 		if ($param) {
 			$fmt = $param;
 		}
 		else {
-			switch($event->get_day_type()) {
-				case $event->SINGLE_WHOLE_DAY:
+			switch($this->event()->getDayType()) {
+				case GCalendar_Entry::SINGLE_WHOLE_DAY:
 					$fmt = $this->params->get("only-whole_day", JText::_('PLG_GCALENDAR_NEXT_OUTPUT_SINGLE_WHOLE_DAY'));
 					break;
-				case $event->SINGLE_PART_DAY:
+				case GCalendar_Entry::SINGLE_PART_DAY:
 					$fmt = $this->params->get("only-part_day", JText::_('PLG_GCALENDAR_NEXT_OUTPUT_SINGLE_PART_DAY'));
 					break;
-				case $event->MULTIPLE_WHOLE_DAY:
+				case GCalendar_Entry::MULTIPLE_WHOLE_DAY:
 					$fmt = $this->params->get("multi-whole_day", JText::_('PLG_GCALENDAR_NEXT_OUTPUT_MULTI_WHOLE_DAY'));
 					break;
-				case $event->MULTIPLE_PART_DAY:
+				case GCalendar_Entry::MULTIPLE_PART_DAY:
 					$fmt = $this->params->get("multi-part_day", JText::_('PLG_GCALENDAR_NEXT_OUTPUT_MULTI_PART_DAY'));
 					break;
 			}
@@ -244,7 +273,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		return $this->replace($fmt);
 	}
 
-	function duration($param, $interval) {
+	public function duration($param, $interval) {
 		$days = 0;
 		$hours = 0;
 		$minutes = 0;
@@ -276,77 +305,64 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		return $param;
 	}
 
-	function lasts($param) {
-		$event = $this->event();
-		return $this->duration($param, $event->get_end_date() - $event->get_start_date());
+	public function lasts($param) {
+		return $this->duration($param, $this->event()->getEndDate() - $this->event()->getStartDate());
 	}
 
-	function startsin($param) {
-		$event = $this->event();
-		return $this->duration($param, $event->get_start_date() - time());
+	public function startsin($param) {
+		return $this->duration($param, $this->event()->getStartDate() - time());
 	}
 
-	function endsin($param) {
-		$event = $this->event();
-		return $this->duration($param, $event->get_end_date() - time());
+	public function endsin($param) {
+		return $this->duration($param, $this->event()->getEndDate() - time());
 	}
 
-	function title($param) {
-		$event = $this->event();
-		return $event->get_title();
+	public function title($param) {
+		return $this->event()->getTitle();
 	}
 
-	function description($param) {
-		$event = $this->event();
-		$desc = preg_replace("@(src|href)=\"https?://@i",'\\1="',$event->get_description());
+	public function description($param) {
+		$desc = preg_replace("@(src|href)=\"https?://@i",'\\1="',$this->event()->getContent());
 		return preg_replace("@(((f|ht)tps?://)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $desc);
 	}
 
-	function backlink($param) {
-		$event = $this->event();
-		$feed = $event->get_feed();
-		$gcid = $feed->get('gcid');
+	public function backlink($param) {
+		$gcid = $this->event()->getParam('gcid');
 		$itemID = GCalendarUtil::getItemID($gcid);
 		if (!empty($itemID)) $itemID = '&Itemid='.$itemID;
-		return JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->get_id().'&start='.$event->get_start_date().'&end='.$event->get_end_date().'&gcid='.$gcid.$itemID);
+		return JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$this->event()->getGCalId().'&gcid='.$gcid.$itemID);
 	}
 
-	function link($param) {
+	public function link($param) {
 		$timezone = GCalendarUtil::getComponentParameter('timezone');
 		if ($timezone == ''){
-			$timezone = $feed->get_timezone();
+			$timezone = $this->event()->getTimezone();
 		}
-		$event = $this->event();
-		return $event->get_link() . '&ctz=' . $timezone;
+		return $this->event()->getLink() . '&ctz=' . $timezone;
 	}
 
-	function maplink($param) {
+	public function maplink($param) {
 		return '<a class="gcalendar_location_link" href="' . $this->maphref($param) . '">' . $this->location($param) . '</a>';
 	}
 
-	function maphref($param) {
+	public function maphref($param) {
 		return 'http://maps.google.com/?q=' . urlencode($this->location($param));
 	}
 
-	function location($param) {
+	public function location($param) {
 		return $this->where($param);
 	}
 
-	function where($param) {
-		$event = $this->event();
-		return $event->get_location();
+	public function where($param) {
+		return $this->event()->getLocation();
 	}
 
-	function calendarname($param) {
-		$event = $this->event();
-		$feed = $event->get_feed();
-		return $feed->get('gcname');
+	public function calendarname($param) {
+		return $this->event()->getParam('gcname');
 	}
 
-	function calendarcolor($param) {
-		$event = $this->event();
-		$feed = $event->get_feed();
-		return $feed->get('gccolor');
+	public function calendarcolor($param) {
+		return $this->event()->getParam('gccolor');
 	}
 }
 ?>

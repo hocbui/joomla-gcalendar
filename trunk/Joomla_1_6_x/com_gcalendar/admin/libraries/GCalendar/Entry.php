@@ -150,7 +150,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	 * Returns an integer less than, equal to, or greater than zero if
 	 * the first argument is considered to be respectively less than,
 	 * equal to, or greater than the second.
-	 * This function can be used to sort an array of SimplePie_Item_GCalendar
+	 * This function can be used to sort an array of GCalendar_Entry
 	 * items with usort.
 	 *
 	 * @see http://www.php.net/usort
@@ -160,6 +160,18 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	 */
 	public function compare(GCalendar_Entry $event1, GCalendar_Entry $event2){
 		return $event1->getStartDate()-$event2->getStartDate();
+	}
+	
+	/**
+	 * Compares the events descnding.
+	 * 
+	 * @see GCalendar_Entry::compare()
+	 * @param GCalendar_Entry $event1
+	 * @param GCalendar_Entry $event2
+	 * @return number
+	 */
+	public function compareDesc(GCalendar_Entry $event1, GCalendar_Entry $event2){
+		return $event2->getStartDate()-$event1->getStartDate();
 	}
 }
 ?>
