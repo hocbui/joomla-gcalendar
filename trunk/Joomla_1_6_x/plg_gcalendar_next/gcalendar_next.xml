@@ -51,8 +51,6 @@
 			<field name="offset" type="text" size="10" default="0" label="PLG_GCALENDAR_NEXT_FIELD_OFFSET_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_OFFSET_DESC"/>
 			<field name="find" type="text" size="40" default="" label="PLG_GCALENDAR_NEXT_FIELD_FIND_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_FIND_DESC"/>		
 			<field name="title_filter" type="text" size="40" default=".*" label="PLG_GCALENDAR_NEXT_FIELD_TITLE_FILTER_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_TITLE_FILTER_DESC"/>
-			<field name="start_date" type="text" size="40" default="-1 day" label="PLG_GCALENDAR_NEXT_FIELD_START_DATE_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_START_DATE_DESC"/>
-			<field name="end_date" type="text" size="40" default="+1 year" label="PLG_GCALENDAR_NEXT_FIELD_END_DATE_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_END_DATE_DESC"/>
 			<field name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events to choose the next one. (plugin: +max_events)"/>
 			<field name="dateformat" type="text" size="40" default="F d, Y @ g:ia" label="PLG_GCALENDAR_NEXT_FIELD_DATEFORMAT_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_DATEFORMAT_DESC"/>
 			<field name="only-whole_day" type="text" size="40" default="[$start l, F d, Y$] all day" description="PLG_GCALENDAR_NEXT_FIELD_ONLY_WHOLE_DAY_DESC" label="PLG_GCALENDAR_NEXT_FIELD_ONLY_WHOLE_DAY_LABEL"/>

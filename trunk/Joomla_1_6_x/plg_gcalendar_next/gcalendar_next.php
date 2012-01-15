@@ -25,13 +25,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.plugin.plugin' );
 jimport( 'joomla.html.parameter' );
 
-ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components'. DS .'com_gcalendar' . DS . 'libraries');
-if(!class_exists('Zend_Loader')){
-	require_once 'Zend/Loader.php';
-}
-require_once 'GCalendar'.DS.'GCalendarZendHelper.php';
-
 require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'GCalendar'.DS.'GCalendarZendHelper.php');
 
 class plgContentgcalendar_next extends JPlugin {
 
@@ -145,7 +140,6 @@ class PluginKeywordsHelper {
 class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 
 	public function setDataObj() {
-		GCalendarZendHelper::loadZendClasses();
 		$calendarids = $params->get('calendarids');
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results)){
@@ -156,19 +150,11 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		$orderBy = $params->get( 'order', 1 )==1;
 		$maxEvents = $params->get('max_events', 10);
 		$filter = $params->get('find', '');
-		$startDate = $params->get('start_date', null);
-		$endDate = $params->get('end_date', null);
-		if(!empty($startDate)){
-			$startDate = strtotime($startDate);
-		}
-		if( !empty($endDate)){
-			$endDate = strtotime($endDate);
-		}
 		$titleFilter = $params->get('title_filter', '.*');
 	
 		$values = array();
 		foreach ($results as $result) {
-			$events = GCalendarZendHelper::getEvents($result, $startDate, $endDate, $maxEvents, $filter, $orderBy);
+			$events = GCalendarZendHelper::getEvents($result, null, null, $maxEvents, $filter, $orderBy);
 			if(!empty($events)){
 				foreach ($events as $event) {
 					if(!($event instanceof GCalendar_Entry)){

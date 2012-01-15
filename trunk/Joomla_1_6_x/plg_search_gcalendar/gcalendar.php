@@ -23,11 +23,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.plugin.plugin');
 
-ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components'. DS .'com_gcalendar' . DS . 'libraries');
-if(!class_exists('Zend_Loader')){
-	require_once 'Zend/Loader.php';
-}
-require_once 'GCalendar'.DS.'GCalendarZendHelper.php';
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'GCalendar'.DS.'GCalendarZendHelper.php');
 
 class plgSearchGCalendar extends JPlugin
 {
@@ -37,7 +34,7 @@ class plgSearchGCalendar extends JPlugin
 		$this->loadLanguage();
 	}
 
-	function onContentSearchAreas()
+	public function onContentSearchAreas()
 	{
 		static $areas = array(
 		'gcalendar' => 'GCalendar'
@@ -45,10 +42,8 @@ class plgSearchGCalendar extends JPlugin
 		return $areas;
 	}
 
-	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-
 		$user	=& JFactory::getUser();
 
 		$text = trim( $text );

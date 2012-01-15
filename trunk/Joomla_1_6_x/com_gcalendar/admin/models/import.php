@@ -58,8 +58,6 @@ class GCalendarModelImport extends JModel
 	}
 
 	public function getOnlineData() {
-		GCalendarZendHelper::loadZendClasses();
-
 		$user = JRequest::getVar('user', null);
 		$pass = JRequest::getVar('pass', null);
 

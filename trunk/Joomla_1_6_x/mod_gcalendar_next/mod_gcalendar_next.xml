@@ -51,8 +51,6 @@
 				</field>
 				<field name="find" type="text" size="40" default="" label="MOD_GCALENDAR_NEXT_FIELD_FIND_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_FIND_DESC"/>
 				<field name="title_filter" type="text" size="40" default=".*" label="MOD_GCALENDAR_NEXT_FIELD_TITLE_FILTER_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_TITLE_FILTER_DESC"/>
-				<field name="start_date" type="text" size="40" default="-1 day" label="MOD_GCALENDAR_NEXT_FIELD_START_DATE_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_START_DATE_DESC"/>
-				<field name="end_date" type="text" size="40" default="+1 year" label="MOD_GCALENDAR_NEXT_FIELD_END_DATE_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_END_DATE_DESC"/>
 				<field name="max_events" type="text" size="10" default="10" label="MOD_GCALENDAR_NEXT_FIELD_MAX_EVENTS_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_MAX_EVENTS_DESC"/>
 			</fieldset>
 		</fields>
