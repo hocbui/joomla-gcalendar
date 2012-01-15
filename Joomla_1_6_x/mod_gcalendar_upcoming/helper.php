@@ -23,7 +23,6 @@ defined('_JEXEC') or die('Restricted access');
 class ModGCalendarUpcomingHelper{
 
 	public static function getCalendarItems($params) {
-		GCalendarZendHelper::loadZendClasses();
 		$calendarids = $params->get('calendarids');
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results)){

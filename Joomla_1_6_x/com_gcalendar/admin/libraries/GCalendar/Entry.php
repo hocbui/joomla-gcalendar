@@ -42,13 +42,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 
 	public function getGCalId(){
 		if($this->gcalId == null){
-			$from = strrpos($this->getId(), '/')+1;
-			$to = strrpos($this->getId(), '_');
-			if($to === false){
-				$this->gcalId = substr($this->getId(), $from);
-			} else {
-				$this->gcalId = substr($this->getId(), $from, $to - $from);
-			}
+			$this->gcalId = substr($this->getId(), strrpos($this->getId(), '/')+1);
 		}
 		return $this->gcalId;
 	}

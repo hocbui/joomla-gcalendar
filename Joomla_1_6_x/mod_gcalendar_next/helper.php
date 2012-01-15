@@ -28,7 +28,6 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.ph
 class ModGCalendarNextHelper  {
 
 	public static function getCalendarItems($params	) {
-		GCalendarZendHelper::loadZendClasses();
 		$calendarids = $params->get('calendarids');
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results)){
@@ -39,19 +38,11 @@ class ModGCalendarNextHelper  {
 		$orderBy = $params->get( 'order', 1 )==1;
 		$maxEvents = $params->get('max_events', 10);
 		$filter = $params->get('find', '');
-		$startDate = $params->get('start_date', null);
-		$endDate = $params->get('end_date', null);
-		if(!empty($startDate)){
-			$startDate = strtotime($startDate);
-		}
-		if( !empty($endDate)){
-			$endDate = strtotime($endDate);
-		}
 		$titleFilter = $params->get('title_filter', '.*');
 
 		$values = array();
 		foreach ($results as $result) {
-			$events = GCalendarZendHelper::getEvents($result, $startDate, $endDate, $maxEvents, $filter, $orderBy);
+			$events = GCalendarZendHelper::getEvents($result, null, null, $maxEvents, $filter, $orderBy);
 			if(!empty($events)){
 				foreach ($events as $event) {
 					if(!($event instanceof GCalendar_Entry)){

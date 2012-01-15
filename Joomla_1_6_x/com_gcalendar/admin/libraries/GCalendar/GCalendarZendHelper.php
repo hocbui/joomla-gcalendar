@@ -51,8 +51,6 @@ class GCalendarZendHelper{
 	}
 
 	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
-		GCalendarZendHelper::loadZendClasses();
-
 		$client = new Zend_Http_Client();
 		$service = new Zend_Gdata_Calendar($client);
 
@@ -65,7 +63,7 @@ class GCalendarZendHelper{
 		$query->setOrderBy($orderBy);
 		$query->setSortOrder($sortOrder);
 		$query->setSingleEvents('true');
-		if($filter != null){
+		if(!empty($filter)){
 			$query->setQuery($filter);
 		}
 		if($startDate != null){
@@ -100,8 +98,6 @@ class GCalendarZendHelper{
 	}
 
 	public static function internalGetEvent($calendar, $eventId){
-		GCalendarZendHelper::loadZendClasses();
-
 		$client = new Zend_Http_Client();
 		$service = new Zend_Gdata_Calendar($client);
 
@@ -134,18 +130,20 @@ class GCalendarZendHelper{
 	public static function loadZendClasses() {
 		static $zendLoaded;
 		if($zendLoaded == null){
-			$mainframe = &JFactory::getApplication();
-			$absolute_path = $mainframe->getCfg( 'absolute_path' );
-			ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_gcalendar' . DS . 'libraries');
-
-			require_once('Zend' . DS . 'Loader.php');
+			ini_set("include_path", ini_get("include_path") . PATH_SEPARATOR . JPATH_ADMINISTRATOR . DS . 'components'. DS .'com_gcalendar' . DS . 'libraries');
+			if(!class_exists('Zend_Loader')){
+				require_once 'Zend/Loader.php';
+			}
+			
 			Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 			Zend_Loader::loadClass('Zend_Gdata_HttpClient');
 			Zend_Loader::loadClass('Zend_Gdata_Calendar');
 			Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
+			Zend_Loader::loadClass('GCalendar_Feed');
 			Zend_Loader::loadClass('GCalendar_Entry');
 			$zendLoaded = true;
 		}
 	}
 }
+GCalendarZendHelper::loadZendClasses();
 ?>
