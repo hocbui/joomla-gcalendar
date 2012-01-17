@@ -189,7 +189,7 @@ class GCalendarUtil{
 		$temp_event=str_replace("{title}",$event->getTitle(),$temp_event);
 		$temp_event=str_replace("{description}",$desc,$temp_event);
 		$temp_event=str_replace("{where}",$event->getLocation(),$temp_event);
-		$temp_event=str_replace("{backlink}",htmlentities(JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getId().'&gcid='.$event->getParam('gcid').$itemID)),$temp_event);
+		$temp_event=str_replace("{backlink}",htmlentities(JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID)),$temp_event);
 		$temp_event=str_replace("{link}",$event->getLink().'&ctz='.$tz,$temp_event);
 		$temp_event=str_replace("{maplink}","http://maps.google.com/?q=".urlencode($event->getLocation()),$temp_event);
 		$temp_event=str_replace("{calendarname}",$event->getParam('gcname'),$temp_event);
