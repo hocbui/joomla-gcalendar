@@ -85,12 +85,12 @@ class plgContentgcalendar_next extends JPlugin {
 
 class PluginKeywordsHelper {
 
-	var $params;
-	var $argre;
-	var $txtParam;
-	var $txtFmt;
-	var $dataobj;
-	var $plgParams = Array();
+	protected $params;
+	private $argre;
+	private $txtParam;
+	private $txtFmt;
+	private $dataobj;
+	private $plgParams = Array();
 
 	public function PluginKeywordsHelper($params, $txtParam, $txtFmt, $argre = '/(?:\[\$)\s*(.*?)\s*(?:\$\])/') {
 		$this->params = new JParameter($params->toString("INI")); // Prevents bleedover to other instances
@@ -140,17 +140,17 @@ class PluginKeywordsHelper {
 class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 
 	public function setDataObj() {
-		$calendarids = $params->get('calendarids');
+		$calendarids = $this->params->get('calendarids');
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results)){
 			JError::raiseWarning( 500, 'The selected calendar(s) were not found in the database.');
 			return null;
 		}
 	
-		$orderBy = $params->get( 'order', 1 )==1;
-		$maxEvents = $params->get('max_events', 10);
-		$filter = $params->get('find', '');
-		$titleFilter = $params->get('title_filter', '.*');
+		$orderBy = $this->params->get( 'order', 1 )==1;
+		$maxEvents = $this->params->get('max_events', 10);
+		$filter = $this->params->get('find', '');
+		$titleFilter = $this->params->get('title_filter', '.*');
 	
 		$values = array();
 		foreach ($results as $result) {
@@ -170,8 +170,8 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	
 		$events = array_filter($values, array('GCalendarKeywordsHelper', "filter"));
 	
-		$offset = $params->get('offset', 0);
-		$numevents = $params->get('count', $maxEvents);
+		$offset = $this->params->get('offset', 0);
+		$numevents = $this->params->get('count', $maxEvents);
 	
 		return array_shift($values);
 	}
