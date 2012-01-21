@@ -119,7 +119,7 @@ if($event == null){
 		if(!empty($loc)){
 			echo "<tr><td class=\"event_content_key\">".JText::_( 'COM_GCALENDAR_EVENT_VIEW_LOCATION' ).": </td><td>".$loc."</td></tr>\n";
 			if(GCalendarUtil::getComponentParameter('show_event_location_map', 1) == 1){
-				echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&hl=".GCalendarUtil::getFrLanguage()."&output=embed\"></iframe></td></tr>\n";
+				echo "<tr><td colspan=\"2\"><iframe width=\"100%\" height=\"300px\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"http://maps.google.com/maps?q=".urlencode($loc)."&hl=".substr(GCalendarUtil::getFrLanguage(),0,2)."&output=embed\"></iframe></td></tr>\n";
 			}
 		}
 	}
