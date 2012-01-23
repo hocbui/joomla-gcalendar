@@ -2,7 +2,7 @@
 <extension version="1.6" type="plugin" group="search" method="upgrade">
 	<name>plg_search_gcalendar</name>
 	<author>G4J Project</author>
-	<creationDate>Dec 2011</creationDate>
+	<creationDate>Jan 2012</creationDate>
 	<copyright>This extension is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
