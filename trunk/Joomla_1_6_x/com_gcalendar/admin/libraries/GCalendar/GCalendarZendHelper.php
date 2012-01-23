@@ -89,6 +89,7 @@ class GCalendarZendHelper{
 				$event->setParam('gcid', $calendar->id);
 				$event->setParam('gccolor', $calendar->color);
 				$event->setParam('gcname', $calendar->name);
+				$event->setTimezone($feed->getTimezone());
 			}
 			return $feed;
 		} catch (Zend_Gdata_App_Exception $e) {

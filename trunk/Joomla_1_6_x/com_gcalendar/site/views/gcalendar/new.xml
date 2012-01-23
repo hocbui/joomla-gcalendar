@@ -1,0 +1,478 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns='http://www.w3.org/2005/Atom' xmlns:openSearch='http://a9.com/-/spec/opensearchrss/1.0/'
+	xmlns:gCal='http://schemas.google.com/gCal/2005' xmlns:gd='http://schemas.google.com/g/2005'>
+	<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full</id>
+	<updated>2011-05-28T08:30:42.000Z</updated>
+	<category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event' />
+	<title type='text'>gcalendar test</title>
+	<subtitle type='text' />
+	<link rel='alternate' type='text/html'
+		href='https://www.google.com/calendar/embed?src=a7b60lept2k6dbfajd18knh33s@group.calendar.google.com' />
+	<link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml'
+		href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full' />
+	<link rel='http://schemas.google.com/g/2005#batch' type='application/atom+xml'
+		href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/batch' />
+	<link rel='self' type='application/atom+xml'
+		href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full?max-results=1000&amp;start-min=2012-02-19T22%3A00%3A00&amp;singleevents=true&amp;start-max=2012-02-26T22%3A00%3A00&amp;sortorder=ascending&amp;ctz=Africa%2FJohannesburg&amp;orderby=starttime' />
+	<author>
+		<name>allon.moritz@gmail.com</name>
+		<email>allon.moritz@gmail.com</email>
+	</author>
+	<generator version='1.0' uri='http://www.google.com/calendar'>Google Calendar</generator>
+	<openSearch:totalResults>11</openSearch:totalResults>
+	<openSearch:startIndex>1</openSearch:startIndex>
+	<openSearch:itemsPerPage>1000</openSearch:itemsPerPage>
+	<gCal:timezone value='Africa/Johannesburg' />
+	<gCal:timesCleaned value='0' />
+	<gd:where valueString='' />
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120219</id>
+		<published>2009-03-15T10:05:48.000+02:00</published>
+		<updated>2010-06-30T08:46:58.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>private full day</title>
+		<content type='text'>this is a private event http://allon.ch ö é ä$ è
+			ü</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=N2JrNzgydWppaHNxcmh0ZGpzN2RrMDJ1dG9fMjAxMjAyMTkgYTdiNjBsZXB0Mms2ZGJmYWpkMThrbmgzM3NAZw'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120219' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120219/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto'
+			id='7bk782ujihsqrhtdjs7dk02uto'>
+			<gd:when startTime='2012-02-19' />
+		</gd:originalEvent>
+		<gd:who email='laoneo96@gmail.com' rel='http://schemas.google.com/g/2005#event.attendee'
+			valueString='laoneo96@gmail.com'>
+			<gd:attendeeStatus value='http://schemas.google.com/g/2005#event.invited' />
+		</gd:who>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-20' startTime='2012-02-19' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='0' />
+		<gCal:uid value='7bk782ujihsqrhtdjs7dk02uto@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kg3m84ddaidjhnqilualn29vo8_20120219T203000Z</id>
+		<published>2009-08-01T11:55:12.000+02:00</published>
+		<updated>2009-08-18T12:50:14.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>test late</title>
+		<content type='text'>late event</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=a2czbTg0ZGRhaWRqaG5xaWx1YWxuMjl2bzhfMjAxMjAyMTlUMjAzMDAwWiBhN2I2MGxlcHQyazZkYmZhamQxOGtuaDMzc0Bn'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kg3m84ddaidjhnqilualn29vo8_20120219T203000Z' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kg3m84ddaidjhnqilualn29vo8_20120219T203000Z/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kg3m84ddaidjhnqilualn29vo8'
+			id='kg3m84ddaidjhnqilualn29vo8'>
+			<gd:when startTime='2012-02-19T22:30:00.000+02:00' />
+		</gd:originalEvent>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-20T01:00:00.000+02:00' startTime='2012-02-19T22:30:00.000+02:00' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.transparent' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='16' />
+		<gCal:uid value='kg3m84ddaidjhnqilualn29vo8@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/pomfj8bg2jovhlvbu8kfm04uog_20120220</id>
+		<published>2009-01-25T15:22:27.000+02:00</published>
+		<updated>2009-04-27T10:13:11.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>multiple day test event full day</title>
+		<content type='text'>this is a multiple full day event</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=cG9tZmo4Ymcyam92aGx2YnU4a2ZtMDR1b2dfMjAxMjAyMjAgYTdiNjBsZXB0Mms2ZGJmYWpkMThrbmgzM3NAZw'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/pomfj8bg2jovhlvbu8kfm04uog_20120220' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/pomfj8bg2jovhlvbu8kfm04uog_20120220/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/pomfj8bg2jovhlvbu8kfm04uog'
+			id='pomfj8bg2jovhlvbu8kfm04uog'>
+			<gd:when startTime='2012-02-20' />
+		</gd:originalEvent>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-22' startTime='2012-02-20' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='0' />
+		<gCal:uid value='pomfj8bg2jovhlvbu8kfm04uog@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kkb3d78cnkdrq1r6sbvb54pftc_20120222</id>
+		<published>2008-12-10T08:58:37.000+02:00</published>
+		<updated>2009-04-27T10:13:20.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>full day test event</title>
+		<content type='text'>this is a full day test event</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=a2tiM2Q3OGNua2RycTFyNnNidmI1NHBmdGNfMjAxMjAyMjIgYTdiNjBsZXB0Mms2ZGJmYWpkMThrbmgzM3NAZw'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kkb3d78cnkdrq1r6sbvb54pftc_20120222' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kkb3d78cnkdrq1r6sbvb54pftc_20120222/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kkb3d78cnkdrq1r6sbvb54pftc'
+			id='kkb3d78cnkdrq1r6sbvb54pftc'>
+			<gd:when startTime='2012-02-22' />
+		</gd:originalEvent>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-23' startTime='2012-02-22' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='1' />
+		<gCal:uid value='kkb3d78cnkdrq1r6sbvb54pftc@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120222</id>
+		<published>2009-03-15T10:05:48.000+02:00</published>
+		<updated>2010-06-30T08:46:58.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>private full day</title>
+		<content type='text'>this is a private event http://allon.ch ö é ä$ è
+			ü</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=N2JrNzgydWppaHNxcmh0ZGpzN2RrMDJ1dG9fMjAxMjAyMjIgYTdiNjBsZXB0Mms2ZGJmYWpkMThrbmgzM3NAZw'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120222' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120222/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto'
+			id='7bk782ujihsqrhtdjs7dk02uto'>
+			<gd:when startTime='2012-02-22' />
+		</gd:originalEvent>
+		<gd:who email='laoneo96@gmail.com' rel='http://schemas.google.com/g/2005#event.attendee'
+			valueString='laoneo96@gmail.com'>
+			<gd:attendeeStatus value='http://schemas.google.com/g/2005#event.invited' />
+		</gd:who>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-23' startTime='2012-02-22' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='0' />
+		<gCal:uid value='7bk782ujihsqrhtdjs7dk02uto@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/60bl6i5iki88d74qnfp59ult1k_20120223T090000Z</id>
+		<published>2009-01-25T15:17:49.000+02:00</published>
+		<updated>2009-05-23T17:17:42.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>10.00 to 14.30 test event</title>
+		<content type='text'>this is a test event starting at 10.00 o'clock
+			and ends at 14.30 o'clock</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=NjBibDZpNWlraTg4ZDc0cW5mcDU5dWx0MWtfMjAxMjAyMjNUMDkwMDAwWiBhN2I2MGxlcHQyazZkYmZhamQxOGtuaDMzc0Bn'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/60bl6i5iki88d74qnfp59ult1k_20120223T090000Z' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/60bl6i5iki88d74qnfp59ult1k_20120223T090000Z/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/60bl6i5iki88d74qnfp59ult1k'
+			id='60bl6i5iki88d74qnfp59ult1k'>
+			<gd:when startTime='2012-02-23T11:00:00.000+02:00' />
+		</gd:originalEvent>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-23T15:30:00.000+02:00' startTime='2012-02-23T11:00:00.000+02:00' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='1' />
+		<gCal:uid value='60bl6i5iki88d74qnfp59ult1k@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/sha19635uj1gle2v5go76q2cro_20120223T100000Z</id>
+		<published>0001-12-31T01:52:00.000+01:52</published>
+		<updated>2009-05-23T17:17:49.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>11.00 to 15.30 test event</title>
+		<content type='text'>this is a test event starting at 11.00 o'clock
+			and ends at 15.30 o'clock</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=c2hhMTk2MzV1ajFnbGUydjVnbzc2cTJjcm9fMjAxMjAyMjNUMTAwMDAwWiBhN2I2MGxlcHQyazZkYmZhamQxOGtuaDMzc0Bn'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/sha19635uj1gle2v5go76q2cro_20120223T100000Z' />
+		<author>
+			<name>gcalendar test</name>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/sha19635uj1gle2v5go76q2cro_20120223T100000Z/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/sha19635uj1gle2v5go76q2cro'
+			id='sha19635uj1gle2v5go76q2cro'>
+			<gd:when startTime='2012-02-23T12:00:00.000+02:00' />
+		</gd:originalEvent>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-23T16:30:00.000+02:00' startTime='2012-02-23T12:00:00.000+02:00' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='10' />
+		<gCal:uid value='sha19635uj1gle2v5go76q2cro@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/39n6n7vedd692oslrnhrbt4jg8_20120224T090000Z</id>
+		<published>2009-10-03T09:05:53.000+02:00</published>
+		<updated>2009-11-20T08:28:30.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>event with "html"</title>
+		<content type='text'>this is a test &lt;b&gt;event&lt;/b&gt; with
+			html content
+			&lt;ul&gt;&lt;li&gt;one&lt;/li&gt;&lt;li&gt;two&lt;/li&gt;&lt;/ul&gt;
+			simple
+			new line</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=MzluNm43dmVkZDY5Mm9zbHJuaHJidDRqZzhfMjAxMjAyMjRUMDkwMDAwWiBhN2I2MGxlcHQyazZkYmZhamQxOGtuaDMzc0Bn'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/39n6n7vedd692oslrnhrbt4jg8_20120224T090000Z' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/39n6n7vedd692oslrnhrbt4jg8_20120224T090000Z/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='bali' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/39n6n7vedd692oslrnhrbt4jg8'
+			id='39n6n7vedd692oslrnhrbt4jg8'>
+			<gd:when startTime='2012-02-24T11:00:00.000+02:00' />
+		</gd:originalEvent>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-24T12:00:00.000+02:00' startTime='2012-02-24T11:00:00.000+02:00' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='4' />
+		<gCal:uid value='39n6n7vedd692oslrnhrbt4jg8@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/f1aft4k814864q6llon431i4io_20120224T090000Z</id>
+		<published>2009-01-25T15:19:19.000+02:00</published>
+		<updated>2009-01-27T10:20:40.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>multiple day test event 10.00 to 13.30 next day</title>
+		<content type='text'>this is a multiple day event starting at 10.00
+			o'clock and ends the next day at 13.00 o'clock</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=ZjFhZnQ0azgxNDg2NHE2bGxvbjQzMWk0aW9fMjAxMjAyMjRUMDkwMDAwWiBhN2I2MGxlcHQyazZkYmZhamQxOGtuaDMzc0Bn'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/f1aft4k814864q6llon431i4io_20120224T090000Z' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/f1aft4k814864q6llon431i4io_20120224T090000Z/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/f1aft4k814864q6llon431i4io'
+			id='f1aft4k814864q6llon431i4io'>
+			<gd:when startTime='2012-02-24T11:00:00.000+02:00' />
+		</gd:originalEvent>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-25T14:30:00.000+02:00' startTime='2012-02-24T11:00:00.000+02:00' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='1' />
+		<gCal:uid value='f1aft4k814864q6llon431i4io@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120226</id>
+		<published>2009-03-15T10:05:48.000+02:00</published>
+		<updated>2010-06-30T08:46:58.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>private full day</title>
+		<content type='text'>this is a private event http://allon.ch ö é ä$ è
+			ü</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=N2JrNzgydWppaHNxcmh0ZGpzN2RrMDJ1dG9fMjAxMjAyMjYgYTdiNjBsZXB0Mms2ZGJmYWpkMThrbmgzM3NAZw'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120226' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto_20120226/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/7bk782ujihsqrhtdjs7dk02uto'
+			id='7bk782ujihsqrhtdjs7dk02uto'>
+			<gd:when startTime='2012-02-26' />
+		</gd:originalEvent>
+		<gd:who email='laoneo96@gmail.com' rel='http://schemas.google.com/g/2005#event.attendee'
+			valueString='laoneo96@gmail.com'>
+			<gd:attendeeStatus value='http://schemas.google.com/g/2005#event.invited' />
+		</gd:who>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-27' startTime='2012-02-26' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.opaque' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='0' />
+		<gCal:uid value='7bk782ujihsqrhtdjs7dk02uto@google.com' />
+	</entry>
+	<entry>
+		<id>http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kg3m84ddaidjhnqilualn29vo8_20120226T203000Z</id>
+		<published>2009-08-01T11:55:12.000+02:00</published>
+		<updated>2009-08-18T12:50:14.000+02:00</updated>
+		<category scheme='http://schemas.google.com/g/2005#kind'
+			term='http://schemas.google.com/g/2005#event' />
+		<title type='text'>test late</title>
+		<content type='text'>late event</content>
+		<link rel='alternate' type='text/html'
+			href='https://www.google.com/calendar/event?eid=a2czbTg0ZGRhaWRqaG5xaWx1YWxuMjl2bzhfMjAxMjAyMjZUMjAzMDAwWiBhN2I2MGxlcHQyazZkYmZhamQxOGtuaDMzc0Bn'
+			title='alternate' />
+		<link rel='self' type='application/atom+xml'
+			href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kg3m84ddaidjhnqilualn29vo8_20120226T203000Z' />
+		<author>
+			<name>allon moritz</name>
+			<email>allon.moritz@gmail.com</email>
+		</author>
+		<gd:comments>
+			<gd:feedLink
+				href='https://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kg3m84ddaidjhnqilualn29vo8_20120226T203000Z/comments' />
+		</gd:comments>
+		<gd:eventStatus value='http://schemas.google.com/g/2005#event.confirmed' />
+		<gd:where valueString='heaven' />
+		<gd:originalEvent
+			href='http://www.google.com/calendar/feeds/a7b60lept2k6dbfajd18knh33s%40group.calendar.google.com/private-d208bac69d18ece23fd7b6d77697b915/full/kg3m84ddaidjhnqilualn29vo8'
+			id='kg3m84ddaidjhnqilualn29vo8'>
+			<gd:when startTime='2012-02-26T22:30:00.000+02:00' />
+		</gd:originalEvent>
+		<gd:who email='a7b60lept2k6dbfajd18knh33s@group.calendar.google.com'
+			rel='http://schemas.google.com/g/2005#event.organizer' valueString='gcalendar test' />
+		<gd:when endTime='2012-02-27T01:00:00.000+02:00' startTime='2012-02-26T22:30:00.000+02:00' />
+		<gd:transparency value='http://schemas.google.com/g/2005#event.transparent' />
+		<gCal:anyoneCanAddSelf value='false' />
+		<gCal:guestsCanInviteOthers value='true' />
+		<gCal:guestsCanModify value='false' />
+		<gCal:guestsCanSeeGuests value='true' />
+		<gCal:sequence value='16' />
+		<gCal:uid value='kg3m84ddaidjhnqilualn29vo8@google.com' />
+	</entry>
+</feed>
