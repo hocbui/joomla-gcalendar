@@ -42,8 +42,14 @@ class GCalendarController extends JController
 	}
 
 	function import(){
-		if($this->isLoggedIn()){
-			JRequest::setVar( 'view', 'import'  );
+		if(JRequest::getVar('user', null) != null){
+			$data = $this->getModel('Import', 'GCalendarModel')->getOnlineData();
+			if($data == null){
+				JRequest::setVar( 'nextTask', 'import'  );
+				JRequest::setVar( 'view', 'login'  );
+			} else {
+				JRequest::setVar( 'view', 'import'  );
+			}
 		}else{
 			JRequest::setVar( 'nextTask', 'import'  );
 			JRequest::setVar( 'view', 'login'  );
@@ -52,41 +58,4 @@ class GCalendarController extends JController
 
 		$this->display();
 	}
-
-	function isLoggedIn(){
-		$user = JRequest::getVar('user', null);
-		$pass = JRequest::getVar('pass', null);
-		if(!empty($user)){
-			Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-			Zend_Loader::loadClass('Zend_Gdata_HttpClient');
-			Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
-			Zend_Loader::loadClass('Zend_Gdata_Calendar');
-			
-			$client = new Zend_Gdata_HttpClient();
-
-			if (!in_array('ssl',stream_get_transports()) && function_exists('curl_init')  )
-			$client->setConfig(array(
-		        'strictredirects' => true,
-		        'adapter' => 'Zend_Http_Client_Adapter_Curl',
-		        'curloptions' => array(
-					CURLOPT_FOLLOWLOCATION => true,
-					CURLOPT_MAXREDIRS => 2,
-					CURLOPT_SSL_VERIFYPEER => false,
-					CURLOPT_COOKIEJAR => 'gcal_cookiejar.txt'
-					)
-				)
-			);
-
-			$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Calendar::AUTH_SERVICE_NAME, $client);
-
-			JRequest::setVar('authtoken', $client->getClientLoginToken());
-		}
-
-		if (JRequest::getVar('token', null) == null && JRequest::getVar('authtoken', null) == null) {
-			return FALSE;
-		}
-		return TRUE;
-	}
-
 }
-?>

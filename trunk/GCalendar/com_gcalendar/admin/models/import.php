@@ -58,28 +58,33 @@ class GCalendarModelImport extends JModel
 	}
 
 	public function getOnlineData() {
-		$user = JRequest::getVar('user', null);
-		$pass = JRequest::getVar('pass', null);
+		try{
+			$user = JRequest::getVar('user', null);
+			$pass = JRequest::getVar('pass', null);
+				
+			$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
 
-		$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
+			$gdataCal = new Zend_Gdata_Calendar($client);
+			$calFeed = $gdataCal->getCalendarListFeed();
 
-		$gdataCal = new Zend_Gdata_Calendar($client);
-		$calFeed = $gdataCal->getCalendarListFeed();
+			$this->_data = array();
+			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
+			foreach ($calFeed as $calendar) {
+				$table_instance = & $this->getTable('import');
+				$table_instance->id = 0;
+				$cal_id = substr($calendar->id->text,strripos($calendar->id->text,'/')+1);
+				$table_instance->calendar_id = $cal_id;
+				$table_instance->name = $calendar->title->text;
+				if(strpos($calendar->color->value, '#') === 0){
+					$color = str_replace("#","",$calendar->color->value);
+					$table_instance->color = $color;
+				}
 
-		$this->_data = array();
-		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
-		foreach ($calFeed as $calendar) {
-			$table_instance = & $this->getTable('import');
-			$table_instance->id = 0;
-			$cal_id = substr($calendar->id->text,strripos($calendar->id->text,'/')+1);
-			$table_instance->calendar_id = $cal_id;
-			$table_instance->name = $calendar->title->text;
-			if(strpos($calendar->color->value, '#') === 0){
-				$color = str_replace("#","",$calendar->color->value);
-				$table_instance->color = $color;
+				$this->_data[] = $table_instance;
 			}
-
-			$this->_data[] = $table_instance;
+		} catch(Exception $e){
+			JError::raiseWarning(200, $e->getMessage());
+			$this->_data = null;
 		}
 
 		return $this->_data;
