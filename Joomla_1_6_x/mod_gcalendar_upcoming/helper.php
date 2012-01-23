@@ -30,7 +30,7 @@ class ModGCalendarUpcomingHelper{
 			return array();
 		}
 
-		$orderBy = $params->get( 'order', 1 )==1;
+		$orderBy = $params->get( 'order', 1 ) == 1 ? GCalendarZendHelper::ORDER_BY_START_TIME : GCalendarZendHelper::ORDER_BY_LAST_MODIFIED;
 		$maxEvents = $params->get('max_events', 10);
 		$filter = $params->get('find', '');
 		$startDate = $params->get('start_date', null);

@@ -147,7 +147,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 			return null;
 		}
 	
-		$orderBy = $this->params->get( 'order', 1 )==1;
+		$orderBy = $this->params->get( 'order', 1 ) == 1 ? GCalendarZendHelper::ORDER_BY_START_TIME : GCalendarZendHelper::ORDER_BY_LAST_MODIFIED;
 		$maxEvents = $this->params->get('max_events', 10);
 		$filter = $this->params->get('find', '');
 		$titleFilter = $this->params->get('title_filter', '.*');
