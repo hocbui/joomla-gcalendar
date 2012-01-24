@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install type="component" version="1.5.0">
+	<name>GCalendar</name>
+	<!-- The following elements are optional and free of formatting conttraints -->
+	<creationDate>Mar 2008</creationDate>
+	<author>allon</author>
+	<authorEmail>allon@allon.ch</authorEmail>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<copyright></copyright>
+	<license></license>
+	<!--  The version string is recorded in the components table -->
+	<version>1.5.1</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>Google calendar integrated in joomla.</description>
+
+	<!-- Site Main File Copy Section -->
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>gcalendar.php</filename>
+		<filename>controller.php</filename>
+		<filename>router.php</filename>
+		<filename>views/index.html</filename>
+		<filename>views/gcalendar/index.html</filename>
+		<filename>views/gcalendar/view.html.php</filename>
+		<filename>views/gcalendar/tmpl/index.html</filename>
+		<filename>views/gcalendar/tmpl/default.php</filename>
+		<filename>views/gcalendar/tmpl/default.xml</filename>
+		<filename>hiddenviews/content/index.html</filename>
+		<filename>hiddenviews/content/view.raw.php</filename>
+		<filename>hiddenviews/content/tmpl/index.html</filename>
+		<filename>hiddenviews/content/tmpl/default.php</filename>
+		<filename>hiddenviews/event/index.html</filename>
+		<filename>hiddenviews/event/view.html.php</filename>
+		<filename>hiddenviews/event/tmpl/index.html</filename>
+		<filename>hiddenviews/event/tmpl/default.php</filename>
+		<filename>models/gcalendar.php</filename>
+		<filename>models/index.html</filename>
+	</files>
+	<languages>
+  		<language tag="en-GB">site/languages/en-GB.com_gcalendar.ini</language> 
+  	</languages>
+	
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">install.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">uninstall.sql</file>
+		</sql>
+	</uninstall>	
+	<administration>
+		<!-- Administration Menu Section -->
+		<menu >GCalendar</menu>
+		<submenu>			
+			<menu task="calendars">GCalendars</menu>
+			<menu task="googleCalendar">Google Calendar</menu>
+			<menu task="support">Support Site</menu>
+		</submenu>
+		
+		
+		<!-- Administration Main File Copy Section -->
+		<!-- Note the folder attribute: This attribute describes the folder
+			to copy FROM in the package to install therefore files copied
+			in this section are copied from /admin/ in the package -->
+		<files folder="admin">
+	<!-- Site Main File Copy Section -->
+			<filename>index.html</filename>
+			<filename>admin.gcalendar.php</filename>
+			<filename>controller.php</filename>
+			<filename>controllers/gcalendar.php</filename>
+			<filename>controllers/index.html</filename>
+			<filename>models/gcalendars.php</filename>
+			<filename>models/gcalendar.php</filename>
+			<filename>models/index.html</filename>
+			<filename>views/gcalendars/view.html.php</filename>
+			<filename>images/48-calendar.png</filename>
+			<filename>images/gcalendar.gif</filename>
+			<filename>images/gcalendar_but.gif</filename>
+			<filename>views/gcalendars/index.html</filename>
+			<filename>views/gcalendars/tmpl/default.php</filename>
+			<filename>views/gcalendars/tmpl/calendar.php</filename>
+			<filename>views/gcalendars/tmpl/support.php</filename>
+			<filename>views/gcalendars/tmpl/index.html</filename>
+			<filename>views/gcalendar/view.html.php</filename>
+			<filename>views/gcalendar/index.html</filename>
+			<filename>views/gcalendar/tmpl/form.php</filename>
+			<filename>views/gcalendar/tmpl/index.html</filename>
+			<filename>tables/gcalendar.php</filename>
+			<filename>tables/index.html</filename>
+			<filename>install.sql</filename>
+			<filename>uninstall.sql</filename>
+			<filename>css/gcalendar.css</filename>
+			<filename>css/index.html</filename>
+		</files>		
+		
+		<languages>
+  			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language> 
+  		</languages>
+	</administration>
+</install>

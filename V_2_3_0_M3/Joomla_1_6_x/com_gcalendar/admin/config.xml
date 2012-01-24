@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="component" addfieldpath="/administrator/components/com_gcalendar/models/fields">
+		<field name="google_apps_domain" type="text" default="" size="100"
+			label="Google Apps Domain" description="The Google Apps domain to get the calendar data from." />
+		<field name="timezone" type="googletimezones" default=""
+			label="Time Zone" description="The global timezone for GCalendar." />
+		<field name="loadJQuery" type="radio" default="yes" label="Load jQuery"
+			description="jQuery is required by this component The only reason not to load it is if it has already been loaded manually or by another module.">
+			<option value="no">No</option>
+			<option value="yes">Yes</option>
+		</field>
+		<field name="@spacer" type="spacer" default="Event output" label=""
+			description="" />
+		<field name="show_calendar_name" type="radio" default="1"
+			label="Show Calendar Name" description="Shows the calendar name">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</field>
+		<field name="show_event_title" type="radio" default="1"
+			label="Show Event Title" description="Shows the event title.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</field>
+		<field name="show_event_date" type="radio" default="1"
+			label="Show Event Date" description="Shows the event date.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</field>
+		<field name="show_event_attendees" type="radio" default="2"
+			label="Show Event Attendees" description="Shows the event attendees.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</field>
+		<field name="show_event_description" type="radio" default="1"
+			label="Show Event Description" description="Shows the event description.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</field>
+		<field name="show_event_location" type="radio" default="1"
+			label="Show Event Location" description="Shows the event location.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</field>
+		<field name="show_event_author" type="radio" default="2"
+			label="Show Event Author" description="Shows the event author.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</field>
+		<field name="show_event_copy_info" type="radio" default="1"
+			label="Show Event Copy Info" description="Shows the copy to my calendar option.">
+			<option value="1">Yes</option>
+			<option value="2">No</option>
+		</field>
+		<field name="event_date_format" type="text" size="80" default="d.m.Y"
+			label="Date format"
+			description="The format of the date for an event (see http://www.php.net/date for details)." />
+		<field name="event_time_format" type="text" size="80" default="H:i"
+			label="Time format"
+			description="The format of the time for an event (see http://www.php.net/date for details)." />
+	</fieldset>
+	<fieldset
+                name="permissions"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                description="JCONFIG_PERMISSIONS_DESC">
+         <field
+                 name="rules"
+                 type="rules"
+                 label="JCONFIG_PERMISSIONS_LABEL"
+                 class="inputbox"
+                 validate="rules"
+                 filter="rules"
+                 component="com_gcalendar"
+                 section="component"
+         />
+        </fieldset>
+</config>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>GCalendar Overview</name>
+	<author>allon</author>
+	<creationDate>Jan 2009</creationDate>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorEmail>info@gcalendar.allon.ch</authorEmail>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<version>2.1.0</version>
+	<description>This module shows the google calendar at a module
+		position.</description>
+	<files>
+		<filename module="mod_gcalendar">mod_gcalendar.php
+		</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<filename>tmpl/default.php</filename>
+		<filename>tmpl/index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar.ini
+		</language>
+	</languages>
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default=""
+			label="Select Calendars" description="The calendars" />
+		<param name="title" type="radio" default="0" label="Title"
+			description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="navigation" type="radio" default="0" label="Navigation"
+			description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="date" type="radio" default="0" label="Date"
+			description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="print" type="radio" default="0" label="Print icon"
+			description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="tabs" type="radio" default="0" label="Tabs"
+			description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="tz" type="radio" default="1" label="Time zone"
+			description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="width" type="text" size="5" default="100%" label="Width"
+			description="PARAMWIDTH" />
+		<param name="height" type="text" size="5" default="500" label="Height"
+			description="PARAMHEIGHT" />
+		<param name="view" type="radio" default="MONTH" label="Select an option"
+			description="">
+			<option value="WEEK">Week</option>
+			<option value="MONTH">Month</option>
+			<option value="AGENDA">Agenda</option>
+		</param>
+		<param name="weekstart" type="list" default="2" label="Week starts on"
+			description="">
+			<option value="1">Sunday</option>
+			<option value="2">Monday</option>
+			<option value="7">Saturday</option>
+		</param>
+		<param name="bgcolor" type="text" default="FFFFFF" label="Background color"
+			description="" size="10" />
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="textbefore" type="textarea" default=""
+			label="Content before calendar" description="This text will be displayed before the google calendar."
+			rows="5" cols="50" />
+		<param name="textafter" type="textarea" default=""
+			label="Content after calendar" description="This text will be displayed after the google calendar."
+			rows="5" cols="50" />
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="moduleclass_sfx" type="text" size="80" default=""
+			label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	<params group="advanced">
+		<param name="use_custom_css" type="radio" default="0"
+			label="Use Custom CSS"
+			description="Use custom css in the googlecal folder. Check the documentation at gcalendar.allon.ch for more information">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</install>

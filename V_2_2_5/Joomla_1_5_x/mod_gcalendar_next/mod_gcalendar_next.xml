@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>GCalendar Next Event</name>
+	<author>G4J Project</author>
+	<creationDate>Sep 2010</creationDate>
+	<copyright>This module is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorEmail>info@g4j.laoneo.net
+	</authorEmail>
+	<authorUrl>g4j.laoneo.net</authorUrl>
+	<version>2.2.5</version>
+	<description>This module shows the next event from a google calendar, displayed via provided html.</description>
+	<files>
+		<filename module="mod_gcalendar_next">mod_gcalendar_next.php
+		</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_gcalendar_next.ini
+		</language>
+		<language tag="de-DE">languages/de-DE.mod_gcalendar_next.ini
+		</language>
+	</languages>
+	<params addpath="/administrator/components/com_gcalendar/elements">
+		<param name="calendarids" type="gcalendar" default="" label="Select Calendars" description="The calendars" />
+		<param name="style_parameters" type="text" size="80" default="" label="Style Parameters" description="Key value pairs to pass into the style."/>
+		<param name="moduleclass_sfx" type="text" size="80" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	<params group="advanced">
+		<param name="offset" type="text" size="10" default="0" label="Event Order Offset" description="Show the event X number of events after the immediate next event"/>
+		<param name="output" type="textarea2" default="" label="Event output" description="Here you can customize the appearance of the event." rows="5" cols="50">
+			<content>&lt;span class="countdown_row"&gt;{y&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{yn}&lt;/span&gt;&lt;br/&gt;{yl}&lt;/span&gt;{y&gt;}{o&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{on}&lt;/span&gt;&lt;br/&gt;{ol}&lt;/span&gt;{o&gt;}{w&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{wn}&lt;/span&gt;&lt;br/&gt;{wl}&lt;/span&gt;{w&gt;}{d&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{dn}&lt;/span&gt;&lt;br/&gt;{dl}&lt;/span&gt;{d&gt;}{h&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{hn}&lt;/span&gt;&lt;br/&gt;{hl}&lt;/span&gt;{h&gt;}{m&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{mn}&lt;/span&gt;&lt;br/&gt;{ml}&lt;/span&gt;{m&gt;}{s&lt;}&lt;span class="countdown_section"&gt;&lt;span class="countdown_amount"&gt;{sn}&lt;/span&gt;&lt;br/&gt;{sl}&lt;/span&gt;{s&gt;}&lt;div style="clear:both;"&gt;&lt;span class="countdown_descr"&gt;{desc}&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;</content>
+			<description>
+				Here you can modify the event output. This will depend on the style you chose.
+			</description>
+		</param>
+		<param name="past_events" type="list" default="1" label="Display current events" description="Define whether the module should display events that are occurring now (as opposed to occurring solely in the future.)">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>		
+		<param name="output_now" type="textarea2" default="" label="Event Now output" description="Here you can customize the appearance of an event that is happening right now." rows="5" cols="50">
+			<content>&lt;span class="countdown_row"&gt;&lt;span class="countdown_descr&gt;Right now: {desc}&lt;/span&gt;&lt;br/&gt;&lt;span class="countdown_descr_sub&gt;&lt;/span&gt;Join us at [&lt;a href="http://maps.google.com/?q={{location}}" target="_blank"&gt;map&lt;/a&gt;]&lt;/span&gt;</content>
+		</param>
+		<param name="no_event" type="textarea2" default="" label="No Event Text" description="Customize the output when there are no events found." rows="5" cols="50">
+			<content>&lt;div class="gcalendar_next"&gt;No event found.&lt;/div&gt;</content>
+		</param>
+		<param name="find" type="text" size="40" default="" label="Event Search" description="Find events whose title/description contain this string. Standard Google search expressions are allowed (e.g. find only me, -dont_find_me, find this that)"/>
+		<param name="title_filter" type="text" size="40" default=".*" label="Event Title Filter" description="Show only events with titles that match this regular expression"/>
+		<param name="start_date" type="text" size="40" default="-1 day" label="Start Date" description="Limit to events that have only started since this date (can be relative)"/>
+		<param name="end_date" type="text" size="40" default="+1 year" label="End Date" description="Limit to events that will start before date (can be relative)"/>
+		<param name="max_events" type="text" size="10" default="10" label="Max Events" description="Download only the next specified number of events."/>
+		<param name="gc_cache" type="list" default="1" label="Cache"
+			description="Is cacheing enabled.">
+			<option value="1">Use global</option>
+			<option value="2">Cache always</option>
+			<option value="0">Cache never</option>
+		</param>
+		<param name="gc_cache_time" type="text" default="900" label="Cache Time"
+			description="The time before the module is recached in sec." />
+	</params>
+</install>

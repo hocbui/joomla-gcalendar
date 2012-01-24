@@ -1,0 +1,166 @@
+<project name="gcalendar build" default="dist" basedir=".">
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+	<description>
+        default build file for gcalendar
+    </description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="gcalendarRoot" location="${gcalendarRoot}" />
+	<property name="gcalendarVersion" value="2_2_0M1" />
+	<property name="gcalendarUpgradeStartPoint" value="2_1_0M1" />
+	<property name="includeUpgrade" value="false" />
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<antcall target="clean" />
+	</target>
+
+	<target name="dist" depends="init">
+		<antcall target="create_install_packages" />
+		<if>
+			<istrue value="${includeUpgrade}" />
+			<then>
+				<antcall target="create_upgrade_packages_1_5" />
+			</then>
+			<else>
+				<echo message="Not executing creating the upgrade packages." />
+			</else>
+		</if>
+	</target>
+
+	<target name="create_upgrade_packages_1_5" description="create upgradepackagefor joomla 1.5 packages">
+		<!-- create com_gcalendar upgrade package -->
+		<mkdir dir="${build}/upgrade_1_5/com_gcalendar" />
+		<copy todir="${build}/upgrade_1_5/com_gcalendar/administrator/components/com_gcalendar">
+			<fileset dir="${gcalendarRoot}/com_gcalendar/admin">
+				<exclude name="**/languages/" />
+			</fileset>
+		</copy>
+		<copy file="${gcalendarRoot}/com_gcalendar/gcalendar.xml" todir="${build}/upgrade_1_5/com_gcalendar/administrator/components/com_gcalendar" />
+		<copy file="${gcalendarRoot}/com_gcalendar/admin/languages/en-GB.com_gcalendar.ini" todir="${build}/upgrade_1_5/com_gcalendar/administrator/language/en-GB" />
+		<copy file="${gcalendarRoot}/com_gcalendar/admin/languages/de-DE.com_gcalendar.ini" todir="${build}/upgrade_1_5/com_gcalendar/administrator/language/de-DE" />
+
+		<copy todir="${build}/upgrade_1_5/com_gcalendar/components/com_gcalendar">
+			<fileset dir="${gcalendarRoot}/com_gcalendar/site">
+				<exclude name="**/languages/" />
+			</fileset>
+		</copy>
+		<copy file="${gcalendarRoot}/com_gcalendar/site/languages/en-GB.com_gcalendar.ini" todir="${build}/upgrade_1_5/com_gcalendar/language/en-GB" />
+		<copy file="${gcalendarRoot}/com_gcalendar/site/languages/de-DE.com_gcalendar.ini" todir="${build}/upgrade_1_5/com_gcalendar/language/de-DE" />
+		<zip destfile="${build}/upgrade_1_5/com_gcalendar_${gcalendarVersion}.zip">
+			<zipfileset dir="${build}/upgrade_1_5/com_gcalendar" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/com_gcalendar" />
+
+
+		<!-- create the search plugin upgrade folder -->
+		<copy todir="${build}/upgrade_1_5/plg_gcalendar_search/plugins/search">
+			<fileset dir="${gcalendarRoot}/plg_gcalendar_search" />
+		</copy>
+		<zip destfile="${build}/upgrade_1_5/plg_gcalendar_search_${gcalendarVersion}.zip">
+			<zipfileset dir="${build}/upgrade_1_5/plg_gcalendar_search" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/plg_gcalendar_search" />
+
+		<!-- create the next plugin upgrade folder -->
+		<copy todir="${build}/upgrade_1_5/plg_gcalendar_next/plugins/search">
+			<fileset dir="${gcalendarRoot}/plg_gcalendar_next" />
+		</copy>
+		<zip destfile="${build}/upgrade_1_5/plg_gcalendar_next_${gcalendarVersion}.zip">
+			<zipfileset dir="${build}/upgrade_1_5/plg_gcalendar_next" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/plg_gcalendar_next" />
+
+		<!-- create the modules upgrade package -->
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar_upcoming" />
+		</antcall>
+		<antcall target="create_module_upgrade_folder_1_5">
+			<param name="module_name" value="mod_gcalendar_next" />
+		</antcall>
+
+		<!-- create the zip -->
+		<mkdir dir="${dist}" />
+		<zip destfile="${dist}/gcalendar_upgrade_${gcalendarUpgradeStartPoint}_to_${gcalendarVersion}_J15x.zip">
+			<zipfileset dir="${build}/upgrade_1_5" />
+			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
+			<zipfileset dir="${basedir}" includes="license.txt" />
+		</zip>
+	</target>
+
+	<target name="create_module_upgrade_folder_1_5">
+		<copy todir="${build}/upgrade_1_5/${module_name}/modules/${module_name}">
+			<fileset dir="${gcalendarRoot}/${module_name}/">
+				<exclude name="**/languages/" />
+			</fileset>
+		</copy>
+		<copy file="${gcalendarRoot}/${module_name}/languages/en-GB.${module_name}.ini" todir="${build}/upgrade_1_5/${module_name}/language/en-GB" />
+		<copy file="${gcalendarRoot}/${module_name}/languages/de-DE.${module_name}.ini" todir="${build}/upgrade_1_5/${module_name}/language/de-DE" />
+		<zip destfile="${build}/upgrade_1_5/${module_name}_${gcalendarVersion}.zip">
+			<zipfileset dir="${build}/upgrade_1_5/${module_name}" />
+		</zip>
+		<delete dir="${build}/upgrade_1_5/${module_name}" />
+	</target>
+
+	<target name="create_install_packages" description="create install package">
+		<mkdir dir="${dist}" />
+
+		<!-- create gcalendar for joomla 1.5 -->
+		<antcall target="create_zips">
+			<param name="gcalendar" value="GC_Joomla_1_5_x" />
+		</antcall>
+		<zip destfile="${dist}/gcalendar_${gcalendarVersion}_J15x.zip">
+			<zipfileset dir="${build}/GC_Joomla_1_5_x" includes="**/*" />
+			<zipfileset dir="${basedir}" includes="ReadFirstJ15x.txt" />
+			<zipfileset dir="${basedir}" includes="license.txt" />
+		</zip>
+	</target>
+
+	<target name="create_zips" description="generate the zips">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/${gcalendar}" />
+
+		<!-- create gcalendar component -->
+		<zip destfile="${build}/${gcalendar}/com_gcalendar_${gcalendarVersion}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/com_gcalendar" prefix="com_gcalendar" />
+		</zip>
+
+		<!-- create gcalendar search plugin -->
+		<zip destfile="${build}/${gcalendar}/plg_gcalendar_search_${gcalendarVersion}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/plg_gcalendar_search" prefix="plg_gcalendar_search" />
+		</zip>
+
+		<!-- create gcalendar next plugin -->
+		<zip destfile="${build}/${gcalendar}/plg_gcalendar_next_${gcalendarVersion}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/plg_gcalendar_next" prefix="plg_gcalendar_next" />
+		</zip>
+
+		<!-- create gcalendar module -->
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_${gcalendarVersion}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar" prefix="mod_gcalendar" />
+		</zip>
+
+		<!-- create gcalendar upcoming module -->
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_upcoming_${gcalendarVersion}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar_upcoming" prefix="mod_gcalendar_upcoming" />
+		</zip>
+
+		<!-- create gcalendar next module -->
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_next_${gcalendarVersion}.zip">
+			<zipfileset dir="${basedir}/../${gcalendar}/mod_gcalendar_next" prefix="mod_gcalendar_next" />
+		</zip>
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+</project>

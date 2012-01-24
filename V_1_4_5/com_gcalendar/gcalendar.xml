@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+	<name>GCalendar</name>
+	<creationDate>Mar 2008</creationDate>
+	<author>allon</author>
+	<copyright>
+		This component is released under the GNU/GPL License
+	</copyright>
+	<authorEmail>allon.moritz@gmail.com</authorEmail>
+	<authorUrl>gcalendar.allon.ch</authorUrl>
+	<version>1.4.5</version>
+	<description>Google Calendar for joomla.</description>
+	<files>
+		<filename>gcalendar.php</filename>
+		<filename>gcalendar.html.php</filename>
+		<filename>gcalendar.xml.php</filename>
+		<filename>languages/english.php</filename>
+		<filename>languages/german.php</filename>
+		<filename>languages/germani.php</filename>
+	</files>
+	<install>
+		<queries>
+			<query>
+				CREATE TABLE IF NOT EXISTS `#__gcalendar` ( `id` int(11)
+				NOT NULL auto_increment, `name` varchar(100) NOT NULL
+				default '', `htmlUrl` text, `xmlUrl` text, PRIMARY KEY (`id`) )
+				TYPE=MyISAM
+			</query>
+		</queries>
+	</install>
+	<uninstall>
+		<queries>
+			<query>DELETE FROM `#__gcalendar`</query>
+			<query>DROP TABLE `#__gcalendar`</query>
+		</queries>
+	</uninstall>
+	<installfile>install.gcalendar.php</installfile>
+	<uninstallfile>uninstall.gcalendar.php</uninstallfile>
+	<administration>
+		<menu>GCalendar</menu>
+		<submenu>
+			<menu task="">Show Calendars</menu>
+		</submenu>
+		<files>
+			<filename>admin.gcalendar.php</filename>
+			<filename>admin.gcalendar.html.php</filename>
+			<filename>toolbar.gcalendar.php</filename>
+			<filename>toolbar.gcalendar.html.php</filename>
+			<filename>gcalendar.class.php</filename>
+			<filename>gcalendar.xml</filename>
+		</files>
+		<images>
+			<filename>images/gcalendar_but.gif</filename>
+			<filename>images/gcalendar.gif</filename>
+		</images>
+	</administration>
+	<params>
+		<param name="name" type="text" default="" label="Calendar"
+			description="The google calendar, created in the google calendar component" />
+		<param name="menu_image" type="imagelist"
+			directory="/images/stories" hide_default="1" default=""
+			label="Menu Image"
+			description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
+		<param name="pageclass_sfx" type="text" size="20" default=""
+			label="Page Class Suffix"
+			description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
+		<param name="back_button" type="list" default=""
+			label="Back Button"
+			description="Show/Hide a Back Button, that returns you to the previously view page">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="page_title" type="radio" default="1"
+			label="Page Title" description="Show/Hide the Page title">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="header" type="text" size="30" default=""
+			label="Page Title"
+			description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
+		<param name="@spacer" type="spacer" default="" label=""
+			description="" />
+		<param name="scrolling" type="radio" default="auto"
+			label="Scroll Bars"
+			description="Show/Hide Horizontal  Vertical scroll bars.">
+			<option value="no">No</option>
+			<option value="yes">Yes</option>
+			<option value="auto">Auto</option>
+		</param>
+		<param name="width" type="text" size="5" default="100%"
+			label="Width"
+			description="Width of the IFrame Window, you can enter an absolute figure in pixels, or a relative figure by adding a %" />
+		<param name="height" type="text" size="5" default="500"
+			label="Height" description="Height of the IFrame Window" />
+		<param name="height_auto" type="radio" default="0"
+			label="Auto Height"
+			description="The height will automatically be set to the size of the external page. This will only work for pages on your own domain. If you see a javascript error, make sure this param is disabled. This will break XHTML compatability for this page.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="add" type="radio" default="1" label="Auto Add"
+			description="By default http:// will be added unless it detects http:// or https:// in the url link you provide, this allow you to switch this ability off">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</mosinstall>
