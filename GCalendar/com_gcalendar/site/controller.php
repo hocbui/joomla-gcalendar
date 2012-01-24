@@ -42,7 +42,7 @@ class GCalendarController extends JController
 			$viewLayout	= JRequest::getCmd( 'layout', 'default' );
 				
 			$this->addViewPath($this->basePath.DS.'hiddenviews');
-			$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->basePath));
+			$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->basePath, 'layout' => $viewLayout));
 			$view->addTemplatePath($this->basePath.DS.'hiddenviews'.DS.strtolower($viewName).DS.'tmpl');
 		}
 		parent::display();
