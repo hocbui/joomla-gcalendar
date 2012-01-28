@@ -14,8 +14,8 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Allon Moritz
- * @copyright 2007-2011 Allon Moritz
- * @since 2.2.0
+ * @copyright 2007-2012 Allon Moritz
+ * @since 2.5.0
  */
 
 class GCalendar_Feed extends Zend_Gdata_Calendar_EventFeed{

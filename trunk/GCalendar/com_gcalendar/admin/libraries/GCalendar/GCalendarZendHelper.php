@@ -14,8 +14,8 @@
  * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Allon Moritz
- * @copyright 2007-2011 Allon Moritz
- * @since 2.2.0
+ * @copyright 2007-2012 Allon Moritz
+ * @since 2.5.0
  */
 
 class GCalendarZendHelper{
@@ -121,6 +121,9 @@ class GCalendarZendHelper{
 			$event->setParam('gcid', $calendar->id);
 			$event->setParam('gccolor', $calendar->color);
 			$event->setParam('gcname', $calendar->name);
+			if(!empty($timezone)){
+				$event->setTimezone(new Zend_Gdata_Calendar_Extension_Timezone($timezone));
+			}
 			return $event;
 		} catch (Zend_Gdata_App_Exception $e) {
 			JError::raiseWarning(200, $e->getMessage());
@@ -135,7 +138,7 @@ class GCalendarZendHelper{
 			if(!class_exists('Zend_Loader')){
 				require_once 'Zend/Loader.php';
 			}
-			
+				
 			Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 			Zend_Loader::loadClass('Zend_Gdata_HttpClient');
 			Zend_Loader::loadClass('Zend_Gdata_Calendar');
