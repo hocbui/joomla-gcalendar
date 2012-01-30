@@ -14,5 +14,9 @@
 		<field name="color" type="googlecolorchooser" label="COM_GCALENDAR_FIELD_COLOR_LABEL"
 			description="COM_GCALENDAR_FIELD_COLOR_DESC" size="100%" class="inputbox"
 			required="true" default="A32929" />
+		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+		<field name="access_content" type="accesslevel" label="COM_GCALENDAR_FIELD_ACCESS_CONTENT_LABEL"
+			description="COM_GCALENDAR_FIELD_ACCESS_CONTENT_DESC" class="inputbox" size="1" />
 	</fieldset>
 </form>

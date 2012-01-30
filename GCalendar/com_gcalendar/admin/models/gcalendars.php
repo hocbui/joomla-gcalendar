@@ -29,8 +29,16 @@ class GCalendarModelGCalendars extends JModelList
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
+		$user	= JFactory::getUser();
 
 		$query->select('*');
+		
+		// Implement View Level Access
+		if (!$user->authorise('core.admin'))
+		{
+			$groups	= implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN ('.$groups.')');
+		}
 
 		$query->from('#__gcalendar');
 		return $query;

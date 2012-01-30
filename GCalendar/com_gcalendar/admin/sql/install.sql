@@ -6,5 +6,7 @@ CREATE TABLE IF NOT EXISTS `#__gcalendar` (
   `name` text NOT NULL,
   `magic_cookie` text NOT NULL,
   `color` text NOT NULL,
+  `access` tinyint UNSIGNED NOT NULL DEFAULT '0',
+  `access_content` tinyint UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY  (`id`)
 ) ;
