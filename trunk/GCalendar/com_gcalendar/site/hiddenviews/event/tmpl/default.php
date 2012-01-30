@@ -106,7 +106,7 @@ if($event == null){
 	if(GCalendarUtil::getComponentParameter('show_event_date', 1) == 1){
 		echo "<tr><td class=\"event_content_key\">".JText::_( 'COM_GCALENDAR_EVENT_VIEW_WHEN' ).": </td><td>".$timeString."</td></tr>\n";
 	}
-	if(GCalendarUtil::getComponentParameter('show_event_attendees', 2) == 1){
+	if(GCalendarUtil::getComponentParameter('show_event_attendees', 2) == 1 && count($event->getWho()) > 0){
 		$attendeesString = '';
 		foreach ($event->getWho() as $a) {
 			$attendeesString .= $a->getValueString()." <a href=\"javascript:sdafgkl437jeeee('".base64_encode(str_replace('@','#',$a->getEmail()))."')\"><img height=\"11\" border=\"0\" width=\"16\" alt=\"email\" src=\"media/com_gcalendar/images/mail.png\"/></a>,";

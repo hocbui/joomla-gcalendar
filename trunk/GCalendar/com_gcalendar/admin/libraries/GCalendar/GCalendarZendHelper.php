@@ -27,6 +27,12 @@ class GCalendarZendHelper{
 	const ORDER_BY_LAST_MODIFIED = 'lastmodified';
 
 	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
+		// Implement View Level Access
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.admin') && !in_array($calendar->access, $user->getAuthorisedViewLevels())) {
+			return array();
+		}
+
 		$cache = & JFactory::getCache('com_gcalendar');
 		$cache->setCaching(GCalendarUtil::getComponentParameter('gc_cache', 1) == '1');
 		if(GCalendarUtil::getComponentParameter('gc_cache', 1) == 2){
@@ -39,6 +45,12 @@ class GCalendarZendHelper{
 	}
 
 	public static function getEvent($calendar, $eventId){
+		// Implement View Level Access
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.admin') && !in_array($calendar->access, $user->getAuthorisedViewLevels())) {
+			return array();
+		}
+
 		$cache = & JFactory::getCache('com_gcalendar');
 		$cache->setCaching(GCalendarUtil::getComponentParameter('gc_cache', 1) == '1');
 		if(GCalendarUtil::getComponentParameter('gc_cache', 1) == 2){
@@ -85,11 +97,25 @@ class GCalendarZendHelper{
 
 		try {
 			$feed = $service->getFeed($query, 'GCalendar_Feed');
+
+			// Implement View Level Access
+			$canSeeContent = false;
+			$user = JFactory::getUser();
+			if ($user->authorise('core.admin') || in_array($calendar->access_content, $user->getAuthorisedViewLevels())) {
+				$canSeeContent = true;
+			}
 			foreach ($feed as $event) {
 				$event->setParam('gcid', $calendar->id);
 				$event->setParam('gccolor', $calendar->color);
 				$event->setParam('gcname', $calendar->name);
 				$event->setTimezone($feed->getTimezone());
+
+				if(!$canSeeContent){
+					$event->setTitle(JText::_('COM_GCALENDAR_EVENT_BUSY_LABEL'));
+					$event->setContent(null);
+					$event->setWhere(null);
+					$event->setWho(array());
+				}
 			}
 			return $feed;
 		} catch (Zend_Gdata_App_Exception $e) {
@@ -124,6 +150,17 @@ class GCalendarZendHelper{
 			if(!empty($timezone)){
 				$event->setTimezone(new Zend_Gdata_Calendar_Extension_Timezone($timezone));
 			}
+				
+			// Implement View Level Access
+			$canSeeContent = false;
+			$user = JFactory::getUser();
+			if (!$user->authorise('core.admin') && !in_array($calendar->access_content, $user->getAuthorisedViewLevels())) {
+				$event->setTitle(JText::_('COM_GCALENDAR_EVENT_BUSY_LABEL'));
+				$event->setContent(null);
+				$event->setWhere(null);
+				$event->setWho(array());
+			}
+				
 			return $event;
 		} catch (Zend_Gdata_App_Exception $e) {
 			JError::raiseWarning(200, $e->getMessage());
@@ -138,7 +175,7 @@ class GCalendarZendHelper{
 			if(!class_exists('Zend_Loader')){
 				require_once 'Zend/Loader.php';
 			}
-				
+
 			Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 			Zend_Loader::loadClass('Zend_Gdata_HttpClient');
 			Zend_Loader::loadClass('Zend_Gdata_Calendar');
