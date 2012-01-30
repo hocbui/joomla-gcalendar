@@ -37,7 +37,7 @@ class GCalendarModelGCalendars extends JModelList
 		if (!$user->authorise('core.admin'))
 		{
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN ('.$groups.')');
+			$query->where('access IN ('.$groups.')');
 		}
 
 		$query->from('#__gcalendar');

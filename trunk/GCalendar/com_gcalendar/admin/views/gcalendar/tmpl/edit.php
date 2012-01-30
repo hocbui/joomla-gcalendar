@@ -36,6 +36,14 @@ JHtml::_('behavior.tooltip');
 <?php }; ?>
 			</ul>
 		</fieldset>
+		<fieldset class="adminform">
+			<legend><?php echo JText::_( 'COM_GCALENDAR_VIEW_GCALENDAR_ACCESS_CONTROL' ); ?></legend>
+			<ul class="adminformlist">
+<?php foreach($this->form->getFieldset('acl') as $field){ ?>
+				<li><?php echo $field->label;echo $field->input;?></li>
+<?php }; ?>
+			</ul>
+		</fieldset>
 	</div>
 	<div>
 		<input type="hidden" name="task" value="gcalendar.edit" />
