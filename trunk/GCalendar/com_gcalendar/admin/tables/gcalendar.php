@@ -40,23 +40,4 @@ class GCalendarTableGCalendar extends JTable
 		}
 		return parent::bind($array, $ignore);
 	}
-
-	protected function _getAssetName()
-	{
-		$k = $this->_tbl_key;
-		return 'com_gcalendar.calendar.'.(int) $this->$k;
-	}
-
-	protected function _getAssetTitle()
-	{
-		return $this->name;
-	}
-
-	protected function _getAssetParentId()
-	{
-		$asset = JTable::getInstance('Asset');
-		$asset->loadByName('com_gcalendar');
-		return $asset->id;
-	}
 }
-?>
