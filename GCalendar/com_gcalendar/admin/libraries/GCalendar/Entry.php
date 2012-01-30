@@ -108,7 +108,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	}
 
 	public function getLocation(){
-		if($this->location == null){
+		if($this->location == null && $this->getWhere() !=null){
 			$where = $this->getWhere();
 			if(is_array($where)){
 				$where = reset($where);

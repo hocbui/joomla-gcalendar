@@ -32,7 +32,16 @@ class GCalendarDBUtil{
 		return GCalendarDBUtil::getAllCalendars();
 
 		$db =& JFactory::getDBO();
-		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar where ".$condition;
+		$query = "SELECT *  FROM #__gcalendar where ".$condition;
+		
+		// Implement View Level Access
+		$user	= JFactory::getUser();
+		if (!$user->authorise('core.admin'))
+		{
+			$groups	= implode(',', $user->getAuthorisedViewLevels());
+			$query .= ' and access IN ('.$groups.')';
+		}
+		
 		$db->setQuery( $query );
 		$results = $db->loadObjectList();
 		return $results;
@@ -40,7 +49,16 @@ class GCalendarDBUtil{
 
 	public static function getAllCalendars() {
 		$db =& JFactory::getDBO();
-		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar";
+		$query = "SELECT *  FROM #__gcalendar";
+		
+		// Implement View Level Access
+		$user	= JFactory::getUser();
+		if (!$user->authorise('core.admin'))
+		{
+			$groups	= implode(',', $user->getAuthorisedViewLevels());
+			$query .= ' where access IN ('.$groups.')';
+		}
+		
 		$db->setQuery( $query );
 		return $db->loadObjectList();
 	}
