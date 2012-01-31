@@ -25,6 +25,18 @@ class GCalendarZendHelper{
 
 	const ORDER_BY_START_TIME = 'starttime';
 	const ORDER_BY_LAST_MODIFIED = 'lastmodified';
+	
+	public static function getCalendars($username, $password){
+		try{
+			$client = Zend_Gdata_ClientLogin::getHttpClient($username, $password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
+		
+			$gdataCal = new Zend_Gdata_Calendar($client);
+			return $gdataCal->getCalendarListFeed();
+		} catch(Exception $e){
+			JError::raiseWarning(200, $e->getMessage());
+		}
+		return null;
+	}
 
 	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
 		// Implement View Level Access
@@ -64,6 +76,11 @@ class GCalendarZendHelper{
 
 	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
 		$client = new Zend_Http_Client();
+		
+		if(!empty($calendar->username) && !empty($calendar->password)){
+			$client = Zend_Gdata_ClientLogin::getHttpClient($calendar->username, $calendar->password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
+		}
+		
 		$service = new Zend_Gdata_Calendar($client);
 
 		$query = $service->newEventQuery();
@@ -126,6 +143,11 @@ class GCalendarZendHelper{
 
 	public static function internalGetEvent($calendar, $eventId){
 		$client = new Zend_Http_Client();
+		
+		if(!empty($calendar->username) && !empty($calendar->password)){
+			$client = Zend_Gdata_ClientLogin::getHttpClient($calendar->username, $calendar->password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
+		}
+		
 		$service = new Zend_Gdata_Calendar($client);
 
 		$query = $service->newEventQuery();
