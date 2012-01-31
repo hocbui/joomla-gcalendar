@@ -62,14 +62,11 @@ class GCalendarModelImport extends JModel
 			$user = JRequest::getVar('user', null);
 			$pass = JRequest::getVar('pass', null);
 				
-			$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
-
-			$gdataCal = new Zend_Gdata_Calendar($client);
-			$calFeed = $gdataCal->getCalendarListFeed();
+			$calendars = GCalendarZendHelper::getCalendars($user, $pass);
 
 			$this->_data = array();
 			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
-			foreach ($calFeed as $calendar) {
+			foreach ($calendars as $calendar) {
 				$table_instance = & $this->getTable('import');
 				$table_instance->id = 0;
 				$cal_id = substr($calendar->id->text,strripos($calendar->id->text,'/')+1);

@@ -26,8 +26,8 @@
 		<param name="event_description_format" type="radio" default="1"
 			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_DESCRIPTION_FORMAT_LABEL"
 			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_DESCRIPTION_FORMAT_DESC">
-			<option value="1">Yes</option>
-			<option value="2">No</option>
+			<option value="1">COM_GCALENDAR_FIELD_YES</option>
+			<option value="2">COM_GCALENDAR_FIELD_NO</option>
 		</param>
 		<field name="@spacer" type="spacer" default="Event output"
 			label="" description="" />
