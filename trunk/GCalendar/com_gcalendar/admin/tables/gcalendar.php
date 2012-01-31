@@ -21,6 +21,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.database.table');
+jimport('joomla.utilities.simplecrypt');
 
 class GCalendarTableGCalendar extends JTable
 {
@@ -38,6 +39,33 @@ class GCalendarTableGCalendar extends JTable
 			$parameter->loadArray($array['params']);
 			$array['params'] = (string)$parameter;
 		}
+		
 		return parent::bind($array, $ignore);
+	}
+	
+	public function load($keys = null, $reset = true)
+	{
+		$result = parent::load($keys, $reset);
+		
+		if(isset($this->password) && !empty($this->password)){
+			$cryptor = new JSimpleCrypt();
+			$this->password = $cryptor->decrypt($this->password);
+		}
+		
+		return $result;
+	}
+	
+	public function store($updateNulls = false)
+	{
+		$oldPassword = $this->password;
+		if(!empty($oldPassword)){
+			$cryptor = new JSimpleCrypt();
+			$this->password = $cryptor->encrypt($oldPassword);
+		}
+		$result = parent::store($updateNulls);
+		
+		$this->password = $oldPassword;
+		
+		return $result;
 	}
 }

@@ -11,6 +11,12 @@
 		<field name="magic_cookie" type="text"
 			label="COM_GCALENDAR_FIELD_MAGIC_COOKIE_LABEL" description="COM_GCALENDAR_FIELD_MAGIC_COOKIE_DESC"
 			size="100%" class="inputbox" default="" />
+		<field name="username" type="text"
+			label="COM_GCALENDAR_FIELD_USERNAME_LABEL" description="COM_GCALENDAR_FIELD_USERNAME_DESC"
+			size="100%" class="inputbox" default="" />
+		<field name="password" type="password"
+			label="COM_GCALENDAR_FIELD_PASSWORD_LABEL" description="COM_GCALENDAR_FIELD_PASSWORD_DESC"
+			size="100%" class="inputbox" default="" />
 		<field name="color" type="googlecolorchooser" label="COM_GCALENDAR_FIELD_COLOR_LABEL"
 			description="COM_GCALENDAR_FIELD_COLOR_DESC" size="100%" class="inputbox"
 			required="true" default="A32929" />
