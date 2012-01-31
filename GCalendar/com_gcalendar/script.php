@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class Com_GCalendarInstallerScript{
 	
-	public function install(){
+	function install($parent){
 	?>
 	    <div style="margin:0px auto; text-align:center; width:360px;">
 	      <img src="../media/com_gcalendar/images/48-calendar.png" alt="GCalendar Logo" />
@@ -43,7 +43,7 @@ class Com_GCalendarInstallerScript{
 	 <?php
 	}
 	
-	public function update(){
+	function update($parent){
 	?>
 	    <div style="margin:0px auto; text-align:center; width:360px;">
 	      <img src="../media/com_gcalendar/images/48-calendar.png" alt="GCalendar Logo" />
@@ -63,4 +63,10 @@ class Com_GCalendarInstallerScript{
 	    </div>
 	 <?php
 	}
+	
+	function uninstall($parent){}
+	
+	function preflight($type, $parent){}
+	
+	function postflight($type, $parent){}
 }
