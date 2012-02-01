@@ -21,7 +21,7 @@
 defined('_JEXEC') or die('Restricted Access');
 JHtml::_('behavior.tooltip');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_gcalendar'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_gcalendar'); ?>" method="post" name="adminForm" id="adminForm">
 	<table class="adminlist">
 		<thead><?php echo $this->loadTemplate('head');?></thead>
 		<tfoot><?php echo $this->loadTemplate('foot');?></tfoot>
