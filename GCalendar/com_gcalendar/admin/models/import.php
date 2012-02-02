@@ -61,23 +61,28 @@ class GCalendarModelImport extends JModel
 		try{
 			$user = JRequest::getVar('user', null);
 			$pass = JRequest::getVar('pass', null);
-				
+
 			$calendars = GCalendarZendHelper::getCalendars($user, $pass);
+			if($calendars == null){
+				return null;
+			}
 
 			$this->_data = array();
 			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
 			foreach ($calendars as $calendar) {
-				$table_instance = & $this->getTable('import');
-				$table_instance->id = 0;
-				$cal_id = substr($calendar->id->text,strripos($calendar->id->text,'/')+1);
-				$table_instance->calendar_id = $cal_id;
-				$table_instance->name = $calendar->title->text;
-				if(strpos($calendar->color->value, '#') === 0){
-					$color = str_replace("#","",$calendar->color->value);
-					$table_instance->color = $color;
+				$table = & $this->getTable('Import', 'GCalendarTable');
+				$table->id = 0;
+				$cal_id = substr($calendar->getId(),strripos($calendar->getId(),'/')+1);
+				$table->calendar_id = $cal_id;
+				$table->username = $user;
+				$table->password = $pass;
+				$table->name = (string)$calendar->getTitle();
+				if(strpos($calendar->getColor(), '#') === 0){
+					$color = str_replace("#","", (string)$calendar->getColor());
+					$table->color = $color;
 				}
 
-				$this->_data[] = $table_instance;
+				$this->_data[] = $table;
 			}
 		} catch(Exception $e){
 			JError::raiseWarning(200, $e->getMessage());
@@ -105,12 +110,12 @@ class GCalendarModelImport extends JModel
 	 * @return	boolean	True on success
 	 */
 	public function store()	{
-		$row =& $this->getTable();
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
+		$row = & $this->getTable('Import', 'GCalendarTable');
 
 		$cids = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		if (count($cids)>0) {
 			foreach ($cids as $cid) {
-				$row = & $this->getTable('import');
 				$row->id = 0;
 				$row->calendar_id = strtok($cid, ',');
 				$row->color = strtok(',');
@@ -136,4 +141,3 @@ class GCalendarModelImport extends JModel
 		return true;
 	}
 }
-?>

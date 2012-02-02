@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted Access');
 			</a>
 		</td>
 		<td width="40px"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($item->color);?>;width: 40px;height: 40px;"></div></td>
-		<td style="border: 0;"><?php echo $item->calendar_id; ?></td>
+		<td style="border: 0;"><?php echo urldecode($item->calendar_id); ?></td>
 		<td style="border: 0;"><?php 
 		if(!empty($item->magic_cookie)){
 			echo JText::_('COM_GCALENDAR_FIELD_MAGIC_COOKIE_LABEL');

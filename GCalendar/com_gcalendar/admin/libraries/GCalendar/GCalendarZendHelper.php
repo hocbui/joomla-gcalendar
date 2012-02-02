@@ -26,6 +26,12 @@ class GCalendarZendHelper{
 	const ORDER_BY_START_TIME = 'starttime';
 	const ORDER_BY_LAST_MODIFIED = 'lastmodified';
 	
+	/**
+	 * @param string $username
+	 * @param string $password
+	 * 
+	 * @return Zend_Gdata_Calendar_ListFeed|NULL
+	 */
 	public static function getCalendars($username, $password){
 		try{
 			$client = Zend_Gdata_ClientLogin::getHttpClient($username, $password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
@@ -38,6 +44,18 @@ class GCalendarZendHelper{
 		return null;
 	}
 
+	/**
+	 * @param $calendar
+	 * @param $startDate
+	 * @param $endDate
+	 * @param $max
+	 * @param $filter
+	 * @param $orderBy
+	 * @param $pastEvents
+	 * @param $sortOrder
+	 * 
+	 * @return Zend_Gdata_App_Feed|NULL
+	 */
 	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
 		// Implement View Level Access
 		$user = JFactory::getUser();
@@ -56,6 +74,12 @@ class GCalendarZendHelper{
 		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy, $pastEvents, $sortOrder);
 	}
 
+	/**
+	 * @param $calendar
+	 * @param $eventId
+	 * 
+	 * @return Zend_Gdata_App_Entry|NULL
+	 */
 	public static function getEvent($calendar, $eventId){
 		// Implement View Level Access
 		$user = JFactory::getUser();
@@ -74,6 +98,9 @@ class GCalendarZendHelper{
 		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvent' ), $calendar, $eventId);
 	}
 
+	/**
+	 * @return Zend_Gdata_App_Feed|NULL
+	 */
 	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
 		$client = new Zend_Http_Client();
 		
@@ -141,6 +168,9 @@ class GCalendarZendHelper{
 		}
 	}
 
+	/**
+	 * @return Zend_Gdata_App_Entry|NULL
+	 */
 	public static function internalGetEvent($calendar, $eventId){
 		$client = new Zend_Http_Client();
 		
