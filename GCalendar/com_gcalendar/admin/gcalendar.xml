@@ -38,11 +38,6 @@
 			<file driver="mysql">sql/uninstall.sql</file>
 		</sql>
 	</uninstall>
-	<update>
-    	<schemas>
-      		<schemapath type="mysql">sql/updates/mysql</schemapath>
-    	</schemas>
-    </update>
 	<scriptfile>script.php</scriptfile>
 	<administration>
 		<menu link="option=com_gcalendar">COM_GCALENDAR</menu>
