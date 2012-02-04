@@ -19,6 +19,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+
 JHTML::_('behavior.mootools');
 GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
