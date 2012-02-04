@@ -25,17 +25,17 @@ class GCalendarZendHelper{
 
 	const ORDER_BY_START_TIME = 'starttime';
 	const ORDER_BY_LAST_MODIFIED = 'lastmodified';
-	
+
 	/**
 	 * @param string $username
 	 * @param string $password
-	 * 
+	 *
 	 * @return Zend_Gdata_Calendar_ListFeed|NULL
 	 */
 	public static function getCalendars($username, $password){
 		try{
 			$client = Zend_Gdata_ClientLogin::getHttpClient($username, $password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
-		
+
 			$gdataCal = new Zend_Gdata_Calendar($client);
 			return $gdataCal->getCalendarListFeed();
 		} catch(Exception $e){
@@ -53,7 +53,7 @@ class GCalendarZendHelper{
 	 * @param $orderBy
 	 * @param $pastEvents
 	 * @param $sortOrder
-	 * 
+	 *
 	 * @return Zend_Gdata_App_Feed|NULL
 	 */
 	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
@@ -77,7 +77,7 @@ class GCalendarZendHelper{
 	/**
 	 * @param $calendar
 	 * @param $eventId
-	 * 
+	 *
 	 * @return Zend_Gdata_App_Entry|NULL
 	 */
 	public static function getEvent($calendar, $eventId){
@@ -102,44 +102,44 @@ class GCalendarZendHelper{
 	 * @return Zend_Gdata_App_Feed|NULL
 	 */
 	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
-		$client = new Zend_Http_Client();
-		
-		if(!empty($calendar->username) && !empty($calendar->password)){
-			$client = Zend_Gdata_ClientLogin::getHttpClient($calendar->username, $calendar->password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
-		}
-		
-		$service = new Zend_Gdata_Calendar($client);
-
-		$query = $service->newEventQuery();
-		$query->setUser($calendar->calendar_id);
-		if($calendar->magic_cookie != null){
-			$query->setVisibility('private-'.$calendar->magic_cookie);
-		}
-		$query->setProjection('full');
-		$query->setOrderBy($orderBy);
-		$query->setSortOrder($sortOrder);
-		$query->setSingleEvents('true');
-		if(!empty($filter)){
-			$query->setQuery($filter);
-		}
-		if($startDate != null){
-			$query->setStartMin(strftime('%Y-%m-%dT%H:%M:%S', $startDate));
-		}
-		if($endDate != null){
-			$query->setStartMax(strftime('%Y-%m-%dT%H:%M:%S',$endDate));
-		}
-		if($startDate == null && $endDate == null){
-			$query->setFutureEvents($pastEvents ? 'false': 'true');
-		}
-
-		$query->setMaxResults($max);
-		$timezone = GCalendarUtil::getComponentParameter('timezone');
-		if(!empty($timezone)){
-			$query->setParam('ctz', $timezone);
-		}
-		$query->setParam('hl', GCalendarUtil::getFrLanguage());
-
 		try {
+			$client = new Zend_Http_Client();
+
+			if(!empty($calendar->username) && !empty($calendar->password)){
+				$client = Zend_Gdata_ClientLogin::getHttpClient($calendar->username, $calendar->password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
+			}
+
+			$service = new Zend_Gdata_Calendar($client);
+
+			$query = $service->newEventQuery();
+			$query->setUser($calendar->calendar_id);
+			if($calendar->magic_cookie != null){
+				$query->setVisibility('private-'.$calendar->magic_cookie);
+			}
+			$query->setProjection('full');
+			$query->setOrderBy($orderBy);
+			$query->setSortOrder($sortOrder);
+			$query->setSingleEvents('true');
+			if(!empty($filter)){
+				$query->setQuery($filter);
+			}
+			if($startDate != null){
+				$query->setStartMin(strftime('%Y-%m-%dT%H:%M:%S', $startDate));
+			}
+			if($endDate != null){
+				$query->setStartMax(strftime('%Y-%m-%dT%H:%M:%S',$endDate));
+			}
+			if($startDate == null && $endDate == null){
+				$query->setFutureEvents($pastEvents ? 'false': 'true');
+			}
+
+			$query->setMaxResults($max);
+			$timezone = GCalendarUtil::getComponentParameter('timezone');
+			if(!empty($timezone)){
+				$query->setParam('ctz', $timezone);
+			}
+			$query->setParam('hl', GCalendarUtil::getFrLanguage());
+
 			$feed = $service->getFeed($query, 'GCalendar_Feed');
 
 			// Implement View Level Access
@@ -172,29 +172,29 @@ class GCalendarZendHelper{
 	 * @return Zend_Gdata_App_Entry|NULL
 	 */
 	public static function internalGetEvent($calendar, $eventId){
-		$client = new Zend_Http_Client();
-		
-		if(!empty($calendar->username) && !empty($calendar->password)){
-			$client = Zend_Gdata_ClientLogin::getHttpClient($calendar->username, $calendar->password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
-		}
-		
-		$service = new Zend_Gdata_Calendar($client);
-
-		$query = $service->newEventQuery();
-		$query->setUser($calendar->calendar_id);
-		if($calendar->magic_cookie != null){
-			$query->setVisibility('private-'.$calendar->magic_cookie);
-		}
-		$query->setProjection('full');
-		$query->setEvent($eventId);
-
-		$timezone = GCalendarUtil::getComponentParameter('timezone');
-		if(!empty($timezone)){
-			$query->setParam('ctz', $timezone);
-		}
-		$query->setParam('hl', GCalendarUtil::getFrLanguage());
-
 		try {
+			$client = new Zend_Http_Client();
+
+			if(!empty($calendar->username) && !empty($calendar->password)){
+				$client = Zend_Gdata_ClientLogin::getHttpClient($calendar->username, $calendar->password, Zend_Gdata_Calendar::AUTH_SERVICE_NAME);
+			}
+
+			$service = new Zend_Gdata_Calendar($client);
+
+			$query = $service->newEventQuery();
+			$query->setUser($calendar->calendar_id);
+			if($calendar->magic_cookie != null){
+				$query->setVisibility('private-'.$calendar->magic_cookie);
+			}
+			$query->setProjection('full');
+			$query->setEvent($eventId);
+
+			$timezone = GCalendarUtil::getComponentParameter('timezone');
+			if(!empty($timezone)){
+				$query->setParam('ctz', $timezone);
+			}
+			$query->setParam('hl', GCalendarUtil::getFrLanguage());
+
 			$event = $service->getEntry($query, 'GCalendar_Entry');
 			$event->setParam('gcid', $calendar->id);
 			$event->setParam('gccolor', $calendar->color);
@@ -202,7 +202,7 @@ class GCalendarZendHelper{
 			if(!empty($timezone)){
 				$event->setTimezone(new Zend_Gdata_Calendar_Extension_Timezone($timezone));
 			}
-				
+
 			// Implement View Level Access
 			$canSeeContent = false;
 			$user = JFactory::getUser();
@@ -212,7 +212,7 @@ class GCalendarZendHelper{
 				$event->setWhere(null);
 				$event->setWho(array());
 			}
-				
+
 			return $event;
 		} catch (Zend_Gdata_App_Exception $e) {
 			JError::raiseWarning(200, $e->getMessage());
@@ -239,4 +239,3 @@ class GCalendarZendHelper{
 	}
 }
 GCalendarZendHelper::loadZendClasses();
-?>
