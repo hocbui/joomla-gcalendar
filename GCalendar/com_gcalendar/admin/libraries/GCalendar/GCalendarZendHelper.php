@@ -18,6 +18,8 @@
  * @since 2.5.0
  */
 
+defined('_JEXEC') or die();
+
 class GCalendarZendHelper{
 
 	const SORT_ORDER_ASC = 'ascending';
