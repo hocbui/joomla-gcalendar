@@ -22,8 +22,25 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.modellist');
 
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
+
 class GCalendarModelGCalendars extends JModelList
 {
+	
+	protected function _getList($query, $limitstart = 0, $limit = 0)
+	{
+		$items = parent::_getList($query, $limitstart, $limit);
+		if($items === null){
+			return $items;
+		}
+		$tmp = array();
+		foreach ($items as $item) {
+			$table = JTable::getInstance('GCalendar', 'GCalendarTable');
+			$table->load($item->id);
+			$tmp[] = $table;
+		}
+		return $tmp;
+	}
 
 	protected function getListQuery()
 	{
@@ -32,6 +49,14 @@ class GCalendarModelGCalendars extends JModelList
 		$user	= JFactory::getUser();
 
 		$query->select('*');
+		$calendarIDs = $this->getState('ids', null);
+		if(!empty($calendarIDs)){
+			if(is_array($calendarIDs)) {
+				$query->where('id IN ( ' . rtrim(implode( ',', $calendarIDs ), ',') . ')');
+			} else {
+				$query->where($condition = 'id = '.(int)rtrim($calendarIDs, ','));
+			}
+		}
 		
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
@@ -44,4 +69,3 @@ class GCalendarModelGCalendars extends JModelList
 		return $query;
 	}
 }
-?>

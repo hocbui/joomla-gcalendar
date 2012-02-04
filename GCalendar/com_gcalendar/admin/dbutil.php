@@ -18,49 +18,31 @@
  * @since 2.2.0
  */
 
+defined('_JEXEC') or die();
+
+JLoader::import('joomla.application.component.model');
+JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'models');
+
 class GCalendarDBUtil{
 
-	public static function getCalendars($calendarIDs) {
-		$condition = '';
-		if(!empty($calendarIDs)){
-			if(is_array($calendarIDs)) {
-				$condition = 'id IN ( ' . rtrim(implode( ',', $calendarIDs ), ',') . ')';
-			} else {
-				$condition = 'id = '.(int)rtrim($calendarIDs, ',');
-			}
-		}else
-		return GCalendarDBUtil::getAllCalendars();
-
-		$db =& JFactory::getDBO();
-		$query = "SELECT *  FROM #__gcalendar where ".$condition;
-		
-		// Implement View Level Access
-		$user	= JFactory::getUser();
-		if (!$user->authorise('core.admin'))
-		{
-			$groups	= implode(',', $user->getAuthorisedViewLevels());
-			$query .= ' and access IN ('.$groups.')';
+	public static function getCalendar($calendarID) {
+		$model = JModel::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
+		$model->setState('ids',$calendarID);
+		$items = $model->getItems();
+		if(empty($items)){
+			return null;
 		}
-		
-		$db->setQuery( $query );
-		$results = $db->loadObjectList();
-		return $results;
+		return $items[0];
+	}
+	
+	public static function getCalendars($calendarIDs) {
+		$model = JModel::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
+		$model->setState('ids',$calendarIDs);
+		return $model->getItems();
 	}
 
 	public static function getAllCalendars() {
-		$db =& JFactory::getDBO();
-		$query = "SELECT *  FROM #__gcalendar";
-		
-		// Implement View Level Access
-		$user	= JFactory::getUser();
-		if (!$user->authorise('core.admin'))
-		{
-			$groups	= implode(',', $user->getAuthorisedViewLevels());
-			$query .= ' where access IN ('.$groups.')';
-		}
-		
-		$db->setQuery( $query );
-		return $db->loadObjectList();
+		$model = JModel::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
+		return $model->getItems();
 	}
 }
-?>

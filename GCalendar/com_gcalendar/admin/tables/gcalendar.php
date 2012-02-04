@@ -18,8 +18,8 @@
  * @since 2.2.0
  */
 
-// no direct access
 defined('_JEXEC') or die('Restricted access');
+
 jimport('joomla.database.table');
 jimport('joomla.utilities.simplecrypt');
 
