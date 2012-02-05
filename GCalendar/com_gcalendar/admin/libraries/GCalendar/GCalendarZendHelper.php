@@ -73,7 +73,19 @@ class GCalendarZendHelper{
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
 
-		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy, $pastEvents, $sortOrder);
+		$events = $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy, $pastEvents, $sortOrder);
+
+		// Implement View Level Access
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.admin') && !in_array($calendar->access_content, $user->getAuthorisedViewLevels())) {
+			foreach ($events as $event) {
+				$event->setTitle(JText::_('COM_GCALENDAR_EVENT_BUSY_LABEL'));
+				$event->setContent(null);
+				$event->setWhere(null);
+				$event->setWho(array());
+			}
+		}
+		return $events;
 	}
 
 	/**
@@ -97,7 +109,17 @@ class GCalendarZendHelper{
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
 
-		return $cache->call( array( 'GCalendarZendHelper', 'internalGetEvent' ), $calendar, $eventId);
+		$event =  $cache->call( array( 'GCalendarZendHelper', 'internalGetEvent' ), $calendar, $eventId);
+		
+		// Implement View Level Access
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.admin') && !in_array($calendar->access_content, $user->getAuthorisedViewLevels())) {
+			$event->setTitle(JText::_('COM_GCALENDAR_EVENT_BUSY_LABEL'));
+			$event->setContent(null);
+			$event->setWhere(null);
+			$event->setWho(array());
+		}
+		return $event;
 	}
 
 	/**
@@ -143,25 +165,11 @@ class GCalendarZendHelper{
 			$query->setParam('hl', GCalendarUtil::getFrLanguage());
 
 			$feed = $service->getFeed($query, 'GCalendar_Feed');
-
-			// Implement View Level Access
-			$canSeeContent = false;
-			$user = JFactory::getUser();
-			if ($user->authorise('core.admin') || in_array($calendar->access_content, $user->getAuthorisedViewLevels())) {
-				$canSeeContent = true;
-			}
 			foreach ($feed as $event) {
 				$event->setParam('gcid', $calendar->id);
 				$event->setParam('gccolor', $calendar->color);
 				$event->setParam('gcname', $calendar->name);
 				$event->setTimezone($feed->getTimezone());
-
-				if(!$canSeeContent){
-					$event->setTitle(JText::_('COM_GCALENDAR_EVENT_BUSY_LABEL'));
-					$event->setContent(null);
-					$event->setWhere(null);
-					$event->setWho(array());
-				}
 			}
 			return $feed;
 		} catch (Zend_Gdata_App_Exception $e) {
@@ -204,17 +212,6 @@ class GCalendarZendHelper{
 			if(!empty($timezone)){
 				$event->setTimezone(new Zend_Gdata_Calendar_Extension_Timezone($timezone));
 			}
-
-			// Implement View Level Access
-			$canSeeContent = false;
-			$user = JFactory::getUser();
-			if (!$user->authorise('core.admin') && !in_array($calendar->access_content, $user->getAuthorisedViewLevels())) {
-				$event->setTitle(JText::_('COM_GCALENDAR_EVENT_BUSY_LABEL'));
-				$event->setContent(null);
-				$event->setWhere(null);
-				$event->setWho(array());
-			}
-
 			return $event;
 		} catch (Zend_Gdata_App_Exception $e) {
 			JError::raiseWarning(200, $e->getMessage());
