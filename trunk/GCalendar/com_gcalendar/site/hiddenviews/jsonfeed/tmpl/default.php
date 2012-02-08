@@ -49,14 +49,14 @@ if(!empty($this->calendars)){
 			if(strlen($description) > 200)
 			$description = substr($description, 0, 196).' ...';
 			$data[] = array(
-			'id' => $event->getId(),
-			'title' => htmlspecialchars_decode($event->getTitle()),
-			'start' => GCalendarUtil::formatDate('Y-m-d\TH:i:s', $event->getStartDate()),
-			'end' => GCalendarUtil::formatDate('Y-m-d\TH:i:s',$allDayEvent? $event->getEndDate() - $SECSINDAY:$event->getEndDate()),
-			'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID),
-			'className' => "gcal-event_gccal_".$event->getParam('gcid'),
-			'allDay' => $allDayEvent,
-			'description' => $description
+				'id' => $event->getId(),
+				'title' => htmlspecialchars_decode($event->getTitle()),
+				'start' => GCalendarUtil::formatDate('Y-m-d\TH:i:s', $event->getStartDate()),
+				'end' => GCalendarUtil::formatDate('Y-m-d\TH:i:s',$allDayEvent? $event->getEndDate() - $SECSINDAY:$event->getEndDate()),
+				'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID),
+				'className' => "gcal-event_gccal_".$event->getParam('gcid'),
+				'allDay' => $allDayEvent,
+				'description' => $description
 			);
 		}
 	}

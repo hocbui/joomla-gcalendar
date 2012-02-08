@@ -47,6 +47,10 @@ $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullca
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.ba-hashchange.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0.min.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.easing-1.3.pack.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.mousewheel-3.0.4.pack.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.fancybox-1.3.4.pack.js');
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.fancybox-1.3.4.css');
 $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15; }");
 
 $theme = $params->get('theme', '');
@@ -154,18 +158,26 @@ $calCode .= "					},\n";
 $calCode .= "					style: { name: 'cream', tip: 'bottomLeft' }\n";
 $calCode .= "				});\n";
 $calCode .= "		},\n";
-$calCode .= "		eventClick: function(event) {\n";
 if($params->get('show_event_as_popup', 1) == 1){
-	$calCode .= "			if (event.url) {\n";
-	$calCode .= "				jQuery('<iframe src=\"'+event.url+'&tmpl=component\" />').dialog({\n";
-	$calCode .= "					width: 650,\n";
-	$calCode .= "					height: 500,\n";
-	$calCode .= "					modal: true,\n";
-	$calCode .= "					autoResize: true\n";
-	$calCode .= "				}).width(630).height(480);\n";
-	$calCode .= "				return false;}\n";
+	$popupWidth = $params->get('popup_width', 650);
+	$popupHeight = $params->get('popup_height', 500);
+	$calCode .= "		eventAfterRender: function(event, element, view) {\n";
+	$calCode .= "		        element.attr('href', element.attr('href') + (element.attr('href').indexOf('?') != -1 ? '&' : '?')+'tmpl=component');\n";
+	$calCode .= "		        element.fancybox({\n";
+	$calCode .= "		           width: ".$popupWidth.",\n";
+	$calCode .= "		           height: ".$popupHeight.",\n";
+	$calCode .= "		           autoScale : false,\n";
+	$calCode .= "		           autoDimensions : false, \n";
+	$calCode .= "		           transitionIn : 'elastic',\n";
+	$calCode .= "		           transitionOut : 'elastic',\n";
+	$calCode .= "		           speedIn : 600,\n";
+	$calCode .= "		           speedOut : 200,\n";
+	$calCode .= "		           type : 'iframe',\n";
+	$calCode .= "		           onStart : function() { element.qtip('hide'); },\n";
+	$calCode .= "		        });\n";
+	$calCode .= "		},\n";
+	$calCode .= "		eventClick: function(event) {if (event.url) {return false;}},\n";
 }
-$calCode .= "		},\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
 $calCode .= "				jQuery('#gcalendar_component_day_loading').show();\n";
