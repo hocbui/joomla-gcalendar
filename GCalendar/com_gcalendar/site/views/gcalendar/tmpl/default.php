@@ -32,7 +32,7 @@ $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fan
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.fancybox-1.3.4.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.ba-hashchange.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0.min.js');
-$document->addStyleDeclaration("#ui-datepicker-div { z-index: 15 important!; }");
+$document->addStyleDeclaration("#ui-datepicker-div { z-index: 15 !important; }");
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css');
 
 $params = $this->params;
