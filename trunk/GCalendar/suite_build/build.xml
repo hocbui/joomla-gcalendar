@@ -16,6 +16,7 @@
 	</target>
 
 	<target name="dist" depends="init">
+		<antcall target="update-languages" />
 		<antcall target="create_install_packages" />
 	</target>
 
@@ -69,6 +70,20 @@
 		<zip destfile="${build}/${gcalendar}/mod_gcalendar_next.zip">
 			<zipfileset dir="${basedir}/../mod_gcalendar_next" prefix="mod_gcalendar_next" />
 		</zip>
+	</target>
+	
+	<target name="update-languages">
+		<exec executable="${basedir}/../tx.exe">
+			<arg value="pull"/>
+			<arg value="-a"/>
+		</exec>
+		<replace dir="${basedir}/../com_gcalendar/admin/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../com_gcalendar/site/language/" token="'" value='"'/>
+		<replace dir="${basedir}/../mod_gcalendar/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../mod_gcalendar_upcoming/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../mod_gcalendar_next/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../plg_gcalendar_next/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../plg_search_gcalendar/languages/" token="'" value='"'/>
 	</target>
 
 	<target name="clean" description="clean up">
