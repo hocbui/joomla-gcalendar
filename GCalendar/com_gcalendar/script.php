@@ -23,6 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 class Com_GCalendarInstallerScript{
 
 	public function install($parent){
+		$this->run("update #__extensions set enabled=1 where name like 'plg_system_gcalendar'");
 	}
 
 	function update($parent){
@@ -32,6 +33,9 @@ class Com_GCalendarInstallerScript{
 			$this->run("ALTER TABLE `#__gcalendar` ADD `access_content` TINYINT UNSIGNED NOT NULL DEFAULT '1';");
 			$this->run("ALTER TABLE `#__gcalendar` ADD `username` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `magic_cookie`;");
 			$this->run("ALTER TABLE `#__gcalendar` ADD `password` text NULL DEFAULT NULL AFTER `username`;");
+		}
+		if(version_compare($version, '2.6.2')){
+			$this->run("update #__extensions set enabled=1 where name like 'plg_system_gcalendar'");
 		}
 	}
 

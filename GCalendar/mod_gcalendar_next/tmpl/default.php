@@ -56,7 +56,6 @@ if (preg_match_all('/{{([^}]+)}}/', $layout, $mapREs)) {
 
 $objid = "countdown-" . $module->id;
 
-GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/jquery/ext/jquery.countdown.min.js');
 $document->addStyleSheet(JURI::base(). 'components/com_gcalendar/libraries/jquery/ext/jquery.countdown.css');

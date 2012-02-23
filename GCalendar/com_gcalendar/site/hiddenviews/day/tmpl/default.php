@@ -38,8 +38,6 @@ if(!empty($itemID)){
 	echo "</td></tr></table>\n";
 }
 
-JHTML::_('behavior.mootools');
-GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css' );
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );

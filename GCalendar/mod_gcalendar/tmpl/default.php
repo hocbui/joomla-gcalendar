@@ -20,8 +20,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JHTML::_('behavior.mootools');
-GCalendarUtil::loadJQuery();
 $document = &JFactory::getDocument();
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );

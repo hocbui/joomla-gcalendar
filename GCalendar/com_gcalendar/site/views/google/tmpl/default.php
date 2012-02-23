@@ -103,7 +103,6 @@ foreach($this->calendars as $calendar) {
 }
 $calendar_list .="</table></div>\n";
 if($params->get('show_selection')==1){
-	JHTML::_('behavior.mootools');
 	$document = &JFactory::getDocument();
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/google/tmpl/gcalendar.js' );
 	$document->addStyleSheet(JURI::base().'components/com_gcalendar/views/google/tmpl/gcalendar.css');
@@ -115,7 +114,6 @@ if($params->get('show_selection')==1){
 }
 $calendar_url="";
 if ($params->get('use_custom_css')) {
-	GCalendarUtil::loadJQuery();
 	$calendar_url= JURI::base().'components/com_gcalendar/libraries/restylegc/restylegc.php'.$variables;
 } else {
 	$calendar_url=$domain.$variables;
