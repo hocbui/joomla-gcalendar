@@ -18,11 +18,6 @@
 		<field name="gc_cache_time" type="text" default="900"
 			label="COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CACHING_TIME" description="COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CACHING_TIME_DESC" />
 
-		<field name="loadJQuery" type="radio" default="COM_GCALENDAR_FIELD_YES"
-			label="COM_GCALENDAR_FIELD_CONFIG_JQUERY_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_JQUERY_DESC">
-			<option value="no">COM_GCALENDAR_FIELD_NO</option>
-			<option value="yes">COM_GCALENDAR_FIELD_YES</option>
-		</field>
 		<param name="event_description_format" type="radio" default="1"
 			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_DESCRIPTION_FORMAT_LABEL"
 			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_DESCRIPTION_FORMAT_DESC">

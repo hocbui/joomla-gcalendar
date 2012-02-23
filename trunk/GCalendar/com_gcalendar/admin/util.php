@@ -28,23 +28,6 @@ require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.
 class GCalendarUtil{
 
 	/**
-	 * Loads JQuery if the component parameter is set to yes.
-	 */
-	public static function loadJQuery(){
-		static $jQueryloaded;
-		if($jQueryloaded == null){
-			$param   = GCalendarUtil::getComponentParameter('loadJQuery');
-			$document =& JFactory::getDocument();
-			if(!JFactory::getApplication()->get('jquery', false) && ($param == 'yes' || empty($param))){
-				$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/jquery.min.js');
-				JFactory::getApplication()->set('jquery', true);
-			}
-			$document->addScriptDeclaration("jQuery.noConflict();");
-			$jQueryloaded = 'loaded';
-		}
-	}
-
-	/**
 	 * Returns the component parameter for the given key.
 	 *
 	 * @param $key
@@ -66,8 +49,6 @@ class GCalendarUtil{
 	public static function getFrLanguage(){
 		$conf	=& JFactory::getConfig();
 		return $conf->getValue('config.language');
-		//		$params   = JComponentHelper::getParams('com_languages');
-		//		return $params->get('site', 'en-GB');
 	}
 
 	/**
