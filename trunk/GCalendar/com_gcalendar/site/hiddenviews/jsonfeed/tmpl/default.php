@@ -33,7 +33,7 @@ if(!empty($this->calendars)){
 				$params = new JParameter('');
 				$dateformat = $params->get('description_date_format', 'd.m.Y');
 				$timeformat = $params->get('description_time_format', 'H:i');
-				$event_display = $params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>');
+				$event_display = trim($params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>'));
 
 				if(!empty($itemID)) {
 					$itemID = '&Itemid='.$itemID;

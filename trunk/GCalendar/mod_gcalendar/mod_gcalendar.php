@@ -34,4 +34,3 @@ $moduleID = ModGCalendarHelper::getModuleId();
 
 $calendars = ModGCalendarHelper::getCalendars($params);
 require( JModuleHelper::getLayoutPath( 'mod_gcalendar' ) );
-?>

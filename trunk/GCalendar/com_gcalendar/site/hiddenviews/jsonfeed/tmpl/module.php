@@ -55,7 +55,7 @@ while ($requestedDayStart < $endDate) {
 				&& $item->getStartDate() < $requestedDayEnd){
 					$result[] = $item;
 					$calID = $item->getParam('gcid').',';
-					$description .= '<li><font color="#'.$item->getParam('gccolor').'">'.htmlspecialchars_decode($item->getTitle()).'</font></li>';
+					$description .= '<li>'.htmlspecialchars_decode($item->getTitle()).'</li>';
 				}
 			}
 			if($calID != null)

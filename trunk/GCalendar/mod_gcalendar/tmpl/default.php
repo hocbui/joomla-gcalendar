@@ -24,7 +24,8 @@ $document = &JFactory::getDocument();
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0.min.js');
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/ext/tipTip.css');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.tipTip.minified.js');
 $document->addStyleSheet(JURI::base().'modules/mod_gcalendar/tmpl/gcalendar.css');
 
 $color = $params->get('event_color', '135CAE');
@@ -105,22 +106,8 @@ $calCode .= "		    prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
 $calCode .= "		    nextYear: '&nbsp;&gt;&gt;&nbsp;'\n"; // >>
 $calCode .= "		},\n";
 $calCode .= "		eventRender: function(event, element) {\n";
-$calCode .= "			if (event.description)\n";
-$calCode .= "				jQuery(element).qtip({\n";
-$calCode .= "					content: event.description,\n";
-$calCode .= "					position: {\n";
-$calCode .= "						corner: {\n";
-$calCode .= "							target: 'topLeft',\n";
-$calCode .= "							tooltip: 'bottomLeft'\n";
-$calCode .= "						}\n";
-$calCode .= "					},\n";
-$calCode .= "					style: { name: 'cream', tip: 'bottomLeft',\n";
-$calCode .= "						border: {\n";
-$calCode .= "							radius: 5,\n";
-$calCode .= "							width: 1\n";
-$calCode .= "						}\n";
-$calCode .= "					}\n";
-$calCode .= "				});\n";
+$calCode .= "			if (event.description){\n";
+$calCode .= "				element.tipTip({content: event.description, defaultPosition: 'top'});}\n";
 $calCode .= "		},\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
@@ -136,4 +123,3 @@ $document->addScriptDeclaration($calCode);
 
 echo "<div id='gcalendar_module_".$moduleID."_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "media/com_gcalendar/images/ajax-loader.gif\"  alt=\"loader\" /></div>";
 echo "<div id='gcalendar_module_".$moduleID."'></div><div id='gcalendar_module_".$moduleID."_popup' style=\"visibility:hidden\" ></div>";
-?>
