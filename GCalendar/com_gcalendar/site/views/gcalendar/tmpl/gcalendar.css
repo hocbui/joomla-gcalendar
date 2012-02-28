@@ -11,3 +11,7 @@
 .ui-datepicker {
 	z-index: 1003 !important; /* must be > than popup editor (1002) */
 }
+
+#tiptip_content {
+	text-align: left;
+}

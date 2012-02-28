@@ -44,7 +44,8 @@ $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalen
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.ba-hashchange.min.js');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.qtip-1.0.0.min.js');
+$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/ext/tipTip.css');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.tipTip.minified.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.easing-1.3.pack.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.mousewheel-3.0.4.pack.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.fancybox-1.3.4.pack.js');
@@ -140,21 +141,8 @@ $calCode .= "		axisFormat: '".Fullcalendar::convertFromPHPDate($params->get('axi
 $calCode .= "		allDayText: '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_ALL_DAY' )."',\n";
 $calCode .= $calsSources;
 $calCode .= "		eventRender: function(event, element) {\n";
-$calCode .= "			if (event.description)\n";
-$calCode .= "				jQuery(element).qtip({\n";
-$calCode .= "					content: event.description,\n";
-$calCode .= "					position: {\n";
-$calCode .= "						corner: {\n";
-$calCode .= "							target: 'topLeft',\n";
-$calCode .= "							tooltip: 'bottomLeft'\n";
-$calCode .= "						}\n";
-$calCode .= "					},\n";
-$calCode .= "					border: {\n";
-$calCode .= "						radius: 4,\n";
-$calCode .= "						width: 3\n";
-$calCode .= "					},\n";
-$calCode .= "					style: { name: 'cream', tip: 'bottomLeft' }\n";
-$calCode .= "				});\n";
+$calCode .= "			if (event.description){\n";
+$calCode .= "				element.tipTip({content: event.description, defaultPosition: 'top'});}\n";
 $calCode .= "		},\n";
 if($params->get('show_event_as_popup', 1) == 1){
 	$popupWidth = $params->get('popup_width', 650);
@@ -170,8 +158,7 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$calCode .= "		           transitionOut : 'elastic',\n";
 	$calCode .= "		           speedIn : 600,\n";
 	$calCode .= "		           speedOut : 200,\n";
-	$calCode .= "		           type : 'iframe',\n";
-	$calCode .= "		           onStart : function() { element.qtip('hide'); },\n";
+	$calCode .= "		           type : 'iframe'\n";
 	$calCode .= "		        });\n";
 	$calCode .= "		},\n";
 	$calCode .= "		eventClick: function(event) {if (event.url) {return false;}},\n";
