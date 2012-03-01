@@ -23,10 +23,15 @@ jimport('joomla.plugin.plugin');
 
 class plgSystemGCalendar extends JPlugin {
 
-	function onAfterRoute() {
+	public function onAfterRoute() {
 		if($this->params->get('load-jquery', 1) != 1 || JFactory::getDocument()->getType() != 'html'){
 			return;
 		}
+		
+		if(JFactory::getApplication()->isAdmin() && JRequest::getVar('option', null) != 'com_gcalendar'){
+			return;
+		}
+		
 		JHTML::_(' behavior.mootools');
 
 		JFactory::getDocument()->addScript("/GCJQLIB");
@@ -36,8 +41,12 @@ class plgSystemGCalendar extends JPlugin {
 		JFactory::getApplication()->set('jquery', true);
 	}
 
-	function onAfterRender() {
+	public function onAfterRender() {
 		if($this->params->get('load-jquery', 1) != 1 || JFactory::getDocument()->getType() != 'html'){
+			return;
+		}
+		
+		if(JFactory::getApplication()->isAdmin() && JRequest::getVar('option', null) != 'com_gcalendar'){
 			return;
 		}
 
