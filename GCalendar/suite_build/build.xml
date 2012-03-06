@@ -7,7 +7,7 @@
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
 	<property name="gcalendarRoot" location="${basedir}/../GCalendar" />
-	<property name="gcalendarVersion" value="2_6_3" />
+	<property name="gcalendarVersion" value="2_6_4" />
 
 	<target name="init">
 		<!-- Create the time stamp -->
