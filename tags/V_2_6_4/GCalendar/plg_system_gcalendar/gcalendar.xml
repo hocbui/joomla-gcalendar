@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="1.6.0" group="system" method="upgrade">
+	<name>plg_system_gcalendar</name>
+	<author>G4J Project</author>
+	<creationDate>Mar 2012</creationDate>
+	<copyright>This extension is released under the GNU/GPL License.
+	</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html
+		GNU/GPL</license>
+	<authorEmail>info@g4j.laoneo.net
+	</authorEmail>
+	<authorUrl>g4j.laoneo.net</authorUrl>
+	<version>2.6.4</version>
+	<description>PLG_SYSTEM_GCALENDAR_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="gcalendar">gcalendar.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages>
+	   <language tag="en-GB">languages/en-GB.plg_system_gcalendar.ini</language>
+	   <language tag="en-GB">languages/en-GB.plg_system_gcalendar.sys.ini</language>
+	   <language tag="de-DE">languages/de-DE.plg_system_gcalendar.ini</language>
+	   <language tag="de-DE">languages/de-DE.plg_system_gcalendar.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="load-jquery" type="radio" default="1" 
+	            	label="PLG_SYSTEM_GCALENDAR_FIELD_LOAD_JQUERY_LABEL" 
+	            	description="PLG_SYSTEM_GCALENDAR_FIELD_LOAD_JQUERY_DESC">
+	                <option value="0">JNO</option>
+	                <option value="1">JYES</option>
+	            </field>
+			</fieldset>
+   		</fields>
+   </config>
+</extension>
