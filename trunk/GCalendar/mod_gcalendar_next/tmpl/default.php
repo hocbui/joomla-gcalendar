@@ -66,7 +66,7 @@ $document =& JFactory::getDocument();
 $calCode = "// <![CDATA[ \n";
 $calCode .= "	jQuery(document).ready(function() {\n";
 $calCode .= "	var targetDate; \n";
-$calCode .= "	targetDate = new Date(\"".GCalendarUtil::formatDate("Y m d H:i:s", $targetDate)."\");\n";
+$calCode .= "	targetDate = new Date(".GCalendarUtil::formatDate("Y, m-1, d, H, i, 0", $targetDate).");\n";
 $calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
 $calCode .= "				       description: '".str_replace('\'', '\\\'', $gcalendar_item->getTitle())."', \n";
 $calCode .= " 				       layout: '".str_replace('\'', '\\\'',$layout)."', \n";
