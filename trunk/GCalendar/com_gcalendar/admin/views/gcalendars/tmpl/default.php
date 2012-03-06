@@ -28,7 +28,7 @@ JHtml::_('behavior.tooltip');
 		<tbody><?php echo $this->loadTemplate('body');?></tbody>
 	</table>
 	<div>
-		<input type="hidden" name="option" value="com_gcalendar" />
+		<input type="hidden" name="view" value="gcalendars" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
