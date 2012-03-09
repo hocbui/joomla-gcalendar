@@ -24,11 +24,11 @@ jimport('joomla.plugin.plugin');
 class plgSystemGCalendar extends JPlugin {
 
 	public function onAfterRoute() {
-		if($this->params->get('load-jquery', 1) != 1 || JFactory::getDocument()->getType() != 'html'){
+		if($this->params->get('load-jquery', 1) == 0 || JFactory::getDocument()->getType() != 'html'){
 			return;
 		}
 		
-		if(JFactory::getApplication()->isAdmin() && JRequest::getVar('option', null) != 'com_gcalendar'){
+		if($this->params->get('load-jquery', 1) == 2 && JRequest::getVar('option', null) != 'com_gcalendar'){
 			return;
 		}
 		
@@ -42,11 +42,11 @@ class plgSystemGCalendar extends JPlugin {
 	}
 
 	public function onAfterRender() {
-		if($this->params->get('load-jquery', 1) != 1 || JFactory::getDocument()->getType() != 'html'){
+		if($this->params->get('load-jquery', 1) == 0 || JFactory::getDocument()->getType() != 'html'){
 			return;
 		}
 		
-		if(JFactory::getApplication()->isAdmin() && JRequest::getVar('option', null) != 'com_gcalendar'){
+		if($this->params->get('load-jquery', 1) == 2 && JRequest::getVar('option', null) != 'com_gcalendar'){
 			return;
 		}
 
