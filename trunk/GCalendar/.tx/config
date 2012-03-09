@@ -7,88 +7,88 @@ type = INI
 file_filter = com_gcalendar/admin/languages/<lang>.com_gcalendar.ini
 source_file = com_gcalendar/admin/languages/en-GB.com_gcalendar.ini
 source_lang = en_GB
-minimum_perc = 1
+minimum_perc = 80
 
 [GCalendar.com_gcalendar-admin-sys]
 file_filter = com_gcalendar/admin/languages/<lang>.com_gcalendar.sys.ini
 source_file = com_gcalendar/admin/languages/en-GB.com_gcalendar.sys.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.com_gcalendar-site]
 file_filter = com_gcalendar/site/language/<lang>/<lang>.com_gcalendar.ini
 source_file = com_gcalendar/site/language/en-GB/en-GB.com_gcalendar.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.mod_gcalendar]
 file_filter = mod_gcalendar/languages/<lang>.mod_gcalendar.ini
 source_file = mod_gcalendar/languages/en-GB.mod_gcalendar.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.mod_gcalendar-sys]
 file_filter = mod_gcalendar/languages/<lang>.mod_gcalendar.sys.ini
 source_file = mod_gcalendar/languages/en-GB.mod_gcalendar.sys.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.mod_gcalendar_upcoming]
 file_filter = mod_gcalendar_upcoming/languages/<lang>.mod_gcalendar_upcoming.ini
 source_file = mod_gcalendar_upcoming/languages/en-GB.mod_gcalendar_upcoming.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.mod_gcalendar_upcoming-sys]
 file_filter = mod_gcalendar_upcoming/languages/<lang>.mod_gcalendar_upcoming.sys.ini
 source_file = mod_gcalendar_upcoming/languages/en-GB.mod_gcalendar_upcoming.sys.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.mod_gcalendar_next]
 file_filter = mod_gcalendar_next/languages/<lang>.mod_gcalendar_next.ini
 source_file = mod_gcalendar_next/languages/en-GB.mod_gcalendar_next.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.mod_gcalendar_next-sys]
 file_filter = mod_gcalendar_next/languages/<lang>.mod_gcalendar_next.sys.ini
 source_file = mod_gcalendar_next/languages/en-GB.mod_gcalendar_next.sys.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.plg_gcalendar_next]
 file_filter = plg_gcalendar_next/languages/<lang>.plg_content_gcalendar_next.ini
 source_file = plg_gcalendar_next/languages/en-GB.plg_content_gcalendar_next.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.plg_gcalendar_next-sys]
 file_filter = plg_gcalendar_next/languages/<lang>.plg_content_gcalendar_next.sys.ini
 source_file = plg_gcalendar_next/languages/en-GB.plg_content_gcalendar_next.sys.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.plg_search_gcalendar]
 file_filter = plg_search_gcalendar/languages/<lang>.plg_search_gcalendar.ini
 source_file = plg_search_gcalendar/languages/en-GB.plg_search_gcalendar.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.plg_search_gcalendar-sys]
 file_filter = plg_search_gcalendar/languages/<lang>.plg_search_gcalendar.sys.ini
 source_file = plg_search_gcalendar/languages/en-GB.plg_search_gcalendar.sys.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.plg_system_gcalendar]
 file_filter = plg_system_gcalendar/languages/<lang>.plg_system_gcalendar.ini
 source_file = plg_system_gcalendar/languages/en-GB.plg_system_gcalendar.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
 
 [GCalendar.plg_system_gcalendar-sys]
 file_filter = plg_system_gcalendar/languages/<lang>.plg_system_gcalendar.sys.ini
 source_file = plg_system_gcalendar/languages/en-GB.plg_system_gcalendar.sys.ini
 source_lang = en_GB
-minimum_perc = 50
+minimum_perc = 80
