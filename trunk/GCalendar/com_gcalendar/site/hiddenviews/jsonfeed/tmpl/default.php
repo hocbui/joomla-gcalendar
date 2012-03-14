@@ -19,6 +19,10 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+
+$document =& JFactory::getDocument();
+$document->setMimeEncoding('application/json');
+
 $data = array();
 $SECSINDAY=86400;
 if(!empty($this->calendars)){
