@@ -63,6 +63,7 @@ if(!empty($gcalendar_data)){
 			echo '<p style="clear: both;"/>';
 		}
 	}
+} else {
+	echo JText::_('MOD_GCALENDAR_NEXT_FIELD_NO_EVENT_LABEL');
 }
 echo $params->get( 'text_after' );
-?>
