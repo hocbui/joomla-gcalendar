@@ -1,13 +1,11 @@
 <project name="gcalendar build" default="dist" basedir=".">
-	<description>
-        default build file for gcalendar
-    </description>
+	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${basedir}/lib/ant-contrib-1.0b3.jar" />
+
 	<!-- set global properties for this build -->
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
 	<property name="gcalendarRoot" location="${basedir}/../GCalendar" />
-	<property name="gcalendarVersion" value="2_6_4" />
 
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -17,6 +15,11 @@
 
 	<target name="dist" depends="init">
 		<!-- antcall target="update-languages" / -->
+
+		<xmlproperty file="${basedir}/../com_gcalendar/admin/gcalendar.xml" collapseAttributes="true" prefix="xml" keepRoot="false" />
+		<propertyregex property="gcalendarVersion" input="${xml.version}" regexp="\." replace="_" global="true" />
+		<echo message="Building GCalendar Version: ${gcalendarVersion}" />
+
 		<antcall target="create_install_packages" />
 	</target>
 
@@ -82,13 +85,6 @@
 			<arg value="pull" />
 			<arg value="-a" />
 		</exec>
-		<replace dir="${basedir}/../com_gcalendar/admin/languages/" token="'" value='"' />
-		<replace dir="${basedir}/../com_gcalendar/site/language/" token="'" value='"' />
-		<replace dir="${basedir}/../mod_gcalendar/languages/" token="'" value='"' />
-		<replace dir="${basedir}/../mod_gcalendar_upcoming/languages/" token="'" value='"' />
-		<replace dir="${basedir}/../mod_gcalendar_next/languages/" token="'" value='"' />
-		<replace dir="${basedir}/../plg_gcalendar_next/languages/" token="'" value='"' />
-		<replace dir="${basedir}/../plg_search_gcalendar/languages/" token="'" value='"' />
 	</target>
 
 	<target name="clean" description="clean up">

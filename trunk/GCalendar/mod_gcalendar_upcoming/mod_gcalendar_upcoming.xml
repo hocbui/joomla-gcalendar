@@ -25,8 +25,10 @@
 		<language tag="en-GB">languages/en-GB.mod_gcalendar_upcoming.sys.ini</language>
 		<language tag="de-DE">languages/de-DE.mod_gcalendar_upcoming.ini</language>
 		<language tag="de-DE">languages/de-DE.mod_gcalendar_upcoming.sys.ini</language>
-		<language tag="nl-NL">languages/nl-NL.mod_gcalendar_upcoming.ini</language>
-		<language tag="nl-NL">languages/nl-NL.mod_gcalendar_upcoming.sys.ini</language>
+		<language tag="fr-FR">languages/fr-FR.mod_gcalendar_upcoming.ini</language>
+		<language tag="fr-FR">languages/fr-FR.mod_gcalendar_upcoming.sys.ini</language>
+		<language tag="it-IT">languages/it-IT.mod_gcalendar_upcoming.ini</language>
+		<language tag="it-IT">languages/it-IT.mod_gcalendar_upcoming.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params"
