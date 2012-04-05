@@ -28,6 +28,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	private $dayType = null;
 	private $startDate = null;
 	private $endDate = null;
+	private $modifiedDate = null;
 	private $location = null;
 	private $gcalId = null;
 	private $params = array();
@@ -105,6 +106,13 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 			$this->endDate = $this->tstamptotime($when->getEndTime());
 		}
 		return $this->endDate;
+	}
+
+	public function getModifiedDate(){
+		if($this->modifiedDate == null){
+			$this->modifiedDate = $this->tstamptotime($this->getPublished());
+		}
+		return $this->modifiedDate;
 	}
 
 	public function getLocation(){
