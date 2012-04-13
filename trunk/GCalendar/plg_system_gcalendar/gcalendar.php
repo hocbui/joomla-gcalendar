@@ -39,7 +39,7 @@ class plgSystemGCalendar extends JPlugin {
 		JHTML::_(' behavior.mootools');
 
 		JFactory::getDocument()->addScript("/GCJQLIB");
-		JFactory::getDocument()->addScriptDeclaration("GCJQNOCONFLICT");
+		JFactory::getDocument()->addScriptDeclaration("jQuery.noConflict();");
 
 		JFactory::getApplication()->set('jQuery', true);
 		JFactory::getApplication()->set('jquery', true);
@@ -61,11 +61,8 @@ class plgSystemGCalendar extends JPlugin {
 		$body =& JResponse::getBody();
 
 		$body = preg_replace("#([\\\/a-zA-Z0-9_:\.-]*)jquery([0-9\.-]|min|pack)*?.js#", "", $body);
-		$body = preg_replace("#([\\\/a-zA-Z0-9_:\.-]*)jquery[.-]noconflict\.js#", "", $body);
 		$body = str_ireplace('<script src="" type="text/javascript"></script>', "", $body);
-		$body = preg_replace("#jQuery\.noConflict\(\);#", "", $body);
 		$body = preg_replace("#/GCJQLIB#", JURI::root().'/components/com_gcalendar/libraries/jquery/jquery.min.js', $body);
-		$body = preg_replace("#GCJQNOCONFLICT#", "jQuery.noConflict();", $body);
 
 		JResponse::setBody($body);
 	}
