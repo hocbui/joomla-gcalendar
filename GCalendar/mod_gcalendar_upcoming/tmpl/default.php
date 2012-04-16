@@ -64,6 +64,6 @@ if(!empty($gcalendar_data)){
 		}
 	}
 } else {
-	echo JText::_('MOD_GCALENDAR_NEXT_FIELD_NO_EVENT_LABEL');
+	echo JText::_('MOD_GCALENDAR_UPCOMING_NO_EVENT_TEXT');
 }
 echo $params->get( 'text_after' );
