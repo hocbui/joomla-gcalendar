@@ -21,7 +21,7 @@
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.application.component.model');
-JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'models');
+JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'models', 'GCalendarModel');
 
 class GCalendarDBUtil{
 
