@@ -165,7 +165,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	}
 	
 	/**
-	 * Compares the events descnding.
+	 * Compares the events descending.
 	 * 
 	 * @see GCalendar_Entry::compare()
 	 * @param GCalendar_Entry $event1
@@ -176,4 +176,3 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 		return $event2->getStartDate()-$event1->getStartDate();
 	}
 }
-?>
