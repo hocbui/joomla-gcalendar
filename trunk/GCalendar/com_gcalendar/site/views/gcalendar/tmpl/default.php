@@ -185,7 +185,8 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$calCode .= "		           transitionOut : 'elastic',\n";
 	$calCode .= "		           speedIn : 600,\n";
 	$calCode .= "		           speedOut : 200,\n";
-	$calCode .= "		           type : 'iframe'\n";
+	$calCode .= "		           type : 'iframe',\n";
+	$calCode .= "		           onCleanup : function(){if(jQuery('#fancybox-frame').contents().find('#content_table').length < 1){jQuery('#gcalendar_component').fullCalendar('refetchEvents');}}\n";
 	$calCode .= "		        });\n";
 	$calCode .= "		},\n";
 	$calCode .= "		eventClick: function(event) {if (event.url) {return false;}},\n";
