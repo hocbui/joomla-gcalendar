@@ -28,7 +28,7 @@
 <config>
 	<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 		<fieldset name="basic">
-			<field name="calendarids" type="gcalendar" default="" label="PLG_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_DESC" />>
+			<field name="calendarids" type="gcalendar" multiple="true" default="" label="PLG_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_DESC" />>
 			<field name="class" type="text" size="80" default="" label="PLG_GCALENDAR_NEXT_FIELD_CLASS_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_CLASS_DESC" />
 			<field name="output" type="textarea2" default="" label="PLG_GCALENDAR_NEXT_FIELD_OUTPUT_LABEL" description="PLG_GCALENDAR_NEXT_FIELD_OUTPUT_DESC" rows="5" cols="50" filter="raw">
 				<content>[$ startdate $] at [$ maplink $]</content>
