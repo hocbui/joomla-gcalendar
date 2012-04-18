@@ -34,7 +34,7 @@
 		<fields name="params"
 			addfieldpath="/administrator/components/com_gcalendar/models/fields">
 			<fieldset name="basic">
-				<field name="calendarids" type="gcalendar" default=""
+				<field name="calendarids" type="gcalendar" default="" multiple="true"
 					label="MOD_GCALENDAR_UPCOMING_FIELD_CALENDAR_IDS_LABEL"
 					description="MOD_GCALENDAR_UPCOMING_FIELD_CALENDAR_IDS_DESC" />
 				<field name="date_format" type="text" size="80" default="d.m.Y"

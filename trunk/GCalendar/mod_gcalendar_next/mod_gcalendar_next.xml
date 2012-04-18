@@ -32,7 +32,7 @@
 	<config>
 		<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 			<fieldset name="basic">
-				<field name="calendarids" type="gcalendar" default="" label="MOD_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_DESC" />
+				<field name="calendarids" type="gcalendar" multiple="true" default="" label="MOD_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_CALENDAR_IDS_DESC" />
 				<field name="style_parameters" type="text" size="80" default="" label="MOD_GCALENDAR_NEXT_FIELD_STYLE_PARAMETERS_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_STYLE_PARAMETERS_DESC"/>
 				<field name="moduleclass_sfx" type="text" size="80" default="" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 			</fieldset>

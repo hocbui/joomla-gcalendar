@@ -105,7 +105,7 @@ class GCalendarZendHelper{
 		$cache->setCaching(GCalendarUtil::getComponentParameter('gc_cache', 1) == '1');
 		if(GCalendarUtil::getComponentParameter('gc_cache', 1) == 2){
 			$conf =& JFactory::getConfig();
-			$cache->setCaching($conf->getValue( 'config.caching' ));
+			$cache->setCaching($conf->getValue('config.caching'));
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
 
