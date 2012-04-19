@@ -25,8 +25,6 @@ class GCalendarController extends JController
 	function display()
 	{
 		$hiddenView = null;
-		if(JRequest::getVar('view', null) == 'event')
-		$hiddenView = 'Event';
 		if(JRequest::getVar('view', null) == 'day')
 		$hiddenView = 'Day';
 		if(JRequest::getVar('view', null) == 'jsonfeed')

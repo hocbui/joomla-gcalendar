@@ -20,18 +20,12 @@
 
 jimport( 'joomla.application.component.view');
 
-/**
- * HTML View class for the GCalendar Component
- *
- */
-class GCalendarViewEvent extends JView
-{
-	function display($tpl = null)
-	{
-		$event = $this->get( 'GCalendar' );
-		$this->assignRef( 'event',	$event );
+class GCalendarViewEvent extends JView{
+	
+	public function display($tpl = null){
+		$event = $this->get('GCalendar');
+		$this->assignRef('event', $event);
 		
 		parent::display($tpl);
 	}
 }
-?>
