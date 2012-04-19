@@ -9,7 +9,7 @@
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
 		GNU/GPL</license>
-	<version>2.6.5</version>
+	<version>2.7.0</version>
 	<description>COM_GCALENDAR_XML_DESCRIPTION</description>
 	<files folder="site">
 		<filename>index.html</filename>
@@ -30,12 +30,14 @@
 		<sql>
 			<file charset="utf8" driver="mysql">sql/install.sql</file>
 			<file driver="mysql">sql/install.sql</file>
+			<file driver="sqlsrv">sql/install.sqlsrv.sql</file>
 		</sql>
 	</install>
 	<uninstall>
 		<sql>
 			<file charset="utf8" driver="mysql">sql/uninstall.sql</file>
 			<file driver="mysql">sql/uninstall.sql</file>
+			<file driver="sqlsrv">sql/uninstall.sqlsrv.sql</file>
 		</sql>
 	</uninstall>
 	<scriptfile>script.php</scriptfile>
