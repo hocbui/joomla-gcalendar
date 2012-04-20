@@ -160,7 +160,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	 * @param $event2
 	 * @return the comparison integer
 	 */
-	public function compare(GCalendar_Entry $event1, GCalendar_Entry $event2){
+	public static function compare(GCalendar_Entry $event1, GCalendar_Entry $event2){
 		return $event1->getStartDate()-$event2->getStartDate();
 	}
 	
@@ -172,7 +172,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	 * @param GCalendar_Entry $event2
 	 * @return number
 	 */
-	public function compareDesc(GCalendar_Entry $event1, GCalendar_Entry $event2){
+	public static function compareDesc(GCalendar_Entry $event1, GCalendar_Entry $event2){
 		return $event2->getStartDate()-$event1->getStartDate();
 	}
 }

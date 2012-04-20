@@ -20,26 +20,14 @@
 
 jimport( 'joomla.application.component.view');
 
-require_once (JPATH_COMPONENT.DS.'libraries'.DS.'fullcalendar'.DS.'fullcalendar.php');
-
 /**
  * HTML View class for the GCalendar Component
  *
  */
-class GCalendarViewGCalendar extends JView
+class GCalendarViewJSONFeed extends JView
 {
 	function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
-
-		$calendars = $this->get( 'DBCalendars' );
-		if(!is_array($calendars))
-		$calendars = array();
-		$this->assignRef( 'calendars',	$calendars );
-
-		$params = $mainframe->getParams();
-		$this->assignRef('params'  , $params);
-
 		parent::display($tpl);
 	}
 }

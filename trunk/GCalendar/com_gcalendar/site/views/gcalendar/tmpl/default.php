@@ -20,7 +20,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$document = &JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');
