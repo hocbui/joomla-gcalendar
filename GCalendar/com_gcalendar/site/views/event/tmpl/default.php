@@ -25,7 +25,7 @@ require_once(JPATH_COMPONENT.DS.'libraries'.DS.'mustache'.DS.'Mustache.php');
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('gcalendar');
 
-$document = &JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/views/event/tmpl/default.css');
 $document->addScript(JURI::base().'components/com_gcalendar/views/event/tmpl/default.js');
@@ -39,8 +39,8 @@ $variables['event'] = $event != null;
 
 $itemID = GCalendarUtil::getItemId(JRequest::getVar('gcid', null));
 if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component' && $event != null){
-	$component	= &JComponentHelper::getComponent('com_gcalendar');
-	$menu = &JSite::getMenu();
+	$component = JComponentHelper::getComponent('com_gcalendar');
+	$menu = JFactory::getApplication()->getMenu();
 	$item = $menu->getItem($itemID);
 	if($item !=null){
 		$backLinkView = $item->query['view'];
@@ -152,7 +152,7 @@ $content = '
 {{#event}}
 <div class="event_content">
 <table id="content_table">
-	<tr><td colspan="2">{{plugins}}</td></tr>
+	<tr><td colspan="2">{{#pluginsBefore}} {{{.}}} {{/pluginsBefore}}</td></tr>
 	{{#calendarName}}
 	<tr><td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_CALENDAR_NAME').': </td><td>{{calendarName}}</td></tr>
 	{{/calendarName}}
@@ -177,7 +177,7 @@ $content = '
 	<tr><td colspan="2"><iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={{map}}&hl='.substr(GCalendarUtil::getFrLanguage(),0,2).'&output=embed"></iframe></td></tr>
 	{{/map}}
 	{{#description}}
-	<tr><td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_DESCRIPTION').': </td><td>{{description}}</td></tr>
+	<tr><td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_DESCRIPTION').': </td><td>{{{description}}}</td></tr>
 	{{/description}}
 	{{#hasAuthor}}
 	<tr>
@@ -203,20 +203,24 @@ $content = '
 		</td>
 	</tr>
 	{{/copyOutlookUrl}}
-	<tr><td colspan="2">{{pluginsAfter}}</td></tr>
+	<tr><td colspan="2">{{#pluginsAfter}} {{{.}}} {{/pluginsAfter}}</td></tr>
 </table>
 </div>
 {{/event}}
 {{^event}}
 no event found
 {{/event}}
-<div style="text-align:center;margin-top:10px" id="gcalendar_powered"><a href="http://g4j.laoneo.net/">Powered by GCalendar</a></div>
 ';
+
+$variables['pluginsBefore'] = array();
+$variables['pluginsAfter'] = array();
+ $dispatcher->trigger('onBeforeDisplayEvent', array($event,  &$content, &$variables));
+// $dispatcher->trigger('onAfterDisplayEvent', array($event,  &$content, &$variables));
 
 try{
 	echo $m->render($content, $variables);
 }catch(Exception $e){
 	echo $e->getMessage();
 }
-// 	$dispatcher->trigger('onGCEventLoadedBefore', array($event, $content, $variables));
-// 	$dispatcher->trigger('onGCEventLoadedAfter', array($event));
+?>
+<div style="text-align:center;margin-top:10px" id="gcalendar_powered"><a href="http://g4j.laoneo.net/">Powered by GCalendar</a></div>

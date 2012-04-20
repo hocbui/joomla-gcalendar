@@ -47,7 +47,7 @@ class GCalendarUtil{
 	 * @return the frontend language
 	 */
 	public static function getFrLanguage(){
-		$conf	=& JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		return $conf->getValue('config.language');
 	}
 
@@ -59,13 +59,13 @@ class GCalendarUtil{
 	 * @return the item id
 	 */
 	public static function getItemId($cal_id){
-		$component	= &JComponentHelper::getComponent('com_gcalendar');
-		$menu = &JSite::getMenu();
-		$items		= $menu->getItems('component_id', $component->id);
+		$component = JComponentHelper::getComponent('com_gcalendar');
+		$menu = JFactory::getApplication()->getMenu();
+		$items = $menu->getItems('component_id', $component->id);
 
 		if (is_array($items)){
 			foreach($items as $item) {
-				$paramsItem	=& $menu->getParams($item->id);
+				$paramsItem	= $menu->getParams($item->id);
 				$calendarids = $paramsItem->get('calendarids');
 				if(empty($calendarids)){
 					$results = GCalendarDBUtil::getAllCalendars();
@@ -112,10 +112,11 @@ class GCalendarUtil{
 		if(!empty($itemID)){
 			$itemID = '&Itemid='.$itemID;
 		}else{
-			$menu=JSite::getMenu();
-			$activemenu=$menu->getActive();
-			if($activemenu != null)
-			$itemID = '&Itemid='.$activemenu->id;
+			$menu = JFactory::getApplication()->getMenu();
+			$activemenu = $menu->getActive();
+			if($activemenu != null){
+				$itemID = '&Itemid='.$activemenu->id;
+			}
 		}
 
 		// These are the dates we'll display
@@ -158,10 +159,10 @@ class GCalendarUtil{
 				$temp_event=str_replace("{endtime}",$endTime,$temp_event);
 				break;
 		}
-		
+
 		$temp_event=str_replace("{modifieddate}", GCalendarUtil::formatDate($dateformat, $event->getModifiedDate()), $temp_event);
 		$temp_event=str_replace("{modifiedtime}", GCalendarUtil::formatDate($timeformat, $event->getModifiedDate()), $temp_event);
-				
+
 		if(GCalendarUtil::getComponentParameter('event_description_format', 1) == 2) {
 			$desc = html_entity_decode($event->getContent());
 		}else{

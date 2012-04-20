@@ -20,6 +20,8 @@
 
 jimport('joomla.application.component.controller');
 
+<<<<<<< .mine
+class GCalendarController extends JController{}=======
 class GCalendarController extends JController
 {
 	function display()
@@ -46,4 +48,4 @@ class GCalendarController extends JController
 		parent::display();
 	}
 }
-?>
+?>>>>>>>> .r1229

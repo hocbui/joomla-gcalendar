@@ -65,10 +65,10 @@ class GCalendarZendHelper{
 			return array();
 		}
 
-		$cache = & JFactory::getCache('com_gcalendar');
+		$cache = JFactory::getCache('com_gcalendar');
 		$cache->setCaching(GCalendarUtil::getComponentParameter('gc_cache', 1) == '1');
 		if(GCalendarUtil::getComponentParameter('gc_cache', 1) == 2){
-			$conf =& JFactory::getConfig();
+			$conf = JFactory::getConfig();
 			$cache->setCaching($conf->getValue( 'config.caching' ));
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
@@ -101,10 +101,10 @@ class GCalendarZendHelper{
 			return array();
 		}
 
-		$cache = & JFactory::getCache('com_gcalendar');
+		$cache = JFactory::getCache('com_gcalendar');
 		$cache->setCaching(GCalendarUtil::getComponentParameter('gc_cache', 1) == '1');
 		if(GCalendarUtil::getComponentParameter('gc_cache', 1) == 2){
-			$conf =& JFactory::getConfig();
+			$conf = JFactory::getConfig();
 			$cache->setCaching($conf->getValue('config.caching'));
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
