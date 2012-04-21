@@ -124,15 +124,27 @@ if(GCalendarUtil::getComponentParameter('show_event_copy_info', 1) == 1){
 	$variables['copyGoogleUrl'] .= '&amp;details='.urlencode($event->getContent());
 	$variables['copyGoogleUrl'] .= '&amp;hl='.GCalendarUtil::getFrLanguage().'&amp;ctz='.GCalendarUtil::getComponentParameter('timezone');
 	$variables['copyGoogleUrl'] .= '&amp;sf=true&amp;output=xml';
-	
+
 	$ical_timeString_start =  $startTime.' '.$startDate;
 	$ical_timeString_start = strtotime($ical_timeString_start);
 	$ical_timeString_end =  $endTime.' '.$endDate;
 	$ical_timeString_end = strtotime($ical_timeString_end);
 	$loc = $event->getLocation();
 	$variables['copyOutlookUrl'] = JRoute::_("index.php?option=com_gcalendar&view=ical&format=raw&start=".$ical_timeString_start."&end=".$ical_timeString_end."&title=".$event->getTitle()."&location=".$loc);
-	
 }
+
+$variables['calendarLinkLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_CALENDAR_BACK_LINK');
+$variables['calendarNameLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_CALENDAR_NAME');
+$variables['titleLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_EVENT_TITLE');
+$variables['dateLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_WHEN');
+$variables['attendeesLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_ATTENDEES');
+$variables['locationLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_LOCATION');
+$variables['descriptionLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_DESCRIPTION');
+$variables['authorLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_AUTHOR');
+$variables['copyLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_COPY');
+$variables['copyGoogleLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_COPY_TO_MY_CALENDAR');
+$variables['copyOutlookLabel'] = JText::_('COM_GCALENDAR_EVENT_VIEW_COPY_TO_MY_CALENDAR_ICS');
+$variables['language'] = substr(GCalendarUtil::getFrLanguage(),0,2);
 
 $content = '
 {{#calendarLink}}
@@ -144,7 +156,7 @@ $content = '
 			</a>
 		</td>
 		<td valign="middle">
-			<a href="{{calendarLink}}">'.JText::_('COM_GCALENDAR_EVENT_VIEW_CALENDAR_BACK_LINK').'</a>
+			<a href="{{calendarLink}}">{{{calendarLinkLabel}}}</a>
 		</td>
 	</tr>
 </table>
@@ -154,34 +166,34 @@ $content = '
 <table id="content_table">
 	<tr><td colspan="2">{{#pluginsBefore}} {{{.}}} {{/pluginsBefore}}</td></tr>
 	{{#calendarName}}
-	<tr><td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_CALENDAR_NAME').': </td><td>{{calendarName}}</td></tr>
+	<tr><td class="event_content_key">{{calendarNameLabel}}: </td><td>{{calendarName}}</td></tr>
 	{{/calendarName}}
 	{{#title}}
-	<tr><td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_EVENT_TITLE').': </td><td>{{title}}</td></tr>
+	<tr><td class="event_content_key">{{titleLabel}}: </td><td>{{title}}</td></tr>
 	{{/title}}
 	{{#date}}
-	<tr><td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_WHEN').': </td><td>{{date}}</td></tr>
+	<tr><td class="event_content_key">{{dateLabel}}: </td><td>{{date}}</td></tr>
 	{{/date}}
 	{{#hasAttendees}}
 	<tr>
-		<td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_ATTENDEES').': </td>
+		<td class="event_content_key">{{attendeesLabel}}: </td>
 		<td>
 			{{#attendees}}{{name}} <a href="javascript:sdafgkl437jeeee(\'{{email}}\')"><img height="11" border="0" width="16" alt="email" src="media/com_gcalendar/images/mail.png"/></a>, {{/attendees}}
 		</td>
 	</tr>
 	{{/hasAttendees}}
 	{{#location}}
-	<tr><td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_LOCATION').': </td><td>{{location}}</td></tr>
+	<tr><td class="event_content_key">{{locationLabel}}: </td><td>{{location}}</td></tr>
 	{{/location}}
 	{{#map}}
-	<tr><td colspan="2"><iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={{map}}&hl='.substr(GCalendarUtil::getFrLanguage(),0,2).'&output=embed"></iframe></td></tr>
+	<tr><td colspan="2"><iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={{map}}&hl={{language}}&output=embed"></iframe></td></tr>
 	{{/map}}
 	{{#description}}
-	<tr><td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_DESCRIPTION').': </td><td>{{{description}}}</td></tr>
+	<tr><td class="event_content_key">{{descriptionLabel}}: </td><td>{{{description}}}</td></tr>
 	{{/description}}
 	{{#hasAuthor}}
 	<tr>
-		<td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_AUTHOR').': </td>
+		<td class="event_content_key">{{authorLabel}}: </td>
 		<td>
 			{{#author}}{{name}} <a href="javascript:sdafgkl437jeeee(\'{{email}}\')"><img height="11" border="0" width="16" alt="email" src="media/com_gcalendar/images/mail.png"/></a>, {{/author}}
 		</td>
@@ -189,9 +201,9 @@ $content = '
 	{{/hasAuthor}}
 	{{#copyGoogleUrl}}
 	<tr>
-		<td class="event_content_key">'.JText::_('COM_GCALENDAR_EVENT_VIEW_COPY').': </td>
+		<td class="event_content_key">{{copyLabel}}: </td>
 		<td>
-			<a target="_blank" href="{{copyGoogleUrl}}">'.JText::_('COM_GCALENDAR_EVENT_VIEW_COPY_TO_MY_CALENDAR').'</a>
+			<a target="_blank" href="{{copyGoogleUrl}}">{{copyGoogleLabel}}</a>
 		</td>
 	</tr>
 	{{/copyGoogleUrl}}
@@ -199,7 +211,7 @@ $content = '
 	<tr>
 		<td class="event_content_key"></td>
 		<td>
-			<a target="_blank" href="{{copyOutlookUrl}}">'.JText::_('COM_GCALENDAR_EVENT_VIEW_COPY_TO_MY_CALENDAR_ICS').'</a>
+			<a target="_blank" href="{{copyOutlookUrl}}">{{copyOutlookLabel}}</a>
 		</td>
 	</tr>
 	{{/copyOutlookUrl}}
