@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldpath="/administrator/components/com_gcalendar/models/rules">
+<form addfieldpath="/administrator/components/com_gcalendar/models/fields">
 	<fieldset name="details">
 		<field name="id" type="hidden" />
 		<field name="name" type="text" label="COM_GCALENDAR_FIELD_NAME_LABEL"
