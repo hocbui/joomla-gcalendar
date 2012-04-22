@@ -47,7 +47,7 @@ class plgContentgcalendar_next extends JPlugin {
 
 		$helper = new GCalendarKeywordsHelper($this->params, $param_str, $fmt_str);
 		if (!$helper->event()) {
-			return $helper->params->get('no_event');
+			return $this->params->get('no_event');
 		}
 
 		$start = $helper->event()->getStartDate();
