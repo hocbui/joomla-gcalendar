@@ -135,9 +135,9 @@ $calCode .= "		dayNamesShort: ".$daysShort.",\n";
 if($params->get('calendar_height', 0) > 0){
 	$calCode .= "		contentHeight: ".$params->get('calendar_height', 0).",\n";
 }
-$calCode .= "		timeFormat: { day: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_day', 'H:i{ - H:i}'))."'},\n";
+$calCode .= "		timeFormat: { day: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_day', 'g:i a{ - g:i a}'))."'},\n";
 $calCode .= "		columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
-$calCode .= "		axisFormat: '".Fullcalendar::convertFromPHPDate($params->get('axisformat', 'H:i'))."',\n";
+$calCode .= "		axisFormat: '".Fullcalendar::convertFromPHPDate($params->get('axisformat', 'g:i a'))."',\n";
 $calCode .= "		allDayText: '".JText::_( 'COM_GCALENDAR_GCALENDAR_VIEW_ALL_DAY' )."',\n";
 $calCode .= $calsSources;
 $calCode .= "		eventRender: function(event, element) {\n";

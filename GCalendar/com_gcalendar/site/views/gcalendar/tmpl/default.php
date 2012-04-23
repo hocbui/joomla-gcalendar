@@ -144,11 +144,11 @@ if($params->get('calendar_height', 0) > 0){
 }
 $calCode .= "		dayNamesShort: ".$daysShort.",\n";
 $calCode .= "		timeFormat: { \n";
-$calCode .= "			month: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_month', 'H:i{ - H:i}'))."',\n";
-$calCode .= "			week: \"".Fullcalendar::convertFromPHPDate($params->get('timeformat_week', "H:i{ - H:i}"))."\",\n";
-$calCode .= "			day: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_day', 'H:i{ - H:i}'))."'},\n";
+$calCode .= "			month: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_month', 'g:i a{ - g:i a}'))."',\n";
+$calCode .= "			week: \"".Fullcalendar::convertFromPHPDate($params->get('timeformat_week', "g:i a{ - g:i a}"))."\",\n";
+$calCode .= "			day: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_day', 'g:i a{ - g:i a}'))."'},\n";
 $calCode .= "			columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
-$calCode .= "			axisFormat: '".Fullcalendar::convertFromPHPDate($params->get('axisformat', 'H:i'))."',\n";
+$calCode .= "			axisFormat: '".Fullcalendar::convertFromPHPDate($params->get('axisformat', 'g:i a'))."',\n";
 $calCode .= "			allDayText: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_ALL_DAY'), ENT_QUOTES)."',\n";
 $calCode .= "			buttonText: {\n";
 $calCode .= "			prev:     '&nbsp;&#9668;&nbsp;',\n";  // left triangle

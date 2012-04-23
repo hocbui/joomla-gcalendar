@@ -26,8 +26,8 @@ $document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/defau
 $event_display = $params->get('output', '');
 $group_format = trim($params->get('output_grouping', '')); // 12 Nov 2011 Grouping mod by Bernie Sumption
 
-$dateformat = $params->get('date_format', 'd.m.Y');
-$timeformat = $params->get('time_format', 'H:i');
+$dateformat = $params->get('date_format', 'm.d.Y');
+$timeformat = $params->get('time_format', 'g:i a');
 
 echo $params->get( 'text_before' );
 if(!empty($gcalendar_data)){

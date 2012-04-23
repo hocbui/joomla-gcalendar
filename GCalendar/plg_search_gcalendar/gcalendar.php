@@ -98,8 +98,8 @@ class plgSearchGCalendar extends JPlugin
 		$return = array();
 		foreach($events as $event){
 			// the date formats from http://php.net/date
-			$dateformat = 'd.m.Y';
-			$timeformat = 'H:i';
+			$dateformat = 'm.d.Y';
+			$timeformat = 'g:i a';
 
 			// These are the dates we'll display
 			$startDate = GCalendarUtil::formatDate($dateformat, $event->getStartDate());
