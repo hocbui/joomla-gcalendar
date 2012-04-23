@@ -74,7 +74,7 @@
 		<field name="description_format" type="textarea2" default="" label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DESC_FORMAT_LABEL"
 			description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DESC_FORMAT_DESC"
 			rows="5" cols="50" filter="raw">
-			<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;{description}&lt;/p&gt;</content>
+			<content><![CDATA[{{#events}}<p>{{data}}<br/>{{description}}</p>{{/events}}]]></content>
 			<description>
 				COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DESC_FORMAT_LONG_DESC
 			</description>

@@ -19,7 +19,7 @@
 				<option value="1">JYES</option>
 				<option value="2">JNO</option>
 			</field>
-			<field name="defaultView" type="list" default="month"
+			<field name="defaultView" type="list"
 				label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DEFAULT_VIEW_LABEL"
 				description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DEFAULT_VIEW_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>

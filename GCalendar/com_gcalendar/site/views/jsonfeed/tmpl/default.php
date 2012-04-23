@@ -27,32 +27,47 @@ $data = array();
 $SECSINDAY=86400;
 if(!empty($this->calendars)){
 	foreach ($this->calendars as $calendar){
-		$itemID = null;
+		$itemID = JRequest::getVar('Itemid', null);
 		foreach ($calendar as $event) {
 			if($itemID == null){
 				$itemID = GCalendarUtil::getItemId($event->getParam('gcid'));
-				$menus	= JFactory::getApplication()->getMenu();
-				$params = $menus->getParams($itemID);
-				if(empty($params))
-					$params = new JParameter('');
-				$dateformat = $params->get('description_date_format', 'm.d.Y');
-				$timeformat = $params->get('description_time_format', 'g:i a');
-				$event_display = trim($params->get('description_format', '<p>{startdate} {starttime} {dateseparator} {enddate} {endtime}<br/>{description}</p>'));
+			}
+			$params = JFactory::getApplication()->getMenu()->getParams($itemID);
+			if(empty($params)){
+				$params = new JRegistry('');
+			}
+			$dateformat = $params->get('description_date_format', 'm.d.Y');
+			$timeformat = $params->get('description_time_format', 'g:i a');
 
-				if(!empty($itemID)) {
-					$itemID = '&Itemid='.$itemID;
-				} else {
-					$menu = JFactory::getApplication()->getMenu();
-					$activemenu = $menu->getActive();
-					if($activemenu != null){
-						$itemID = '&Itemid='.$activemenu->id;
-					}
+			$params = clone $params;
+			$params->set('event_date_format', $dateformat);
+			$params->set('event_time_format', $timeformat);
+
+			// enable all params
+			$params->set('show_calendar_name', 1);
+			$params->set('show_event_title', 1);
+			$params->set('show_event_date', 1);
+			$params->set('show_event_attendees', 1);
+			$params->set('show_event_location', 1);
+			$params->set('show_event_location_map', 1);
+			$params->set('show_event_description', 1);
+			$params->set('show_event_author', 1);
+			$params->set('show_event_copy_info', 1);
+
+			if(!empty($itemID)) {
+				$itemID = '&Itemid='.$itemID;
+			} else {
+				$menu = JFactory::getApplication()->getMenu();
+				$activemenu = $menu->getActive();
+				if($activemenu != null){
+					$itemID = '&Itemid='.$activemenu->id;
 				}
 			}
-			$allDayEvent = $event->getDayType() == GCalendar_Entry::SINGLE_WHOLE_DAY || $event->getDayType() == GCalendar_Entry::MULTIPLE_WHOLE_DAY;
-			$description = GCalendarUtil::renderEvent($event, $event_display, $dateformat, $timeformat);
-			if(strlen($description) > 200)
+			$description = GCalendarUtil::renderEventNew(array($event), $params->get('description_format', '{{#events}}<p>{{date}}<br/>{{{description}}}</p>{{/events}}'), $params);
+			if(strlen($description) > 200){
 				$description = substr($description, 0, 196).' ...';
+			}
+			$allDayEvent = $event->getDayType() == GCalendar_Entry::SINGLE_WHOLE_DAY || $event->getDayType() == GCalendar_Entry::MULTIPLE_WHOLE_DAY;
 			$data[] = array(
 					'id' => $event->getId(),
 					'title' => htmlspecialchars_decode($event->getTitle()),
