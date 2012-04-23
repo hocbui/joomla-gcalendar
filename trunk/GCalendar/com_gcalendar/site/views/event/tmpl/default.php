@@ -56,8 +56,8 @@ if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component' && $event !=
 }
 
 // the date formats from http://php.net/date
-$dateformat = GCalendarUtil::getComponentParameter('event_date_format', 'd.m.Y');
-$timeformat = GCalendarUtil::getComponentParameter('event_time_format', 'H:i');
+$dateformat = GCalendarUtil::getComponentParameter('event_date_format', 'm.d.Y');
+$timeformat = GCalendarUtil::getComponentParameter('event_time_format', 'g:i a');
 
 // These are the dates we'll display
 $startDate = GCalendarUtil::formatDate($dateformat, $event->getStartDate());
