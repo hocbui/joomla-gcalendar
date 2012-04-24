@@ -26,20 +26,15 @@ class GCalendarModelGCalendar extends JModel {
 
 	var $cached_data = null;
 
-	/**
-	 * Returns all calendars in the database. The returned
-	 * rows contain an additional attribute selected which is set
-	 * to true when the specific calendar is mentioned in the
-	 * parameters property calendarids.
-	 *
-	 * @return the calendars specified in the database
-	 */
-	function getDBCalendars(){
+	public function getDBCalendars(){
 		if($this->cached_data == null){
 			$params = $this->getState('parameters.menu');
 			$calendarids = null;
 			if($params != null){
-				$calendarids=$params->get('calendarids');
+				$calendarids = explode(',', JRequest::getVar('gcids', null));
+				if(empty($calendarids)){
+					$calendarids = $params->get('calendarids');
+				}
 				$this->cached_data = GCalendarDBUtil::getCalendars($calendarids);
 			} else {
 				$this->cached_data = GCalendarDBUtil::getAllCalendars();

@@ -23,45 +23,19 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
 require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'mustache'.DS.'Mustache.php');
 
-/**
- * A util class with some static helper methodes used in GCalendar.
- *
- * @author allon
- */
 class GCalendarUtil{
 
-	/**
-	 * Returns the component parameter for the given key.
-	 *
-	 * @param $key
-	 * @param $defaultValue
-	 * @return the component parameter
-	 */
 	public static function getComponentParameter($key, $defaultValue = null){
 		$params   = JComponentHelper::getParams('com_gcalendar');
 		return $params->get($key, $defaultValue);
 	}
 
-	/**
-	 * Returns the correct configured frontend language for the
-	 * joomla web site.
-	 * The format is something like de-DE which can be passed to google.
-	 *
-	 * @return the frontend language
-	 */
 	public static function getFrLanguage(){
 		$conf = JFactory::getConfig();
 		return $conf->getValue('config.language');
 	}
 
-	/**
-	 * Returns a valid Item ID for the given calendar id. If none is found
-	 * NULL is returned.
-	 *
-	 * @param $cal_id
-	 * @return the item id
-	 */
-	public static function getItemId($cal_id){
+	public static function getItemId($calendarId, $strict = false){
 		$component = JComponentHelper::getComponent('com_gcalendar');
 		$menu = JFactory::getApplication()->getMenu();
 		$items = $menu->getItems('component_id', $component->id);
@@ -84,15 +58,18 @@ class GCalendarUtil{
 				$contains_gc_id = FALSE;
 				if ($calendarids){
 					if( is_array( $calendarids ) ) {
-						$contains_gc_id = in_array($cal_id,$calendarids);
+						$contains_gc_id = in_array($calendarId,$calendarids);
 					} else {
-						$contains_gc_id = $cal_id == $calendarids;
+						$contains_gc_id = $calendarId == $calendarids;
 					}
 				}
 				if($contains_gc_id){
 					return $item->id;
 				}
 			}
+		}
+		if($strict = true){
+			return null;
 		}
 		return $default;
 	}
@@ -276,13 +253,6 @@ class GCalendarUtil{
 		}
 	}
 
-	/**
-	 * Returns the faded color for the given color.
-	 *
-	 * @param $color
-	 * @param $percentage
-	 * @return the faded color
-	 */
 	public static function getFadedColor($color, $percentage = 85) {
 		$percentage = 100 - $percentage;
 		$rgbValues = array_map( 'hexDec', str_split( ltrim($color, '#'), 2 ) );
@@ -294,13 +264,6 @@ class GCalendarUtil{
 		return '#'.implode('', $rgbValues);
 	}
 
-	/**
-	 * Translates day of week number to a string.
-	 *
-	 * @param	integer	The numeric day of the week.
-	 * @param	boolean	Return the abreviated day string?
-	 * @return	string	The day of the week.
-	 */
 	public static function dayToString($day, $abbr = false)
 	{
 		$name = '';
@@ -330,13 +293,6 @@ class GCalendarUtil{
 		return addslashes($name);
 	}
 
-	/**
-	 * Translates month number to a string.
-	 *
-	 * @param	integer	The numeric month of the year.
-	 * @param	boolean	Return the abreviated month string?
-	 * @return	string	The month of the year.
-	 */
 	public static function monthToString($month, $abbr = false)
 	{
 		$name = '';

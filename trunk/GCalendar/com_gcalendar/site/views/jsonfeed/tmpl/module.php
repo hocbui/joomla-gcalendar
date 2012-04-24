@@ -31,13 +31,13 @@ $endDate = JRequest::getInt('end', null);
 $browserTz = JRequest::getInt('browserTimezone', null);
 $moduleId = JRequest::getInt('moduleid', 0);
 if(!empty($browserTz))
-$browserTz = $browserTz * 60;
+	$browserTz = $browserTz * 60;
 else
-$browserTz = 0;
+	$browserTz = 0;
 
 $serverTz = ini_get('date.timezone');
 if(function_exists('date_default_timezone_get'))
-$serverTz = date_default_timezone_get();
+	$serverTz = date_default_timezone_get();
 
 $requestedDayStart = $startDate - $browserTz - date('Z', $startDate);
 $requestedDayEnd = $requestedDayStart + $SECSINDAY;
@@ -46,42 +46,42 @@ $wasDSTEnd = GCalendarModelJSONFeed::isDST($requestedDayEnd, $serverTz);
 
 while ($requestedDayStart < $endDate) {
 	$result = array();
-	$linkIDs = '';
+	$linkIDs = array();
 	$description = '';
+	$itemId = null;
 	if(!empty($this->calendars)){
 		foreach ($this->calendars as $calendar){
-			$calID = null;
 			if(empty($calendar)){
 				continue;
 			}
 			foreach ($calendar as $item) {
 				if($requestedDayStart  < $item->getEndDate()
-				&& $item->getStartDate() < $requestedDayEnd){
+						&& $item->getStartDate() < $requestedDayEnd){
 					$result[] = $item;
-					$calID = $item->getParam('gcid').',';
+					$linkIDs[$item->getParam('gcid')] = $item->getParam('gcid');
 					$description .= '<li>'.htmlspecialchars_decode($item->getTitle()).'</li>';
+					if($itemId == null){
+						$itemId = '&Itemid='.GCalendarUtil::getItemId($item->getParam('gcid'), true);
+					}
 				}
 			}
-			if($calID != null)
-			$linkIDs .= $calID;
 		}
 	}
 	if(!empty($result)){
-		$linkIDs = trim($linkIDs, ",");
 		$day = strftime('%d', $requestedDayStart);
 		$month = strftime('%m', $requestedDayStart);
 		$year = strftime('%Y', $requestedDayStart);
-		$url = JRoute::_('index.php?option=com_gcalendar&view=day&gcids='.$linkIDs.'#year='.$year.'&month='.$month.'&day='.$day);
+		$url = JRoute::_('index.php?option=com_gcalendar&view=gcalendar&gcids='.implode(',', $linkIDs).$itemId.'#year='.$year.'&month='.$month.'&day='.$day.'&view=agendaDay');
 
 		$data[] = array(
-			'id' => time(),
-			'title' => utf8_encode(chr(160)), //space only works in IE, empty only in Chrome... sighh 
-			'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
-			'url' => $url,
-			'allDay' => true,
-		//			'end' => $requestedDayEnd - 10,
-			'className' => "gcal-module_event_gccal_".$moduleId,
-			'description' => sprintf(JText::_('COM_GCALENDAR_JSON_VIEW_EVENT_TITLE'), count($result)).'<ul>'.$description.'</ul>'
+				'id' => time(),
+				'title' => utf8_encode(chr(160)), //space only works in IE, empty only in Chrome... sighh
+				'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
+				'url' => $url,
+				'allDay' => true,
+				//			'end' => $requestedDayEnd - 10,
+				'className' => "gcal-module_event_gccal_".$moduleId,
+				'description' => sprintf(JText::_('COM_GCALENDAR_JSON_VIEW_EVENT_TITLE'), count($result)).'<ul>'.$description.'</ul>'
 		);
 	}
 
@@ -110,4 +110,3 @@ while ($requestedDayStart < $endDate) {
 	$requestedDayEnd += $dstAdjustment;
 }
 echo json_encode($data);
-?>
