@@ -63,7 +63,7 @@ if(!empty($this->calendars)){
 					$itemID = '&Itemid='.$activemenu->id;
 				}
 			}
-			$description = GCalendarUtil::renderEventNew(array($event), $params->get('description_format', '{{#events}}<p>{{date}}<br/>{{{description}}}</p>{{/events}}'), $params);
+			$description = GCalendarUtil::renderEvents(array($event), $params->get('description_format', '{{#events}}<p>{{date}}<br/>{{{description}}}</p>{{/events}}'), $params);
 			if(strlen($description) > 200){
 				$description = substr($description, 0, 196).' ...';
 			}

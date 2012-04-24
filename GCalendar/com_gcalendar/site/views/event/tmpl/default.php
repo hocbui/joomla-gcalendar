@@ -60,16 +60,16 @@ $content = '
 	<tr>
 		<td class="event_content_key">{{attendeesLabel}}: </td>
 		<td>
-			{{#attendees}}{{name}} <a href="javascript:sdafgkl437jeeee(\'{{email}}\')"><img height="11" border="0" width="16" alt="email" src="media/com_gcalendar/images/mail.png"/></a>, {{/attendees}}
+			{{#attendees}}{{name}} <a href="javascript:sdafgkl437jeeee("{{email}}")"><img height="11" border="0" width="16" alt="email" src="media/com_gcalendar/images/mail.png"/></a>, {{/attendees}}
 		</td>
 	</tr>
 	{{/hasAttendees}}
 	{{#location}}
 	<tr><td class="event_content_key">{{locationLabel}}: </td><td>{{location}}</td></tr>
 	{{/location}}
-	{{#map}}
-	<tr><td colspan="2"><iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q={{map}}&hl={{language}}&output=embed"></iframe></td></tr>
-	{{/map}}
+	{{#maplink}}
+	<tr><td colspan="2"><iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{{{maplink}}}"></iframe></td></tr>
+	{{/maplink}}
 	{{#description}}
 	<tr><td class="event_content_key">{{descriptionLabel}}: </td><td>{{{description}}}</td></tr>
 	{{/description}}
@@ -77,7 +77,7 @@ $content = '
 	<tr>
 		<td class="event_content_key">{{authorLabel}}: </td>
 		<td>
-			{{#author}}{{name}} <a href="javascript:sdafgkl437jeeee(\'{{email}}\')"><img height="11" border="0" width="16" alt="email" src="media/com_gcalendar/images/mail.png"/></a>, {{/author}}
+			{{#author}}{{name}} <a href="javascript:sdafgkl437jeeee("{{email}}")"><img height="11" border="0" width="16" alt="email" src="media/com_gcalendar/images/mail.png"/></a>, {{/author}}
 		</td>
 	</tr>
 	{{/hasAuthor}}
@@ -102,9 +102,8 @@ $content = '
 </div>
 {{/events}}
 {{^events}}
-no event found
-{{/events}}
-';
+{{emptyText}}
+{{/events}}';
 
 $variables = array();
 $variables['pluginsBefore'] = array();
@@ -112,6 +111,6 @@ $variables['pluginsAfter'] = array();
 $dispatcher->trigger('onBeforeDisplayEvent', array($this->event,  &$content, &$variables));
 $dispatcher->trigger('onAfterDisplayEvent', array($this->event,  &$content, &$variables));
 
-echo GCalendarUtil::renderEventNew(array($this->event), $content, JFactory::getApplication()->getParams(), $variables);
+echo GCalendarUtil::renderEvents(array($this->event), $content, JFactory::getApplication()->getParams(), $variables);
 ?>
 <div style="text-align:center;margin-top:10px" id="gcalendar_powered"><a href="http://g4j.laoneo.net/">Powered by GCalendar</a></div>

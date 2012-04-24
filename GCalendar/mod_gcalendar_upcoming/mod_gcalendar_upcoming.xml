@@ -54,53 +54,36 @@
 					label="MOD_GCALENDAR_UPCOMING_FIELD_FILTER_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_FILTER_DESC" />
 				<field name="@spacer" type="spacer" default="" label=""
 					description="" />
-				<field name="images" type="list" default="yes"
-					label="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_DESC">
-					<option value="yes">MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_YES
-					</option>
-					<option value="custom">MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_CUSTOM
-					</option>
-					<option value="no">MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_NO
-					</option>
-				</field>
-				<field name="calimage_background" type="color" size="7"
-					default="729FCC" label="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_BACKGROUND_LABEL"
-					description="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_BACKGROUND_DESC" />
-				<field name="calimage_month" type="color" size="7" default="FFFFFF"
-					label="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_MONTH_LABEL"
-					description="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_MONTH_DESC" />
-				<field name="calimage_day" type="color" size="7" default="7CADDE"
-					label="MOD_GCALENDAR_UPCOMING_FIELD_IMAGES_DAY_LABEL" description="" />
-				<field name="@spacer" type="spacer" default="" label=""
-					description="" />
 				<field name="moduleclass_sfx" type="text"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 			</fieldset>
 			<fieldset name="advanced">
-				<field name="text_before" type="textarea" default=""
-					label="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_BEFORE_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_BEFORE_DESC"
-					rows="3" cols="50" filter="raw" />
 				<field name="output" type="textarea2" default=""
 					label="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_DESC"
-					rows="5" cols="50" filter="raw">
-					<content>&lt;p&gt;{startdate} {starttime} {dateseparator} {enddate} {endtime}&lt;br/&gt;&lt;a href="{backlink}"&gt;{title}&lt;/a&gt;&lt;/p&gt;</content>
+					rows="20" cols="70" filter="raw">
+					<content>
+					<![CDATA[{{#events}}
+{{#header}}<p style="clear: both;"><strong>{{header}}</strong></p>{{/header}}
+<p style="clear: both;"/>
+<div class="gc_up_mod_img">
+	<div class="gc_up_mod_month_background" style="background-color: #{{calendarcolor}};"></div>
+	<div class="gc_up_mod_month_text" style="color: #FFFFFF;">{{month}}</div>
+	<div class="gc_up_mod_day" style="color: #{{calendarcolor}};">{{day}}</div>
+</div>
+<p>{{startDate}} {{startTime}} {{dateseparator}} {{endDate}} {{endTime}}<br/><a href="{{backlink}}">{{title}}</a></p>
+<p style="clear: both;"/>
+{{/events}}
+{{^events}}
+{{emptyText}}
+{{/events}}]]>
+					</content>
 					<description>
 						MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_LONG_DESC
 					</description>
 				</field>
-				<!-- 12 Nov 2011 Grouping mod by Bernie Sumption -->
 				<field name="output_grouping" type="text" size="80" default=""
 					label="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_DESC">
 				</field>
-				<!-- End mod -->
-				<field name="output_grouping_content" type="textarea2" default=""
-					label="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_CONTENT_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_CONTENT_DESC"
-					rows="5" cols="50" filter="raw">
-					<content>&lt;p style="clear: both;"&gt;&lt;strong&gt;{header}&lt;/strong&gt;&lt;/p&gt;</content>
-				</field>
-				<field name="text_after" type="textarea" default=""
-					label="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_TEXT_AFTER_DESC"
-					rows="3" cols="50" filter="raw" />
 				<field name="start_date" type="text" size="80" default=""
 					label="MOD_GCALENDAR_UPCOMING_FIELD_START_DATE_LABEL"
 					description="MOD_GCALENDAR_UPCOMING_FIELD_START_DATE_DESC" />
