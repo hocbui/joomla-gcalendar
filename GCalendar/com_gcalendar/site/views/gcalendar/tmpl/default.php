@@ -38,18 +38,20 @@ $params = $this->params;
 
 $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
-$theme = JRequest::getVar('theme', null);
+	$theme = JRequest::getWord('theme', null);
 if(!empty($theme))
-$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui.custom.css');
+	$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui.custom.css');
 else
-$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/ui-lightness/jquery-ui.custom.css');
+	$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/ui-lightness/jquery-ui.custom.css');
 
-$calendarids = array();
-$tmp = $params->get('calendarids');
-if(is_array($tmp))
-	$calendarids = $tmp;
-else if(!empty($tmp))
-	$calendarids[] = $tmp;
+$calendarids = explode(',', JRequest::getVar('gcids', array()));
+if(empty($calendarids)){
+	$tmp = $params->get('calendarids');
+	if(is_array($tmp))
+		$calendarids = $tmp;
+	else if(!empty($tmp))
+		$calendarids[] = $tmp;
+}
 $allCalendars = GCalendarDBUtil::getAllCalendars();
 
 $calsSources = "		eventSources: [\n";
@@ -67,9 +69,9 @@ $calsSources .= "	],\n";
 
 $defaultView = 'month';
 if($params->get('defaultView', 'month') == 'week')
-$defaultView = 'agendaWeek';
+	$defaultView = 'agendaWeek';
 else if($params->get('defaultView', 'month') == 'day')
-$defaultView = 'agendaDay';
+	$defaultView = 'agendaDay';
 
 $daysLong = "[";
 $daysShort = "[";

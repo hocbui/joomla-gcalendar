@@ -26,7 +26,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS
 
 class GCalendarModelGCalendars extends JModelList
 {
-	
+
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		$items = parent::_getList($query, $limitstart, $limit);
@@ -52,12 +52,12 @@ class GCalendarModelGCalendars extends JModelList
 		$calendarIDs = $this->getState('ids', null);
 		if(!empty($calendarIDs)){
 			if(is_array($calendarIDs)) {
-				$query->where('id IN ( ' . rtrim(implode( ',', $calendarIDs ), ',') . ')');
+				$query->where('id IN ( '.implode(',', array_map('intval', $calendarIDs)).')');
 			} else {
 				$query->where($condition = 'id = '.(int)rtrim($calendarIDs, ','));
 			}
 		}
-		
+
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{

@@ -34,10 +34,10 @@ class GCalendarDBUtil{
 		}
 		return $items[0];
 	}
-	
+
 	public static function getCalendars($calendarIDs) {
 		$model = JModel::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
-		$model->setState('ids',$calendarIDs);
+		$model->setState('ids', $calendarIDs);
 		return $model->getItems();
 	}
 
