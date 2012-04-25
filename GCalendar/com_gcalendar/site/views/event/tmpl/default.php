@@ -105,12 +105,12 @@ $content = '
 {{emptyText}}
 {{/events}}';
 
-$variables = array();
-$variables['pluginsBefore'] = array();
-$variables['pluginsAfter'] = array();
-$dispatcher->trigger('onBeforeDisplayEvent', array($this->event,  &$content, &$variables));
-$dispatcher->trigger('onAfterDisplayEvent', array($this->event,  &$content, &$variables));
+$plugins = array();
+$plugins['pluginsBefore'] = array();
+$plugins['pluginsAfter'] = array();
+$dispatcher->trigger('onBeforeDisplayEvent', array($this->event,  &$content, &$plugins['pluginsBefore']));
+$dispatcher->trigger('onAfterDisplayEvent', array($this->event,  &$content, &$plugins['pluginsAfter']));
 
-echo GCalendarUtil::renderEvents(array($this->event), $content, JFactory::getApplication()->getParams(), $variables);
+echo GCalendarUtil::renderEvents(array($this->event), $content, JFactory::getApplication()->getParams(), $plugins);
 ?>
 <div style="text-align:center;margin-top:10px" id="gcalendar_powered"><a href="http://g4j.laoneo.net/">Powered by GCalendar</a></div>

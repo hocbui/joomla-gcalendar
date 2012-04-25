@@ -74,7 +74,7 @@ class GCalendarUtil{
 		return $default;
 	}
 
-	public static function renderEvents(array $events = null, $output, $params, $configuration = array()){
+	public static function renderEvents(array $events = null, $output, $params, $eventParams = array()){
 		if($events === null){
 			$events = array();
 		}
@@ -86,7 +86,7 @@ class GCalendarUtil{
 		$configuration = array();
 		$configuration['events'] = array();
 		foreach ($events as $event) {
-			$variables = array();
+			$variables = $eventParams;
 
 			$itemID = GCalendarUtil::getItemId($event->getParam('gcid', null));
 			if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component' && $event != null){
