@@ -24,17 +24,29 @@ jimport( 'joomla.application.component.model' );
 
 class GCalendarModelGCalendar extends JModel {
 
-	var $cached_data = null;
+	private $cached_data = null;
+	protected $_extension = 'com_gcalendar';
+
+	protected function populateState(){
+		$this->setState('filter.extension', $this->_extension);
+
+		$calendarids = JFactory::getApplication()->getParams()->get('calendarids');
+		if(!is_array($calendarids)){
+			$calendarids = array($calendarids);
+		}
+		$tmp = JRequest::getVar('gcids', null);
+		if(!empty($tmp)){
+			$calendarids = explode(',', $tmp);
+		}
+		$this->setState('calendarids', $calendarids);
+
+		$this->setState('params', JFactory::getApplication()->getParams());
+	}
 
 	public function getDBCalendars(){
 		if($this->cached_data == null){
-			$params = $this->getState('parameters.menu');
-			$calendarids = null;
-			if($params != null){
-				$calendarids = explode(',', JRequest::getVar('gcids', null));
-				if(empty($calendarids)){
-					$calendarids = $params->get('calendarids');
-				}
+			$calendarids = $this->getState('calendarids');
+			if(!empty($calendarids)){
 				$this->cached_data = GCalendarDBUtil::getCalendars($calendarids);
 			} else {
 				$this->cached_data = GCalendarDBUtil::getAllCalendars();
@@ -42,5 +54,4 @@ class GCalendarModelGCalendar extends JModel {
 		}
 		return $this->cached_data;
 	}
-
 }

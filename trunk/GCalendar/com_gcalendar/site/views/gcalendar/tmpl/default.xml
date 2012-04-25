@@ -5,14 +5,10 @@
 			<![CDATA[COM_GCALENDAR_GCALENDAR_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
-	<fields name="request">
-		<fieldset name="request">
-			<field name="calendarids" type="gcalendar" default="" multiple="true"
-				label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SELECT_CALENDARS_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SELECT_CALENDARS_DESC" />
-		</fieldset>
-	</fields>
 	<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
 		<fieldset name="basic">
+			<field name="calendarids" type="gcalendar" default="" multiple="true"
+				label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SELECT_CALENDARS_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SELECT_CALENDARS_DESC" />
 			<field name="show_selection" type="list"
 				label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SHOW_CALENDARS_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SHOW_CALENDARS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>

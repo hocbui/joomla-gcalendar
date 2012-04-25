@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/default.css');
 
-$tmp = new JRegistry('');
+$tmp = clone JComponentHelper::getParams('com_gcalendar');
 $tmp->set('event_date_format', $params->get('date_format', 'm.d.Y'));
 $tmp->set('event_time_format', $params->get('time_format', 'g:i a'));
 $tmp->set('grouping', $params->get('output_grouping', ''));
@@ -47,7 +47,7 @@ $output = $params->get('output', '{{#events}}
 	<div class="gc_up_mod_month_text" style="color: #FFFFFF;">{{month}}</div>
 	<div class="gc_up_mod_day" style="color: #{{calendarcolor}};">{{day}}</div>
 </div>
-<p>{{startDate}} {{startTime}} {{dateseparator}} {{endDate}} {{endTime}}<br/><a href="{{backlink}}">{{title}}</a></p>
+<p>{{startDate}} {{startTime}} {{dateseparator}} {{endDate}} {{endTime}}<br/><a href="{{{backlink}}}">{{title}}</a></p>
 <p style="clear: both;"/>
 {{/events}}
 {{^events}}

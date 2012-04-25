@@ -117,7 +117,7 @@ class GCalendarUtil{
 				}
 			}
 
-			$variables['backlink'] = htmlentities(JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID));
+			$variables['backlink'] = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID);
 
 			$tz = GCalendarUtil::getComponentParameter('timezone');
 			if($tz == ''){
@@ -146,6 +146,7 @@ class GCalendarUtil{
 
 					$startTime = '';
 					$endTime = '';
+					$dateSeparator = '';
 					break;
 				case GCalendar_Entry::SINGLE_PART_DAY:
 					$timeString = $startDate.' '.$startTime.' '.$dateSeparator.' '.$endTime;
@@ -159,6 +160,7 @@ class GCalendarUtil{
 
 					$startTime = '';
 					$endTime = '';
+					$dateSeparator = '';
 					break;
 				case GCalendar_Entry::MULTIPLE_PART_DAY:
 					$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
@@ -193,8 +195,8 @@ class GCalendarUtil{
 			if($params->get('show_event_description', 1) == 1) {
 				$variables['description'] = $event->getContent();
 				if($params->get('event_description_format', 1) == 1) {
-					$variables['description'] = preg_replace("@(src|href)=\"https?://@i",'\\1="', nl2br($event->getContent()));
-					$variables['description'] = preg_replace("@(((f|ht)tp:\/\/)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $variables['description']);
+					$variables['description'] = preg_replace("@(src|href)=\"https?://@i",'\\1="', $event->getContent());
+					$variables['description'] = nl2br(preg_replace("@(((f|ht)tp:\/\/)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $variables['description']));
 				}
 			}
 			if($params->get('show_event_author', 2) == 1){
@@ -206,12 +208,12 @@ class GCalendarUtil{
 			}
 
 			if($params->get('show_event_copy_info', 1) == 1){
-				$variables['copyGoogleUrl'] = 'http://www.google.com/calendar/render?action=TEMPLATE&amp;text='.urlencode($event->getTitle());
-				$variables['copyGoogleUrl'] .= '&amp;dates='.GCalendarUtil::formatDate($copyDateTimeFormat, $event->getStartDate()).'%2F'.GCalendarUtil::formatDate($copyDateTimeFormat, $event->getEndDate());
-				$variables['copyGoogleUrl'] .= '&amp;location='.urlencode($event->getLocation());
-				$variables['copyGoogleUrl'] .= '&amp;details='.urlencode($event->getContent());
-				$variables['copyGoogleUrl'] .= '&amp;hl='.GCalendarUtil::getFrLanguage().'&amp;ctz='.GCalendarUtil::getComponentParameter('timezone');
-				$variables['copyGoogleUrl'] .= '&amp;sf=true&amp;output=xml';
+				$variables['copyGoogleUrl'] = 'http://www.google.com/calendar/render?action=TEMPLATE&text='.urlencode($event->getTitle());
+				$variables['copyGoogleUrl'] .= '&dates='.GCalendarUtil::formatDate($copyDateTimeFormat, $event->getStartDate()).'%2F'.GCalendarUtil::formatDate($copyDateTimeFormat, $event->getEndDate());
+				$variables['copyGoogleUrl'] .= '&location='.urlencode($event->getLocation());
+				$variables['copyGoogleUrl'] .= '&details='.urlencode($event->getContent());
+				$variables['copyGoogleUrl'] .= '&hl='.GCalendarUtil::getFrLanguage().'&ctz='.GCalendarUtil::getComponentParameter('timezone');
+				$variables['copyGoogleUrl'] .= '&sf=true&output=xml';
 
 				$ical_timeString_start =  $startTime.' '.$startDate;
 				$ical_timeString_start = strtotime($ical_timeString_start);

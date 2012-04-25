@@ -50,11 +50,11 @@ $tmp->set('show_event_description', 1);
 $tmp->set('show_event_author', 1);
 $tmp->set('show_event_copy_info', 1);
 
-$output = $params->get('output', '{{#events}}<span class="countdown_row">{y<}<span class="countdown_section"><span class="countdown_amount">{yn}</span><br/>{yl}</span>{y>}{o<}<span class="countdown_section"><span class="countdown_amount">{on}</span><br/>{ol}</span>{o>}{w<}<span class="countdown_section"><span class="countdown_amount">{wn}</span><br/>{wl}</span>{w>}{d<}<span class="countdown_section"><span class="countdown_amount">{dn}</span><br/>{dl}</span>{d>}{h<}<span class="countdown_section"><span class="countdown_amount">{hn}</span><br/>{hl}</span>{h>}{m<}<span class="countdown_section"><span class="countdown_amount">{mn}</span><br/>{ml}</span>{m>}{s<}<span class="countdown_section"><span class="countdown_amount">{sn}</span><br/>{sl}</span>{s>}<div style="clear:both"><p><a href="{{backlink}}">{{title}}</a><br/>{{{description}}}</p></div></span>{{/events}}{{^events}}{{emptyText}}{{/events}}');
-$layout = GCalendarUtil::renderEvents(array($gcalendar_item), $output, $tmp);
+$output = $params->get('output', '{{#events}}<span class="countdown_row">{y<}<span class="countdown_section"><span class="countdown_amount">{yn}</span><br/>{yl}</span>{y>}{o<}<span class="countdown_section"><span class="countdown_amount">{on}</span><br/>{ol}</span>{o>}{w<}<span class="countdown_section"><span class="countdown_amount">{wn}</span><br/>{wl}</span>{w>}{d<}<span class="countdown_section"><span class="countdown_amount">{dn}</span><br/>{dl}</span>{d>}{h<}<span class="countdown_section"><span class="countdown_amount">{hn}</span><br/>{hl}</span>{h>}{m<}<span class="countdown_section"><span class="countdown_amount">{mn}</span><br/>{ml}</span>{m>}{s<}<span class="countdown_section"><span class="countdown_amount">{sn}</span><br/>{sl}</span>{s>}<div style="clear:both"><p><a href="{{{backlink}}}">{{title}}</a><br/>{{{description}}}</p></div></span>{{/events}}{{^events}}{{emptyText}}{{/events}}');
+$layout = str_replace("\n", "", GCalendarUtil::renderEvents(array($gcalendar_item), $output, $tmp));
 
-$output = $params->get('output_now', '{{#events}}<p>Event happening now:<br/>{{date}}<br/><a href="{{backlink}}">{{title}}</a><br/>Join us at [<a href="{{maplink}}" target="_blank">map</a>]</p>{{/events}}{{^events}}{{emptyText}}{{/events}}');
-$expiryText = GCalendarUtil::renderEvents(array($gcalendar_item), $output, $tmp);
+$output = $params->get('output_now', '{{#events}}<p>Event happening now:<br/>{{date}}<br/><a href="{{{backlink}}}">{{title}}</a><br/>Join us at [<a href="{{maplink}}" target="_blank">map</a>]</p>{{/events}}{{^events}}{{emptyText}}{{/events}}');
+$expiryText = str_replace("\n", "", GCalendarUtil::renderEvents(array($gcalendar_item), $output, $tmp));
 $class = "countdown";
 $class .= ($now) ? "now" : "";
 $objid = "countdown-" . $module->id;
