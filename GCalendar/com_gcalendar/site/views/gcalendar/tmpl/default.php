@@ -44,14 +44,7 @@ if(!empty($theme))
 else
 	$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/ui-lightness/jquery-ui.custom.css');
 
-$calendarids = explode(',', JRequest::getVar('gcids', array()));
-if(empty($calendarids)){
-	$tmp = $params->get('calendarids');
-	if(is_array($tmp))
-		$calendarids = $tmp;
-	else if(!empty($tmp))
-		$calendarids[] = $tmp;
-}
+$calendarids = $this->calendarids;
 $allCalendars = GCalendarDBUtil::getAllCalendars();
 
 $calsSources = "		eventSources: [\n";

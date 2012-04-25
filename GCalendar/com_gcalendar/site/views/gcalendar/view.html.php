@@ -30,7 +30,8 @@ class GCalendarViewGCalendar extends JView{
 			$calendars = array();
 		}
 		$this->assignRef('calendars', $calendars);
-		$this->assignRef('params',  JFactory::getApplication()->getParams());
+		$this->assignRef('params',  $this->get('State')->params);
+		$this->assignRef('calendarids',  $this->get('State')->calendarids);
 
 		parent::display($tpl);
 	}
