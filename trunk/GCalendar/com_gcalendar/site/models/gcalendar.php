@@ -31,7 +31,7 @@ class GCalendarModelGCalendar extends JModel {
 		$this->setState('filter.extension', $this->_extension);
 
 		$calendarids = JFactory::getApplication()->getParams()->get('calendarids');
-		if(!is_array($calendarids)){
+		if(!is_array($calendarids) && !empty($calendarids)){
 			$calendarids = array($calendarids);
 		}
 		$tmp = JRequest::getVar('gcids', null);
