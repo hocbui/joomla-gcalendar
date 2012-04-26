@@ -79,7 +79,7 @@ class GCalendarUtil{
 			$events = array();
 		}
 
-		JFactory::getLanguage()->load('com_gcalendar', JPATH_ADMINISTRATOR);
+		JFactory::getLanguage()->load('com_gcalendar', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar');
 
 		$lastHeading = '';
 

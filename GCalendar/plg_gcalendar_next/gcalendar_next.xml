@@ -12,18 +12,8 @@
 
 <files>
 <filename plugin="gcalendar_next">gcalendar_next.php</filename>
+<folder>language</folder>
 </files>
-
-<languages>
-	<language tag="en-GB">languages/en-GB.plg_content_gcalendar_next.ini</language>
-	<language tag="en-GB">languages/en-GB.plg_content_gcalendar_next.sys.ini</language>
-	<language tag="de-DE">languages/de-DE.plg_content_gcalendar_next.ini</language>
-	<language tag="de-DE">languages/de-DE.plg_content_gcalendar_next.sys.ini</language>
-	<language tag="fr-FR">languages/fr-FR.plg_content_gcalendar_next.ini</language>
-	<language tag="fr-FR">languages/fr-FR.plg_content_gcalendar_next.sys.ini</language>
-	<language tag="it-IT">languages/it-IT.plg_content_gcalendar_next.ini</language>
-	<language tag="it-IT">languages/it-IT.plg_content_gcalendar_next.sys.ini</language>
-</languages>
 
 <config>
 	<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">

@@ -105,12 +105,18 @@
 			description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_MAX_TIME_DESC" size="10" />
 	</fieldset>
 	<fieldset name="event" label="COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL">
-		<param name="event_description_format" type="radio" default="1"
+		<field name="event_description_format" type="radio" default="1"
 			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_DESCRIPTION_FORMAT_LABEL"
 			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_DESCRIPTION_FORMAT_DESC">
 			<option value="1">JYES</option>
 			<option value="2">JNO</option>
-		</param>
+		</field>
+		<field name="event_date_format" type="text" size="80" default="m.d.Y"
+			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_DATE_FORMAT_LABEL"
+			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_DATE_FORMAT_DESC" />
+		<field name="event_time_format" type="text" size="80" default="g:i a"
+			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_TIME_FORMAT_LABEL"
+			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_TIME_FORMAT_DESC" />
 		<field name="@spacer" type="spacer" default="Event output"
 			label="" description="" />
 		<field name="show_calendar_name" type="radio" default="1"
@@ -159,12 +165,6 @@
 			<option value="1">JYES</option>
 			<option value="2">JNO</option>
 		</field>
-		<field name="event_date_format" type="text" size="80" default="m.d.Y"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_DATE_FORMAT_LABEL"
-			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_DATE_FORMAT_DESC" />
-		<field name="event_time_format" type="text" size="80" default="g:i a"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_TIME_FORMAT_LABEL"
-			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_TIME_FORMAT_DESC" />
 	</fieldset>
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC">
