@@ -189,8 +189,11 @@ class GCalendarUtil{
 					$variables['attendees'][] = array('name' => (string)$a->getValueString(), 'email' =>  base64_encode(str_replace('@','#',$a->getEmail())));
 				}
 			}
-			$variables['location'] = $params->get('show_event_location', 1) == 1 ? $event->getLocation() : null;
-			$variables['maplink'] = $params->get('show_event_location_map', 1) == 1 ? "http://maps.google.com/?q=".urlencode($event->getLocation()).'&hl='.substr(GCalendarUtil::getFrLanguage(),0,2).'&output=embed' : null;
+			$location = $event->getLocation();
+			$variables['location'] = $params->get('show_event_location', 1) == 1 ? $location : null;
+			if(!empty($location)){
+				$variables['maplink'] = $params->get('show_event_location_map', 1) == 1 ? "http://maps.google.com/?q=".urlencode($location).'&hl='.substr(GCalendarUtil::getFrLanguage(),0,2).'&output=embed' : null;
+			}
 
 			if($params->get('show_event_description', 1) == 1) {
 				$variables['description'] = $event->getContent();
