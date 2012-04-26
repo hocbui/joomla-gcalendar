@@ -62,16 +62,7 @@
 			<folder>tables</folder>
 			<folder>libraries</folder>
 			<folder>sql</folder>
+			<folder>language</folder>
 		</files>
-		<languages>
-			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.ini</language>
-			<language tag="en-GB">admin/languages/en-GB.com_gcalendar.sys.ini</language>
-			<language tag="de-DE">admin/languages/de-DE.com_gcalendar.ini</language>
-			<language tag="de-DE">admin/languages/de-DE.com_gcalendar.sys.ini</language>
-			<language tag="fr-FR">admin/languages/fr-FR.com_gcalendar.ini</language>
-			<language tag="fr-FR">admin/languages/fr-FR.com_gcalendar.sys.ini</language>
-			<language tag="it-IT">admin/languages/it-IT.com_gcalendar.ini</language>
-			<language tag="it-IT">admin/languages/it-IT.com_gcalendar.sys.ini</language>
-		</languages>
 	</administration>
 </install>

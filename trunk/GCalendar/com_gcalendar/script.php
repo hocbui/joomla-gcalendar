@@ -37,6 +37,14 @@ class Com_GCalendarInstallerScript{
 		if(version_compare($version, '2.6.2')){
 			$this->run("update #__extensions set enabled=1 where name like 'plg_system_gcalendar'");
 		}
+		if(version_compare($version, '2.7.0')){
+			foreach (JFolder::files(JPATH_ADMINISTRATOR.DS.'language', '.*gcalendar.*', true, true) as $file){
+				JFile::delete($file);
+			}
+			foreach (JFolder::files(JPATH_SITE.DS.'language', '.*gcalendar.*', true, true) as $file){
+				JFile::delete($file);
+			}
+		}
 	}
 
 	public function uninstall($parent){
