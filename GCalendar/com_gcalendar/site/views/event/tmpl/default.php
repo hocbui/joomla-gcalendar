@@ -28,8 +28,7 @@ $document->addStyleSheet(JURI::base(). 'components/com_gcalendar/views/gcalendar
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/views/event/tmpl/default.css');
 $document->addScript(JURI::base().'components/com_gcalendar/views/event/tmpl/default.js');
 
-$content = '
-{{#events}}
+$content = '{{#events}}
 {{#calendarLink}}
 <table class="gcalendar-table">
 	<tr>
@@ -103,7 +102,8 @@ $content = '
 {{/events}}
 {{^events}}
 {{emptyText}}
-{{/events}}';
+{{/events}}
+<div style="text-align:center;margin-top:10px" id="gcalendar_powered"><a href="http://g4j.laoneo.net/">Powered by GCalendar</a></div>';
 
 $plugins = array();
 $plugins['pluginsBefore'] = array();
@@ -112,5 +112,3 @@ $dispatcher->trigger('onBeforeDisplayEvent', array($this->event,  &$content, &$p
 $dispatcher->trigger('onAfterDisplayEvent', array($this->event,  &$content, &$plugins['pluginsAfter']));
 
 echo GCalendarUtil::renderEvents(array($this->event), $content, JFactory::getApplication()->getParams(), $plugins);
-?>
-<div style="text-align:center;margin-top:10px" id="gcalendar_powered"><a href="http://g4j.laoneo.net/">Powered by GCalendar</a></div>
