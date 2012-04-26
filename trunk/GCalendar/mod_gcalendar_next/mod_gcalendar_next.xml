@@ -40,7 +40,7 @@
 					<option value="0">JNO</option>
 				</field>		
 				<field name="output_now" type="textarea2" default="" label="MOD_GCALENDAR_NEXT_FIELD_OUTPUT_NOW_LABEL" description="MOD_GCALENDAR_NEXT_FIELD_OUTPUT_NOW_DESC" rows="5" cols="50" filter="raw">
-					<content><![CDATA[{{#events}}<p>Event happening now:<br/>{{date}}<br/><a href="{{{backlink}}}">{{title}}</a><br/>Join us at [<a href="{{maplink}}" target="_blank">map</a>]</p>{{/events}}{{^events}}{{emptyText}}{{/events}}]]></content>
+					<content><![CDATA[{{#events}}<p>Event happening now:<br/>{{date}}<br/><a href="{{{backlink}}}">{{title}}</a>{{#maplink}}<br/>Join us at [<a href="{{{maplink}}}" target="_blank">map</a>]{{/maplink}}</p>{{/events}}{{^events}}{{emptyText}}{{/events}}]]></content>
 					<description>
 						MOD_GCALENDAR_NEXT_FIELD_OUTPUT_NOW_LONG_DESC
 					</description>
