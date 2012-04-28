@@ -26,20 +26,24 @@ $document->setMimeEncoding('application/json');
 $data = array();
 $SECSINDAY=86400;
 if(!empty($this->calendars)){
+	$itemID = JRequest::getVar('Itemid', null);
 	foreach ($this->calendars as $calendar){
-		$itemID = JRequest::getVar('Itemid', null);
+		if($itemID == null){
+			$itemID = GCalendarUtil::getItemId($calendar->id);
+		}
+		$params = JFactory::getApplication()->getMenu()->getParams($itemID);
+		$tmp = clone JComponentHelper::getParams('com_gcalendar');
+		if(empty($params)){
+			$params = $tmp;
+		}else{
+			$tmp->merge($params);
+			$params = $tmp;
+		}
 		foreach ($calendar as $event) {
-			if($itemID == null){
-				$itemID = GCalendarUtil::getItemId($event->getParam('gcid'));
-			}
-			$params = JFactory::getApplication()->getMenu()->getParams($itemID);
-			if(empty($params)){
-				$params = new JRegistry('');
-			}
+
 			$dateformat = $params->get('description_date_format', 'm.d.Y');
 			$timeformat = $params->get('description_time_format', 'g:i a');
 
-			$params = clone $params;
 			$params->set('event_date_format', $dateformat);
 			$params->set('event_time_format', $timeformat);
 

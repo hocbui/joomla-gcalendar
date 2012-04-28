@@ -102,8 +102,7 @@ $content = '{{#events}}
 {{/events}}
 {{^events}}
 {{emptyText}}
-{{/events}}
-<div style="text-align:center;margin-top:10px" id="gcalendar_powered"><a href="http://g4j.laoneo.net/">Powered by GCalendar</a></div>';
+{{/events}}';
 
 $plugins = array();
 $plugins['pluginsBefore'] = array();
@@ -112,3 +111,6 @@ $dispatcher->trigger('onBeforeDisplayEvent', array($this->event,  &$content, &$p
 $dispatcher->trigger('onAfterDisplayEvent', array($this->event,  &$content, &$plugins['pluginsAfter']));
 
 echo GCalendarUtil::renderEvents(array($this->event), $content, JFactory::getApplication()->getParams(), $plugins);
+
+if(!JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendarap'.DS.'gcalendarap.php'))
+	echo "<div style=\"text-align:center;margin-top:10px\" id=\"gcalendar_powered\"><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
