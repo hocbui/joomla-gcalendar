@@ -53,7 +53,7 @@ foreach($allCalendars as $calendar) {
 	$color = GCalendarUtil::getFadedColor($calendar->color);
 	$document->addStyleDeclaration(".".$cssClass.",.fc-agenda ".$cssClass." .fc-event-time, .".$cssClass." a, .".$cssClass." div{background-color: ".$color." !important; border-color: #".$calendar->color."; color: white;}");
 	if(empty($calendarids) || in_array($calendar->id, $calendarids)){
-		$value = html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id));
+		$value = html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&format=raw&gcid='.$calendar->id.'&Itemid='.JRequest::getInt('Itemid')));
 		$calsSources .= "				'".$value."',\n";
 	}
 }

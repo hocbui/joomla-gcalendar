@@ -61,7 +61,9 @@ while ($requestedDayStart < $endDate) {
 					$linkIDs[$item->getParam('gcid')] = $item->getParam('gcid');
 					$description .= '<li>'.htmlspecialchars_decode($item->getTitle()).'</li>';
 					if($itemId == null){
-						$itemId = '&Itemid='.GCalendarUtil::getItemId($item->getParam('gcid'), true);
+						$tmp = GCalendarUtil::getItemId($item->getParam('gcid'), true);
+						if(!empty($tmp))
+							$itemId = '&Itemid='.$tmp;
 					}
 				}
 			}
