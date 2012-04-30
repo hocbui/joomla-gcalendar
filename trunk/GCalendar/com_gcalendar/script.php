@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 class Com_GCalendarInstallerScript{
 
 	public function install($parent){
-		$this->run("update #__extensions set enabled=1 where name like 'plg_system_gcalendar'");
+		$this->run("update #__extensions set enabled=1 where type = 'plugin' and element = 'gcalendar'");
 	}
 
 	function update($parent){
@@ -35,7 +35,7 @@ class Com_GCalendarInstallerScript{
 			$this->run("ALTER TABLE `#__gcalendar` ADD `password` text NULL DEFAULT NULL AFTER `username`;");
 		}
 		if(version_compare($version, '2.6.2')){
-			$this->run("update #__extensions set enabled=1 where name like 'plg_system_gcalendar'");
+			$this->run("update #__extensions set enabled=1 where type = 'plugin' and element = 'gcalendar'");
 		}
 		if(version_compare($version, '2.7.0')){
 			foreach (JFolder::files(JPATH_ADMINISTRATOR.DS.'language', '.*gcalendar.*', true, true) as $file){
