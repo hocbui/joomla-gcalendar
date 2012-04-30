@@ -1,0 +1,94 @@
+<project name="gcalendar build" default="dist" basedir=".">
+	<description>
+        default build file for gcalendar
+    </description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="gcalendarRoot" location="${basedir}/../GCalendar" />
+	<property name="gcalendarVersion" value="2_6_2" />
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<antcall target="clean" />
+	</target>
+
+	<target name="dist" depends="init">
+		<antcall target="update-languages" />
+		<antcall target="create_install_packages" />
+	</target>
+
+	<target name="create_install_packages" description="create install package">
+		<mkdir dir="${dist}" />
+
+		<!-- create gcalendar for joomla -->
+		<antcall target="create_zips">
+			<param name="gcalendar" value="GCalendar" />
+		</antcall>
+		<zip destfile="${dist}/GCalendar_${gcalendarVersion}.zip">
+			<zipfileset dir="${build}/GCalendar" includes="**/*" />
+			<zipfileset dir="${basedir}" includes="ReadFirst.txt" />
+			<zipfileset dir="${basedir}" includes="license.txt" />
+			<zipfileset dir="${basedir}" includes="pkg_GCalendar.xml" />
+		</zip>
+	</target>
+
+	<target name="create_zips" description="generate the zips">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/${gcalendar}" />
+
+		<!-- create gcalendar component -->
+		<zip destfile="${build}/${gcalendar}/com_gcalendar.zip">
+			<zipfileset dir="${basedir}/../com_gcalendar" prefix="com_gcalendar" excludes="admin/gcalendar.xml" />
+			<zipfileset dir="${basedir}/../com_gcalendar/admin" includes="gcalendar.xml" fullpath="com_gcalendar/gcalendar.xml" />
+		</zip>
+
+		<!-- create gcalendar search plugin -->
+		<zip destfile="${build}/${gcalendar}/plg_search_gcalendar.zip">
+			<zipfileset dir="${basedir}/../plg_search_gcalendar" prefix="plg_search_gcalendar" />
+		</zip>
+
+		<!-- create gcalendar next plugin -->
+		<zip destfile="${build}/${gcalendar}/plg_gcalendar_next.zip">
+			<zipfileset dir="${basedir}/../plg_gcalendar_next" prefix="plg_gcalendar_next" />
+		</zip>
+
+		<!-- create gcalendar module -->
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar.zip">
+			<zipfileset dir="${basedir}/../mod_gcalendar" prefix="mod_gcalendar" />
+		</zip>
+
+		<!-- create gcalendar upcoming module -->
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_upcoming.zip">
+			<zipfileset dir="${basedir}/../mod_gcalendar_upcoming" prefix="mod_gcalendar_upcoming" />
+		</zip>
+
+		<!-- create gcalendar next module -->
+		<zip destfile="${build}/${gcalendar}/mod_gcalendar_next.zip">
+			<zipfileset dir="${basedir}/../mod_gcalendar_next" prefix="mod_gcalendar_next" />
+		</zip>
+	</target>
+	
+	<target name="update-languages">
+		<exec executable="${basedir}/../tx.exe">
+			<arg value="pull"/>
+			<arg value="-a"/>
+		</exec>
+		<replace dir="${basedir}/../com_gcalendar/admin/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../com_gcalendar/site/language/" token="'" value='"'/>
+		<replace dir="${basedir}/../mod_gcalendar/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../mod_gcalendar_upcoming/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../mod_gcalendar_next/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../plg_gcalendar_next/languages/" token="'" value='"'/>
+		<replace dir="${basedir}/../plg_search_gcalendar/languages/" token="'" value='"'/>
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+</project>
