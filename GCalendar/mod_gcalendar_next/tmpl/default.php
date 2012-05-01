@@ -26,12 +26,19 @@ if(!empty($error)){
 	return;
 }
 
-$targetDate = $gcalendar_item->getStartDate();
+$data = array();
 $now = false;
-if ($targetDate < time()) {
-	# Countdown to end of event, not currently implemented
-	#$targetDate = $gcalendar_item->get_end_date();
-	$now = true;
+$targetDate = 0;
+$title = '';
+if($gcalendar_item != null){
+	$data[] = $gcalendar_item;
+	$targetDate = $gcalendar_item->getStartDate();
+	if ($targetDate < time()) {
+		# Countdown to end of event, not currently implemented
+		#$targetDate = $gcalendar_item->get_end_date();
+		$now = true;
+	}
+	$title = $gcalendar_item->getTitle();
 }
 
 $tmp = clone JComponentHelper::getParams('com_gcalendar');
@@ -51,10 +58,10 @@ $tmp->set('show_event_author', 1);
 $tmp->set('show_event_copy_info', 1);
 
 $output = $params->get('output', '{{#events}}<span class="countdown_row">{y<}<span class="countdown_section"><span class="countdown_amount">{yn}</span><br/>{yl}</span>{y>}{o<}<span class="countdown_section"><span class="countdown_amount">{on}</span><br/>{ol}</span>{o>}{w<}<span class="countdown_section"><span class="countdown_amount">{wn}</span><br/>{wl}</span>{w>}{d<}<span class="countdown_section"><span class="countdown_amount">{dn}</span><br/>{dl}</span>{d>}{h<}<span class="countdown_section"><span class="countdown_amount">{hn}</span><br/>{hl}</span>{h>}{m<}<span class="countdown_section"><span class="countdown_amount">{mn}</span><br/>{ml}</span>{m>}{s<}<span class="countdown_section"><span class="countdown_amount">{sn}</span><br/>{sl}</span>{s>}<div style="clear:both"><p><a href="{{{backlink}}}">{{title}}</a><br/>{{{description}}}</p></div></span>{{/events}}{{^events}}{{emptyText}}{{/events}}');
-$layout = str_replace("\n", "", GCalendarUtil::renderEvents(array($gcalendar_item), $output, $tmp));
+$layout = str_replace("\n", "", GCalendarUtil::renderEvents($data, $output, $tmp));
 
 $output = $params->get('output_now', '{{#events}}<p>Event happening now:<br/>{{date}}<br/><a href="{{{backlink}}}">{{title}}</a>{{#maplink}}<br/>Join us at [<a href="{{{maplink}}}" target="_blank">map</a>]{{/maplink}}</p>{{/events}}{{^events}}{{emptyText}}{{/events}}');
-$expiryText = str_replace("\n", "", GCalendarUtil::renderEvents(array($gcalendar_item), $output, $tmp));
+$expiryText = str_replace("\n", "", GCalendarUtil::renderEvents($data, $output, $tmp));
 $class = "countdown";
 $class .= ($now) ? "now" : "";
 $objid = "countdown-" . $module->id;
@@ -69,7 +76,7 @@ $calCode .= "	jQuery(document).ready(function() {\n";
 $calCode .= "	var targetDate; \n";
 $calCode .= "	targetDate = new Date(".GCalendarUtil::formatDate("Y, m-1, d, H, i, 0", $targetDate).");\n";
 $calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
-$calCode .= "				       description: '".str_replace('\'', '\\\'', $gcalendar_item->getTitle())."', \n";
+$calCode .= "				       description: '".str_replace('\'', '\\\'', $title)."', \n";
 $calCode .= " 				       layout: '".str_replace('\'', '\\\'',$layout)."', \n";
 $calCode .= "				       alwaysExpire: true, expiryText: '".str_replace('\'', '\\\'',$expiryText)."', \n";
 $calCode .= "				       ".$params->get('style_parameters', "format: 'dHMS'")."});\n";
