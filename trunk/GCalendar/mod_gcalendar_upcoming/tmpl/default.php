@@ -24,8 +24,8 @@ $document = &JFactory::getDocument();
 $document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/default.css');
 
 $tmp = clone JComponentHelper::getParams('com_gcalendar');
-$tmp->set('event_date_format', $params->get('date_format', 'm.d.Y'));
-$tmp->set('event_time_format', $params->get('time_format', 'g:i a'));
+$tmp->set('event_date_format', $params->get('date_format', $tmp->get('event_date_format')));
+$tmp->set('event_time_format', $params->get('time_format', $tmp->get('event_time_format')));
 $tmp->set('grouping', $params->get('output_grouping', ''));
 
 // enable all params
