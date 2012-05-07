@@ -2,7 +2,7 @@
 <extension type="plugin" version="1.6.0" group="system" method="upgrade">
 	<name>plg_system_gcalendar</name>
 	<author>G4J Project</author>
-	<creationDate>Apr 2012</creationDate>
+	<creationDate>May 2012</creationDate>
 	<copyright>This extension is released under the GNU/GPL License.
 	</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html
@@ -10,7 +10,7 @@
 	<authorEmail>info@g4j.laoneo.net
 	</authorEmail>
 	<authorUrl>g4j.laoneo.net</authorUrl>
-	<version>2.7.0</version>
+	<version>2.7.1</version>
 	<description>PLG_SYSTEM_GCALENDAR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="gcalendar">gcalendar.php</filename>
