@@ -77,7 +77,7 @@ if(!empty($this->calendars)){
 					'title' => htmlspecialchars_decode($event->getTitle()),
 					'start' => GCalendarUtil::formatDate('Y-m-d\TH:i:s', $event->getStartDate()),
 					'end' => GCalendarUtil::formatDate('Y-m-d\TH:i:s',$allDayEvent? $event->getEndDate() - $SECSINDAY:$event->getEndDate()),
-					'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID),
+					'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').(empty($itemID)?'':$itemID)),
 					'className' => "gcal-event_gccal_".$event->getParam('gcid'),
 					'allDay' => $allDayEvent,
 					'description' => $description
