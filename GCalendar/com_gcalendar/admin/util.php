@@ -196,7 +196,7 @@ class GCalendarUtil{
 			}
 
 			if($params->get('show_event_description', 1) == 1) {
-				$variables['description'] = $event->getContent();
+				$variables['description'] = (string)$event->getContent();
 				if($params->get('event_description_format', 1) == 1) {
 					$variables['description'] = preg_replace("@(src|href)=\"https?://@i",'\\1="', $event->getContent());
 					$variables['description'] = nl2br(preg_replace("@(((f|ht)tp:\/\/)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $variables['description']));
