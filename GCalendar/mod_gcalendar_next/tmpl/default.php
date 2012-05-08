@@ -44,7 +44,6 @@ if($gcalendar_item != null){
 $tmp = clone JComponentHelper::getParams('com_gcalendar');
 $tmp->set('event_date_format', $params->get('date_format', 'm.d.Y'));
 $tmp->set('event_time_format', $params->get('time_format', 'g:i a'));
-$tmp->set('grouping', $params->get('output_grouping', ''));
 
 // enable all params
 $tmp->set('show_calendar_name', 1);
