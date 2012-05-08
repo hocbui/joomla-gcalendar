@@ -47,7 +47,7 @@ $output = $params->get('output', '{{#events}}
 	<div class="gc_up_mod_month_text" style="color: #FFFFFF;">{{month}}</div>
 	<div class="gc_up_mod_day" style="color: #{{calendarcolor}};">{{day}}</div>
 </div>
-<p>{{startDate}} {{startTime}} {{dateseparator}} {{endDate}} {{endTime}}<br/><a href="{{{backlink}}}">{{title}}</a></p>
+<p>{{date}}<br/><a href="{{{backlink}}}">{{title}}</a></p>
 <p style="clear: both;"/>
 {{/events}}
 {{^events}}
