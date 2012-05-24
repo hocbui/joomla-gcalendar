@@ -20,9 +20,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$document = &JFactory::getDocument();
-$document->addStyleSheet(JURI::base().'modules/mod_gcalendar_upcoming/tmpl/default.css');
-
 $tmp = clone JComponentHelper::getParams('com_gcalendar');
 $tmp->set('event_date_format', $params->get('date_format', $tmp->get('event_date_format')));
 $tmp->set('event_time_format', $params->get('time_format', $tmp->get('event_time_format')));
@@ -42,10 +39,10 @@ $tmp->set('show_event_copy_info', 1);
 $output = $params->get('output', '{{#events}}
 {{#header}}<p style="clear: both;"><strong>{{header}}</strong></p>{{/header}}
 <p style="clear: both;"/>
-<div class="gc_up_mod_img">
-	<div class="gc_up_mod_month_background" style="background-color: #{{calendarcolor}};"></div>
-	<div class="gc_up_mod_month_text" style="color: #FFFFFF;">{{month}}</div>
-	<div class="gc_up_mod_day" style="color: #{{calendarcolor}};">{{day}}</div>
+<div style="float:left;margin-right:6px;width:42px;height:42px;background-image:url(\'modules/mod_gcalendar_upcoming/tmpl/images/calendar-icon.gif\')">
+	<div style="background-color: #{{calendarcolor}};width:32px;height:10px;margin-top:6px;margin-left:5px;"></div>
+	<div style="color: #FFFFFF;padding:2px;font-weight:bold;font-size:10px;text-align:center;position:relative;margin-top:-13px;margin-bottom:-4px;">{{month}}</div>
+	<div style="color: #{{calendarcolor}};font-weight:bold;font-size:1.3em;width:42px;text-align:center;">{{day}}</div>
 </div>
 <p>{{date}}<br/><a href="{{{backlink}}}">{{title}}</a></p>
 <p style="clear: both;"/>
