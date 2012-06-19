@@ -21,7 +21,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'mustache'.DS.'Mustache.php');
+
+if(!class_exists('Mustache')){
+	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'mustache'.DS.'Mustache.php');
+}
 
 class GCalendarUtil{
 
