@@ -226,7 +226,7 @@ class GCalendarUtil{
 				$ical_timeString_end =  $endTime.' '.$endDate;
 				$ical_timeString_end = strtotime($ical_timeString_end);
 				$loc = $event->getLocation();
-				$variables['copyOutlookUrl'] = JRoute::_("index.php?option=com_gcalendar&view=ical&format=raw&start=".$ical_timeString_start."&end=".$ical_timeString_end."&title=".$event->getTitle()."&location=".$loc);
+				$variables['copyOutlookUrl'] = JRoute::_("index.php?option=com_gcalendar&view=ical&format=raw&eventID=".$event->getGCalId().'&gcid='.$event->getParam('gcid'));
 			}
 
 			$groupHeading = GCalendarUtil::formatDate($params->get('grouping', ''), $event->getStartDate());

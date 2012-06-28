@@ -1,50 +1,58 @@
 <?php
+/**
+ * GCalendar is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * GCalendar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with GCalendar.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Allon Moritz
+ * @copyright 2007-2011 Allon Moritz
+ * @since 2.2.0
+ */
 
-error_reporting(0);
-@ini_set(‘display_errors’, 0);
-include_once(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'ical'.DS.'class.iCal.inc.php');
+defined('_JEXEC') or die();
 
-$days = (array) array (2,3);
-$organizer = (array) array('ORGANIZER', 'ORgANIZER EMAIL ADRESS');
-$categories = array('','');
-$attendees = (array) array();
-$fb_times = (array) array();
-$alarm = (array) array();
+include_once(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'ical'.DS.'iCalcreator.class.php');
 
-$loc = JRequest::getVar('location');
-$loc = utf8_decode($loc);
-$ext_start = JRequest::getInt('start');
-$ext_end = JRequest::getInt('end');
-$title = JRequest::getVar('title');
-$title = utf8_decode($title);
+$event = $this->event;
 
-$ex_dates = (array) array(12345667,78643453);
+$config = array('unique_id' => $event->getGCalId());
+$v = new vcalendar( $config );
+$v->prodid = 'GCalendar';
+$path = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'gcalendar.xml';
+if(file_exists($path)) {
+	$manifest = simplexml_load_file($path);
+	$v->version = $manifest->version;
+}
 
-$iCal = (object) new iCal('', 1, ''); // (ProgrammID, Method (1 = Publish | 0 = Request), Download Directory)
+$tz = GCalendarUtil::getComponentParameter('timezone');
+$v->setProperty( 'method', 'PUBLISH' );
+$v->setProperty( "x-wr-calname", $event->getParam('gcname'));
+$v->setProperty( "X-WR-CALDESC", "" );
+$v->setProperty( "X-WR-TIMEZONE", $tz);
+$xprops = array( "X-LIC-LOCATION" => $tz);
+iCalUtilityFunctions::createTimezone($v, $tz, $xprops);
 
-$iCal->addEvent(
-	$organizer, // Organizer
-	$ext_start, // Start Time (timestamp; for an allday event the startdate has to start at YYYY-mm-dd 00:00:00)
-	$ext_end, // End Time (write 'allday' for an allday event instead of a timestamp)
-	$loc, // Location
-	0, // Transparancy (0 = OPAQUE | 1 = TRANSPARENT)
-	$categories, // Array with Strings
-					'', // Description
-	$title, // Title
-	1, // Class (0 = PRIVATE | 1 = PUBLIC | 2 = CONFIDENTIAL)
-	$attendees, // Array (key = attendee name, value = e-mail, second value = role of the attendee [0 = CHAIR | 1 = REQ | 2 = OPT | 3 =NON])
-	0, // Priority = 0-9
-	0, // frequency: 0 = once, secoundly - yearly = 1-7
-	0, // recurrency end: ('' = forever | integer = number of times | timestring = explicit date)
-	0, // Interval for frequency (every 2,3,4 weeks...)
-	$days, // Array with the number of the days the event accures (example: array(0,1,5) = Sunday, Monday, Friday
-	0, // Startday of the Week ( 0 = Sunday - 6 = Saturday)
-					'', // exeption dates: Array with timestamps of dates that should not be includes in the recurring event
-	$alarm,  // Sets the time in minutes an alarm appears before the event in the programm. no alarm if empty string or 0
-	1, // Status of the event (0 = TENTATIVE, 1 = CONFIRMED, 2 = CANCELLED)
-					'', // optional URL for that event
-					GCalendarUtil::getFrLanguage(), // Language of the Strings
-	                '' // Optional UID for this event
-);
-$iCal->outputFile('ics'); // output file as ics (xcs and rdf possible)
-?>
+$vevent = &$v->newComponent( 'vevent' );
+
+if($event->getDayType() == GCalendar_Entry::SINGLE_WHOLE_DAY || $event->getDayType() == GCalendar_Entry::MULTIPLE_WHOLE_DAY) {
+	$vevent->setProperty( 'dtstart', GCalendarUtil::formatDate('YmdHis', $event->getStartDate()));
+	$vevent->setProperty( 'dtend', GCalendarUtil::formatDate('YmdHis', $event->getEndDate()));
+} else {
+	$vevent->setProperty( 'dtstart', GCalendarUtil::formatDate('Ymd', $event->getStartDate()));
+	$vevent->setProperty( 'dtend', GCalendarUtil::formatDate('Ymd', $event->getEndDate()));
+}
+$vevent->setProperty( 'location', $event->getLocation() );
+$vevent->setProperty( 'summary', $event->getTitle() );
+$vevent->setProperty( 'description', $event->getContent());
+
+// echo '<pre>'.$v->createCalendar().'</pre>';
+$v->returnCalendar();
