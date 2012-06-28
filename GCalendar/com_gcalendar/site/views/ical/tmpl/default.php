@@ -39,7 +39,9 @@ $v->setProperty( "x-wr-calname", $event->getParam('gcname'));
 $v->setProperty( "X-WR-CALDESC", "" );
 $v->setProperty( "X-WR-TIMEZONE", $tz);
 $xprops = array( "X-LIC-LOCATION" => $tz);
-iCalUtilityFunctions::createTimezone($v, $tz, $xprops);
+if(version_compare(PHP_VERSION, '5.3.0') >= 0){
+	iCalUtilityFunctions::createTimezone($v, $tz, $xprops);
+}
 
 $vevent = &$v->newComponent( 'vevent' );
 
