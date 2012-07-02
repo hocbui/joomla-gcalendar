@@ -46,15 +46,15 @@ if(version_compare(PHP_VERSION, '5.3.0') >= 0){
 $vevent = &$v->newComponent( 'vevent' );
 
 if($event->getDayType() == GCalendar_Entry::SINGLE_WHOLE_DAY || $event->getDayType() == GCalendar_Entry::MULTIPLE_WHOLE_DAY) {
-	$vevent->setProperty( 'dtstart', GCalendarUtil::formatDate('YmdHis', $event->getStartDate()));
-	$vevent->setProperty( 'dtend', GCalendarUtil::formatDate('YmdHis', $event->getEndDate()));
+	$vevent->setProperty('dtstart', GCalendarUtil::formatDate('Ymd', $event->getStartDate()));
+	$vevent->setProperty('dtend', GCalendarUtil::formatDate('Ymd', $event->getEndDate()));
 } else {
-	$vevent->setProperty( 'dtstart', GCalendarUtil::formatDate('Ymd', $event->getStartDate()));
-	$vevent->setProperty( 'dtend', GCalendarUtil::formatDate('Ymd', $event->getEndDate()));
+	$vevent->setProperty('dtstart', GCalendarUtil::formatDate('YmdHis', $event->getStartDate()));
+	$vevent->setProperty('dtend', GCalendarUtil::formatDate('YmdHis', $event->getEndDate()));
 }
-$vevent->setProperty( 'location', $event->getLocation() );
-$vevent->setProperty( 'summary', $event->getTitle() );
-$vevent->setProperty( 'description', $event->getContent());
+$vevent->setProperty('location', $event->getLocation() );
+$vevent->setProperty('summary', $event->getTitle() );
+$vevent->setProperty('description', $event->getContent());
 
 // echo '<pre>'.$v->createCalendar().'</pre>';
 $v->returnCalendar();
