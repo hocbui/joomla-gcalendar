@@ -33,7 +33,7 @@ $title = '';
 if($gcalendar_item != null){
 	$data[] = $gcalendar_item;
 	$targetDate = $gcalendar_item->getStartDate();
-	if ($targetDate < time()) {
+	if (GCalendarUtil::formatDate("U", $gcalendar_item->getStartDate()) < GCalendarUtil::formatDate("U")) {
 		# Countdown to end of event, not currently implemented
 		#$targetDate = $gcalendar_item->get_end_date();
 		$now = true;

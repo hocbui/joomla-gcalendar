@@ -52,29 +52,20 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 		if($this->dayType == null){
 			$SECSINDAY = 86400;
 
-			$oldTz = null;
-			$timezone = $this->getTimezone();
-			if(!empty($timezone) && function_exists('date_default_timezone_get')){
-				$oldTz = date_default_timezone_get();
-				date_default_timezone_set($timezone);
-			}
-			if (($this->getStartDate()+ $SECSINDAY) <= $this->getEndDate()) {
-
-				if (($this->getStartDate()+ $SECSINDAY) == $this->getEndDate() && (date('g:i a',$this->getStartDate())=='12:00 am')) {
+			if (($this->getStartDate() + $SECSINDAY) <= $this->getEndDate()) {
+				if (($this->getStartDate()+ $SECSINDAY) == $this->getEndDate()
+						&& JFactory::getDate($this->getStartDate())->format('g:i a') == '12:00 am') {
 					$this->dayType =  GCalendar_Entry::SINGLE_WHOLE_DAY;
 				} else {
-					if ((date('g:i a',$this->getStartDate())=='12:00 am')&&(date('g:i a',$this->getEndDate())=='12:00 am')){
+					if(JFactory::getDate($this->getStartDate())->format('g:i a') == '12:00 am'
+							&& JFactory::getDate($this->getEndDate())->format('g:i a') == '12:00 am') {
 						$this->dayType =  GCalendar_Entry::MULTIPLE_WHOLE_DAY;
-					}else{
+					} else {
 						$this->dayType =  GCalendar_Entry::MULTIPLE_PART_DAY;
 					}
 				}
-
-			}else{
+			} else {
 				$this->dayType = GCalendar_Entry::SINGLE_PART_DAY;
-			}
-			if($oldTz != null){
-				date_default_timezone_set($oldTz);
 			}
 		}
 		return $this->dayType;
@@ -89,7 +80,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 			if(is_array($when)){
 				$when = reset($when);
 			}
-			$this->startDate = $this->tstamptotime($when->getStartTime());
+			$this->startDate = JFactory::getDate($when->getStartTime())->format('U', false);
 		}
 		return $this->startDate;
 	}
@@ -103,14 +94,14 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 			if(is_array($when)){
 				$when = reset($when);
 			}
-			$this->endDate = $this->tstamptotime($when->getEndTime());
+			$this->endDate = JFactory::getDate($when->getEndTime())->format('U', false);
 		}
 		return $this->endDate;
 	}
 
 	public function getModifiedDate(){
 		if($this->modifiedDate == null){
-			$this->modifiedDate = $this->tstamptotime($this->getPublished());
+			$this->modifiedDate = JFactory::getDate($this->getPublished())->format('U', false);
 		}
 		return $this->modifiedDate;
 	}
@@ -124,28 +115,6 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 			$this->location = $where->getValueString();
 		}
 		return $this->location;
-	}
-
-	/**
-	 * Returns a unix timestamp of the given iso date.
-	 *
-	 * @param $iso_date
-	 * @return unix timestamp
-	 */
-	private function tstamptotime($iso_date) {
-		// converts ISODATE to unix date
-		// 1984-09-01T14:21:31Z
-		$feed_timezone = $this->getTimezone();
-		if(!empty($feed_timezone) && function_exists('date_default_timezone_get')){
-			$tz = date_default_timezone_get();
-			date_default_timezone_set($feed_timezone);
-		}
-		sscanf($iso_date,"%u-%u-%uT%u:%u:%uZ",$year,$month,$day,$hour,$min,$sec);
-		$newtstamp = mktime($hour,$min,$sec,$month,$day,$year);
-		if(!empty($feed_timezone) && function_exists('date_default_timezone_get')){
-			date_default_timezone_set($tz);
-		}
-		return $newtstamp;
 	}
 
 	/**
@@ -163,10 +132,10 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	public static function compare(GCalendar_Entry $event1, GCalendar_Entry $event2){
 		return $event1->getStartDate()-$event2->getStartDate();
 	}
-	
+
 	/**
 	 * Compares the events descending.
-	 * 
+	 *
 	 * @see GCalendar_Entry::compare()
 	 * @param GCalendar_Entry $event1
 	 * @param GCalendar_Entry $event2

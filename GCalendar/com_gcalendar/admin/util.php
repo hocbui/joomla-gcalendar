@@ -77,7 +77,7 @@ class GCalendarUtil{
 		return $default;
 	}
 
-	public static function renderEvents(array $events = null, $output, $params, $eventParams = array()){
+	public static function renderEvents(array $events = null, $output, $params = null, $eventParams = array()){
 		if($events === null){
 			$events = array();
 		}
@@ -103,9 +103,9 @@ class GCalendarUtil{
 					$backLinkView = $item->query['view'];
 					$dateHash = '';
 					if($backLinkView == 'gcalendar'){
-						$day = strftime('%d', $event->getStartDate());
-						$month = strftime('%m', $event->getStartDate());
-						$year = strftime('%Y', $event->getStartDate());
+						$day = GCalendarUtil::formatDate('d', $event->getStartDate());
+						$month = GCalendarUtil::formatDate('m', $event->getStartDate());
+						$year = GCalendarUtil::formatDate('Y', $event->getStartDate());
 						$dateHash = '#year='.$year.'&month='.$month.'&day='.$day;
 					}
 				}
@@ -125,10 +125,7 @@ class GCalendarUtil{
 
 			$variables['backlink'] = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID);
 
-			$tz = GCalendarUtil::getComponentParameter('timezone');
-			if($tz == ''){
-				$tz = $event->getTimezone();
-			}
+			$tz = GCalendarUtil::getComponentParameter('timezone', 'UTC');
 			$variables['link'] = $event->getLink('alternate')->getHref().'&ctz='.$tz;
 			$variables['calendarcolor'] = $event->getParam('gccolor');
 
@@ -351,11 +348,17 @@ class GCalendarUtil{
 	public static function formatDate($dateFormat,$date,$strf = false){
 		$dateObj = JFactory::getDate($date);
 
-		$gcTz = GCalendarUtil::getComponentParameter('timezone');
-		if(!empty($gcTz)){
-			$tz = new DateTimeZone($gcTz);
-			$dateObj->setTimezone($tz);
+		$timezone = GCalendarUtil::getComponentParameter('timezone');
+		if(empty($timezone)){
+			$user = JFactory::getUser();
+			if($user->get('id')) {
+				$timezone = $user->getParam('timezone');
+			}
 		}
+		if(empty($timezone)){
+			$timezone = JFactory::getApplication()->getCfg('offset', 'UTC');
+		}
+		$dateObj->setTimezone(new DateTimeZone($timezone));
 		if ($strf) {
 			return $dateObj->toFormat($dateFormat, true);
 		}

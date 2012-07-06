@@ -35,8 +35,8 @@ class GCalendarModelJSONFeed extends JModel {
 			$browserTz = 0;
 
 		$serverOffset = date('Z', $startDate);
-		$startDate = $startDate - $browserTz - $serverOffset - GCalendarModelJSONFeed::getGCalendarTZOffset($startDate);
-		$endDate = $endDate - $browserTz - $serverOffset - GCalendarModelJSONFeed::getGCalendarTZOffset($endDate);
+		$startDate = $startDate - $browserTz;
+		$endDate = $endDate - $browserTz;
 
 		$calendarids = '';
 		if(JRequest::getVar('gcids', null) != null){
@@ -64,33 +64,5 @@ class GCalendarModelJSONFeed extends JModel {
 		}
 
 		return $calendars;
-	}
-
-	public function getGCalendarTZOffset($date = null) {
-		static $tzs;
-		if($tzs == null){
-			$tzs = parse_ini_file(JPATH_SITE.DS.'components'.DS.'com_gcalendar'.DS.'models'.DS.'timezones.ini');
-		}
-		$tz = GCalendarUtil::getComponentParameter('timezone');
-		$offset = '00:00';
-		if(!empty($tz)){
-			$offset = $tzs[$tz];
-		}
-		if($date == null) $date = time();
-
-		$dst = GCalendarModelJSONFeed::isDST($date) ? 1 : 0;
-		$gcalendarOffset = (((int)substr($offset, 1, 3) - $dst)*60)+substr($offset,3);
-		$gcalendarOffset = substr($offset, 0, 1) == '-' ? -1 * $gcalendarOffset : $gcalendarOffset;
-		return $gcalendarOffset * 60;
-	}
-
-	public function isDST($date, $tz = null){
-		if(empty($tz))
-			$tz = GCalendarUtil::getComponentParameter('timezone');
-		if(class_exists('DateTimeZone') && !empty($tz)){
-			$gtz = new DateTimeZone($tz);
-			return $gtz->getOffset(new DateTime('2007-01-01 01:00')) != $gtz->getOffset(new DateTime(strftime('%Y-%m-%d %H:%M', $date))) ? true : false;
-		}
-		return false;
 	}
 }

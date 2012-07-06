@@ -122,7 +122,7 @@ class plgSearchGCalendar extends JPlugin
 			$row->text = $text;
 			$row->section = JText::_('PLG_SEARCH_GCALENDAR_OUTPUT_CATEGORY');
 			$row->category = $event->getParam('gcid');
-			$row->created = $event->getStartDate();
+			$row->created = GCalendarUtil::formatDate('U', $event->getStartDate());
 			$row->browsernav = '';
 			$return[] = $row;
 			$row = null;

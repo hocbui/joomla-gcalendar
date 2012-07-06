@@ -30,8 +30,8 @@ $document->addStyleSheet(JURI::base().'modules/mod_gcalendar/tmpl/gcalendar.css'
 
 $color = $params->get('event_color', '135CAE');
 $fadedColor = GCalendarUtil::getFadedColor($color);
-$cssClass = "gcal-module_event_gccal_".$moduleID;
-$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." div{background-color: ".$fadedColor." !important; border-color: #".$color."; color: ".$fadedColor.";} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_".$moduleID." .fc-state-default span, #gcalendar_module_".$moduleID." .ui-state-default{padding:0px !important;}");
+$cssClass = "gcal-module_event_gccal_".$module->id;
+$document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." div{background-color: ".$fadedColor." !important; border-color: #".$color."; color: ".$fadedColor.";} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_".$module->id." .fc-state-default span, #gcalendar_module_".$module->id." .ui-state-default{padding:0px !important;}");
 
 $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
@@ -76,8 +76,8 @@ $ids = rtrim($ids,',');
 
 $calCode = "// <![CDATA[ \n";
 $calCode .= "jQuery(document).ready(function(){\n";
-$calCode .= "   jQuery('#gcalendar_module_".$moduleID."').fullCalendar({\n";
-$calCode .= "		events: '".html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&moduleid='.$moduleID.'&gcids='.$ids))."',\n";
+$calCode .= "   jQuery('#gcalendar_module_".$module->id."').fullCalendar({\n";
+$calCode .= "		events: '".html_entity_decode(JRoute::_('index.php?option=com_gcalendar&view=jsonfeed&layout=module&format=raw&gcids='.$ids))."',\n";
 $calCode .= "       header: {\n";
 $calCode .= "				left: 'prev,next ',\n";
 $calCode .= "				center: 'title',\n";
@@ -106,14 +106,15 @@ $calCode .= "		    prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
 $calCode .= "		    nextYear: '&nbsp;&gt;&gt;&nbsp;'\n"; // >>
 $calCode .= "		},\n";
 $calCode .= "		eventRender: function(event, element) {\n";
+$calCode .= "			element.addClass('gcal-module_event_gccal_'+".$module->id.");\n";
 $calCode .= "			if (event.description){\n";
 $calCode .= "				element.tipTip({content: event.description, defaultPosition: 'top'});}\n";
 $calCode .= "		},\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
-$calCode .= "				jQuery('#gcalendar_module_".$moduleID."_loading').show();\n";
+$calCode .= "				jQuery('#gcalendar_module_".$module->id."_loading').show();\n";
 $calCode .= "			}else{\n";
-$calCode .= "				jQuery('#gcalendar_module_".$moduleID."_loading').hide();\n";
+$calCode .= "				jQuery('#gcalendar_module_".$module->id."_loading').hide();\n";
 $calCode .= "			}\n";
 $calCode .= "		}\n";
 $calCode .= "	});\n";
@@ -121,5 +122,5 @@ $calCode .= "});\n";
 $calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
-echo "<div id='gcalendar_module_".$moduleID."_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "media/com_gcalendar/images/ajax-loader.gif\"  alt=\"loader\" /></div>";
-echo "<div id='gcalendar_module_".$moduleID."'></div><div id='gcalendar_module_".$moduleID."_popup' style=\"visibility:hidden\" ></div>";
+echo "<div id='gcalendar_module_".$module->id."_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "media/com_gcalendar/images/ajax-loader.gif\"  alt=\"loader\" /></div>";
+echo "<div id='gcalendar_module_".$module->id."'></div><div id='gcalendar_module_".$module->id."_popup' style=\"visibility:hidden\" ></div>";
