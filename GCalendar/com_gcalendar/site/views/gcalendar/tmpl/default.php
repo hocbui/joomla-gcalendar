@@ -74,7 +74,7 @@ $monthsShort = "[";
 for ($i=0; $i<7; $i++) {
 	$daysLong .= "'".htmlspecialchars(GCalendarUtil::dayToString($i, false), ENT_QUOTES)."'";
 	$daysShort .= "'".htmlspecialchars(GCalendarUtil::dayToString($i, true), ENT_QUOTES)."'";
-	$daysMin .= "'".htmlspecialchars(substr(GCalendarUtil::dayToString($i, true), 0, 2), ENT_QUOTES)."'";
+	$daysMin .= "'".htmlspecialchars(mb_substr(GCalendarUtil::dayToString($i, true), 0, 2), ENT_QUOTES)."'";
 	if($i < 6){
 		$daysLong .= ",";
 		$daysShort .= ",";
