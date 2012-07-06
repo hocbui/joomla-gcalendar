@@ -20,95 +20,52 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->setMimeEncoding('application/json');
 
-$data = array();
-$SECSINDAY = 86400;
-
-$startDate = JRequest::getInt('start', null);
-$endDate = JRequest::getInt('end', null);
-$browserTz = JRequest::getInt('browserTimezone', null);
-$moduleId = JRequest::getInt('moduleid', 0);
-if(!empty($browserTz))
-	$browserTz = $browserTz * 60;
-else
-	$browserTz = 0;
-
-$serverTz = ini_get('date.timezone');
-if(function_exists('date_default_timezone_get'))
-	$serverTz = date_default_timezone_get();
-
-$requestedDayStart = $startDate - $browserTz - date('Z', $startDate);
-$requestedDayEnd = $requestedDayStart + $SECSINDAY;
-$wasDSTStart = GCalendarModelJSONFeed::isDST($requestedDayStart, $serverTz);
-$wasDSTEnd = GCalendarModelJSONFeed::isDST($requestedDayEnd, $serverTz);
-
-while ($requestedDayStart < $endDate) {
-	$result = array();
-	$linkIDs = array();
-	$description = '';
-	$itemId = null;
-	if(!empty($this->calendars)){
-		foreach ($this->calendars as $calendar){
-			if(empty($calendar)){
-				continue;
+$tmp = array();
+if(!empty($this->calendars)){
+	foreach ($this->calendars as $calendar){
+		if(empty($calendar)){
+			continue;
+		}
+		foreach ($calendar as $item) {
+			$date = GCalendarUtil::formatDate('Y-m-d', $item->getStartDate());
+			if(!key_exists($date, $tmp)){
+				$tmp[$date] = array();
 			}
-			foreach ($calendar as $item) {
-				if($requestedDayStart  < $item->getEndDate()
-						&& $item->getStartDate() < $requestedDayEnd){
-					$result[] = $item;
-					$linkIDs[$item->getParam('gcid')] = $item->getParam('gcid');
-					$description .= '<li>'.htmlspecialchars_decode($item->getTitle()).'</li>';
-					if($itemId == null){
-						$tmp = GCalendarUtil::getItemId($item->getParam('gcid'), true);
-						if(!empty($tmp))
-							$itemId = '&Itemid='.$tmp;
-					}
-				}
-			}
+			$tmp[$date][] = $item;
 		}
 	}
-	if(!empty($result)){
-		$day = strftime('%d', $requestedDayStart);
-		$month = strftime('%m', $requestedDayStart);
-		$year = strftime('%Y', $requestedDayStart);
-		$url = JRoute::_('index.php?option=com_gcalendar&view=gcalendar&gcids='.implode(',', $linkIDs).$itemId.'#year='.$year.'&month='.$month.'&day='.$day.'&view=agendaDay');
+}
 
-		$data[] = array(
-				'id' => time(),
-				'title' => utf8_encode(chr(160)), //space only works in IE, empty only in Chrome... sighh
-				'start' => strftime('%Y-%m-%dT%H:%M:%S', $requestedDayStart),
-				'url' => $url,
-				'allDay' => true,
-				//			'end' => $requestedDayEnd - 10,
-				'className' => "gcal-module_event_gccal_".$moduleId,
-				'description' => sprintf(JText::_('COM_GCALENDAR_JSON_VIEW_EVENT_TITLE'), count($result)).'<ul>'.$description.'</ul>'
-		);
+$params = clone JComponentHelper::getParams('com_gcalendar');
+$params->set('show_event_title', 1);
+$data = array();
+foreach ($tmp as $date => $events){
+	$linkIDs = array();
+	$itemId = '';
+	foreach ($events as $event) {
+		$linkIDs[$event->getParam('gcid')] = $event->getParam('gcid');
+
+		$id = GCalendarUtil::getItemId($event->getParam('gcid'), true);
+		if(!empty($id))
+			$itemId = '&Itemid='.$id;
 	}
 
-	$requestedDayStart += $SECSINDAY;
-	$isDST = GCalendarModelJSONFeed::isDST($requestedDayStart, $serverTz);
-	$dstAdjustment = 0;
-	if($wasDSTStart && !$isDST){
-		$dstAdjustment = 3600;
-		$wasDSTStart = $isDST;
-	} else if(!$wasDSTStart && $isDST){
-		$dstAdjustment = -3600;
-		$wasDSTStart = $isDST;
-	}
-	$requestedDayStart += $dstAdjustment;
+	$parts = explode('-', $date);
+	$day = $parts[2];
+	$month = $parts[1];
+	$year = $parts[0];
+	$url = JRoute::_('index.php?option=com_gcalendar&view=gcalendar&gcids='.implode(',', $linkIDs).$itemId.'#year='.$year.'&month='.$month.'&day='.$day.'&view=agendaDay');
 
-	$requestedDayEnd = $requestedDayStart + $SECSINDAY;
-	$isDST = GCalendarModelJSONFeed::isDST($requestedDayEnd, $serverTz);
-	$dstAdjustment = 0;
-	if($wasDSTEnd && !$isDST){
-		$dstAdjustment = 3600;
-		$wasDSTEnd = $isDST;
-	} else if(!$wasDSTEnd && $isDST){
-		$dstAdjustment = -3600;
-		$wasDSTEnd = $isDST;
-	}
-	$requestedDayEnd += $dstAdjustment;
+	$data[] = array(
+			'id' => $date,
+			'title' => utf8_encode(chr(160)), //space only works in IE, empty only in Chrome... sighh
+			'start' => $date,
+			'url' => $url,
+			'allDay' => true,
+			'description' => GCalendarUtil::renderEvents($events, sprintf(JText::_('COM_GCALENDAR_JSON_VIEW_EVENT_TITLE'), count($events)).'<ul>{{#events}}<li>{{title}}</li>{{/events}}</ul>', $params)
+	);
 }
 echo json_encode($data);

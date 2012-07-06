@@ -110,7 +110,7 @@ class GCalendarZendHelper{
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
 
 		$event =  $cache->call( array( 'GCalendarZendHelper', 'internalGetEvent' ), $calendar, $eventId);
-		
+
 		// Implement View Level Access
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.admin') && !in_array($calendar->access_content, $user->getAuthorisedViewLevels())) {
@@ -158,10 +158,7 @@ class GCalendarZendHelper{
 			}
 
 			$query->setMaxResults($max);
-			$timezone = GCalendarUtil::getComponentParameter('timezone');
-			if(!empty($timezone)){
-				$query->setParam('ctz', $timezone);
-			}
+			$query->setParam('ctz', 'Etc/GMT');
 			$query->setParam('hl', GCalendarUtil::getFrLanguage());
 
 			$feed = $service->getFeed($query, 'GCalendar_Feed');
@@ -169,7 +166,6 @@ class GCalendarZendHelper{
 				$event->setParam('gcid', $calendar->id);
 				$event->setParam('gccolor', $calendar->color);
 				$event->setParam('gcname', $calendar->name);
-				$event->setTimezone($feed->getTimezone());
 			}
 			return $feed;
 		} catch (Zend_Gdata_App_Exception $e) {
@@ -199,19 +195,13 @@ class GCalendarZendHelper{
 			$query->setProjection('full');
 			$query->setEvent($eventId);
 
-			$timezone = GCalendarUtil::getComponentParameter('timezone');
-			if(!empty($timezone)){
-				$query->setParam('ctz', $timezone);
-			}
+			$query->setParam('ctz', 'Etc/GMT');
 			$query->setParam('hl', GCalendarUtil::getFrLanguage());
 
 			$event = $service->getEntry($query, 'GCalendar_Entry');
 			$event->setParam('gcid', $calendar->id);
 			$event->setParam('gccolor', $calendar->color);
 			$event->setParam('gcname', $calendar->name);
-			if(!empty($timezone)){
-				$event->setTimezone(new Zend_Gdata_Calendar_Extension_Timezone($timezone));
-			}
 			return $event;
 		} catch (Zend_Gdata_App_Exception $e) {
 			JError::raiseWarning(200, $e->getMessage());

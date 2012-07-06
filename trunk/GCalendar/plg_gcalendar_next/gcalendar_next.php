@@ -146,12 +146,12 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 			JError::raiseWarning( 500, 'The selected calendar(s) were not found in the database.');
 			return null;
 		}
-	
+
 		$orderBy = $this->params->get( 'order', 1 ) == 1 ? GCalendarZendHelper::ORDER_BY_START_TIME : GCalendarZendHelper::ORDER_BY_LAST_MODIFIED;
 		$maxEvents = $this->params->get('max_events', 10);
 		$filter = $this->params->get('find', '');
 		$titleFilter = $this->params->get('title_filter', '.*');
-	
+
 		$values = array();
 		foreach ($results as $result) {
 			$events = GCalendarZendHelper::getEvents($result, null, null, $maxEvents, $filter, $orderBy);
@@ -165,17 +165,17 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 				}
 			}
 		}
-	
+
 		usort($values, array("GCalendar_Entry", "compare"));
-	
+
 		$events = array_filter($values, array('GCalendarKeywordsHelper', "filter"));
-	
+
 		$offset = $this->params->get('offset', 0);
 		$numevents = $this->params->get('count', $maxEvents);
-	
+
 		return array_shift($values);
 	}
-	
+
 	private static function filter($event) {
 		if (!preg_match('/'.$event->getParam('moduleFilter').'/', $event->getTitle())) {
 			return false;
@@ -183,7 +183,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if ($event->getEndDate() > time()) {
 			return true;
 		}
-	
+
 		return false;
 	}
 
@@ -320,10 +320,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	}
 
 	public function link($param) {
-		$timezone = GCalendarUtil::getComponentParameter('timezone');
-		if ($timezone == ''){
-			$timezone = $this->event()->getTimezone();
-		}
+		$timezone = GCalendarUtil::getComponentParameter('timezone', 'UTC');
 		return $this->event()->getLink() . '&ctz=' . $timezone;
 	}
 
