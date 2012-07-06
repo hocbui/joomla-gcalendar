@@ -89,6 +89,9 @@ class GCalendarUtil{
 		$configuration = array();
 		$configuration['events'] = array();
 		foreach ($events as $event) {
+			if(!is_object($event)) {
+				continue;
+			}
 			$variables = $eventParams;
 
 			$itemID = GCalendarUtil::getItemId($event->getParam('gcid', null));

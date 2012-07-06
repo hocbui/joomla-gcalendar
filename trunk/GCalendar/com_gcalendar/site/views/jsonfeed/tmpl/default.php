@@ -69,7 +69,7 @@ if(!empty($this->calendars)){
 			}
 			$description = GCalendarUtil::renderEvents(array($event), $params->get('description_format', '{{#events}}<p>{{date}}<br/>{{{description}}}</p>{{/events}}'), $params);
 			if(strlen($description) > 200){
-				$description = substr($description, 0, 196).' ...';
+				$description = mb_substr($description, 0, 196).' ...';
 			}
 			$allDayEvent = $event->getDayType() == GCalendar_Entry::SINGLE_WHOLE_DAY || $event->getDayType() == GCalendar_Entry::MULTIPLE_WHOLE_DAY;
 			$data[] = array(
