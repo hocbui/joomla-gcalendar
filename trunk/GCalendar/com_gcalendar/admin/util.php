@@ -29,8 +29,19 @@ if(!class_exists('Mustache')){
 class GCalendarUtil{
 
 	public static function getComponentParameter($key, $defaultValue = null){
-		$params   = JComponentHelper::getParams('com_gcalendar');
-		return $params->get($key, $defaultValue);
+		$params = JComponentHelper::getParams('com_gcalendar');
+		$value = $params->get($key, $defaultValue);
+
+		if($key == 'timezone' && empty($value)) {
+			$user = JFactory::getUser();
+			if($user->get('id')) {
+				$value = $user->getParam('timezone');
+			}
+			if(empty($value)){
+				$value = JFactory::getApplication()->getCfg('offset', 'UTC');
+			}
+		}
+		return $value;
 	}
 
 	public static function getFrLanguage(){
@@ -103,9 +114,9 @@ class GCalendarUtil{
 					$backLinkView = $item->query['view'];
 					$dateHash = '';
 					if($backLinkView == 'gcalendar'){
-						$day = GCalendarUtil::formatDate('d', $event->getStartDate());
-						$month = GCalendarUtil::formatDate('m', $event->getStartDate());
-						$year = GCalendarUtil::formatDate('Y', $event->getStartDate());
+						$day = $event->getStartDate()->format('d', true);
+						$month = $event->getStartDate()->format('m', true);
+						$year = $event->getStartDate()->format('Y', true);
 						$dateHash = '#year='.$year.'&month='.$month.'&day='.$day;
 					}
 				}
@@ -125,8 +136,7 @@ class GCalendarUtil{
 
 			$variables['backlink'] = JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').$itemID);
 
-			$tz = GCalendarUtil::getComponentParameter('timezone', 'UTC');
-			$variables['link'] = $event->getLink('alternate')->getHref().'&ctz='.$tz;
+			$variables['link'] = $event->getLink('alternate')->getHref();
 			$variables['calendarcolor'] = $event->getParam('gccolor');
 
 			// the date formats from http://php.net/date
@@ -134,10 +144,10 @@ class GCalendarUtil{
 			$timeformat = $params->get('event_time_format', 'g:i a');
 
 			// These are the dates we'll display
-			$startDate = GCalendarUtil::formatDate($dateformat, $event->getStartDate());
-			$startTime = GCalendarUtil::formatDate($timeformat, $event->getStartDate());
-			$endDate = GCalendarUtil::formatDate($dateformat, $event->getEndDate());
-			$endTime = GCalendarUtil::formatDate($timeformat, $event->getEndDate());
+			$startDate = $event->getStartDate()->format($dateformat, true);
+			$startTime = $event->getStartDate()->format($timeformat, true);
+			$endDate = $event->getEndDate()->format($dateformat, true);
+			$endTime = $event->getEndDate()->format($timeformat, true);
 			$dateSeparator = '-';
 
 			$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
@@ -156,8 +166,9 @@ class GCalendarUtil{
 					$copyDateTimeFormat = 'Ymd\THis';
 					break;
 				case GCalendar_Entry::MULTIPLE_WHOLE_DAY:
-					$SECSINDAY=86400;
-					$endDate = GCalendarUtil::formatDate($dateformat, $event->getEndDate()-$SECSINDAY);
+					$tmp = clone $event->getEndDate();
+					$tmp->modify('-1 day');
+					$endDate = $tmp->format($dateformat, true);
 					$timeString = $startDate.' '.$dateSeparator.' '.$endDate;
 					$copyDateTimeFormat = 'Ymd';
 
@@ -180,10 +191,10 @@ class GCalendarUtil{
 				$variables['endTime'] = $endTime;
 				$variables['dateseparator'] = $dateSeparator;
 
-				$variables['month'] = strtoupper(GCalendarUtil::formatDate('M', $event->getStartDate()));
-				$variables['day'] = GCalendarUtil::formatDate('d', $event->getStartDate());
+				$variables['month'] = strtoupper($event->getStartDate()->format('M', true));
+				$variables['day'] = $event->getStartDate()->format('d', true);
 			}
-			$variables['modifieddate'] = $params->get('show_event_modified_date', 1) == 1 ? GCalendarUtil::formatDate($timeformat, $event->getModifiedDate()).' '.GCalendarUtil::formatDate($dateformat, $event->getModifiedDate()) : null;
+			$variables['modifieddate'] = $params->get('show_event_modified_date', 1) == 1 ? $event->getModifiedDate()->format($timeformat, true).' '.$event->getModifiedDate()->format($dateformat, true) : null;
 
 			if($params->get('show_event_attendees', 2) == 1 && count($event->getWho()) > 0){
 				$variables['hasAttendees'] = true;
@@ -215,10 +226,10 @@ class GCalendarUtil{
 
 			if($params->get('show_event_copy_info', 1) == 1){
 				$variables['copyGoogleUrl'] = 'http://www.google.com/calendar/render?action=TEMPLATE&text='.urlencode($event->getTitle());
-				$variables['copyGoogleUrl'] .= '&dates='.GCalendarUtil::formatDate($copyDateTimeFormat, $event->getStartDate()).'%2F'.GCalendarUtil::formatDate($copyDateTimeFormat, $event->getEndDate());
+				$variables['copyGoogleUrl'] .= '&dates='.$event->getStartDate()->format($copyDateTimeFormat).'%2F'.$event->getEndDate()->format($copyDateTimeFormat);
 				$variables['copyGoogleUrl'] .= '&location='.urlencode($event->getLocation());
 				$variables['copyGoogleUrl'] .= '&details='.urlencode($event->getContent());
-				$variables['copyGoogleUrl'] .= '&hl='.GCalendarUtil::getFrLanguage().'&ctz='.GCalendarUtil::getComponentParameter('timezone');
+				$variables['copyGoogleUrl'] .= '&hl='.GCalendarUtil::getFrLanguage().'&ctz=Etc/GMT';
 				$variables['copyGoogleUrl'] .= '&sf=true&output=xml';
 
 				$ical_timeString_start =  $startTime.' '.$startDate;
@@ -229,7 +240,7 @@ class GCalendarUtil{
 				$variables['copyOutlookUrl'] = JRoute::_("index.php?option=com_gcalendar&view=ical&format=raw&eventID=".$event->getGCalId().'&gcid='.$event->getParam('gcid'));
 			}
 
-			$groupHeading = GCalendarUtil::formatDate($params->get('grouping', ''), $event->getStartDate());
+			$groupHeading = $event->getStartDate()->format($params->get('grouping', ''), true);
 			if ($groupHeading != $lastHeading) {
 				$lastHeading = $groupHeading;
 				$variables['header'] =  $groupHeading;
@@ -343,27 +354,6 @@ class GCalendarUtil{
 				break;
 		}
 		return addslashes($name);
-	}
-
-	public static function formatDate($dateFormat,$date,$strf = false){
-		$dateObj = JFactory::getDate($date);
-
-		$timezone = GCalendarUtil::getComponentParameter('timezone');
-		if(empty($timezone)){
-			$user = JFactory::getUser();
-			if($user->get('id')) {
-				$timezone = $user->getParam('timezone');
-			}
-		}
-		if(empty($timezone)){
-			$timezone = JFactory::getApplication()->getCfg('offset', 'UTC');
-		}
-		$dateObj->setTimezone(new DateTimeZone($timezone));
-		if ($strf) {
-			return $dateObj->toFormat($dateFormat, true);
-		}
-
-		return $dateObj->format($dateFormat, true);
 	}
 
 	public static function getActions($calendarId = 0){

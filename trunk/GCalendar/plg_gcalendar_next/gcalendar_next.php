@@ -53,8 +53,8 @@ class plgContentgcalendar_next extends JPlugin {
 		$start = $helper->event()->getStartDate();
 		$end = $helper->event()->getEndDate();
 		$now = time();
-		$start_soon = date($this->params->get('start_soon', '-4 hours'), $start);
-		$end_soon = date($this->params->get('end_soon', '-2 hours'), $end);
+		$start_soon = date($this->params->get('start_soon', '-4 hours'), $start->format('U', true));
+		$end_soon = date($this->params->get('end_soon', '-2 hours'), $end->format('U', true));
 		$text = '';
 
 		if ($fmt_str) {
@@ -180,7 +180,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if (!preg_match('/'.$event->getParam('moduleFilter').'/', $event->getTitle())) {
 			return false;
 		}
-		if ($event->getEndDate() > time()) {
+		if ($event->getEndDate()->format('U') > time()) {
 			return true;
 		}
 
@@ -196,7 +196,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		if ($format == "") {
 			$format = $this->params->get("dateformat", 'F d, Y @ g:ia');
 		}
-		return GCalendarUtil::formatDate($format, $time);
+		return JFactory::getDate($time)->format($format, true);
 	}
 
 	public function datecalc($param, $time) {
@@ -206,11 +206,11 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 
 
 	public function startoffset($param) {
-		return $this->datecalc($param, $this->event()->getStartDate());
+		return $this->datecalc($param, $this->event()->getStartDate()->format('U', true));
 	}
 
 	public function finishoffset($param) {
-		return $this->datecalc($param, $this->event()->getEndDate());
+		return $this->datecalc($param, $this->event()->getEndDate()->format('U', true));
 	}
 
 	public function startdate($param) {
@@ -218,7 +218,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	}
 
 	public function start($param) {
-		return $this->date($param, $this->event()->getStartDate());
+		return $this->date($param, $this->event()->getStartDate()->format('U', true));
 	}
 
 	public function finishdate($param) {
@@ -292,15 +292,15 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 	}
 
 	public function lasts($param) {
-		return $this->duration($param, $this->event()->getEndDate() - $this->event()->getStartDate());
+		return $this->duration($param, $this->event()->getEndDate()->format('U', true) - $this->event()->getStartDate()->format('U', true));
 	}
 
 	public function startsin($param) {
-		return $this->duration($param, $this->event()->getStartDate() - time());
+		return $this->duration($param, $this->event()->getStartDate()->format('U', true) - time());
 	}
 
 	public function endsin($param) {
-		return $this->duration($param, $this->event()->getEndDate() - time());
+		return $this->duration($param, $this->event()->getEndDate()->format('U', true) - time());
 	}
 
 	public function title($param) {

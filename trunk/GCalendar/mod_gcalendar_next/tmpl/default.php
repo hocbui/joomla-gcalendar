@@ -28,12 +28,12 @@ if(!empty($error)){
 
 $data = array();
 $now = false;
-$targetDate = 0;
+$targetDate = JFactory::getDate(0);
 $title = '';
 if($gcalendar_item != null){
 	$data[] = $gcalendar_item;
 	$targetDate = $gcalendar_item->getStartDate();
-	if (GCalendarUtil::formatDate("U", $gcalendar_item->getStartDate()) < GCalendarUtil::formatDate("U")) {
+	if ($gcalendar_item->getStartDate()->format('U') < JFactory::getDate()->format('U')) {
 		# Countdown to end of event, not currently implemented
 		#$targetDate = $gcalendar_item->get_end_date();
 		$now = true;
@@ -73,7 +73,7 @@ $document->addStyleSheet(JURI::base(). 'components/com_gcalendar/libraries/jquer
 $calCode = "// <![CDATA[ \n";
 $calCode .= "	jQuery(document).ready(function() {\n";
 $calCode .= "	var targetDate; \n";
-$calCode .= "	targetDate = new Date(".GCalendarUtil::formatDate("Y, m-1, d, H, i, 0", $targetDate).");\n";
+$calCode .= "	targetDate = new Date(".$targetDate->format("Y, m-1, d, H, i, 0", true).");\n";
 $calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
 $calCode .= "				       description: '".str_replace('\'', '\\\'', $title)."', \n";
 $calCode .= " 				       layout: '".str_replace('\'', '\\\'',$layout)."', \n";

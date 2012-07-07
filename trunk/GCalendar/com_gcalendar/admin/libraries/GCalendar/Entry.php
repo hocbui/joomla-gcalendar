@@ -52,13 +52,13 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 		if($this->dayType == null){
 			$SECSINDAY = 86400;
 
-			if (($this->getStartDate() + $SECSINDAY) <= $this->getEndDate()) {
-				if (($this->getStartDate()+ $SECSINDAY) == $this->getEndDate()
-						&& JFactory::getDate($this->getStartDate())->format('g:i a') == '12:00 am') {
+			$start = clone $this->getStartDate();
+			$start->modify('+1 day');
+			if($start->format('U') <= $this->getEndDate()->format('U')) {
+				if($start->format('U') == $this->getEndDate()->format('U') && $this->getStartDate()->format('g:i a') == '12:00 am') {
 					$this->dayType =  GCalendar_Entry::SINGLE_WHOLE_DAY;
 				} else {
-					if(JFactory::getDate($this->getStartDate())->format('g:i a') == '12:00 am'
-							&& JFactory::getDate($this->getEndDate())->format('g:i a') == '12:00 am') {
+					if($this->getStartDate()->format('g:i a') == '12:00 am' && $this->getEndDate()->format('g:i a') == '12:00 am') {
 						$this->dayType =  GCalendar_Entry::MULTIPLE_WHOLE_DAY;
 					} else {
 						$this->dayType =  GCalendar_Entry::MULTIPLE_PART_DAY;
@@ -80,7 +80,8 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 			if(is_array($when)){
 				$when = reset($when);
 			}
-			$this->startDate = JFactory::getDate($when->getStartTime())->format('U', false);
+			$this->startDate = JFactory::getDate($when->getStartTime());
+			$this->startDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
 		}
 		return $this->startDate;
 	}
@@ -94,14 +95,16 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 			if(is_array($when)){
 				$when = reset($when);
 			}
-			$this->endDate = JFactory::getDate($when->getEndTime())->format('U', false);
+			$this->endDate = JFactory::getDate($when->getEndTime());
+			$this->endDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
 		}
 		return $this->endDate;
 	}
 
 	public function getModifiedDate(){
 		if($this->modifiedDate == null){
-			$this->modifiedDate = JFactory::getDate($this->getPublished())->format('U', false);
+			$this->modifiedDate = JFactory::getDate($this->getPublished());
+			$this->modifiedDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
 		}
 		return $this->modifiedDate;
 	}
@@ -130,7 +133,7 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	 * @return the comparison integer
 	 */
 	public static function compare(GCalendar_Entry $event1, GCalendar_Entry $event2){
-		return $event1->getStartDate()-$event2->getStartDate();
+		return $event1->getStartDate()->format('U') - $event2->getStartDate()->format('U');
 	}
 
 	/**
@@ -142,6 +145,6 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	 * @return number
 	 */
 	public static function compareDesc(GCalendar_Entry $event1, GCalendar_Entry $event2){
-		return $event2->getStartDate()-$event1->getStartDate();
+		return $event2->getStartDate()->format('U') - $event1->getStartDate()->format('U');
 	}
 }
