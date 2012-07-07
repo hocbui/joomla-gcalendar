@@ -30,7 +30,7 @@ if(!empty($this->calendars)){
 			continue;
 		}
 		foreach ($calendar as $item) {
-			$date = GCalendarUtil::formatDate('Y-m-d', $item->getStartDate());
+			$date = $item->getStartDate()->format('Y-m-d', true);
 			if(!key_exists($date, $tmp)){
 				$tmp[$date] = array();
 			}

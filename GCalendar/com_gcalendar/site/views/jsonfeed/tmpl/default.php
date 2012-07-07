@@ -72,11 +72,17 @@ if(!empty($this->calendars)){
 				$description = mb_substr($description, 0, 196).' ...';
 			}
 			$allDayEvent = $event->getDayType() == GCalendar_Entry::SINGLE_WHOLE_DAY || $event->getDayType() == GCalendar_Entry::MULTIPLE_WHOLE_DAY;
+
+			$end = $event->getEndDate();
+			if($allDayEvent) {
+				$end = clone $event->getEndDate();
+				$end->modify('-1 day');
+			}
 			$data[] = array(
 					'id' => $event->getId(),
 					'title' => htmlspecialchars_decode($event->getTitle()),
-					'start' => GCalendarUtil::formatDate('Y-m-d\TH:i:s', $event->getStartDate()),
-					'end' => GCalendarUtil::formatDate('Y-m-d\TH:i:s',$allDayEvent? $event->getEndDate() - $SECSINDAY:$event->getEndDate()),
+					'start' => $event->getStartDate()->format('Y-m-d\TH:i:s', true),
+					'end' => $end->format('Y-m-d\TH:i:s', true),
 					'url' => JRoute::_('index.php?option=com_gcalendar&view=event&eventID='.$event->getGCalId().'&gcid='.$event->getParam('gcid').(empty($itemID)?'':$itemID)),
 					'className' => "gcal-event_gccal_".$event->getParam('gcid'),
 					'allDay' => $allDayEvent,

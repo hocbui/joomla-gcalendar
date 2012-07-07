@@ -34,7 +34,8 @@ class GCalendarController extends JController{
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('.icon-48-calendar {background-image: url(../media/com_gcalendar/images/48-calendar.png);background-repeat: no-repeat;}');
 
-		if(GCalendarUtil::getComponentParameter('timezone') == ''){
+		$params = JComponentHelper::getParams('com_gcalendar');
+		if($params->get('timezone', '') == ''){
 			JError::raiseNotice(0, JText::_('COM_GCALENDAR_FIELD_CONFIG_SETTINGS_TIMEZONE_WARNING'));
 		}
 	}
