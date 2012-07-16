@@ -9,7 +9,7 @@
 }
 
 .fc-event-time {
-	white-space: nowrap;
+	white-space: wrap;
 }
 
 .gcalendar-table td {
