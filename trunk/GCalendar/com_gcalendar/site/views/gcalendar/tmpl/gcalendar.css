@@ -3,6 +3,15 @@
 	border: 0px;
 }
 
+.fc-event-time,.fc-event-title {
+	display: block;
+	float:left;
+}
+
+.fc-event-time {
+	white-space: nowrap;
+}
+
 .gcalendar-table td {
 	padding-bottom: 5px;
 	padding-right: 5px;
