@@ -61,7 +61,7 @@ class plgContentgcalendar_next extends JPlugin {
 			$this->params->set('output', $fmt_str);
 		}
 
-		if ($end <= $now) {
+		if ($end->format('U') <= $now) {
 			// AND it hasn't ended
 			if ($start >= $now) {
 				// If it has started
@@ -229,7 +229,7 @@ class GCalendarKeywordsHelper extends PluginKeywordsHelper {
 		$ftime = $this->event()->getEndDate();
 		$daytype = $this->event()->getDayType();
 		if ($daytype == GCalendar_Entry::MULTIPLE_WHOLE_DAY) {
-			$ftime = $ftime - 1; // to account for midnight
+			$ftime = $ftime->format('U') - 1; // to account for midnight
 		}
 
 		return $this->date($param, $ftime);
