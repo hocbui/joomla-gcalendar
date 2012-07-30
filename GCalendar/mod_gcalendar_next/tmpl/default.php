@@ -69,6 +69,22 @@ $document = JFactory::getDocument();
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/jquery/ext/jquery.countdown.min.js');
 $document->addStyleSheet(JURI::base(). 'components/com_gcalendar/libraries/jquery/ext/jquery.countdown.css');
 
+$labels = array(JText::_('MOD_GCALENDAR_NEXT_LABEL_YEARS'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_MONTHS'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_WEEKS'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_DAYS'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_HOURS'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_MINUTES'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_SECONDS')
+);
+$labels1 = array(JText::_('MOD_GCALENDAR_NEXT_LABEL_YEAR'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_MONTH'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_WEEK'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_DAY'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_HOUR'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_MINUTE'),
+		JText::_('MOD_GCALENDAR_NEXT_LABEL_SECOND')
+);
 
 $calCode = "// <![CDATA[ \n";
 $calCode .= "	jQuery(document).ready(function() {\n";
@@ -77,6 +93,8 @@ $calCode .= "	targetDate = new Date(".$targetDate->format("Y, m-1, d, H, i, 0", 
 $calCode .= "	jQuery('#".$objid."').countdown({until: targetDate, \n";
 $calCode .= "				       description: '".str_replace('\'', '\\\'', $title)."', \n";
 $calCode .= " 				       layout: '".str_replace('\'', '\\\'',$layout)."', \n";
+$calCode .= " 				       labels: ['".implode("','", $labels)."'], \n";
+$calCode .= " 				       labels1: ['".implode("','", $labels1)."'], \n";
 $calCode .= "				       alwaysExpire: true, expiryText: '".str_replace('\'', '\\\'',$expiryText)."', \n";
 $calCode .= "				       ".$params->get('style_parameters', "format: 'dHMS'")."});\n";
 $calCode .= "});\n";
