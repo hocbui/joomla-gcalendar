@@ -81,7 +81,9 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 				$when = reset($when);
 			}
 			$this->startDate = JFactory::getDate($when->getStartTime());
-			$this->startDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
+			if($this->getDayType() == GCalendar_Entry::SINGLE_PART_DAY || $this->getDayType() == GCalendar_Entry::MULTIPLE_PART_DAY) {
+				$this->startDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
+			}
 		}
 		return $this->startDate;
 	}
@@ -96,7 +98,9 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 				$when = reset($when);
 			}
 			$this->endDate = JFactory::getDate($when->getEndTime());
-			$this->endDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
+			if($this->getDayType() == GCalendar_Entry::SINGLE_PART_DAY || $this->getDayType() == GCalendar_Entry::MULTIPLE_PART_DAY) {
+				$this->endDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
+			}
 		}
 		return $this->endDate;
 	}
