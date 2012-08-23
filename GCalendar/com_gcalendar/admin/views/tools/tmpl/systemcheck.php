@@ -57,10 +57,7 @@ defined('_JEXEC') or die('Restricted access');
 	<?php
 	function checkDB() {
 		$tmp = array();
-		$db =& JFactory::getDBO();
-		$query = "SELECT id, calendar_id, name, color, magic_cookie  FROM #__gcalendar";
-		$db->setQuery( $query );
-		$results = $db->loadObjectList();
+		$results = GCalendarDBUtil::getAllCalendars();
 		if(empty($results)){
 			$tmp[] = array('name'=>'DB Entries Check', 'description'=>'No DB data found.', 'status'=>'ok', 'solution'=>'');
 		}else{
