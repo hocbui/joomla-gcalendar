@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_GCALENDAR_LIST_VIEW_DEFAULT_TITLE">
+		<message>
+			<![CDATA[COM_GCALENDAR_VIEW_LIST_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="params" addfieldpath="/administrator/components/com_gcalendar/models/fields">
+		<fieldset name="basic">
+			<field name="calendarids" type="gcalendar" default="" multiple="true"
+				label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SELECT_CALENDARS_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SELECT_CALENDARS_DESC" />
+			
+			<field name="list_output" type="textarea2"
+				label="COM_GCALENDAR_FIELD_CONFIG_LIST_OUTPUT_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_LIST_OUTPUT_DESC"
+				rows="20" cols="50" filter="raw">
+				<content></content>
+				<description>
+					COM_GCALENDAR_MUSTACHE_DESC
+				</description>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

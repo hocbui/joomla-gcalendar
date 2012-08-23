@@ -97,13 +97,13 @@ class GCalendarUtil{
 
 		$lastHeading = '';
 
-		$configuration = array();
+		$configuration = $eventParams;
 		$configuration['events'] = array();
 		foreach ($events as $event) {
 			if(!is_object($event)) {
 				continue;
 			}
-			$variables = $eventParams;
+			$variables = array();
 
 			$itemID = GCalendarUtil::getItemId($event->getParam('gcid', null));
 			if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component' && $event != null){
@@ -246,21 +246,22 @@ class GCalendarUtil{
 				$variables['header'] =  $groupHeading;
 			}
 
-			$variables['calendarLinkLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_CALENDAR_BACK_LINK');
-			$variables['calendarNameLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_CALENDAR_NAME');
-			$variables['titleLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_EVENT_TITLE');
-			$variables['dateLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_WHEN');
-			$variables['attendeesLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_ATTENDEES');
-			$variables['locationLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_LOCATION');
-			$variables['descriptionLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_DESCRIPTION');
-			$variables['authorLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_AUTHOR');
-			$variables['copyLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_COPY');
-			$variables['copyGoogleLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_COPY_TO_MY_CALENDAR');
-			$variables['copyOutlookLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_COPY_TO_MY_CALENDAR_ICS');
-			$variables['language'] = substr(GCalendarUtil::getFrLanguage(),0,2);
 
 			$configuration['events'][] = $variables;
 		}
+
+		$configuration['calendarLinkLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_CALENDAR_BACK_LINK');
+		$configuration['calendarNameLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_CALENDAR_NAME');
+		$configuration['titleLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_EVENT_TITLE');
+		$configuration['dateLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_WHEN');
+		$configuration['attendeesLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_ATTENDEES');
+		$configuration['locationLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_LOCATION');
+		$configuration['descriptionLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_DESCRIPTION');
+		$configuration['authorLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_AUTHOR');
+		$configuration['copyLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_COPY');
+		$configuration['copyGoogleLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_COPY_TO_MY_CALENDAR');
+		$configuration['copyOutlookLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_COPY_TO_MY_CALENDAR_ICS');
+		$configuration['language'] = substr(GCalendarUtil::getFrLanguage(),0,2);
 
 		$configuration['emptyText'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_NO_EVENT_TEXT');
 

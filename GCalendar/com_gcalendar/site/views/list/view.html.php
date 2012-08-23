@@ -20,18 +20,17 @@
 
 jimport( 'joomla.application.component.view');
 
-require_once (JPATH_COMPONENT.DS.'libraries'.DS.'fullcalendar'.DS.'fullcalendar.php');
-
-class GCalendarViewGCalendar extends JView {
+class GCalendarViewList extends JView {
 
 	public function display($tpl = null) {
-		$calendars = $this->get('DBCalendars');
-		if (!is_array($calendars)) {
-			$calendars = array();
+		$events = $this->get('Events');
+		if (!is_array($events)) {
+			$events = array();
 		}
-		$this->calendars = $calendars;
+		$this->events = $events;
 		$this->params = $this->get('State')->params;
-		$this->calendarids =  $this->get('State')->calendarids;
+		$this->state = $this->get('State');
+		$this->pagination = $this->get('Pagination');
 
 		parent::display($tpl);
 	}

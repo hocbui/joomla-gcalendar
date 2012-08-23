@@ -76,7 +76,7 @@
 			rows="5" cols="50" filter="raw">
 			<content><![CDATA[{{#events}}<p>{{date}}<br/>{{{description}}}</p>{{/events}}]]></content>
 			<description>
-				COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DESC_FORMAT_LONG_DESC
+				COM_GCALENDAR_MUSTACHE_DESC
 			</description>
 		</field>
 		<field name="textbefore" type="textarea" default=""
@@ -103,6 +103,49 @@
 			description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_MIN_TIME_DESC" size="10" />
 		<field name="max_time" type="text" default="24" label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_MAX_TIME_LABEL"
 			description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_MAX_TIME_DESC" size="10" />
+	</fieldset>
+	<fieldset name="list" label="COM_GCALENDAR_FIELD_CONFIG_LIST_LABEL"
+		description="COM_GCALENDAR_FIELD_CONFIG_LIST_DESC"
+		addfieldpath="/administrator/components/com_gcalendar/models/fields">
+		<field name="list_output" type="textarea2" default=""
+			label="COM_GCALENDAR_FIELD_CONFIG_LIST_OUTPUT_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_LIST_OUTPUT_DESC"
+			rows="20" cols="80" filter="raw">
+			<content><![CDATA[<form action="{{{siteUrl}}}" method="post" name="adminForm" id="adminForm">
+<fieldset class="filters">
+<div class="filter-search">
+	<label for="filter-search" class="filter-search-lbl">{{filterLabel}}</label>
+	<input type="text" onchange="document.adminForm.submit();" class="inputbox" value="{{filterValue}}" id="filter-search" name="filter-search"/>
+</div>
+<div class="display-limit">{{limitLabel}}{{{limitBox}}}</div>
+</fieldset>
+<table class="category">
+<thead>
+	<th>{{dateLabel}}</th>
+	<th>{{titleLabel}}</th>
+	<th>{{calendarNameLabel}}</th>
+	<th>{{locationLabel}}</th>
+</thead>
+<tbody>
+	{{#events}}
+	<tr>
+		<td>{{date}}</td>
+		<td><a href="{{{backLink}}}">{{title}}</a></td>
+		<td>{{calendarName}}</td>
+		<td>{{location}}</td>
+	</tr>
+	{{/events}}
+</tbody>
+<tfoot>
+	<tr><td colspan="4"><div class="pagination">
+		<p class="counter">{{{listCounter}}}</p>
+		{{{pagination}}}</div>
+	</td></tr>
+</tfoot>
+</table></form>]]></content>
+			<description>
+				COM_GCALENDAR_MUSTACHE_DESC
+			</description>
+		</field>
 	</fieldset>
 	<fieldset name="event" label="COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL">
 		<field name="event_description_format" type="radio" default="1"

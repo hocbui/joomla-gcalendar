@@ -58,7 +58,7 @@ class GCalendarZendHelper{
 	 *
 	 * @return Zend_Gdata_App_Feed|NULL
 	 */
-	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
+	public static function getEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC, $startIndex = 1){
 		// Implement View Level Access
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.admin') && !in_array($calendar->access, $user->getAuthorisedViewLevels())) {
@@ -73,7 +73,7 @@ class GCalendarZendHelper{
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
 
-		$events = $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy, $pastEvents, $sortOrder);
+		$events = $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy, $pastEvents, $sortOrder, $startIndex);
 
 		// Implement View Level Access
 		$user = JFactory::getUser();
@@ -125,7 +125,7 @@ class GCalendarZendHelper{
 	/**
 	 * @return Zend_Gdata_App_Feed|NULL
 	 */
-	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC){
+	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC, $startIndex = 1){
 		try {
 			$client = new Zend_Http_Client();
 
@@ -158,6 +158,7 @@ class GCalendarZendHelper{
 			}
 
 			$query->setMaxResults($max);
+			$query->setStartIndex($startIndex);
 			$query->setParam('ctz', 'Etc/GMT');
 			$query->setParam('hl', GCalendarUtil::getFrLanguage());
 

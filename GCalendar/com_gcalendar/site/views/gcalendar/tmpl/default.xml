@@ -70,7 +70,7 @@
 				rows="5" cols="50" filter="raw">
 				<content></content>
 				<description>
-					COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DESC_FORMAT_LONG_DESC
+					COM_GCALENDAR_MUSTACHE_DESC
 				</description>
 			</field>
 			<field name="textbefore" type="textarea"
