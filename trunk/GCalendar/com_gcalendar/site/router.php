@@ -52,8 +52,8 @@ function GCalendarBuildRoute( &$query )
 function GCalendarParseRoute( $segments )
 {
 	// Get the active menu item
-	$menu =& JSite::getMenu();
-	$item =& $menu->getActive();
+	$menu = JFactory::getApplication()->getMenu();
+	$item = $menu->getActive();
 
 	$vars = array();
 	$view = $segments[0];
