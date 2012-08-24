@@ -31,6 +31,8 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	private $modifiedDate = null;
 	private $location = null;
 	private $gcalId = null;
+	private $rrule = null;
+	private $originalGCEvent = null;
 	private $params = array();
 
 	public function setParam($key, $value){
@@ -122,6 +124,46 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 			$this->location = $where->getValueString();
 		}
 		return $this->location;
+	}
+
+	public function getRRule() {
+		if($this->rrule == null) {
+			$rec = $this->getRecurrence();
+			if($rec == null) {
+				$original = $this->getOriginalGCEvent();
+				if($original != null) {
+					$rec = $original->getRecurrence();
+				}
+			}
+			if ($rec != null) {
+				$parts = explode(PHP_EOL, $rec->getText());
+				foreach ($parts as $part) {
+					if(strpos($part, 'RRULE:') === false) {
+						continue;
+					}
+					$this->rrule = substr($part, 6);
+				}
+			}
+		}
+		return $this->rrule;
+	}
+
+	public function isRepeating() {
+		return strpos($this->getGCalId(), '_') !== false || $this->getRecurrence() != null;
+	}
+
+	public function getOriginalGCEvent() {
+		if($this->originalGCEvent != null) {
+			return $this->originalGCEvent;
+		}
+		if(!$this->isRepeating()) {
+			return null;
+		}
+		if($this->getRecurrence() != null) {
+			return $this;
+		}
+		$this->originalGCEvent = GCalendarZendHelper::getEvent(GCalendarDBUtil::getCalendar($this->getParam('gcid')), substr($this->getGCalId(), 0, strpos($this->getGCalId(), '_')));
+		return $this->originalGCEvent;
 	}
 
 	/**
