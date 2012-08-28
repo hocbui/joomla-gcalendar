@@ -33,7 +33,7 @@ $fadedColor = GCalendarUtil::getFadedColor($color);
 $cssClass = "gcal-module_event_gccal_".$module->id;
 $document->addStyleDeclaration(".".$cssClass.",.".$cssClass." a, .".$cssClass." div{background-color: ".$fadedColor." !important; border-color: #".$color."; color: ".$fadedColor.";} .fc-header-center{vertical-align: middle !important;} #gcalendar_module_".$module->id." .fc-state-default span, #gcalendar_module_".$module->id." .ui-state-default{padding:0px !important;}");
 
-$theme = $params->get('theme', '');
+$theme = $params->get('theme', GCalendarUtil::getComponentParameter('theme'));
 if(JRequest::getVar('theme', null) != null)
 $theme = JRequest::getVar('theme', null);
 if(!empty($theme))

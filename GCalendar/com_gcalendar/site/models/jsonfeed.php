@@ -34,7 +34,6 @@ class GCalendarModelJSONFeed extends JModel {
 		else
 			$browserTz = 0;
 
-		$serverOffset = date('Z', $startDate);
 		$startDate = $startDate - $browserTz;
 		$endDate = $endDate - $browserTz;
 

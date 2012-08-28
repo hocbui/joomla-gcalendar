@@ -40,6 +40,9 @@
 					description="MOD_GCALENDAR_FIELD_CALENDAR_HEIGHT_DESC" size="5" />
 				<field name="event_color" type="color" default="135CAE" label="MOD_GCALENDAR_FIELD_CALENDAR_COLOR_LABEL"
 						description="MOD_GCALENDAR_FIELD_CALENDAR_COLOR_DESC" size="6" />
+				<field name="theme" type="text" size="50" default=""
+					label="MOD_GCALENDAR_FIELD_CALENDAR_THEME_LABEL"
+					description="MOD_GCALENDAR_FIELD_CALENDAR_THEME_DESC" />
 				<field name="@spacer" type="spacer" default="" label=""
 					description="" />
 				<field name="moduleclass_sfx" type="text"
