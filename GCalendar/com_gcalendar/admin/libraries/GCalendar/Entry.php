@@ -76,14 +76,23 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	public function getStartDate(){
 		if($this->startDate == null){
 			$when = $this->getWhen();
-			if(empty($when)){
-				return null;
-			}
-			if(is_array($when)){
+			if(empty($when) && $this->getRecurrence() != null) {
+				$parts = explode(PHP_EOL, $this->getRecurrence()->getText());
+				foreach ($parts as $part) {
+					if(strpos($part, 'DTSTART') === false) {
+						continue;
+					}
+					if(strpos($part, 'DTSTART;VALUE=DATE:') !== false) {
+						$this->startDate = JFactory::getDate(substr($part, 19).' 00:00:00');
+					} else {
+						$this->startDate = JFactory::getDate(substr($part, 8));
+					}
+				}
+			} else if(is_array($when)){
 				$when = reset($when);
+				$this->startDate = JFactory::getDate($when->getStartTime());
 			}
-			$this->startDate = JFactory::getDate($when->getStartTime());
-			if($this->getDayType() == GCalendar_Entry::SINGLE_PART_DAY || $this->getDayType() == GCalendar_Entry::MULTIPLE_PART_DAY) {
+			if($this->startDate != null && ($this->getDayType() == GCalendar_Entry::SINGLE_PART_DAY || $this->getDayType() == GCalendar_Entry::MULTIPLE_PART_DAY)) {
 				$this->startDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
 			}
 		}
@@ -93,14 +102,23 @@ class GCalendar_Entry extends Zend_Gdata_Calendar_EventEntry{
 	public function getEndDate(){
 		if($this->endDate == null){
 			$when = $this->getWhen();
-			if(empty($when)){
-				return null;
-			}
-			if(is_array($when)){
+			if(empty($when) && $this->getRecurrence() != null) {
+				$parts = explode(PHP_EOL, $this->getRecurrence()->getText());
+				foreach ($parts as $part) {
+					if(strpos($part, 'DTEND') === false) {
+						continue;
+					}
+					if(strpos($part, 'DTEND;VALUE=DATE:') !== false) {
+						$this->endDate = JFactory::getDate(substr($part, 17).' 00:00:00');
+					} else {
+						$this->endDate = JFactory::getDate(substr($part, 6));
+					}
+				}
+			} else if(is_array($when)){
 				$when = reset($when);
+				$this->endDate = JFactory::getDate($when->getEndTime());
 			}
-			$this->endDate = JFactory::getDate($when->getEndTime());
-			if($this->getDayType() == GCalendar_Entry::SINGLE_PART_DAY || $this->getDayType() == GCalendar_Entry::MULTIPLE_PART_DAY) {
+			if($this->endDate != null && ($this->getDayType() == GCalendar_Entry::SINGLE_PART_DAY || $this->getDayType() == GCalendar_Entry::MULTIPLE_PART_DAY)) {
 				$this->endDate->setTimezone(new DateTimeZone(GCalendarUtil::getComponentParameter('timezone')));
 			}
 		}
