@@ -21,7 +21,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $document = JFactory::getDocument();
-$document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
+$document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.easing-1.3.pack.js');
@@ -42,7 +42,7 @@ if(JRequest::getVar('theme', null) != null)
 if(!empty($theme))
 	$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/'.$theme.'/jquery-ui.custom.css');
 else
-	$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/ui-lightness/jquery-ui.custom.css');
+	$document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/themes/aristo/jquery-ui.custom.css');
 
 $calendarids = $this->calendarids;
 $allCalendars = GCalendarDBUtil::getAllCalendars();
@@ -113,7 +113,7 @@ $calCode .= "	jQuery('#gcalendar_component').fullCalendar({\n";
 $calCode .= "		header: {\n";
 $calCode .= "			left: 'prev,next today',\n";
 $calCode .= "			center: 'title',\n";
-$calCode .= "			right: 'month,agendaWeek,agendaDay'\n";
+$calCode .= "			right: 'month,agendaWeek,agendaDay,list'\n";
 $calCode .= "		},\n";
 $calCode .= "		year: tmpYear,\n";
 $calCode .= "		month: tmpMonth,\n";
@@ -124,7 +124,8 @@ $calCode .= "		weekends: ".($params->get('weekend', 1)==1?'true':'false').",\n";
 $calCode .= "		titleFormat: { \n";
 $calCode .= "			month: '".Fullcalendar::convertFromPHPDate($params->get('titleformat_month', 'F Y'))."',\n";
 $calCode .= "			week: \"".Fullcalendar::convertFromPHPDate($params->get('titleformat_week', "M j[ Y]{ '&#8212;'[ M] j o}"))."\",\n";
-$calCode .= "			day: '".Fullcalendar::convertFromPHPDate($params->get('titleformat_day', 'l, M j, Y'))."'},\n";
+$calCode .= "			day: '".Fullcalendar::convertFromPHPDate($params->get('titleformat_day', 'l, M j, Y'))."',\n";
+$calCode .= "			list: '".Fullcalendar::convertFromPHPDate($params->get('titleformat_list', 'M j Y'))."'},\n";
 $calCode .= "		firstDay: ".$params->get('weekstart', 0).",\n";
 $calCode .= "		firstHour: ".$params->get('first_hour', 6).",\n";
 $calCode .= "		maxTime: ".$params->get('max_time', 24).",\n";
@@ -141,11 +142,12 @@ $calCode .= "		dayNamesShort: ".$daysShort.",\n";
 $calCode .= "		timeFormat: { \n";
 $calCode .= "			month: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_month', 'g:i a{ - g:i a}'))."',\n";
 $calCode .= "			week: \"".Fullcalendar::convertFromPHPDate($params->get('timeformat_week', "g:i a{ - g:i a}"))."\",\n";
-$calCode .= "			day: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_day', 'g:i a{ - g:i a}'))."'},\n";
-$calCode .= "			columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
-$calCode .= "			axisFormat: '".Fullcalendar::convertFromPHPDate($params->get('axisformat', 'g:i a'))."',\n";
-$calCode .= "			allDayText: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_ALL_DAY'), ENT_QUOTES)."',\n";
-$calCode .= "			buttonText: {\n";
+$calCode .= "			day: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_day', 'g:i a{ - g:i a}'))."',\n";
+$calCode .= "			list: '".Fullcalendar::convertFromPHPDate($params->get('timeformat_list', 'g:i a{ - g:i a}'))."'},\n";
+$calCode .= "		columnFormat: { month: 'ddd', week: 'ddd d', day: 'dddd d'},\n";
+$calCode .= "		axisFormat: '".Fullcalendar::convertFromPHPDate($params->get('axisformat', 'g:i a'))."',\n";
+$calCode .= "		allDayText: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_ALL_DAY'), ENT_QUOTES)."',\n";
+$calCode .= "		buttonText: {\n";
 $calCode .= "			prev:     '&nbsp;&#9668;&nbsp;',\n";  // left triangle
 $calCode .= "			next:     '&nbsp;&#9658;&nbsp;',\n";  // right triangle
 $calCode .= "			prevYear: '&nbsp;&lt;&lt;&nbsp;',\n"; // <<
@@ -153,7 +155,8 @@ $calCode .= "			nextYear: '&nbsp;&gt;&gt;&nbsp;',\n"; // >>
 $calCode .= "			today:    '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TOOLBAR_TODAY'), ENT_QUOTES)."',\n";
 $calCode .= "			month:    '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_VIEW_MONTH'), ENT_QUOTES)."',\n";
 $calCode .= "			week:     '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_VIEW_WEEK'), ENT_QUOTES)."',\n";
-$calCode .= "			day:      '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_VIEW_DAY'), ENT_QUOTES)."'\n";
+$calCode .= "			day:      '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_VIEW_DAY'), ENT_QUOTES)."',\n";
+$calCode .= "			list:      '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_VIEW_LIST'), ENT_QUOTES)."'\n";
 $calCode .= "		},\n";
 $calCode .= $calsSources;
 $calCode .= "		viewDisplay: function(view) {\n";
@@ -169,7 +172,7 @@ $calCode .= "		},\n";
 if($params->get('show_event_as_popup', 1) == 1){
 	$popupWidth = $params->get('popup_width', 650);
 	$popupHeight = $params->get('popup_height', 500);
-	$calCode .= "		eventAfterRender: function(event, element, view) {\n";
+	$calCode .= "		eventRender: function(event, element, view) {\n";
 	$calCode .= "		        element.attr('href', element.attr('href') + (element.attr('href').indexOf('?') != -1 ? '&' : '?')+'tmpl=component');\n";
 	$calCode .= "		        element.fancybox({\n";
 	$calCode .= "		           width: ".$popupWidth.",\n";
