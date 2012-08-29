@@ -17,6 +17,10 @@
 		</field>
 		<field name="gc_cache_time" type="text" default="900"
 			label="COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CACHING_TIME" description="COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CACHING_TIME_DESC" />
+		<field name="client-id" type="text" default="" label="COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CLIENT_ID_LABEL" size="80"
+			description="COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CLIENT_ID_DESC" />
+		<field name="client-secret" type="text" default="" label="COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CLIENT_SECRET_LABEL" size="80"
+			description="COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CLIENT_SECRET_DESC" />
 	</fieldset>
 	<fieldset name="calendar" label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_LABEL">
 		<field name="show_selection" type="radio" default="1"

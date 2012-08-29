@@ -22,41 +22,42 @@ defined('_JEXEC') or die('Restricted access');
 
 class Com_GCalendarInstallerScript{
 
-	public function install($parent){
+	public function install($parent) {
 		$this->run("update #__extensions set enabled=1 where type = 'plugin' and element = 'gcalendar'");
 	}
 
-	function update($parent){
+	function update($parent) {
 		$version = $this->getParam('version');
-		if(version_compare($version, '2.6.0')){
+		if (version_compare($version, '2.6.0')) {
 			$this->run("ALTER TABLE `#__gcalendar` ADD `access` TINYINT UNSIGNED NOT NULL DEFAULT '1';");
 			$this->run("ALTER TABLE `#__gcalendar` ADD `access_content` TINYINT UNSIGNED NOT NULL DEFAULT '1';");
 			$this->run("ALTER TABLE `#__gcalendar` ADD `username` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `magic_cookie`;");
 			$this->run("ALTER TABLE `#__gcalendar` ADD `password` text NULL DEFAULT NULL AFTER `username`;");
 		}
-		if(version_compare($version, '2.6.2')){
+		if (version_compare($version, '2.6.2')) {
 			$this->run("update #__extensions set enabled=1 where type = 'plugin' and element = 'gcalendar'");
 		}
-		if(version_compare($version, '2.7.0')){
-			foreach (JFolder::files(JPATH_ADMINISTRATOR.DS.'language', '.*gcalendar.*', true, true) as $file){
+		if (version_compare($version, '2.7.0')) {
+			foreach (JFolder::files(JPATH_ADMINISTRATOR.DS.'language', '.*gcalendar.*', true, true) as $file) {
 				JFile::delete($file);
 			}
-			foreach (JFolder::files(JPATH_SITE.DS.'language', '.*gcalendar.*', true, true) as $file){
+			foreach (JFolder::files(JPATH_SITE.DS.'language', '.*gcalendar.*', true, true) as $file) {
 				JFile::delete($file);
 			}
 		}
+		if (version_compare($version, '3.0.0') == -1) {
+			$this->run("ALTER TABLE `#__gcalendar` DROP `username`");
+			$this->run("ALTER TABLE `#__gcalendar` CHANGE `password` `token` TEXT NULL DEFAULT NULL");
+		}
 	}
 
-	public function uninstall($parent){
-	}
+	public function uninstall($parent) {}
 
-	public function preflight($type, $parent){
-	}
+	public function preflight($type, $parent) {}
 
-	public function postflight($type, $parent){
-	}
+	public function postflight($type, $parent) {}
 
-	private function run($query){
+	private function run($query) {
 		$db =& JFactory::getDBO();
 		$db->setQuery($query);
 		$db->query();

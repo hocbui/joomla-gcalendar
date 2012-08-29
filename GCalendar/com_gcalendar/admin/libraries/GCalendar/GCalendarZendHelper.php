@@ -20,6 +20,11 @@
 
 defined('_JEXEC') or die();
 
+if(!class_exists('apiClient')) {
+	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'gapc'.DS.'apiClient.php');
+}
+require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'gapc'.DS.'contrib'.DS.'apiCalendarService.php');
+
 class GCalendarZendHelper{
 
 	const SORT_ORDER_ASC = 'ascending';
@@ -72,6 +77,7 @@ class GCalendarZendHelper{
 			$cache->setCaching($conf->getValue( 'config.caching' ));
 		}
 		$cache->setLifeTime(GCalendarUtil::getComponentParameter('gc_cache_time', 900));
+		$cache->setCaching(false);
 
 		$events = $cache->call( array( 'GCalendarZendHelper', 'internalGetEvents' ), $calendar, $startDate, $endDate, $max, $filter, $orderBy, $pastEvents, $sortOrder, $startIndex);
 
@@ -125,8 +131,39 @@ class GCalendarZendHelper{
 	/**
 	 * @return Zend_Gdata_App_Feed|NULL
 	 */
-	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $pastEvents = false, $sortOrder = GCalendarZendHelper::SORT_ORDER_ASC, $startIndex = 1){
+	public static function internalGetEvents($calendar, $startDate = null, $endDate = null, $max = 1000, $filter = null, $orderBy = GCalendarZendHelper::ORDER_BY_START_TIME, $startIndex = 1){
+		if(empty($calendar->token)) {
+			JError::raiseError(0, 'Calendar has no token!! Please authorize the calendar in the backend!');
+			return null;
+		}
 		try {
+			$client = self::getClient();
+			$client->refreshToken($calendar->token);
+
+			$service = new apiCalendarService($client);
+
+			$options = array();
+			$options['maxResults'] = $max;
+			$options['orderBy'] = $orderBy;
+			$options['orderBy'] = $orderBy;
+			$options['singleEvents'] = true;
+			if(!empty($filter)){
+				$options['q'] = $filter;
+			}
+			if($startDate != null){
+				$options['timeMin'] = JFactory::getDate($startDate)->format('Y-m-d\TH:i:s');
+			}
+			if($endDate != null){
+				$options['timeMax'] = JFactory::getDate($endDate)->format('Y-m-d\TH:i:s');
+			}
+			$options['timeZone'] = 'Etc/GMT';
+			return $service->events->listEvents(urldecode($calendar->calendar_id));
+
+
+
+
+
+
 			$client = new Zend_Http_Client();
 
 			if(!empty($calendar->username) && !empty($calendar->password)){
@@ -169,7 +206,8 @@ class GCalendarZendHelper{
 				$event->setParam('gcname', $calendar->name);
 			}
 			return $feed;
-		} catch (Zend_Gdata_App_Exception $e) {
+		} catch (Exception $e) {
+			echo $e;die;
 			JError::raiseWarning(200, $e->getMessage());
 			return null;
 		}
@@ -226,6 +264,23 @@ class GCalendarZendHelper{
 			Zend_Loader::loadClass('GCalendar_Entry');
 			$zendLoaded = true;
 		}
+	}
+
+	public static function getClient($includeRedirect = false) {
+		$client = new apiClient();
+		$client->setApplicationName('GCalendar joomla extension');
+		$client->setClientId(GCalendarUtil::getComponentParameter('client-id'));
+		$client->setClientSecret(GCalendarUtil::getComponentParameter('client-secret'));
+		$uri = JFactory::getURI();
+		if(filter_var($uri->getHost(), FILTER_VALIDATE_IP)) {
+			$uri->setHost('localhost');
+		}
+		$client->setRedirectUri($uri->toString(array('scheme', 'host', 'port', 'path')).'?option=com_gcalendar&task=auth.store');
+		$client->setUseObjects(true);
+
+		$service = new apiAnalyticsService($client);
+
+		return $client;
 	}
 }
 GCalendarZendHelper::loadZendClasses();
