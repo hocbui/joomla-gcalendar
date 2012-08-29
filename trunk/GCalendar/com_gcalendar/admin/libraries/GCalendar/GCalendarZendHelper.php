@@ -98,7 +98,7 @@ class GCalendarZendHelper{
 		// Implement View Level Access
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.admin') && !in_array($calendar->access, $user->getAuthorisedViewLevels())) {
-			return array();
+			return null;
 		}
 
 		$cache = JFactory::getCache('com_gcalendar');
