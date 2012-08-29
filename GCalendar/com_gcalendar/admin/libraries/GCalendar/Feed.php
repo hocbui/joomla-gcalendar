@@ -18,7 +18,8 @@
  * @since 2.5.0
  */
 
-class GCalendar_Feed extends Zend_Gdata_Calendar_EventFeed {
+class GCalendar_Feed extends Zend_Gdata_Calendar_EventFeed{
 
 	protected $_entryClassName = 'GCalendar_Entry';
 }
+?>

@@ -34,16 +34,17 @@ class GCalendarModelJSONFeed extends JModel {
 		else
 			$browserTz = 0;
 
+		$serverOffset = date('Z', $startDate);
 		$startDate = $startDate - $browserTz;
 		$endDate = $endDate - $browserTz;
 
 		$calendarids = '';
-		if (JRequest::getVar('gcids', null) != null) {
+		if(JRequest::getVar('gcids', null) != null){
 			if(is_array(JRequest::getVar('gcids', null)))
 				$calendarids = JRequest::getVar('gcids', null);
 			else
 				$calendarids = explode(',', JRequest::getVar('gcids', null));
-		} else {
+		}else{
 			$calendarids = JRequest::getVar('gcid', null);
 		}
 		$results = GCalendarDBUtil::getCalendars($calendarids);
@@ -56,7 +57,7 @@ class GCalendarModelJSONFeed extends JModel {
 				continue;
 
 			$events = GCalendarZendHelper::getEvents($result, $startDate, $endDate, 1000);
-			if ($events == null) {
+			if($events == null){
 				continue;
 			}
 			$calendars[] = $events;
