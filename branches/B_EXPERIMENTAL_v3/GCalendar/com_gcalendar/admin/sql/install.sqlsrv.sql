@@ -5,8 +5,7 @@ BEGIN
 		[calendar_id] [text] NOT NULL,
 		[name] [text] NOT NULL,
 		[magic_cookie] [text] NOT NULL,
-		[username] [varchar](255) NULL,
-		[password] [text] NULL,
+		[token] [text] NULL,
 		[color] [text] NOT NULL,
 		[access] [int] NOT NULL,
 		[access_content] [int] NOT NULL

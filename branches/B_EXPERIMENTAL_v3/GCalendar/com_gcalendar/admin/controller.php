@@ -38,6 +38,9 @@ class GCalendarController extends JController{
 		if($params->get('timezone', '') == ''){
 			JError::raiseNotice(0, JText::_('COM_GCALENDAR_FIELD_CONFIG_SETTINGS_TIMEZONE_WARNING'));
 		}
+		if($params->get('client-id') == null || $params->get('client-secret') == null) {
+			JError::raiseNotice(0, JText::_('COM_GCALENDAR_FIELD_CONFIG_SETTINGS_CLIENT_ID_WARNING'));
+		}
 	}
 
 	public function import(){
