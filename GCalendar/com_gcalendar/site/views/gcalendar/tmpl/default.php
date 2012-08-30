@@ -158,6 +158,21 @@ $calCode .= "			week:     '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_
 $calCode .= "			day:      '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_VIEW_DAY'), ENT_QUOTES)."',\n";
 $calCode .= "			list:      '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_VIEW_LIST'), ENT_QUOTES)."'\n";
 $calCode .= "		},\n";
+$calCode .= "		listSections: 'smart',\n";
+$calCode .= "		listRange: 30,\n";
+$calCode .= "		listPage: 30,\n";
+$calCode .= "		listTexts: {
+						until: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_UNTIL'), ENT_QUOTES)."',
+						past: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_PAST'), ENT_QUOTES)."',
+						today: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_TODAY'), ENT_QUOTES)."',
+						tomorrow: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_TOMORROW'), ENT_QUOTES)."',
+						thisWeek: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_THIS_WEEK'), ENT_QUOTES)."',
+						nextWeek: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_NEXT_WEEK'), ENT_QUOTES)."',
+						thisMonth: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_THIS_MONTH'), ENT_QUOTES)."',
+						nextMonth: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_NEXT_MONTH'), ENT_QUOTES)."',
+						future: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_FUTURE'), ENT_QUOTES)."',
+						week: '".htmlspecialchars(JText::_('COM_GCALENDAR_GCALENDAR_VIEW_TEXTS_WEEK'), ENT_QUOTES)."'
+					},\n";
 $calCode .= $calsSources;
 $calCode .= "		viewDisplay: function(view) {\n";
 $calCode .= "			var d = jQuery('#gcalendar_component').fullCalendar('getDate');\n";
