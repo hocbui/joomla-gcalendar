@@ -18,7 +18,7 @@
  
 (function($, undefined) {
 
-
+	
 var defaults = {
 
 	// display
@@ -1011,7 +1011,6 @@ function EventManager(options, _sources) {
 				if (endParam) {
 					data[endParam] = Math.round(+rangeEnd / 1000);
 				}
-				data['browserTimezone'] = rangeStart.getTimezoneOffset();
 				pushLoading();
 				$.ajax($.extend({}, ajaxDefaults, source, {
 					data: data,
