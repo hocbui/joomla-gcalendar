@@ -148,10 +148,10 @@ class GCalendarZendHelper{
 				$query->setQuery($filter);
 			}
 			if($startDate != null){
-				$query->setStartMin(strftime('%Y-%m-%dT%H:%M:%S', $startDate));
+				$query->setStartMin(JFactory::getDate($startDate)->format('Y-m-d\TH:i:s'));
 			}
 			if($endDate != null){
-				$query->setStartMax(strftime('%Y-%m-%dT%H:%M:%S',$endDate));
+				$query->setStartMax(JFactory::getDate($endDate)->format('Y-m-d\TH:i:s'));
 			}
 			if($startDate == null && $endDate == null){
 				$query->setFutureEvents($pastEvents ? 'false': 'true');
@@ -159,7 +159,7 @@ class GCalendarZendHelper{
 
 			$query->setMaxResults($max);
 			$query->setStartIndex($startIndex);
-			$query->setParam('ctz', 'Etc/GMT');
+			$query->setParam('ctz', 'UTC');
 			$query->setParam('hl', GCalendarUtil::getFrLanguage());
 
 			$feed = $service->getFeed($query, 'GCalendar_Feed');
