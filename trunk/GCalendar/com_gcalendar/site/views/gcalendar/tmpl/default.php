@@ -20,6 +20,11 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+if ($this->params->get('show_page_heading', 1)) { ?>
+	<h1>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
+	</h1>
+<?php }
 $document = JFactory::getDocument();
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
@@ -35,6 +40,7 @@ $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15 !important; }")
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css');
 
 $params = $this->params;
+
 
 $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
