@@ -30,11 +30,17 @@ if(!empty($this->calendars)){
 			continue;
 		}
 		foreach ($calendar as $item) {
-			$date = $item->getStartDate()->format('Y-m-d', true);
-			if(!key_exists($date, $tmp)){
-				$tmp[$date] = array();
-			}
-			$tmp[$date][] = $item;
+			$start = clone $item->getStartDate();
+			$end = clone $item->getEndDate();
+
+			do {
+				$date = $start->format('Y-m-d', true);
+				if(!key_exists($date, $tmp)){
+					$tmp[$date] = array();
+				}
+				$tmp[$date][] = $item;
+				$start->modify("+1 day");
+			} while ($start < $end);
 		}
 	}
 }
