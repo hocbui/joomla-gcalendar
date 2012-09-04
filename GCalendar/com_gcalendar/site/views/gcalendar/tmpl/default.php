@@ -213,6 +213,12 @@ if($params->get('show_event_as_popup', 1) == 1){
 $calCode .= "		dayClick: function(date, allDay, jsEvent, view) {\n";
 $calCode .= "			dayClickCustom(date, allDay, jsEvent, view);\n";
 $calCode .= "		},\n";
+$calCode .= "		eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {\n";
+$calCode .= "			eventDropCustom(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view);\n";
+$calCode .= "		},\n";
+$calCode .= "		eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {\n";
+$calCode .= "			eventResizeCustom(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view);\n";
+$calCode .= "		},\n";
 $calCode .= "		loading: function(bool) {\n";
 $calCode .= "			if (bool) {\n";
 $calCode .= "				jQuery('#gcalendar_component_loading').show();\n";
@@ -279,6 +285,8 @@ $calCode .= "	});\n";
 $calCode .= "	jQuery('.ui-widget-overlay').live('click', function() { jQuery('#gcalendar-dialog').dialog('close'); });\n";
 $calCode .= "});\n";
 $calCode .= "var dayClickCustom = function(date, allDay, jsEvent, view){jQuery('#gcalendar_component').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');}\n";
+$calCode .= "var eventDropCustom = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){}\n";
+$calCode .= "var eventResizeCustom = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view){}\n";
 $calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
