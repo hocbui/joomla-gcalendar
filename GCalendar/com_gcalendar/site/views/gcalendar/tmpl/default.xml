@@ -13,6 +13,7 @@
 				label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SHOW_CALENDARS_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SHOW_CALENDARS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JYES</option>
+				<option value="3">COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SHOW_CALENDARS_EXPAND</option>
 				<option value="2">JNO</option>
 			</field>
 			<field name="defaultView" type="list"

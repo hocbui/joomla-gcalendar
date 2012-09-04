@@ -1,26 +1,18 @@
 jQuery(document).ready(function(){
-	var gcSlide = new Fx.Slide('gc_gcalendar_view_list');
-
-	jQuery('#gc_gcalendar_view_toggle_status').bind('click', function(e) {
-
-		e = new Event(e);
-		gcSlide.toggle();
-
-		var oldImage = jQuery('#gc_gcalendar_view_toggle_status').attr('src');
-		var gcalImage = oldImage;
-		var path = oldImage.substring(0, oldImage.lastIndexOf('/'));
-
-		if (gcSlide.open)
-			var gcalImage = path + '/down.png';
-		else
-			var gcalImage = path + '/up.png';
-
-		jQuery('#gc_gcalendar_view_toggle_status').attr('src', gcalImage);
-
-		e.stop();
-
+	jQuery('#gc_gcalendar_view_toggle_status').bind('click', function(e) {console.log('sdf');
+		jQuery('#gc_gcalendar_view_list').slideToggle('slow', function(){
+			var oldImage = jQuery('#gc_gcalendar_view_toggle_status').attr('src');
+			var gcalImage = oldImage;
+			var path = oldImage.substring(0, oldImage.lastIndexOf('/'));
+			
+			if (jQuery('#gc_gcalendar_view_list').is(":hidden"))
+				gcalImage = path + '/down.png';
+			else
+				gcalImage = path + '/up.png';
+			
+			jQuery('#gc_gcalendar_view_toggle_status').attr('src', gcalImage);
+		});
 	});
-	gcSlide.hide();
 });
 
 function updateGCalendarFrame(calendar) {
@@ -29,18 +21,4 @@ function updateGCalendarFrame(calendar) {
 	} else {
 		jQuery('#gcalendar_component').fullCalendar('removeEventSource', calendar.value);
 	}
-}
-
-/* Not used for the moment, can be used to select only one calendar source*/
-function updateGCalendarSelectOne(feedUrl) {
-
-	//remove all event sources
-	jQuery('#gcalendar_component').fullCalendar('removeEventSource',false);	
-
-	//add new event source
-	jQuery('#gcalendar_component').fullCalendar('addEventSource',feedUrl);
-
-	//fixed calendars, always displayed
-	//var vacations = feedUrl.replace(/gcid=[0-9]+/, 'gcid=1');
-	//jQuery('#gcalendar_component').fullCalendar('addEventSource',vacations);
 }

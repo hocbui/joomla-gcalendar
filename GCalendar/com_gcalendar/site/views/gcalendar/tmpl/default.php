@@ -283,15 +283,18 @@ $calCode .= "		if(view.name != tmpView)\n";
 $calCode .= "			jQuery('#gcalendar_component').fullCalendar('changeView', tmpView);\n";
 $calCode .= "	});\n";
 $calCode .= "	jQuery('.ui-widget-overlay').live('click', function() { jQuery('#gcalendar-dialog').dialog('close'); });\n";
+if($params->get('show_selection', 1) == 1) {
+	$calCode .= "jQuery('#gc_gcalendar_view_list').hide();\n";
+}
 $calCode .= "});\n";
 $calCode .= "var dayClickCustom = function(date, allDay, jsEvent, view){jQuery('#gcalendar_component').fullCalendar('gotoDate', date).fullCalendar('changeView', 'agendaDay');}\n";
-$calCode .= "var eventDropCustom = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){}\n";
-$calCode .= "var eventResizeCustom = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view){}\n";
+$calCode .= "var eventDropCustom = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){};\n";
+$calCode .= "var eventResizeCustom = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view){};\n";
 $calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
 echo $params->get( 'textbefore' );
-if($params->get('show_selection', 1) == 1){
+if($params->get('show_selection', 1) == 1 || $params->get('show_selection', 1) == 3){
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 	$calendar_list = '<div id="gc_gcalendar_view_list"><table class="gcalendar-table">';
 	foreach($allCalendars as $calendar) {
@@ -309,7 +312,9 @@ if($params->get('show_selection', 1) == 1){
 	echo $calendar_list;
 	echo "<div align=\"center\" style=\"text-align:center\">\n";
 	echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
-	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".JURI::base()."media/com_gcalendar/images/down.png\" alt=\"".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_LIST')."\" title=\"".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_LIST')."\"/>\n";
+	$image = JURI::base().'media/com_gcalendar/images/down.png';
+	if($params->get('show_selection', 1) == 3) $image = JURI::base().'media/com_gcalendar/images/up.png';
+	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".$image."\" alt=\"".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_LIST')."\" title=\"".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_LIST')."\"/>\n";
 	echo "</a></div>\n";
 }
 
