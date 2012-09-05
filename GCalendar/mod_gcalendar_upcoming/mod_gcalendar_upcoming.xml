@@ -68,9 +68,7 @@
 {{emptyText}}
 {{/events}}]]>
 					</content>
-					<description>
-						MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_LONG_DESC
-					</description>
+					<description>MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_LONG_DESC</description>
 				</field>
 				<field name="output_grouping" type="text" size="80" default=""
 					label="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_OUTPUT_GROUPING_DESC">

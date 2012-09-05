@@ -74,9 +74,7 @@
 				description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DESC_FORMAT_DESC"
 				rows="5" cols="50" filter="raw">
 				<content></content>
-				<description>
-					COM_GCALENDAR_MUSTACHE_DESC
-				</description>
+				<description>COM_GCALENDAR_MUSTACHE_DESC</description>
 			</field>
 			<field name="textbefore" type="textarea"
 				label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_TEXT_BEFORE_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_TEXT_BEFORE_DESC"
