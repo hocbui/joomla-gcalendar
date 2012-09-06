@@ -18,7 +18,7 @@
  
 (function($, undefined) {
 
-	
+
 var defaults = {
 
 	// display
@@ -5500,16 +5500,9 @@ function ListEventRenderer() {
 				if (event.source && event.source.className) {
 					classes = classes.concat(event.source.className);
 				}
-				s += '<';
-				url = event.url;
-				if (url) {
-					s += "a href='" + htmlEscape(url) + "'";
-				}else{
-					s += "div";
-				}
 				
 				s += 
-					" class='" + classes.join(' ') + "'" + skinCssAttr + ">" +
+					"<div class='" + classes.join(' ') + "'" + skinCssAttr + ">" +
 					"<div class='fc-event-inner fc-event-skin'" + skinCssAttr + ">" +
 					"<div class='fc-event-head fc-event-skin'" + skinCssAttr + ">" +
 					"<div class='fc-event-time'>" +
@@ -5523,10 +5516,8 @@ function ListEventRenderer() {
 					"</div>" +
 					"</div>" +
 					"<div class='fc-event-bg'></div>" +
-					"</div>"; // close inner
-				
-				s +=
-					"</" + (url ? "a" : "div") + ">"; // close outer
+					"</div>" + // close inner
+					"</div>";  // close outer
 			}
 			
 			segContainer[0].innerHTML = s;
