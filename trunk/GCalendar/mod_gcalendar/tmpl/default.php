@@ -25,7 +25,7 @@ $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/
 $document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/ext/tipTip.css');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.tipTip.minified.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/gcalendar/jquery.gcalendar-all.min.js');
 $document->addStyleSheet(JURI::base().'modules/mod_gcalendar/tmpl/gcalendar.css');
 
 $color = $params->get('event_color', '135CAE');

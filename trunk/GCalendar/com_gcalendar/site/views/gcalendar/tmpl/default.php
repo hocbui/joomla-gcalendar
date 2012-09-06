@@ -26,21 +26,16 @@ if ($this->params->get('show_page_heading', 1)) { ?>
 	</h1>
 <?php }
 $document = JFactory::getDocument();
-$document->addScript(JURI::base(). 'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js' );
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js');
+$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/gcalendar/jquery.gcalendar-all.min.js');
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.css');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ui/jquery-ui.custom.min.js');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.easing-1.3.pack.js');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.mousewheel-3.0.4.pack.js');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.fancybox-1.3.4.pack.js');
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/fancybox/jquery.fancybox-1.3.4.css');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.ba-hashchange.min.js');
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/libraries/jquery/ext/tipTip.css');
-$document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/ext/jquery.tipTip.minified.js');
 $document->addStyleDeclaration("#ui-datepicker-div { z-index: 15 !important; }");
 $document->addStyleSheet(JURI::base().'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.css');
 
 $params = $this->params;
-
 
 $theme = $params->get('theme', '');
 if(JRequest::getVar('theme', null) != null)
@@ -194,7 +189,7 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$popupWidth = $params->get('popup_width', 650);
 	$popupHeight = $params->get('popup_height', 500);
 	$calCode .= "		eventRender: function(event, element, view) {\n";
-	$calCode .= "		        element.attr('href', element.attr('href') + (element.attr('href').indexOf('?') != -1 ? '&' : '?')+'tmpl=component');\n";
+	$calCode .= "		        element.attr('href', event.url + (event.url.indexOf('?') != -1 ? '&' : '?')+'tmpl=component');\n";
 	$calCode .= "		        element.fancybox({\n";
 	$calCode .= "		           width: ".$popupWidth.",\n";
 	$calCode .= "		           height: ".$popupHeight.",\n";
@@ -207,6 +202,8 @@ if($params->get('show_event_as_popup', 1) == 1){
 	$calCode .= "		           type : 'iframe',\n";
 	$calCode .= "		           onCleanup : function(){if(jQuery('#fancybox-frame').contents().find('#content_table').length < 1){jQuery('#gcalendar_component').fullCalendar('refetchEvents');}}\n";
 	$calCode .= "		        });\n";
+	$calCode .= "			if (event.description){\n";
+	$calCode .= "				element.tipTip({content: event.description, defaultPosition: 'top'});}\n";
 	$calCode .= "		},\n";
 	$calCode .= "		eventClick: function(event) {if (event.url) {return false;}},\n";
 }
@@ -311,11 +308,10 @@ if($params->get('show_selection', 1) == 1 || $params->get('show_selection', 1) =
 	$calendar_list .="</table></div>\n";
 	echo $calendar_list;
 	echo "<div align=\"center\" style=\"text-align:center\">\n";
-	echo "<a id=\"gc_gcalendar_view_toggle\" name=\"gc_gcalendar_view_toggle\" href=\"#\">\n";
 	$image = JURI::base().'media/com_gcalendar/images/down.png';
 	if($params->get('show_selection', 1) == 3) $image = JURI::base().'media/com_gcalendar/images/up.png';
 	echo "<img id=\"gc_gcalendar_view_toggle_status\" name=\"gc_gcalendar_view_toggle_status\" src=\"".$image."\" alt=\"".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_LIST')."\" title=\"".JText::_('COM_GCALENDAR_GCALENDAR_VIEW_CALENDAR_LIST')."\"/>\n";
-	echo "</a></div>\n";
+	echo "</div>\n";
 }
 
 echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "media/com_gcalendar/images/ajax-loader.gif\"  alt=\"loader\" /></div>";

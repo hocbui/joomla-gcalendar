@@ -20,3 +20,7 @@
 #tiptip_content {
 	text-align: left;
 }
+
+#gc_gcalendar_view_toggle_status{
+	cursor:pointer;
+}
