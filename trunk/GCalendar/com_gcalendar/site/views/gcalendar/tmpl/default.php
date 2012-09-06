@@ -61,7 +61,7 @@ foreach($allCalendars as $calendar) {
 $calsSources = trim($calsSources, ",\n");
 $calsSources .= "	],\n";
 
-$defaultView = 'month';
+$defaultView = $params->get('defaultView', 'month');
 if($params->get('defaultView', 'month') == 'week')
 	$defaultView = 'agendaWeek';
 else if($params->get('defaultView', 'month') == 'day')

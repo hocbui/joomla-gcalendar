@@ -23,6 +23,7 @@
 				<option value="month">COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DEFAULT_VIEW_MONTH</option>
 				<option value="week">COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DEFAULT_VIEW_WEEK</option>
 				<option value="day">COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DEFAULT_VIEW_DAY</option>
+				<option value="list">COM_GCALENDAR_FIELD_CONFIG_CALENDAR_DEFAULT_VIEW_LIST</option>
 			</field>
 			<field name="weekstart" type="list" label="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_WEEK_START_LABEL"
 				description="COM_GCALENDAR_FIELD_CONFIG_CALENDAR_WEEK_START_DESC">
