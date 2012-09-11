@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-	jQuery('#gc_gcalendar_view_toggle_status').bind('click', function(e) {console.log('sdf');
+	jQuery('#gc_gcalendar_view_toggle_status').bind('click', function(e) {
 		jQuery('#gc_gcalendar_view_list').slideToggle('slow', function(){
 			var oldImage = jQuery('#gc_gcalendar_view_toggle_status').attr('src');
 			var gcalImage = oldImage;
