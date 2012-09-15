@@ -192,7 +192,7 @@ class GCalendarUtil{
 				$variables['dateseparator'] = $dateSeparator;
 
 				$variables['month'] = strtoupper($event->getStartDate()->format('M', true));
-				$variables['day'] = $event->getStartDate()->format('d', true);
+				$variables['day'] = $event->getStartDate()->format('j', true);
 			}
 			$variables['modifieddate'] = $params->get('show_event_modified_date', 1) == 1 ? $event->getModifiedDate()->format($timeformat, true).' '.$event->getModifiedDate()->format($dateformat, true) : null;
 
