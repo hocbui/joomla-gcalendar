@@ -9,10 +9,11 @@
 		<fieldset name="basic">
 			<field name="calendarids" type="gcalendar" default="" multiple="true"
 				label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_SELECT_CALENDARS_LABEL" description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_SELECT_CALENDARS_DESC" />
-			<field name="show_selection" type="radio" default="1"
+			<field name="show_selection" type="list" default="1"
 				label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_SHOW_CALENDARS_LABEL" description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_SHOW_CALENDARS_DESC">
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+				<option value="3">COM_GCALENDAR_FIELD_CONFIG_CALENDAR_SHOW_CALENDARS_EXPAND</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="title" type="radio" default="1" label="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TITLE_LABEL"
 				description="COM_GCALENDAR_VIEW_GOOGLE_FIELD_TITLE_DESC">

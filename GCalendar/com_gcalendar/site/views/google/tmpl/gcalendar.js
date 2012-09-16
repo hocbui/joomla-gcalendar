@@ -1,31 +1,19 @@
-window
-		.addEvent(
-				'domready',
-				function() {
-					var gcSlide = new Fx.Slide('gc_google_view_list');
-
-					$('gc_google_view_toggle')
-							.addEvent(
-									'click',
-									function(e) {
-										e = new Event(e);
-										gcSlide.toggle();
-
-										var oldImage = window.document
-												.getElementById('gc_google_view_toggle_status').src;
-										var gcalImage = oldImage;
-										var path = oldImage.substring(0,
-												oldImage.lastIndexOf('/'));
-										if (gcSlide.open)
-											var gcalImage = path + '/down.png';
-										else
-											var gcalImage = path + '/up.png';
-										window.document
-												.getElementById('gc_google_view_toggle_status').src = gcalImage;
-										e.stop();
-									});
-					gcSlide.hide();
-				});
+jQuery(document).ready(function(){
+	jQuery('#gc_google_view_toggle_status').bind('click', function(e) {
+		jQuery('#gc_google_view_list').slideToggle('slow', function(){
+			var oldImage = jQuery('#gc_google_view_toggle_status').attr('src');
+			var gcalImage = oldImage;
+			var path = oldImage.substring(0, oldImage.lastIndexOf('/'));
+			
+			if (jQuery('#gc_google_view_list').is(":hidden"))
+				gcalImage = path + '/down.png';
+			else
+				gcalImage = path + '/up.png';
+			
+			jQuery('#gc_google_view_toggle_status').attr('src', gcalImage);
+		});
+	});
+});
 
 function updateGCalendarFrame(calendar) {
 	var orig_url = window.document.getElementById('gcalendar_frame').src;
