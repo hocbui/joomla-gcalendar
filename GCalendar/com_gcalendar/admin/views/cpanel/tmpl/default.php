@@ -41,7 +41,7 @@
 </div>
 </div>
 <div id="twitter_div" style="float:left"></div>
-<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script src="<?php echo JBrowser::getInstance()->isSSLConnection() ? 'https' : 'http'?>://widgets.twimg.com/j/2/widget.js"></script>
 <script>
 window.addEvent('domready', function() {
 	new TWTR.Widget({
