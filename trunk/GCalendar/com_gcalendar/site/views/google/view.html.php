@@ -18,27 +18,20 @@
  * @since 2.2.0
  */
 
+defined('_JEXEC') or die();
+
 jimport( 'joomla.application.component.view');
 
-/**
- * HTML View class for the GCalendar Component
- *
- */
-class GCalendarViewGoogle extends JView
-{
-	function display($tpl = null)
-	{
-		$mainframe = &JFactory::getApplication();
+class GCalendarViewGoogle extends JViewLegacy {
 
-		$calendars = $this->get( 'DBCalendars' );
+	public function display($tpl = null) {
+		$calendars = $this->get('DBCalendars');
 		if(!is_array($calendars))
-		$calendars = array();
-		$this->assignRef( 'calendars',	$calendars );
+			$calendars = array();
+		$this->calendars = $calendars ;
 
-		$params = &$mainframe->getParams();
-		$this->assignRef('params'  , $params);
+		$this->params = JFactory::getApplication()->getParams();
 
 		parent::display($tpl);
 	}
 }
-?>

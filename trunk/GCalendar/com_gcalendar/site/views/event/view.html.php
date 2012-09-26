@@ -20,12 +20,11 @@
 
 jimport( 'joomla.application.component.view');
 
-class GCalendarViewEvent extends JView{
-	
-	public function display($tpl = null){
-		$event = $this->get('GCalendar');
-		$this->assignRef('event', $event);
-		
+class GCalendarViewEvent extends JViewLegacy {
+
+	public function display($tpl = null) {
+		$this->event = $this->get('GCalendar');
+
 		parent::display($tpl);
 	}
 }

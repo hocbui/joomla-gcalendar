@@ -18,7 +18,7 @@
  * @since 2.2.0
  */
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/util.php');
 
 function GCalendarBuildRoute( &$query )
 {

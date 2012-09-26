@@ -22,7 +22,7 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
 
-class GCalendarModelJSONFeed extends JModel {
+class GCalendarModelJSONFeed extends JModelLegacy {
 
 	public function getGoogleCalendarFeeds() {
 		$startDate = JRequest::getVar('start', null);

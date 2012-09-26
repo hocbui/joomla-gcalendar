@@ -18,51 +18,35 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
-/**
- * GCalendars View
- *
- */
-class GCalendarViewGCalendars extends JView
-{
-	/**
-	 * GCalendars view display method
-	 * @return void
-	 **/
-	function display($tpl = null)
-	{
-		JToolBarHelper::title(   JText::_( 'COM_GCALENDAR_MANAGER_GCALENDAR' ),  'calendar');
+class GCalendarViewGCalendars extends JViewLegacy {
+
+	public function display($tpl = null) {
+		JToolBarHelper::title(JText::_('COM_GCALENDAR_MANAGER_GCALENDAR'), 'calendar');
 
 		$canDo = GCalendarUtil::getActions();
-		if ($canDo->get('core.create'))
-		{
+		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('gcalendar.add', 'JTOOLBAR_NEW');
 			JToolBarHelper::custom('import', 'upload.png', 'upload.png', 'COM_GCALENDAR_VIEW_GCALENDARS_BUTTON_IMPORT', false);
 		}
-		if ($canDo->get('core.edit'))
-		{
+		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('gcalendar.edit', 'JTOOLBAR_EDIT');
 		}
-		if ($canDo->get('core.delete'))
-		{
+		if ($canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'gcalendars.delete', 'JTOOLBAR_DELETE');
 		}
-		if ($canDo->get('core.admin'))
-		{
+		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_gcalendar', 550);
 			JToolBarHelper::divider();
 		}
 
-		$items = & $this->get( 'Items');
-		$pagination =& $this->get('Pagination');
+		$items = $this->get('Items');
+		$pagination = $this->get('Pagination');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}

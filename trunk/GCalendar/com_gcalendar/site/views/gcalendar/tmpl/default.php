@@ -20,11 +20,14 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+JHtml::_('jquery.framework');
+
 if ($this->params->get('show_page_heading', 1)) { ?>
 	<h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 <?php }
+
 $document = JFactory::getDocument();
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/fullcalendar/fullcalendar.min.js');
 $document->addScript(JURI::base().'components/com_gcalendar/libraries/jquery/gcalendar/jquery.gcalendar-all.min.js');
@@ -322,7 +325,7 @@ $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('gcalendar');
 $dispatcher->trigger('onGCCalendarLoad', array('gcalendar_component'));
 
-if(!JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendarap'.DS.'gcalendarap.php'))
+if(!JFile::exists(JPATH_ADMINISTRATOR.'/components/com_gcalendarap/gcalendarap.php'))
 	echo "<div style=\"text-align:center;margin-top:10px\" ><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";
 
 //hide buttons and tune CSS for printable format

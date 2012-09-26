@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.6.0" method="upgrade">
+<extension type="component" version="3.0" method="upgrade">
 	<name>COM_GCALENDAR</name>
 	<creationDate>Sept 2012</creationDate>
 	<author>G4J Project</author>
@@ -66,4 +66,4 @@
 			<folder>language</folder>
 		</files>
 	</administration>
-</install>
+</extension>

@@ -121,54 +121,6 @@
 		<field name="event_time_format" type="text" size="80" default="g:i a"
 			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_TIME_FORMAT_LABEL"
 			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_TIME_FORMAT_DESC" />
-		<field name="@spacer" type="spacer" default="Event output"
-			label="" description="" />
-		<field name="show_calendar_name" type="radio" default="1"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_CAL_NAME_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_CAL_NAME_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
-		<field name="show_event_title" type="radio" default="1"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_TITLE_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_TITLE_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
-		<field name="show_event_date" type="radio" default="1"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_DATE_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_DATE_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
-		<field name="show_event_attendees" type="radio" default="2"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_ATTENDEE_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_ATTENDEE_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
-		<field name="show_event_description" type="radio" default="1"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_DESCRIPTION_LABEL"
-			description="COM_GCALENDAR_FIELD_CONFIG_EVENT_DESCRIPTION_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
-		<field name="show_event_location" type="radio" default="1"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_LOCATION_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_LOCATION_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
-		<field name="show_event_location_map" type="radio" default="1"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_LOCATION_MAP_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_LOCATION_MAP_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
-		<field name="show_event_author" type="radio" default="2"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_AUTHOR_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_AUTHOR_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
-		<field name="show_event_copy_info" type="radio" default="1"
-			label="COM_GCALENDAR_FIELD_CONFIG_EVENT_COPY_LABEL" description="COM_GCALENDAR_FIELD_CONFIG_EVENT_COPY_DESC">
-			<option value="1">JYES</option>
-			<option value="2">JNO</option>
-		</field>
 	</fieldset>
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC">

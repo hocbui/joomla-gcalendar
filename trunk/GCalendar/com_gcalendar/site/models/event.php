@@ -18,26 +18,15 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
 
-/**
- * GCalendar Model
- *
- */
-class GCalendarModelEvent extends JModel
-{
+class GCalendarModelEvent extends JModelLegacy {
 
-	/**
-	 * Gets the simplepie event
-	 * @return string event
-	 */
-	function getGCalendar()
-	{
+	public function getGCalendar() {
 		$results = GCalendarDBUtil::getCalendars(JRequest::getVar('gcid', null));
-		if(empty($results) || JRequest::getVar('eventID', null) == null){
+		if (empty($results) || JRequest::getVar('eventID', null) == null) {
 			return null;
 		}
 

@@ -20,27 +20,25 @@
 
 defined('_JEXEC') or die();
 
-class GCalendarControllerImport extends JController
-{
+class GCalendarControllerImport extends JControllerLegacy {
 
-	function save()
-	{
+	public function save() {
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$model = $this->getModel('Import');
 
-		if ($model->store($post)) {
-			$msg = JText::_( 'Calendar saved!' );
+		if ($model->store()) {
+			$msg = JText::_('Calendar saved!');
 		} else {
-			$msg = JText::_( 'Error saving calendar' );
+			$msg = JText::_('Error saving calendar');
 		}
 
 		$link = 'index.php?option=com_gcalendar&view=gcalendars';
 		$this->setRedirect($link, $msg);
 	}
 
-	function cancel()
-	{
+	public function cancel() {
 		$msg = JText::_( 'Operation cancelled' );
 		$this->setRedirect( 'index.php?option=com_gcalendar&view=gcalendars', $msg );
 	}
 }
-?>

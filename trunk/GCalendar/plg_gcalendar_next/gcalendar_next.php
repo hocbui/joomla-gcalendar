@@ -21,8 +21,8 @@
 defined('_JEXEC') or die();
 jimport('joomla.plugin.plugin');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'GCalendar'.DS.'GCalendarZendHelper.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/util.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/libraries/GCalendar/GCalendarZendHelper.php');
 
 class plgContentgcalendar_next extends JPlugin {
 

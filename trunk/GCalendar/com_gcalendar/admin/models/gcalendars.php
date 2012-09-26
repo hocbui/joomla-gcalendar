@@ -22,15 +22,13 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.modellist');
 
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_gcalendar/tables');
 
-class GCalendarModelGCalendars extends JModelList
-{
+class GCalendarModelGCalendars extends JModelList {
 
-	protected function _getList($query, $limitstart = 0, $limit = 0)
-	{
+	protected function _getList($query, $limitstart = 0, $limit = 0) {
 		$items = parent::_getList($query, $limitstart, $limit);
-		if($items === null){
+		if ($items === null) {
 			return $items;
 		}
 		$tmp = array();
@@ -42,16 +40,15 @@ class GCalendarModelGCalendars extends JModelList
 		return $tmp;
 	}
 
-	protected function getListQuery()
-	{
+	protected function getListQuery() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$user	= JFactory::getUser();
 
 		$query->select('*');
 		$calendarIDs = $this->getState('ids', null);
-		if(!empty($calendarIDs)){
-			if(is_array($calendarIDs)) {
+		if (!empty($calendarIDs)) {
+			if (is_array($calendarIDs)) {
 				$query->where('id IN ( '.implode(',', array_map('intval', $calendarIDs)).')');
 			} else {
 				$query->where($condition = 'id = '.(int)rtrim($calendarIDs, ','));

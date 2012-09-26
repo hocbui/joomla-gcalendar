@@ -13,6 +13,7 @@
 	clear: both;
 	width: 100%;
 	padding: 0px 2px;
+	text-align: center;
 }
 .countdown_show1 .countdown_section {
 	width: 98%;
@@ -39,7 +40,8 @@
 	display: block;
 	float: left;
 	font-size: 75%;
-	padding-left: 3px;
+        padding-left: 8px;
+        text-align: center;
 }
 .countdown_amount {
 	font-size: 200%;
@@ -47,4 +49,6 @@
 .countdown_descr {
 	display: block;
 	width: 100%;
+	text-align: left;
+	margin-top: 30px;
 }

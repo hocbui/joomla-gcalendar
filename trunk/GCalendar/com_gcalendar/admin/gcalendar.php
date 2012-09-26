@@ -29,19 +29,20 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_gcalendar')){
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'GCalendar'.DS.'GCalendarZendHelper.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/util.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/libraries/GCalendar/GCalendarZendHelper.php');
 
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once (JPATH_COMPONENT.'/controller.php');
 jimport('joomla.application.component.controller');
 
-$path = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'gcalendar.xml';
+$path = JPATH_ADMINISTRATOR.'/components/com_gcalendar/gcalendar.xml';
 if(file_exists($path)){
 	$manifest = simplexml_load_file($path);
 	JRequest::setVar('GCALENDAR_VERSION', $manifest->version);
 }else{
 	JRequest::setVar('GCALENDAR_VERSION', '');
 }
-$controller = JController::getInstance('GCalendar');
-$controller->execute(JRequest::getCmd('task'));
+
+$controller = JControllerLegacy::getInstance('GCalendar');
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

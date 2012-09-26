@@ -22,23 +22,19 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
-class GCalendarViewImport extends JView
-{
-	
-	function display($tpl = null)
-	{
+class GCalendarViewImport extends JViewLegacy {
+
+	public function display($tpl = null) {
 		JToolBarHelper::title(JText::_( 'COM_GCALENDAR_MANAGER_GCALENDAR' ), 'calendar');
-		
+
 		$canDo = GCalendarUtil::getActions();
 		if ($canDo->get('core.create')){
 			JToolBarHelper::custom('import.save', 'new.png', 'new.png', 'COM_GCALENDAR_VIEW_IMPORT_BUTTON_ADD', false);
 		}
 		JToolBarHelper::cancel('gcalendar.cancel', 'JTOOLBAR_CANCEL');
-		
-		$items = $this->get( 'OnlineData');
-		$this->assignRef('online_items', $items);
-		$dbitems = $this->get( 'DBData');
-		$this->assignRef('db_items', $dbitems);
+
+		$this->onlineItems = $this->get('OnlineData');
+		$this->dbItems = $this->get('DBData');
 		parent::display($tpl);
 	}
 }

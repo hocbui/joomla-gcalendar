@@ -18,43 +18,38 @@
  * @since 2.2.0
  */
 
-// no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.plugin.plugin');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'GCalendar'.DS.'GCalendarZendHelper.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/util.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/libraries/GCalendar/GCalendarZendHelper.php');
 
-class plgSearchGCalendar extends JPlugin
-{
-	public function __construct(& $subject, $config)
-	{
+class plgSearchGCalendar extends JPlugin {
+
+	public function __construct(& $subject, $config) {
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 	}
 
-	public function onContentSearchAreas()
-	{
+	public function onContentSearchAreas() {
 		static $areas = array(
 				'gcalendar' => 'GCalendar'
 		);
 		return $areas;
 	}
 
-	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
-	{
-		$user	=& JFactory::getUser();
+	public function onContentSearch($text, $phrase='', $ordering='', $areas=null) {
+		$user	= JFactory::getUser();
 
 		$text = trim( $text );
 		if ($text == '') {
 			return array();
 		}
-		if($phrase == 'exact')
+		if ($phrase == 'exact')
 			$text = "\"".$text."\"";
 
-		switch ( $ordering )
-		{
+		switch ($ordering) {
 			case 'oldest':
 				$orderasc = GCalendarZendHelper::SORT_ORDER_ASC;
 				break;
@@ -72,10 +67,10 @@ class plgSearchGCalendar extends JPlugin
 
 		$pluginParams = $this->params;
 
-		$limit = $pluginParams->def( 'search_limit', 50 );
+		$limit = $pluginParams->def('search_limit', 50);
 
-		$calendarids = $pluginParams->get( 'calendarids', NULL );
-		$pastevents = $pluginParams->get( 'pastevents', 1 ) == 1;
+		$calendarids = $pluginParams->get('calendarids', NULL);
+		$pastevents = $pluginParams->get('pastevents', 1) == 1;
 		$results = GCalendarDBUtil::getCalendars($calendarids);
 		if(empty($results))
 			return array();
@@ -98,17 +93,6 @@ class plgSearchGCalendar extends JPlugin
 		$return = array();
 		foreach($events as $event){
 			$params = clone JComponentHelper::getParams('com_gcalendar');
-
-			// enable all params
-			$params->set('show_calendar_name', 1);
-			$params->set('show_event_title', 1);
-			$params->set('show_event_date', 1);
-			$params->set('show_event_attendees', 1);
-			$params->set('show_event_location', 1);
-			$params->set('show_event_location_map', 1);
-			$params->set('show_event_description', 1);
-			$params->set('show_event_author', 1);
-			$params->set('show_event_copy_info', 1);
 
 			$title = GCalendarUtil::renderEvents(array($event), '{{#events}}{{date}} {{{title}}}{{/events}}', $params);
 			$text = GCalendarUtil::renderEvents(array($event), '{{#events}}{{{description}}}{{/events}}', $params);

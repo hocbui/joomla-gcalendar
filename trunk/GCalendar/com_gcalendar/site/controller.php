@@ -20,4 +20,4 @@
 
 jimport('joomla.application.component.controller');
 
-class GCalendarController extends JController{}
+class GCalendarController extends JControllerLegacy{}

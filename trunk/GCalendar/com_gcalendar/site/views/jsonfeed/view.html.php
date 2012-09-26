@@ -18,17 +18,13 @@
  * @since 2.2.0
  */
 
+defined('_JEXEC') or die();
+
 jimport( 'joomla.application.component.view');
 
-/**
- * HTML View class for the GCalendar Component
- *
- */
-class GCalendarViewJSONFeed extends JView
-{
-	function display($tpl = null)
-	{
+class GCalendarViewJSONFeed extends JView {
+
+	public function display($tpl = null) {
 		parent::display($tpl);
 	}
 }
-?>

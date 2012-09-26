@@ -22,7 +22,7 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
 
-class GCalendarModelGCalendar extends JModel {
+class GCalendarModelGCalendar extends JModelLegacy {
 
 	private $cached_data = null;
 	protected $_extension = 'com_gcalendar';

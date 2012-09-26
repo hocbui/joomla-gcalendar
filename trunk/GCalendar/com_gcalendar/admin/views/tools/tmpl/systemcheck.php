@@ -141,7 +141,7 @@ defined('_JEXEC') or die('Restricted access');
 	}
 
 	function checkCacheForGCalendarView() {
-		$cacheDir =  JPATH_BASE.DS.'cache'.DS.'com_gcalendar';
+		$cacheDir =  JPATH_BASE.'/cache/com_gcalendar';
 		$desc = "The directory ".$cacheDir." which is used by the GCalendar view as cache directory is writable, this means you can enable caching in the GCalendar view.";
 		$status = 'ok';
 		$solution = '';

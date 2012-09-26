@@ -20,10 +20,10 @@
 
 defined('_JEXEC') or die();
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'util.php');
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'GCalendar'.DS.'GCalendarZendHelper.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/util.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/libraries/GCalendar/GCalendarZendHelper.php');
 
-require_once (dirname(__FILE__).DS.'helper.php');
+require_once (dirname(__FILE__).'/helper.php');
 
 $events = ModGCalendarUpcomingHelper::getCalendarItems($params);
 require( JModuleHelper::getLayoutPath('mod_gcalendar_upcoming') );

@@ -18,20 +18,18 @@
  * @since 2.2.0
  */
 
+defined('_JEXEC') or die();
+
 jimport( 'joomla.application.component.view');
 
-/**
- * Raw View class for the GCalendar Component
- *
- */
-class GCalendarViewJSONFeed extends JView{
+class GCalendarViewJSONFeed extends JViewLegacy {
 
-	public function display($tpl = null){
+	public function display($tpl = null) {
 		$calendars = $this->get('GoogleCalendarFeeds');
 		if(!is_array($calendars)){
 			$calendars = array();
 		}
-		$this->assignRef('calendars', $calendars);
+		$this->calendars = $calendars;
 		parent::display($tpl);
 	}
 }

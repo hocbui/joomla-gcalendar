@@ -18,25 +18,16 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
 
-class GCalendarModelGoogle extends JModel {
+class GCalendarModelGoogle extends JModelLegacy {
 
-	var $cached_data = null;
+	private $cached_data = null;
 
-	/**
-	 * Returns all calendars in the database. The returned
-	 * rows contain an additional attribute selected which is set
-	 * to true when the specific calendar is mentioned in the
-	 * parameters property calendarids.
-	 *
-	 * @return the calendars specified in the database
-	 */
-	function getDBCalendars(){
-		if($this->cached_data == null){
+	public function getDBCalendars() {
+		if ($this->cached_data == null) {
 			$calendars = GCalendarDBUtil::getAllCalendars();
 			$this->cached_data = $calendars;
 		}

@@ -18,57 +18,37 @@
  * @since 2.2.0
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
 jimport('joomla.application.component.model');
 
-/**
- * GCalendar Model
- *
- */
-class GCalendarModelImport extends JModel
-{
-	/**
-	 * Constructor that retrieves the ID from the request
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	public function __construct()
-	{
+class GCalendarModelImport extends JModelLegacy {
+
+	public function __construct() {
 		parent::__construct();
 
 		$array = JRequest::getVar('cid',  0, '', 'array');
 		$this->setId((int)$array[0]);
 	}
 
-	/**
-	 * Method to set the calendar identifier
-	 *
-	 * @access	public
-	 * @param	int Calendar identifier
-	 * @return	void
-	 */
-	public function setId($id)
-	{
+	public function setId($id) {
 		// Set id and wipe data
 		$this->_id		= $id;
 		$this->_data	= null;
 	}
 
 	public function getOnlineData() {
-		try{
+		try {
 			$user = JRequest::getVar('user', null);
 			$pass = JRequest::getVar('pass', null);
 
 			$calendars = GCalendarZendHelper::getCalendars($user, $pass);
-			if($calendars == null){
+			if ($calendars == null) {
 				return null;
 			}
 
 			$this->_data = array();
-			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
+			JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_gcalendar/tables');
 			foreach ($calendars as $calendar) {
 				$table = & $this->getTable('Import', 'GCalendarTable');
 				$table->id = 0;
@@ -92,50 +72,32 @@ class GCalendarModelImport extends JModel
 		return $this->_data;
 	}
 
-	/**
-	 * Method to get a calendar
-	 * @return object with data
-	 */
-	public function getDBData()
-	{
-		$query = " SELECT * FROM #__gcalendar";
+	public function getDBData() {
+		$query = "SELECT * FROM #__gcalendar";
 		$this->_db->setQuery( $query );
 		return $this->_db->loadObjectList();
 	}
 
-	/**
-	 * Method to store a record
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
 	public function store()	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables');
-		$row = & $this->getTable('Import', 'GCalendarTable');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_gcalendar/tables');
+		$row = $this->getTable('Import', 'GCalendarTable');
 
-		$cids = JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		if (count($cids)>0) {
-			foreach ($cids as $cid) {
-				$row->id = 0;
-				$row->calendar_id = strtok($cid, ',');
-				$row->color = strtok(',');
-				$row->name = strtok(',');
-				$row->magic_cookie = strtok(',');
-				if($row->magic_cookie === false){
-					$row->magic_cookie = null;
-				}
+		$cids = JRequest::getVar('cid', array(0), 'post', 'array');
+		foreach ($cids as $index => $cid) {
+			$data = unserialize(base64_decode($cid));
+			$row->id = 0;
+			$row->calendar_id = $data['id'];
+			$row->color = $data['color'];
+			$row->name = $data['name'];
 
-				// Make sure the calendar record is valid
-				if (!$row->check()) {
-					JError::raiseWarning( 500, $row->getError() );
-					return false;
-				}
+			if (!$row->check()) {
+				JError::raiseWarning( 500, $row->getError() );
+				return false;
+			}
 
-				// Store the calendar table to the database
-				if (!$row->store()) {
-					JError::raiseWarning( 500, $row->getError() );
-					return false;
-				}
+			if (!$row->store()) {
+				JError::raiseWarning( 500, $row->getError() );
+				return false;
 			}
 		}
 		return true;

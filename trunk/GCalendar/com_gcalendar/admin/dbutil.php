@@ -21,12 +21,12 @@
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.application.component.model');
-JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'models', 'GCalendarModel');
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_gcalendar/models', 'GCalendarModel');
 
 class GCalendarDBUtil{
 
 	public static function getCalendar($calendarID) {
-		$model = JModel::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
 		$model->setState('ids',$calendarID);
 		$items = $model->getItems();
 		if(empty($items)){
@@ -36,13 +36,13 @@ class GCalendarDBUtil{
 	}
 
 	public static function getCalendars($calendarIDs) {
-		$model = JModel::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
 		$model->setState('ids', $calendarIDs);
 		return $model->getItems();
 	}
 
 	public static function getAllCalendars() {
-		$model = JModel::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('GCalendars', 'GCalendarModel', array('ignore_request' => true));
 		return $model->getItems();
 	}
 }

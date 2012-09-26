@@ -20,7 +20,7 @@
 
 defined('_JEXEC') or die( 'Restricted access' );
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/dbutil.php');
 JFormHelper::loadFieldClass('list');
 
 class JFormFieldGCalendar extends JFormFieldList{
