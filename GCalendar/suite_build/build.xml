@@ -54,11 +54,6 @@
 			<zipfileset dir="${basedir}/../plg_search_gcalendar" prefix="plg_search_gcalendar" />
 		</zip>
 
-		<!-- create gcalendar system plugin -->
-		<zip destfile="${build}/${gcalendar}/plg_system_gcalendar.zip">
-			<zipfileset dir="${basedir}/../plg_system_gcalendar" prefix="plg_system_gcalendar" />
-		</zip>
-
 		<!-- create gcalendar next plugin -->
 		<zip destfile="${build}/${gcalendar}/plg_gcalendar_next.zip">
 			<zipfileset dir="${basedir}/../plg_gcalendar_next" prefix="plg_gcalendar_next" />

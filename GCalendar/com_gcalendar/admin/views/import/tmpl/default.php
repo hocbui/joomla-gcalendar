@@ -20,21 +20,70 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-if(!is_array($this->online_items)){
+if(!is_array($this->onlineItems)){
 	echo 'No data found!';
-}else{
-	function print_line($row, $checked, $k){
-		?>
-<tr class="<?php echo "row$k"; ?>">
-	<td><?php echo $checked; ?></td>
-	<td><?php echo $row->name; ?></td>
-	<td><?php echo urldecode($row->calendar_id); ?></td>
-	<td><?php echo '#'.$row->color; ?></td>
-	<td><?php echo $row->magic_cookie; ?></td>
-</tr>
-		<?php
-	}
-	?>
+	return;
+}
+?>
+
+<form action="<?php echo JRoute::_('index.php?option=com_gcalendar&view=gcalendars'); ?>" method="post" name="adminForm" id="adminForm">
+<table class="table table-striped" id="eventList">
+	<thead>
+		<tr>
+			<th width="1%" class="hidden-phone">
+				<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+			</th>
+			<th class="title">
+				<?php echo JText::_('COM_GCALENDAR_FIELD_NAME_LABEL'); ?>
+			</th>
+			<th width="20%">
+				<?php echo JText::_('COM_GCALENDAR_FIELD_CALENDAR_ID_LABEL'); ?>
+			</th>
+			<th width="40px">
+				<?php echo JText::_('COM_GCALENDAR_FIELD_COLOR_LABEL'); ?>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->onlineItems as $i => $item) {?>
+		<tr class="row<?php echo $i % 2; ?>">
+				<td class="center hidden-phone">
+				<?php
+				$isIncluded = false;
+				foreach($this->dbItems as $dbItem){
+					if(urlencode($dbItem->calendar_id) == $item->calendar_id){
+						$isIncluded = true;
+						break;
+					}
+				}
+
+				if($isIncluded) {
+					//echo JText::_( 'COM_GCALENDAR_VIEW_IMPORT_LABEL_ALREADY_ADDED' );
+				} else {
+					echo JHtml::_('grid.id', $i, base64_encode(serialize(array('id' => $item->calendar_id, 'color' => $item->color, 'name' => $item->name))));?>
+				<?php }?>
+				</td>
+				<td class="nowrap has-context">
+					<?php echo $this->escape($item->name); ?>
+				</td>
+				<td class="nowrap has-context">
+					<?php echo urldecode($item->calendar_id); ?>
+				</td>
+				<td class="nowrap has-context"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($item->color);?>;width:40px;height:20px"></div></td>
+		</tr>
+		<?php } ?>
+	</tbody>
+</table>
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
+</form>
+<div align="center" style="clear: both">
+	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
+</div>
+
+<?php return;?>
+
+
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
 <table class="adminlist">
@@ -81,13 +130,8 @@ if(!is_array($this->online_items)){
 	}
 	?>
 </table>
-	<input type="hidden" name="option" value="com_gcalendar" /> 
+	<input type="hidden" name="option" value="com_gcalendar" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </div>
 </form>
-<?php } ?>
-
-<div align="center" style="clear: both">
-	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
-</div>

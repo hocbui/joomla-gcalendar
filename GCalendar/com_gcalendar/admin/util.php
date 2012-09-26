@@ -20,49 +20,49 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'dbutil.php');
+require_once(JPATH_ADMINISTRATOR.'/components/com_gcalendar/dbutil.php');
 
-if(!class_exists('Mustache')){
-	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'mustache'.DS.'Mustache.php');
+if (!class_exists('Mustache')) {
+	require_once(JPATH_ADMINISTRATOR.'/components/com_gcalendar/libraries/mustache/Mustache.php');
 }
 
-class GCalendarUtil{
+class GCalendarUtil {
 
-	public static function getComponentParameter($key, $defaultValue = null){
+	public static function getComponentParameter($key, $defaultValue = null) {
 		$params = JComponentHelper::getParams('com_gcalendar');
 		$value = $params->get($key, $defaultValue);
 
-		if($key == 'timezone' && empty($value)) {
+		if ($key == 'timezone' && empty($value)) {
 			$user = JFactory::getUser();
-			if($user->get('id')) {
+			if ($user->get('id')) {
 				$value = $user->getParam('timezone');
 			}
-			if(empty($value)){
+			if (empty($value)) {
 				$value = JFactory::getApplication()->getCfg('offset', 'UTC');
 			}
 		}
 		return $value;
 	}
 
-	public static function getFrLanguage(){
+	public static function getFrLanguage() {
 		$conf = JFactory::getConfig();
-		return $conf->getValue('config.language');
+		return $conf->get('config.language');
 	}
 
-	public static function getItemId($calendarId, $strict = false){
+	public static function getItemId($calendarId, $strict = false) {
 		$component = JComponentHelper::getComponent('com_gcalendar');
 		$menu = JFactory::getApplication()->getMenu();
 		$items = $menu->getItems('component_id', $component->id);
 
 		$default = null;
-		if (is_array($items)){
+		if (is_array($items)) {
 			foreach($items as $item) {
 				$default = $item;
 				$paramsItem	= $menu->getParams($item->id);
 				$calendarids = $paramsItem->get('calendarids');
-				if(empty($calendarids)){
+				if (empty($calendarids)) {
 					$results = GCalendarDBUtil::getAllCalendars();
-					if($results){
+					if ($results) {
 						$calendarids = array();
 						foreach ($results as $result) {
 							$calendarids[] = $result->id;
@@ -70,50 +70,50 @@ class GCalendarUtil{
 					}
 				}
 				$contains_gc_id = FALSE;
-				if ($calendarids){
-					if( is_array( $calendarids ) ) {
+				if ($calendarids) {
+					if ( is_array( $calendarids ) ) {
 						$contains_gc_id = in_array($calendarId,$calendarids);
 					} else {
 						$contains_gc_id = $calendarId == $calendarids;
 					}
 				}
-				if($contains_gc_id){
+				if ($contains_gc_id) {
 					return $item->id;
 				}
 			}
 		}
-		if($strict = true){
+		if ($strict = true) {
 			return null;
 		}
 		return $default;
 	}
 
-	public static function renderEvents(array $events = null, $output, $params = null, $eventParams = array()){
-		if($events === null){
+	public static function renderEvents(array $events = null, $output, $params = null, $eventParams = array()) {
+		if ($events === null) {
 			$events = array();
 		}
 
-		JFactory::getLanguage()->load('com_gcalendar', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar');
+		JFactory::getLanguage()->load('com_gcalendar', JPATH_ADMINISTRATOR.'/components/com_gcalendar');
 
 		$lastHeading = '';
 
 		$configuration = $eventParams;
 		$configuration['events'] = array();
 		foreach ($events as $event) {
-			if(!is_object($event)) {
+			if (!is_object($event)) {
 				continue;
 			}
 			$variables = array();
 
 			$itemID = GCalendarUtil::getItemId($event->getParam('gcid', null));
-			if(!empty($itemID) && JRequest::getVar('tmpl', null) != 'component' && $event != null){
+			if (!empty($itemID) && JRequest::getVar('tmpl', null) != 'component' && $event != null) {
 				$component = JComponentHelper::getComponent('com_gcalendar');
 				$menu = JFactory::getApplication()->getMenu();
 				$item = $menu->getItem($itemID);
-				if($item !=null){
+				if ($item !=null) {
 					$backLinkView = $item->query['view'];
 					$dateHash = '';
-					if($backLinkView == 'gcalendar'){
+					if ($backLinkView == 'gcalendar') {
 						$day = $event->getStartDate()->format('d', true);
 						$month = $event->getStartDate()->format('m', true);
 						$year = $event->getStartDate()->format('Y', true);
@@ -124,12 +124,12 @@ class GCalendarUtil{
 			}
 
 			$itemID = GCalendarUtil::getItemId($event->getParam('gcid'));
-			if(!empty($itemID)){
+			if (!empty($itemID)) {
 				$itemID = '&Itemid='.$itemID;
 			}else{
 				$menu = JFactory::getApplication()->getMenu();
 				$activemenu = $menu->getActive();
-				if($activemenu != null){
+				if ($activemenu != null) {
 					$itemID = '&Itemid='.$activemenu->id;
 				}
 			}
@@ -152,7 +152,7 @@ class GCalendarUtil{
 
 			$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
 			$copyDateTimeFormat = 'Ymd';
-			switch($event->getDayType()){
+			switch($event->getDayType()) {
 				case GCalendar_Entry::SINGLE_WHOLE_DAY:
 					$timeString = $startDate;
 					$copyDateTimeFormat = 'Ymd';
@@ -181,9 +181,9 @@ class GCalendarUtil{
 					$copyDateTimeFormat = 'Ymd\THis';
 					break;
 			}
-			$variables['calendarName'] = $params->get('show_calendar_name', 1) == 1 ? $event->getParam('gcname') : null;
-			$variables['title'] = $params->get('show_event_title', 1) == 1 ? (string)$event->getTitle() : null;
-			if($params->get('show_event_date', 1) == 1){
+			$variables['calendarName'] = $event->getParam('gcname');
+			$variables['title'] = (string)$event->getTitle();
+			if ($params->get('show_event_date', 1) == 1) {
 				$variables['date'] = $timeString;
 				$variables['startDate'] = $startDate;
 				$variables['startTime'] = $startTime;
@@ -194,9 +194,9 @@ class GCalendarUtil{
 				$variables['month'] = strtoupper($event->getStartDate()->format('M', true));
 				$variables['day'] = $event->getStartDate()->format('j', true);
 			}
-			$variables['modifieddate'] = $params->get('show_event_modified_date', 1) == 1 ? $event->getModifiedDate()->format($timeformat, true).' '.$event->getModifiedDate()->format($dateformat, true) : null;
+			$variables['modifieddate'] = $event->getModifiedDate()->format($timeformat, true).' '.$event->getModifiedDate()->format($dateformat, true);
 
-			if($params->get('show_event_attendees', 2) == 1 && count($event->getWho()) > 0){
+			if (count($event->getWho()) > 0) {
 				$variables['hasAttendees'] = true;
 				$variables['attendees'] = array();
 				foreach ($event->getWho() as $a) {
@@ -204,41 +204,35 @@ class GCalendarUtil{
 				}
 			}
 			$location = $event->getLocation();
-			$variables['location'] = $params->get('show_event_location', 1) == 1 ? $location : null;
-			if(!empty($location)){
-				$variables['maplink'] = $params->get('show_event_location_map', 1) == 1 ? "http://maps.google.com/?q=".urlencode($location).'&hl='.substr(GCalendarUtil::getFrLanguage(),0,2).'&output=embed' : null;
+			$variables['location'] = $location;
+			if (!empty($location)) {
+				$variables['maplink'] = (JBrowser::getInstance()->isSSLConnection() ? 'https' : 'http')."://maps.google.com/?q=".urlencode($location).'&hl='.substr(GCalendarUtil::getFrLanguage(),0,2).'&output=embed';
 			}
 
-			if($params->get('show_event_description', 1) == 1) {
-				$variables['description'] = (string)$event->getContent();
-				if($params->get('event_description_format', 1) == 1) {
-					$variables['description'] = preg_replace("@(src|href)=\"https?://@i",'\\1="', $event->getContent());
-					$variables['description'] = nl2br(preg_replace("@(((f|ht)tp:\/\/)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $variables['description']));
-				}
+			$variables['description'] = (string)$event->getContent();
+			if ($params->get('event_description_format', 1) == 1) {
+				$variables['description'] = preg_replace("@(src|href)=\"https?://@i",'\\1="', $event->getContent());
+				$variables['description'] = nl2br(preg_replace("@(((f|ht)tp:\/\/)[^\"\'\>\s]+)@",'<a href="\\1" target="_blank">\\1</a>', $variables['description']));
 			}
-			if($params->get('show_event_author', 2) == 1){
-				$variables['hasAuthor'] = true;
-				$variables['author'] = array();
-				foreach ($event->getAuthor() as $author) {
-					$variables['author'][] = array('name' => (string)$author->getName(), 'email' =>  base64_encode(str_replace('@','#',$author->getEmail())));
-				}
+			$variables['hasAuthor'] = count($event->getAuthor()) > 0;
+			$variables['author'] = array();
+			foreach ($event->getAuthor() as $author) {
+				$variables['author'][] = array('name' => (string)$author->getName(), 'email' =>  base64_encode(str_replace('@','#',$author->getEmail())));
 			}
 
-			if($params->get('show_event_copy_info', 1) == 1){
-				$variables['copyGoogleUrl'] = 'http://www.google.com/calendar/render?action=TEMPLATE&text='.urlencode($event->getTitle());
-				$variables['copyGoogleUrl'] .= '&dates='.$event->getStartDate()->format($copyDateTimeFormat).'%2F'.$event->getEndDate()->format($copyDateTimeFormat);
-				$variables['copyGoogleUrl'] .= '&location='.urlencode($event->getLocation());
-				$variables['copyGoogleUrl'] .= '&details='.urlencode($event->getContent());
-				$variables['copyGoogleUrl'] .= '&hl='.GCalendarUtil::getFrLanguage().'&ctz=Etc/GMT';
-				$variables['copyGoogleUrl'] .= '&sf=true&output=xml';
+			$variables['copyGoogleUrl'] = 'http://www.google.com/calendar/render?action=TEMPLATE&text='.urlencode($event->getTitle());
+			$variables['copyGoogleUrl'] .= '&dates='.$event->getStartDate()->format($copyDateTimeFormat).'%2F'.$event->getEndDate()->format($copyDateTimeFormat);
+			$variables['copyGoogleUrl'] .= '&location='.urlencode($event->getLocation());
+			$variables['copyGoogleUrl'] .= '&details='.urlencode($event->getContent());
+			$variables['copyGoogleUrl'] .= '&hl='.GCalendarUtil::getFrLanguage().'&ctz=Etc/GMT';
+			$variables['copyGoogleUrl'] .= '&sf=true&output=xml';
 
-				$ical_timeString_start =  $startTime.' '.$startDate;
-				$ical_timeString_start = strtotime($ical_timeString_start);
-				$ical_timeString_end =  $endTime.' '.$endDate;
-				$ical_timeString_end = strtotime($ical_timeString_end);
-				$loc = $event->getLocation();
-				$variables['copyOutlookUrl'] = JRoute::_("index.php?option=com_gcalendar&view=ical&format=raw&eventID=".$event->getGCalId().'&gcid='.$event->getParam('gcid'));
-			}
+			$ical_timeString_start =  $startTime.' '.$startDate;
+			$ical_timeString_start = strtotime($ical_timeString_start);
+			$ical_timeString_end =  $endTime.' '.$endDate;
+			$ical_timeString_end = strtotime($ical_timeString_end);
+			$loc = $event->getLocation();
+			$variables['copyOutlookUrl'] = JRoute::_("index.php?option=com_gcalendar&view=ical&format=raw&eventID=".$event->getGCalId().'&gcid='.$event->getParam('gcid'));
 
 			$groupHeading = $event->getStartDate()->format($params->get('grouping', ''), true);
 			if ($groupHeading != $lastHeading) {
@@ -250,6 +244,7 @@ class GCalendarUtil{
 			$configuration['events'][] = $variables;
 		}
 
+		$configuration['eventLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL');
 		$configuration['calendarLinkLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_CALENDAR_BACK_LINK');
 		$configuration['calendarNameLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_CALENDAR_NAME');
 		$configuration['titleLabel'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_EVENT_TITLE');
@@ -266,9 +261,9 @@ class GCalendarUtil{
 		$configuration['emptyText'] = JText::_('COM_GCALENDAR_FIELD_CONFIG_EVENT_LABEL_NO_EVENT_TEXT');
 
 		try{
-			$m = new Mustache;
+			$m = new Mustache();
 			return $m->render($output, $configuration);
-		}catch(Exception $e){
+		}catch(Exception $e) {
 			echo $e->getMessage();
 		}
 	}
@@ -357,7 +352,7 @@ class GCalendarUtil{
 		return addslashes($name);
 	}
 
-	public static function getActions($calendarId = 0){
+	public static function getActions($calendarId = 0) {
 		$user  = JFactory::getUser();
 		$result  = new JObject;
 

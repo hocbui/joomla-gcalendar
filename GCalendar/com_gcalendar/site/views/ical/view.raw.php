@@ -18,15 +18,16 @@
  * @since 2.2.0
  */
 
+defined('_JEXEC') or die();
+
 jimport( 'joomla.application.component.view');
 
-class GCalendarViewIcal extends JView {
+class GCalendarViewIcal extends JViewLegacy {
 
 	public function display($tpl = null) {
-		$this->setModel(JModel::getInstance('Event', 'GCalendarModel'), true);
+		$this->setModel(JModelLegacy::getInstance('Event', 'GCalendarModel'), true);
 
-		$event = $this->get('GCalendar');
-		$this->assignRef('event', $event);
+		$this->event = $this->get('GCalendar');
 
 		parent::display($tpl);
 	}

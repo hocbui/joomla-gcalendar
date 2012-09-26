@@ -20,14 +20,14 @@
 
 defined('_JEXEC') or die();
 
-include_once(JPATH_BASE.DS.'components'.DS.'com_gcalendar'.DS.'libraries'.DS.'ical'.DS.'iCalcreator.class.php');
+include_once(JPATH_BASE.'/components/com_gcalendar/libraries/ical/iCalcreator.class.php');
 
 $event = $this->event;
 
 $config = array('unique_id' => $event->getGCalId());
 $v = new vcalendar( $config );
 $v->prodid = 'GCalendar';
-$path = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'gcalendar.xml';
+$path = JPATH_ADMINISTRATOR.'/components/com_gcalendar/gcalendar.xml';
 if(file_exists($path)) {
 	$manifest = simplexml_load_file($path);
 	$v->version = $manifest->version;

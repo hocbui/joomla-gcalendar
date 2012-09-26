@@ -43,66 +43,38 @@ $content = '{{#events}}
 	</tr>
 </table>
 {{/calendarLink}}
-<div class="event_content">
-<table id="content_table">
-	<tr><td colspan="2">{{#pluginsBefore}} {{{.}}} {{/pluginsBefore}}</td></tr>
-	{{#calendarName}}
-	<tr><td class="event_content_key">{{calendarNameLabel}}: </td><td>{{calendarName}}</td></tr>
-	{{/calendarName}}
-	{{#title}}
-	<tr><td class="event_content_key">{{titleLabel}}: </td><td>{{title}}</td></tr>
-	{{/title}}
-	{{#date}}
-	<tr><td class="event_content_key">{{dateLabel}}: </td><td>{{date}}</td></tr>
-	{{/date}}
-	{{#hasAttendees}}
-	<tr>
-		<td class="event_content_key">{{attendeesLabel}}: </td>
-		<td>
-			{{#attendees}}{{name}} <a href="javascript:sdafgkl437jeeee("{{email}}")"><img height="11" border="0" width="16" alt="email" src="media/com_gcalendar/images/mail.png"/></a>, {{/attendees}}
-		</td>
-	</tr>
-	{{/hasAttendees}}
-	{{#location}}
-	<tr><td class="event_content_key">{{locationLabel}}: </td><td>{{location}}</td></tr>
-	{{/location}}
-	{{#maplink}}
-	<tr><td colspan="2"><iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{{{maplink}}}"></iframe></td></tr>
-	{{/maplink}}
-	{{#description}}
-	<tr><td class="event_content_key">{{descriptionLabel}}: </td><td>{{{description}}}</td></tr>
-	{{/description}}
-	{{#hasAuthor}}
-	<tr>
-		<td class="event_content_key">{{authorLabel}}: </td>
-		<td>
-			{{#author}}{{name}} <a href="javascript:sdafgkl437jeeee("{{email}}")"><img height="11" border="0" width="16" alt="email" src="media/com_gcalendar/images/mail.png"/></a>, {{/author}}
-		</td>
-	</tr>
-	{{/hasAuthor}}
-	{{#copyGoogleUrl}}
-	<tr>
-		<td class="event_content_key">{{copyLabel}}: </td>
-		<td>
-			<a target="_blank" href="{{copyGoogleUrl}}">{{copyGoogleLabel}}</a>
-		</td>
-	</tr>
-	{{/copyGoogleUrl}}
-	{{#copyOutlookUrl}}
-	<tr>
-		<td class="event_content_key"></td>
-		<td>
-			<a target="_blank" href="{{copyOutlookUrl}}">{{copyOutlookLabel}}</a>
-		</td>
-	</tr>
-	{{/copyOutlookUrl}}
-	<tr><td colspan="2">{{#pluginsAfter}} {{{.}}} {{/pluginsAfter}}</td></tr>
+<div id="gcal-event-container">
+{{#pluginsBefore}} {{{.}}} {{/pluginsBefore}}
+<h2>{{eventLabel}}</h2>
+<table class="gcal-event-list">
+<tr><td class="event_content_key">{{titleLabel}}: </td><td>{{title}}</td><td rowspan="6">{{#maplink}}<iframe width="250px" height="160px" frameborder="0" src="{{{maplink}}}"></iframe>{{/maplink}}</td></tr>
+<tr><td class="event_content_key">{{calendarNameLabel}}: </td><td>{{calendarName}}</td></tr>
+<tr><td class="event_content_key">{{dateLabel}}: </td><td>{{date}}</td></tr>
+<tr><td class="event_content_key">{{locationLabel}}: </td><td><a href="http://maps.google.com/?q={{location}}" target="_blank">{{location}}</a></td></tr>
+<tr>
+	<td class="event_content_key">{{copyLabel}}: </td>
+	<td>
+		<a target="_blank" href="{{copyGoogleUrl}}">{{copyGoogleLabel}}</a>
+	</td>
+</tr>
+<tr>
+	<td class="event_content_key"></td>
+	<td>
+		<a target="_blank" href="{{copyOutlookUrl}}">{{copyOutlookLabel}}</a>
+	</td>
+</tr>
 </table>
+{{#description}}
+<h2>{{descriptionLabel}}</h2>
+{{{description}}}
+{{/description}}
+{{#pluginsAfter}} {{{.}}} {{/pluginsAfter}}
 </div>
 {{/events}}
 {{^events}}
 {{emptyText}}
-{{/events}}';
+{{/events}}
+';
 
 $plugins = array();
 $plugins['pluginsBefore'] = array();
@@ -112,5 +84,5 @@ $dispatcher->trigger('onAfterDisplayEvent', array($this->event,  &$content, &$pl
 
 echo GCalendarUtil::renderEvents(array($this->event), $content, JFactory::getApplication()->getParams(), $plugins);
 
-if(!JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendarap'.DS.'gcalendarap.php'))
+if(!JFile::exists(JPATH_ADMINISTRATOR.'/components/com_gcalendarap/gcalendarap.php'))
 	echo "<div style=\"text-align:center;margin-top:10px\" ><a href=\"http://g4j.laoneo.net\">Powered by GCalendar</a></div>\n";

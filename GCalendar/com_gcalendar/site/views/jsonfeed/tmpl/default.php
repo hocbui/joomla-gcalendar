@@ -49,17 +49,6 @@ if (!empty($this->calendars)) {
 			$params->set('event_date_format', $dateformat);
 			$params->set('event_time_format', $timeformat);
 
-			// enable all params
-			$params->set('show_calendar_name', 1);
-			$params->set('show_event_title', 1);
-			$params->set('show_event_date', 1);
-			$params->set('show_event_attendees', 1);
-			$params->set('show_event_location', 1);
-			$params->set('show_event_location_map', 1);
-			$params->set('show_event_description', 1);
-			$params->set('show_event_author', 1);
-			$params->set('show_event_copy_info', 1);
-
 			if (!empty($itemID)) {
 				$itemID = '&Itemid='.$itemID;
 			} else {

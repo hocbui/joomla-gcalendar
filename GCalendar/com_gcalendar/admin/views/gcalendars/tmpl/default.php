@@ -21,17 +21,70 @@
 defined('_JEXEC') or die('Restricted Access');
 JHtml::_('behavior.tooltip');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_gcalendar'); ?>" method="post" name="adminForm" id="adminForm">
-	<table class="adminlist">
-		<thead><?php echo $this->loadTemplate('head');?></thead>
-		<tfoot><?php echo $this->loadTemplate('foot');?></tfoot>
-		<tbody><?php echo $this->loadTemplate('body');?></tbody>
-	</table>
-	<div>
-		<input type="hidden" name="view" value="gcalendars" />
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+
+<form action="<?php echo JRoute::_('index.php?option=com_gcalendar&view=gcalendars'); ?>" method="post" name="adminForm" id="adminForm">
+<table class="table table-striped" id="eventList">
+	<thead>
+		<tr>
+			<th width="1%" class="hidden-phone">
+				<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+			</th>
+			<th class="title">
+				<?php echo JText::_('COM_GCALENDAR_FIELD_NAME_LABEL'); ?>
+			</th>
+			<th width="40px">
+				<?php echo JText::_('COM_GCALENDAR_FIELD_COLOR_LABEL'); ?>
+			</th>
+			<th width="20%">
+				<?php echo JText::_('COM_GCALENDAR_FIELD_CALENDAR_ID_LABEL'); ?>
+			</th>
+			<th width="20%">
+				<?php echo JText::_('COM_GCALENDAR_VIEW_GCALENDARS_COLUMN_AUTHENTICATION'); ?>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($this->items as $i => $item) {?>
+		<tr class="row<?php echo $i % 2; ?>">
+				<td class="center hidden-phone">
+					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+				</td>
+				<td class="nowrap has-context">
+					<a href="<?php echo JRoute::_( 'index.php?option=com_gcalendar&task=gcalendar.edit&id='. $item->id ); ?>" title="<?php echo JText::_('JACTION_EDIT');?>">
+						<?php echo $this->escape($item->name); ?>
+					</a>
+				</td>
+				<td class="nowrap has-context"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($item->color);?>;width:40px;height:20px"></div></td>
+				<td class="nowrap has-context">
+					<?php echo urldecode($item->calendar_id); ?>
+				</td>
+				<td class="nowrap has-context">
+					<?php
+					if (!empty($item->magic_cookie)) {
+						echo JText::_('COM_GCALENDAR_FIELD_MAGIC_COOKIE_LABEL');
+					} else if(!empty($item->username)) {
+						echo JText::_('COM_GCALENDAR_VIEW_GCALENDARS_COLUMN_AUTHENTICATION_USERNAME');
+					} else {
+						echo JText::_('COM_GCALENDAR_VIEW_GCALENDARS_COLUMN_AUTHENTICATION_NO');
+					}
+					?>
+				</td>
+		</tr>
+		<?php } ?>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="6">
+				<?php echo $this->pagination->getListFooter(); ?>
+				<br/><br/>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>
-	
+<div align="center" style="clear: both">
+	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
+</div>

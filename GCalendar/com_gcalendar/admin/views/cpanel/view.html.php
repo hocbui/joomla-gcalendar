@@ -22,13 +22,13 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
-class GCalendarViewCPanel extends JView{
+class GCalendarViewCPanel extends JViewLegacy {
 
-	public function display($tpl = null){
+	public function display($tpl = null) {
 		JToolBarHelper::title(JText::_('COM_GCALENDAR'), 'calendar');
 
 		$canDo = GCalendarUtil::getActions();
-		if ($canDo->get('core.admin')){
+		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_gcalendar', 550);
 			JToolBarHelper::divider();
 		}

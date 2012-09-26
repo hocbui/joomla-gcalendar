@@ -21,7 +21,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_gcalendar'.DS.'tables'.DS.'gcalendar.php');
+require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/tables/gcalendar.php');
 
 class GCalendarTableImport extends GCalendarTableGCalendar
 {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="1.6.0" method="upgrade"
+<extension type="module" version="3.0" method="upgrade"
 	client="site">
 	<name>MOD_GCALENDAR_UPCOMING</name>
 	<author>G4J Project</author>
@@ -34,7 +34,7 @@
 					label="MOD_GCALENDAR_UPCOMING_FIELD_TIME_FORMAT_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_TIME_FORMAT_DESC" />
 				<field name="max_events" type="text" size="2" default="5"
 					label="MOD_GCALENDAR_UPCOMING_FIELD_MAX_EVENTS_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_MAX_EVENTS_DESC" />
-				<field name="order" type="radio" default="1"
+				<field name="order" type="radio" default="1" class="btn-group" 
 					label="MOD_GCALENDAR_UPCOMING_FIELD_ORDER_LABEL" description="MOD_GCALENDAR_UPCOMING_FIELD_ORDER_DESC">
 					<option value="1">MOD_GCALENDAR_UPCOMING_FIELD_ORDER_TIME
 					</option>
@@ -58,7 +58,7 @@
 <p style="clear: both;"/>
 <div style="float:left;margin-right:6px;width:42px;height:42px;background-image:url('modules/mod_gcalendar_upcoming/tmpl/images/calendar-icon.gif')">
 	<div style="background-color: #{{calendarcolor}};width:32px;height:10px;margin-top:6px;margin-left:5px;"></div>
-	<div style="color: #FFFFFF;padding:2px;font-weight:bold;font-size:10px;text-align:center;position:relative;margin-top:-13px;margin-bottom:-4px;">{{month}}</div>
+	<div style="color: #FFFFFF;padding:2px;font-weight:bold;font-size:10px;text-align:center;position:relative;margin-top:-20px;margin-bottom:-8px;">{{month}}</div>
 	<div style="color: #{{calendarcolor}};font-weight:bold;font-size:1.3em;width:42px;text-align:center;">{{day}}</div>
 </div>
 <p>{{date}}<br/><a href="{{{backlink}}}">{{title}}</a></p>

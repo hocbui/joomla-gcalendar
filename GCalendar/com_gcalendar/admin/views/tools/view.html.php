@@ -22,11 +22,9 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
-class GCalendarViewTools extends JView
-{
-	
-	function display($tpl = null)
-	{
+class GCalendarViewTools extends JViewLegacy {
+
+	public function display($tpl = null) {
 		JToolBarHelper::title(JText::_('COM_GCALENDAR_MANAGER_GCALENDAR'), 'calendar');
 		JToolBarHelper::preferences('com_gcalendar', 550);
 		parent::display($tpl);
