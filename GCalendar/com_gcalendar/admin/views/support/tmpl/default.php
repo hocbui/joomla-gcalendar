@@ -42,7 +42,7 @@ releases!! Please make a small donation with paypal.....<br><br>
 
 <h4>Documentation and Support</h4>
 <p>
-At <a href="http://g4j.laoneo.net" target="_blank">g4j.laoneo.net</a> you will find all the informations about
+At <a href="http://g4j.digital-peak.com" target="_blank">g4j.digital-peak.com</a> you will find all the informations about
 the project as well as a forum to post questions.
 </p>
 <div align="center" style="clear: both">
