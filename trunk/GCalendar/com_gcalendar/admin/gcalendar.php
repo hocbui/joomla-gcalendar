@@ -21,9 +21,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// ini_set('display_errors',1);
-// error_reporting(E_ALL);
-
 // Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_gcalendar')){
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -31,9 +28,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_gcalendar')){
 
 require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/util.php');
 require_once (JPATH_ADMINISTRATOR.'/components/com_gcalendar/libraries/GCalendar/GCalendarZendHelper.php');
-
-require_once (JPATH_COMPONENT.'/controller.php');
-jimport('joomla.application.component.controller');
 
 $path = JPATH_ADMINISTRATOR.'/components/com_gcalendar/gcalendar.xml';
 if(file_exists($path)){

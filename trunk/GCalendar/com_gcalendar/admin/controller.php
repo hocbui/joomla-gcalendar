@@ -18,8 +18,6 @@
  * @since 2.2.0
  */
 
-jimport('joomla.application.component.controller');
-
 class GCalendarController extends JControllerLegacy {
 
 	public function display($cachable = false, $urlparams = false){
