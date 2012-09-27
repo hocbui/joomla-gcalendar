@@ -75,7 +75,7 @@ defined('_JEXEC') or die('Restricted access');
 					$solution = "<ul><li>If the error is the same as in the connection test use the solution described there.</li>";
 					$solution .= "<li>Please check your shared settings of the calendar and the events, ";
 					$solution .= "if you do not share your calendar with the public the <a href=\"http://code.google.com/apis/calendar/docs/2.0/developers_guide_protocol.html#AuthMagicCookie\">magic cookie</a> field must be set.</li>";
-					$solution .= "<li><b>If the problem still exists check the forum at <a href=\"http://g4j.laoneo.net\">g4j.laoneo.net</a>.</b></li></ul>";
+					$solution .= "<li><b>If the problem still exists check the forum at <a href=\"http://g4j.digital-peak.com\">g4j.digital-peak.com</a>.</b></li></ul>";
 					$status = 'failure';
 				}else if(empty($events)){
 					$solution = 'Create events in the calendar.';

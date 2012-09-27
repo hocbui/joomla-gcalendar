@@ -20,7 +20,7 @@ To upgrade GCalendar from an earlier version, just install the suite or individu
 with the joomla installer, GCalendar will handle the upgrade procedure by itself.
 
 ***** DOCUMENTATION *****
-Check http://g4j.laoneo.net for the documentation, forum and current issues. 
+Check http://g4j.digital-peak.com for the documentation, forum and current issues. 
 
 
 Have fun
