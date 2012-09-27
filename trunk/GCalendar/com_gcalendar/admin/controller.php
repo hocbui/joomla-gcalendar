@@ -43,19 +43,8 @@ class GCalendarController extends JControllerLegacy {
 	}
 
 	public function import() {
-		if (JRequest::getVar('user', null) != null) {
-			$data = $this->getModel('Import', 'GCalendarModel')->getOnlineData();
-			if ($data == null){
-				JRequest::setVar('nextTask', 'import');
-				JRequest::setVar('view', 'login');
-			} else {
-				JRequest::setVar('view', 'import');
-			}
-		} else {
-			JRequest::setVar('nextTask', 'import');
-			JRequest::setVar('view', 'login');
-		}
-		JRequest::setVar('hidemainmenu', 0);
+		JRequest::setVar('view', 'import');
+		JRequest::setVar('layout', 'login');
 
 		$this->display();
 	}
