@@ -45,24 +45,37 @@ if(!is_array($this->onlineItems)){
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($this->onlineItems as $i => $item) {?>
-		<tr class="row<?php echo $i % 2; ?>">
-				<td class="center hidden-phone">
-				<?php
+		<?php foreach ($this->onlineItems as $i => $item) {
 				$isIncluded = false;
 				foreach($this->dbItems as $dbItem){
-					if(urlencode($dbItem->calendar_id) == $item->calendar_id){
+					if($dbItem->calendar_id == $item->calendar_id){
 						$isIncluded = true;
 						break;
 					}
 				}
-
 				if($isIncluded) {
-					//echo JText::_( 'COM_GCALENDAR_VIEW_IMPORT_LABEL_ALREADY_ADDED' );
-				} else {
-					echo JHtml::_('grid.id', $i, base64_encode(serialize(array('id' => $item->calendar_id, 'color' => $item->color, 'name' => $item->name))));?>
-				<?php }?>
+					continue;
+				}
+		?>
+		<tr class="row<?php echo $i % 2; ?>">
+				<td class="center hidden-phone">
+				<?php
+					echo JHtml::_('grid.id', $i, base64_encode(serialize(array('id' => $item->calendar_id, 'color' => $item->color, 'name' => $item->name))));
+				?>
 				</td>
+				<td class="nowrap has-context">
+					<?php echo $this->escape($item->name); ?>
+				</td>
+				<td class="nowrap has-context">
+					<?php echo urldecode($item->calendar_id); ?>
+				</td>
+				<td class="nowrap has-context"><div style="background-color: <?php echo GCalendarUtil::getFadedColor($item->color);?>;width:40px;height:20px"></div></td>
+		</tr>
+		<?php } ?>
+		<tr><td colspan="5"><b><?php echo JText::_( 'COM_GCALENDAR_VIEW_IMPORT_LABEL_ALREADY_ADDED' );?></b></td></tr>
+		<?php foreach ($this->dbItems as $i => $item) {?>
+		<tr class="row<?php echo $i % 2; ?>">
+				<td class="center hidden-phone"></td>
 				<td class="nowrap has-context">
 					<?php echo $this->escape($item->name); ?>
 				</td>
@@ -80,58 +93,3 @@ if(!is_array($this->onlineItems)){
 <div align="center" style="clear: both">
 	<?php echo sprintf(JText::_('COM_GCALENDAR_FOOTER'), JRequest::getVar('GCALENDAR_VERSION'));?>
 </div>
-
-<?php return;?>
-
-
-<form action="index.php" method="post" name="adminForm">
-<div id="editcell">
-<table class="adminlist">
-	<thead>
-		<tr>
-			<th width="20"><input type="checkbox" name="toggle" value=""
-				onclick="checkAll(<?php echo count( $this->online_items ); ?>);" /></th>
-			<th><?php echo JText::_( 'COM_GCALENDAR_FIELD_NAME_LABEL' ); ?></th>
-			<th align="left"><?php echo JText::_( 'COM_GCALENDAR_VIEW_IMPORT_COLUMN_DETAILS' ); ?></th>
-			<th><?php echo JText::_( 'COM_GCALENDAR_FIELD_COLOR_LABEL' ); ?></th>
-			<th align="left"><?php echo JText::_( 'COM_GCALENDAR_FIELD_MAGIC_COOKIE_LABEL' ); ?></th>
-		</tr>
-	</thead>
-	<?php
-	$k = 0;
-	$containing_items = array();
-	for ($i=0, $n=count( $this->online_items ); $i < $n; $i++)
-	{
-		$row = &$this->online_items[$i];
-		$checked 	= JHTML::_('grid.id',   $i, $row->calendar_id.','.$row->color.','.$row->name.','.$row->magic_cookie );
-		$is_included = FALSE;
-		if($this->db_items){
-			foreach($this->db_items as $db_item){
-				if($db_item->calendar_id == $row->calendar_id){
-					$containing_items[] = $row;
-					$is_included = TRUE;
-				}
-			}
-		}
-		if(!$is_included){
-			print_line($row,$checked,$k);
-		}
-		$k = 1 - $k;
-	}
-	if(!empty($containing_items)){
-		echo '<tr><td colspan="5"><b>'.JText::_( 'COM_GCALENDAR_VIEW_IMPORT_LABEL_ALREADY_ADDED' ).'</b></td></tr>';
-		$k = 0;
-		for ($i=0, $n=count($containing_items); $i < $n; $i++)
-		{
-			$row = $containing_items[$i];
-			print_line($row,'',$k);
-			$k = 1 - $k;
-		}
-	}
-	?>
-</table>
-	<input type="hidden" name="option" value="com_gcalendar" />
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
-</div>
-</form>

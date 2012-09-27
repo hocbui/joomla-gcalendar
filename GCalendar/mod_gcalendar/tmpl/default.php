@@ -92,7 +92,7 @@ if(!empty($height))
 $calCode .= "		contentHeight: ".$height.",\n";
 $calCode .= "		editable: false, theme: ".(!empty($theme)?'true':'false').",\n";
 $calCode .= "		titleFormat: { \n";
-$calCode .= "		        month: '".Fullcalendar::convertFromPHPDate($params->get('titleformat_month', 'F Y'))."'},\n";
+$calCode .= "		        month: '".Fullcalendar::convertFromPHPDate($params->get('titleformat_month', 'M Y'))."'},\n";
 $calCode .= "		firstDay: ".$params->get('weekstart', 0).",\n";
 $calCode .= "		monthNames: ".$monthsLong.",\n";
 $calCode .= "		monthNamesShort: ".$monthsShort.",\n";
