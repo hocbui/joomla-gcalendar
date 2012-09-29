@@ -293,7 +293,7 @@ $calCode .= "var eventResizeCustom = function(event, dayDelta, minuteDelta, reve
 $calCode .= "// ]]>\n";
 $document->addScriptDeclaration($calCode);
 
-echo $params->get( 'textbefore' );
+echo JHTML::_('content.prepare', $params->get('textbefore'));
 if($params->get('show_selection', 1) == 1 || $params->get('show_selection', 1) == 3){
 	$document->addScript(JURI::base(). 'components/com_gcalendar/views/gcalendar/tmpl/gcalendar.js' );
 	$calendar_list = '<div id="gc_gcalendar_view_list"><table class="gcalendar-table">';
@@ -319,7 +319,7 @@ if($params->get('show_selection', 1) == 1 || $params->get('show_selection', 1) =
 
 echo "<div id='gcalendar_component_loading' style=\"text-align: center;\"><img src=\"".JURI::base() . "media/com_gcalendar/images/ajax-loader.gif\"  alt=\"loader\" /></div>";
 echo "<div id='gcalendar_component'></div><div id='gcalendar_component_popup' style=\"visibility:hidden\" ></div>";
-echo $params->get( 'textafter' );
+echo JHTML::_('content.prepare', $params->get('textafter'));
 
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('gcalendar');
