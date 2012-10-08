@@ -174,7 +174,6 @@ class GCalendarUtil {
 
 					$startTime = '';
 					$endTime = '';
-					$dateSeparator = '';
 					break;
 				case GCalendar_Entry::MULTIPLE_PART_DAY:
 					$timeString = $startTime.' '.$startDate.' '.$dateSeparator.' '.$endTime.' '.$endDate;
